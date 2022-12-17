@@ -1,0 +1,242 @@
+import typing_extensions
+
+from caila_api.paths import PathValues
+from caila_api.apis.paths.api_cailagate_admin_account_account_id_limits import ApiCailagateAdminAccountAccountIdLimits
+from caila_api.apis.paths.api_cailagate_admin_account_account_id_features import ApiCailagateAdminAccountAccountIdFeatures
+from caila_api.apis.paths.api_cailagate_account import ApiCailagateAccount
+from caila_api.apis.paths.api_cailagate_account_account_id_token import ApiCailagateAccountAccountIdToken
+from caila_api.apis.paths.api_cailagate_account_account_id_model import ApiCailagateAccountAccountIdModel
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id import ApiCailagateAccountAccountIdModelModelId
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_simple_doc import ApiCailagateAccountAccountIdModelModelIdSimpleDoc
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_predict import ApiCailagateAccountAccountIdModelModelIdPredict
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_predict_with_config import ApiCailagateAccountAccountIdModelModelIdPredictWithConfig
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_predict_config import ApiCailagateAccountAccountIdModelModelIdPredictConfig
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_predict_config_config_id import ApiCailagateAccountAccountIdModelModelIdPredictConfigConfigId
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instances import ApiCailagateAccountAccountIdModelModelIdInstances
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_terminate import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdTerminate
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_stop import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdStop
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_start import ApiCailagateAccountAccountIdModelModelIdInstanceStart
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_fit import ApiCailagateAccountAccountIdModelModelIdFit
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_fit_config import ApiCailagateAccountAccountIdModelModelIdFitConfig
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_fit_config_config_id import ApiCailagateAccountAccountIdModelModelIdFitConfigConfigId
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_external import ApiCailagateAccountAccountIdModelModelIdExternal
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_ext import ApiCailagateAccountAccountIdModelModelIdExt
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_cross_validation import ApiCailagateAccountAccountIdModelModelIdCrossValidation
+from caila_api.apis.paths.api_cailagate_account_account_id_management_feature_name import ApiCailagateAccountAccountIdManagementFeatureName
+from caila_api.apis.paths.api_cailagate_account_account_id_image import ApiCailagateAccountAccountIdImage
+from caila_api.apis.paths.api_cailagate_account_account_id_image_image_id import ApiCailagateAccountAccountIdImageImageId
+from caila_api.apis.paths.api_cailagate_account_account_id_dataset import ApiCailagateAccountAccountIdDataset
+from caila_api.apis.paths.api_cailagate_account_account_id_dataset_dataset_id import ApiCailagateAccountAccountIdDatasetDatasetId
+from caila_api.apis.paths.api_cailagate_account_account_id_dataset_dataset_id_content import ApiCailagateAccountAccountIdDatasetDatasetIdContent
+from caila_api.apis.paths.api_cailagate_account_account_id_data_image import ApiCailagateAccountAccountIdDataImage
+from caila_api.apis.paths.api_cailagate_account_account_id_data_image_image_id import ApiCailagateAccountAccountIdDataImageImageId
+from caila_api.apis.paths.api_cailagate_account_dump_account_id import ApiCailagateAccountDumpAccountId
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_update_limits import ApiCailagateInternalAccountAccountIdUpdateLimits
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_namespace_ensure import ApiCailagateInternalAccountAccountIdNamespaceEnsure
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_model_model_id_path import ApiCailagateInternalAccountAccountIdModelModelIdPath
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_model_model_id_instance_deactivate import ApiCailagateInternalAccountAccountIdModelModelIdInstanceDeactivate
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_features import ApiCailagateInternalAccountAccountIdFeatures
+from caila_api.apis.paths.api_cailagate_internal_account_deactivate import ApiCailagateInternalAccountDeactivate
+from caila_api.apis.paths.api_cailagate_admin_resource_groups import ApiCailagateAdminResourceGroups
+from caila_api.apis.paths.api_cailagate_internal_resource_groups import ApiCailagateInternalResourceGroups
+from caila_api.apis.paths.api_cailagate_version import ApiCailagateVersion
+from caila_api.apis.paths.api_cailagate_system_config_task_types import ApiCailagateSystemConfigTaskTypes
+from caila_api.apis.paths.api_cailagate_system_config_resource_groups import ApiCailagateSystemConfigResourceGroups
+from caila_api.apis.paths.api_cailagate_system_config_model_defaults import ApiCailagateSystemConfigModelDefaults
+from caila_api.apis.paths.api_cailagate_system_config_dataset_data_type import ApiCailagateSystemConfigDatasetDataType
+from caila_api.apis.paths.api_cailagate_health import ApiCailagateHealth
+from caila_api.apis.paths.api_cailagate_health_test import ApiCailagateHealthTest
+from caila_api.apis.paths.api_cailagate_admin_account import ApiCailagateAdminAccount
+from caila_api.apis.paths.api_cailagate_admin_account_account_id import ApiCailagateAdminAccountAccountId
+from caila_api.apis.paths.api_cailagate_account_account_id_token_token import ApiCailagateAccountAccountIdTokenToken
+from caila_api.apis.paths.api_cailagate_account_account_id_stat_log import ApiCailagateAccountAccountIdStatLog
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_status import ApiCailagateAccountAccountIdModelModelIdStatus
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_metric import ApiCailagateAccountAccountIdModelModelIdMetric
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_metric_range import ApiCailagateAccountAccountIdModelModelIdMetricRange
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_logs import ApiCailagateAccountAccountIdModelModelIdLogs
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_last_job import ApiCailagateAccountAccountIdModelModelIdLastJob
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance import ApiCailagateAccountAccountIdModelModelIdInstance
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_metric import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetric
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_metric_range import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_file import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFile
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_file_logs import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_events import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEvents
+from caila_api.apis.paths.api_cailagate_account_account_id_model_model_id_instance_instance_id_environment import ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment
+from caila_api.apis.paths.api_cailagate_account_account_id_metric import ApiCailagateAccountAccountIdMetric
+from caila_api.apis.paths.api_cailagate_account_account_id_metric_range import ApiCailagateAccountAccountIdMetricRange
+from caila_api.apis.paths.api_cailagate_account_account_id_job import ApiCailagateAccountAccountIdJob
+from caila_api.apis.paths.api_cailagate_account_account_id_job_job_id import ApiCailagateAccountAccountIdJobJobId
+from caila_api.apis.paths.api_cailagate_account_account_id_image_image_id_logs import ApiCailagateAccountAccountIdImageImageIdLogs
+from caila_api.apis.paths.api_cailagate_account_s3_account_id import ApiCailagateAccountS3AccountId
+from caila_api.apis.paths.api_cailagate_internal_test_mail import ApiCailagateInternalTestMail
+from caila_api.apis.paths.api_cailagate_internal_services import ApiCailagateInternalServices
+from caila_api.apis.paths.api_cailagate_internal_notify_account_id_user_user_id import ApiCailagateInternalNotifyAccountIdUserUserId
+from caila_api.apis.paths.api_cailagate_internal_cluster import ApiCailagateInternalCluster
+from caila_api.apis.paths.api_cailagate_internal_actions import ApiCailagateInternalActions
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_model_model_id_instances import ApiCailagateInternalAccountAccountIdModelModelIdInstances
+from caila_api.apis.paths.api_cailagate_internal_account_account_id_model_model_id_actions import ApiCailagateInternalAccountAccountIdModelModelIdActions
+from caila_api.apis.paths.api_cailagate_internal_instances_delete_by_timestamp import ApiCailagateInternalInstancesDeleteByTimestamp
+from caila_api.apis.paths.p_account_model import PAccountModel
+
+PathToApi = typing_extensions.TypedDict(
+    'PathToApi',
+    {
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID_LIMITS: ApiCailagateAdminAccountAccountIdLimits,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID_FEATURES: ApiCailagateAdminAccountAccountIdFeatures,
+        PathValues.API_CAILAGATE_ACCOUNT: ApiCailagateAccount,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_TOKEN: ApiCailagateAccountAccountIdToken,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL: ApiCailagateAccountAccountIdModel,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID: ApiCailagateAccountAccountIdModelModelId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_SIMPLEDOC: ApiCailagateAccountAccountIdModelModelIdSimpleDoc,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICT: ApiCailagateAccountAccountIdModelModelIdPredict,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTWITHCONFIG: ApiCailagateAccountAccountIdModelModelIdPredictWithConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG: ApiCailagateAccountAccountIdModelModelIdPredictConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG_CONFIG_ID: ApiCailagateAccountAccountIdModelModelIdPredictConfigConfigId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiCailagateAccountAccountIdModelModelIdInstances,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_TERMINATE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdTerminate,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_STOP: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdStop,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_START: ApiCailagateAccountAccountIdModelModelIdInstanceStart,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FIT: ApiCailagateAccountAccountIdModelModelIdFit,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG: ApiCailagateAccountAccountIdModelModelIdFitConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG_CONFIG_ID: ApiCailagateAccountAccountIdModelModelIdFitConfigConfigId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL: ApiCailagateAccountAccountIdModelModelIdExternal,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXT: ApiCailagateAccountAccountIdModelModelIdExt,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiCailagateAccountAccountIdModelModelIdCrossValidation,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiCailagateAccountAccountIdManagementFeatureName,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiCailagateAccountAccountIdImage,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiCailagateAccountAccountIdImageImageId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET: ApiCailagateAccountAccountIdDataset,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID: ApiCailagateAccountAccountIdDatasetDatasetId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_CONTENT: ApiCailagateAccountAccountIdDatasetDatasetIdContent,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE: ApiCailagateAccountAccountIdDataImage,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE_IMAGE_ID: ApiCailagateAccountAccountIdDataImageImageId,
+        PathValues.API_CAILAGATE_ACCOUNT_DUMP_ACCOUNT_ID: ApiCailagateAccountDumpAccountId,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_UPDATELIMITS: ApiCailagateInternalAccountAccountIdUpdateLimits,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_NAMESPACE_ENSURE: ApiCailagateInternalAccountAccountIdNamespaceEnsure,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PATH: ApiCailagateInternalAccountAccountIdModelModelIdPath,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_DEACTIVATE: ApiCailagateInternalAccountAccountIdModelModelIdInstanceDeactivate,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_FEATURES: ApiCailagateInternalAccountAccountIdFeatures,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_DEACTIVATE: ApiCailagateInternalAccountDeactivate,
+        PathValues.API_CAILAGATE_ADMIN_RESOURCEGROUPS: ApiCailagateAdminResourceGroups,
+        PathValues.API_CAILAGATEINTERNAL_RESOURCEGROUPS: ApiCailagateInternalResourceGroups,
+        PathValues.API_CAILAGATE_VERSION: ApiCailagateVersion,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_TASKTYPES: ApiCailagateSystemConfigTaskTypes,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiCailagateSystemConfigResourceGroups,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiCailagateSystemConfigModelDefaults,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiCailagateSystemConfigDatasetDataType,
+        PathValues.API_CAILAGATE_HEALTH: ApiCailagateHealth,
+        PathValues.API_CAILAGATE_HEALTH_TEST: ApiCailagateHealthTest,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT: ApiCailagateAdminAccount,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiCailagateAdminAccountAccountId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiCailagateAccountAccountIdTokenToken,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_STATLOG: ApiCailagateAccountAccountIdStatLog,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_STATUS: ApiCailagateAccountAccountIdModelModelIdStatus,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRIC: ApiCailagateAccountAccountIdModelModelIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRICRANGE: ApiCailagateAccountAccountIdModelModelIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LOGS: ApiCailagateAccountAccountIdModelModelIdLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LASTJOB: ApiCailagateAccountAccountIdModelModelIdLastJob,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE: ApiCailagateAccountAccountIdModelModelIdInstance,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRIC: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRICRANGE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFile,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiCailagateAccountAccountIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiCailagateAccountAccountIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiCailagateAccountAccountIdJob,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiCailagateAccountAccountIdJobJobId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiCailagateAccountAccountIdImageImageIdLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_S3_ACCOUNT_ID: ApiCailagateAccountS3AccountId,
+        PathValues.API_CAILAGATEINTERNAL_TESTMAIL: ApiCailagateInternalTestMail,
+        PathValues.API_CAILAGATEINTERNAL_SERVICES: ApiCailagateInternalServices,
+        PathValues.API_CAILAGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiCailagateInternalNotifyAccountIdUserUserId,
+        PathValues.API_CAILAGATEINTERNAL_CLUSTER: ApiCailagateInternalCluster,
+        PathValues.API_CAILAGATEINTERNAL_ACTIONS: ApiCailagateInternalActions,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiCailagateInternalAccountAccountIdModelModelIdInstances,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiCailagateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_CAILAGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiCailagateInternalInstancesDeleteByTimestamp,
+        PathValues.P_ACCOUNT_MODEL: PAccountModel,
+    }
+)
+
+path_to_api = PathToApi(
+    {
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID_LIMITS: ApiCailagateAdminAccountAccountIdLimits,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID_FEATURES: ApiCailagateAdminAccountAccountIdFeatures,
+        PathValues.API_CAILAGATE_ACCOUNT: ApiCailagateAccount,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_TOKEN: ApiCailagateAccountAccountIdToken,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL: ApiCailagateAccountAccountIdModel,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID: ApiCailagateAccountAccountIdModelModelId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_SIMPLEDOC: ApiCailagateAccountAccountIdModelModelIdSimpleDoc,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICT: ApiCailagateAccountAccountIdModelModelIdPredict,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTWITHCONFIG: ApiCailagateAccountAccountIdModelModelIdPredictWithConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG: ApiCailagateAccountAccountIdModelModelIdPredictConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG_CONFIG_ID: ApiCailagateAccountAccountIdModelModelIdPredictConfigConfigId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiCailagateAccountAccountIdModelModelIdInstances,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_TERMINATE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdTerminate,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_STOP: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdStop,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_START: ApiCailagateAccountAccountIdModelModelIdInstanceStart,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FIT: ApiCailagateAccountAccountIdModelModelIdFit,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG: ApiCailagateAccountAccountIdModelModelIdFitConfig,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG_CONFIG_ID: ApiCailagateAccountAccountIdModelModelIdFitConfigConfigId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL: ApiCailagateAccountAccountIdModelModelIdExternal,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXT: ApiCailagateAccountAccountIdModelModelIdExt,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiCailagateAccountAccountIdModelModelIdCrossValidation,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiCailagateAccountAccountIdManagementFeatureName,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiCailagateAccountAccountIdImage,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiCailagateAccountAccountIdImageImageId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET: ApiCailagateAccountAccountIdDataset,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID: ApiCailagateAccountAccountIdDatasetDatasetId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_CONTENT: ApiCailagateAccountAccountIdDatasetDatasetIdContent,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE: ApiCailagateAccountAccountIdDataImage,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE_IMAGE_ID: ApiCailagateAccountAccountIdDataImageImageId,
+        PathValues.API_CAILAGATE_ACCOUNT_DUMP_ACCOUNT_ID: ApiCailagateAccountDumpAccountId,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_UPDATELIMITS: ApiCailagateInternalAccountAccountIdUpdateLimits,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_NAMESPACE_ENSURE: ApiCailagateInternalAccountAccountIdNamespaceEnsure,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PATH: ApiCailagateInternalAccountAccountIdModelModelIdPath,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_DEACTIVATE: ApiCailagateInternalAccountAccountIdModelModelIdInstanceDeactivate,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_FEATURES: ApiCailagateInternalAccountAccountIdFeatures,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_DEACTIVATE: ApiCailagateInternalAccountDeactivate,
+        PathValues.API_CAILAGATE_ADMIN_RESOURCEGROUPS: ApiCailagateAdminResourceGroups,
+        PathValues.API_CAILAGATEINTERNAL_RESOURCEGROUPS: ApiCailagateInternalResourceGroups,
+        PathValues.API_CAILAGATE_VERSION: ApiCailagateVersion,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_TASKTYPES: ApiCailagateSystemConfigTaskTypes,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiCailagateSystemConfigResourceGroups,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiCailagateSystemConfigModelDefaults,
+        PathValues.API_CAILAGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiCailagateSystemConfigDatasetDataType,
+        PathValues.API_CAILAGATE_HEALTH: ApiCailagateHealth,
+        PathValues.API_CAILAGATE_HEALTH_TEST: ApiCailagateHealthTest,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT: ApiCailagateAdminAccount,
+        PathValues.API_CAILAGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiCailagateAdminAccountAccountId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiCailagateAccountAccountIdTokenToken,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_STATLOG: ApiCailagateAccountAccountIdStatLog,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_STATUS: ApiCailagateAccountAccountIdModelModelIdStatus,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRIC: ApiCailagateAccountAccountIdModelModelIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRICRANGE: ApiCailagateAccountAccountIdModelModelIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LOGS: ApiCailagateAccountAccountIdModelModelIdLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LASTJOB: ApiCailagateAccountAccountIdModelModelIdLastJob,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE: ApiCailagateAccountAccountIdModelModelIdInstance,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRIC: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRICRANGE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFile,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiCailagateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiCailagateAccountAccountIdMetric,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiCailagateAccountAccountIdMetricRange,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiCailagateAccountAccountIdJob,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiCailagateAccountAccountIdJobJobId,
+        PathValues.API_CAILAGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiCailagateAccountAccountIdImageImageIdLogs,
+        PathValues.API_CAILAGATE_ACCOUNT_S3_ACCOUNT_ID: ApiCailagateAccountS3AccountId,
+        PathValues.API_CAILAGATEINTERNAL_TESTMAIL: ApiCailagateInternalTestMail,
+        PathValues.API_CAILAGATEINTERNAL_SERVICES: ApiCailagateInternalServices,
+        PathValues.API_CAILAGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiCailagateInternalNotifyAccountIdUserUserId,
+        PathValues.API_CAILAGATEINTERNAL_CLUSTER: ApiCailagateInternalCluster,
+        PathValues.API_CAILAGATEINTERNAL_ACTIONS: ApiCailagateInternalActions,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiCailagateInternalAccountAccountIdModelModelIdInstances,
+        PathValues.API_CAILAGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiCailagateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_CAILAGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiCailagateInternalInstancesDeleteByTimestamp,
+        PathValues.P_ACCOUNT_MODEL: PAccountModel,
+    }
+)

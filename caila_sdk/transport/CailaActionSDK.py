@@ -18,7 +18,7 @@ import yaml
 from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
 
-# from caila_gate.openapi_client import Configuration, ApiClient
+from caila_api import Configuration, ApiClient
 from caila_sdk.grpc import mpl_grpc_pb2, mpl_grpc_pb2_grpc
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
