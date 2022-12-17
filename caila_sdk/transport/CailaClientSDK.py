@@ -12,7 +12,7 @@ from caila_sdk.grpc import mpl_grpc_pb2_grpc, mpl_grpc_pb2
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
-CONFIG = yaml.safe_load(open(os.environ.get("CAILA_CONFIG_FILE", __default_config)))
+CONFIG = yaml.safe_load(open(os.environ.get("MPL_CONFIG_FILE", __default_config)))
 
 logging.basicConfig(format=CONFIG["logging"]["format"],
                     level=logging.getLevelName(CONFIG["logging"]["level"]),
@@ -29,9 +29,9 @@ class CailaClientSDK:
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
-        self.urls: List[str] = os.environ['CAILA_URL'].split(",") if not urls else urls
-        self.token = os.environ['CAILA_TOKEN'] if not token else token
-        self.grpc_secure = os.environ['CAILA_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
+        self.urls: List[str] = os.environ['MPL_URL'].split(",") if not urls else urls
+        self.token = os.environ['MPL_TOKEN'] if not token else token
+        self.grpc_secure = os.environ['MPL_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
         self.log.debug("Starting caila client for url " + self.urls[0])
 
         self.__connect()

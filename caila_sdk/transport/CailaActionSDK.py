@@ -23,7 +23,7 @@ from caila_sdk.grpc import mpl_grpc_pb2, mpl_grpc_pb2_grpc
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
-CONFIG = yaml.safe_load(open(os.environ.get("CAILA_CONFIG_FILE", __default_config)))
+CONFIG = yaml.safe_load(open(os.environ.get("MPL_CONFIG_FILE", __default_config)))
 
 logging.basicConfig(format=CONFIG["logging"]["format"],
                     level=logging.getLevelName(CONFIG["logging"]["level"]),
@@ -247,10 +247,10 @@ class CailaActionSDK:
     def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None):
         self.log.info("Starting ...")
 
-        self.gate_urls = os.environ['CAILA_URL'].split(",") if not url else url
-        self.connection_token = os.environ['CAILA_TOKEN'] if not connection_token else connection_token
-        self.client_api_url = os.environ['CAILA_CLIENT_API_GATE_URL'] if not api_url else api_url
-        self.grpc_secure = os.environ['CAILA_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
+        self.gate_urls = os.environ['MPL_URL'].split(",") if not url else url
+        self.connection_token = os.environ['MPL_TOKEN'] if not connection_token else connection_token
+        self.client_api_url = os.environ.get('MPL_CLIENT_API_GATE_URL', None) if not api_url else api_url
+        self.grpc_secure = os.environ.get('MPL_CLIENT_API_GATE_URL', 'true').lower() == 'true' if not grpc_secure else grpc_secure
 
         with self.connectors_lock:
             for url in self.gate_urls:
