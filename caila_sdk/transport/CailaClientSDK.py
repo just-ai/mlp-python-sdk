@@ -31,7 +31,7 @@ class CailaClientSDK:
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
         self.urls: List[str] = os.environ['CAILA_URL'].split(",") if not urls else urls
         self.token = os.environ['CAILA_TOKEN'] if not token else token
-        self.grpc_secure = bool(os.environ['CAILA_GRPC_SECURE']) if not grpc_secure else grpc_secure
+        self.grpc_secure = os.environ['CAILA_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
         self.log.debug("Starting caila client for url " + self.urls[0])
 
         self.__connect()

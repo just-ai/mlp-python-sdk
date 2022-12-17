@@ -250,7 +250,7 @@ class CailaActionSDK:
         self.gate_urls = os.environ['CAILA_URL'].split(",") if not url else url
         self.connection_token = os.environ['CAILA_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ['CAILA_CLIENT_API_GATE_URL'] if not api_url else api_url
-        self.grpc_secure = os.environ['CAILA_GRPC_SECURE'] if not grpc_secure else grpc_secure
+        self.grpc_secure = os.environ['CAILA_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
 
         with self.connectors_lock:
             for url in self.gate_urls:
