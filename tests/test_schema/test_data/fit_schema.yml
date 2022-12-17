@@ -1,0 +1,75 @@
+fit:
+  config:
+    properties:
+      fit_param_1:
+        title: Fit Param 1
+        type: boolean
+      fit_param_2:
+        title: Fit Param 2
+        type: string
+      fit_param_3:
+        items:
+          type: string
+        title: Fit Param 3
+        type: array
+    required:
+    - fit_param_1
+    - fit_param_2
+    - fit_param_3
+    title: FitConfigSchema
+    type: object
+  model_dir:
+    title: str
+    type: string
+  previous_model_dir:
+    title: str
+    type: string
+  return: null
+  targets:
+    definitions:
+      Item:
+        properties:
+          value:
+            title: Value
+            type: string
+        required:
+        - value
+        title: Item
+        type: object
+      Items:
+        properties:
+          items:
+            items:
+              $ref: '#/definitions/Item'
+            title: Items
+            type: array
+        required:
+        - items
+        title: Items
+        type: object
+    properties:
+      items_list:
+        items:
+          $ref: '#/definitions/Items'
+        title: Items List
+        type: array
+    required:
+    - items_list
+    title: ItemsCollection
+    type: object
+  train_data:
+    properties:
+      texts:
+        items:
+          type: string
+        title: Texts
+        type: array
+    required:
+    - texts
+    title: TextsCollection
+    type: object
+prune_state:
+  model_dir:
+    title: str
+    type: string
+  return: null

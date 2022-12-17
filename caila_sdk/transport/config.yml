@@ -1,0 +1,17 @@
+logging:
+  level: 'DEBUG'
+  format: '%(asctime)s %(levelname)s [%(name)s] - %(message)s'
+
+sdk:
+  large_body_length: 3000
+  requests_executor_pool_size: 10
+  request_retry_timeout_seconds: 60
+  shutdown_event_timeout_seconds: 3
+  stopping_event_timeout_seconds: 3
+  startup_thread_timeout_seconds: 3
+  heartbeat_thread_timeout_seconds: 3
+  action_shutdown_timeout_seconds: 10
+
+grpc:
+  max_send_message_length: 104857600 # 100 MB
+  max_receive_message_length: 104857600 # 100 MB

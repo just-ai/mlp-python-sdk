@@ -1,0 +1,84 @@
+predict_batch:
+  config:
+    definitions:
+      PredictConfigSchema:
+        properties:
+          predict_param_1:
+            title: Predict Param 1
+            type: boolean
+          predict_param_2:
+            title: Predict Param 2
+            type: string
+          predict_param_3:
+            items:
+              type: string
+            title: Predict Param 3
+            type: array
+        required:
+        - predict_param_1
+        - predict_param_2
+        - predict_param_3
+        title: PredictConfigSchema
+        type: object
+    items:
+      $ref: '#/definitions/PredictConfigSchema'
+    type: array
+  data:
+    definitions:
+      TextsCollection:
+        properties:
+          texts:
+            items:
+              type: string
+            title: Texts
+            type: array
+        required:
+        - texts
+        title: TextsCollection
+        type: object
+    items:
+      $ref: '#/definitions/TextsCollection'
+    type: array
+  return:
+    definitions:
+      ScoredItemsCollection:
+        definitions:
+          Item:
+            properties:
+              value:
+                title: Value
+                type: string
+            required:
+            - value
+            title: Item
+            type: object
+          ScoredItems:
+            properties:
+              items:
+                items:
+                  $ref: '#/definitions/Item'
+                title: Items
+                type: array
+              scores:
+                items:
+                  type: number
+                title: Scores
+                type: array
+            required:
+            - items
+            - scores
+            title: ScoredItems
+            type: object
+        properties:
+          items_list:
+            items:
+              $ref: '#/definitions/ScoredItems'
+            title: Items List
+            type: array
+        required:
+        - items_list
+        title: ScoredItemsCollection
+        type: object
+    items:
+      $ref: '#/definitions/ScoredItemsCollection'
+    type: array

@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+package com.mpl.gate;
+
+option java_multiple_files = true;
+
+service Gate {
+  rpc healthCheck (HeartBeatProto) returns (HeartBeatProto);
+
+  rpc processAsync(stream ActionToGateProto) returns (stream GateToActionProto) {}
+
+  rpc process(ClientRequestProto) returns (ClientResponseProto) {}
+
+  //rpc audioStreamAsync(stream ServiceRequestProto) returns (stream ServiceResponseProto) {}
+}
+
+message ActionDescriptorProto {
+  string name = 1;
+
+  bool fittable = 10;
+  map<string, MethodDescriptorProto> methods = 20;
+}
+
+message MethodDescriptorProto {
+  map<string, ParamDescriptorProto> input = 1;
+  ParamDescriptorProto output = 2;
+  optional bool fitted = 3;
+}
+
+message ParamDescriptorProto {
+  string type = 1;
+}
+
+message ServiceInfoProto {
+  int64 accountId = 1;
+  int64 modelId = 2;
+  string modelName = 3;
+  string authToken = 4;
+}
+
+message ActionToGateProto {
+  int64 requestId = 1;
+
+  oneof body {
+    HeartBeatProto heartBeat = 2;
+    StartServingProto startServing = 3;
+    StopServingProto stopServing = 4;
+
+    PredictResponseProto predict = 101;
+    FitResponseProto fit = 102;
+    ExtendedResponseProto ext = 103;
+
+    RefreshResponseProto refresh = 104;
+
+    StatusResponseProto status = 105;
+
+    BatchResponseProto batch = 106;
+
+    ApiErrorProto error = 201;
+
+    PipelineRequestProto request = 301;
+  }
+}
+
+message GateToActionProto {
+  int64 requestId = 1;
+
+  oneof body {
+    HeartBeatProto heartBeat = 2;
+    ClusterUpdateProto cluster = 3;
+    ServiceInfoProto serviceInfo = 4;
+
+    PredictRequestProto predict = 101;
+    FitRequestProto fit = 102;
+    ExtendedRequestProto ext = 103;
+
+    RefreshRequestProto refresh = 104;
+
+    StatusRequestProto status = 105;
+
+    BatchRequestProto batch = 106;
+
+    ApiErrorProto error = 201;
+
+    PipelineResponseProto response = 301;
+  }
+}
+
+message HeartBeatProto {
+  string status = 1;
+  int32  interval = 2;
+}
+
+message StartServingProto {
+  // Чтобы зарегистрироваться, сервис должен указать секретный ключ. Этот ключ генерирует Кайла
+  // и передаёт в Cloud через env-переменные
+  string connectionToken = 1;
+
+  // Контент протобаф-спеки для специфических типов данных, используемых данных экшеном.
+  // пока что это поле предназначено для экспериментов
+  map<string, string> schemaFiles = 2;
+  ActionDescriptorProto actionDescriptor = 3;
+}
+
+message StopServingProto {
+}
+
+message PredictRequestProto {
+  PayloadProto data = 101;
+  optional PayloadProto config = 102;
+}
+
+message BatchRequestProto {
+  repeated SingleBatchPredictRequestProto data = 101;
+}
+
+message PredictResponseProto {
+  PayloadProto data = 101;
+}
+
+message BatchResponseProto {
+  repeated SingleBatchPredictResponseProto data = 101;
+}
+
+message FitRequestProto {
+  PayloadProto trainData = 101;
+  PayloadProto targetsData = 102;
+  optional PayloadProto config = 103;
+  optional string modelDir = 104;
+  optional string previousModelDir = 105;
+}
+
+message FitResponseProto {
+}
+
+message ExtendedRequestProto {
+  string methodName = 1;
+  map<string, PayloadProto> params = 2;
+}
+
+message ExtendedResponseProto {
+  PayloadProto data = 1;
+}
+
+message SingleBatchPredictRequestProto {
+  int64 requestId = 1;
+  PredictRequestProto predict = 101;
+}
+
+message SingleBatchPredictResponseProto {
+  int64 requestId = 1;
+
+  oneof body {
+    PredictResponseProto predict = 101;
+    ApiErrorProto error = 201;
+  }
+}
+
+message RefreshRequestProto {
+  optional string modelDir = 1;
+}
+
+message RefreshResponseProto {
+}
+
+message StatusRequestProto {
+}
+
+message StatusResponseProto {
+  repeated string connectedGates = 1;
+  bool connectedToAllGates = 2;
+}
+
+message PayloadProto {
+  // имя класса, закодированного в text или bytes
+  optional string dataType = 1;
+
+  oneof body {
+    string json = 101;
+    bytes protobuf = 102;
+  }
+}
+
+enum SimpleStatusProto {
+  OK = 0;
+  BAD_REQUEST = 400;
+  NOT_FOUND = 404;
+  INTERNAL_SERVER_ERROR = 500;
+}
+
+message ApiErrorProto {
+  string code = 1;
+  string message = 2;
+  SimpleStatusProto status = 3;
+  map<string, string> args = 4;
+}
+
+message ClientRequestProto {
+  string account = 1; // тут можно передавать либо id либо shortName аккаунта и модели соответственно
+  string model = 2;   // обработка будет происходить так: если только цифры - значит id, иначе name
+
+  // Чтобы обратиться к экшену, клиент должен указать секретный токен.
+  // Это может быть либо id-сессии в AA, либо отдельный токен доступа, который можно сгенерировать и получить
+  // через MPL API. Внутри системы, токен будет ассоциирован с конкретным аккаунтом в АА.
+  string authToken = 3;
+
+  oneof body {
+    PredictRequestProto predict = 101;
+    // структуру запроса и логику обработки для метода fit надо будет доработать.
+    // Нужно как-то передавать имя целевой модели, которая будет создана или обновлена после обучения
+    ExtendedRequestProto ext = 103;
+  }
+}
+
+message ClientResponseProto {
+  oneof body {
+    PredictResponseProto predict = 101;
+    ExtendedResponseProto ext = 103;
+
+    ApiErrorProto error = 201;
+  }
+}
+
+message PipelineRequestProto {
+  string account = 1;
+  string model = 2;
+
+  oneof body {
+    PredictRequestProto predict = 101;
+    ExtendedRequestProto ext = 102;
+    ClientTokenRequestProto token = 103;
+  }
+}
+
+message PipelineResponseProto {
+  oneof body {
+    PredictResponseProto predict = 101;
+    ExtendedResponseProto ext = 102;
+    ClientTokenResponseProto token = 103;
+
+    ApiErrorProto error = 201;
+  }
+}
+
+message ClientTokenRequestProto {
+}
+
+message ClientTokenResponseProto {
+  string token = 1;
+}
+
+message ClusterUpdateProto {
+  repeated string servers = 1;
+  string currentServer = 2;
+}
+
+message SimpleTextProto {
+  string text = 1;
+}

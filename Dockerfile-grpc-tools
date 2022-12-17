@@ -1,0 +1,17 @@
+FROM python:3.8
+
+RUN pip install 'grpcio==1.42.0'
+RUN pip install 'protobuf>=3.18.0,<4.0dev'
+RUN pip install 'grpcio-tools==1.42.0'
+
+ARG USER=docker-build
+ARG UID=1000
+ARG GID=1000
+
+RUN echo UID:GID = ${UID}:${GID}
+RUN groupadd --gid=${GID} ${USER};
+RUN useradd --create-home -d /home --no-log-init --uid=${UID} -g ${USER} ${USER};
+
+USER ${UID}
+
+WORKDIR /app

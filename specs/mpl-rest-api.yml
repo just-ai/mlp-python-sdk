@@ -1,0 +1,4511 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: https://caila.caila-ci-dev.lo.test-ai.net
+    description: Generated server url
+paths:
+  /api/cailagate/admin/account/{accountId}/limits:
+    post:
+      tags:
+        - admin-endpoint
+      operationId: updateLimits
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountLimitsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
+  /api/cailagate/admin/account/{accountId}/features:
+    get:
+      tags:
+        - admin-endpoint
+      operationId: getAccountFeatures
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFeatureData'
+    post:
+      tags:
+        - admin-endpoint
+      operationId: updateFeatures
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountFeatureData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account:
+    get:
+      tags:
+        - account-endpoint
+      operationId: ensureAccount
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
+    post:
+      tags:
+        - account-endpoint
+      operationId: updateAccountData
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
+  /api/cailagate/account/{accountId}/token:
+    get:
+      tags:
+        - access-token-endpoint
+      operationId: listAccessTokens
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessTokenData'
+    post:
+      tags:
+        - access-token-endpoint
+      operationId: createAccessToken
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+  /api/cailagate/account/{accountId}/model:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getPagedModels
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: onlyMy
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: account
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: model
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageModelInfoData'
+    post:
+      tags:
+        - model-endpoint
+      operationId: createModel
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
+  /api/cailagate/account/{accountId}/model/{modelId}:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getModelInfo
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
+    post:
+      tags:
+        - model-endpoint
+      operationId: updateModel
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
+    delete:
+      tags:
+        - model-endpoint
+      operationId: deleteModel
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/simple-doc:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getSimpleDoc
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+    post:
+      tags:
+        - model-endpoint
+      operationId: setSimpleDoc
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          plain/text:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/cailagate/account/{accountId}/model/{modelId}/predict:
+    post:
+      tags:
+        - process-endpoint
+      operationId: predict
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/cailagate/account/{accountId}/model/{modelId}/predict-with-config:
+    post:
+      tags:
+        - process-endpoint
+      operationId: predictWithConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/cailagate/account/{accountId}/model/{modelId}/predict-config:
+    get:
+      tags:
+        - predict-config-endpoint
+      operationId: listPredictConfigs
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PredictConfigData'
+    post:
+      tags:
+        - predict-config-endpoint
+      operationId: createPredictConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictConfigData'
+  /api/cailagate/account/{accountId}/model/{modelId}/predict-config/{configId}:
+    get:
+      tags:
+        - predict-config-endpoint
+      operationId: getPredictConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictConfigData'
+    post:
+      tags:
+        - predict-config-endpoint
+      operationId: updatePredictConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictConfigData'
+    delete:
+      tags:
+        - predict-config-endpoint
+      operationId: deletePredictConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/instances:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getInstancesStatus
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstancesStatusData'
+    post:
+      tags:
+        - model-endpoint
+      operationId: setRequestedInstancesCount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              maximum: 100
+              minimum: 0
+              type: integer
+              format: int32
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/terminate:
+    post:
+      tags:
+        - model-instance-endpoint
+      operationId: terminateInstance
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/stop:
+    post:
+      tags:
+        - model-instance-endpoint
+      operationId: stopInstance
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/start:
+    post:
+      tags:
+        - model-endpoint
+      operationId: startNewInstance
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/fit:
+    post:
+      tags:
+        - process-endpoint
+      operationId: fit
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FitRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
+  /api/cailagate/account/{accountId}/model/{modelId}/fit-config:
+    get:
+      tags:
+        - fit-config-endpoint
+      operationId: listFitConfigs
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FitConfigData'
+    post:
+      tags:
+        - fit-config-endpoint
+      operationId: createFitConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FitConfigData'
+  /api/cailagate/account/{accountId}/model/{modelId}/fit-config/{configId}:
+    get:
+      tags:
+        - fit-config-endpoint
+      operationId: getFitConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FitConfigData'
+    post:
+      tags:
+        - fit-config-endpoint
+      operationId: updateFitConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FitConfigData'
+    delete:
+      tags:
+        - fit-config-endpoint
+      operationId: deleteFitConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: configId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/external:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getExternalConnectionInfo
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalConnectionInfoData'
+    post:
+      tags:
+        - model-endpoint
+      operationId: createExternalConnection
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalConnectionInfoData'
+    delete:
+      tags:
+        - model-endpoint
+      operationId: deleteExternalConnection
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/model/{modelId}/ext:
+    post:
+      tags:
+        - process-endpoint
+      operationId: ext
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendedRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/cailagate/account/{accountId}/model/{modelId}/cross-validation:
+    post:
+      tags:
+        - process-endpoint
+      operationId: crossValidation
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrossValidationRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
+  /api/cailagate/account/{accountId}/management/{featureName}:
+    post:
+      tags:
+        - manual-management-endpoint
+      operationId: requestFeature
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: featureName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/image:
+    get:
+      tags:
+        - image-endpoint
+      operationId: getPagedImages
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageImageInfoData'
+    post:
+      tags:
+        - image-endpoint
+      operationId: createImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageInfoData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfoData'
+  /api/cailagate/account/{accountId}/image/{imageId}:
+    get:
+      tags:
+        - image-endpoint
+      operationId: getImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfoData'
+    post:
+      tags:
+        - image-endpoint
+      operationId: updateImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageInfoData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageInfoData'
+    delete:
+      tags:
+        - image-endpoint
+      operationId: deleteImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/dataset:
+    get:
+      tags:
+        - dataset-endpoint
+      operationId: listDatasets
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatasetInfoData'
+    post:
+      tags:
+        - dataset-endpoint
+      operationId: createDataset
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetInfoWithContentData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/cailagate/account/{accountId}/dataset/{datasetId}:
+    get:
+      tags:
+        - dataset-endpoint
+      operationId: getDatasetInfo
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+    post:
+      tags:
+        - dataset-endpoint
+      operationId: updateDataset
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetInfoWithContentData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+    delete:
+      tags:
+        - dataset-endpoint
+      operationId: deleteDataset
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/dataset/{datasetId}/content:
+    get:
+      tags:
+        - dataset-endpoint
+      operationId: downloadDatasetContent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      tags:
+        - dataset-endpoint
+      operationId: uploadDatasetContent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/cailagate/account/{accountId}/data-image:
+    get:
+      tags:
+        - data-image-endpoint
+      operationId: getPagedDataImages
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDataImageInfoData'
+    post:
+      tags:
+        - data-image-endpoint
+      operationId: createDataImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataImageInfoData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImageInfoData'
+  /api/cailagate/account/{accountId}/data-image/{imageId}:
+    get:
+      tags:
+        - data-image-endpoint
+      operationId: getDataImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImageInfoData'
+    post:
+      tags:
+        - data-image-endpoint
+      operationId: updateDataImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataImageInfoData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImageInfoData'
+    delete:
+      tags:
+        - data-image-endpoint
+      operationId: deleteDataImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/dump/{accountId}:
+    get:
+      tags:
+        - account-endpoint
+      operationId: dumpConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      tags:
+        - account-endpoint
+      operationId: restoreConfig
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/{accountId}/update-limits:
+    post:
+      tags:
+        - internal-endpoint
+      operationId: updateLimits_1
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountLimitsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/{accountId}/namespace/ensure:
+    post:
+      tags:
+        - internal-endpoint
+      operationId: ensureNamespace
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/{accountId}/model/{modelId}/path:
+    post:
+      tags:
+        - internal-endpoint
+      operationId: updateModelDir
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/{accountId}/model/{modelId}/instance/deactivate:
+    post:
+      tags:
+        - internal-endpoint
+      operationId: deactivateAccountInstances
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/{accountId}/features:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: getAccountFeatures_1
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFeatureData'
+    post:
+      tags:
+        - internal-endpoint
+      operationId: updateAccountFeatures
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountFeatureData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/account/deactivate:
+    post:
+      tags:
+        - internal-endpoint
+      operationId: deactivateAccount
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/admin/resource-groups:
+    get:
+      tags:
+        - admin-endpoint
+      operationId: getResourceGroups
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupsData'
+    patch:
+      tags:
+        - admin-endpoint
+      operationId: updateResourceGroups
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceGroupsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/cailagate-internal/resource-groups:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: getResourceGroups_1
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupData'
+    patch:
+      tags:
+        - internal-endpoint
+      operationId: updateResourceGroups_1
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceGroupsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/cailagate/version:
+    get:
+      tags:
+        - system-endpoint
+      operationId: version
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/cailagate/system-config/task-types:
+    get:
+      tags:
+        - system-config-endpoint
+      operationId: getTaskTypes
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskTypeInfo'
+  /api/cailagate/system-config/resource-groups:
+    get:
+      tags:
+        - system-config-endpoint
+      operationId: getResourceGroupsForAccount
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupData'
+  /api/cailagate/system-config/model-defaults:
+    get:
+      tags:
+        - system-config-endpoint
+      operationId: getModelDefaults
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelDefaults'
+  /api/cailagate/system-config/dataset-data-type:
+    get:
+      tags:
+        - system-config-endpoint
+      operationId: getDatasetDataTypes
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/cailagate/health:
+    get:
+      tags:
+        - system-endpoint
+      operationId: healthCheck
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResult'
+  /api/cailagate/health/test:
+    get:
+      tags:
+        - system-endpoint
+      operationId: healthCheckForTests
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResult'
+  /api/cailagate/admin/account:
+    get:
+      tags:
+        - admin-endpoint
+      operationId: getAccounts
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountInfoData'
+  /api/cailagate/admin/account/{accountId}:
+    get:
+      tags:
+        - admin-endpoint
+      operationId: getAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
+  /api/cailagate/account/{accountId}/token/{token}:
+    get:
+      tags:
+        - access-token-endpoint
+      operationId: checkAccessToken
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+    delete:
+      tags:
+        - access-token-endpoint
+      operationId: deleteAccessToken
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate/account/{accountId}/stat-log:
+    get:
+      tags:
+        - stat-log-endpoint
+      operationId: listJobs
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
+  /api/cailagate/account/{accountId}/model/{modelId}/status:
+    get:
+      tags:
+        - model-endpoint
+      operationId: shortModelStatus
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelShortStatusData'
+  /api/cailagate/account/{accountId}/model/{modelId}/metric:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getModelMetric
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - MODEL_CPU_USAGE
+                - MODEL_CPU_REQUESTED
+                - MODEL_CPU_LIMIT
+                - MODEL_RAM_USAGE
+                - MODEL_RAM_REQUESTED
+                - MODEL_RAM_LIMIT
+                - MODEL_RECONNECTS_COUNT
+                - MODEL_SUCCESS_REQUESTS_COUNT
+                - MODEL_FAILED_REQUESTS_COUNT
+                - MODEL_ACTIVE_REQUESTS_COUNT
+                - MODEL_AVERAGE_REQUEST_TIME
+                - MODEL_MIN_REQUEST_TIME
+                - MODEL_MAX_REQUEST_TIME
+                - MODEL_INSTANT_REQUEST_TIME
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+  /api/cailagate/account/{accountId}/model/{modelId}/metric-range:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getModelMetricRange
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - MODEL_CPU_USAGE
+                - MODEL_CPU_REQUESTED
+                - MODEL_CPU_LIMIT
+                - MODEL_RAM_USAGE
+                - MODEL_RAM_REQUESTED
+                - MODEL_RAM_LIMIT
+                - MODEL_RECONNECTS_COUNT
+                - MODEL_SUCCESS_REQUESTS_COUNT
+                - MODEL_FAILED_REQUESTS_COUNT
+                - MODEL_ACTIVE_REQUESTS_COUNT
+                - MODEL_AVERAGE_REQUEST_TIME
+                - MODEL_MIN_REQUEST_TIME
+                - MODEL_MAX_REQUEST_TIME
+                - MODEL_INSTANT_REQUEST_TIME
+        - name: minutes
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Measurement'
+  /api/cailagate/account/{accountId}/model/{modelId}/logs:
+    get:
+      tags:
+        - model-endpoint
+      operationId: getLogsByModel
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
+  /api/cailagate/account/{accountId}/model/{modelId}/last-job:
+    get:
+      tags:
+        - model-endpoint
+      operationId: lastJob
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
+  /api/cailagate/account/{accountId}/model/{modelId}/instance:
+    get:
+      tags:
+        - model-instance-endpoint
+      operationId: getModelInstances
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInstanceListData'
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getInstanceMetric
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - INSTANCE_CPU_USAGE
+                - INSTANCE_CPU_REQUESTED
+                - INSTANCE_CPU_LIMIT
+                - INSTANCE_RAM_USAGE
+                - INSTANCE_RAM_REQUESTED
+                - INSTANCE_RAM_LIMIT
+                - INSTANCE_RECONNECTS_COUNT
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric-range:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getInstanceMetricRange
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - INSTANCE_CPU_USAGE
+                - INSTANCE_CPU_REQUESTED
+                - INSTANCE_CPU_LIMIT
+                - INSTANCE_RAM_USAGE
+                - INSTANCE_RAM_REQUESTED
+                - INSTANCE_RAM_LIMIT
+                - INSTANCE_RECONNECTS_COUNT
+        - name: minutes
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Measurement'
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/file:
+    get:
+      tags:
+        - model-instance-endpoint
+      operationId: getInstancePodFile
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: path
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/file/logs:
+    get:
+      tags:
+        - model-instance-endpoint
+      operationId: getInstanceLogFile
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: previousContainer
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/events:
+    get:
+      tags:
+        - model-instance-endpoint
+      operationId: getInstanceEvents
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceEventData'
+  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/environment:
+    get:
+      tags:
+        - model-instance-endpoint
+      operationId: getModelInstanceEnvironment
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: instanceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceEnvironmentData'
+  /api/cailagate/account/{accountId}/metric:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getAccountMetric
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - ACCOUNT_CPU_USAGE
+                - ACCOUNT_CPU_REQUESTED
+                - ACCOUNT_CPU_LIMIT
+                - ACCOUNT_RAM_USAGE
+                - ACCOUNT_RAM_REQUESTED
+                - ACCOUNT_RAM_LIMIT
+                - ACCOUNT_DISK_REQUESTED
+                - ACCOUNT_DISK_LIMIT
+                - ACCOUNT_GPU_REQUESTED
+                - ACCOUNT_GPU_LIMIT
+                - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_TOTAL
+                - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_EXCEEDED
+                - ACCOUNT_FITS_COUNT_PER_MINUTE_TOTAL
+                - ACCOUNT_FITS_COUNT_PER_MINUTE_EXCEEDED
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+  /api/cailagate/account/{accountId}/metric-range:
+    get:
+      tags:
+        - metric-endpoint
+      operationId: getAccountMetricRange
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: metrics
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - ACCOUNT_CPU_USAGE
+                - ACCOUNT_CPU_REQUESTED
+                - ACCOUNT_CPU_LIMIT
+                - ACCOUNT_RAM_USAGE
+                - ACCOUNT_RAM_REQUESTED
+                - ACCOUNT_RAM_LIMIT
+                - ACCOUNT_DISK_REQUESTED
+                - ACCOUNT_DISK_LIMIT
+                - ACCOUNT_GPU_REQUESTED
+                - ACCOUNT_GPU_LIMIT
+                - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_TOTAL
+                - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_EXCEEDED
+                - ACCOUNT_FITS_COUNT_PER_MINUTE_TOTAL
+                - ACCOUNT_FITS_COUNT_PER_MINUTE_EXCEEDED
+        - name: minutes
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Measurement'
+  /api/cailagate/account/{accountId}/job:
+    get:
+      tags:
+        - job-endpoint
+      operationId: listJobs_1
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobStatusData'
+  /api/cailagate/account/{accountId}/job/{jobId}:
+    get:
+      tags:
+        - job-endpoint
+      operationId: jobStatus
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
+  /api/cailagate/account/{accountId}/image/{imageId}/logs:
+    get:
+      tags:
+        - image-endpoint
+      operationId: getLogsByImage
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
+  /api/cailagate/account/s3/{accountId}:
+    get:
+      tags:
+        - account-endpoint
+      operationId: getS3Credentials
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/S3CredentialsData'
+  /api/cailagate-internal/test-mail:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: sendTestEMail
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/services:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: listRegisteredServices
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelInstance'
+  /api/cailagate-internal/notify/{accountId}/user/{userId}:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: pushNotification
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /api/cailagate-internal/cluster:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: cluster
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/cailagate-internal/actions:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: listAllConnectedActions
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/cailagate-internal/account/{accountId}/model/{modelId}/instances:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: getAccountInstancesWithDeleted
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelInstance'
+  /api/cailagate-internal/account/{accountId}/model/{modelId}/actions:
+    get:
+      tags:
+        - internal-endpoint
+      operationId: listConnectedActions
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/cailagate-internal/instances/deleteByTimestamp:
+    delete:
+      tags:
+        - internal-endpoint
+      operationId: deleteMarkedInstances
+      parameters:
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /p/{account}/{model}:
+    get:
+      tags:
+        - process-servlet
+      description: Return model info
+      operationId: getModelInfoByName
+      parameters:
+        - name: account
+          in: path
+          description: Account id or account name
+          required: true
+          schema:
+            type: string
+        - name: model
+          in: path
+          description: Model id or model name
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
+    post:
+      tags:
+        - process-servlet
+      description: Predict without config
+      operationId: predictByName
+      parameters:
+        - name: account
+          in: path
+          description: Account id or account name
+          required: true
+          schema:
+            type: string
+        - name: model
+          in: path
+          description: Model id or model name
+          required: true
+          schema:
+            type: string
+        - name: CAILA-API-KEY
+          in: header
+          description: token to use instead of a session
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    AccountLimitsData:
+      required:
+        - baseModelInstanceLimit
+        - cpuLimit
+        - derivedModelInstanceLimit
+        - ephemeralDiskLimit
+        - fitPerMinute
+        - gpuModelInstanceLimit
+        - memoryLimit
+        - predictPerSec
+      type: object
+      properties:
+        baseModelInstanceLimit:
+          type: integer
+          format: int32
+        derivedModelInstanceLimit:
+          type: integer
+          format: int32
+        gpuModelInstanceLimit:
+          type: integer
+          format: int32
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        predictPerSec:
+          type: integer
+          format: int32
+        fitPerMinute:
+          type: integer
+          format: int32
+    AccountInfoData:
+      required:
+        - accountId
+        - limits
+        - shortName
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        shortName:
+          type: string
+        limits:
+          $ref: '#/components/schemas/AccountLimitsData'
+        language:
+          type: string
+          enum:
+            - RU
+            - EN
+    AccountFeatureData:
+      required:
+        - features
+      type: object
+      properties:
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeatureData'
+    FeatureData:
+      required:
+        - enabled
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+    AccessTokenData:
+      required:
+        - creationDate
+        - name
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+        name:
+          type: string
+        creationDate:
+          type: string
+    DataImageMountData:
+      required:
+        - dataImageId
+        - targetPath
+      type: object
+      properties:
+        dmId:
+          type: integer
+          format: int64
+        dataImageId:
+          type: integer
+          format: int64
+        dataImage:
+          type: string
+        dataImageName:
+          type: string
+        sourcePath:
+          type: string
+        targetPath:
+          type: string
+    ModelBatchesData:
+      required:
+        - batchSize
+        - timeWaitMs
+      type: object
+      properties:
+        batchSize:
+          type: integer
+          format: int32
+        timeWaitMs:
+          type: integer
+          format: int64
+    ModelCreateUpdateData:
+      required:
+        - modelName
+      type: object
+      properties:
+        modelName:
+          type: string
+        imageId:
+          type: integer
+          format: int64
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingType:
+          type: string
+          enum:
+            - singleContainer
+            - multipleFit
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        public:
+          type: boolean
+        config:
+          type: string
+        env:
+          type: string
+        fittable:
+          type: boolean
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        resourceGroup:
+          type: string
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+    ModelLimitsData:
+      required:
+        - cpuLimit
+        - cpuRequest
+        - ephemeralDiskLimit
+        - ephemeralDiskRequest
+        - gpuRequested
+        - memoryLimit
+        - memoryRequest
+      type: object
+      properties:
+        cpuRequest:
+          type: string
+        cpuLimit:
+          type: string
+        memoryRequest:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskRequest:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuRequested:
+          type: boolean
+    ModelRetriesData:
+      required:
+        - maxRetries
+        - timeoutsMs
+      type: object
+      properties:
+        maxRetries:
+          type: integer
+          format: int32
+        timeoutsMs:
+          type: array
+          items:
+            type: integer
+            format: int64
+    ModelTimeoutsData:
+      required:
+        - podStartTimeoutSec
+        - predictTimeoutSec
+      type: object
+      properties:
+        podStartTimeoutSec:
+          type: integer
+          format: int64
+        predictTimeoutSec:
+          type: integer
+          format: int64
+    PersistentVolumeData:
+      required:
+        - mountPath
+        - sizeInGb
+        - storageClass
+      type: object
+      properties:
+        pvId:
+          type: integer
+          format: int64
+        mountPath:
+          type: string
+        sizeInGb:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    DatasetInfoData:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DatasetPK'
+        name:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+    DatasetPK:
+      required:
+        - accountId
+        - datasetId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+    FitConfigData:
+      required:
+        - config
+        - default
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/FitConfigPK'
+        name:
+          type: string
+        default:
+          type: boolean
+        config:
+          type: string
+    FitConfigPK:
+      required:
+        - accountId
+        - configId
+        - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        configId:
+          type: integer
+          format: int64
+    ImageInfoData:
+      required:
+        - image
+        - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ImageInfoPK'
+        name:
+          type: string
+        image:
+          type: string
+        taskType:
+          type: string
+    ImageInfoPK:
+      required:
+        - accountId
+        - imageId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+    ModelInfoData:
+      required:
+        - batchesConfig
+        - dataImageMounts
+        - fittable
+        - id
+        - modelName
+        - persistentVolumes
+        - resourceLimits
+        - retriesConfig
+        - timeouts
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInfoPK'
+        modelAccountName:
+          type: string
+        modelName:
+          type: string
+        imageId:
+          type: integer
+          format: int64
+        image:
+          $ref: '#/components/schemas/ImageInfoData'
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingDataset:
+          $ref: '#/components/schemas/DatasetInfoData'
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        trainingFitConfig:
+          $ref: '#/components/schemas/FitConfigData'
+        taskType:
+          type: string
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingType:
+          type: string
+          enum:
+            - singleContainer
+            - multipleFit
+        public:
+          type: boolean
+        config:
+          type: string
+        env:
+          type: string
+        fittable:
+          type: boolean
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        resourceGroup:
+          type: string
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+    ModelInfoPK:
+      required:
+        - accountId
+        - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+    PredictRequestData:
+      required:
+        - data
+      type: object
+      properties:
+        config:
+          type: object
+        data:
+          type: object
+    ConfigCreateUpdateData:
+      required:
+        - config
+      type: object
+      properties:
+        name:
+          type: string
+        default:
+          type: boolean
+        config:
+          type: string
+    PredictConfigData:
+      required:
+        - config
+        - default
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PredictConfigPK'
+        name:
+          type: string
+        default:
+          type: boolean
+        config:
+          type: string
+    PredictConfigPK:
+      required:
+        - accountId
+        - configId
+        - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        configId:
+          type: integer
+          format: int64
+    FitRequestData:
+      type: object
+      properties:
+        config:
+          $ref: '#/components/schemas/JsonNode'
+        configId:
+          type: integer
+          format: int64
+        dataset:
+          $ref: '#/components/schemas/JsonNode'
+        datasetId:
+          type: integer
+          format: int64
+    JsonNode:
+      type: object
+    JobStatusData:
+      required:
+        - accountId
+        - done
+        - jobId
+        - jobType
+        - state
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        jobId:
+          type: integer
+          format: int64
+        jobType:
+          type: string
+        state:
+          type: string
+        done:
+          type: boolean
+        error:
+          type: boolean
+        errorMessage:
+          type: string
+    ExternalConnectionInfoData:
+      required:
+        - model
+      type: object
+      properties:
+        model:
+          $ref: '#/components/schemas/ModelInfoData'
+        connectionToken:
+          type: string
+        activeConnections:
+          type: integer
+          format: int32
+        externalUrl:
+          type: string
+    ExtendedRequestData:
+      required:
+        - methodName
+        - params
+      type: object
+      properties:
+        methodName:
+          type: string
+        params:
+          type: object
+          additionalProperties:
+            type: string
+    CrossValidationRequestData:
+      required:
+        - datasetId
+        - minIntentSizeToDivide
+        - parts
+      type: object
+      properties:
+        baseModelAccountId:
+          type: integer
+          format: int64
+        baseModelId:
+          type: integer
+          format: int64
+        targetModelAccountId:
+          type: integer
+          format: int64
+        targetModelName:
+          type: string
+        fitConfig:
+          $ref: '#/components/schemas/JsonNode'
+        fitConfigId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+        predictConfig:
+          $ref: '#/components/schemas/JsonNode'
+        predictConfigId:
+          type: integer
+          format: int64
+        parts:
+          type: integer
+          format: int32
+        minIntentSizeToDivide:
+          type: integer
+          format: int32
+    ManagementRequestData:
+      required:
+        - contacts
+      type: object
+      properties:
+        contacts:
+          type: string
+        comment:
+          type: string
+    DatasetInfoWithContentData:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DatasetPK'
+        name:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+        content:
+          type: string
+    DataImageInfoData:
+      required:
+        - image
+        - name
+        - sourcePath
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DataImageInfoPK'
+        name:
+          type: string
+        image:
+          type: string
+        sourcePath:
+          type: string
+    DataImageInfoPK:
+      required:
+        - accountId
+        - imageId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+    ResourceGroupData:
+      required:
+        - affinity
+        - name
+        - tolerations
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        accountName:
+          type: string
+          writeOnly: true
+        tolerations:
+          type: string
+        affinity:
+          type: string
+        default:
+          type: boolean
+    ResourceGroupsData:
+      required:
+        - groups
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceGroupData'
+    TaskTypeInfo:
+      required:
+        - displayName
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+    ModelDefaults:
+      required:
+        - batches
+        - limits
+        - resourceGroup
+        - retries
+        - timeouts
+      type: object
+      properties:
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        retries:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batches:
+          $ref: '#/components/schemas/ModelBatchesData'
+        limits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        resourceGroup:
+          type: string
+    Check:
+      required:
+        - critical
+        - name
+        - status
+      type: object
+      properties:
+        name:
+          type: string
+        critical:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/Status'
+    HealthCheckResult:
+      required:
+        - checks
+        - ok
+        - status
+      type: object
+      properties:
+        ok:
+          type: boolean
+        status:
+          type: string
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Check'
+    Status:
+      required:
+        - message
+        - ok
+      type: object
+      properties:
+        ok:
+          type: boolean
+        message:
+          type: string
+    StatLogData:
+      required:
+        - accountId
+        - args
+        - code
+        - level
+        - message
+        - recordId
+        - timestamp
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        recordId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        jobId:
+          type: integer
+          format: int64
+        timestamp:
+          type: string
+        level:
+          type: string
+          enum:
+            - INFO
+            - ERROR
+        code:
+          type: string
+        args:
+          type: object
+        message:
+          type: string
+    PageModelInfoData:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        sort:
+          $ref: '#/components/schemas/Sort'
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelInfoData'
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        sort:
+          $ref: '#/components/schemas/Sort'
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        offset:
+          type: integer
+          format: int64
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    InstancesStatusData:
+      required:
+        - externalActive
+        - internalActive
+        - internalInError
+        - internalRequested
+      type: object
+      properties:
+        internalRequested:
+          type: integer
+          format: int32
+        internalActive:
+          type: integer
+          format: int32
+        internalInError:
+          type: integer
+          format: int32
+        externalActive:
+          type: integer
+          format: int32
+    ModelShortStatusData:
+      required:
+        - instances
+      type: object
+      properties:
+        instances:
+          $ref: '#/components/schemas/InstancesStatusData'
+        lastJob:
+          $ref: '#/components/schemas/JobStatusData'
+    Measurement:
+      required:
+        - ts
+        - v
+      type: object
+      properties:
+        ts:
+          type: integer
+          format: int64
+        v:
+          type: number
+          format: double
+    ModelInstanceData:
+      required:
+        - id
+        - restartCount
+        - statusInfo
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        statusInfo:
+          $ref: '#/components/schemas/StatusInfo'
+        restartCount:
+          type: integer
+          format: int32
+        lastRestartTimestamp:
+          type: string
+        createdTimestamp:
+          type: string
+    ModelInstanceListData:
+      required:
+        - instances
+      type: object
+      properties:
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelInstanceData'
+    StatusInfo:
+      required:
+        - isConnectedToAllGates
+        - isDeleted
+        - totalStatus
+      type: object
+      properties:
+        totalStatus:
+          type: string
+          enum:
+            - RUNNING
+            - WAITING
+            - FAILED
+            - DELETED
+        isDeleted:
+          type: boolean
+        isConnectedToAllGates:
+          type: boolean
+        podStatus:
+          type: string
+    EventData:
+      required:
+        - name
+        - namespace
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        createdTimestamp:
+          type: string
+        message:
+          type: string
+        reason:
+          type: string
+        source:
+          $ref: '#/components/schemas/EventSource'
+        firstSeenTimestamp:
+          type: string
+        lastSeenTimestamp:
+          type: string
+        count:
+          type: integer
+          format: int32
+        kind:
+          type: string
+        fieldPath:
+          type: string
+        namespace:
+          type: string
+    EventSource:
+      type: object
+      properties:
+        component:
+          type: string
+        host:
+          type: string
+    InstanceEventData:
+      required:
+        - events
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventData'
+    InstanceEnvironmentData:
+      required:
+        - environment
+      type: object
+      properties:
+        environment:
+          type: object
+          additionalProperties:
+            type: string
+    PageImageInfoData:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        sort:
+          $ref: '#/components/schemas/Sort'
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageInfoData'
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageDataImageInfoData:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        sort:
+          $ref: '#/components/schemas/Sort'
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageInfoData'
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    S3CredentialsData:
+      required:
+        - accessKey
+        - bucketName
+        - s3Url
+        - secretKey
+      type: object
+      properties:
+        s3Url:
+          type: string
+        accessKey:
+          type: string
+        secretKey:
+          type: string
+        bucketName:
+          type: string
+    ModelInstance:
+      required:
+        - connectionToken
+        - id
+        - kubeType
+        - started
+        - type
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInstancePK'
+        connectionToken:
+          type: string
+        started:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+            - initialCheck
+            - singleFit
+            - singleFitPool
+            - multipleFit
+            - predict
+        kubeType:
+          type: string
+          enum:
+            - deployment
+            - pod
+            - external
+        resourceName:
+          type: string
+        alias:
+          type: string
+        customData:
+          type: string
+        deleteTimestamp:
+          type: string
+          format: date-time
+    ModelInstancePK:
+      required:
+        - accountId
+        - instanceId
+        - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
