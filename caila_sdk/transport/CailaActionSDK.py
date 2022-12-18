@@ -250,7 +250,7 @@ class CailaActionSDK:
         self.gate_urls = os.environ['MPL_URL'].split(",") if not url else url
         self.connection_token = os.environ['MPL_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ.get('MPL_CLIENT_API_GATE_URL', None) if not api_url else api_url
-        self.grpc_secure = os.environ.get('MPL_CLIENT_API_GATE_URL', 'true').lower() == 'true' if not grpc_secure else grpc_secure
+        self.grpc_secure = os.environ.get('MPL_GRPC_SECURE', 'true').lower() == 'true' if not grpc_secure else grpc_secure
 
         with self.connectors_lock:
             for url in self.gate_urls:
