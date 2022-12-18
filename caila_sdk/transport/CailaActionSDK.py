@@ -405,8 +405,11 @@ class CailaActionSDK:
         is_json = req.data.WhichOneof('body') == 'json'
         desc = self.descriptor.methods['predict']
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
-        config = self.__convert_from_proto(
-            req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
+        if hasattr(desc.input, 'config'):
+            config = self.__convert_from_proto(
+                req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
+        else:
+            config = None
 
         if not hasattr(self.impl, 'predict'):
             raise NotImplementedError('Predict requests are not supported by this action')
@@ -493,6 +496,9 @@ class CailaActionSDK:
             return None
 
         name = class_.__name__ if hasattr(class_, '__name__') else class_._name
+        if name == 'PayloadProto':
+            return payload
+
         if name != payload_type:
             self.log.error("Types don't match. Type in ActionDescriptor: " + payload_type
                            + ", type in implementation: " + name)
@@ -555,6 +561,9 @@ class CailaActionSDK:
 
     @staticmethod
     def __convert_to_proto(data, payload_type, is_json):
+        if hasattr(data, 'DESCRIPTOR') and data.DESCRIPTOR.name == 'PayloadProto':
+            return data
+
         res = mpl_grpc_pb2.PayloadProto(dataType=payload_type)
         if payload_type is None or payload_type == 'null':
             return res
