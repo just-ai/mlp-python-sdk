@@ -13,7 +13,7 @@ class MyTaskPredictConfigSchema(BaseModel):
 
 
 class MyCustomTask(Task):
-    def _predict(
+    def predict(
             self,
             data: InflectorConformerTextsCollectionTest,
             config: MyTaskPredictConfigSchema,
@@ -24,7 +24,7 @@ class MyCustomTask(Task):
 
 
 class MyCustomTaskWithBatch(Task, BatchPredictableMixin):
-    def _predict(
+    def predict(
             self,
             data: InflectorConformerTextsCollectionTest,
             config: MyTaskPredictConfigSchema,
@@ -33,7 +33,7 @@ class MyCustomTaskWithBatch(Task, BatchPredictableMixin):
         result.texts.append("Done")
         return result
 
-    def _predict_batch(
+    def predict_batch(
             self,
             data: List[InflectorConformerTextsCollectionTest],
             config: List[MyTaskPredictConfigSchema]

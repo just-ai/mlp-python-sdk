@@ -45,7 +45,7 @@ def _get_requirements():
 
 
 MAJOR_VERSION = "0"
-MINOR_VERSION = "4"
+MINOR_VERSION = "5"
 BUILD_NUMBER = "0"
 
 print("================================================")

@@ -17,7 +17,7 @@ class MyCustomTask(Task):
     def init_config_schema(self) -> Type[BaseModel]:
         return BaseModel
 
-    def _predict(self, data: TextsCollection, config: BaseModel) -> Items:
+    def predict(self, data: TextsCollection, config: BaseModel) -> Items:
         result = Items(items=[Item("a")] * len(data.texts))
         return result
 

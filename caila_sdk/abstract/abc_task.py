@@ -1,6 +1,7 @@
+import inspect
+
 from abc import ABC, ABCMeta
 from typing import Dict, Any, Callable, Union, List, _GenericAlias, get_args
-from inspect import signature
 
 from pydantic import BaseModel
 
@@ -14,16 +15,27 @@ class TaskMeta(ABCMeta):
         if name.startswith('__'):
             name = name[2:]
 
-        if name.startswith('_'):
-            name = name[1:]
-
         if name.endswith('__'):
             name = name[: len(name) - 2]
 
-        if name.endswith('_'):
-            name = name[: len(name) - 1]
-
         return name
+
+    @staticmethod
+    def create_function(functions, parameters, return_annotation) -> Callable:
+        def _updated_function(*args, **kwargs):
+            for function in functions[: -1]:
+                function(*args, **kwargs)
+            return functions[-1](*args, **kwargs)
+
+        wrapped_parameters = [inspect.Parameter(param,
+                                                inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                                                annotation=type_.annotation)
+                              for param, type_ in parameters.items()]
+
+        _updated_function.__signature__ = inspect.Signature(wrapped_parameters, return_annotation=return_annotation)
+        _updated_function.__annotations__ = parameters
+
+        return _updated_function
 
     def _get_schema(cls) -> Callable:
         def _f() -> Dict[str, Any]:
@@ -34,7 +46,7 @@ class TaskMeta(ABCMeta):
                     for method_name in getattr(cls, attr_name):
 
                         pretty_method_name = cls._prettify_name(method_name)
-                        method_info = signature(getattr(cls, method_name))
+                        method_info = inspect.signature(getattr(cls, method_name))
 
                         schema[pretty_method_name] = {}
                         for param_name, param_value in method_info.parameters.items():
@@ -57,8 +69,9 @@ class TaskMeta(ABCMeta):
                                         "items": {"$ref": f"#/definitions/{inner_value.__name__}"}
                                     }
 
-                        if hasattr(method_info.return_annotation,
-                                   "_name") and method_info.return_annotation._name == "List":
+                        if (hasattr(method_info.return_annotation, "_name") and
+                                method_info.return_annotation._name == "List"):
+
                             inner_value = get_args(method_info.return_annotation)[0]
                             if hasattr(inner_value, 'schema'):
                                 schema[pretty_method_name]['return'] = {
@@ -78,8 +91,41 @@ class TaskMeta(ABCMeta):
 
         return _f
 
+    def update_methods(cls) -> None:
+        for attr_name in dir(cls):  # we need methods of both class and its parents
+            if attr_name.endswith('__METHODS'):
+                for method_name in getattr(cls, attr_name):
+
+                    pretty_method_name = cls._prettify_name(method_name)
+                    pre_method_name = 'pre_' + pretty_method_name
+                    post_method_name = 'post_' + pretty_method_name
+
+                    main_function = getattr(cls, method_name)
+                    signature = inspect.signature(main_function)
+
+                    if hasattr(cls, pre_method_name):
+                        pre_function = getattr(cls, pre_method_name)
+                        setattr(cls,
+                                pretty_method_name,
+                                TaskMeta.create_function(
+                                    [pre_function, main_function],
+                                    dict(signature.parameters),
+                                    signature.return_annotation,
+                                ))
+
+                    if hasattr(cls, post_method_name):
+                        post_function = getattr(cls, pre_method_name)
+                        setattr(cls,
+                                pretty_method_name,
+                                TaskMeta.create_function(
+                                    [main_function, post_function],
+                                    dict(signature.parameters),
+                                    None,
+                                ))
+
     def __init__(cls, name, bases, dct):
         super(TaskMeta, cls).__init__(name, bases, dct)
+        TaskMeta.update_methods(cls)
         setattr(cls, f'_{name}__get_schema', TaskMeta._get_schema(cls))
 
 

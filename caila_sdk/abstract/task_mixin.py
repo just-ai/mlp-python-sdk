@@ -8,9 +8,9 @@ from caila_sdk.abstract.task import ABCTask
 from caila_sdk.abstract.task_utils import is_allowed_input_type
 
 
-class IsLearnableMixin(ABCTask):
+class LearnableMixin(ABCTask):
     __METHODS = [
-        '_fit',
+        'fit',
         'prune_state',
     ]
     __IS_LEARNABLE = True
@@ -22,17 +22,28 @@ class IsLearnableMixin(ABCTask):
             model_dir: str,
             previous_model_dir: str,
     ) -> None:
-        if not is_allowed_input_type(type(self), "_fit", "train_data", type(train_data)):
+        if not is_allowed_input_type(type(self), "fit", "train_data", type(train_data)):
             raise RuntimeError()
-        if not is_allowed_input_type(type(self), "_fit", "targets", type(targets)):
+        if not is_allowed_input_type(type(self), "fit", "targets", type(targets)):
             raise RuntimeError()
-        if not is_allowed_input_type(type(self), "_fit", "model_dir", type(model_dir)):
+        if not is_allowed_input_type(type(self), "fit", "model_dir", type(model_dir)):
             raise RuntimeError()
-        if not is_allowed_input_type(type(self), "_fit", "previous_model_dir", type(previous_model_dir)):
+        if not is_allowed_input_type(type(self), "fit", "previous_model_dir", type(previous_model_dir)):
             raise RuntimeError()
 
+    def pre_fit(
+            self,
+            train_data: BaseModel,
+            targets: BaseModel,
+            config: BaseModel,
+            model_dir: str,
+            previous_model_dir: str,
+    ):
+        self._check_config_validness(config, "fit")
+        self._check_fit_input_types(train_data, targets, model_dir, previous_model_dir)
+
     @abstractmethod
-    def _fit(
+    def fit(
             self,
             train_data: BaseModel,
             targets: BaseModel,
@@ -43,7 +54,7 @@ class IsLearnableMixin(ABCTask):
     ) -> None:
         pass
 
-    def fit(
+    def post_fit(
             self,
             train_data: BaseModel,
             targets: BaseModel,
@@ -51,14 +62,11 @@ class IsLearnableMixin(ABCTask):
             model_dir: str = '',
             previous_model_dir: str = '',
     ) -> None:
-        self._check_config_validness(config, "fit")
-        self._check_fit_input_types(train_data, targets, model_dir, previous_model_dir)
-        self._fit(train_data, targets, config, model_dir, previous_model_dir)
         self._save_state()
 
     @classmethod
     def get_fit_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "_fit")).parameters["config"].annotation
+        return signature(getattr(cls, "fit")).parameters["config"].annotation
 
     @abstractmethod
     def _save_state(self) -> None:
@@ -80,54 +88,60 @@ class IsLearnableMixin(ABCTask):
 
 class UpdatableMixin(ABCTask):
     __METHODS = [
-        '_update',
+        'update',
     ]
     __IS_LEARNABLE = False
 
+    def pre_update(self, config: BaseModel) -> None:
+        self._check_config_validness(config, "update")
+
     @abstractmethod
-    def _update(self, config: BaseModel) -> None:
+    def update(self, config: BaseModel) -> None:
         pass
 
-    def update(self, config: BaseModel) -> None:
-        self._check_config_validness(config, "update")
-        self._update(config)
+    def post_update(self, config: BaseModel) -> None:
+        pass
 
     @classmethod
     def get_update_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "_update")).parameters["config"].annotation
+        return signature(getattr(cls, "update")).parameters["config"].annotation
 
 
 class BatchPredictableMixin(ABCTask):
     __METHODS = [
-        '_predict_batch'
+        'predict_batch'
     ]
 
+    __IS_LEARNABLE = False
+
     @property
-    def is_batch_predictable(self):
+    def is_batch_predictable(self) -> bool:
         return True
 
     def _check_predict_batch_input_type(self, data: List[BaseModel]) -> None:
-        data_annotation_type = signature(getattr(type(self), "_predict_batch")).parameters["data"].annotation
+        data_annotation_type = signature(getattr(type(self), "predict_batch")).parameters["data"].annotation
         inner_value = get_args(data_annotation_type)[0]
+
         if not type(data) == list:
             raise RuntimeError("Expected data annotation is List[BaseModel].")
+
         else:
             for data_el in data:
                 if data_el.schema()["title"] != inner_value.schema()["title"]:
                     raise RuntimeError(f"Expected List[{inner_value.schema()['title']}] "
                                        "found input with type {data_el.schema()['title']}")
-            if not is_allowed_input_type(type(self), "_predict_batch", "data", type(data[0])):
+
+            if not is_allowed_input_type(type(self), "predict_batch", "data", type(data[0])):
                 raise RuntimeError
 
-    def predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> List[BaseModel]:
+    def pre_predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> None:
         self._check_config_validness(config, "predict_batch")
         self._check_predict_batch_input_type(data)
-        return self._predict_batch(data, config)
 
     @abstractmethod
-    def _predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> List[BaseModel]:
+    def predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> List[BaseModel]:
         pass
 
     @classmethod
     def get_predict_batch_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "_predict_batch")).parameters["config"].annotation
+        return signature(getattr(cls, "predict_batch")).parameters["config"].annotation
