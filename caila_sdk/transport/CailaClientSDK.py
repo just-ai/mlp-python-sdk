@@ -95,7 +95,13 @@ class CailaClientSDK:
             self.channel.close()
 
         if self.grpc_secure:
-            self.channel = grpc.secure_channel(self.urls[0], grpc.ssl_channel_credentials(), options=[
+            if hasattr(os.environ, "GRPC_SSL_CA_FILE_PATH"):
+                with open(os.environ["GRPC_SSL_CA_FILE_PATH"], 'rb') as f:
+                    creds = grpc.ssl_channel_credentials(f.read())
+            else:
+                creds = grpc.ssl_channel_credentials()
+
+            self.channel = grpc.secure_channel(self.urls[0], creds, options=[
                 ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
                 ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
             ])

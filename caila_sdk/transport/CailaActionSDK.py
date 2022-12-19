@@ -69,7 +69,13 @@ class CailaActionConnector:
         while self.state == State.connecting:
             try:
                 if self.grpc_secure:
-                    self.channel = grpc.secure_channel(self.url, grpc.ssl_channel_credentials(), options=[
+                    if os.environ.keys().__contains__("GRPC_SSL_CA_FILE_PATH"):
+                        with open(os.environ["GRPC_SSL_CA_FILE_PATH"], 'rb') as f:
+                            creds = grpc.ssl_channel_credentials(f.read())
+                    else:
+                        creds = grpc.ssl_channel_credentials()
+
+                    self.channel = grpc.secure_channel(self.url, creds, options=[
                         ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
                         ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
                     ])
