@@ -4,7 +4,7 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.transport.CailaActionSDK import PipelineClient
+from mpl_sdk.transport.MplActionSDK import PipelineClient
 from mpl_sdk.abstract.abc_task import ABCTask
 from mpl_sdk.abstract.task_utils import is_allowed_input_type
 

@@ -18,7 +18,7 @@ import yaml
 from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
 
-from caila_api import Configuration, ApiClient
+from mpl_api import Configuration, ApiClient
 from mpl_sdk.grpc import mpl_grpc_pb2, mpl_grpc_pb2_grpc
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
@@ -30,14 +30,14 @@ logging.basicConfig(format=CONFIG["logging"]["format"],
                     stream=sys.stdout)
 
 
-class CailaActionConnector:
+class MplActionConnector:
 
     def __init__(self, url, sdk, grpc_secure=True):
         self.url = url
         self.sdk = sdk
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = logging.getLogger(f'CailaActionConnector-{url}')
+        self.log = logging.getLogger(f'MplActionConnector-{url}')
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -224,10 +224,10 @@ class CailaActionConnector:
             self.heartbeat_thread.join(CONFIG["sdk"]["heartbeat_thread_timeout_seconds"])
 
 
-class CailaActionSDK:
+class MplActionSDK:
 
     def __init__(self):
-        self.log = logging.getLogger('CailaActionSDK')
+        self.log = logging.getLogger('MplActionSDK')
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True
@@ -266,11 +266,11 @@ class CailaActionSDK:
         self.__start_keep_connection_thread()
 
     def __start_connector(self, url):
-        connector = CailaActionConnector(url, self, self.grpc_secure)
+        connector = MplActionConnector(url, self, self.grpc_secure)
         self.connectors.append(connector)
         connector.start()
 
-    def __stop_connector(self, connector: CailaActionConnector, state: Optional[str] = None):
+    def __stop_connector(self, connector: MplActionConnector, state: Optional[str] = None):
         if not state:
             connector.stop()
         else:
@@ -342,12 +342,12 @@ class CailaActionSDK:
         signal.signal(signal.SIGTERM, shutdown)
         barrier.wait(CONFIG["sdk"]["action_shutdown_timeout_seconds"])
 
-    def handle_unknown_request(self, req_type, request, connector: CailaActionConnector):
+    def handle_unknown_request(self, req_type, request, connector: MplActionConnector):
         self.log.error("Unknown request type " + req_type)
         self.log.error(request)
         response = mpl_grpc_pb2.ActionToGateProto(
             error=mpl_grpc_pb2.ApiErrorProto(
-                code='caila-action.common.internal-error',
+                code='mpl-action.common.internal-error',
                 message=f'Unknown request type: {req_type}',
                 status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
             )
@@ -356,17 +356,17 @@ class CailaActionSDK:
         self.__log_response(request, response)
         connector.action_to_gate_queue.put_nowait(response)
 
-    def process_request_async(self, req_type, request, connector: CailaActionConnector):
+    def process_request_async(self, req_type, request, connector: MplActionConnector):
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
 
-    def __try_to_process_request(self, req_type, request, connector: CailaActionConnector):
+    def __try_to_process_request(self, req_type, request, connector: MplActionConnector):
         try:
             response = self.__process_request(req_type, request)
-        except CailaException as e:
+        except MplException as e:
             self.log.exception(e)
             response = mpl_grpc_pb2.ActionToGateProto(
                 error=mpl_grpc_pb2.ApiErrorProto(
-                    code=e.code if e.code is not None else 'caila-action.common.internal-error',
+                    code=e.code if e.code is not None else 'mpl-action.common.internal-error',
                     message=f'Internal error. Message: {e.message}',
                     status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
@@ -375,7 +375,7 @@ class CailaActionSDK:
             self.log.exception(e)
             response = mpl_grpc_pb2.ActionToGateProto(
                 error=mpl_grpc_pb2.ApiErrorProto(
-                    code="caila-action.common.processing-exception",
+                    code="mpl-action.common.processing-exception",
                     message=str(e),
                     status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
@@ -585,7 +585,7 @@ class CailaActionSDK:
 
 class PipelineClient:
 
-    def __init__(self, sdk: CailaActionSDK):
+    def __init__(self, sdk: MplActionSDK):
         self._last_request_id = 0
         self.active_requests = {}
         self.scheduler = sched.scheduler(time.time, time.sleep)
@@ -718,13 +718,13 @@ class MyServiceExample:
         return [mpl_grpc_pb2.SimpleTextProto(text="hello " + d.text) for d in data]
 
 
-class CailaException(Exception):
+class MplException(Exception):
     def __init__(self, message: str, code: Optional[str] = None):
         self.message = message
         self.code = code
 
     def __str__(self):
-        return f'CailaException {self.message} has been raised'
+        return f'MplException {self.message} has been raised'
 
 
 class State(Enum):

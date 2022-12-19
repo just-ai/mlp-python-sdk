@@ -19,20 +19,20 @@ logging.basicConfig(format=CONFIG["logging"]["format"],
                     stream=sys.stdout)
 
 
-class CailaClientSDK:
+class MplClientSDK:
 
     def __init__(self):
         self.urls = None
         self.token = None
         self.grpc_secure = None
-        self.log = logging.getLogger('CailaClientSDK')
+        self.log = logging.getLogger('MplClientSDK')
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
         self.urls: List[str] = os.environ['MPL_URL'].split(",") if not urls else urls
         self.token = os.environ['MPL_TOKEN'] if not token else token
         self.grpc_secure = os.environ['MPL_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
-        self.log.debug("Starting caila client for url " + self.urls[0])
+        self.log.debug("Starting mpl client for url " + self.urls[0])
 
         self.__connect()
 

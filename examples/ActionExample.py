@@ -1,4 +1,4 @@
-from mpl_sdk.transport.CailaActionSDK import CailaActionSDK
+from mpl_sdk.transport.MplActionSDK import MplActionSDK
 from mpl_sdk.grpc import mpl_grpc_pb2
 from pydantic import BaseModel
 
@@ -31,7 +31,7 @@ class MyService:
         return QuestionResponse(question=data.context + "-" + data.answer)
 
 
-caila = CailaActionSDK()
-caila.register_impl(MyService())
-caila.start()
-caila.block_until_shutdown()
+mpl = MplActionSDK()
+mpl.register_impl(MyService())
+mpl.start()
+mpl.block_until_shutdown()

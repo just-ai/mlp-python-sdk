@@ -4,7 +4,7 @@ from typing import Type
 from pydantic import BaseModel
 
 from mpl_sdk.abstract import Task
-from mpl_sdk.hosting.host import host_caila_cloud_gate
+from mpl_sdk.hosting.host import host_mpl_cloud
 from mpl_sdk.types import Items, Item, TextsCollection
 
 
@@ -25,4 +25,4 @@ class MyCustomTask(Task):
 if __name__ == '__main__':
     url = sys.argv[1]
     token = sys.argv[2]
-    host_caila_cloud_gate(task=MyCustomTask, params=BaseModel(), url=url, connection_token=token)
+    host_mpl_cloud(task=MyCustomTask, params=BaseModel(), url=url, connection_token=token)
