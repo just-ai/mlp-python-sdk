@@ -41,7 +41,7 @@ class MyCustomTask(Task):
     def init_config_schema(self) -> Type[BaseModel]:
         return BaseModel
 
-    def _predict(
+    def predict(
             self,
             data: InflectorConformerTextsCollectionTest,
             config: NerPredictConfigSchema,

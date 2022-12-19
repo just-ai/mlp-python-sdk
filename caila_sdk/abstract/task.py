@@ -12,11 +12,11 @@ from caila_sdk.abstract.task_utils import is_allowed_input_type
 class Task(ABCTask):
     __METHODS = [
         '__init__',
-        '_predict',
+        'predict',
     ]
     __IS_LEARNABLE = False
 
-    def __init__(self, config: BaseModel, pipeline_client: PipelineClient = None):
+    def __init__(self, config: BaseModel, pipeline_client: PipelineClient = None) -> None:
         self.pipeline_client = pipeline_client
         self._check_config_validness(config, "init")
 
@@ -25,18 +25,18 @@ class Task(ABCTask):
         return signature(getattr(cls, "__init__")).parameters["config"].annotation
 
     def _check_predict_input_type(self, data: BaseModel) -> None:
-        if not is_allowed_input_type(type(self), "_predict", "data", type(data)):
+        if not is_allowed_input_type(type(self), "predict", "data", type(data)):
             raise RuntimeError
 
-    def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
+    def pre_predict(self, data: BaseModel, config: BaseModel) -> None:
         self._check_config_validness(config, "predict")
         self._check_predict_input_type(data)
         return self._predict(data, config)
 
     @abstractmethod
-    def _predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
+    def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
         pass
 
     @classmethod
     def get_predict_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "_predict")).parameters["config"].annotation
+        return signature(getattr(cls, "predict")).parameters["config"].annotation
