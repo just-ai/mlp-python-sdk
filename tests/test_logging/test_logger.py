@@ -1,4 +1,4 @@
-from caila_sdk.log import get_logger
+from mpl_sdk.log import get_logger
 
 
 def test_logger():

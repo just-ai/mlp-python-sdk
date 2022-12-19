@@ -6,7 +6,7 @@ import pickle
 
 from pathlib import Path
 
-from caila_sdk.storage import LocalStorage
+from mpl_sdk.storage import LocalStorage
 
 
 TEMP_DATA_PATH = Path(__file__).parent / 'data'

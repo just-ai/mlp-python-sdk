@@ -2,8 +2,8 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from caila_sdk.abstract.task import Task
-from caila_sdk.types import InflectorTextsCollection, ScoredItemsCollection
+from mpl_sdk.abstract.task import Task
+from mpl_sdk.types import InflectorTextsCollection, ScoredItemsCollection
 
 
 class MyCustomTaskInitSchema(BaseModel):

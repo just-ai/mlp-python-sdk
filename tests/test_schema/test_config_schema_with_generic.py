@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from typing import List
 
-from caila_sdk.abstract.task import Task
-from caila_sdk.types import InflectorConformerTextsCollectionTest, InflectorTextsCollection
+from mpl_sdk.abstract.task import Task
+from mpl_sdk.types import InflectorConformerTextsCollectionTest, InflectorTextsCollection
 
 
 class DucklingContext(BaseModel):

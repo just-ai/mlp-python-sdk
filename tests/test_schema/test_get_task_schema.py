@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from typing import List
 from pathlib import Path
 
-from caila_sdk.abstract.task import Task
-from caila_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
-from caila_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
+from mpl_sdk.abstract.task import Task
+from mpl_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
+from mpl_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
 
 
 class InitConfigSchema(BaseModel):

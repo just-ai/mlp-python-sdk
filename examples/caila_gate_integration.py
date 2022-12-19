@@ -3,9 +3,9 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from caila_sdk.abstract import Task
-from caila_sdk.hosting.host import host_caila_cloud_gate
-from caila_sdk.types import Items, Item, TextsCollection
+from mpl_sdk.abstract import Task
+from mpl_sdk.hosting.host import host_caila_cloud_gate
+from mpl_sdk.types import Items, Item, TextsCollection
 
 
 class MyCustomPredictSchema(BaseModel):

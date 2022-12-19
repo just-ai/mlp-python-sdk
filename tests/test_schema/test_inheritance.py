@@ -1,14 +1,14 @@
-from caila_sdk.utilities.schemes_handling import get_parent_classes
-from caila_sdk.types import (TokensErrorTest,
-                             InflectorConformerTextsCollectionTest,
-                             ConformerTextsCollection,
-                             InflectorTextsCollection,
-                             TokenizedTextsCollection,
-                             TokenizedTextsCollectionTest,
-                             TokenizedTextsCollectionWithErrorTest,
-                             TextsCollection,
-                             TokensTest)
-from caila_sdk.abstract.task_utils import can_type_be_replaced
+from mpl_sdk.utilities.schemes_handling import get_parent_classes
+from mpl_sdk.types import (TokensErrorTest,
+                           InflectorConformerTextsCollectionTest,
+                           ConformerTextsCollection,
+                           InflectorTextsCollection,
+                           TokenizedTextsCollection,
+                           TokenizedTextsCollectionTest,
+                           TokenizedTextsCollectionWithErrorTest,
+                           TextsCollection,
+                           TokensTest)
+from mpl_sdk.abstract.task_utils import can_type_be_replaced
 
 
 def test_get_parents():

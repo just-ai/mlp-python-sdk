@@ -1,5 +1,5 @@
-from caila_sdk.transport.CailaActionSDK import CailaActionSDK
-from caila_sdk.grpc import mpl_grpc_pb2
+from mpl_sdk.transport.CailaActionSDK import CailaActionSDK
+from mpl_sdk.grpc import mpl_grpc_pb2
 from pydantic import BaseModel
 
 class QuestionRequest:

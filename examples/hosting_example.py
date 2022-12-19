@@ -1,9 +1,9 @@
 from typing import List, Type
 from pydantic import BaseModel
 
-from caila_sdk.abstract.task import Task
-from caila_sdk.types import InflectorTextsCollection, TextsCollection
-from caila_sdk.hosting.host import host
+from mpl_sdk.abstract.task import Task
+from mpl_sdk.types import InflectorTextsCollection, TextsCollection
+from mpl_sdk.hosting.host import host
 
 
 class DucklingContext(BaseModel):

@@ -1,0 +1,242 @@
+import typing_extensions
+
+from mpl_api.paths import PathValues
+from mpl_api.apis.paths.api_mplgate_admin_account_account_id_limits import ApiMplgateAdminAccountAccountIdLimits
+from mpl_api.apis.paths.api_mplgate_admin_account_account_id_features import ApiMplgateAdminAccountAccountIdFeatures
+from mpl_api.apis.paths.api_mplgate_account import ApiMplgateAccount
+from mpl_api.apis.paths.api_mplgate_account_account_id_token import ApiMplgateAccountAccountIdToken
+from mpl_api.apis.paths.api_mplgate_account_account_id_model import ApiMplgateAccountAccountIdModel
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id import ApiMplgateAccountAccountIdModelModelId
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_simple_doc import ApiMplgateAccountAccountIdModelModelIdSimpleDoc
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_predict import ApiMplgateAccountAccountIdModelModelIdPredict
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_predict_with_config import ApiMplgateAccountAccountIdModelModelIdPredictWithConfig
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_predict_config import ApiMplgateAccountAccountIdModelModelIdPredictConfig
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_predict_config_config_id import ApiMplgateAccountAccountIdModelModelIdPredictConfigConfigId
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instances import ApiMplgateAccountAccountIdModelModelIdInstances
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_terminate import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdTerminate
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_stop import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdStop
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_start import ApiMplgateAccountAccountIdModelModelIdInstanceStart
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_fit import ApiMplgateAccountAccountIdModelModelIdFit
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_fit_config import ApiMplgateAccountAccountIdModelModelIdFitConfig
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_fit_config_config_id import ApiMplgateAccountAccountIdModelModelIdFitConfigConfigId
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_external import ApiMplgateAccountAccountIdModelModelIdExternal
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_ext import ApiMplgateAccountAccountIdModelModelIdExt
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_cross_validation import ApiMplgateAccountAccountIdModelModelIdCrossValidation
+from mpl_api.apis.paths.api_mplgate_account_account_id_management_feature_name import ApiMplgateAccountAccountIdManagementFeatureName
+from mpl_api.apis.paths.api_mplgate_account_account_id_image import ApiMplgateAccountAccountIdImage
+from mpl_api.apis.paths.api_mplgate_account_account_id_image_image_id import ApiMplgateAccountAccountIdImageImageId
+from mpl_api.apis.paths.api_mplgate_account_account_id_dataset import ApiMplgateAccountAccountIdDataset
+from mpl_api.apis.paths.api_mplgate_account_account_id_dataset_dataset_id import ApiMplgateAccountAccountIdDatasetDatasetId
+from mpl_api.apis.paths.api_mplgate_account_account_id_dataset_dataset_id_content import ApiMplgateAccountAccountIdDatasetDatasetIdContent
+from mpl_api.apis.paths.api_mplgate_account_account_id_data_image import ApiMplgateAccountAccountIdDataImage
+from mpl_api.apis.paths.api_mplgate_account_account_id_data_image_image_id import ApiMplgateAccountAccountIdDataImageImageId
+from mpl_api.apis.paths.api_mplgate_account_dump_account_id import ApiMplgateAccountDumpAccountId
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_update_limits import ApiMplgateInternalAccountAccountIdUpdateLimits
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_namespace_ensure import ApiMplgateInternalAccountAccountIdNamespaceEnsure
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_path import ApiMplgateInternalAccountAccountIdModelModelIdPath
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_instance_deactivate import ApiMplgateInternalAccountAccountIdModelModelIdInstanceDeactivate
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_features import ApiMplgateInternalAccountAccountIdFeatures
+from mpl_api.apis.paths.api_mplgate_internal_account_deactivate import ApiMplgateInternalAccountDeactivate
+from mpl_api.apis.paths.api_mplgate_admin_resource_groups import ApiMplgateAdminResourceGroups
+from mpl_api.apis.paths.api_mplgate_internal_resource_groups import ApiMplgateInternalResourceGroups
+from mpl_api.apis.paths.api_mplgate_version import ApiMplgateVersion
+from mpl_api.apis.paths.api_mplgate_system_config_task_types import ApiMplgateSystemConfigTaskTypes
+from mpl_api.apis.paths.api_mplgate_system_config_resource_groups import ApiMplgateSystemConfigResourceGroups
+from mpl_api.apis.paths.api_mplgate_system_config_model_defaults import ApiMplgateSystemConfigModelDefaults
+from mpl_api.apis.paths.api_mplgate_system_config_dataset_data_type import ApiMplgateSystemConfigDatasetDataType
+from mpl_api.apis.paths.api_mplgate_health import ApiMplgateHealth
+from mpl_api.apis.paths.api_mplgate_health_test import ApiMplgateHealthTest
+from mpl_api.apis.paths.api_mplgate_admin_account import ApiMplgateAdminAccount
+from mpl_api.apis.paths.api_mplgate_admin_account_account_id import ApiMplgateAdminAccountAccountId
+from mpl_api.apis.paths.api_mplgate_account_account_id_token_token import ApiMplgateAccountAccountIdTokenToken
+from mpl_api.apis.paths.api_mplgate_account_account_id_stat_log import ApiMplgateAccountAccountIdStatLog
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_status import ApiMplgateAccountAccountIdModelModelIdStatus
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_metric import ApiMplgateAccountAccountIdModelModelIdMetric
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_metric_range import ApiMplgateAccountAccountIdModelModelIdMetricRange
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_logs import ApiMplgateAccountAccountIdModelModelIdLogs
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_last_job import ApiMplgateAccountAccountIdModelModelIdLastJob
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance import ApiMplgateAccountAccountIdModelModelIdInstance
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_metric import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetric
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_metric_range import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_file import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFile
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_file_logs import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_events import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEvents
+from mpl_api.apis.paths.api_mplgate_account_account_id_model_model_id_instance_instance_id_environment import ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment
+from mpl_api.apis.paths.api_mplgate_account_account_id_metric import ApiMplgateAccountAccountIdMetric
+from mpl_api.apis.paths.api_mplgate_account_account_id_metric_range import ApiMplgateAccountAccountIdMetricRange
+from mpl_api.apis.paths.api_mplgate_account_account_id_job import ApiMplgateAccountAccountIdJob
+from mpl_api.apis.paths.api_mplgate_account_account_id_job_job_id import ApiMplgateAccountAccountIdJobJobId
+from mpl_api.apis.paths.api_mplgate_account_account_id_image_image_id_logs import ApiMplgateAccountAccountIdImageImageIdLogs
+from mpl_api.apis.paths.api_mplgate_account_s3_account_id import ApiMplgateAccountS3AccountId
+from mpl_api.apis.paths.api_mplgate_internal_test_mail import ApiMplgateInternalTestMail
+from mpl_api.apis.paths.api_mplgate_internal_services import ApiMplgateInternalServices
+from mpl_api.apis.paths.api_mplgate_internal_notify_account_id_user_user_id import ApiMplgateInternalNotifyAccountIdUserUserId
+from mpl_api.apis.paths.api_mplgate_internal_cluster import ApiMplgateInternalCluster
+from mpl_api.apis.paths.api_mplgate_internal_actions import ApiMplgateInternalActions
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_instances import ApiMplgateInternalAccountAccountIdModelModelIdInstances
+from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_actions import ApiMplgateInternalAccountAccountIdModelModelIdActions
+from mpl_api.apis.paths.api_mplgate_internal_instances_delete_by_timestamp import ApiMplgateInternalInstancesDeleteByTimestamp
+from mpl_api.apis.paths.p_account_model import PAccountModel
+
+PathToApi = typing_extensions.TypedDict(
+    'PathToApi',
+    {
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID_LIMITS: ApiMplgateAdminAccountAccountIdLimits,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID_FEATURES: ApiMplgateAdminAccountAccountIdFeatures,
+        PathValues.API_MPLGATE_ACCOUNT: ApiMplgateAccount,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_TOKEN: ApiMplgateAccountAccountIdToken,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL: ApiMplgateAccountAccountIdModel,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID: ApiMplgateAccountAccountIdModelModelId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_SIMPLEDOC: ApiMplgateAccountAccountIdModelModelIdSimpleDoc,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICT: ApiMplgateAccountAccountIdModelModelIdPredict,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTWITHCONFIG: ApiMplgateAccountAccountIdModelModelIdPredictWithConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG: ApiMplgateAccountAccountIdModelModelIdPredictConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG_CONFIG_ID: ApiMplgateAccountAccountIdModelModelIdPredictConfigConfigId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateAccountAccountIdModelModelIdInstances,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_TERMINATE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdTerminate,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_STOP: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdStop,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_START: ApiMplgateAccountAccountIdModelModelIdInstanceStart,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FIT: ApiMplgateAccountAccountIdModelModelIdFit,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG: ApiMplgateAccountAccountIdModelModelIdFitConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG_CONFIG_ID: ApiMplgateAccountAccountIdModelModelIdFitConfigConfigId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL: ApiMplgateAccountAccountIdModelModelIdExternal,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXT: ApiMplgateAccountAccountIdModelModelIdExt,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiMplgateAccountAccountIdModelModelIdCrossValidation,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiMplgateAccountAccountIdManagementFeatureName,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiMplgateAccountAccountIdImage,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiMplgateAccountAccountIdImageImageId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET: ApiMplgateAccountAccountIdDataset,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID: ApiMplgateAccountAccountIdDatasetDatasetId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_CONTENT: ApiMplgateAccountAccountIdDatasetDatasetIdContent,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE: ApiMplgateAccountAccountIdDataImage,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE_IMAGE_ID: ApiMplgateAccountAccountIdDataImageImageId,
+        PathValues.API_MPLGATE_ACCOUNT_DUMP_ACCOUNT_ID: ApiMplgateAccountDumpAccountId,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_UPDATELIMITS: ApiMplgateInternalAccountAccountIdUpdateLimits,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_NAMESPACE_ENSURE: ApiMplgateInternalAccountAccountIdNamespaceEnsure,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PATH: ApiMplgateInternalAccountAccountIdModelModelIdPath,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_DEACTIVATE: ApiMplgateInternalAccountAccountIdModelModelIdInstanceDeactivate,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_FEATURES: ApiMplgateInternalAccountAccountIdFeatures,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_DEACTIVATE: ApiMplgateInternalAccountDeactivate,
+        PathValues.API_MPLGATE_ADMIN_RESOURCEGROUPS: ApiMplgateAdminResourceGroups,
+        PathValues.API_MPLGATEINTERNAL_RESOURCEGROUPS: ApiMplgateInternalResourceGroups,
+        PathValues.API_MPLGATE_VERSION: ApiMplgateVersion,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_TASKTYPES: ApiMplgateSystemConfigTaskTypes,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMplgateSystemConfigResourceGroups,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMplgateSystemConfigModelDefaults,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMplgateSystemConfigDatasetDataType,
+        PathValues.API_MPLGATE_HEALTH: ApiMplgateHealth,
+        PathValues.API_MPLGATE_HEALTH_TEST: ApiMplgateHealthTest,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT: ApiMplgateAdminAccount,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiMplgateAdminAccountAccountId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiMplgateAccountAccountIdTokenToken,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_STATLOG: ApiMplgateAccountAccountIdStatLog,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_STATUS: ApiMplgateAccountAccountIdModelModelIdStatus,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRIC: ApiMplgateAccountAccountIdModelModelIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRICRANGE: ApiMplgateAccountAccountIdModelModelIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LOGS: ApiMplgateAccountAccountIdModelModelIdLogs,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LASTJOB: ApiMplgateAccountAccountIdModelModelIdLastJob,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE: ApiMplgateAccountAccountIdModelModelIdInstance,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRIC: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRICRANGE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFile,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiMplgateAccountAccountIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiMplgateAccountAccountIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMplgateAccountAccountIdJob,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMplgateAccountAccountIdJobJobId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMplgateAccountAccountIdImageImageIdLogs,
+        PathValues.API_MPLGATE_ACCOUNT_S3_ACCOUNT_ID: ApiMplgateAccountS3AccountId,
+        PathValues.API_MPLGATEINTERNAL_TESTMAIL: ApiMplgateInternalTestMail,
+        PathValues.API_MPLGATEINTERNAL_SERVICES: ApiMplgateInternalServices,
+        PathValues.API_MPLGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMplgateInternalNotifyAccountIdUserUserId,
+        PathValues.API_MPLGATEINTERNAL_CLUSTER: ApiMplgateInternalCluster,
+        PathValues.API_MPLGATEINTERNAL_ACTIONS: ApiMplgateInternalActions,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateInternalAccountAccountIdModelModelIdInstances,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMplgateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_MPLGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMplgateInternalInstancesDeleteByTimestamp,
+        PathValues.P_ACCOUNT_MODEL: PAccountModel,
+    }
+)
+
+path_to_api = PathToApi(
+    {
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID_LIMITS: ApiMplgateAdminAccountAccountIdLimits,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID_FEATURES: ApiMplgateAdminAccountAccountIdFeatures,
+        PathValues.API_MPLGATE_ACCOUNT: ApiMplgateAccount,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_TOKEN: ApiMplgateAccountAccountIdToken,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL: ApiMplgateAccountAccountIdModel,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID: ApiMplgateAccountAccountIdModelModelId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_SIMPLEDOC: ApiMplgateAccountAccountIdModelModelIdSimpleDoc,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICT: ApiMplgateAccountAccountIdModelModelIdPredict,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTWITHCONFIG: ApiMplgateAccountAccountIdModelModelIdPredictWithConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG: ApiMplgateAccountAccountIdModelModelIdPredictConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PREDICTCONFIG_CONFIG_ID: ApiMplgateAccountAccountIdModelModelIdPredictConfigConfigId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateAccountAccountIdModelModelIdInstances,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_TERMINATE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdTerminate,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_STOP: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdStop,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_START: ApiMplgateAccountAccountIdModelModelIdInstanceStart,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FIT: ApiMplgateAccountAccountIdModelModelIdFit,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG: ApiMplgateAccountAccountIdModelModelIdFitConfig,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_FITCONFIG_CONFIG_ID: ApiMplgateAccountAccountIdModelModelIdFitConfigConfigId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL: ApiMplgateAccountAccountIdModelModelIdExternal,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXT: ApiMplgateAccountAccountIdModelModelIdExt,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiMplgateAccountAccountIdModelModelIdCrossValidation,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiMplgateAccountAccountIdManagementFeatureName,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiMplgateAccountAccountIdImage,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiMplgateAccountAccountIdImageImageId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET: ApiMplgateAccountAccountIdDataset,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID: ApiMplgateAccountAccountIdDatasetDatasetId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_CONTENT: ApiMplgateAccountAccountIdDatasetDatasetIdContent,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE: ApiMplgateAccountAccountIdDataImage,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE_IMAGE_ID: ApiMplgateAccountAccountIdDataImageImageId,
+        PathValues.API_MPLGATE_ACCOUNT_DUMP_ACCOUNT_ID: ApiMplgateAccountDumpAccountId,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_UPDATELIMITS: ApiMplgateInternalAccountAccountIdUpdateLimits,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_NAMESPACE_ENSURE: ApiMplgateInternalAccountAccountIdNamespaceEnsure,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_PATH: ApiMplgateInternalAccountAccountIdModelModelIdPath,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_DEACTIVATE: ApiMplgateInternalAccountAccountIdModelModelIdInstanceDeactivate,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_FEATURES: ApiMplgateInternalAccountAccountIdFeatures,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_DEACTIVATE: ApiMplgateInternalAccountDeactivate,
+        PathValues.API_MPLGATE_ADMIN_RESOURCEGROUPS: ApiMplgateAdminResourceGroups,
+        PathValues.API_MPLGATEINTERNAL_RESOURCEGROUPS: ApiMplgateInternalResourceGroups,
+        PathValues.API_MPLGATE_VERSION: ApiMplgateVersion,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_TASKTYPES: ApiMplgateSystemConfigTaskTypes,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMplgateSystemConfigResourceGroups,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMplgateSystemConfigModelDefaults,
+        PathValues.API_MPLGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMplgateSystemConfigDatasetDataType,
+        PathValues.API_MPLGATE_HEALTH: ApiMplgateHealth,
+        PathValues.API_MPLGATE_HEALTH_TEST: ApiMplgateHealthTest,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT: ApiMplgateAdminAccount,
+        PathValues.API_MPLGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiMplgateAdminAccountAccountId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiMplgateAccountAccountIdTokenToken,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_STATLOG: ApiMplgateAccountAccountIdStatLog,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_STATUS: ApiMplgateAccountAccountIdModelModelIdStatus,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRIC: ApiMplgateAccountAccountIdModelModelIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_METRICRANGE: ApiMplgateAccountAccountIdModelModelIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LOGS: ApiMplgateAccountAccountIdModelModelIdLogs,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_LASTJOB: ApiMplgateAccountAccountIdModelModelIdLastJob,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE: ApiMplgateAccountAccountIdModelModelIdInstance,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRIC: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_METRICRANGE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFile,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdFileLogs,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMplgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiMplgateAccountAccountIdMetric,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiMplgateAccountAccountIdMetricRange,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMplgateAccountAccountIdJob,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMplgateAccountAccountIdJobJobId,
+        PathValues.API_MPLGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMplgateAccountAccountIdImageImageIdLogs,
+        PathValues.API_MPLGATE_ACCOUNT_S3_ACCOUNT_ID: ApiMplgateAccountS3AccountId,
+        PathValues.API_MPLGATEINTERNAL_TESTMAIL: ApiMplgateInternalTestMail,
+        PathValues.API_MPLGATEINTERNAL_SERVICES: ApiMplgateInternalServices,
+        PathValues.API_MPLGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMplgateInternalNotifyAccountIdUserUserId,
+        PathValues.API_MPLGATEINTERNAL_CLUSTER: ApiMplgateInternalCluster,
+        PathValues.API_MPLGATEINTERNAL_ACTIONS: ApiMplgateInternalActions,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateInternalAccountAccountIdModelModelIdInstances,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMplgateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_MPLGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMplgateInternalInstancesDeleteByTimestamp,
+        PathValues.P_ACCOUNT_MODEL: PAccountModel,
+    }
+)
