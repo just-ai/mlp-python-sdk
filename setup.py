@@ -69,7 +69,7 @@ setup(
         'develop': PostDevelopCommand,
         'install': PostInstallCommand,
     },
-    name='caila_sdk',
+    name='mpl_sdk',
     version=MAJOR_VERSION + "." + MINOR_VERSION + "." + BUILD_NUMBER,
     install_requires=_get_requirements(),
     package_dir={'caila_sdk': 'caila_sdk'},
