@@ -1,0 +1,21 @@
+update:
+  config:
+    properties:
+      init_param_1:
+        title: Init Param 1
+        type: boolean
+      init_param_2:
+        title: Init Param 2
+        type: string
+      init_param_3:
+        items:
+          type: string
+        title: Init Param 3
+        type: array
+    required:
+    - init_param_1
+    - init_param_2
+    - init_param_3
+    title: InitConfigSchema
+    type: object
+  return: null

@@ -12,7 +12,7 @@ class MyCustomTaskInitSchema(BaseModel):
 
 class MyCustomTask(Task):
 
-    def __init__(self, config: MyCustomTaskInitSchema):
+    def __init__(self, config: MyCustomTaskInitSchema) -> None:
         super().__init__(config)
         self.language = config.language
 
@@ -20,7 +20,7 @@ class MyCustomTask(Task):
     def init_config_schema(self) -> Type[BaseModel]:
         return MyCustomTaskInitSchema
 
-    def _predict(
+    def predict(
         self,
         data: InflectorTextsCollection,
         config: BaseModel

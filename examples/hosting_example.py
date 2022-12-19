@@ -36,7 +36,7 @@ class MyCustomTask(Task):
     def init_config_schema(self) -> Type[BaseModel]:
         return BaseModel
 
-    def _predict(self, data: InflectorTextsCollection, config: NerPredictConfigSchema) -> TextsCollection:
+    def predict(self, data: InflectorTextsCollection, config: NerPredictConfigSchema) -> TextsCollection:
         result = TextsCollection(texts=[])
         result.texts.append("Done")
         return result
