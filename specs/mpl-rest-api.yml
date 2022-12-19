@@ -6,7 +6,7 @@ servers:
   - url: https://caila.caila-ci-dev.lo.test-ai.net
     description: Generated server url
 paths:
-  /api/cailagate/admin/account/{accountId}/limits:
+  /api/mplgate/admin/account/{accountId}/limits:
     post:
       tags:
         - admin-endpoint
@@ -18,7 +18,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -37,7 +37,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/cailagate/admin/account/{accountId}/features:
+  /api/mplgate/admin/account/{accountId}/features:
     get:
       tags:
         - admin-endpoint
@@ -49,7 +49,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -73,7 +73,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -88,13 +88,13 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account:
+  /api/mplgate/account:
     get:
       tags:
         - account-endpoint
       operationId: ensureAccount
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -112,7 +112,7 @@ paths:
         - account-endpoint
       operationId: updateAccountData
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -131,7 +131,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/cailagate/account/{accountId}/token:
+  /api/mplgate/account/{accountId}/token:
     get:
       tags:
         - access-token-endpoint
@@ -143,7 +143,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -174,7 +174,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -187,7 +187,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenData'
-  /api/cailagate/account/{accountId}/model:
+  /api/mplgate/account/{accountId}/model:
     get:
       tags:
         - model-endpoint
@@ -231,7 +231,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -255,7 +255,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -274,7 +274,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
-  /api/cailagate/account/{accountId}/model/{modelId}:
+  /api/mplgate/account/{accountId}/model/{modelId}:
     get:
       tags:
         - model-endpoint
@@ -292,7 +292,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -322,7 +322,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -358,7 +358,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -367,7 +367,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/simple-doc:
+  /api/mplgate/account/{accountId}/model/{modelId}/simple-doc:
     get:
       tags:
         - model-endpoint
@@ -385,7 +385,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -415,7 +415,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -434,7 +434,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/cailagate/account/{accountId}/model/{modelId}/predict:
+  /api/mplgate/account/{accountId}/model/{modelId}/predict:
     post:
       tags:
         - process-endpoint
@@ -458,7 +458,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -477,7 +477,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/cailagate/account/{accountId}/model/{modelId}/predict-with-config:
+  /api/mplgate/account/{accountId}/model/{modelId}/predict-with-config:
     post:
       tags:
         - process-endpoint
@@ -495,7 +495,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -514,7 +514,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/cailagate/account/{accountId}/model/{modelId}/predict-config:
+  /api/mplgate/account/{accountId}/model/{modelId}/predict-config:
     get:
       tags:
         - predict-config-endpoint
@@ -532,7 +532,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -564,7 +564,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -583,7 +583,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PredictConfigData'
-  /api/cailagate/account/{accountId}/model/{modelId}/predict-config/{configId}:
+  /api/mplgate/account/{accountId}/model/{modelId}/predict-config/{configId}:
     get:
       tags:
         - predict-config-endpoint
@@ -607,7 +607,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -643,7 +643,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -685,7 +685,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -694,7 +694,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/instances:
+  /api/mplgate/account/{accountId}/model/{modelId}/instances:
     get:
       tags:
         - model-endpoint
@@ -712,7 +712,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -742,7 +742,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -760,7 +760,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/terminate:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/terminate:
     post:
       tags:
         - model-instance-endpoint
@@ -784,7 +784,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -793,7 +793,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/stop:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/stop:
     post:
       tags:
         - model-instance-endpoint
@@ -817,7 +817,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -826,7 +826,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/start:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/start:
     post:
       tags:
         - model-endpoint
@@ -844,7 +844,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -853,7 +853,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/fit:
+  /api/mplgate/account/{accountId}/model/{modelId}/fit:
     post:
       tags:
         - process-endpoint
@@ -871,7 +871,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -890,7 +890,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/cailagate/account/{accountId}/model/{modelId}/fit-config:
+  /api/mplgate/account/{accountId}/model/{modelId}/fit-config:
     get:
       tags:
         - fit-config-endpoint
@@ -908,7 +908,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -940,7 +940,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -959,7 +959,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FitConfigData'
-  /api/cailagate/account/{accountId}/model/{modelId}/fit-config/{configId}:
+  /api/mplgate/account/{accountId}/model/{modelId}/fit-config/{configId}:
     get:
       tags:
         - fit-config-endpoint
@@ -983,7 +983,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1019,7 +1019,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1061,7 +1061,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1070,7 +1070,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/external:
+  /api/mplgate/account/{accountId}/model/{modelId}/external:
     get:
       tags:
         - model-endpoint
@@ -1088,7 +1088,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1120,7 +1120,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1150,7 +1150,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1159,7 +1159,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/model/{modelId}/ext:
+  /api/mplgate/account/{accountId}/model/{modelId}/ext:
     post:
       tags:
         - process-endpoint
@@ -1177,7 +1177,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1196,7 +1196,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/cailagate/account/{accountId}/model/{modelId}/cross-validation:
+  /api/mplgate/account/{accountId}/model/{modelId}/cross-validation:
     post:
       tags:
         - process-endpoint
@@ -1214,7 +1214,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1233,7 +1233,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/cailagate/account/{accountId}/management/{featureName}:
+  /api/mplgate/account/{accountId}/management/{featureName}:
     post:
       tags:
         - manual-management-endpoint
@@ -1250,7 +1250,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1265,7 +1265,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/image:
+  /api/mplgate/account/{accountId}/image:
     get:
       tags:
         - image-endpoint
@@ -1299,7 +1299,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1323,7 +1323,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1342,7 +1342,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageInfoData'
-  /api/cailagate/account/{accountId}/image/{imageId}:
+  /api/mplgate/account/{accountId}/image/{imageId}:
     get:
       tags:
         - image-endpoint
@@ -1360,7 +1360,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1390,7 +1390,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1426,7 +1426,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1435,7 +1435,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/dataset:
+  /api/mplgate/account/{accountId}/dataset:
     get:
       tags:
         - dataset-endpoint
@@ -1447,7 +1447,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1473,7 +1473,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1492,7 +1492,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/cailagate/account/{accountId}/dataset/{datasetId}:
+  /api/mplgate/account/{accountId}/dataset/{datasetId}:
     get:
       tags:
         - dataset-endpoint
@@ -1510,7 +1510,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1540,7 +1540,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1576,7 +1576,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1585,7 +1585,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/dataset/{datasetId}/content:
+  /api/mplgate/account/{accountId}/dataset/{datasetId}/content:
     get:
       tags:
         - dataset-endpoint
@@ -1608,7 +1608,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1638,7 +1638,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1662,7 +1662,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/cailagate/account/{accountId}/data-image:
+  /api/mplgate/account/{accountId}/data-image:
     get:
       tags:
         - data-image-endpoint
@@ -1696,7 +1696,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1720,7 +1720,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1739,7 +1739,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DataImageInfoData'
-  /api/cailagate/account/{accountId}/data-image/{imageId}:
+  /api/mplgate/account/{accountId}/data-image/{imageId}:
     get:
       tags:
         - data-image-endpoint
@@ -1757,7 +1757,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1787,7 +1787,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1823,7 +1823,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1832,7 +1832,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/dump/{accountId}:
+  /api/mplgate/account/dump/{accountId}:
     get:
       tags:
         - account-endpoint
@@ -1844,7 +1844,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1868,7 +1868,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1883,7 +1883,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/{accountId}/update-limits:
+  /api/mplgate-internal/account/{accountId}/update-limits:
     post:
       tags:
         - internal-endpoint
@@ -1895,7 +1895,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1910,7 +1910,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/{accountId}/namespace/ensure:
+  /api/mplgate-internal/account/{accountId}/namespace/ensure:
     post:
       tags:
         - internal-endpoint
@@ -1922,7 +1922,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1931,7 +1931,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/{accountId}/model/{modelId}/path:
+  /api/mplgate-internal/account/{accountId}/model/{modelId}/path:
     post:
       tags:
         - internal-endpoint
@@ -1949,7 +1949,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1964,7 +1964,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/{accountId}/model/{modelId}/instance/deactivate:
+  /api/mplgate-internal/account/{accountId}/model/{modelId}/instance/deactivate:
     post:
       tags:
         - internal-endpoint
@@ -1982,7 +1982,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -1991,7 +1991,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/{accountId}/features:
+  /api/mplgate-internal/account/{accountId}/features:
     get:
       tags:
         - internal-endpoint
@@ -2003,7 +2003,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2027,7 +2027,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2042,13 +2042,13 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/account/deactivate:
+  /api/mplgate-internal/account/deactivate:
     post:
       tags:
         - internal-endpoint
       operationId: deactivateAccount
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2057,13 +2057,13 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/admin/resource-groups:
+  /api/mplgate/admin/resource-groups:
     get:
       tags:
         - admin-endpoint
       operationId: getResourceGroups
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2081,7 +2081,7 @@ paths:
         - admin-endpoint
       operationId: updateResourceGroups
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2100,13 +2100,13 @@ paths:
             application/json:
               schema:
                 type: object
-  /api/cailagate-internal/resource-groups:
+  /api/mplgate-internal/resource-groups:
     get:
       tags:
         - internal-endpoint
       operationId: getResourceGroups_1
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2126,7 +2126,7 @@ paths:
         - internal-endpoint
       operationId: updateResourceGroups_1
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2145,13 +2145,13 @@ paths:
             application/json:
               schema:
                 type: object
-  /api/cailagate/version:
+  /api/mplgate/version:
     get:
       tags:
         - system-endpoint
       operationId: version
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2164,13 +2164,13 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/cailagate/system-config/task-types:
+  /api/mplgate/system-config/task-types:
     get:
       tags:
         - system-config-endpoint
       operationId: getTaskTypes
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2185,13 +2185,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TaskTypeInfo'
-  /api/cailagate/system-config/resource-groups:
+  /api/mplgate/system-config/resource-groups:
     get:
       tags:
         - system-config-endpoint
       operationId: getResourceGroupsForAccount
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2206,13 +2206,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupData'
-  /api/cailagate/system-config/model-defaults:
+  /api/mplgate/system-config/model-defaults:
     get:
       tags:
         - system-config-endpoint
       operationId: getModelDefaults
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2225,13 +2225,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelDefaults'
-  /api/cailagate/system-config/dataset-data-type:
+  /api/mplgate/system-config/dataset-data-type:
     get:
       tags:
         - system-config-endpoint
       operationId: getDatasetDataTypes
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2246,13 +2246,13 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/cailagate/health:
+  /api/mplgate/health:
     get:
       tags:
         - system-endpoint
       operationId: healthCheck
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2265,13 +2265,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /api/cailagate/health/test:
+  /api/mplgate/health/test:
     get:
       tags:
         - system-endpoint
       operationId: healthCheckForTests
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2284,7 +2284,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /api/cailagate/admin/account:
+  /api/mplgate/admin/account:
     get:
       tags:
         - admin-endpoint
@@ -2295,7 +2295,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2310,7 +2310,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AccountInfoData'
-  /api/cailagate/admin/account/{accountId}:
+  /api/mplgate/admin/account/{accountId}:
     get:
       tags:
         - admin-endpoint
@@ -2322,7 +2322,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2335,7 +2335,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/cailagate/account/{accountId}/token/{token}:
+  /api/mplgate/account/{accountId}/token/{token}:
     get:
       tags:
         - access-token-endpoint
@@ -2352,7 +2352,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2381,7 +2381,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2390,7 +2390,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate/account/{accountId}/stat-log:
+  /api/mplgate/account/{accountId}/stat-log:
     get:
       tags:
         - stat-log-endpoint
@@ -2402,7 +2402,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2417,7 +2417,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/cailagate/account/{accountId}/model/{modelId}/status:
+  /api/mplgate/account/{accountId}/model/{modelId}/status:
     get:
       tags:
         - model-endpoint
@@ -2435,7 +2435,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2448,7 +2448,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelShortStatusData'
-  /api/cailagate/account/{accountId}/model/{modelId}/metric:
+  /api/mplgate/account/{accountId}/model/{modelId}/metric:
     get:
       tags:
         - metric-endpoint
@@ -2488,7 +2488,7 @@ paths:
                 - MODEL_MIN_REQUEST_TIME
                 - MODEL_MAX_REQUEST_TIME
                 - MODEL_INSTANT_REQUEST_TIME
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2504,7 +2504,7 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/cailagate/account/{accountId}/model/{modelId}/metric-range:
+  /api/mplgate/account/{accountId}/model/{modelId}/metric-range:
     get:
       tags:
         - metric-endpoint
@@ -2550,7 +2550,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2567,7 +2567,7 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/cailagate/account/{accountId}/model/{modelId}/logs:
+  /api/mplgate/account/{accountId}/model/{modelId}/logs:
     get:
       tags:
         - model-endpoint
@@ -2585,7 +2585,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2600,7 +2600,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/cailagate/account/{accountId}/model/{modelId}/last-job:
+  /api/mplgate/account/{accountId}/model/{modelId}/last-job:
     get:
       tags:
         - model-endpoint
@@ -2618,7 +2618,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2631,7 +2631,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/cailagate/account/{accountId}/model/{modelId}/instance:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance:
     get:
       tags:
         - model-instance-endpoint
@@ -2649,7 +2649,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2662,7 +2662,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInstanceListData'
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric:
     get:
       tags:
         - metric-endpoint
@@ -2701,7 +2701,7 @@ paths:
                 - INSTANCE_RAM_REQUESTED
                 - INSTANCE_RAM_LIMIT
                 - INSTANCE_RECONNECTS_COUNT
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2717,7 +2717,7 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric-range:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric-range:
     get:
       tags:
         - metric-endpoint
@@ -2762,7 +2762,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2779,7 +2779,7 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/file:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/file:
     get:
       tags:
         - model-instance-endpoint
@@ -2808,7 +2808,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2822,7 +2822,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/file/logs:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/file/logs:
     get:
       tags:
         - model-instance-endpoint
@@ -2851,7 +2851,7 @@ paths:
           required: false
           schema:
             type: boolean
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2865,7 +2865,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/events:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/events:
     get:
       tags:
         - model-instance-endpoint
@@ -2889,7 +2889,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2902,7 +2902,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEventData'
-  /api/cailagate/account/{accountId}/model/{modelId}/instance/{instanceId}/environment:
+  /api/mplgate/account/{accountId}/model/{modelId}/instance/{instanceId}/environment:
     get:
       tags:
         - model-instance-endpoint
@@ -2926,7 +2926,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2939,7 +2939,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEnvironmentData'
-  /api/cailagate/account/{accountId}/metric:
+  /api/mplgate/account/{accountId}/metric:
     get:
       tags:
         - metric-endpoint
@@ -2973,7 +2973,7 @@ paths:
                 - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_EXCEEDED
                 - ACCOUNT_FITS_COUNT_PER_MINUTE_TOTAL
                 - ACCOUNT_FITS_COUNT_PER_MINUTE_EXCEEDED
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -2989,7 +2989,7 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/cailagate/account/{accountId}/metric-range:
+  /api/mplgate/account/{accountId}/metric-range:
     get:
       tags:
         - metric-endpoint
@@ -3029,7 +3029,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3046,7 +3046,7 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/cailagate/account/{accountId}/job:
+  /api/mplgate/account/{accountId}/job:
     get:
       tags:
         - job-endpoint
@@ -3058,7 +3058,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3073,7 +3073,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobStatusData'
-  /api/cailagate/account/{accountId}/job/{jobId}:
+  /api/mplgate/account/{accountId}/job/{jobId}:
     get:
       tags:
         - job-endpoint
@@ -3091,7 +3091,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3104,7 +3104,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/cailagate/account/{accountId}/image/{imageId}/logs:
+  /api/mplgate/account/{accountId}/image/{imageId}/logs:
     get:
       tags:
         - image-endpoint
@@ -3122,7 +3122,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3137,7 +3137,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/cailagate/account/s3/{accountId}:
+  /api/mplgate/account/s3/{accountId}:
     get:
       tags:
         - account-endpoint
@@ -3149,7 +3149,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3162,13 +3162,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/S3CredentialsData'
-  /api/cailagate-internal/test-mail:
+  /api/mplgate-internal/test-mail:
     get:
       tags:
         - internal-endpoint
       operationId: sendTestEMail
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3177,13 +3177,13 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/services:
+  /api/mplgate-internal/services:
     get:
       tags:
         - internal-endpoint
       operationId: listRegisteredServices
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3198,7 +3198,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInstance'
-  /api/cailagate-internal/notify/{accountId}/user/{userId}:
+  /api/mplgate-internal/notify/{accountId}/user/{userId}:
     get:
       tags:
         - internal-endpoint
@@ -3215,7 +3215,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3224,13 +3224,13 @@ paths:
       responses:
         "200":
           description: OK
-  /api/cailagate-internal/cluster:
+  /api/mplgate-internal/cluster:
     get:
       tags:
         - internal-endpoint
       operationId: cluster
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3245,13 +3245,13 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/cailagate-internal/actions:
+  /api/mplgate-internal/actions:
     get:
       tags:
         - internal-endpoint
       operationId: listAllConnectedActions
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3266,7 +3266,7 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/cailagate-internal/account/{accountId}/model/{modelId}/instances:
+  /api/mplgate-internal/account/{accountId}/model/{modelId}/instances:
     get:
       tags:
         - internal-endpoint
@@ -3284,7 +3284,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3299,7 +3299,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInstance'
-  /api/cailagate-internal/account/{accountId}/model/{modelId}/actions:
+  /api/mplgate-internal/account/{accountId}/model/{modelId}/actions:
     get:
       tags:
         - internal-endpoint
@@ -3317,7 +3317,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3332,13 +3332,13 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/cailagate-internal/instances/deleteByTimestamp:
+  /api/mplgate-internal/instances/deleteByTimestamp:
     delete:
       tags:
         - internal-endpoint
       operationId: deleteMarkedInstances
       parameters:
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3366,7 +3366,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false
@@ -3397,7 +3397,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: CAILA-API-KEY
+        - name: MPL-API-KEY
           in: header
           description: token to use instead of a session
           required: false

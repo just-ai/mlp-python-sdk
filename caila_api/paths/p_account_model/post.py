@@ -28,7 +28,7 @@ from caila_api import schemas  # noqa: F401
 from . import path
 
 # Header params
-CAILAAPIKEYSchema = schemas.StrSchema
+MPLAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
@@ -37,7 +37,7 @@ RequestRequiredHeaderParams = typing_extensions.TypedDict(
 RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'CAILA-API-KEY': typing.Union[CAILAAPIKEYSchema, str, ],
+        'MPL-API-KEY': typing.Union[MPLAPIKEYSchema, str, ],
     },
     total=False
 )
@@ -47,10 +47,10 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
     pass
 
 
-request_header_caila_api_key = api_client.HeaderParameter(
-    name="CAILA-API-KEY",
+request_header_mpl_api_key = api_client.HeaderParameter(
+    name="MPL-API-KEY",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=CAILAAPIKEYSchema,
+    schema=MPLAPIKEYSchema,
 )
 # Path params
 AccountSchema = schemas.StrSchema
@@ -221,7 +221,7 @@ class BaseApi(api_client.Api):
 
         _headers = HTTPHeaderDict()
         for parameter in (
-            request_header_caila_api_key,
+            request_header_mpl_api_key,
         ):
             parameter_data = header_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
