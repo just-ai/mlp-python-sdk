@@ -73,6 +73,7 @@ setup(
     version=MAJOR_VERSION + "." + MINOR_VERSION + "." + BUILD_NUMBER,
     install_requires=_get_requirements(),
     package_dir={'caila_sdk': 'caila_sdk'},
+    package_data={'': ['*.yml']},
     include_package_data=True,
     packages=find_packages(exclude=['tests', 'tests.*'])
 )
