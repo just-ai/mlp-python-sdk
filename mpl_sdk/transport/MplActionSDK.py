@@ -494,9 +494,6 @@ class MplActionSDK:
         if not payload.HasField('json') and not payload.HasField('protobuf'):
             return None
 
-        if hasattr(action_impl, "_" + method):
-            method = "_" + method
-
         class_ = signature(getattr(action_impl, method)).parameters[arg].annotation
         if class_ is None:
             return None
@@ -519,7 +516,7 @@ class MplActionSDK:
         return converted
 
     def __validate_batch_method_params(self, predict_data_type, predict_config_type):
-        method = "_predict_batch" if hasattr(self.impl, "_predict_batch") else "predict_batch"
+        method = "predict_batch"
 
         data_annotation = signature(getattr(self.impl, method)).parameters["data"].annotation
         config_annotation = signature(getattr(self.impl, method)).parameters["config"].annotation
