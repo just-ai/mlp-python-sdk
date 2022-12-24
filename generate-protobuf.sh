@@ -13,7 +13,7 @@ docker build . -f Dockerfile-grpc-tools \
 
 rm -Rf ./mpl_sdk/grpc/mpl*
 
-docker run -v $(pwd):/app -it grpc-tools \
+docker run -v $(pwd):/app grpc-tools \
  python3 -m grpc_tools.protoc -I ./specs/ --python_out=./mpl_sdk/grpc --grpc_python_out=./mpl_sdk/grpc ./specs/mpl-grpc.proto
 
 #<!--  from from mpl_sdk.grpc import gate_pb2 as gate__pb2  -->
