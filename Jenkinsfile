@@ -34,7 +34,7 @@ pipeline {
 
                     def hasChanges = !sh(returnStdout: true, script: 'git status -s mpl-specs').trim().isEmpty()
 
-                    env.NEED_REBUILD = hasChanges || !params.CHECK_SCHEMAS_ONLY
+                    env.NEED_REBUILD = hasChanges
                 }
             }
         }
