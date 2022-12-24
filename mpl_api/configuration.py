@@ -92,7 +92,7 @@ class Configuration(object):
     ):
         """Constructor
         """
-        self._base_path = "https://caila.caila-ci-dev.lo.test-ai.net" if host is None else host
+        self._base_path = "https://app.caila.io" if host is None else host
         """Default Base url
         """
         self.server_index = 0 if server_index is None and host is None else server_index
@@ -366,7 +366,7 @@ class Configuration(object):
         """
         return [
             {
-                'url': "https://caila.caila-ci-dev.lo.test-ai.net",
+                'url': "https://app.caila.io",
                 'description': "Generated server url",
             }
         ]

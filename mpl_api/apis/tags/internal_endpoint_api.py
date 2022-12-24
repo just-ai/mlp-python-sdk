@@ -10,6 +10,7 @@
 """
 
 from mpl_api.paths.api_mplgate_internal_cluster.get import Cluster
+from mpl_api.paths.api_mplgate_internal_account.get import CreateTestAccount
 from mpl_api.paths.api_mplgate_internal_account_deactivate.post import DeactivateAccount
 from mpl_api.paths.api_mplgate_internal_account_account_id_model_model_id_instance_deactivate.post import DeactivateAccountInstances
 from mpl_api.paths.api_mplgate_internal_instances_delete_by_timestamp.delete import DeleteMarkedInstances
@@ -30,6 +31,7 @@ from mpl_api.paths.api_mplgate_internal_resource_groups.patch import UpdateResou
 
 class InternalEndpointApi(
     Cluster,
+    CreateTestAccount,
     DeactivateAccount,
     DeactivateAccountInstances,
     DeleteMarkedInstances,

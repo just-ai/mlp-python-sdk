@@ -73,6 +73,7 @@ from mpl_api.apis.paths.api_mplgate_internal_services import ApiMplgateInternalS
 from mpl_api.apis.paths.api_mplgate_internal_notify_account_id_user_user_id import ApiMplgateInternalNotifyAccountIdUserUserId
 from mpl_api.apis.paths.api_mplgate_internal_cluster import ApiMplgateInternalCluster
 from mpl_api.apis.paths.api_mplgate_internal_actions import ApiMplgateInternalActions
+from mpl_api.apis.paths.api_mplgate_internal_account import ApiMplgateInternalAccount
 from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_instances import ApiMplgateInternalAccountAccountIdModelModelIdInstances
 from mpl_api.apis.paths.api_mplgate_internal_account_account_id_model_model_id_actions import ApiMplgateInternalAccountAccountIdModelModelIdActions
 from mpl_api.apis.paths.api_mplgate_internal_instances_delete_by_timestamp import ApiMplgateInternalInstancesDeleteByTimestamp
@@ -153,6 +154,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MPLGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMplgateInternalNotifyAccountIdUserUserId,
         PathValues.API_MPLGATEINTERNAL_CLUSTER: ApiMplgateInternalCluster,
         PathValues.API_MPLGATEINTERNAL_ACTIONS: ApiMplgateInternalActions,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT: ApiMplgateInternalAccount,
         PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateInternalAccountAccountIdModelModelIdInstances,
         PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMplgateInternalAccountAccountIdModelModelIdActions,
         PathValues.API_MPLGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMplgateInternalInstancesDeleteByTimestamp,
@@ -234,6 +236,7 @@ path_to_api = PathToApi(
         PathValues.API_MPLGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMplgateInternalNotifyAccountIdUserUserId,
         PathValues.API_MPLGATEINTERNAL_CLUSTER: ApiMplgateInternalCluster,
         PathValues.API_MPLGATEINTERNAL_ACTIONS: ApiMplgateInternalActions,
+        PathValues.API_MPLGATEINTERNAL_ACCOUNT: ApiMplgateInternalAccount,
         PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMplgateInternalAccountAccountIdModelModelIdInstances,
         PathValues.API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMplgateInternalAccountAccountIdModelModelIdActions,
         PathValues.API_MPLGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMplgateInternalInstancesDeleteByTimestamp,

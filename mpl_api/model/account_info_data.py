@@ -68,11 +68,41 @@ class AccountInfoData(
                 @schemas.classproperty
                 def EN(cls):
                     return cls("EN")
+            
+            
+            class tags(
+                schemas.DictSchema
+            ):
+            
+            
+                class MetaOapg:
+                    additional_properties = schemas.StrSchema
+                
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
+                
+                def get_item_oapg(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                    return super().get_item_oapg(name)
+            
+                def __new__(
+                    cls,
+                    *_args: typing.Union[dict, frozendict.frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
+                ) -> 'tags':
+                    return super().__new__(
+                        cls,
+                        *_args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
             __annotations__ = {
                 "accountId": accountId,
                 "shortName": shortName,
                 "limits": limits,
                 "language": language,
+                "tags": tags,
             }
     
     accountId: MetaOapg.properties.accountId
@@ -92,9 +122,12 @@ class AccountInfoData(
     def __getitem__(self, name: typing_extensions.Literal["language"]) -> MetaOapg.properties.language: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["tags"]) -> MetaOapg.properties.tags: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "shortName", "limits", "language", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "shortName", "limits", "language", "tags", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -112,9 +145,12 @@ class AccountInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["language"]) -> typing.Union[MetaOapg.properties.language, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["tags"]) -> typing.Union[MetaOapg.properties.tags, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "shortName", "limits", "language", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "shortName", "limits", "language", "tags", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -125,6 +161,7 @@ class AccountInfoData(
         shortName: typing.Union[MetaOapg.properties.shortName, str, ],
         limits: 'AccountLimitsData',
         language: typing.Union[MetaOapg.properties.language, str, schemas.Unset] = schemas.unset,
+        tags: typing.Union[MetaOapg.properties.tags, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AccountInfoData':
@@ -135,6 +172,7 @@ class AccountInfoData(
             shortName=shortName,
             limits=limits,
             language=language,
+            tags=tags,
             _configuration=_configuration,
             **kwargs,
         )

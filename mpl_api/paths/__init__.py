@@ -78,6 +78,7 @@ class PathValues(str, enum.Enum):
     API_MPLGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID = "/api/mplgate-internal/notify/{accountId}/user/{userId}"
     API_MPLGATEINTERNAL_CLUSTER = "/api/mplgate-internal/cluster"
     API_MPLGATEINTERNAL_ACTIONS = "/api/mplgate-internal/actions"
+    API_MPLGATEINTERNAL_ACCOUNT = "/api/mplgate-internal/account"
     API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES = "/api/mplgate-internal/account/{accountId}/model/{modelId}/instances"
     API_MPLGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS = "/api/mplgate-internal/account/{accountId}/model/{modelId}/actions"
     API_MPLGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP = "/api/mplgate-internal/instances/deleteByTimestamp"
