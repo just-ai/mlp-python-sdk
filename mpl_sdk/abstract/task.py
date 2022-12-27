@@ -31,7 +31,6 @@ class Task(ABCTask):
     def pre_predict(self, data: BaseModel, config: BaseModel) -> None:
         self._check_config_validness(config, "predict")
         self._check_predict_input_type(data)
-        return self._predict(data, config)
 
     @abstractmethod
     def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
