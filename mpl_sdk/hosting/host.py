@@ -29,9 +29,9 @@ def host_mpl_cloud(
         params = init_config_type.parse_raw(params)
 
     mpl = MplActionSDK()
-    if task.is_batch_predictable:
-        mpl.register_impl(task(params, mpl.pipeline_client))
-    else:
-        mpl.register_impl(task(params))
+    # if task.is_batch_predictable:
+    #     mpl.register_impl(task(params, mpl.pipeline_client))
+    # else:
+    mpl.register_impl(task(params))
     mpl.start([url], connection_token)
     mpl.block_until_shutdown()
