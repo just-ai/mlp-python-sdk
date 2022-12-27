@@ -135,6 +135,8 @@ class ABCTask(ABC, metaclass=TaskMeta):
     __IS_LEARNABLE = False
 
     def _check_config_validness(self, config: Union[BaseModel, List[BaseModel]], stage: str) -> None:
+        if config is None:
+            return
         gold_schema = getattr(type(self), f"get_{stage}_config_schema")()
         if type(gold_schema) is _GenericAlias:
             outer_value = gold_schema._name
