@@ -3,6 +3,7 @@ import inspect
 from abc import ABC, ABCMeta
 from typing import Dict, Any, Callable, Union, List, _GenericAlias, get_args
 
+import yaml
 from pydantic import BaseModel
 
 from mpl_sdk.grpc.mpl_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
@@ -163,7 +164,6 @@ class ABCTask(ABC, metaclass=TaskMeta):
     @classmethod
     def get_descriptor(cls) -> ActionDescriptorProto:
         schema = cls.get_schema()
-
         def get_return_type(method_schema):
             return_type = 'null'
             if method_schema["return"] is None:
@@ -188,7 +188,8 @@ class ABCTask(ABC, metaclass=TaskMeta):
                     output=ParamDescriptorProto(type=get_return_type(method_schema))
                 )
                 for method_name, method_schema in schema.items()
-            }
+            },
+            schemaFiles={'schema': yaml.dump(schema, allow_unicode=True)}
         )
 
     @property

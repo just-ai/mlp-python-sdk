@@ -24,7 +24,7 @@ if [ $SERVER ]; then
   echo go
   curl --silent $SERVER/static/cailagate/api-docs.yaml -o mpl-rest-api.yml
   sed "s/- url:.*/- url: https:\/\/app.caila.io/g" -i mpl-rest-api.yml
-#   TODO: update
-#  curl --silent $SERVER/static/cailagate/mpl-grpc.proto -o mpl-grpc.proto
+
+  curl --silent $SERVER/static/cailagate/mpl-grpc.proto -o mpl-grpc.proto
 
 fi

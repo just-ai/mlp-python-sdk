@@ -19,6 +19,10 @@ message ActionDescriptorProto {
 
   bool fittable = 10;
   map<string, MethodDescriptorProto> methods = 20;
+
+  // Контент протобаф-спеки для специфических типов данных, используемых данных экшеном.
+  // пока что это поле предназначено для экспериментов
+  map<string, string> schemaFiles = 30;
 }
 
 message MethodDescriptorProto {
@@ -96,9 +100,6 @@ message StartServingProto {
   // и передаёт в Cloud через env-переменные
   string connectionToken = 1;
 
-  // Контент протобаф-спеки для специфических типов данных, используемых данных экшеном.
-  // пока что это поле предназначено для экспериментов
-  map<string, string> schemaFiles = 2;
   ActionDescriptorProto actionDescriptor = 3;
 }
 

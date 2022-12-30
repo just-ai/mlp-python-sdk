@@ -122,7 +122,6 @@ class MplActionConnector:
         self.action_to_gate_queue.put_nowait(mpl_grpc_pb2.ActionToGateProto(
             startServing=mpl_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
-                schemaFiles=self.sdk.schema,
                 actionDescriptor=self.sdk.descriptor
             )
         ))
@@ -245,8 +244,6 @@ class MplActionSDK:
 
     def register_impl(self, impl):
         self.impl = impl
-        self.schema = {'schema': yaml.dump(impl.get_schema(), allow_unicode=True)}
-        # TODO: assert that schema is a dict
         self.descriptor = impl.get_descriptor()
         # TODO: assert that descriptor is ActionDescriptorProto type
 
@@ -646,11 +643,11 @@ class PipelineClient:
         return proto
 
     @staticmethod
-    def __build_ext_request_proto(account: Optional[str], model, methodName, data):
+    def __build_ext_request_proto(account: Optional[str], model, method_name, data):
         proto = mpl_grpc_pb2.PipelineRequestProto(
             model=model,
             ext=mpl_grpc_pb2.ExtendedRequestProto(
-                methodName=methodName,
+                methodName=method_name,
                 params={k: mpl_grpc_pb2.PayloadProto(json=v) for k, v in data.items()}
             )
         )
@@ -681,38 +678,6 @@ class PipelineClient:
 
     def __remove_request_future(self, request_id: int):
         del self.active_requests[request_id]
-
-
-class MyServiceExample:
-
-    def __init__(self, pipeline_client: PipelineClient):
-        self.pipeline_client = pipeline_client
-
-    @staticmethod
-    def get_schema():
-        return {"main.yml": "content of a file"}
-
-    @staticmethod
-    def get_descriptor():
-        return mpl_grpc_pb2.ActionDescriptorProto(
-            name="example",
-            fittable=False,
-            methods={"predict": mpl_grpc_pb2.MethodDescriptorProto(
-                input={
-                    "data": mpl_grpc_pb2.ParamDescriptorProto(type="SimpleTextProto"),
-                    "config": mpl_grpc_pb2.ParamDescriptorProto(type="SimpleTextProto"),
-                },
-                output=mpl_grpc_pb2.ParamDescriptorProto(type="SimpleTextProto"),
-            )}
-        )
-
-    @staticmethod
-    def predict(data: mpl_grpc_pb2.SimpleTextProto):
-        return mpl_grpc_pb2.SimpleTextProto(text="hello " + data.text)
-
-    @staticmethod
-    def predict_batch(data: typing.List[mpl_grpc_pb2.SimpleTextProto]):
-        return [mpl_grpc_pb2.SimpleTextProto(text="hello " + d.text) for d in data]
 
 
 class MplException(Exception):
