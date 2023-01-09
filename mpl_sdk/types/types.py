@@ -537,6 +537,19 @@ class TokensErrorTest(TokensTest):
     value: List[str]
 
 
+class ExtractedTextsCDQA(ExtractedTexts):
+    source_text: str
+    source_text_score: float
+
+
+class ExtractedTextsListCDQA(BaseModel):
+    extracted_texts_list: List[ExtractedTextsCDQA]
+
+
+class PredictOutputCDQA(BaseModel):
+    output: List[ExtractedTextsListCDQA]
+
+
 # TEST COLLECTIONS
 
 class InflectorConformerTextsCollectionTest(ConformerTextsCollection, InflectorTextsCollection):

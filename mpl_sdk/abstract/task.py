@@ -4,7 +4,7 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.transport.MplActionSDK import PipelineClient
+from mpl_sdk.transport import MplActionSDK
 from mpl_sdk.abstract.abc_task import ABCTask
 from mpl_sdk.abstract.task_utils import is_allowed_input_type
 
@@ -16,8 +16,8 @@ class Task(ABCTask):
     ]
     __IS_LEARNABLE = False
 
-    def __init__(self, config: BaseModel, pipeline_client: PipelineClient = None) -> None:
-        self.pipeline_client = pipeline_client
+    def __init__(self, config: BaseModel, action_sdk: MplActionSDK = None) -> None:
+        self.pipeline_client = action_sdk.pipelineClient if action_sdk else None
         self._check_config_validness(config, "init")
 
     @classmethod

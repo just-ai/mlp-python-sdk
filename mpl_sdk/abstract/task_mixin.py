@@ -90,7 +90,6 @@ class UpdatableMixin(ABCTask):
     __METHODS = [
         'update',
     ]
-    __IS_LEARNABLE = False
 
     def pre_update(self, config: BaseModel) -> None:
         self._check_config_validness(config, "update")
@@ -111,8 +110,6 @@ class BatchPredictableMixin(ABCTask):
     __METHODS = [
         'predict_batch'
     ]
-
-    __IS_LEARNABLE = False
 
     @property
     def is_batch_predictable(self) -> bool:
