@@ -13,14 +13,9 @@ check last version [here](https://nexus.just-ai.com/service/rest/repository/brow
 ## Dev guide:
 
 1. `git clone`
-2. `cd mpl sdk`
+2. `cd mpl-python-sdk`
 3. `export mpl_sdk_home=$PWD`
-4. Run `build.sh` script
-    ```
-    sh build.sh IPA-username-without-domain-part IPA-password 0 dev 0  
-    ```
-    Use username without domain part (`@just-ai.com`). After this step you can find [*.whl file](./dist/) in 
-    dist directory
+4. Run `pip install -e .`
 5. Run tests
 6. Library is ready to work with
 
