@@ -164,6 +164,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
     @classmethod
     def get_descriptor(cls) -> ActionDescriptorProto:
         schema = cls.get_schema()
+
         def get_return_type(method_schema):
             return_type = 'null'
             if method_schema["return"] is None:
@@ -195,3 +196,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
     @property
     def is_batch_predictable(self) -> bool:
         return False
+
+    @property
+    def is_learnable(self) -> bool:
+        return self.__IS_LEARNABLE
