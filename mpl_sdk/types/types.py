@@ -384,8 +384,17 @@ class ExtractedTexts(BaseModel):
     texts: List[ExtractedText]
 
 
+class ExtractedTextsCDQA(ExtractedTexts):
+    source_text: str
+    source_text_score: float
+
+
 class ExtractedTextsList(BaseModel):
     extracted_texts_list: List[ExtractedTexts]
+
+
+class ExtractedTextsListCDQA(BaseModel):
+    extracted_texts_list: List[ExtractedTextsCDQA]
 
 
 class CaseTag(BaseModel):
@@ -535,6 +544,10 @@ class TokensTest(Tokens):
 
 class TokensErrorTest(TokensTest):
     value: List[str]
+
+
+class CDQAPredictOutput(BaseModel):
+    output: List[ExtractedTextsListCDQA]
 
 
 # TEST COLLECTIONS
