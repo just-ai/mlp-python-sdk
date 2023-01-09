@@ -546,7 +546,7 @@ class ExtractedTextsListCDQA(BaseModel):
     extracted_texts_list: List[ExtractedTextsCDQA]
 
 
-class CDQAPredictOutput(BaseModel):
+class PredictOutputCDQA(BaseModel):
     output: List[ExtractedTextsListCDQA]
 
 
