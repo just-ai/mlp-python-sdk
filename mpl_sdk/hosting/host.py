@@ -27,9 +27,6 @@ def host_mpl_cloud(
         params = init_config_type.parse_raw(params)
 
     mpl = MplActionSDK()
-    if task.is_learnable:
-        mpl.register_impl(task(params, mpl.pipeline_client))
-    else:
-        mpl.register_impl(task(params))
+    mpl.register_impl(task(params, mpl))
     mpl.start()
     mpl.block_until_shutdown()
