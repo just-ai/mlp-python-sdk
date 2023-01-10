@@ -464,14 +464,14 @@ class MplActionSDK:
             raise NotImplementedError('Batch requests are not supported by this action')
 
         desc = self.descriptor.methods['predict']
-        is_json = request.data[0].predict.data.WhichOneof('body') == 'json'
+        is_json = request.data[0].data.WhichOneof('body') == 'json'
 
         self.__validate_batch_method_params(desc.input['data'].type, desc.input['config'].type)
 
-        data_list = [self.__convert_batch_from_proto(r.predict.data, is_json, 'data') for r in request.data]
-        config_list = [self.__convert_batch_from_proto(r.predict.config, is_json, 'config') for r in request.data]
+        data_list = [self.__convert_batch_from_proto(r.data, is_json, 'data') for r in request.data]
+        config = self.__convert_batch_from_proto(request.config, is_json, 'config')
 
-        res_list = self.impl.predict_batch(data_list, config_list)
+        res_list = self.impl.predict_batch(data_list, config)
 
         if len(res_list) != len(data_list):
             raise RuntimeError('predict_batch method must return list of the same size as input list')
@@ -481,7 +481,7 @@ class MplActionSDK:
         for index, result in enumerate(res_list):
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
             request_id = request.data[index].requestId
-            proto = mpl_grpc_pb2.SingleBatchPredictResponseProto(requestId=request_id,
+            proto = mpl_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
                                                              predict=mpl_grpc_pb2.PredictResponseProto(data=converted))
             responses_protos.append(proto)
 

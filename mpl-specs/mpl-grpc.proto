@@ -112,7 +112,8 @@ message PredictRequestProto {
 }
 
 message BatchRequestProto {
-  repeated SingleBatchPredictRequestProto data = 101;
+  repeated BatchPayloadProto data = 101;
+  optional PayloadProto config = 102;
 }
 
 message PredictResponseProto {
@@ -120,14 +121,14 @@ message PredictResponseProto {
 }
 
 message BatchResponseProto {
-  repeated SingleBatchPredictResponseProto data = 101;
+  repeated BatchPayloadResponseProto data = 101;
 }
 
 message FitRequestProto {
   PayloadProto trainData = 101;
-  PayloadProto targetsData = 102;
+  optional PayloadProto targetsData = 102;
   optional PayloadProto config = 103;
-  optional string modelDir = 104;
+  string modelDir = 104;
   optional string previousModelDir = 105;
 }
 
@@ -143,12 +144,12 @@ message ExtendedResponseProto {
   PayloadProto data = 1;
 }
 
-message SingleBatchPredictRequestProto {
+message BatchPayloadProto {
   int64 requestId = 1;
-  PredictRequestProto predict = 101;
+  PayloadProto data = 101;
 }
 
-message SingleBatchPredictResponseProto {
+message BatchPayloadResponseProto {
   int64 requestId = 1;
 
   oneof body {

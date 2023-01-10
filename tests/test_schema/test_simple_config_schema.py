@@ -36,7 +36,7 @@ class MyCustomTaskWithBatch(Task, BatchPredictableMixin):
     def predict_batch(
             self,
             data: List[InflectorConformerTextsCollectionTest],
-            config: List[MyTaskPredictConfigSchema]
+            config: MyTaskPredictConfigSchema
     ) -> List[InflectorTextsCollection]:
         result = [InflectorTextsCollection(texts=["Done"], tags=[]) for _ in range(2)]
         return result
@@ -57,6 +57,6 @@ def test_simple_config_with_batch():
     print(
         task.predict_batch(
             [InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[])],
-            config=[MyTaskPredictConfigSchema(lang="ru", engine="spacy")]
+            config=MyTaskPredictConfigSchema(lang="ru", engine="spacy")
         )
     )

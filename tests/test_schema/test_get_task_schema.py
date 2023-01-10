@@ -66,7 +66,7 @@ class MyTaskLearnableMixin(LearnableMixin):
 class MyTaskWithBatchPredictableMixin(BatchPredictableMixin):
     def predict_batch(
             self, data: List[TextsCollection],
-            config: List[PredictConfigSchema]
+            config: PredictConfigSchema
     ) -> List[ScoredItemsCollection]:
         pass
 

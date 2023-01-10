@@ -131,12 +131,12 @@ class BatchPredictableMixin(ABCTask):
             if not is_allowed_input_type(type(self), "predict_batch", "data", type(data[0])):
                 raise RuntimeError
 
-    def pre_predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> None:
+    def pre_predict_batch(self, data: List[BaseModel], config: BaseModel) -> None:
         self._check_config_validness(config, "predict_batch")
         self._check_predict_batch_input_type(data)
 
     @abstractmethod
-    def predict_batch(self, data: List[BaseModel], config: List[BaseModel]) -> List[BaseModel]:
+    def predict_batch(self, data: List[BaseModel], config: BaseModel) -> List[BaseModel]:
         pass
 
     @classmethod
