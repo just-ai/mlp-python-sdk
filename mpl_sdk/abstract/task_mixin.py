@@ -59,8 +59,8 @@ class LearnableMixin(ABCTask):
             train_data: BaseModel,
             targets: BaseModel,
             config: BaseModel,
-            model_dir: str = '',
-            previous_model_dir: str = '',
+            model_dir: str,
+            previous_model_dir: str,
     ) -> None:
         self._save_state()
 
