@@ -115,7 +115,7 @@ class TaskMeta(ABCMeta):
                                 ))
 
                     if hasattr(cls, post_method_name):
-                        post_function = getattr(cls, pre_method_name)
+                        post_function = getattr(cls, post_method_name)
                         setattr(cls,
                                 pretty_method_name,
                                 TaskMeta.create_function(
