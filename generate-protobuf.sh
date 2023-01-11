@@ -9,6 +9,7 @@ docker build . -f Dockerfile-grpc-tools \
               --build-arg UID=$(id -u) \
               --build-arg GID=$(id -g) \
               --network=host \
+              --no-cache \
               -t grpc-tools
 
 rm -Rf ./mpl_sdk/grpc/mpl*
