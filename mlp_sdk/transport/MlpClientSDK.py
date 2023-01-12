@@ -19,13 +19,13 @@ logging.basicConfig(format=CONFIG["logging"]["format"],
                     stream=sys.stdout)
 
 
-class MplClientSDK:
+class MlpClientSDK:
 
     def __init__(self):
         self.urls = None
         self.token = None
         self.grpc_secure = None
-        self.log = logging.getLogger('MplClientSDK')
+        self.log = logging.getLogger('MlpClientSDK')
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):

@@ -30,14 +30,14 @@ logging.basicConfig(format=CONFIG["logging"]["format"],
                     stream=sys.stdout)
 
 
-class MplServiceConnector:
+class MlpServiceConnector:
 
     def __init__(self, url, sdk, grpc_secure=True):
         self.url = url
         self.sdk = sdk
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = logging.getLogger(f'MplServiceConnector-{url}')
+        self.log = logging.getLogger(f'MlpServiceConnector-{url}')
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -223,10 +223,10 @@ class MplServiceConnector:
             self.heartbeat_thread.join(CONFIG["sdk"]["heartbeat_thread_timeout_seconds"])
 
 
-class MplServiceSDK:
+class MlpServiceSDK:
 
     def __init__(self):
-        self.log = logging.getLogger('MplServiceSDK')
+        self.log = logging.getLogger('MlpServiceSDK')
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True
@@ -263,11 +263,11 @@ class MplServiceSDK:
         self.__start_keep_connection_thread()
 
     def __start_connector(self, url):
-        connector = MplServiceConnector(url, self, self.grpc_secure)
+        connector = MlpServiceConnector(url, self, self.grpc_secure)
         self.connectors.append(connector)
         connector.start()
 
-    def __stop_connector(self, connector: MplServiceConnector, state: Optional[str] = None):
+    def __stop_connector(self, connector: MlpServiceConnector, state: Optional[str] = None):
         if not state:
             connector.stop()
         else:
@@ -339,7 +339,7 @@ class MplServiceSDK:
         signal.signal(signal.SIGTERM, shutdown)
         barrier.wait(CONFIG["sdk"]["action_shutdown_timeout_seconds"])
 
-    def handle_unknown_request(self, req_type, request, connector: MplServiceConnector):
+    def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
         self.log.error("Unknown request type " + req_type)
         self.log.error(request)
         response = mlp_grpc_pb2.ServiceToGateProto(
@@ -353,13 +353,13 @@ class MplServiceSDK:
         self.__log_response(request, response)
         connector.action_to_gate_queue.put_nowait(response)
 
-    def process_request_async(self, req_type, request, connector: MplServiceConnector):
+    def process_request_async(self, req_type, request, connector: MlpServiceConnector):
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
 
-    def __try_to_process_request(self, req_type, request, connector: MplServiceConnector):
+    def __try_to_process_request(self, req_type, request, connector: MlpServiceConnector):
         try:
             response = self.__process_request(req_type, request)
-        except MplException as e:
+        except MlpException as e:
             self.log.exception(e)
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
@@ -579,7 +579,7 @@ class MplServiceSDK:
 
 class PipelineClient:
 
-    def __init__(self, sdk: MplServiceSDK):
+    def __init__(self, sdk: MlpServiceSDK):
         self._last_request_id = 0
         self.active_requests = {}
         self.scheduler = sched.scheduler(time.time, time.sleep)
@@ -680,13 +680,13 @@ class PipelineClient:
         del self.active_requests[request_id]
 
 
-class MplException(Exception):
+class MlpException(Exception):
     def __init__(self, message: str, code: Optional[str] = None):
         self.message = message
         self.code = code
 
     def __str__(self):
-        return f'MplException {self.message} has been raised'
+        return f'MlpException {self.message} has been raised'
 
 
 class State(Enum):
