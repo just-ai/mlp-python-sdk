@@ -100,7 +100,7 @@ message StartServingProto {
   // и передаёт в Cloud через env-переменные
   string connectionToken = 1;
 
-  ServiceDescriptorProto actionDescriptor = 3;
+  ServiceDescriptorProto serviceDescriptor = 3;
 }
 
 message StopServingProto {
