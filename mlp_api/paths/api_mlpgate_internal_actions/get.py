@@ -103,7 +103,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _list_all_connected_services_oapg(
+    def _list_all_connected_actions_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -115,7 +115,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _list_all_connected_services_oapg(
+    def _list_all_connected_actions_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -125,7 +125,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _list_all_connected_services_oapg(
+    def _list_all_connected_actions_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -137,7 +137,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _list_all_connected_services_oapg(
+    def _list_all_connected_actions_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -194,11 +194,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class ListAllConnectedServices(BaseApi):
+class ListAllConnectedActions(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def list_all_connected_services(
+    def list_all_connected_actions(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -210,7 +210,7 @@ class ListAllConnectedServices(BaseApi):
     ]: ...
 
     @typing.overload
-    def list_all_connected_services(
+    def list_all_connected_actions(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -220,7 +220,7 @@ class ListAllConnectedServices(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def list_all_connected_services(
+    def list_all_connected_actions(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -232,7 +232,7 @@ class ListAllConnectedServices(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def list_all_connected_services(
+    def list_all_connected_actions(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -240,7 +240,7 @@ class ListAllConnectedServices(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._list_all_connected_services_oapg(
+        return self._list_all_connected_actions_oapg(
             header_params=header_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -295,7 +295,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._list_all_connected_services_oapg(
+        return self._list_all_connected_actions_oapg(
             header_params=header_params,
             accept_content_types=accept_content_types,
             stream=stream,
