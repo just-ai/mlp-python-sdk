@@ -17,7 +17,7 @@ class Task(ABCTask):
     __IS_LEARNABLE = False
 
     def __init__(self, config: BaseModel, action_sdk: MplActionSDK = None) -> None:
-        self.pipeline_client = action_sdk.pipelineClient if action_sdk else None
+        self.pipeline_client = action_sdk.pipeline_client if action_sdk else None
         self._check_config_validness(config, "init")
 
     @classmethod
