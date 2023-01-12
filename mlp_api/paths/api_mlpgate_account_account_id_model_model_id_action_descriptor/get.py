@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.action_descriptor_data import ActionDescriptorData
+from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 
 from . import path
 
@@ -88,7 +88,7 @@ request_path_model_id = api_client.PathParameter(
     schema=ModelIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ActionDescriptorData
+SchemaFor200ResponseBodyApplicationJson = ServiceDescriptorData
 
 
 @dataclass
@@ -117,7 +117,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_action_descriptor_oapg(
+    def _get_service_descriptor_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -130,7 +130,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_action_descriptor_oapg(
+    def _get_service_descriptor_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -141,7 +141,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_action_descriptor_oapg(
+    def _get_service_descriptor_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -154,7 +154,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_action_descriptor_oapg(
+    def _get_service_descriptor_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -227,11 +227,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetActionDescriptor(BaseApi):
+class GetServiceDescriptor(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_action_descriptor(
+    def get_service_descriptor(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -244,7 +244,7 @@ class GetActionDescriptor(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_action_descriptor(
+    def get_service_descriptor(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -255,7 +255,7 @@ class GetActionDescriptor(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_action_descriptor(
+    def get_service_descriptor(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -268,7 +268,7 @@ class GetActionDescriptor(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_action_descriptor(
+    def get_service_descriptor(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -277,7 +277,7 @@ class GetActionDescriptor(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_action_descriptor_oapg(
+        return self._get_service_descriptor_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -337,7 +337,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_action_descriptor_oapg(
+        return self._get_service_descriptor_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,

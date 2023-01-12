@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from mlp_sdk.grpc.mlp_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
+from mlp_sdk.grpc.mlp_grpc_pb2 import ServiceDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
@@ -81,7 +81,7 @@ class MySuperTask(MyTask, MyTaskLearnableMixin, MyTaskWithBatchPredictableMixin,
 
 
 def test_task_descriptor():
-    assert MyTask.get_descriptor() == ActionDescriptorProto(
+    assert MyTask.get_descriptor() == ServiceDescriptorProto(
         name='MyTask',
         fittable=False,
         methods={
@@ -104,7 +104,7 @@ def test_task_descriptor():
 
 
 def test_batch_task_descriptor():
-    assert MyTaskWithBatchPredictableMixin.get_descriptor() == ActionDescriptorProto(
+    assert MyTaskWithBatchPredictableMixin.get_descriptor() == ServiceDescriptorProto(
         name='MyTaskWithBatchPredictableMixin',
         fittable=False,
         methods={
@@ -123,7 +123,7 @@ def test_batch_task_descriptor():
 
 
 def test_fit_descriptor():
-    assert MyTaskLearnableMixin.get_descriptor() == ActionDescriptorProto(
+    assert MyTaskLearnableMixin.get_descriptor() == ServiceDescriptorProto(
         name='MyTaskLearnableMixin',
         fittable=True,
         methods={
@@ -151,7 +151,7 @@ def test_fit_descriptor():
 
 
 def test_update_task_descriptor():
-    assert MyTaskWithUpdatableMixin.get_descriptor() == ActionDescriptorProto(
+    assert MyTaskWithUpdatableMixin.get_descriptor() == ServiceDescriptorProto(
         name='MyTaskWithUpdatableMixin',
         fittable=False,
         methods={
@@ -169,7 +169,7 @@ def test_update_task_descriptor():
 
 
 def test_overall_descriptor():
-    assert MySuperTask.get_descriptor() == ActionDescriptorProto(
+    assert MySuperTask.get_descriptor() == ServiceDescriptorProto(
         name='MySuperTask',
         fittable=True,
         methods={

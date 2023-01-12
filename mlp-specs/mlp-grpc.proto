@@ -7,14 +7,14 @@ option java_multiple_files = true;
 service Gate {
   rpc healthCheck (HeartBeatProto) returns (HeartBeatProto);
 
-  rpc processAsync(stream ActionToGateProto) returns (stream GateToActionProto) {}
+  rpc processAsync(stream ServiceToGateProto) returns (stream GateToServiceProto) {}
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
   //rpc audioStreamAsync(stream ServiceRequestProto) returns (stream ServiceResponseProto) {}
 }
 
-message ActionDescriptorProto {
+message ServiceDescriptorProto {
   string name = 1;
 
   bool fittable = 10;
@@ -42,7 +42,7 @@ message ServiceInfoProto {
   string authToken = 4;
 }
 
-message ActionToGateProto {
+message ServiceToGateProto {
   int64 requestId = 1;
 
   oneof body {
@@ -66,7 +66,7 @@ message ActionToGateProto {
   }
 }
 
-message GateToActionProto {
+message GateToServiceProto {
   int64 requestId = 1;
 
   oneof body {
@@ -100,7 +100,7 @@ message StartServingProto {
   // и передаёт в Cloud через env-переменные
   string connectionToken = 1;
 
-  ActionDescriptorProto actionDescriptor = 3;
+  ServiceDescriptorProto actionDescriptor = 3;
 }
 
 message StopServingProto {

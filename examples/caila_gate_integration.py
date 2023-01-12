@@ -4,7 +4,7 @@ from typing import Type
 from pydantic import BaseModel
 
 from mlp_sdk.abstract import Task
-from mlp_sdk.hosting.host import host_mpl_cloud
+from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.types import Items, Item, TextsCollection
 
 
@@ -25,4 +25,4 @@ class MyCustomTask(Task):
 if __name__ == '__main__':
     url = sys.argv[1]
     token = sys.argv[2]
-    host_mpl_cloud(task=MyCustomTask, params=BaseModel(), url=url, connection_token=token)
+    host_mlp_cloud(task=MyCustomTask, params=BaseModel(), url=url, connection_token=token)

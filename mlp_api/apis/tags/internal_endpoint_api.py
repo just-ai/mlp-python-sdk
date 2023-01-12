@@ -18,8 +18,8 @@ from mlp_api.paths.api_mlpgate_internal_account_account_id_namespace_ensure.post
 from mlp_api.paths.api_mlpgate_internal_account_account_id_features.get import GetAccountFeatures1
 from mlp_api.paths.api_mlpgate_internal_account_account_id_model_model_id_instances.get import GetAccountInstancesWithDeleted
 from mlp_api.paths.api_mlpgate_internal_resource_groups.get import GetResourceGroups1
-from mlp_api.paths.api_mlpgate_internal_actions.get import ListAllConnectedActions
-from mlp_api.paths.api_mlpgate_internal_account_account_id_model_model_id_actions.get import ListConnectedActions
+from mlp_api.paths.api_mlpgate_internal_actions.get import ListAllConnectedServices
+from mlp_api.paths.api_mlpgate_internal_account_account_id_model_model_id_actions.get import ListConnectedServices
 from mlp_api.paths.api_mlpgate_internal_services.get import ListRegisteredServices
 from mlp_api.paths.api_mlpgate_internal_notify_account_id_user_user_id.get import PushNotification
 from mlp_api.paths.api_mlpgate_internal_test_mail.get import SendTestEMail
@@ -39,8 +39,8 @@ class InternalEndpointApi(
     GetAccountFeatures1,
     GetAccountInstancesWithDeleted,
     GetResourceGroups1,
-    ListAllConnectedActions,
-    ListConnectedActions,
+    ListAllConnectedServices,
+    ListConnectedServices,
     ListRegisteredServices,
     PushNotification,
     SendTestEMail,

@@ -30,14 +30,14 @@ logging.basicConfig(format=CONFIG["logging"]["format"],
                     stream=sys.stdout)
 
 
-class MplActionConnector:
+class MplServiceConnector:
 
     def __init__(self, url, sdk, grpc_secure=True):
         self.url = url
         self.sdk = sdk
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = logging.getLogger(f'MplActionConnector-{url}')
+        self.log = logging.getLogger(f'MplServiceConnector-{url}')
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -119,14 +119,14 @@ class MplActionConnector:
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
         self.log.info(" ... start serving")
-        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
             startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
                 actionDescriptor=self.sdk.descriptor
             )
         ))
 
-        self.log.info("Action is ready to serve!")
+        self.log.info("Service is ready to serve!")
 
         self.state = State.serving
         self.__start_processing_requests_from_queue(gate_to_action_generator)
@@ -193,7 +193,7 @@ class MplActionConnector:
 
     def __heartbeat_proc(self):
         while self.state == State.connected or self.state == State.serving:
-            self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+            self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
                 heartBeat=mlp_grpc_pb2.HeartBeatProto()
             ))
             self.shutdown_event.wait(self.heartbeat_thread_interval / 1000)
@@ -206,7 +206,7 @@ class MplActionConnector:
         self.state = state
 
         self.log.info(" ... stop serving")
-        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
             stopServing=mlp_grpc_pb2.StopServingProto()
         ))
 
@@ -223,10 +223,10 @@ class MplActionConnector:
             self.heartbeat_thread.join(CONFIG["sdk"]["heartbeat_thread_timeout_seconds"])
 
 
-class MplActionSDK:
+class MplServiceSDK:
 
     def __init__(self):
-        self.log = logging.getLogger('MplActionSDK')
+        self.log = logging.getLogger('MplServiceSDK')
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True
@@ -245,7 +245,7 @@ class MplActionSDK:
     def register_impl(self, impl):
         self.impl = impl
         self.descriptor = impl.get_descriptor()
-        # TODO: assert that descriptor is ActionDescriptorProto type
+        # TODO: assert that descriptor is ServiceDescriptorProto type
 
     def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None):
         self.log.info("Starting ...")
@@ -263,11 +263,11 @@ class MplActionSDK:
         self.__start_keep_connection_thread()
 
     def __start_connector(self, url):
-        connector = MplActionConnector(url, self, self.grpc_secure)
+        connector = MplServiceConnector(url, self, self.grpc_secure)
         self.connectors.append(connector)
         connector.start()
 
-    def __stop_connector(self, connector: MplActionConnector, state: Optional[str] = None):
+    def __stop_connector(self, connector: MplServiceConnector, state: Optional[str] = None):
         if not state:
             connector.stop()
         else:
@@ -287,7 +287,7 @@ class MplActionSDK:
                     continue
 
                 if time.time() > last_active_time + 10:
-                    self.log.info("Action is not connected to gate: " + str(self.gate_urls))
+                    self.log.info("Service is not connected to gate: " + str(self.gate_urls))
                     self.update_connectors(self.gate_urls)
                     last_active_time = time.time()
 
@@ -339,10 +339,10 @@ class MplActionSDK:
         signal.signal(signal.SIGTERM, shutdown)
         barrier.wait(CONFIG["sdk"]["action_shutdown_timeout_seconds"])
 
-    def handle_unknown_request(self, req_type, request, connector: MplActionConnector):
+    def handle_unknown_request(self, req_type, request, connector: MplServiceConnector):
         self.log.error("Unknown request type " + req_type)
         self.log.error(request)
-        response = mlp_grpc_pb2.ActionToGateProto(
+        response = mlp_grpc_pb2.ServiceToGateProto(
             error=mlp_grpc_pb2.ApiErrorProto(
                 code='mpl-action.common.internal-error',
                 message=f'Unknown request type: {req_type}',
@@ -353,15 +353,15 @@ class MplActionSDK:
         self.__log_response(request, response)
         connector.action_to_gate_queue.put_nowait(response)
 
-    def process_request_async(self, req_type, request, connector: MplActionConnector):
+    def process_request_async(self, req_type, request, connector: MplServiceConnector):
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
 
-    def __try_to_process_request(self, req_type, request, connector: MplActionConnector):
+    def __try_to_process_request(self, req_type, request, connector: MplServiceConnector):
         try:
             response = self.__process_request(req_type, request)
         except MplException as e:
             self.log.exception(e)
-            response = mlp_grpc_pb2.ActionToGateProto(
+            response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code=e.code if e.code is not None else 'mpl-action.common.internal-error',
                     message=f'Internal error. Message: {e.message}',
@@ -370,7 +370,7 @@ class MplActionSDK:
             )
         except Exception as e:
             self.log.exception(e)
-            response = mlp_grpc_pb2.ActionToGateProto(
+            response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code="mpl-action.common.processing-exception",
                     message=str(e),
@@ -391,16 +391,16 @@ class MplActionSDK:
     def __process_request(self, req_type, request):
         if req_type == 'predict':
             result = self.__handle_predict(request.predict)
-            return mlp_grpc_pb2.ActionToGateProto(predict=result)
+            return mlp_grpc_pb2.ServiceToGateProto(predict=result)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
-            return mlp_grpc_pb2.ActionToGateProto(fit=result)
+            return mlp_grpc_pb2.ServiceToGateProto(fit=result)
         elif req_type == 'ext':
             result = self.__handle_ext(request.ext)
-            return mlp_grpc_pb2.ActionToGateProto(ext=result)
+            return mlp_grpc_pb2.ServiceToGateProto(ext=result)
         elif req_type == 'batch':
             result = self.__handle_predict_batch(request.batch)
-            return mlp_grpc_pb2.ActionToGateProto(batch=result)
+            return mlp_grpc_pb2.ServiceToGateProto(batch=result)
         else:
             raise ValueError('Unexpected request type: ' + req_type)
 
@@ -500,7 +500,7 @@ class MplActionSDK:
             return payload
 
         if name != payload_type:
-            self.log.error("Types don't match. Type in ActionDescriptor: " + payload_type
+            self.log.error("Types don't match. Type in ServiceDescriptor: " + payload_type
                            + ", type in implementation: " + name)
 
         if is_json:
@@ -527,7 +527,7 @@ class MplActionSDK:
         data_type = typing.get_args(data_annotation)[0]
 
         if data_type.__name__ != predict_data_type:
-            self.log.error(f"Types don't match. Type in ActionDescriptor: {predict_data_type}, "
+            self.log.error(f"Types don't match. Type in ServiceDescriptor: {predict_data_type}, "
                            + f"type in implementation: {data_type.__name__}")
 
         if len(typing.get_args(config_annotation)) > 0:
@@ -536,7 +536,7 @@ class MplActionSDK:
             config_type = None
 
         if config_type is not None and config_type.__name__ != predict_config_type:
-            self.log.error(f"Types don't match. Type in ActionDescriptor: {predict_config_type}, "
+            self.log.error(f"Types don't match. Type in ServiceDescriptor: {predict_config_type}, "
                            + f"type in implementation: {config_type.__name__}")
 
     def __convert_batch_from_proto(self, payload, is_json, arg):
@@ -579,7 +579,7 @@ class MplActionSDK:
 
 class PipelineClient:
 
-    def __init__(self, sdk: MplActionSDK):
+    def __init__(self, sdk: MplServiceSDK):
         self._last_request_id = 0
         self.active_requests = {}
         self.scheduler = sched.scheduler(time.time, time.sleep)
@@ -607,7 +607,7 @@ class PipelineClient:
             request_id = self._last_request_id
             self._last_request_id -= 1
 
-        action_to_gate_proto = mlp_grpc_pb2.ActionToGateProto(
+        action_to_gate_proto = mlp_grpc_pb2.ServiceToGateProto(
             requestId=request_id,
             request=client_proto
         )

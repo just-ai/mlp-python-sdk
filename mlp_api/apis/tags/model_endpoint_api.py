@@ -14,12 +14,12 @@ from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.post i
 from mlp_api.paths.api_mlpgate_account_account_id_model.post import CreateModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.delete import DeleteExternalConnection
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.delete import DeleteModel
-from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_action_descriptor.get import GetActionDescriptor
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.get import GetExternalConnectionInfo
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_instances.get import GetInstancesStatus
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_logs.get import GetLogsByModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.get import GetModelInfo
 from mlp_api.paths.api_mlpgate_account_account_id_model.get import GetPagedModels
+from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_action_descriptor.get import GetServiceDescriptor
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_simple_doc.get import GetSimpleDoc
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_last_job.get import LastJob
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_instances.post import SetRequestedInstancesCount
@@ -35,12 +35,12 @@ class ModelEndpointApi(
     CreateModel,
     DeleteExternalConnection,
     DeleteModel,
-    GetActionDescriptor,
     GetExternalConnectionInfo,
     GetInstancesStatus,
     GetLogsByModel,
     GetModelInfo,
     GetPagedModels,
+    GetServiceDescriptor,
     GetSimpleDoc,
     LastJob,
     SetRequestedInstancesCount,

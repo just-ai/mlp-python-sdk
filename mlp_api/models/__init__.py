@@ -15,7 +15,6 @@ from mlp_api.model.access_token_data import AccessTokenData
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
-from mlp_api.model.action_descriptor_data import ActionDescriptorData
 from mlp_api.model.check import Check
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
@@ -69,6 +68,7 @@ from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
 from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
+from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 from mlp_api.model.sort import Sort
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status

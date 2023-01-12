@@ -11,7 +11,6 @@ pipeline {
     }
     parameters {
         string(name: "BRANCH", defaultValue: "dev", description: "")
-        booleanParam(name: "CHECK_SCHEMAS_ONLY", defaultValue: false, description: '')
     }
     stages {
         stage('Prepare') {
@@ -35,7 +34,7 @@ pipeline {
 
                     def hasChanges = !sh(returnStdout: true, script: 'git status -s mlp-specs').trim().isEmpty()
 
-                    env.NEED_REBUILD = hasChanges || !params.CHECK_SCHEMAS_ONLY
+                    env.NEED_REBUILD = hasChanges
                 }
             }
         }

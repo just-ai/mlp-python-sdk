@@ -30,7 +30,7 @@ def get_logger(graylog_host: Optional[str] = None, graylog_udp_port: Optional[in
         # TODO: Add and handle custom required fields: task, instance, server, etc
         # TODO: Test graylog with mocking emit func?
         graylog_handler = {
-            "class": "mpl_sdk.log.graylog_handler.GrayLogHandler",
+            "class": "mlp_sdk.log.graylog_handler.GrayLogHandler",
             "host": graylog_host,
             "port": graylog_udp_port,
             "level_names": True,

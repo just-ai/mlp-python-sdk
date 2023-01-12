@@ -6,7 +6,7 @@ from typing import Dict, Any, Callable, Union, List, _GenericAlias, get_args
 import yaml
 from pydantic import BaseModel
 
-from mlp_sdk.grpc.mlp_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
+from mlp_sdk.grpc.mlp_grpc_pb2 import ServiceDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
 from mlp_sdk.allowed_types import BASE_FIELD_TYPES
 
 
@@ -162,7 +162,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
         return schema
 
     @classmethod
-    def get_descriptor(cls) -> ActionDescriptorProto:
+    def get_descriptor(cls) -> ServiceDescriptorProto:
         schema = cls.get_schema()
 
         def get_return_type(method_schema):
@@ -176,7 +176,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
 
             return return_type
 
-        return ActionDescriptorProto(
+        return ServiceDescriptorProto(
             name=cls.__name__,
             fittable=any([getattr(cls, attr_name) for attr_name in dir(cls) if attr_name.endswith('__IS_LEARNABLE')]),
             methods={
