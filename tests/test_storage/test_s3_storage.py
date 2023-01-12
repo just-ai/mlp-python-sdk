@@ -6,7 +6,7 @@ import tempfile
 
 from pathlib import Path
 
-from mpl_sdk.storage import S3Storage
+from mlp_sdk.storage import S3Storage
 TEMP_DATA_PATH = Path(__file__).parent / 'test_data'
 
 

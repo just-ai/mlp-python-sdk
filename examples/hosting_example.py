@@ -1,9 +1,9 @@
 from typing import List, Type
 from pydantic import BaseModel
 
-from mpl_sdk.abstract.task import Task
-from mpl_sdk.types import InflectorTextsCollection, TextsCollection
-from mpl_sdk.hosting.host import host
+from mlp_sdk.abstract.task import Task
+from mlp_sdk.types import InflectorTextsCollection, TextsCollection
+from mlp_sdk.hosting.host import host
 
 
 class DucklingContext(BaseModel):

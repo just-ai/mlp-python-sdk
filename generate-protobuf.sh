@@ -12,11 +12,11 @@ docker build . -f Dockerfile-grpc-tools \
               --no-cache \
               -t grpc-tools
 
-rm -Rf ./mpl_sdk/grpc/mpl*
+rm -Rf ./mlp_sdk/grpc/mlp*
 
 docker run -v $(pwd):/app grpc-tools \
- python3 -m grpc_tools.protoc -I ./mpl-specs/ --python_out=./mpl_sdk/grpc --grpc_python_out=./mpl_sdk/grpc ./mpl-specs/mpl-grpc.proto
+ python3 -m grpc_tools.protoc -I ./mlp-specs/ --python_out=./mlp_sdk/grpc --grpc_python_out=./mlp_sdk/grpc ./mlp-specs/mlp-grpc.proto
 
-#<!--  from from mpl_sdk.grpc import gate_pb2 as gate__pb2  -->
-sed -i "s/import mpl_grpc_pb2 as mpl__grpc__pb2/import mpl_sdk.grpc.mpl_grpc_pb2 as mpl__grpc__pb2/g" "mpl_sdk/grpc/mpl_grpc_pb2_grpc.py"
+#<!--  from from mlp_sdk.grpc import gate_pb2 as gate__pb2  -->
+sed -i "s/import mlp_grpc_pb2 as mlp__grpc__pb2/import mlp_sdk.grpc.mlp_grpc_pb2 as mlp__grpc__pb2/g" "mlp_sdk/grpc/mlp_grpc_pb2_grpc.py"
 

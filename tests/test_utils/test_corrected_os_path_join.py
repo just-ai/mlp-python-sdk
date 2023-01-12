@@ -2,7 +2,7 @@ import os.path
 
 from pathlib import Path
 
-from mpl_sdk.utilities.misc import os_path_join_corrected
+from mlp_sdk.utilities.misc import os_path_join_corrected
 
 
 def test():

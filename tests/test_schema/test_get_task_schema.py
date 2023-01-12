@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from typing import List
 from pathlib import Path
 
-from mpl_sdk.abstract.task import Task
-from mpl_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
-from mpl_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
+from mlp_sdk.abstract.task import Task
+from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
+from mlp_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
 
 
 class InitConfigSchema(BaseModel):

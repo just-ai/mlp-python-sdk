@@ -3,9 +3,9 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.abstract import Task
-from mpl_sdk.hosting.host import host_mpl_cloud
-from mpl_sdk.types import Items, Item, TextsCollection
+from mlp_sdk.abstract import Task
+from mlp_sdk.hosting.host import host_mpl_cloud
+from mlp_sdk.types import Items, Item, TextsCollection
 
 
 class MyCustomPredictSchema(BaseModel):

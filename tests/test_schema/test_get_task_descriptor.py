@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from typing import List
 
-from mpl_sdk.grpc.mpl_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
+from mlp_sdk.grpc.mpl_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
 
-from mpl_sdk.abstract.task import Task
-from mpl_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
-from mpl_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
+from mlp_sdk.abstract.task import Task
+from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
+from mlp_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
 
 
 class InitConfigSchema(BaseModel):

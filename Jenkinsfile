@@ -30,9 +30,9 @@ pipeline {
         stage('Update spec') {
             steps {
                 script {
-                    sh("./mpl-specs/update.sh")
+                    sh("./mlp-specs/update.sh")
 
-                    def hasChanges = !sh(returnStdout: true, script: 'git status -s mpl-specs').trim().isEmpty()
+                    def hasChanges = !sh(returnStdout: true, script: 'git status -s mlp-specs').trim().isEmpty()
 
                     env.NEED_REBUILD = hasChanges
                 }
@@ -47,8 +47,8 @@ pipeline {
                 sh "./generate-protobuf.sh"
                 sh "./generate-api-client.sh"
 
-                sh "git add mpl_api"
-                sh "git commit -m 'Automatic update API spec from CI' mpl-specs mpl_api mpl_sdk/grpc"
+                sh "git add mlp_api"
+                sh "git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc"
                 sh "git push"
             }
         }

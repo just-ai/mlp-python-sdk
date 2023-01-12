@@ -2,8 +2,8 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.abstract.task import Task
-from mpl_sdk.types import InflectorTextsCollection, ScoredItemsCollection
+from mlp_sdk.abstract.task import Task
+from mlp_sdk.types import InflectorTextsCollection, ScoredItemsCollection
 
 
 class MyCustomTaskInitSchema(BaseModel):
