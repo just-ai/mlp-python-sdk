@@ -21,8 +21,8 @@ class GateStub(object):
                 )
         self.processAsync = channel.stream_stream(
                 '/com.mlp.gate.Gate/processAsync',
-                request_serializer=mlp__grpc__pb2.ServiceToGateProto.SerializeToString,
-                response_deserializer=mlp__grpc__pb2.GateToServiceProto.FromString,
+                request_serializer=mlp__grpc__pb2.ActionToGateProto.SerializeToString,
+                response_deserializer=mlp__grpc__pb2.GateToActionProto.FromString,
                 )
         self.process = channel.unary_unary(
                 '/com.mlp.gate.Gate/process',
@@ -62,8 +62,8 @@ def add_GateServicer_to_server(servicer, server):
             ),
             'processAsync': grpc.stream_stream_rpc_method_handler(
                     servicer.processAsync,
-                    request_deserializer=mlp__grpc__pb2.ServiceToGateProto.FromString,
-                    response_serializer=mlp__grpc__pb2.GateToServiceProto.SerializeToString,
+                    request_deserializer=mlp__grpc__pb2.ActionToGateProto.FromString,
+                    response_serializer=mlp__grpc__pb2.GateToActionProto.SerializeToString,
             ),
             'process': grpc.unary_unary_rpc_method_handler(
                     servicer.process,
@@ -109,8 +109,8 @@ class Gate(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/com.mlp.gate.Gate/processAsync',
-            mlp__grpc__pb2.ServiceToGateProto.SerializeToString,
-            mlp__grpc__pb2.GateToServiceProto.FromString,
+            mlp__grpc__pb2.ActionToGateProto.SerializeToString,
+            mlp__grpc__pb2.GateToActionProto.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

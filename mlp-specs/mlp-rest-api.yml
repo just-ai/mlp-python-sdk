@@ -3316,7 +3316,7 @@ paths:
     get:
       tags:
       - internal-endpoint
-      operationId: listAllConnectedServices
+      operationId: listAllConnectedActions
       parameters:
       - name: MLP-API-KEY
         in: header
@@ -3394,7 +3394,7 @@ paths:
     get:
       tags:
       - internal-endpoint
-      operationId: listConnectedServices
+      operationId: listConnectedActions
       parameters:
       - name: accountId
         in: path
@@ -4473,26 +4473,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    ServiceDescriptorData:
-      required:
-      - fittable
-      - methods
-      - name
-      - schemaFiles
-      type: object
-      properties:
-        name:
-          type: string
-        schemaFiles:
-          type: array
-          items:
-            $ref: '#/components/schemas/SchemaFileData'
-        fittable:
-          type: boolean
-        methods:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/MethodDescriptorData'
     MethodDescriptorData:
       required:
       - fitted
@@ -4528,6 +4508,26 @@ components:
           type: string
         content:
           type: string
+    ServiceDescriptorData:
+      required:
+      - fittable
+      - methods
+      - name
+      - schemaFiles
+      type: object
+      properties:
+        name:
+          type: string
+        schemaFiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchemaFileData'
+        fittable:
+          type: boolean
+        methods:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MethodDescriptorData'
     PageImageInfoData:
       type: object
       properties:

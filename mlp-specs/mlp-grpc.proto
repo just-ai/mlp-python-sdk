@@ -7,7 +7,7 @@ option java_multiple_files = true;
 service Gate {
   rpc healthCheck (HeartBeatProto) returns (HeartBeatProto);
 
-  rpc processAsync(stream ServiceToGateProto) returns (stream GateToServiceProto) {}
+  rpc processAsync(stream ActionToGateProto) returns (stream GateToActionProto) {}
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
@@ -42,7 +42,7 @@ message ServiceInfoProto {
   string authToken = 4;
 }
 
-message ServiceToGateProto {
+message ActionToGateProto {
   int64 requestId = 1;
 
   oneof body {
@@ -66,7 +66,7 @@ message ServiceToGateProto {
   }
 }
 
-message GateToServiceProto {
+message GateToActionProto {
   int64 requestId = 1;
 
   oneof body {
