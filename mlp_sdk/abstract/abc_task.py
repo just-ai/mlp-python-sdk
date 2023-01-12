@@ -98,9 +98,8 @@ class TaskMeta(ABCMeta):
             if attr_name.endswith('__METHODS'):
                 for method_name in getattr(cls, attr_name):
 
-                    pretty_method_name = cls._prettify_name(method_name)
-                    pre_method_name = 'pre_' + pretty_method_name
-                    post_method_name = 'post_' + pretty_method_name
+                    pre_method_name = 'pre_' + method_name
+                    post_method_name = 'post_' + method_name
 
                     main_function = getattr(cls, method_name)
                     signature = inspect.signature(main_function)
@@ -108,17 +107,19 @@ class TaskMeta(ABCMeta):
                     if hasattr(cls, pre_method_name):
                         pre_function = getattr(cls, pre_method_name)
                         setattr(cls,
-                                pretty_method_name,
+                                method_name,
                                 TaskMeta.create_function(
                                     [pre_function, main_function],
                                     dict(signature.parameters),
                                     signature.return_annotation,
                                 ))
 
+                    main_function = getattr(cls, method_name)
+
                     if hasattr(cls, post_method_name):
                         post_function = getattr(cls, post_method_name)
                         setattr(cls,
-                                pretty_method_name,
+                                method_name,
                                 TaskMeta.create_function(
                                     [main_function, post_function],
                                     dict(signature.parameters),
