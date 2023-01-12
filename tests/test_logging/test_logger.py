@@ -1,4 +1,4 @@
-from mpl_sdk.log import get_logger
+from mlp_sdk.log import get_logger
 
 
 def test_logger():

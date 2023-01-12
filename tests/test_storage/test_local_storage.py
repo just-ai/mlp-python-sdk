@@ -6,7 +6,7 @@ import pickle
 
 from pathlib import Path
 
-from mpl_sdk.storage import LocalStorage
+from mlp_sdk.storage import LocalStorage
 
 
 TEMP_DATA_PATH = Path(__file__).parent / 'data'

@@ -15,10 +15,10 @@ def get_requirements():
 
 
 setup(
-    name='mpl_sdk',
-    version="0.6.0",
+    name='mlp_sdk',
+    version="0.7.0",
     install_requires=get_requirements(),
-    package_dir={'mpl_sdk': 'mpl_sdk'},
+    package_dir={'mlp_sdk': 'mlp_sdk'},
     package_data={'': ['*.yml']},
     include_package_data=True,
     packages=find_packages(exclude=['tests', 'examples', 'specs'])

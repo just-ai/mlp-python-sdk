@@ -6,21 +6,21 @@ sh build.sh <NEXUS_USERNAME> <NEXUS_PASSWORD> <BUILD_NUMBER> <BRANCH_NAME> <SEND
 
 - `<NEXUS_USERNAME>` and `<NEXUS_PASSWORD>` is your IPA credentials.
 - `<BUILD_NUMBER>` for development version you can use any value, but if you want to push your package to nexsus please 
-check last version [here](https://nexus.just-ai.com/service/rest/repository/browse/pypi-hosted/mpl-sdk/)
+check last version [here](https://nexus.just-ai.com/service/rest/repository/browse/pypi-hosted/mlp-sdk/)
 - `<BRANCH_NAME>` your development branch name
 - `<SEND_TO_NEXUS>` by default set this value to 0. If you want to push your package set this to 1.
 
 ## Dev guide:
 
 1. `git clone`
-2. `cd mpl-python-sdk`
-3. `export mpl_sdk_home=$PWD`
+2. `cd mlp-python-sdk`
+3. `export mlp_sdk_home=$PWD`
 4. Run `pip install -e .`
 5. Run tests
 6. Library is ready to work with
 
 ``` python
-   from mpl_sdk.types import TextsCollection
+   from mlp_sdk.types import TextsCollection
    
    def TextProcessor():
        my_texts = TextsCollection()
@@ -132,7 +132,7 @@ class MyType(BaseModel):
 
 ### How to use storages
 
-- Import one of implemented storage from `mpl_sdk.storage` (S3Storage or LocalStorage)
+- Import one of implemented storage from `mlp_sdk.storage` (S3Storage or LocalStorage)
 - Create config file and pass it in task through Dockerfile variable (also you can put config data in existing container config file)
 - Config should contain the `storage_type` param with `s3` or `local` value
 - Also, config should contain all the necessary key-value param pairs for chosen storage (see `__init__` params in corresponding files in `storage` module)

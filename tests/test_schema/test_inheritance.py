@@ -1,5 +1,5 @@
-from mpl_sdk.utilities.schemes_handling import get_parent_classes
-from mpl_sdk.types import (TokensErrorTest,
+from mlp_sdk.utilities.schemes_handling import get_parent_classes
+from mlp_sdk.types import (TokensErrorTest,
                            InflectorConformerTextsCollectionTest,
                            ConformerTextsCollection,
                            InflectorTextsCollection,
@@ -8,7 +8,7 @@ from mpl_sdk.types import (TokensErrorTest,
                            TokenizedTextsCollectionWithErrorTest,
                            TextsCollection,
                            TokensTest)
-from mpl_sdk.abstract.task_utils import can_type_be_replaced
+from mlp_sdk.abstract.task_utils import can_type_be_replaced
 
 
 def test_get_parents():
