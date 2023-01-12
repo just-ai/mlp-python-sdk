@@ -122,7 +122,7 @@ class MlpServiceConnector:
         self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
             startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
-                actionDescriptor=self.sdk.descriptor
+                serviceDescriptor=self.sdk.descriptor
             )
         ))
 
