@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from mlp_sdk.grpc.mpl_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
+from mlp_sdk.grpc.mlp_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin

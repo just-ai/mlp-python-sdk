@@ -4,9 +4,9 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.transport.MplActionSDK import MplActionSDK
-from mpl_sdk.abstract.abc_task import ABCTask
-from mpl_sdk.abstract.task_utils import is_allowed_input_type
+from mlp_sdk.transport.MplActionSDK import MplActionSDK
+from mlp_sdk.abstract.abc_task import ABCTask
+from mlp_sdk.abstract.task_utils import is_allowed_input_type
 
 
 class Task(ABCTask):

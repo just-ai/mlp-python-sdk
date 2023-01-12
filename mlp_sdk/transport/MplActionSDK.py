@@ -19,7 +19,7 @@ from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
 
 from mlp_api import Configuration, ApiClient
-from mlp_sdk.grpc import mpl_grpc_pb2, mpl_grpc_pb2_grpc
+from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
@@ -84,9 +84,9 @@ class MplActionConnector:
                         ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
                         ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
                     ])
-                self.stub = mpl_grpc_pb2_grpc.GateStub(self.channel)
+                self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
-                self.stub.healthCheck(mpl_grpc_pb2.HeartBeatProto())
+                self.stub.healthCheck(mlp_grpc_pb2.HeartBeatProto())
 
                 self.state = State.connected
                 break
@@ -119,8 +119,8 @@ class MplActionConnector:
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
         self.log.info(" ... start serving")
-        self.action_to_gate_queue.put_nowait(mpl_grpc_pb2.ActionToGateProto(
-            startServing=mpl_grpc_pb2.StartServingProto(
+        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+            startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
                 actionDescriptor=self.sdk.descriptor
             )
@@ -193,8 +193,8 @@ class MplActionConnector:
 
     def __heartbeat_proc(self):
         while self.state == State.connected or self.state == State.serving:
-            self.action_to_gate_queue.put_nowait(mpl_grpc_pb2.ActionToGateProto(
-                heartBeat=mpl_grpc_pb2.HeartBeatProto()
+            self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+                heartBeat=mlp_grpc_pb2.HeartBeatProto()
             ))
             self.shutdown_event.wait(self.heartbeat_thread_interval / 1000)
 
@@ -206,8 +206,8 @@ class MplActionConnector:
         self.state = state
 
         self.log.info(" ... stop serving")
-        self.action_to_gate_queue.put_nowait(mpl_grpc_pb2.ActionToGateProto(
-            stopServing=mpl_grpc_pb2.StopServingProto()
+        self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ActionToGateProto(
+            stopServing=mlp_grpc_pb2.StopServingProto()
         ))
 
         # waiting for close
@@ -342,11 +342,11 @@ class MplActionSDK:
     def handle_unknown_request(self, req_type, request, connector: MplActionConnector):
         self.log.error("Unknown request type " + req_type)
         self.log.error(request)
-        response = mpl_grpc_pb2.ActionToGateProto(
-            error=mpl_grpc_pb2.ApiErrorProto(
+        response = mlp_grpc_pb2.ActionToGateProto(
+            error=mlp_grpc_pb2.ApiErrorProto(
                 code='mpl-action.common.internal-error',
                 message=f'Unknown request type: {req_type}',
-                status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
+                status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
             )
         )
         response.requestId = request.requestId
@@ -361,20 +361,20 @@ class MplActionSDK:
             response = self.__process_request(req_type, request)
         except MplException as e:
             self.log.exception(e)
-            response = mpl_grpc_pb2.ActionToGateProto(
-                error=mpl_grpc_pb2.ApiErrorProto(
+            response = mlp_grpc_pb2.ActionToGateProto(
+                error=mlp_grpc_pb2.ApiErrorProto(
                     code=e.code if e.code is not None else 'mpl-action.common.internal-error',
                     message=f'Internal error. Message: {e.message}',
-                    status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
+                    status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
             )
         except Exception as e:
             self.log.exception(e)
-            response = mpl_grpc_pb2.ActionToGateProto(
-                error=mpl_grpc_pb2.ApiErrorProto(
+            response = mlp_grpc_pb2.ActionToGateProto(
+                error=mlp_grpc_pb2.ApiErrorProto(
                     code="mpl-action.common.processing-exception",
                     message=str(e),
-                    status=mpl_grpc_pb2.INTERNAL_SERVER_ERROR
+                    status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
             )
         response.requestId = request.requestId
@@ -391,16 +391,16 @@ class MplActionSDK:
     def __process_request(self, req_type, request):
         if req_type == 'predict':
             result = self.__handle_predict(request.predict)
-            return mpl_grpc_pb2.ActionToGateProto(predict=result)
+            return mlp_grpc_pb2.ActionToGateProto(predict=result)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
-            return mpl_grpc_pb2.ActionToGateProto(fit=result)
+            return mlp_grpc_pb2.ActionToGateProto(fit=result)
         elif req_type == 'ext':
             result = self.__handle_ext(request.ext)
-            return mpl_grpc_pb2.ActionToGateProto(ext=result)
+            return mlp_grpc_pb2.ActionToGateProto(ext=result)
         elif req_type == 'batch':
             result = self.__handle_predict_batch(request.batch)
-            return mpl_grpc_pb2.ActionToGateProto(batch=result)
+            return mlp_grpc_pb2.ActionToGateProto(batch=result)
         else:
             raise ValueError('Unexpected request type: ' + req_type)
 
@@ -419,7 +419,7 @@ class MplActionSDK:
 
         prediction = self.impl.predict(data, config)
         response = self.__convert_to_proto(prediction, desc.output.type, is_json)
-        return mpl_grpc_pb2.PredictResponseProto(data=response)
+        return mlp_grpc_pb2.PredictResponseProto(data=response)
 
     def __handle_fit(self, req):
         is_json = req.trainData.WhichOneof('body') == 'json'
@@ -434,7 +434,7 @@ class MplActionSDK:
             raise NotImplementedError('Fit requests are not supported by this action')
 
         self.impl.fit(train, targets, config, req.modelDir, req.previousModelDir)
-        return mpl_grpc_pb2.FitResponseProto()
+        return mlp_grpc_pb2.FitResponseProto()
 
     def __handle_ext(self, req):
         converted_requests = {}
@@ -454,11 +454,11 @@ class MplActionSDK:
 
         response = self.impl.ext(req.methodName, converted_requests)
         converted_response = self.__convert_to_proto(response, desc.output.type, is_json)
-        return mpl_grpc_pb2.ExtendedResponseProto(data=converted_response)
+        return mlp_grpc_pb2.ExtendedResponseProto(data=converted_response)
 
-    def __handle_predict_batch(self, request: mpl_grpc_pb2.BatchRequestProto):
+    def __handle_predict_batch(self, request: mlp_grpc_pb2.BatchRequestProto):
         if len(request.data) == 0:
-            return mpl_grpc_pb2.BatchResponseProto(data=[])
+            return mlp_grpc_pb2.BatchResponseProto(data=[])
 
         if not hasattr(self.impl, 'predict_batch'):
             raise NotImplementedError('Batch requests are not supported by this action')
@@ -481,11 +481,11 @@ class MplActionSDK:
         for index, result in enumerate(res_list):
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
             request_id = request.data[index].requestId
-            proto = mpl_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
-                                                             predict=mpl_grpc_pb2.PredictResponseProto(data=converted))
+            proto = mlp_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
+                                                             predict=mlp_grpc_pb2.PredictResponseProto(data=converted))
             responses_protos.append(proto)
 
-        return mpl_grpc_pb2.BatchResponseProto(data=responses_protos)
+        return mlp_grpc_pb2.BatchResponseProto(data=responses_protos)
 
     def __convert_from_proto(self, payload, payload_type, is_json, action_impl, method, arg):
         if not payload.HasField('json') and not payload.HasField('protobuf'):
@@ -564,7 +564,7 @@ class MplActionSDK:
         if hasattr(data, 'DESCRIPTOR') and data.DESCRIPTOR.name == 'PayloadProto':
             return data
 
-        res = mpl_grpc_pb2.PayloadProto(dataType=payload_type)
+        res = mlp_grpc_pb2.PayloadProto(dataType=payload_type)
         if payload_type is None or payload_type == 'null':
             return res
         if is_json:
@@ -602,12 +602,12 @@ class PipelineClient:
 
         return self.send_request(client_proto)
 
-    def send_request(self, client_proto: mpl_grpc_pb2.PipelineRequestProto) -> Future:
+    def send_request(self, client_proto: mlp_grpc_pb2.PipelineRequestProto) -> Future:
         with self._request_id_lock:
             request_id = self._last_request_id
             self._last_request_id -= 1
 
-        action_to_gate_proto = mpl_grpc_pb2.ActionToGateProto(
+        action_to_gate_proto = mlp_grpc_pb2.ActionToGateProto(
             requestId=request_id,
             request=client_proto
         )
@@ -630,11 +630,11 @@ class PipelineClient:
 
     @staticmethod
     def __build_predict_request_proto(account: Optional[str], model, data, config):
-        proto = mpl_grpc_pb2.PipelineRequestProto(
+        proto = mlp_grpc_pb2.PipelineRequestProto(
             model=model,
-            predict=mpl_grpc_pb2.PredictRequestProto(
-                data=mpl_grpc_pb2.PayloadProto(json=data),
-                config=mpl_grpc_pb2.PayloadProto(json=config),
+            predict=mlp_grpc_pb2.PredictRequestProto(
+                data=mlp_grpc_pb2.PayloadProto(json=data),
+                config=mlp_grpc_pb2.PayloadProto(json=config),
             )
         )
         if account is not None:
@@ -644,11 +644,11 @@ class PipelineClient:
 
     @staticmethod
     def __build_ext_request_proto(account: Optional[str], model, method_name, data):
-        proto = mpl_grpc_pb2.PipelineRequestProto(
+        proto = mlp_grpc_pb2.PipelineRequestProto(
             model=model,
-            ext=mpl_grpc_pb2.ExtendedRequestProto(
+            ext=mlp_grpc_pb2.ExtendedRequestProto(
                 methodName=method_name,
-                params={k: mpl_grpc_pb2.PayloadProto(json=v) for k, v in data.items()}
+                params={k: mlp_grpc_pb2.PayloadProto(json=v) for k, v in data.items()}
             )
         )
         if account is not None:
@@ -658,8 +658,8 @@ class PipelineClient:
 
     @staticmethod
     def __build_token_request_proto():
-        return mpl_grpc_pb2.PipelineRequestProto(
-            token=mpl_grpc_pb2.ClientTokenRequestProto()
+        return mlp_grpc_pb2.PipelineRequestProto(
+            token=mlp_grpc_pb2.ClientTokenRequestProto()
         )
 
     def __get_client_api_token(self):
@@ -671,7 +671,7 @@ class PipelineClient:
         self.client_api_token = self.send_request(client_proto).result(None).token.token
         return self.client_api_token
 
-    def registry_response(self, request_id: int, response_proto: mpl_grpc_pb2.PipelineResponseProto):
+    def registry_response(self, request_id: int, response_proto: mlp_grpc_pb2.PipelineResponseProto):
         result_future: Future = self.active_requests.get(request_id)
         if result_future is not None:
             result_future.set_result(response_proto)

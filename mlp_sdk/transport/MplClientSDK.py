@@ -8,7 +8,7 @@ from typing import Dict, Optional, List
 import grpc
 import yaml
 
-from mlp_sdk.grpc import mpl_grpc_pb2_grpc, mpl_grpc_pb2
+from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
@@ -36,22 +36,22 @@ class MplClientSDK:
 
         self.__connect()
 
-    def predict(self, account, model, data, config="{}") -> mpl_grpc_pb2.PredictResponseProto:
+    def predict(self, account, model, data, config="{}") -> mlp_grpc_pb2.PredictResponseProto:
 
         if isinstance(data, str):
             data = str.encode(data)
 
-        request = mpl_grpc_pb2.ClientRequestProto(
+        request = mlp_grpc_pb2.ClientRequestProto(
             account=account,
             model=model,
             authToken=self.token,
-            predict=mpl_grpc_pb2.PredictRequestProto(
-                data=mpl_grpc_pb2.PayloadProto(json=data),
-                config=mpl_grpc_pb2.PayloadProto(json=config)
+            predict=mlp_grpc_pb2.PredictRequestProto(
+                data=mlp_grpc_pb2.PayloadProto(json=data),
+                config=mlp_grpc_pb2.PayloadProto(json=config)
             )
         )
 
-        response: Optional[mpl_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
+        response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         if response.predict is not None:
             return response.predict
@@ -62,7 +62,7 @@ class MplClientSDK:
             raise CailaClientException("wrong-response", "Wrong response type: $response", {})
 
     def __process_request_with_retry(self, request):
-        response: Optional[mpl_grpc_pb2.ClientResponseProto] = None
+        response: Optional[mlp_grpc_pb2.ClientResponseProto] = None
 
         request_retry_timeout_seconds = CONFIG["sdk"]["request_retry_timeout_seconds"]
         end_time = time.time() + request_retry_timeout_seconds
@@ -110,7 +110,7 @@ class MplClientSDK:
                 ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
                 ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
             ])
-        self.stub = mpl_grpc_pb2_grpc.GateStub(self.channel)
+        self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
 
 class CailaClientException(Exception):

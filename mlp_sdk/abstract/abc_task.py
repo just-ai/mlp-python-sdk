@@ -6,7 +6,7 @@ from typing import Dict, Any, Callable, Union, List, _GenericAlias, get_args
 import yaml
 from pydantic import BaseModel
 
-from mlp_sdk.grpc.mpl_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
+from mlp_sdk.grpc.mlp_grpc_pb2 import ActionDescriptorProto, MethodDescriptorProto, ParamDescriptorProto
 from mlp_sdk.allowed_types import BASE_FIELD_TYPES
 
 
