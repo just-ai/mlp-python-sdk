@@ -30,7 +30,8 @@ class TaskMeta(ABCMeta):
 
         wrapped_parameters = [inspect.Parameter(param,
                                                 inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                                                annotation=type_.annotation)
+                                                annotation=type_.annotation,
+                                                default=type_.default)
                               for param, type_ in parameters.items()]
 
         _updated_function.__signature__ = inspect.Signature(wrapped_parameters, return_annotation=return_annotation)
