@@ -251,7 +251,7 @@ class MplServiceSDK:
         self.log.info("Starting ...")
 
         self.gate_urls = os.environ['MLP_GRPC_HOST'].split(",") if not url else url
-        self.connection_token = os.environ['MPL_SERVICE_TOKEN'] if not connection_token else connection_token
+        self.connection_token = os.environ['MLP_SERVICE_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ.get('MLP_REST_URL', None) if not api_url else api_url
         self.grpc_secure = os.environ.get('MLP_GRPC_SECURE', 'true').lower() == 'true' if not grpc_secure else grpc_secure
 
