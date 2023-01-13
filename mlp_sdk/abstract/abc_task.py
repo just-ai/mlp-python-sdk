@@ -22,15 +22,19 @@ class TaskMeta(ABCMeta):
         return name
 
     @staticmethod
-    def create_function(functions, parameters, return_annotation) -> Callable:
+    def create_function(functions, parameters, defaults, return_annotation) -> Callable:
         def _updated_function(*args, **kwargs):
+            for function in functions:
+                function.__defaults__ = defaults
+
             for function in functions[: -1]:
                 function(*args, **kwargs)
             return functions[-1](*args, **kwargs)
 
         wrapped_parameters = [inspect.Parameter(param,
                                                 inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                                                annotation=type_.annotation)
+                                                annotation=type_.annotation,
+                                                default=type_.default)
                               for param, type_ in parameters.items()]
 
         _updated_function.__signature__ = inspect.Signature(wrapped_parameters, return_annotation=return_annotation)
@@ -97,32 +101,34 @@ class TaskMeta(ABCMeta):
             if attr_name.endswith('__METHODS'):
                 for method_name in getattr(cls, attr_name):
 
-                    pretty_method_name = cls._prettify_name(method_name)
-                    pre_method_name = 'pre_' + pretty_method_name
-                    post_method_name = 'post_' + pretty_method_name
+                    pre_method_name = 'pre_' + method_name
+                    post_method_name = 'post_' + method_name
 
                     main_function = getattr(cls, method_name)
                     signature = inspect.signature(main_function)
+                    functions = [main_function]
 
-                    if hasattr(cls, pre_method_name):
+                    if hasattr(cls, pre_method_name) and not hasattr(cls, post_method_name):
                         pre_function = getattr(cls, pre_method_name)
-                        setattr(cls,
-                                pretty_method_name,
-                                TaskMeta.create_function(
-                                    [pre_function, main_function],
-                                    dict(signature.parameters),
-                                    signature.return_annotation,
-                                ))
+                        functions = [pre_function, main_function]
 
-                    if hasattr(cls, post_method_name):
+                    if not hasattr(cls, pre_method_name) and hasattr(cls, post_method_name):
                         post_function = getattr(cls, post_method_name)
-                        setattr(cls,
-                                pretty_method_name,
-                                TaskMeta.create_function(
-                                    [main_function, post_function],
-                                    dict(signature.parameters),
-                                    None,
-                                ))
+                        functions = [main_function, post_function]
+
+                    if hasattr(cls, pre_method_name) and hasattr(cls, post_method_name):
+                        pre_function = getattr(cls, pre_method_name)
+                        post_function = getattr(cls, post_method_name)
+                        functions = [pre_function, main_function, post_function]
+
+                    setattr(cls,
+                            method_name,
+                            TaskMeta.create_function(
+                                functions,
+                                dict(signature.parameters),
+                                main_function.__defaults__,
+                                signature.return_annotation,
+                            ))
 
     def __init__(cls, name, bases, dct):
         super(TaskMeta, cls).__init__(name, bases, dct)

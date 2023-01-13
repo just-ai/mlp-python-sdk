@@ -38,7 +38,7 @@ class LearnableMixin(ABCTask):
             config: BaseModel,
             model_dir: str,
             previous_model_dir: str,
-    ):
+    ) -> None:
         self._check_config_validness(config, "fit")
         self._check_fit_input_types(train_data, targets, model_dir, previous_model_dir)
 
