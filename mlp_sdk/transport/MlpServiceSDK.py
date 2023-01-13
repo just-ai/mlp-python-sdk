@@ -344,7 +344,7 @@ class MlpServiceSDK:
         self.log.error(request)
         response = mlp_grpc_pb2.ServiceToGateProto(
             error=mlp_grpc_pb2.ApiErrorProto(
-                code='mpl-action.common.internal-error',
+                code='mlp-action.common.internal-error',
                 message=f'Unknown request type: {req_type}',
                 status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
             )
@@ -363,7 +363,7 @@ class MlpServiceSDK:
             self.log.exception(e)
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
-                    code=e.code if e.code is not None else 'mpl-action.common.internal-error',
+                    code=e.code if e.code is not None else 'mlp-action.common.internal-error',
                     message=f'Internal error. Message: {e.message}',
                     status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
@@ -372,7 +372,7 @@ class MlpServiceSDK:
             self.log.exception(e)
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
-                    code="mpl-action.common.processing-exception",
+                    code="mlp-action.common.processing-exception",
                     message=str(e),
                     status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
