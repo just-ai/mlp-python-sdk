@@ -11,6 +11,7 @@ pipeline {
     }
     parameters {
         string(name: "BRANCH", defaultValue: "dev", description: "")
+        booleanParam(name: 'NEED_REBUILD', defaultValue: false, description: '')
     }
     stages {
         stage('Prepare') {
@@ -41,7 +42,7 @@ pipeline {
 
         stage('Rebuild client stubs') {
             when {
-                expression { env.NEED_REBUILD == 'true' }
+                expression { env.NEED_REBUILD == 'true' || params.NEED_REBUILD }
             }
             steps {
                 sh "./generate-protobuf.sh"
