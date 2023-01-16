@@ -12,7 +12,7 @@ from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
-CONFIG = yaml.safe_load(open(os.environ.get("MPL_CONFIG_FILE", __default_config)))
+CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
 
 logging.basicConfig(format=CONFIG["logging"]["format"],
                     level=logging.getLevelName(CONFIG["logging"]["level"]),
@@ -30,7 +30,7 @@ class MlpClientSDK:
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
         self.urls: List[str] = os.environ['MLP_GRPC_HOST'].split(",") if not urls else urls
-        self.token = os.environ['MPL_CLIENT_TOKEN'] if not token else token
+        self.token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
         self.grpc_secure = os.environ['MLP_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
         self.log.debug("Starting mpl client for url " + self.urls[0])
 
