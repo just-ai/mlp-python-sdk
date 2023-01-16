@@ -408,7 +408,7 @@ class MlpServiceSDK:
         is_json = req.data.WhichOneof('body') == 'json'
         desc = self.descriptor.methods['predict']
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
-        if hasattr(desc.input, 'config'):
+        if 'config' in desc.input:
             config = self.__convert_from_proto(
                 req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
         else:
