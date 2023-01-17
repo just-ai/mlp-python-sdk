@@ -159,7 +159,6 @@ class MlpServiceConnector:
 
     def __process_request(self, request):
         req_type = request.WhichOneof('body')
-        self.log.info(f"Request in process request: {request}")
         if req_type != 'heartBeat':
             self.__log_request(request)
         if req_type is None:
@@ -409,11 +408,7 @@ class MlpServiceSDK:
     def __handle_predict(self, req):
         is_json = req.data.WhichOneof('body') == 'json'
         desc = self.descriptor.methods['predict']
-        self.log.info(f"Descriptor: {desc}")
-        self.log.info(f"Descriptor.input: {desc.input}")
-        self.log.info(f"Descriptor.input type: {type(desc.input)}")
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
-        self.log.info(f"Data: {data}")
         if 'config' in desc.input:
             config = self.__convert_from_proto(
                 req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
@@ -602,9 +597,7 @@ class PipelineClient:
         return ApiClient(configuration, "MLP-API-KEY", self.__get_client_api_token())
 
     def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
-        self.log.info(f"Predict with account: {account}, model: {model}, data: {data}, config: {config}")
         client_proto = self.__build_predict_request_proto(account, model, data, config)
-        self.log.info(f"Client proto: {client_proto}")
 
         return self.send_request(client_proto)
 
@@ -622,8 +615,6 @@ class PipelineClient:
             requestId=request_id,
             request=client_proto
         )
-
-        self.log.info(f"Action to gate proto: {action_to_gate_proto}")
 
         sent = False
         for connector in self.sdk.connectors:
