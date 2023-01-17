@@ -591,10 +591,11 @@ class PipelineClient:
         self._request_id_lock = threading.Lock()
         self.service_info = None
         self.client_api_token = None
+        self.log = logging.getLogger('PipelineClient')
 
     def get_api_client(self):
         configuration = Configuration(host=self.sdk.client_api_url)
-        return ApiClient(configuration, "CAILA-API-KEY", self.__get_client_api_token())
+        return ApiClient(configuration, "MLP-API-KEY", self.__get_client_api_token())
 
     def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
         client_proto = self.__build_predict_request_proto(account, model, data, config)
