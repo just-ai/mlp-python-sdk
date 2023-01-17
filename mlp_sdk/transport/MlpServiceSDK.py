@@ -413,7 +413,7 @@ class MlpServiceSDK:
         self.log.info(f"Descriptor.input type: {type(desc.input)}")
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
         self.log.info(f"Data: {data}")
-        if hasattr(desc.input, 'config'):
+        if 'config' in desc.input:
             config = self.__convert_from_proto(
                 req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
         else:
@@ -601,6 +601,7 @@ class PipelineClient:
         return ApiClient(configuration, "MLP-API-KEY", self.__get_client_api_token())
 
     def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
+        self.log.info(f"Predict with account: {account}, model: {model}, data: {data}, config: {config}")
         client_proto = self.__build_predict_request_proto(account, model, data, config)
 
         return self.send_request(client_proto)
