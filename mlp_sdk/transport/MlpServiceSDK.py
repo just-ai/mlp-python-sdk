@@ -622,6 +622,8 @@ class PipelineClient:
             request=client_proto
         )
 
+        self.log.info(f"Action to gate proto: {action_to_gate_proto}")
+
         sent = False
         for connector in self.sdk.connectors:
             if connector.state == State.serving:
