@@ -159,6 +159,7 @@ class MlpServiceConnector:
 
     def __process_request(self, request):
         req_type = request.WhichOneof('body')
+        self.log.info(f"Request in process request: {request}")
         if req_type != 'heartBeat':
             self.__log_request(request)
         if req_type is None:
