@@ -36,8 +36,8 @@ class PageModelInfoData(
     class MetaOapg:
         
         class properties:
-            totalElements = schemas.Int64Schema
             totalPages = schemas.Int32Schema
+            totalElements = schemas.Int64Schema
         
             @staticmethod
             def pageable() -> typing.Type['PageableObject']:
@@ -79,8 +79,8 @@ class PageModelInfoData(
             number = schemas.Int32Schema
             empty = schemas.BoolSchema
             __annotations__ = {
-                "totalElements": totalElements,
                 "totalPages": totalPages,
+                "totalElements": totalElements,
                 "pageable": pageable,
                 "first": first,
                 "sort": sort,
@@ -93,10 +93,10 @@ class PageModelInfoData(
             }
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["totalElements"]) -> MetaOapg.properties.totalElements: ...
+    def __getitem__(self, name: typing_extensions.Literal["totalPages"]) -> MetaOapg.properties.totalPages: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["totalPages"]) -> MetaOapg.properties.totalPages: ...
+    def __getitem__(self, name: typing_extensions.Literal["totalElements"]) -> MetaOapg.properties.totalElements: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["pageable"]) -> 'PageableObject': ...
@@ -128,16 +128,16 @@ class PageModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "pageable", "first", "sort", "numberOfElements", "last", "size", "content", "number", "empty", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["totalPages", "totalElements", "pageable", "first", "sort", "numberOfElements", "last", "size", "content", "number", "empty", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["totalElements"]) -> typing.Union[MetaOapg.properties.totalElements, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["totalPages"]) -> typing.Union[MetaOapg.properties.totalPages, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["totalPages"]) -> typing.Union[MetaOapg.properties.totalPages, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["totalElements"]) -> typing.Union[MetaOapg.properties.totalElements, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["pageable"]) -> typing.Union['PageableObject', schemas.Unset]: ...
@@ -169,15 +169,15 @@ class PageModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "pageable", "first", "sort", "numberOfElements", "last", "size", "content", "number", "empty", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["totalPages", "totalElements", "pageable", "first", "sort", "numberOfElements", "last", "size", "content", "number", "empty", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        totalElements: typing.Union[MetaOapg.properties.totalElements, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         totalPages: typing.Union[MetaOapg.properties.totalPages, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        totalElements: typing.Union[MetaOapg.properties.totalElements, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         pageable: typing.Union['PageableObject', schemas.Unset] = schemas.unset,
         first: typing.Union[MetaOapg.properties.first, bool, schemas.Unset] = schemas.unset,
         sort: typing.Union['Sort', schemas.Unset] = schemas.unset,
@@ -193,8 +193,8 @@ class PageModelInfoData(
         return super().__new__(
             cls,
             *_args,
-            totalElements=totalElements,
             totalPages=totalPages,
+            totalElements=totalElements,
             pageable=pageable,
             first=first,
             sort=sort,
