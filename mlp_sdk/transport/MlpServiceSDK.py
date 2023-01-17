@@ -603,6 +603,7 @@ class PipelineClient:
     def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
         self.log.info(f"Predict with account: {account}, model: {model}, data: {data}, config: {config}")
         client_proto = self.__build_predict_request_proto(account, model, data, config)
+        self.log.info(f"Client proto: {client_proto}")
 
         return self.send_request(client_proto)
 
