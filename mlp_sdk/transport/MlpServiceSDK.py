@@ -413,7 +413,7 @@ class MlpServiceSDK:
         self.log.info(f"Descriptor.input type: {type(desc.input)}")
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
         self.log.info(f"Data: {data}")
-        if 'config' in desc.input:
+        if hasattr(desc.input, 'config'):
             config = self.__convert_from_proto(
                 req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
         else:
