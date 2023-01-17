@@ -561,8 +561,6 @@ class MlpServiceSDK:
 
     @staticmethod
     def __convert_to_proto(data, payload_type, is_json):
-        print("__convert_to_proto")
-        print(data)
         if hasattr(data, 'DESCRIPTOR') and data.DESCRIPTOR.name == 'PayloadProto':
             return data
 
