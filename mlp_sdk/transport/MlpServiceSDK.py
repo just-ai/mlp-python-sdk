@@ -418,8 +418,8 @@ class MlpServiceSDK:
             raise NotImplementedError('Predict requests are not supported by this action')
 
         prediction = self.impl.predict(data, config)
-        print("Prediction")
-        print(prediction)
+        self.log.info("Prediction")
+        self.log.info(prediction)
         response = self.__convert_to_proto(prediction, desc.output.type, is_json)
         return mlp_grpc_pb2.PredictResponseProto(data=response)
 
