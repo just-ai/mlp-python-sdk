@@ -253,7 +253,8 @@ class MlpServiceSDK:
         self.gate_urls = os.environ['MLP_GRPC_HOST'].split(",") if not url else url
         self.connection_token = os.environ['MLP_SERVICE_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ.get('MLP_REST_URL', None) if not api_url else api_url
-        self.grpc_secure = os.environ.get('MLP_GRPC_SECURE', 'true').lower() == 'true' if not grpc_secure else grpc_secure
+        self.grpc_secure = os.environ.get('MLP_GRPC_SECURE',
+                                          'true').lower() == 'true' if not grpc_secure else grpc_secure
 
         with self.connectors_lock:
             for url in self.gate_urls:
@@ -407,12 +408,16 @@ class MlpServiceSDK:
     def __handle_predict(self, req):
         is_json = req.data.WhichOneof('body') == 'json'
         desc = self.descriptor.methods['predict']
+        self.log.info(f"Descriptor: {desc}")
         data = self.__convert_from_proto(req.data, desc.input['data'].type, is_json, self.impl, 'predict', 'data')
+        self.log.info(f"Data: {data}")
         if 'config' in desc.input:
             config = self.__convert_from_proto(
                 req.config, desc.input['config'].type, is_json, self.impl, 'predict', 'config')
         else:
             config = None
+
+        self.log.info(f"Config: {config}")
 
         if not hasattr(self.impl, 'predict'):
             raise NotImplementedError('Predict requests are not supported by this action')
@@ -482,7 +487,7 @@ class MlpServiceSDK:
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
             request_id = request.data[index].requestId
             proto = mlp_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
-                                                             predict=mlp_grpc_pb2.PredictResponseProto(data=converted))
+                                                           predict=mlp_grpc_pb2.PredictResponseProto(data=converted))
             responses_protos.append(proto)
 
         return mlp_grpc_pb2.BatchResponseProto(data=responses_protos)
