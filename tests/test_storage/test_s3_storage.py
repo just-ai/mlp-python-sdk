@@ -19,7 +19,7 @@ def test_s3_storage():
 
     config = eval(os.environ['S3_STORAGE_CONFIG'])
 
-    storage = S3Storage(config['mlps_bucket'], config['service_name'], config['region'],
+    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
                         config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
 
     test_object = [1, 2, [3, [4]]]
@@ -52,7 +52,7 @@ def test_download_upload_dir():
 
     config = eval(os.environ['S3_STORAGE_CONFIG'])
 
-    storage = S3Storage(config['mlps_bucket'], config['service_name'], config['region'],
+    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
                         config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
 
     remote_path = "huggingface/models/cointegrated/rubert-tiny2/default"
@@ -93,7 +93,7 @@ def test_s3_download_upload_large_files():
 
     config = eval(os.environ['S3_STORAGE_CONFIG'])
 
-    storage = S3Storage(config['mlps_bucket'], config['service_name'], config['region'],
+    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
                         config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
 
     s3_path = 'caila/generative/models/dialog_ru/v2/default/model.ckpt'
