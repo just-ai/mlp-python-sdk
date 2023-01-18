@@ -1,0 +1,11 @@
+FROM python:3.8
+
+ARG S3_STORAGE_CONFIG
+ENV S3_STORAGE_CONFIG=$S3_STORAGE_CONFIG
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+VOLUME /mlp_python_sdk
+WORKDIR /mlp_python_sdk
