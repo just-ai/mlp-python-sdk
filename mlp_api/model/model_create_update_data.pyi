@@ -59,7 +59,7 @@ class ModelCreateUpdateData(
                     return cls("multipleFit")
             trainingDatasetId = schemas.Int64Schema
             trainingFitConfigId = schemas.Int64Schema
-            public = schemas.BoolSchema
+            isPublic = schemas.BoolSchema
             config = schemas.StrSchema
             env = schemas.StrSchema
             fittable = schemas.BoolSchema
@@ -140,7 +140,7 @@ class ModelCreateUpdateData(
                 "trainingType": trainingType,
                 "trainingDatasetId": trainingDatasetId,
                 "trainingFitConfigId": trainingFitConfigId,
-                "public": public,
+                "isPublic": isPublic,
                 "config": config,
                 "env": env,
                 "fittable": fittable,
@@ -177,7 +177,7 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> MetaOapg.properties.trainingFitConfigId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["public"]) -> MetaOapg.properties.public: ...
+    def __getitem__(self, name: typing_extensions.Literal["isPublic"]) -> MetaOapg.properties.isPublic: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
@@ -212,7 +212,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "public", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "isPublic", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -239,7 +239,7 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> typing.Union[MetaOapg.properties.trainingFitConfigId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["public"]) -> typing.Union[MetaOapg.properties.public, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["isPublic"]) -> typing.Union[MetaOapg.properties.isPublic, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["config"]) -> typing.Union[MetaOapg.properties.config, schemas.Unset]: ...
@@ -274,7 +274,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "public", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "isPublic", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -288,7 +288,7 @@ class ModelCreateUpdateData(
         trainingType: typing.Union[MetaOapg.properties.trainingType, str, schemas.Unset] = schemas.unset,
         trainingDatasetId: typing.Union[MetaOapg.properties.trainingDatasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingFitConfigId: typing.Union[MetaOapg.properties.trainingFitConfigId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        public: typing.Union[MetaOapg.properties.public, bool, schemas.Unset] = schemas.unset,
+        isPublic: typing.Union[MetaOapg.properties.isPublic, bool, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, str, schemas.Unset] = schemas.unset,
         env: typing.Union[MetaOapg.properties.env, str, schemas.Unset] = schemas.unset,
         fittable: typing.Union[MetaOapg.properties.fittable, bool, schemas.Unset] = schemas.unset,
@@ -312,7 +312,7 @@ class ModelCreateUpdateData(
             trainingType=trainingType,
             trainingDatasetId=trainingDatasetId,
             trainingFitConfigId=trainingFitConfigId,
-            public=public,
+            isPublic=isPublic,
             config=config,
             env=env,
             fittable=fittable,

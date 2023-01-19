@@ -35,7 +35,7 @@ class PredictConfigData(
 
     class MetaOapg:
         required = {
-            "default",
+            "isDefault",
             "name",
             "id",
             "config",
@@ -47,16 +47,16 @@ class PredictConfigData(
             def id() -> typing.Type['PredictConfigPK']:
                 return PredictConfigPK
             name = schemas.StrSchema
-            default = schemas.BoolSchema
+            isDefault = schemas.BoolSchema
             config = schemas.StrSchema
             __annotations__ = {
                 "id": id,
                 "name": name,
-                "default": default,
+                "isDefault": isDefault,
                 "config": config,
             }
     
-    default: MetaOapg.properties.default
+    isDefault: MetaOapg.properties.isDefault
     name: MetaOapg.properties.name
     id: 'PredictConfigPK'
     config: MetaOapg.properties.config
@@ -68,7 +68,7 @@ class PredictConfigData(
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["default"]) -> MetaOapg.properties.default: ...
+    def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
@@ -76,7 +76,7 @@ class PredictConfigData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "default", "config", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "config", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -88,7 +88,7 @@ class PredictConfigData(
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["default"]) -> MetaOapg.properties.default: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
@@ -96,14 +96,14 @@ class PredictConfigData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "default", "config", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "config", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        default: typing.Union[MetaOapg.properties.default, bool, ],
+        isDefault: typing.Union[MetaOapg.properties.isDefault, bool, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: 'PredictConfigPK',
         config: typing.Union[MetaOapg.properties.config, str, ],
@@ -113,7 +113,7 @@ class PredictConfigData(
         return super().__new__(
             cls,
             *_args,
-            default=default,
+            isDefault=isDefault,
             name=name,
             id=id,
             config=config,

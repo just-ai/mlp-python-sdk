@@ -41,11 +41,11 @@ class ConfigCreateUpdateData(
         class properties:
             config = schemas.StrSchema
             name = schemas.StrSchema
-            default = schemas.BoolSchema
+            isDefault = schemas.BoolSchema
             __annotations__ = {
                 "config": config,
                 "name": name,
-                "default": default,
+                "isDefault": isDefault,
             }
     
     config: MetaOapg.properties.config
@@ -57,12 +57,12 @@ class ConfigCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["default"]) -> MetaOapg.properties.default: ...
+    def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["config", "name", "default", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["config", "name", "isDefault", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -74,12 +74,12 @@ class ConfigCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["default"]) -> typing.Union[MetaOapg.properties.default, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> typing.Union[MetaOapg.properties.isDefault, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["config", "name", "default", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["config", "name", "isDefault", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -88,7 +88,7 @@ class ConfigCreateUpdateData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         config: typing.Union[MetaOapg.properties.config, str, ],
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
-        default: typing.Union[MetaOapg.properties.default, bool, schemas.Unset] = schemas.unset,
+        isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ConfigCreateUpdateData':
@@ -97,7 +97,7 @@ class ConfigCreateUpdateData(
             *_args,
             config=config,
             name=name,
-            default=default,
+            isDefault=isDefault,
             _configuration=_configuration,
             **kwargs,
         )

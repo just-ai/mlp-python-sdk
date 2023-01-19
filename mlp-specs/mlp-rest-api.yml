@@ -3656,7 +3656,7 @@ components:
         trainingFitConfigId:
           type: integer
           format: int64
-        public:
+        isPublic:
           type: boolean
         config:
           type: string
@@ -3778,8 +3778,8 @@ components:
     FitConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -3787,7 +3787,7 @@ components:
           $ref: '#/components/schemas/FitConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -3880,7 +3880,7 @@ components:
           enum:
           - singleContainer
           - multipleFit
-        public:
+        isPublic:
           type: boolean
         config:
           type: string
@@ -3934,15 +3934,15 @@ components:
       properties:
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
     PredictConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -3950,7 +3950,7 @@ components:
           $ref: '#/components/schemas/PredictConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -4147,7 +4147,7 @@ components:
           type: string
         affinity:
           type: string
-        default:
+        isDefault:
           type: boolean
     ResourceGroupsData:
       required:
@@ -4278,11 +4278,11 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
@@ -4539,11 +4539,11 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
@@ -4571,11 +4571,11 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         last:
