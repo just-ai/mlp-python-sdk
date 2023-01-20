@@ -3656,7 +3656,7 @@ components:
         trainingFitConfigId:
           type: integer
           format: int64
-        public:
+        isPublic:
           type: boolean
         config:
           type: string
@@ -3778,8 +3778,8 @@ components:
     FitConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -3787,7 +3787,7 @@ components:
           $ref: '#/components/schemas/FitConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -3880,7 +3880,7 @@ components:
           enum:
           - singleContainer
           - multipleFit
-        public:
+        isPublic:
           type: boolean
         config:
           type: string
@@ -3934,15 +3934,15 @@ components:
       properties:
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
     PredictConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -3950,7 +3950,7 @@ components:
           $ref: '#/components/schemas/PredictConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -4147,7 +4147,7 @@ components:
           type: string
         affinity:
           type: string
-        default:
+        isDefault:
           type: boolean
     ResourceGroupsData:
       required:
@@ -4270,12 +4270,12 @@ components:
     PageModelInfoData:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         sort:
@@ -4531,12 +4531,12 @@ components:
     PageImageInfoData:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         sort:
@@ -4563,12 +4563,12 @@ components:
     PageDataImageInfoData:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         sort:
