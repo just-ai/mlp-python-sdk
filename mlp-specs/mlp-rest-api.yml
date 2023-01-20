@@ -4278,15 +4278,15 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -4304,25 +4304,25 @@ components:
       properties:
         sort:
           $ref: '#/components/schemas/Sort'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         offset:
           type: integer
           format: int64
     Sort:
       type: object
       properties:
-        sorted:
-          type: boolean
         unsorted:
+          type: boolean
+        sorted:
           type: boolean
         empty:
           type: boolean
@@ -4539,15 +4539,15 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -4571,15 +4571,15 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         size:
           type: integer
           format: int32
