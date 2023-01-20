@@ -4270,12 +4270,12 @@ components:
     PageModelInfoData:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         sort:
           $ref: '#/components/schemas/Sort'
         numberOfElements:
@@ -4320,9 +4320,9 @@ components:
     Sort:
       type: object
       properties:
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
         empty:
           type: boolean
@@ -4531,12 +4531,12 @@ components:
     PageImageInfoData:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         sort:
           $ref: '#/components/schemas/Sort'
         numberOfElements:
@@ -4563,12 +4563,12 @@ components:
     PageDataImageInfoData:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         sort:
           $ref: '#/components/schemas/Sort'
         numberOfElements:
