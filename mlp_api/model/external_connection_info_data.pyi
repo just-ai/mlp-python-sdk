@@ -48,6 +48,7 @@ class ExternalConnectionInfoData(
             externalUrl = schemas.StrSchema
             grpcSecure = schemas.BoolSchema
             restApiURL = schemas.StrSchema
+            restClientToken = schemas.StrSchema
             __annotations__ = {
                 "model": model,
                 "connectionToken": connectionToken,
@@ -55,6 +56,7 @@ class ExternalConnectionInfoData(
                 "externalUrl": externalUrl,
                 "grpcSecure": grpcSecure,
                 "restApiURL": restApiURL,
+                "restClientToken": restClientToken,
             }
     
     model: 'ModelInfoData'
@@ -78,9 +80,12 @@ class ExternalConnectionInfoData(
     def __getitem__(self, name: typing_extensions.Literal["restApiURL"]) -> MetaOapg.properties.restApiURL: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["restClientToken"]) -> MetaOapg.properties.restClientToken: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", "restClientToken", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -104,9 +109,12 @@ class ExternalConnectionInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["restApiURL"]) -> typing.Union[MetaOapg.properties.restApiURL, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["restClientToken"]) -> typing.Union[MetaOapg.properties.restClientToken, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", "restClientToken", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -119,6 +127,7 @@ class ExternalConnectionInfoData(
         externalUrl: typing.Union[MetaOapg.properties.externalUrl, str, schemas.Unset] = schemas.unset,
         grpcSecure: typing.Union[MetaOapg.properties.grpcSecure, bool, schemas.Unset] = schemas.unset,
         restApiURL: typing.Union[MetaOapg.properties.restApiURL, str, schemas.Unset] = schemas.unset,
+        restClientToken: typing.Union[MetaOapg.properties.restClientToken, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ExternalConnectionInfoData':
@@ -131,6 +140,7 @@ class ExternalConnectionInfoData(
             externalUrl=externalUrl,
             grpcSecure=grpcSecure,
             restApiURL=restApiURL,
+            restClientToken=restClientToken,
             _configuration=_configuration,
             **kwargs,
         )

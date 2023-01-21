@@ -46,14 +46,14 @@ class ResourceGroupData(
             affinity = schemas.StrSchema
             accountId = schemas.Int64Schema
             accountName = schemas.StrSchema
-            isDefault = schemas.BoolSchema
+            default = schemas.BoolSchema
             __annotations__ = {
                 "name": name,
                 "tolerations": tolerations,
                 "affinity": affinity,
                 "accountId": accountId,
                 "accountName": accountName,
-                "isDefault": isDefault,
+                "default": default,
             }
     
     tolerations: MetaOapg.properties.tolerations
@@ -76,12 +76,12 @@ class ResourceGroupData(
     def __getitem__(self, name: typing_extensions.Literal["accountName"]) -> MetaOapg.properties.accountName: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
+    def __getitem__(self, name: typing_extensions.Literal["default"]) -> MetaOapg.properties.default: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "isDefault", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "default", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -102,12 +102,12 @@ class ResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["accountName"]) -> typing.Union[MetaOapg.properties.accountName, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> typing.Union[MetaOapg.properties.isDefault, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["default"]) -> typing.Union[MetaOapg.properties.default, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "isDefault", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "default", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -119,7 +119,7 @@ class ResourceGroupData(
         affinity: typing.Union[MetaOapg.properties.affinity, str, ],
         accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         accountName: typing.Union[MetaOapg.properties.accountName, str, schemas.Unset] = schemas.unset,
-        isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
+        default: typing.Union[MetaOapg.properties.default, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupData':
@@ -131,7 +131,7 @@ class ResourceGroupData(
             affinity=affinity,
             accountId=accountId,
             accountName=accountName,
-            isDefault=isDefault,
+            default=default,
             _configuration=_configuration,
             **kwargs,
         )

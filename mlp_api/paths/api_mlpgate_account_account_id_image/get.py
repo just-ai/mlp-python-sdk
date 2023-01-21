@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.page_image_info_data import PageImageInfoData
+from mlp_api.model.paged_image_info_data import PagedImageInfoData
 
 from . import path
 
@@ -130,7 +130,7 @@ request_path_account_id = api_client.PathParameter(
     schema=AccountIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = PageImageInfoData
+SchemaFor200ResponseBodyApplicationJson = PagedImageInfoData
 
 
 @dataclass

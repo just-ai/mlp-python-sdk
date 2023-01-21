@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.page_model_info_data import PageModelInfoData
+from mlp_api.model.paged_model_info_data import PagedModelInfoData
 
 # Query params
 OnlyMySchema = schemas.BoolSchema
@@ -144,7 +144,7 @@ request_path_account_id = api_client.PathParameter(
     schema=AccountIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = PageModelInfoData
+SchemaFor200ResponseBodyApplicationJson = PagedModelInfoData
 
 
 @dataclass

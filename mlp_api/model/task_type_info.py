@@ -42,9 +42,13 @@ class TaskTypeInfo(
         class properties:
             name = schemas.StrSchema
             displayName = schemas.StrSchema
+            icon = schemas.StrSchema
+            color = schemas.StrSchema
             __annotations__ = {
                 "name": name,
                 "displayName": displayName,
+                "icon": icon,
+                "color": color,
             }
     
     displayName: MetaOapg.properties.displayName
@@ -57,9 +61,15 @@ class TaskTypeInfo(
     def __getitem__(self, name: typing_extensions.Literal["displayName"]) -> MetaOapg.properties.displayName: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["icon"]) -> MetaOapg.properties.icon: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["color"]) -> MetaOapg.properties.color: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "displayName", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "displayName", "icon", "color", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -71,9 +81,15 @@ class TaskTypeInfo(
     def get_item_oapg(self, name: typing_extensions.Literal["displayName"]) -> MetaOapg.properties.displayName: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["icon"]) -> typing.Union[MetaOapg.properties.icon, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["color"]) -> typing.Union[MetaOapg.properties.color, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "displayName", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "displayName", "icon", "color", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -82,6 +98,8 @@ class TaskTypeInfo(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         displayName: typing.Union[MetaOapg.properties.displayName, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
+        icon: typing.Union[MetaOapg.properties.icon, str, schemas.Unset] = schemas.unset,
+        color: typing.Union[MetaOapg.properties.color, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'TaskTypeInfo':
@@ -90,6 +108,8 @@ class TaskTypeInfo(
             *_args,
             displayName=displayName,
             name=name,
+            icon=icon,
+            color=color,
             _configuration=_configuration,
             **kwargs,
         )

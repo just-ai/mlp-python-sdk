@@ -36,10 +36,13 @@ class ModelCreateUpdateData(
     class MetaOapg:
         required = {
             "modelName",
+            "imageId",
+            "imageAccountId",
         }
         
         class properties:
             modelName = schemas.StrSchema
+            imageAccountId = schemas.Int64Schema
             imageId = schemas.Int64Schema
             trainingModelAccountId = schemas.Int64Schema
             trainingModelId = schemas.Int64Schema
@@ -57,9 +60,11 @@ class ModelCreateUpdateData(
                 @schemas.classproperty
                 def MULTIPLE_FIT(cls):
                     return cls("multipleFit")
+            trainingDatasetAccountId = schemas.Int64Schema
             trainingDatasetId = schemas.Int64Schema
             trainingFitConfigId = schemas.Int64Schema
-            isPublic = schemas.BoolSchema
+            fitTemplateModelId = schemas.Int64Schema
+            composite = schemas.BoolSchema
             config = schemas.StrSchema
             env = schemas.StrSchema
             fittable = schemas.BoolSchema
@@ -132,15 +137,42 @@ class ModelCreateUpdateData(
             @staticmethod
             def batchesConfig() -> typing.Type['ModelBatchesData']:
                 return ModelBatchesData
+            shortDescription = schemas.StrSchema
+            
+            
+            class languages(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'languages':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             __annotations__ = {
                 "modelName": modelName,
+                "imageAccountId": imageAccountId,
                 "imageId": imageId,
                 "trainingModelAccountId": trainingModelAccountId,
                 "trainingModelId": trainingModelId,
                 "trainingType": trainingType,
+                "trainingDatasetAccountId": trainingDatasetAccountId,
                 "trainingDatasetId": trainingDatasetId,
                 "trainingFitConfigId": trainingFitConfigId,
-                "isPublic": isPublic,
+                "fitTemplateModelId": fitTemplateModelId,
+                "composite": composite,
                 "config": config,
                 "env": env,
                 "fittable": fittable,
@@ -151,12 +183,19 @@ class ModelCreateUpdateData(
                 "resourceLimits": resourceLimits,
                 "retriesConfig": retriesConfig,
                 "batchesConfig": batchesConfig,
+                "shortDescription": shortDescription,
+                "languages": languages,
             }
     
     modelName: MetaOapg.properties.modelName
+    imageId: MetaOapg.properties.imageId
+    imageAccountId: MetaOapg.properties.imageAccountId
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["modelName"]) -> MetaOapg.properties.modelName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["imageAccountId"]) -> MetaOapg.properties.imageAccountId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["imageId"]) -> MetaOapg.properties.imageId: ...
@@ -171,13 +210,19 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["trainingType"]) -> MetaOapg.properties.trainingType: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["trainingDatasetAccountId"]) -> MetaOapg.properties.trainingDatasetAccountId: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingDatasetId"]) -> MetaOapg.properties.trainingDatasetId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> MetaOapg.properties.trainingFitConfigId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["isPublic"]) -> MetaOapg.properties.isPublic: ...
+    def __getitem__(self, name: typing_extensions.Literal["fitTemplateModelId"]) -> MetaOapg.properties.fitTemplateModelId: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["composite"]) -> MetaOapg.properties.composite: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
@@ -210,9 +255,15 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["batchesConfig"]) -> 'ModelBatchesData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["shortDescription"]) -> MetaOapg.properties.shortDescription: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["languages"]) -> MetaOapg.properties.languages: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "isPublic", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -221,7 +272,10 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["modelName"]) -> MetaOapg.properties.modelName: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["imageId"]) -> typing.Union[MetaOapg.properties.imageId, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["imageAccountId"]) -> MetaOapg.properties.imageAccountId: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["imageId"]) -> MetaOapg.properties.imageId: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingModelAccountId"]) -> typing.Union[MetaOapg.properties.trainingModelAccountId, schemas.Unset]: ...
@@ -233,13 +287,19 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["trainingType"]) -> typing.Union[MetaOapg.properties.trainingType, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["trainingDatasetAccountId"]) -> typing.Union[MetaOapg.properties.trainingDatasetAccountId, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingDatasetId"]) -> typing.Union[MetaOapg.properties.trainingDatasetId, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> typing.Union[MetaOapg.properties.trainingFitConfigId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["isPublic"]) -> typing.Union[MetaOapg.properties.isPublic, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["fitTemplateModelId"]) -> typing.Union[MetaOapg.properties.fitTemplateModelId, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["composite"]) -> typing.Union[MetaOapg.properties.composite, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["config"]) -> typing.Union[MetaOapg.properties.config, schemas.Unset]: ...
@@ -272,9 +332,15 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["batchesConfig"]) -> typing.Union['ModelBatchesData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["shortDescription"]) -> typing.Union[MetaOapg.properties.shortDescription, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["languages"]) -> typing.Union[MetaOapg.properties.languages, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetId", "trainingFitConfigId", "isPublic", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -282,13 +348,16 @@ class ModelCreateUpdateData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         modelName: typing.Union[MetaOapg.properties.modelName, str, ],
-        imageId: typing.Union[MetaOapg.properties.imageId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        imageId: typing.Union[MetaOapg.properties.imageId, decimal.Decimal, int, ],
+        imageAccountId: typing.Union[MetaOapg.properties.imageAccountId, decimal.Decimal, int, ],
         trainingModelAccountId: typing.Union[MetaOapg.properties.trainingModelAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingModelId: typing.Union[MetaOapg.properties.trainingModelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingType: typing.Union[MetaOapg.properties.trainingType, str, schemas.Unset] = schemas.unset,
+        trainingDatasetAccountId: typing.Union[MetaOapg.properties.trainingDatasetAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDatasetId: typing.Union[MetaOapg.properties.trainingDatasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingFitConfigId: typing.Union[MetaOapg.properties.trainingFitConfigId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        isPublic: typing.Union[MetaOapg.properties.isPublic, bool, schemas.Unset] = schemas.unset,
+        fitTemplateModelId: typing.Union[MetaOapg.properties.fitTemplateModelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        composite: typing.Union[MetaOapg.properties.composite, bool, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, str, schemas.Unset] = schemas.unset,
         env: typing.Union[MetaOapg.properties.env, str, schemas.Unset] = schemas.unset,
         fittable: typing.Union[MetaOapg.properties.fittable, bool, schemas.Unset] = schemas.unset,
@@ -299,6 +368,8 @@ class ModelCreateUpdateData(
         resourceLimits: typing.Union['ModelLimitsData', schemas.Unset] = schemas.unset,
         retriesConfig: typing.Union['ModelRetriesData', schemas.Unset] = schemas.unset,
         batchesConfig: typing.Union['ModelBatchesData', schemas.Unset] = schemas.unset,
+        shortDescription: typing.Union[MetaOapg.properties.shortDescription, str, schemas.Unset] = schemas.unset,
+        languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelCreateUpdateData':
@@ -307,12 +378,15 @@ class ModelCreateUpdateData(
             *_args,
             modelName=modelName,
             imageId=imageId,
+            imageAccountId=imageAccountId,
             trainingModelAccountId=trainingModelAccountId,
             trainingModelId=trainingModelId,
             trainingType=trainingType,
+            trainingDatasetAccountId=trainingDatasetAccountId,
             trainingDatasetId=trainingDatasetId,
             trainingFitConfigId=trainingFitConfigId,
-            isPublic=isPublic,
+            fitTemplateModelId=fitTemplateModelId,
+            composite=composite,
             config=config,
             env=env,
             fittable=fittable,
@@ -323,6 +397,8 @@ class ModelCreateUpdateData(
             resourceLimits=resourceLimits,
             retriesConfig=retriesConfig,
             batchesConfig=batchesConfig,
+            shortDescription=shortDescription,
+            languages=languages,
             _configuration=_configuration,
             **kwargs,
         )
