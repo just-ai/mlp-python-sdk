@@ -25,10 +25,76 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.model_info_data import ModelInfoData
+from mlp_api.model.paged_model_info_data import PagedModelInfoData
 
 from . import path
 
+# Query params
+OnlyMySchema = schemas.BoolSchema
+AccountSchema = schemas.StrSchema
+ModelSchema = schemas.StrSchema
+PageSchema = schemas.Int32Schema
+SizeSchema = schemas.Int32Schema
+SortSchema = schemas.StrSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'onlyMy': typing.Union[OnlyMySchema, bool, ],
+        'account': typing.Union[AccountSchema, str, ],
+        'model': typing.Union[ModelSchema, str, ],
+        'page': typing.Union[PageSchema, decimal.Decimal, int, ],
+        'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
+        'sort': typing.Union[SortSchema, str, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_only_my = api_client.QueryParameter(
+    name="onlyMy",
+    style=api_client.ParameterStyle.FORM,
+    schema=OnlyMySchema,
+    explode=True,
+)
+request_query_account = api_client.QueryParameter(
+    name="account",
+    style=api_client.ParameterStyle.FORM,
+    schema=AccountSchema,
+    explode=True,
+)
+request_query_model = api_client.QueryParameter(
+    name="model",
+    style=api_client.ParameterStyle.FORM,
+    schema=ModelSchema,
+    explode=True,
+)
+request_query_page = api_client.QueryParameter(
+    name="page",
+    style=api_client.ParameterStyle.FORM,
+    schema=PageSchema,
+    explode=True,
+)
+request_query_size = api_client.QueryParameter(
+    name="size",
+    style=api_client.ParameterStyle.FORM,
+    schema=SizeSchema,
+    explode=True,
+)
+request_query_sort = api_client.QueryParameter(
+    name="sort",
+    style=api_client.ParameterStyle.FORM,
+    schema=SortSchema,
+    explode=True,
+)
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -54,58 +120,7 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=MLPAPIKEYSchema,
 )
-# Path params
-AccountIdSchema = schemas.Int64Schema
-RequestRequiredPathParams = typing_extensions.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'accountId': typing.Union[AccountIdSchema, decimal.Decimal, int, ],
-    }
-)
-RequestOptionalPathParams = typing_extensions.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-request_path_account_id = api_client.PathParameter(
-    name="accountId",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=AccountIdSchema,
-    required=True,
-)
-
-
-class SchemaFor200ResponseBodyApplicationJson(
-    schemas.ListSchema
-):
-
-
-    class MetaOapg:
-        
-        @staticmethod
-        def items() -> typing.Type['ModelInfoData']:
-            return ModelInfoData
-
-    def __new__(
-        cls,
-        _arg: typing.Union[typing.Tuple['ModelInfoData'], typing.List['ModelInfoData']],
-        _configuration: typing.Optional[schemas.Configuration] = None,
-    ) -> 'SchemaFor200ResponseBodyApplicationJson':
-        return super().__new__(
-            cls,
-            _arg,
-            _configuration=_configuration,
-        )
-
-    def __getitem__(self, i: int) -> 'ModelInfoData':
-        return super().__getitem__(i)
+SchemaFor200ResponseBodyApplicationJson = PagedModelInfoData
 
 
 @dataclass
@@ -134,10 +149,10 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_featured_models_oapg(
+    def _get_public_models_oapg(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -147,21 +162,21 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_featured_models_oapg(
+    def _get_public_models_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_featured_models_oapg(
+    def _get_public_models_oapg(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -171,10 +186,10 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_featured_models_oapg(
+    def _get_public_models_oapg(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -185,22 +200,27 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
-        _path_params = {}
+        prefix_separator_iterator = None
         for parameter in (
-            request_path_account_id,
+            request_query_only_my,
+            request_query_account,
+            request_query_model,
+            request_query_page,
+            request_query_size,
+            request_query_sort,
         ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
+            parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
                 continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -243,14 +263,14 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetFeaturedModels(BaseApi):
+class GetPublicModels(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_featured_models(
+    def get_public_models(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -260,21 +280,21 @@ class GetFeaturedModels(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_featured_models(
+    def get_public_models(
         self,
         skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_featured_models(
+    def get_public_models(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -284,18 +304,18 @@ class GetFeaturedModels(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_featured_models(
+    def get_public_models(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_featured_models_oapg(
+        return self._get_public_models_oapg(
+            query_params=query_params,
             header_params=header_params,
-            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -309,8 +329,8 @@ class ApiForget(BaseApi):
     @typing.overload
     def get(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -323,8 +343,8 @@ class ApiForget(BaseApi):
     def get(
         self,
         skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -333,8 +353,8 @@ class ApiForget(BaseApi):
     @typing.overload
     def get(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -346,16 +366,16 @@ class ApiForget(BaseApi):
 
     def get(
         self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_featured_models_oapg(
+        return self._get_public_models_oapg(
+            query_params=query_params,
             header_params=header_params,
-            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

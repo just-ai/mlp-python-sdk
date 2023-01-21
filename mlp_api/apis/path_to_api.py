@@ -47,6 +47,8 @@ from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSy
 from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpgateSystemConfigResourceGroups
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
 from mlp_api.apis.paths.api_mlpgate_system_config_dataset_data_type import ApiMlpgateSystemConfigDatasetDataType
+from mlp_api.apis.paths.api_mlpgate_model import ApiMlpgateModel
+from mlp_api.apis.paths.api_mlpgate_model_featured import ApiMlpgateModelFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
 from mlp_api.apis.paths.api_mlpgate_health_test import ApiMlpgateHealthTest
 from mlp_api.apis.paths.api_mlpgate_admin_account import ApiMlpgateAdminAccount
@@ -67,7 +69,6 @@ from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_instance_i
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_instance_instance_id_events import ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEvents
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_instance_instance_id_environment import ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_action_descriptor import ApiMlpgateAccountAccountIdModelModelIdActionDescriptor
-from mlp_api.apis.paths.api_mlpgate_account_account_id_model_featured import ApiMlpgateAccountAccountIdModelFeatured
 from mlp_api.apis.paths.api_mlpgate_account_account_id_metric import ApiMlpgateAccountAccountIdMetric
 from mlp_api.apis.paths.api_mlpgate_account_account_id_metric_range import ApiMlpgateAccountAccountIdMetricRange
 from mlp_api.apis.paths.api_mlpgate_account_account_id_job import ApiMlpgateAccountAccountIdJob
@@ -133,6 +134,8 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
+        PathValues.API_MLPGATE_MODEL: ApiMlpgateModel,
+        PathValues.API_MLPGATE_MODEL_FEATURED: ApiMlpgateModelFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT: ApiMlpgateAdminAccount,
@@ -153,7 +156,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONDESCRIPTOR: ApiMlpgateAccountAccountIdModelModelIdActionDescriptor,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_FEATURED: ApiMlpgateAccountAccountIdModelFeatured,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiMlpgateAccountAccountIdMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiMlpgateAccountAccountIdMetricRange,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMlpgateAccountAccountIdJob,
@@ -220,6 +222,8 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
+        PathValues.API_MLPGATE_MODEL: ApiMlpgateModel,
+        PathValues.API_MLPGATE_MODEL_FEATURED: ApiMlpgateModelFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT: ApiMlpgateAdminAccount,
@@ -240,7 +244,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_EVENTS: ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEvents,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMlpgateAccountAccountIdModelModelIdInstanceInstanceIdEnvironment,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONDESCRIPTOR: ApiMlpgateAccountAccountIdModelModelIdActionDescriptor,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_FEATURED: ApiMlpgateAccountAccountIdModelFeatured,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_METRIC: ApiMlpgateAccountAccountIdMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_METRICRANGE: ApiMlpgateAccountAccountIdMetricRange,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMlpgateAccountAccountIdJob,

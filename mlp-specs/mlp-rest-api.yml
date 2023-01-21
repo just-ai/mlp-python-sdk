@@ -2385,6 +2385,78 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/model:
+    get:
+      tags:
+      - model-endpoint
+      operationId: getPublicModels
+      parameters:
+      - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: account
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: model
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedModelInfoData'
+  /api/mlpgate/model/featured:
+    get:
+      tags:
+      - model-endpoint
+      operationId: getFeaturedModels
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelInfoData'
   /api/mlpgate/health:
     get:
       tags:
@@ -3134,33 +3206,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceDescriptorData'
-  /api/mlpgate/account/{accountId}/model/featured:
-    get:
-      tags:
-      - model-endpoint
-      operationId: getFeaturedModels
-      parameters:
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ModelInfoData'
   /api/mlpgate/account/{accountId}/metric:
     get:
       tags:
@@ -4411,6 +4456,38 @@ components:
           $ref: '#/components/schemas/ModelLimitsData'
         resourceGroup:
           type: string
+    PagedModelInfoData:
+      required:
+      - paging
+      - records
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/Pagination'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelInfoData'
+    Pagination:
+      required:
+      - pageNumber
+      - pageSize
+      - totalElements
+      - totalPages
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
     Check:
       required:
       - critical
@@ -4507,38 +4584,6 @@ components:
           type: string
         bucketName:
           type: string
-    PagedModelInfoData:
-      required:
-      - paging
-      - records
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/Pagination'
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/ModelInfoData'
-    Pagination:
-      required:
-      - pageNumber
-      - pageSize
-      - totalElements
-      - totalPages
-      type: object
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
     InstancesStatusData:
       required:
       - externalActive

@@ -16,12 +16,13 @@ from mlp_api.paths.api_mlpgate_account_account_id_model.post import CreateModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.delete import DeleteExternalConnection
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.delete import DeleteModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.get import GetExternalConnectionInfo
-from mlp_api.paths.api_mlpgate_account_account_id_model_featured.get import GetFeaturedModels
+from mlp_api.paths.api_mlpgate_model_featured.get import GetFeaturedModels
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_instances.get import GetInstancesStatus
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_logs.get import GetLogsByModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.get import GetModelInfo
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_public_settings.get import GetModelPublicSettings
 from mlp_api.paths.api_mlpgate_account_account_id_model.get import GetPagedModels
+from mlp_api.paths.api_mlpgate_model.get import GetPublicModels
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_action_descriptor.get import GetServiceDescriptor
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_simple_doc.get import GetSimpleDoc
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_last_job.get import LastJob
@@ -47,6 +48,7 @@ class ModelEndpointApi(
     GetModelInfo,
     GetModelPublicSettings,
     GetPagedModels,
+    GetPublicModels,
     GetServiceDescriptor,
     GetSimpleDoc,
     LastJob,
