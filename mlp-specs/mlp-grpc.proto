@@ -130,6 +130,7 @@ message FitRequestProto {
   optional PayloadProto config = 103;
   string modelDir = 104;
   optional string previousModelDir = 105;
+  ServiceInfoProto targetServiceInfo = 106;
 }
 
 message FitResponseProto {
