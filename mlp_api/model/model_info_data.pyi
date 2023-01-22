@@ -145,6 +145,7 @@ class ModelInfoData(
             @staticmethod
             def trainingDataset() -> typing.Type['DatasetInfoData']:
                 return DatasetInfoData
+            trainingDatasetType = schemas.StrSchema
             trainingFitConfigId = schemas.Int64Schema
         
             @staticmethod
@@ -216,6 +217,7 @@ class ModelInfoData(
                 "trainingDatasetAccountId": trainingDatasetAccountId,
                 "trainingDatasetId": trainingDatasetId,
                 "trainingDataset": trainingDataset,
+                "trainingDatasetType": trainingDatasetType,
                 "trainingFitConfigId": trainingFitConfigId,
                 "trainingFitConfig": trainingFitConfig,
                 "fitTemplateModelId": fitTemplateModelId,
@@ -305,6 +307,9 @@ class ModelInfoData(
     def __getitem__(self, name: typing_extensions.Literal["trainingDataset"]) -> 'DatasetInfoData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["trainingDatasetType"]) -> MetaOapg.properties.trainingDatasetType: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> MetaOapg.properties.trainingFitConfigId: ...
     
     @typing.overload
@@ -343,7 +348,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -409,6 +414,9 @@ class ModelInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["trainingDataset"]) -> typing.Union['DatasetInfoData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["trainingDatasetType"]) -> typing.Union[MetaOapg.properties.trainingDatasetType, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> typing.Union[MetaOapg.properties.trainingFitConfigId, schemas.Unset]: ...
     
     @typing.overload
@@ -447,7 +455,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -474,6 +482,7 @@ class ModelInfoData(
         trainingDatasetAccountId: typing.Union[MetaOapg.properties.trainingDatasetAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDatasetId: typing.Union[MetaOapg.properties.trainingDatasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDataset: typing.Union['DatasetInfoData', schemas.Unset] = schemas.unset,
+        trainingDatasetType: typing.Union[MetaOapg.properties.trainingDatasetType, str, schemas.Unset] = schemas.unset,
         trainingFitConfigId: typing.Union[MetaOapg.properties.trainingFitConfigId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingFitConfig: typing.Union['FitConfigData', schemas.Unset] = schemas.unset,
         fitTemplateModelId: typing.Union[MetaOapg.properties.fitTemplateModelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -512,6 +521,7 @@ class ModelInfoData(
             trainingDatasetAccountId=trainingDatasetAccountId,
             trainingDatasetId=trainingDatasetId,
             trainingDataset=trainingDataset,
+            trainingDatasetType=trainingDatasetType,
             trainingFitConfigId=trainingFitConfigId,
             trainingFitConfig=trainingFitConfig,
             fitTemplateModelId=fitTemplateModelId,

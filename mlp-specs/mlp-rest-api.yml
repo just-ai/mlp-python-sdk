@@ -3845,6 +3845,10 @@ components:
         trainingFitConfigId:
           type: integer
           format: int64
+        taskType:
+          type: string
+        trainingDatasetType:
+          type: string
         fitTemplateModelId:
           type: integer
           format: int64
@@ -4024,8 +4028,6 @@ components:
           type: string
         image:
           type: string
-        taskType:
-          type: string
         accessMode:
           type: string
           enum:
@@ -4085,6 +4087,8 @@ components:
           format: int64
         trainingDataset:
           $ref: '#/components/schemas/DatasetInfoData'
+        trainingDatasetType:
+          type: string
         trainingFitConfigId:
           type: integer
           format: int64

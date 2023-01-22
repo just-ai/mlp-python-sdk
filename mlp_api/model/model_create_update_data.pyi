@@ -63,6 +63,8 @@ class ModelCreateUpdateData(
             trainingDatasetAccountId = schemas.Int64Schema
             trainingDatasetId = schemas.Int64Schema
             trainingFitConfigId = schemas.Int64Schema
+            taskType = schemas.StrSchema
+            trainingDatasetType = schemas.StrSchema
             fitTemplateModelId = schemas.Int64Schema
             composite = schemas.BoolSchema
             config = schemas.StrSchema
@@ -171,6 +173,8 @@ class ModelCreateUpdateData(
                 "trainingDatasetAccountId": trainingDatasetAccountId,
                 "trainingDatasetId": trainingDatasetId,
                 "trainingFitConfigId": trainingFitConfigId,
+                "taskType": taskType,
+                "trainingDatasetType": trainingDatasetType,
                 "fitTemplateModelId": fitTemplateModelId,
                 "composite": composite,
                 "config": config,
@@ -219,6 +223,12 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> MetaOapg.properties.trainingFitConfigId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["taskType"]) -> MetaOapg.properties.taskType: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["trainingDatasetType"]) -> MetaOapg.properties.trainingDatasetType: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["fitTemplateModelId"]) -> MetaOapg.properties.fitTemplateModelId: ...
     
     @typing.overload
@@ -263,7 +273,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -294,6 +304,12 @@ class ModelCreateUpdateData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingFitConfigId"]) -> typing.Union[MetaOapg.properties.trainingFitConfigId, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["taskType"]) -> typing.Union[MetaOapg.properties.taskType, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["trainingDatasetType"]) -> typing.Union[MetaOapg.properties.trainingDatasetType, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["fitTemplateModelId"]) -> typing.Union[MetaOapg.properties.fitTemplateModelId, schemas.Unset]: ...
@@ -340,7 +356,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "shortDescription", "languages", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -356,6 +372,8 @@ class ModelCreateUpdateData(
         trainingDatasetAccountId: typing.Union[MetaOapg.properties.trainingDatasetAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDatasetId: typing.Union[MetaOapg.properties.trainingDatasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingFitConfigId: typing.Union[MetaOapg.properties.trainingFitConfigId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        taskType: typing.Union[MetaOapg.properties.taskType, str, schemas.Unset] = schemas.unset,
+        trainingDatasetType: typing.Union[MetaOapg.properties.trainingDatasetType, str, schemas.Unset] = schemas.unset,
         fitTemplateModelId: typing.Union[MetaOapg.properties.fitTemplateModelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         composite: typing.Union[MetaOapg.properties.composite, bool, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, str, schemas.Unset] = schemas.unset,
@@ -385,6 +403,8 @@ class ModelCreateUpdateData(
             trainingDatasetAccountId=trainingDatasetAccountId,
             trainingDatasetId=trainingDatasetId,
             trainingFitConfigId=trainingFitConfigId,
+            taskType=taskType,
+            trainingDatasetType=trainingDatasetType,
             fitTemplateModelId=fitTemplateModelId,
             composite=composite,
             config=config,
