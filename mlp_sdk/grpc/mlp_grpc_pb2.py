@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'P\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0emlp-grpc.proto\x12\x0c\x63om.mlp.gate\"\xd1\x02\n\x16ServiceDescriptorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x66ittable\x18\n \x01(\x08\x12\x42\n\x07methods\x18\x14 \x03(\x0b\x32\x31.com.mlp.gate.ServiceDescriptorProto.MethodsEntry\x12J\n\x0bschemaFiles\x18\x1e \x03(\x0b\x32\x35.com.mlp.gate.ServiceDescriptorProto.SchemaFilesEntry\x1aS\n\x0cMethodsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x32\n\x05value\x18\x02 \x01(\x0b\x32#.com.mlp.gate.MethodDescriptorProto:\x02\x38\x01\x1a\x32\n\x10SchemaFilesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xfc\x01\n\x15MethodDescriptorProto\x12=\n\x05input\x18\x01 \x03(\x0b\x32..com.mlp.gate.MethodDescriptorProto.InputEntry\x12\x32\n\x06output\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto\x12\x13\n\x06\x66itted\x18\x03 \x01(\x08H\x00\x88\x01\x01\x1aP\n\nInputEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x31\n\x05value\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto:\x02\x38\x01\x42\t\n\x07_fitted\"$\n\x14ParamDescriptorProto\x12\x0c\n\x04type\x18\x01 \x01(\t\"\\\n\x10ServiceInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x0f\n\x07modelId\x18\x02 \x01(\x03\x12\x11\n\tmodelName\x18\x03 \x01(\t\x12\x11\n\tauthToken\x18\x04 \x01(\t\"\xf2\x04\n\x12ServiceToGateProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x37\n\x0cstartServing\x18\x03 \x01(\x0b\x32\x1f.com.mlp.gate.StartServingProtoH\x00\x12\x35\n\x0bstopServing\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1e.com.mlp.gate.FitResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x35\n\x07refresh\x18h \x01(\x0b\x32\".com.mlp.gate.RefreshResponseProtoH\x00\x12\x33\n\x06status\x18i \x01(\x0b\x32!.com.mlp.gate.StatusResponseProtoH\x00\x12\x31\n\x05\x62\x61tch\x18j \x01(\x0b\x32 .com.mlp.gate.BatchResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12\x36\n\x07request\x18\xad\x02 \x01(\x0b\x32\".com.mlp.gate.PipelineRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xea\x04\n\x12GateToServiceProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x33\n\x07\x63luster\x18\x03 \x01(\x0b\x32 .com.mlp.gate.ClusterUpdateProtoH\x00\x12\x35\n\x0bserviceInfo\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProtoH\x00\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12,\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1d.com.mlp.gate.FitRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x34\n\x07refresh\x18h \x01(\x0b\x32!.com.mlp.gate.RefreshRequestProtoH\x00\x12\x32\n\x06status\x18i \x01(\x0b\x32 .com.mlp.gate.StatusRequestProtoH\x00\x12\x30\n\x05\x62\x61tch\x18j \x01(\x0b\x32\x1f.com.mlp.gate.BatchRequestProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12\x38\n\x08response\x18\xad\x02 \x01(\x0b\x32#.com.mlp.gate.PipelineResponseProtoH\x00\x42\x06\n\x04\x62ody\"2\n\x0eHeartBeatProto\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x10\n\x08interval\x18\x02 \x01(\x05\"m\n\x11StartServingProto\x12\x17\n\x0f\x63onnectionToken\x18\x01 \x01(\t\x12?\n\x11serviceDescriptor\x18\x03 \x01(\x0b\x32$.com.mlp.gate.ServiceDescriptorProto\"\x12\n\x10StopServingProto\"{\n\x13PredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"~\n\x11\x42\x61tchRequestProto\x12-\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\x1f.com.mlp.gate.BatchPayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"@\n\x14PredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"K\n\x12\x42\x61tchResponseProto\x12\x35\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\'.com.mlp.gate.BatchPayloadResponseProto\"\xc3\x02\n\x0f\x46itRequestProto\x12-\n\ttrainData\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x34\n\x0btargetsData\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12/\n\x06\x63onfig\x18g \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x01\x88\x01\x01\x12\x10\n\x08modelDir\x18h \x01(\t\x12\x1d\n\x10previousModelDir\x18i \x01(\tH\x02\x88\x01\x01\x12\x39\n\x11targetServiceInfo\x18j \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProtoB\x0e\n\x0c_targetsDataB\t\n\x07_configB\x13\n\x11_previousModelDir\"\x12\n\x10\x46itResponseProto\"\xb5\x01\n\x14\x45xtendedRequestProto\x12\x12\n\nmethodName\x18\x01 \x01(\t\x12>\n\x06params\x18\x02 \x03(\x0b\x32..com.mlp.gate.ExtendedRequestProto.ParamsEntry\x1aI\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto:\x02\x38\x01\"A\n\x15\x45xtendedResponseProto\x12(\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"P\n\x11\x42\x61tchPayloadProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x9c\x01\n\x19\x42\x61tchPayloadResponseProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"9\n\x13RefreshRequestProto\x12\x15\n\x08modelDir\x18\x01 \x01(\tH\x00\x88\x01\x01\x42\x0b\n\t_modelDir\"\x16\n\x14RefreshResponseProto\"\x14\n\x12StatusRequestProto\"J\n\x13StatusResponseProto\x12\x16\n\x0e\x63onnectedGates\x18\x01 \x03(\t\x12\x1b\n\x13\x63onnectedToAllGates\x18\x02 \x01(\x08\"^\n\x0cPayloadProto\x12\x15\n\x08\x64\x61taType\x18\x01 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x04json\x18\x65 \x01(\tH\x00\x12\x12\n\x08protobuf\x18\x66 \x01(\x0cH\x00\x42\x06\n\x04\x62odyB\x0b\n\t_dataType\"\xc1\x01\n\rApiErrorProto\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12/\n\x06status\x18\x03 \x01(\x0e\x32\x1f.com.mlp.gate.SimpleStatusProto\x12\x33\n\x04\x61rgs\x18\x04 \x03(\x0b\x32%.com.mlp.gate.ApiErrorProto.ArgsEntry\x1a+\n\tArgsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xb8\x01\n\x12\x43lientRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\tauthToken\x18\x03 \x01(\t\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xb7\x01\n\x13\x43lientResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\xdf\x01\n\x14PipelineRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18\x66 \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x36\n\x05token\x18g \x01(\x0b\x32%.com.mlp.gate.ClientTokenRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xf2\x01\n\x15PipelineResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18\x66 \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x37\n\x05token\x18g \x01(\x0b\x32&.com.mlp.gate.ClientTokenResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\x19\n\x17\x43lientTokenRequestProto\")\n\x18\x43lientTokenResponseProto\x12\r\n\x05token\x18\x01 \x01(\t\"<\n\x12\x43lusterUpdateProto\x12\x0f\n\x07servers\x18\x01 \x03(\t\x12\x15\n\rcurrentServer\x18\x02 \x01(\t\"\x1f\n\x0fSimpleTextProto\x12\x0c\n\x04text\x18\x01 \x01(\t*Y\n\x11SimpleStatusProto\x12\x06\n\x02OK\x10\x00\x12\x10\n\x0b\x42\x41\x44_REQUEST\x10\x90\x03\x12\x0e\n\tNOT_FOUND\x10\x94\x03\x12\x1a\n\x15INTERNAL_SERVER_ERROR\x10\xf4\x03\x32\xfd\x01\n\x04Gate\x12I\n\x0bhealthCheck\x12\x1c.com.mlp.gate.HeartBeatProto\x1a\x1c.com.mlp.gate.HeartBeatProto\x12X\n\x0cprocessAsync\x12 .com.mlp.gate.ServiceToGateProto\x1a .com.mlp.gate.GateToServiceProto\"\x00(\x01\x30\x01\x12P\n\x07process\x12 .com.mlp.gate.ClientRequestProto\x1a!.com.mlp.gate.ClientResponseProto\"\x00\x42\x02P\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0emlp-grpc.proto\x12\x0c\x63om.mlp.gate\"\xd1\x02\n\x16ServiceDescriptorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x66ittable\x18\n \x01(\x08\x12\x42\n\x07methods\x18\x14 \x03(\x0b\x32\x31.com.mlp.gate.ServiceDescriptorProto.MethodsEntry\x12J\n\x0bschemaFiles\x18\x1e \x03(\x0b\x32\x35.com.mlp.gate.ServiceDescriptorProto.SchemaFilesEntry\x1aS\n\x0cMethodsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x32\n\x05value\x18\x02 \x01(\x0b\x32#.com.mlp.gate.MethodDescriptorProto:\x02\x38\x01\x1a\x32\n\x10SchemaFilesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xfc\x01\n\x15MethodDescriptorProto\x12=\n\x05input\x18\x01 \x03(\x0b\x32..com.mlp.gate.MethodDescriptorProto.InputEntry\x12\x32\n\x06output\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto\x12\x13\n\x06\x66itted\x18\x03 \x01(\x08H\x00\x88\x01\x01\x1aP\n\nInputEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x31\n\x05value\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto:\x02\x38\x01\x42\t\n\x07_fitted\"$\n\x14ParamDescriptorProto\x12\x0c\n\x04type\x18\x01 \x01(\t\"\\\n\x10ServiceInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x0f\n\x07modelId\x18\x02 \x01(\x03\x12\x11\n\tmodelName\x18\x03 \x01(\t\x12\x11\n\tauthToken\x18\x04 \x01(\t\"\xf2\x04\n\x12ServiceToGateProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x37\n\x0cstartServing\x18\x03 \x01(\x0b\x32\x1f.com.mlp.gate.StartServingProtoH\x00\x12\x35\n\x0bstopServing\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1e.com.mlp.gate.FitResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x35\n\x07refresh\x18h \x01(\x0b\x32\".com.mlp.gate.RefreshResponseProtoH\x00\x12\x33\n\x06status\x18i \x01(\x0b\x32!.com.mlp.gate.StatusResponseProtoH\x00\x12\x31\n\x05\x62\x61tch\x18j \x01(\x0b\x32 .com.mlp.gate.BatchResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12\x36\n\x07request\x18\xad\x02 \x01(\x0b\x32\".com.mlp.gate.PipelineRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xea\x04\n\x12GateToServiceProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x33\n\x07\x63luster\x18\x03 \x01(\x0b\x32 .com.mlp.gate.ClusterUpdateProtoH\x00\x12\x35\n\x0bserviceInfo\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProtoH\x00\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12,\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1d.com.mlp.gate.FitRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x34\n\x07refresh\x18h \x01(\x0b\x32!.com.mlp.gate.RefreshRequestProtoH\x00\x12\x32\n\x06status\x18i \x01(\x0b\x32 .com.mlp.gate.StatusRequestProtoH\x00\x12\x30\n\x05\x62\x61tch\x18j \x01(\x0b\x32\x1f.com.mlp.gate.BatchRequestProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12\x38\n\x08response\x18\xad\x02 \x01(\x0b\x32#.com.mlp.gate.PipelineResponseProtoH\x00\x42\x06\n\x04\x62ody\"2\n\x0eHeartBeatProto\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x10\n\x08interval\x18\x02 \x01(\x05\"m\n\x11StartServingProto\x12\x17\n\x0f\x63onnectionToken\x18\x01 \x01(\t\x12?\n\x11serviceDescriptor\x18\x03 \x01(\x0b\x32$.com.mlp.gate.ServiceDescriptorProto\"\x12\n\x10StopServingProto\"{\n\x13PredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"~\n\x11\x42\x61tchRequestProto\x12-\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\x1f.com.mlp.gate.BatchPayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"@\n\x14PredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"K\n\x12\x42\x61tchResponseProto\x12\x35\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\'.com.mlp.gate.BatchPayloadResponseProto\"T\n\x10\x44\x61tasetInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x11\n\tdatasetId\x18\x02 \x01(\x03\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\"\xf8\x02\n\x0f\x46itRequestProto\x12-\n\ttrainData\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x34\n\x0btargetsData\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12/\n\x06\x63onfig\x18g \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x01\x88\x01\x01\x12\x10\n\x08modelDir\x18h \x01(\t\x12\x1d\n\x10previousModelDir\x18i \x01(\tH\x02\x88\x01\x01\x12\x39\n\x11targetServiceInfo\x18j \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProto\x12\x33\n\x0b\x64\x61tasetInfo\x18k \x01(\x0b\x32\x1e.com.mlp.gate.DatasetInfoProtoB\x0e\n\x0c_targetsDataB\t\n\x07_configB\x13\n\x11_previousModelDir\"\x12\n\x10\x46itResponseProto\"\xb5\x01\n\x14\x45xtendedRequestProto\x12\x12\n\nmethodName\x18\x01 \x01(\t\x12>\n\x06params\x18\x02 \x03(\x0b\x32..com.mlp.gate.ExtendedRequestProto.ParamsEntry\x1aI\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto:\x02\x38\x01\"A\n\x15\x45xtendedResponseProto\x12(\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"P\n\x11\x42\x61tchPayloadProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x9c\x01\n\x19\x42\x61tchPayloadResponseProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"9\n\x13RefreshRequestProto\x12\x15\n\x08modelDir\x18\x01 \x01(\tH\x00\x88\x01\x01\x42\x0b\n\t_modelDir\"\x16\n\x14RefreshResponseProto\"\x14\n\x12StatusRequestProto\"J\n\x13StatusResponseProto\x12\x16\n\x0e\x63onnectedGates\x18\x01 \x03(\t\x12\x1b\n\x13\x63onnectedToAllGates\x18\x02 \x01(\x08\"^\n\x0cPayloadProto\x12\x15\n\x08\x64\x61taType\x18\x01 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x04json\x18\x65 \x01(\tH\x00\x12\x12\n\x08protobuf\x18\x66 \x01(\x0cH\x00\x42\x06\n\x04\x62odyB\x0b\n\t_dataType\"\xc1\x01\n\rApiErrorProto\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12/\n\x06status\x18\x03 \x01(\x0e\x32\x1f.com.mlp.gate.SimpleStatusProto\x12\x33\n\x04\x61rgs\x18\x04 \x03(\x0b\x32%.com.mlp.gate.ApiErrorProto.ArgsEntry\x1a+\n\tArgsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xb8\x01\n\x12\x43lientRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\tauthToken\x18\x03 \x01(\t\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xb7\x01\n\x13\x43lientResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\xdf\x01\n\x14PipelineRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18\x66 \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x36\n\x05token\x18g \x01(\x0b\x32%.com.mlp.gate.ClientTokenRequestProtoH\x00\x42\x06\n\x04\x62ody\"\xf2\x01\n\x15PipelineResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18\x66 \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x37\n\x05token\x18g \x01(\x0b\x32&.com.mlp.gate.ClientTokenResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\x19\n\x17\x43lientTokenRequestProto\")\n\x18\x43lientTokenResponseProto\x12\r\n\x05token\x18\x01 \x01(\t\"<\n\x12\x43lusterUpdateProto\x12\x0f\n\x07servers\x18\x01 \x03(\t\x12\x15\n\rcurrentServer\x18\x02 \x01(\t\"\x1f\n\x0fSimpleTextProto\x12\x0c\n\x04text\x18\x01 \x01(\t*Y\n\x11SimpleStatusProto\x12\x06\n\x02OK\x10\x00\x12\x10\n\x0b\x42\x41\x44_REQUEST\x10\x90\x03\x12\x0e\n\tNOT_FOUND\x10\x94\x03\x12\x1a\n\x15INTERNAL_SERVER_ERROR\x10\xf4\x03\x32\xfd\x01\n\x04Gate\x12I\n\x0bhealthCheck\x12\x1c.com.mlp.gate.HeartBeatProto\x1a\x1c.com.mlp.gate.HeartBeatProto\x12X\n\x0cprocessAsync\x12 .com.mlp.gate.ServiceToGateProto\x1a .com.mlp.gate.GateToServiceProto\"\x00(\x01\x30\x01\x12P\n\x07process\x12 .com.mlp.gate.ClientRequestProto\x1a!.com.mlp.gate.ClientResponseProto\"\x00\x42\x02P\x01\x62\x06proto3'
 )
 
 _SIMPLESTATUSPROTO = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _SIMPLESTATUSPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=4908,
-  serialized_end=4997,
+  serialized_start=5047,
+  serialized_end=5136,
 )
 _sym_db.RegisterEnumDescriptor(_SIMPLESTATUSPROTO)
 
@@ -852,6 +852,59 @@ _BATCHRESPONSEPROTO = _descriptor.Descriptor(
 )
 
 
+_DATASETINFOPROTO = _descriptor.Descriptor(
+  name='DatasetInfoProto',
+  full_name='com.mlp.gate.DatasetInfoProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='accountId', full_name='com.mlp.gate.DatasetInfoProto.accountId', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='datasetId', full_name='com.mlp.gate.DatasetInfoProto.datasetId', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='com.mlp.gate.DatasetInfoProto.name', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='com.mlp.gate.DatasetInfoProto.type', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2588,
+  serialized_end=2672,
+)
+
+
 _FITREQUESTPROTO = _descriptor.Descriptor(
   name='FitRequestProto',
   full_name='com.mlp.gate.FitRequestProto',
@@ -902,6 +955,13 @@ _FITREQUESTPROTO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='datasetInfo', full_name='com.mlp.gate.FitRequestProto.datasetInfo', index=6,
+      number=107, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -929,8 +989,8 @@ _FITREQUESTPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=2589,
-  serialized_end=2912,
+  serialized_start=2675,
+  serialized_end=3051,
 )
 
 
@@ -954,8 +1014,8 @@ _FITRESPONSEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2914,
-  serialized_end=2932,
+  serialized_start=3053,
+  serialized_end=3071,
 )
 
 
@@ -993,8 +1053,8 @@ _EXTENDEDREQUESTPROTO_PARAMSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3043,
-  serialized_end=3116,
+  serialized_start=3182,
+  serialized_end=3255,
 )
 
 _EXTENDEDREQUESTPROTO = _descriptor.Descriptor(
@@ -1031,8 +1091,8 @@ _EXTENDEDREQUESTPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2935,
-  serialized_end=3116,
+  serialized_start=3074,
+  serialized_end=3255,
 )
 
 
@@ -1063,8 +1123,8 @@ _EXTENDEDRESPONSEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3118,
-  serialized_end=3183,
+  serialized_start=3257,
+  serialized_end=3322,
 )
 
 
@@ -1102,8 +1162,8 @@ _BATCHPAYLOADPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3185,
-  serialized_end=3265,
+  serialized_start=3324,
+  serialized_end=3404,
 )
 
 
@@ -1153,8 +1213,8 @@ _BATCHPAYLOADRESPONSEPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3268,
-  serialized_end=3424,
+  serialized_start=3407,
+  serialized_end=3563,
 )
 
 
@@ -1190,8 +1250,8 @@ _REFRESHREQUESTPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3426,
-  serialized_end=3483,
+  serialized_start=3565,
+  serialized_end=3622,
 )
 
 
@@ -1215,8 +1275,8 @@ _REFRESHRESPONSEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3485,
-  serialized_end=3507,
+  serialized_start=3624,
+  serialized_end=3646,
 )
 
 
@@ -1240,8 +1300,8 @@ _STATUSREQUESTPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3509,
-  serialized_end=3529,
+  serialized_start=3648,
+  serialized_end=3668,
 )
 
 
@@ -1279,8 +1339,8 @@ _STATUSRESPONSEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3531,
-  serialized_end=3605,
+  serialized_start=3670,
+  serialized_end=3744,
 )
 
 
@@ -1335,8 +1395,8 @@ _PAYLOADPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3607,
-  serialized_end=3701,
+  serialized_start=3746,
+  serialized_end=3840,
 )
 
 
@@ -1374,8 +1434,8 @@ _APIERRORPROTO_ARGSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3854,
-  serialized_end=3897,
+  serialized_start=3993,
+  serialized_end=4036,
 )
 
 _APIERRORPROTO = _descriptor.Descriptor(
@@ -1426,8 +1486,8 @@ _APIERRORPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3704,
-  serialized_end=3897,
+  serialized_start=3843,
+  serialized_end=4036,
 )
 
 
@@ -1491,8 +1551,8 @@ _CLIENTREQUESTPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3900,
-  serialized_end=4084,
+  serialized_start=4039,
+  serialized_end=4223,
 )
 
 
@@ -1542,8 +1602,8 @@ _CLIENTRESPONSEPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4087,
-  serialized_end=4270,
+  serialized_start=4226,
+  serialized_end=4409,
 )
 
 
@@ -1607,8 +1667,8 @@ _PIPELINEREQUESTPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4273,
-  serialized_end=4496,
+  serialized_start=4412,
+  serialized_end=4635,
 )
 
 
@@ -1665,8 +1725,8 @@ _PIPELINERESPONSEPROTO = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4499,
-  serialized_end=4741,
+  serialized_start=4638,
+  serialized_end=4880,
 )
 
 
@@ -1690,8 +1750,8 @@ _CLIENTTOKENREQUESTPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4743,
-  serialized_end=4768,
+  serialized_start=4882,
+  serialized_end=4907,
 )
 
 
@@ -1722,8 +1782,8 @@ _CLIENTTOKENRESPONSEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4770,
-  serialized_end=4811,
+  serialized_start=4909,
+  serialized_end=4950,
 )
 
 
@@ -1761,8 +1821,8 @@ _CLUSTERUPDATEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4813,
-  serialized_end=4873,
+  serialized_start=4952,
+  serialized_end=5012,
 )
 
 
@@ -1793,8 +1853,8 @@ _SIMPLETEXTPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4875,
-  serialized_end=4906,
+  serialized_start=5014,
+  serialized_end=5045,
 )
 
 _SERVICEDESCRIPTORPROTO_METHODSENTRY.fields_by_name['value'].message_type = _METHODDESCRIPTORPROTO
@@ -1914,6 +1974,7 @@ _FITREQUESTPROTO.fields_by_name['trainData'].message_type = _PAYLOADPROTO
 _FITREQUESTPROTO.fields_by_name['targetsData'].message_type = _PAYLOADPROTO
 _FITREQUESTPROTO.fields_by_name['config'].message_type = _PAYLOADPROTO
 _FITREQUESTPROTO.fields_by_name['targetServiceInfo'].message_type = _SERVICEINFOPROTO
+_FITREQUESTPROTO.fields_by_name['datasetInfo'].message_type = _DATASETINFOPROTO
 _FITREQUESTPROTO.oneofs_by_name['_targetsData'].fields.append(
   _FITREQUESTPROTO.fields_by_name['targetsData'])
 _FITREQUESTPROTO.fields_by_name['targetsData'].containing_oneof = _FITREQUESTPROTO.oneofs_by_name['_targetsData']
@@ -2012,6 +2073,7 @@ DESCRIPTOR.message_types_by_name['PredictRequestProto'] = _PREDICTREQUESTPROTO
 DESCRIPTOR.message_types_by_name['BatchRequestProto'] = _BATCHREQUESTPROTO
 DESCRIPTOR.message_types_by_name['PredictResponseProto'] = _PREDICTRESPONSEPROTO
 DESCRIPTOR.message_types_by_name['BatchResponseProto'] = _BATCHRESPONSEPROTO
+DESCRIPTOR.message_types_by_name['DatasetInfoProto'] = _DATASETINFOPROTO
 DESCRIPTOR.message_types_by_name['FitRequestProto'] = _FITREQUESTPROTO
 DESCRIPTOR.message_types_by_name['FitResponseProto'] = _FITRESPONSEPROTO
 DESCRIPTOR.message_types_by_name['ExtendedRequestProto'] = _EXTENDEDREQUESTPROTO
@@ -2149,6 +2211,13 @@ BatchResponseProto = _reflection.GeneratedProtocolMessageType('BatchResponseProt
   # @@protoc_insertion_point(class_scope:com.mlp.gate.BatchResponseProto)
   })
 _sym_db.RegisterMessage(BatchResponseProto)
+
+DatasetInfoProto = _reflection.GeneratedProtocolMessageType('DatasetInfoProto', (_message.Message,), {
+  'DESCRIPTOR' : _DATASETINFOPROTO,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.DatasetInfoProto)
+  })
+_sym_db.RegisterMessage(DatasetInfoProto)
 
 FitRequestProto = _reflection.GeneratedProtocolMessageType('FitRequestProto', (_message.Message,), {
   'DESCRIPTOR' : _FITREQUESTPROTO,
@@ -2321,8 +2390,8 @@ _GATE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=5000,
-  serialized_end=5253,
+  serialized_start=5139,
+  serialized_end=5392,
   methods=[
   _descriptor.MethodDescriptor(
     name='healthCheck',
