@@ -4226,6 +4226,8 @@ components:
           type: integer
           format: int64
     FitRequestData:
+      required:
+      - datasetId
       type: object
       properties:
         config:
@@ -4233,8 +4235,6 @@ components:
         configId:
           type: integer
           format: int64
-        dataset:
-          $ref: '#/components/schemas/JsonNode'
         datasetId:
           type: integer
           format: int64
