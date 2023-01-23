@@ -4283,9 +4283,9 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
         last:
+          type: boolean
+        first:
           type: boolean
         size:
           type: integer
@@ -4304,25 +4304,25 @@ components:
       properties:
         sort:
           $ref: '#/components/schemas/Sort'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
         offset:
           type: integer
           format: int64
     Sort:
       type: object
       properties:
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
         empty:
           type: boolean
@@ -4544,9 +4544,9 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
         last:
+          type: boolean
+        first:
           type: boolean
         size:
           type: integer
@@ -4576,9 +4576,9 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
         last:
+          type: boolean
+        first:
           type: boolean
         size:
           type: integer
