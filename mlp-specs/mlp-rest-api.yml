@@ -3987,8 +3987,8 @@ components:
     FitConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -3996,7 +3996,7 @@ components:
           $ref: '#/components/schemas/FitConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -4189,15 +4189,15 @@ components:
       properties:
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
     PredictConfigData:
       required:
       - config
-      - default
       - id
+      - isDefault
       - name
       type: object
       properties:
@@ -4205,7 +4205,7 @@ components:
           $ref: '#/components/schemas/PredictConfigPK'
         name:
           type: string
-        default:
+        isDefault:
           type: boolean
         config:
           type: string
@@ -4416,7 +4416,7 @@ components:
           type: string
         affinity:
           type: string
-        default:
+        isDefault:
           type: boolean
     ResourceGroupsData:
       required:
