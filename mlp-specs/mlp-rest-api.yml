@@ -2323,7 +2323,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskTypeInfo'
+                  $ref: '#/components/schemas/TaskTypeData'
   /api/mlpgate/system-config/resource-groups:
     get:
       tags:
@@ -4427,7 +4427,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceGroupData'
-    TaskTypeInfo:
+    TaskTypeData:
       required:
       - displayName
       - name
