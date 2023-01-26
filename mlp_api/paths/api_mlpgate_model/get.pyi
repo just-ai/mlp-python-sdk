@@ -31,6 +31,7 @@ from mlp_api.model.paged_model_info_data import PagedModelInfoData
 OnlyMySchema = schemas.BoolSchema
 AccountSchema = schemas.StrSchema
 ModelSchema = schemas.StrSchema
+OnlyPublicSchema = schemas.BoolSchema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
@@ -45,6 +46,7 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
         'onlyMy': typing.Union[OnlyMySchema, bool, ],
         'account': typing.Union[AccountSchema, str, ],
         'model': typing.Union[ModelSchema, str, ],
+        'onlyPublic': typing.Union[OnlyPublicSchema, bool, ],
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
@@ -73,6 +75,12 @@ request_query_model = api_client.QueryParameter(
     name="model",
     style=api_client.ParameterStyle.FORM,
     schema=ModelSchema,
+    explode=True,
+)
+request_query_only_public = api_client.QueryParameter(
+    name="onlyPublic",
+    style=api_client.ParameterStyle.FORM,
+    schema=OnlyPublicSchema,
     explode=True,
 )
 request_query_page = api_client.QueryParameter(
@@ -204,6 +212,7 @@ class BaseApi(api_client.Api):
             request_query_only_my,
             request_query_account,
             request_query_model,
+            request_query_only_public,
             request_query_page,
             request_query_size,
             request_query_sort,
