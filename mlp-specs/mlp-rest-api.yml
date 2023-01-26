@@ -214,11 +214,6 @@ paths:
         required: false
         schema:
           type: string
-      - name: onlyPublic
-        in: query
-        required: false
-        schema:
-          type: boolean
       - name: page
         in: query
         required: false
@@ -2416,11 +2411,6 @@ paths:
         required: false
         schema:
           type: string
-      - name: onlyPublic
-        in: query
-        required: false
-        schema:
-          type: boolean
       - name: page
         in: query
         required: false
