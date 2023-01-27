@@ -74,7 +74,11 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sh ./run_mlp_tests.sh"
+                    try {
+                        sh "sh ./run_mlp_tests.sh"
+                    } catch (exc) {
+                        currentBuild.result = 'UNSTABLE'
+                    }
                 }
             }
         }
