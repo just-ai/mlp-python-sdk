@@ -44,6 +44,7 @@ class DatasetInfoData(
             @staticmethod
             def id() -> typing.Type['DatasetPK']:
                 return DatasetPK
+            datasetAccountName = schemas.StrSchema
             description = schemas.StrSchema
             dataType = schemas.StrSchema
             
@@ -67,6 +68,7 @@ class DatasetInfoData(
             __annotations__ = {
                 "name": name,
                 "id": id,
+                "datasetAccountName": datasetAccountName,
                 "description": description,
                 "dataType": dataType,
                 "accessMode": accessMode,
@@ -81,6 +83,9 @@ class DatasetInfoData(
     def __getitem__(self, name: typing_extensions.Literal["id"]) -> 'DatasetPK': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["datasetAccountName"]) -> MetaOapg.properties.datasetAccountName: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
     
     @typing.overload
@@ -92,7 +97,7 @@ class DatasetInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "accessMode", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "id", "datasetAccountName", "description", "dataType", "accessMode", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -102,6 +107,9 @@ class DatasetInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["id"]) -> typing.Union['DatasetPK', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["datasetAccountName"]) -> typing.Union[MetaOapg.properties.datasetAccountName, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
@@ -115,7 +123,7 @@ class DatasetInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "accessMode", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "id", "datasetAccountName", "description", "dataType", "accessMode", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -124,6 +132,7 @@ class DatasetInfoData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union['DatasetPK', schemas.Unset] = schemas.unset,
+        datasetAccountName: typing.Union[MetaOapg.properties.datasetAccountName, str, schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
         dataType: typing.Union[MetaOapg.properties.dataType, str, schemas.Unset] = schemas.unset,
         accessMode: typing.Union[MetaOapg.properties.accessMode, str, schemas.Unset] = schemas.unset,
@@ -135,6 +144,7 @@ class DatasetInfoData(
             *_args,
             name=name,
             id=id,
+            datasetAccountName=datasetAccountName,
             description=description,
             dataType=dataType,
             accessMode=accessMode,

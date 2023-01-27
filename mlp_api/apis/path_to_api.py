@@ -75,9 +75,14 @@ from mlp_api.apis.paths.api_mlpgate_account_account_id_job import ApiMlpgateAcco
 from mlp_api.apis.paths.api_mlpgate_account_account_id_job_job_id import ApiMlpgateAccountAccountIdJobJobId
 from mlp_api.apis.paths.api_mlpgate_account_account_id_image_image_id_logs import ApiMlpgateAccountAccountIdImageImageIdLogs
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
+from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
+from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
 from mlp_api.apis.paths.api_mlpgate_internal_services import ApiMlpgateInternalServices
 from mlp_api.apis.paths.api_mlpgate_internal_notify_account_id_user_user_id import ApiMlpgateInternalNotifyAccountIdUserUserId
 from mlp_api.apis.paths.api_mlpgate_internal_cluster import ApiMlpgateInternalCluster
+from mlp_api.apis.paths.api_mlpgate_internal_clear_public_for_all import ApiMlpgateInternalClearPublicForAll
+from mlp_api.apis.paths.api_mlpgate_internal_clear_instances import ApiMlpgateInternalClearInstances
+from mlp_api.apis.paths.api_mlpgate_internal_clear_account import ApiMlpgateInternalClearAccount
 from mlp_api.apis.paths.api_mlpgate_internal_actions import ApiMlpgateInternalActions
 from mlp_api.apis.paths.api_mlpgate_internal_account import ApiMlpgateInternalAccount
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_id_model_model_id_instances import ApiMlpgateInternalAccountAccountIdModelModelIdInstances
@@ -162,9 +167,14 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMlpgateAccountAccountIdJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountIdImageImageIdLogs,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
+        PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
+        PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,
         PathValues.API_MLPGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMlpgateInternalNotifyAccountIdUserUserId,
         PathValues.API_MLPGATEINTERNAL_CLUSTER: ApiMlpgateInternalCluster,
+        PathValues.API_MLPGATEINTERNAL_CLEARPUBLICFORALL: ApiMlpgateInternalClearPublicForAll,
+        PathValues.API_MLPGATEINTERNAL_CLEARINSTANCES: ApiMlpgateInternalClearInstances,
+        PathValues.API_MLPGATEINTERNAL_CLEARACCOUNT: ApiMlpgateInternalClearAccount,
         PathValues.API_MLPGATEINTERNAL_ACTIONS: ApiMlpgateInternalActions,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMlpgateInternalAccountAccountIdModelModelIdInstances,
@@ -250,9 +260,14 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMlpgateAccountAccountIdJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountIdImageImageIdLogs,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
+        PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
+        PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,
         PathValues.API_MLPGATEINTERNAL_NOTIFY_ACCOUNT_ID_USER_USER_ID: ApiMlpgateInternalNotifyAccountIdUserUserId,
         PathValues.API_MLPGATEINTERNAL_CLUSTER: ApiMlpgateInternalCluster,
+        PathValues.API_MLPGATEINTERNAL_CLEARPUBLICFORALL: ApiMlpgateInternalClearPublicForAll,
+        PathValues.API_MLPGATEINTERNAL_CLEARINSTANCES: ApiMlpgateInternalClearInstances,
+        PathValues.API_MLPGATEINTERNAL_CLEARACCOUNT: ApiMlpgateInternalClearAccount,
         PathValues.API_MLPGATEINTERNAL_ACTIONS: ApiMlpgateInternalActions,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMlpgateInternalAccountAccountIdModelModelIdInstances,

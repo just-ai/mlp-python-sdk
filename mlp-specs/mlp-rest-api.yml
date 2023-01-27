@@ -3434,6 +3434,48 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/start-one-instance:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: startOneInstance
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpgate-internal/set-public-for-all:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: setPublicForAll
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /api/mlpgate-internal/services:
     get:
       tags:
@@ -3486,6 +3528,69 @@ paths:
       tags:
       - internal-endpoint
       operationId: cluster
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpgate-internal/clear-public-for-all:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: clearPublicForAll
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpgate-internal/clear-instances:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: clearAllInstances
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpgate-internal/clear-account:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: clearAccount
       parameters:
       - name: MLP-API-KEY
         in: header
@@ -3977,6 +4082,8 @@ components:
           $ref: '#/components/schemas/DatasetPK'
         name:
           type: string
+        datasetAccountName:
+          type: string
         description:
           type: string
         dataType:
@@ -4040,6 +4147,8 @@ components:
         id:
           $ref: '#/components/schemas/ImageInfoPK'
         name:
+          type: string
+        imageAccountName:
           type: string
         image:
           type: string
@@ -4389,6 +4498,8 @@ components:
         id:
           $ref: '#/components/schemas/DataImageInfoPK'
         name:
+          type: string
+        imageAccountName:
           type: string
         image:
           type: string

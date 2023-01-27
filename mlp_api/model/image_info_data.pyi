@@ -46,6 +46,7 @@ class ImageInfoData(
             @staticmethod
             def id() -> typing.Type['ImageInfoPK']:
                 return ImageInfoPK
+            imageAccountName = schemas.StrSchema
             
             
             class accessMode(
@@ -68,6 +69,7 @@ class ImageInfoData(
                 "name": name,
                 "image": image,
                 "id": id,
+                "imageAccountName": imageAccountName,
                 "accessMode": accessMode,
             }
     
@@ -84,12 +86,15 @@ class ImageInfoData(
     def __getitem__(self, name: typing_extensions.Literal["id"]) -> 'ImageInfoPK': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["imageAccountName"]) -> MetaOapg.properties.imageAccountName: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["accessMode"]) -> MetaOapg.properties.accessMode: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "id", "accessMode", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "id", "imageAccountName", "accessMode", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -104,12 +109,15 @@ class ImageInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["id"]) -> typing.Union['ImageInfoPK', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["imageAccountName"]) -> typing.Union[MetaOapg.properties.imageAccountName, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["accessMode"]) -> typing.Union[MetaOapg.properties.accessMode, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "id", "accessMode", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "id", "imageAccountName", "accessMode", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -119,6 +127,7 @@ class ImageInfoData(
         image: typing.Union[MetaOapg.properties.image, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union['ImageInfoPK', schemas.Unset] = schemas.unset,
+        imageAccountName: typing.Union[MetaOapg.properties.imageAccountName, str, schemas.Unset] = schemas.unset,
         accessMode: typing.Union[MetaOapg.properties.accessMode, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -129,6 +138,7 @@ class ImageInfoData(
             image=image,
             name=name,
             id=id,
+            imageAccountName=imageAccountName,
             accessMode=accessMode,
             _configuration=_configuration,
             **kwargs,
