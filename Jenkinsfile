@@ -63,7 +63,7 @@ pipeline {
                 NEXUS_CREDS = credentials('jenkins-for-pypi')
                 S3_SECRET_KEY = credentials('rnd_s3_secret_key')
                 S3_STORAGE_CONFIG = """{
-                    "mlps_bucket": "rnd-models",
+                    "mlp_bucket": "rnd-models",
                     "service_name": "s3",
                     "region": "ru-1a",
                     "access_key": "72116_rnd-models-user",
