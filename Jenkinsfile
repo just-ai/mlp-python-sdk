@@ -12,6 +12,7 @@ pipeline {
     parameters {
         string(name: "BRANCH", defaultValue: "dev", description: "")
         booleanParam(name: 'NEED_REBUILD', defaultValue: false, description: '')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
     stages {
         stage('Prepare') {
@@ -51,6 +52,30 @@ pipeline {
                 sh "git add mlp_api"
                 sh "git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc"
                 sh "git push"
+            }
+        }
+        stage('Tests') {
+            when {
+                expression { params.RUN_TESTS ?: false }
+            }
+
+            environment {
+                NEXUS_CREDS = credentials('jenkins-for-pypi')
+                S3_SECRET_KEY = credentials('rnd_s3_secret_key')
+                S3_STORAGE_CONFIG = """{
+                    "mlps_bucket": "rnd-models",
+                    "service_name": "s3",
+                    "region": "ru-1a",
+                    "access_key": "72116_rnd-models-user",
+                    "secret_key": "${S3_SECRET_KEY}",
+                    "endpoint": "https://248305.selcdn.ru",
+                    "data_dir": "Z8ht8D1YNM/rnd-models"
+                }"""
+            }
+            steps {
+                script {
+                    sh "sh ./run_mlp_tests.sh"
+                }
             }
         }
     }
