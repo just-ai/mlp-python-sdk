@@ -77,8 +77,7 @@ pipeline {
                     try {
                         sh "sh ./run_mlp_tests.sh"
                     } catch (exc) {
-                        currentBuild.result = 'UNSTABLE'
-                        stageResult."${env.STAGE_NAME}" = "FAILED"
+                        catchError(stageResult: 'FAILED', buildResult: 'UNSTABLE') {}
                     }
                 }
             }
