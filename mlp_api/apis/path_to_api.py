@@ -78,6 +78,7 @@ from mlp_api.apis.paths.api_mlpgate_internal_actions import ApiMlpgateInternalAc
 from mlp_api.apis.paths.api_mlpgate_internal_account import ApiMlpgateInternalAccount
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_id_model_model_id_instances import ApiMlpgateInternalAccountAccountIdModelModelIdInstances
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_id_model_model_id_actions import ApiMlpgateInternalAccountAccountIdModelModelIdActions
+from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_external_instance_id import ApiMlpgateAccountAccountIdModelModelIdExternalInstanceId
 from mlp_api.apis.paths.api_mlpgate_internal_instances_delete_by_timestamp import ApiMlpgateInternalInstancesDeleteByTimestamp
 from mlp_api.apis.paths.p_account_model import PAccountModel
 
@@ -161,6 +162,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMlpgateInternalAccountAccountIdModelModelIdInstances,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMlpgateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountIdModelModelIdExternalInstanceId,
         PathValues.API_MLPGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMlpgateInternalInstancesDeleteByTimestamp,
         PathValues.P_ACCOUNT_MODEL: PAccountModel,
     }
@@ -245,6 +247,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES: ApiMlpgateInternalAccountAccountIdModelModelIdInstances,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS: ApiMlpgateInternalAccountAccountIdModelModelIdActions,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountIdModelModelIdExternalInstanceId,
         PathValues.API_MLPGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMlpgateInternalInstancesDeleteByTimestamp,
         PathValues.P_ACCOUNT_MODEL: PAccountModel,
     }

@@ -12,9 +12,9 @@
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_derived.post import CreateDerivedModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.post import CreateExternalConnection
 from mlp_api.paths.api_mlpgate_account_account_id_model.post import CreateModel
-from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.delete import DeleteExternalConnection
+from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external_instance_id.delete import DeleteExternalConnection
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.delete import DeleteModel
-from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.get import GetExternalConnectionInfo
+from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_external.get import GetExternalConnectionsInfo
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_instances.get import GetInstancesStatus
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_logs.get import GetLogsByModel
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id.get import GetModelInfo
@@ -35,7 +35,7 @@ class ModelEndpointApi(
     CreateModel,
     DeleteExternalConnection,
     DeleteModel,
-    GetExternalConnectionInfo,
+    GetExternalConnectionsInfo,
     GetInstancesStatus,
     GetLogsByModel,
     GetModelInfo,

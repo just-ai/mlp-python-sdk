@@ -35,28 +35,28 @@ class InstancesStatusData(
 
     class MetaOapg:
         required = {
+            "externalRequested",
             "internalActive",
             "internalInError",
             "internalRequested",
-            "externalActive",
         }
         
         class properties:
             internalRequested = schemas.Int32Schema
             internalActive = schemas.Int32Schema
             internalInError = schemas.Int32Schema
-            externalActive = schemas.Int32Schema
+            externalRequested = schemas.Int32Schema
             __annotations__ = {
                 "internalRequested": internalRequested,
                 "internalActive": internalActive,
                 "internalInError": internalInError,
-                "externalActive": externalActive,
+                "externalRequested": externalRequested,
             }
     
+    externalRequested: MetaOapg.properties.externalRequested
     internalActive: MetaOapg.properties.internalActive
     internalInError: MetaOapg.properties.internalInError
     internalRequested: MetaOapg.properties.internalRequested
-    externalActive: MetaOapg.properties.externalActive
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["internalRequested"]) -> MetaOapg.properties.internalRequested: ...
@@ -68,12 +68,12 @@ class InstancesStatusData(
     def __getitem__(self, name: typing_extensions.Literal["internalInError"]) -> MetaOapg.properties.internalInError: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["externalActive"]) -> MetaOapg.properties.externalActive: ...
+    def __getitem__(self, name: typing_extensions.Literal["externalRequested"]) -> MetaOapg.properties.externalRequested: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalActive", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalRequested", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -88,32 +88,32 @@ class InstancesStatusData(
     def get_item_oapg(self, name: typing_extensions.Literal["internalInError"]) -> MetaOapg.properties.internalInError: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["externalActive"]) -> MetaOapg.properties.externalActive: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["externalRequested"]) -> MetaOapg.properties.externalRequested: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalActive", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalRequested", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        externalRequested: typing.Union[MetaOapg.properties.externalRequested, decimal.Decimal, int, ],
         internalActive: typing.Union[MetaOapg.properties.internalActive, decimal.Decimal, int, ],
         internalInError: typing.Union[MetaOapg.properties.internalInError, decimal.Decimal, int, ],
         internalRequested: typing.Union[MetaOapg.properties.internalRequested, decimal.Decimal, int, ],
-        externalActive: typing.Union[MetaOapg.properties.externalActive, decimal.Decimal, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'InstancesStatusData':
         return super().__new__(
             cls,
             *_args,
+            externalRequested=externalRequested,
             internalActive=internalActive,
             internalInError=internalInError,
             internalRequested=internalRequested,
-            externalActive=externalActive,
             _configuration=_configuration,
             **kwargs,
         )

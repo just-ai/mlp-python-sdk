@@ -41,6 +41,7 @@ class ModelInfoData(
             "retriesConfig",
             "persistentVolumes",
             "timeouts",
+            "hostingType",
             "id",
             "resourceLimits",
             "batchesConfig",
@@ -53,6 +54,27 @@ class ModelInfoData(
                 return ModelInfoPK
             modelName = schemas.StrSchema
             fittable = schemas.BoolSchema
+            
+            
+            class hostingType(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "EXTERNAL": "EXTERNAL",
+                        "INTERNAL": "INTERNAL",
+                    }
+                
+                @schemas.classproperty
+                def EXTERNAL(cls):
+                    return cls("EXTERNAL")
+                
+                @schemas.classproperty
+                def INTERNAL(cls):
+                    return cls("INTERNAL")
             
             
             class persistentVolumes(
@@ -169,6 +191,7 @@ class ModelInfoData(
                 "id": id,
                 "modelName": modelName,
                 "fittable": fittable,
+                "hostingType": hostingType,
                 "persistentVolumes": persistentVolumes,
                 "dataImageMounts": dataImageMounts,
                 "timeouts": timeouts,
@@ -198,6 +221,7 @@ class ModelInfoData(
     retriesConfig: 'ModelRetriesData'
     persistentVolumes: MetaOapg.properties.persistentVolumes
     timeouts: 'ModelTimeoutsData'
+    hostingType: MetaOapg.properties.hostingType
     id: 'ModelInfoPK'
     resourceLimits: 'ModelLimitsData'
     batchesConfig: 'ModelBatchesData'
@@ -210,6 +234,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["fittable"]) -> MetaOapg.properties.fittable: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["hostingType"]) -> MetaOapg.properties.hostingType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["persistentVolumes"]) -> MetaOapg.properties.persistentVolumes: ...
@@ -277,7 +304,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "modelAccountName", "imageId", "image", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "isPublic", "config", "env", "resourceGroup", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "modelAccountName", "imageId", "image", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "isPublic", "config", "env", "resourceGroup", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -290,6 +317,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["fittable"]) -> MetaOapg.properties.fittable: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["hostingType"]) -> MetaOapg.properties.hostingType: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["persistentVolumes"]) -> MetaOapg.properties.persistentVolumes: ...
@@ -357,7 +387,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "modelAccountName", "imageId", "image", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "isPublic", "config", "env", "resourceGroup", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "modelAccountName", "imageId", "image", "trainingDatasetId", "trainingDataset", "trainingFitConfigId", "trainingFitConfig", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "isPublic", "config", "env", "resourceGroup", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -370,6 +400,7 @@ class ModelInfoData(
         retriesConfig: 'ModelRetriesData',
         persistentVolumes: typing.Union[MetaOapg.properties.persistentVolumes, list, tuple, ],
         timeouts: 'ModelTimeoutsData',
+        hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
         id: 'ModelInfoPK',
         resourceLimits: 'ModelLimitsData',
         batchesConfig: 'ModelBatchesData',
@@ -400,6 +431,7 @@ class ModelInfoData(
             retriesConfig=retriesConfig,
             persistentVolumes=persistentVolumes,
             timeouts=timeouts,
+            hostingType=hostingType,
             id=id,
             resourceLimits=resourceLimits,
             batchesConfig=batchesConfig,
