@@ -24,7 +24,7 @@ class LearnableMixin(ABCTask):
     ) -> None:
         if not is_allowed_input_type(type(self), "fit", "train_data", type(train_data)):
             raise RuntimeError()
-        if not is_allowed_input_type(type(self), "fit", "targets", type(targets)):
+        if targets is not None and not is_allowed_input_type(type(self), "fit", "targets", type(targets)):
             raise RuntimeError()
         if not is_allowed_input_type(type(self), "fit", "model_dir", type(model_dir)):
             raise RuntimeError()

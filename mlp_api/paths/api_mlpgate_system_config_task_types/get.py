@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.task_type_info import TaskTypeInfo
+from mlp_api.model.task_type_data import TaskTypeData
 
 from . import path
 
@@ -64,12 +64,12 @@ class SchemaFor200ResponseBodyApplicationJson(
     class MetaOapg:
         
         @staticmethod
-        def items() -> typing.Type['TaskTypeInfo']:
-            return TaskTypeInfo
+        def items() -> typing.Type['TaskTypeData']:
+            return TaskTypeData
 
     def __new__(
         cls,
-        _arg: typing.Union[typing.Tuple['TaskTypeInfo'], typing.List['TaskTypeInfo']],
+        _arg: typing.Union[typing.Tuple['TaskTypeData'], typing.List['TaskTypeData']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
@@ -78,7 +78,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i: int) -> 'TaskTypeInfo':
+    def __getitem__(self, i: int) -> 'TaskTypeData':
         return super().__getitem__(i)
 
 
