@@ -36,6 +36,7 @@ class ModelInfoData(
     class MetaOapg:
         required = {
             "timeouts",
+            "hostingType",
             "resourceLimits",
             "restrictedImageAccess",
             "modelName",
@@ -59,6 +60,20 @@ class ModelInfoData(
             imageAccountId = schemas.Int64Schema
             composite = schemas.BoolSchema
             fittable = schemas.BoolSchema
+            
+            
+            class hostingType(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+                
+                @schemas.classproperty
+                def EXTERNAL(cls):
+                    return cls("EXTERNAL")
+                
+                @schemas.classproperty
+                def INTERNAL(cls):
+                    return cls("INTERNAL")
             
             
             class persistentVolumes(
@@ -202,6 +217,7 @@ class ModelInfoData(
                 "imageAccountId": imageAccountId,
                 "composite": composite,
                 "fittable": fittable,
+                "hostingType": hostingType,
                 "persistentVolumes": persistentVolumes,
                 "dataImageMounts": dataImageMounts,
                 "timeouts": timeouts,
@@ -233,6 +249,7 @@ class ModelInfoData(
             }
     
     timeouts: 'ModelTimeoutsData'
+    hostingType: MetaOapg.properties.hostingType
     resourceLimits: 'ModelLimitsData'
     restrictedImageAccess: MetaOapg.properties.restrictedImageAccess
     modelName: MetaOapg.properties.modelName
@@ -260,6 +277,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["fittable"]) -> MetaOapg.properties.fittable: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["hostingType"]) -> MetaOapg.properties.hostingType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["persistentVolumes"]) -> MetaOapg.properties.persistentVolumes: ...
@@ -348,7 +368,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -367,6 +387,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["fittable"]) -> MetaOapg.properties.fittable: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["hostingType"]) -> MetaOapg.properties.hostingType: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["persistentVolumes"]) -> MetaOapg.properties.persistentVolumes: ...
@@ -455,7 +478,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -463,6 +486,7 @@ class ModelInfoData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         timeouts: 'ModelTimeoutsData',
+        hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
         resourceLimits: 'ModelLimitsData',
         restrictedImageAccess: typing.Union[MetaOapg.properties.restrictedImageAccess, bool, ],
         modelName: typing.Union[MetaOapg.properties.modelName, str, ],
@@ -502,6 +526,7 @@ class ModelInfoData(
             cls,
             *_args,
             timeouts=timeouts,
+            hostingType=hostingType,
             resourceLimits=resourceLimits,
             restrictedImageAccess=restrictedImageAccess,
             modelName=modelName,

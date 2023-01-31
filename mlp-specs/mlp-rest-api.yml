@@ -1146,7 +1146,7 @@ paths:
     get:
       tags:
       - model-endpoint
-      operationId: getExternalConnectionInfo
+      operationId: getExternalConnectionsInfo
       parameters:
       - name: accountId
         in: path
@@ -1205,32 +1205,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExternalConnectionInfoData'
-    delete:
-      tags:
-      - model-endpoint
-      operationId: deleteExternalConnection
-      parameters:
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: modelId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpgate/account/{accountId}/model/{modelId}/ext:
     post:
       tags:
@@ -3718,6 +3692,45 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/account/{accountId}/model/{modelId}/external/{instanceId}:
+    delete:
+      tags:
+      - model-endpoint
+      operationId: deleteExternalConnection
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalConnectionInfoData'
   /api/mlpgate-internal/instances/deleteByTimestamp:
     delete:
       tags:
@@ -3932,8 +3945,6 @@ components:
           format: int64
     ModelCreateUpdateData:
       required:
-      - imageAccountId
-      - imageId
       - modelName
       type: object
       properties:
@@ -3980,6 +3991,11 @@ components:
           type: string
         fittable:
           type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
         persistentVolumes:
           type: array
           items:
@@ -4176,6 +4192,7 @@ components:
       - composite
       - dataImageMounts
       - fittable
+      - hostingType
       - id
       - imageAccountId
       - modelName
@@ -4242,6 +4259,11 @@ components:
           type: string
         fittable:
           type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
         persistentVolumes:
           type: array
           items:
@@ -4391,24 +4413,38 @@ components:
           type: string
     ExternalConnectionInfoData:
       required:
-      - model
+      - connected
+      - dockerRunCommand
+      - envVariables
+      - id
       type: object
       properties:
-        model:
-          $ref: '#/components/schemas/ModelInfoData'
-        connectionToken:
-          type: string
-        activeConnections:
-          type: integer
-          format: int32
-        externalUrl:
-          type: string
-        grpcSecure:
+        id:
+          $ref: '#/components/schemas/ModelInstancePK'
+        connected:
           type: boolean
-        restApiURL:
+        dockerRunCommand:
           type: string
-        restClientToken:
-          type: string
+        envVariables:
+          type: object
+          additionalProperties:
+            type: string
+    ModelInstancePK:
+      required:
+      - accountId
+      - instanceId
+      - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
     ExtendedRequestData:
       required:
       - methodName
@@ -4716,7 +4752,7 @@ components:
           type: string
     InstancesStatusData:
       required:
-      - externalActive
+      - externalRequested
       - internalActive
       - internalInError
       - internalRequested
@@ -4731,7 +4767,7 @@ components:
         internalInError:
           type: integer
           format: int32
-        externalActive:
+        externalRequested:
           type: integer
           format: int32
     ModelShortStatusData:
@@ -4979,19 +5015,3 @@ components:
         deleteTimestamp:
           type: string
           format: date-time
-    ModelInstancePK:
-      required:
-      - accountId
-      - instanceId
-      - modelId
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        modelId:
-          type: integer
-          format: int64
-        instanceId:
-          type: integer
-          format: int64

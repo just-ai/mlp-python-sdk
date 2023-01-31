@@ -92,5 +92,6 @@ class PathValues(str, enum.Enum):
     API_MLPGATEINTERNAL_ACCOUNT = "/api/mlpgate-internal/account"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_INSTANCES = "/api/mlpgate-internal/account/{accountId}/model/{modelId}/instances"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_ACTIONS = "/api/mlpgate-internal/account/{accountId}/model/{modelId}/actions"
+    API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_EXTERNAL_INSTANCE_ID = "/api/mlpgate/account/{accountId}/model/{modelId}/external/{instanceId}"
     API_MLPGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP = "/api/mlpgate-internal/instances/deleteByTimestamp"
     P_ACCOUNT_MODEL = "/p/{account}/{model}"
