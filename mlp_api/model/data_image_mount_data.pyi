@@ -36,10 +36,12 @@ class DataImageMountData(
     class MetaOapg:
         required = {
             "dataImageId",
+            "dataImageAccountId",
             "targetPath",
         }
         
         class properties:
+            dataImageAccountId = schemas.Int64Schema
             dataImageId = schemas.Int64Schema
             targetPath = schemas.StrSchema
             dmId = schemas.Int64Schema
@@ -47,6 +49,7 @@ class DataImageMountData(
             dataImageName = schemas.StrSchema
             sourcePath = schemas.StrSchema
             __annotations__ = {
+                "dataImageAccountId": dataImageAccountId,
                 "dataImageId": dataImageId,
                 "targetPath": targetPath,
                 "dmId": dmId,
@@ -56,7 +59,11 @@ class DataImageMountData(
             }
     
     dataImageId: MetaOapg.properties.dataImageId
+    dataImageAccountId: MetaOapg.properties.dataImageAccountId
     targetPath: MetaOapg.properties.targetPath
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["dataImageAccountId"]) -> MetaOapg.properties.dataImageAccountId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["dataImageId"]) -> MetaOapg.properties.dataImageId: ...
@@ -79,10 +86,13 @@ class DataImageMountData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["dataImageId", "targetPath", "dmId", "dataImage", "dataImageName", "sourcePath", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["dataImageAccountId", "dataImageId", "targetPath", "dmId", "dataImage", "dataImageName", "sourcePath", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["dataImageAccountId"]) -> MetaOapg.properties.dataImageAccountId: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["dataImageId"]) -> MetaOapg.properties.dataImageId: ...
@@ -105,7 +115,7 @@ class DataImageMountData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["dataImageId", "targetPath", "dmId", "dataImage", "dataImageName", "sourcePath", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["dataImageAccountId", "dataImageId", "targetPath", "dmId", "dataImage", "dataImageName", "sourcePath", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -113,6 +123,7 @@ class DataImageMountData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         dataImageId: typing.Union[MetaOapg.properties.dataImageId, decimal.Decimal, int, ],
+        dataImageAccountId: typing.Union[MetaOapg.properties.dataImageAccountId, decimal.Decimal, int, ],
         targetPath: typing.Union[MetaOapg.properties.targetPath, str, ],
         dmId: typing.Union[MetaOapg.properties.dmId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         dataImage: typing.Union[MetaOapg.properties.dataImage, str, schemas.Unset] = schemas.unset,
@@ -125,6 +136,7 @@ class DataImageMountData(
             cls,
             *_args,
             dataImageId=dataImageId,
+            dataImageAccountId=dataImageAccountId,
             targetPath=targetPath,
             dmId=dmId,
             dataImage=dataImage,

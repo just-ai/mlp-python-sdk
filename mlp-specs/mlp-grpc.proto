@@ -124,12 +124,21 @@ message BatchResponseProto {
   repeated BatchPayloadResponseProto data = 101;
 }
 
+message DatasetInfoProto {
+  int64 accountId = 1;
+  int64 datasetId = 2;
+  string name = 3;
+  string type = 4;
+}
+
 message FitRequestProto {
   PayloadProto trainData = 101;
   optional PayloadProto targetsData = 102;
   optional PayloadProto config = 103;
   string modelDir = 104;
   optional string previousModelDir = 105;
+  ServiceInfoProto targetServiceInfo = 106;
+  DatasetInfoProto datasetInfo = 107;
 }
 
 message FitResponseProto {

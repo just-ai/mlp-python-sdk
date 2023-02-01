@@ -35,104 +35,118 @@ class ExternalConnectionInfoData(
 
     class MetaOapg:
         required = {
-            "model",
+            "connected",
+            "dockerRunCommand",
+            "envVariables",
+            "id",
         }
         
         class properties:
         
             @staticmethod
-            def model() -> typing.Type['ModelInfoData']:
-                return ModelInfoData
-            connectionToken = schemas.StrSchema
-            activeConnections = schemas.Int32Schema
-            externalUrl = schemas.StrSchema
-            grpcSecure = schemas.BoolSchema
-            restApiURL = schemas.StrSchema
+            def id() -> typing.Type['ModelInstancePK']:
+                return ModelInstancePK
+            connected = schemas.BoolSchema
+            dockerRunCommand = schemas.StrSchema
+            
+            
+            class envVariables(
+                schemas.DictSchema
+            ):
+            
+            
+                class MetaOapg:
+                    additional_properties = schemas.StrSchema
+                
+                def __getitem__(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                    # dict_instance[name] accessor
+                    return super().__getitem__(name)
+                
+                def get_item_oapg(self, name: typing.Union[str, ]) -> MetaOapg.additional_properties:
+                    return super().get_item_oapg(name)
+            
+                def __new__(
+                    cls,
+                    *_args: typing.Union[dict, frozendict.frozendict, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[MetaOapg.additional_properties, str, ],
+                ) -> 'envVariables':
+                    return super().__new__(
+                        cls,
+                        *_args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
             __annotations__ = {
-                "model": model,
-                "connectionToken": connectionToken,
-                "activeConnections": activeConnections,
-                "externalUrl": externalUrl,
-                "grpcSecure": grpcSecure,
-                "restApiURL": restApiURL,
+                "id": id,
+                "connected": connected,
+                "dockerRunCommand": dockerRunCommand,
+                "envVariables": envVariables,
             }
     
-    model: 'ModelInfoData'
+    connected: MetaOapg.properties.connected
+    dockerRunCommand: MetaOapg.properties.dockerRunCommand
+    envVariables: MetaOapg.properties.envVariables
+    id: 'ModelInstancePK'
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["model"]) -> 'ModelInfoData': ...
+    def __getitem__(self, name: typing_extensions.Literal["id"]) -> 'ModelInstancePK': ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["connectionToken"]) -> MetaOapg.properties.connectionToken: ...
+    def __getitem__(self, name: typing_extensions.Literal["connected"]) -> MetaOapg.properties.connected: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["activeConnections"]) -> MetaOapg.properties.activeConnections: ...
+    def __getitem__(self, name: typing_extensions.Literal["dockerRunCommand"]) -> MetaOapg.properties.dockerRunCommand: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["externalUrl"]) -> MetaOapg.properties.externalUrl: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["grpcSecure"]) -> MetaOapg.properties.grpcSecure: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["restApiURL"]) -> MetaOapg.properties.restApiURL: ...
+    def __getitem__(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connected", "dockerRunCommand", "envVariables", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["model"]) -> 'ModelInfoData': ...
+    def get_item_oapg(self, name: typing_extensions.Literal["id"]) -> 'ModelInstancePK': ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["connectionToken"]) -> typing.Union[MetaOapg.properties.connectionToken, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["connected"]) -> MetaOapg.properties.connected: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["activeConnections"]) -> typing.Union[MetaOapg.properties.activeConnections, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["dockerRunCommand"]) -> MetaOapg.properties.dockerRunCommand: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["externalUrl"]) -> typing.Union[MetaOapg.properties.externalUrl, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["grpcSecure"]) -> typing.Union[MetaOapg.properties.grpcSecure, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["restApiURL"]) -> typing.Union[MetaOapg.properties.restApiURL, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["model", "connectionToken", "activeConnections", "externalUrl", "grpcSecure", "restApiURL", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connected", "dockerRunCommand", "envVariables", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        model: 'ModelInfoData',
-        connectionToken: typing.Union[MetaOapg.properties.connectionToken, str, schemas.Unset] = schemas.unset,
-        activeConnections: typing.Union[MetaOapg.properties.activeConnections, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        externalUrl: typing.Union[MetaOapg.properties.externalUrl, str, schemas.Unset] = schemas.unset,
-        grpcSecure: typing.Union[MetaOapg.properties.grpcSecure, bool, schemas.Unset] = schemas.unset,
-        restApiURL: typing.Union[MetaOapg.properties.restApiURL, str, schemas.Unset] = schemas.unset,
+        connected: typing.Union[MetaOapg.properties.connected, bool, ],
+        dockerRunCommand: typing.Union[MetaOapg.properties.dockerRunCommand, str, ],
+        envVariables: typing.Union[MetaOapg.properties.envVariables, dict, frozendict.frozendict, ],
+        id: 'ModelInstancePK',
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ExternalConnectionInfoData':
         return super().__new__(
             cls,
             *_args,
-            model=model,
-            connectionToken=connectionToken,
-            activeConnections=activeConnections,
-            externalUrl=externalUrl,
-            grpcSecure=grpcSecure,
-            restApiURL=restApiURL,
+            connected=connected,
+            dockerRunCommand=dockerRunCommand,
+            envVariables=envVariables,
+            id=id,
             _configuration=_configuration,
             **kwargs,
         )
 
-from mlp_api.model.model_info_data import ModelInfoData
+from mlp_api.model.model_instance_pk import ModelInstancePK

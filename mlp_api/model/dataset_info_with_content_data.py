@@ -47,12 +47,39 @@ class DatasetInfoWithContentData(
             description = schemas.StrSchema
             dataType = schemas.StrSchema
             content = schemas.StrSchema
+            
+            
+            class accessMode(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "private": "PRIVATE",
+                        "public": "PUBLIC",
+                        "restricted": "RESTRICTED",
+                    }
+                
+                @schemas.classproperty
+                def PRIVATE(cls):
+                    return cls("private")
+                
+                @schemas.classproperty
+                def PUBLIC(cls):
+                    return cls("public")
+                
+                @schemas.classproperty
+                def RESTRICTED(cls):
+                    return cls("restricted")
             __annotations__ = {
                 "name": name,
                 "id": id,
                 "description": description,
                 "dataType": dataType,
                 "content": content,
+                "accessMode": accessMode,
             }
     
     name: MetaOapg.properties.name
@@ -73,9 +100,12 @@ class DatasetInfoWithContentData(
     def __getitem__(self, name: typing_extensions.Literal["content"]) -> MetaOapg.properties.content: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["accessMode"]) -> MetaOapg.properties.accessMode: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "content", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "content", "accessMode", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -96,9 +126,12 @@ class DatasetInfoWithContentData(
     def get_item_oapg(self, name: typing_extensions.Literal["content"]) -> typing.Union[MetaOapg.properties.content, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["accessMode"]) -> typing.Union[MetaOapg.properties.accessMode, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "content", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "content", "accessMode", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -110,6 +143,7 @@ class DatasetInfoWithContentData(
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
         dataType: typing.Union[MetaOapg.properties.dataType, str, schemas.Unset] = schemas.unset,
         content: typing.Union[MetaOapg.properties.content, str, schemas.Unset] = schemas.unset,
+        accessMode: typing.Union[MetaOapg.properties.accessMode, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'DatasetInfoWithContentData':
@@ -121,6 +155,7 @@ class DatasetInfoWithContentData(
             description=description,
             dataType=dataType,
             content=content,
+            accessMode=accessMode,
             _configuration=_configuration,
             **kwargs,
         )

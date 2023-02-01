@@ -34,18 +34,24 @@ class FitRequestData(
 
 
     class MetaOapg:
+        required = {
+            "datasetId",
+        }
         
         class properties:
+            datasetId = schemas.Int64Schema
             config = schemas.DictSchema
             configId = schemas.Int64Schema
-            dataset = schemas.DictSchema
-            datasetId = schemas.Int64Schema
             __annotations__ = {
+                "datasetId": datasetId,
                 "config": config,
                 "configId": configId,
-                "dataset": dataset,
-                "datasetId": datasetId,
             }
+    
+    datasetId: MetaOapg.properties.datasetId
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["datasetId"]) -> MetaOapg.properties.datasetId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
@@ -54,18 +60,15 @@ class FitRequestData(
     def __getitem__(self, name: typing_extensions.Literal["configId"]) -> MetaOapg.properties.configId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["dataset"]) -> MetaOapg.properties.dataset: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["datasetId"]) -> MetaOapg.properties.datasetId: ...
-    
-    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["config", "configId", "dataset", "datasetId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["datasetId"]) -> MetaOapg.properties.datasetId: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["config"]) -> typing.Union[MetaOapg.properties.config, schemas.Unset]: ...
@@ -74,35 +77,27 @@ class FitRequestData(
     def get_item_oapg(self, name: typing_extensions.Literal["configId"]) -> typing.Union[MetaOapg.properties.configId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["dataset"]) -> typing.Union[MetaOapg.properties.dataset, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["datasetId"]) -> typing.Union[MetaOapg.properties.datasetId, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["config", "configId", "dataset", "datasetId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        datasetId: typing.Union[MetaOapg.properties.datasetId, decimal.Decimal, int, ],
         config: typing.Union[MetaOapg.properties.config, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         configId: typing.Union[MetaOapg.properties.configId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        dataset: typing.Union[MetaOapg.properties.dataset, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
-        datasetId: typing.Union[MetaOapg.properties.datasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FitRequestData':
         return super().__new__(
             cls,
             *_args,
+            datasetId=datasetId,
             config=config,
             configId=configId,
-            dataset=dataset,
-            datasetId=datasetId,
             _configuration=_configuration,
             **kwargs,
         )

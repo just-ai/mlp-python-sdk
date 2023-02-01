@@ -29,6 +29,7 @@ from mlp_api.model.model_info_data import ModelInfoData
 
 # Query params
 NameSchema = schemas.StrSchema
+HiddenSchema = schemas.BoolSchema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -38,6 +39,7 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'hidden': typing.Union[HiddenSchema, bool, ],
     },
     total=False
 )
@@ -52,6 +54,12 @@ request_query_name = api_client.QueryParameter(
     style=api_client.ParameterStyle.FORM,
     schema=NameSchema,
     required=True,
+    explode=True,
+)
+request_query_hidden = api_client.QueryParameter(
+    name="hidden",
+    style=api_client.ParameterStyle.FORM,
+    schema=HiddenSchema,
     explode=True,
 )
 # Header params
@@ -216,6 +224,7 @@ class BaseApi(api_client.Api):
         prefix_separator_iterator = None
         for parameter in (
             request_query_name,
+            request_query_hidden,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
