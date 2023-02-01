@@ -7,3 +7,5 @@ docker build . --network=host -f Dockerfile-mlp-sdk-test \
 
 docker run --network=host -v $(pwd):/mlp_python_sdk mlp_sdk_tests pip install .
 docker run --network=host -v $(pwd):/mlp_python_sdk mlp_sdk_tests pytest
+
+sudo rm -Rf $(find . -name __pycache__)

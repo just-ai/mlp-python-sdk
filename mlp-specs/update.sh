@@ -12,14 +12,20 @@ fi
 if [ $BRANCH == 'stable' ]; then
   SERVER=https://caila.stable.caila-x-sls.test-ai.net
 fi
-if [ $BRANCH == 'separate-sdk' ]; then
-  SERVER=https://caila.separate-sdk.caila-ci-feature.lo.test-ai.net
+
+if [ -z $SERVER ]; then
+  # check parallel env exists
+  SRV=https://caila.$BRANCH.caila-ci-feature.lo.test-ai.net
+  CHECK=$(curl -si $SRV/api/mlpgate/version | head -n 1 | grep 200)
+  if [ "$CHECK" ]; then
+    SERVER=$SRV
+  fi
 fi
 
 
 echo $SERVER
 
-if [ $SERVER ]; then
+if [ ! -z $SERVER ]; then
 
   echo go
   curl --silent $SERVER/static/mlpgate/api-docs.yaml -o mlp-rest-api.yml
