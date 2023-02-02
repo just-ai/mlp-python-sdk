@@ -1,7 +1,7 @@
 def defaultBranch = "dev"
-if ( ${env.gitlabBranch} != null )
+if ( env.gitlabBranch != null )
 {
-    defaultBranch = ${env.gitlabBranch}
+    defaultBranch = env.gitlabBranch
 }
 
 pipeline {
