@@ -1,3 +1,9 @@
+def defaultBranch = "dev"
+if ( ${env.gitlabBranch} != null )
+{
+    defaultBranch = ${env.gitlabBranch}
+}
+
 pipeline {
     options {
         gitLabConnection("gitlab just-ai")
@@ -10,7 +16,7 @@ pipeline {
         label 'caila-dev-cloud-agent'
     }
     parameters {
-        string(name: "BRANCH", defaultValue: "dev", description: "")
+        string(name: "BRANCH", defaultValue: defaultBranch, description: "")
         booleanParam(name: 'NEED_REBUILD', defaultValue: false, description: '')
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
