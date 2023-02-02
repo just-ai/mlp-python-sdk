@@ -13,7 +13,9 @@ from mlp_api.paths.api_mlpgate_account_account_id_dataset.post import CreateData
 from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id.delete import DeleteDataset
 from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id_content.get import DownloadDatasetContent
 from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id.get import GetDatasetInfo
+from mlp_api.paths.api_mlpgate_account_account_id_dataset_new_dataset_id_paraphrase.get import GetParaphrasedDatasetStatus
 from mlp_api.paths.api_mlpgate_account_account_id_dataset.get import ListDatasets
+from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id_paraphrase.post import ParaphraseDataset
 from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id.post import UpdateDataset
 from mlp_api.paths.api_mlpgate_account_account_id_dataset_dataset_id_content.post import UploadDatasetContent
 
@@ -23,7 +25,9 @@ class DatasetEndpointApi(
     DeleteDataset,
     DownloadDatasetContent,
     GetDatasetInfo,
+    GetParaphrasedDatasetStatus,
     ListDatasets,
+    ParaphraseDataset,
     UpdateDataset,
     UploadDatasetContent,
 ):
