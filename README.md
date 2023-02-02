@@ -142,7 +142,7 @@ class MyType(BaseModel):
 if container_config['storage_type'] == LocalStorage.name():
     pass
 ```
- 
+
 Here's an example of config data for `LocalStorage`:
 
 ```buildoutcfg
