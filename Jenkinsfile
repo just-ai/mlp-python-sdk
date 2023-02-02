@@ -10,7 +10,7 @@ pipeline {
         label 'caila-dev-cloud-agent'
     }
     parameters {
-        string(name: "BRANCH", defaultValue: "${env.gitlabBranch ?: params.BRANCH}", description: "")
+        string(name: "BRANCH", defaultValue: "${env.gitlabBranch ?: 'dev'}", description: "")
         booleanParam(name: 'NEED_REBUILD', defaultValue: false, description: '')
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
