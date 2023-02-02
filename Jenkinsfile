@@ -16,7 +16,7 @@ pipeline {
         label 'caila-dev-cloud-agent'
     }
     parameters {
-        string(name: "BRANCH", defaultValue: "${env.gitlabBranch != null ? env.gitlabBranch : "dev"}", description: "")
+        string(name: "BRANCH", defaultValue: defaultBranch, description: "")
         booleanParam(name: 'NEED_REBUILD', defaultValue: false, description: '')
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
@@ -24,7 +24,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    manager.addShortText(params.BRANCH)
+                    manager.addShortText(env.gitlabBranch ?: params.BRANCH)
                 }
 
                 echo "gitlab branch is ${env.gitlabBranch}"
@@ -33,7 +33,7 @@ pipeline {
                 updateGitlabCommitStatus name: "build", state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
-                        branch: "${params.BRANCH}",
+                        branch: "${env.gitlabBranch ?: params.BRANCH}",
                         credentialsId: 'bitbucket_key'
             }
         }
