@@ -21,6 +21,8 @@ pipeline {
                     manager.addShortText(params.BRANCH)
                 }
 
+                echo "gitlab branch is ${env.gitlabBranch}"
+
                 updateGitlabCommitStatus name: "build", state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
