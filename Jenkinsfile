@@ -28,6 +28,7 @@ pipeline {
                 }
 
                 echo "gitlab branch is ${env.gitlabBranch}"
+                echo "gitlab branch is ${params.BRANCH}"
 
                 updateGitlabCommitStatus name: "build", state: "running"
 
