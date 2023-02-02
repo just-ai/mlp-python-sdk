@@ -154,4 +154,4 @@ __Attention__: the test case for S3 storage is created for Bitbacket CI environm
 
 ## Examples of usage
 
-See `./examples`
+See `./examples` 
