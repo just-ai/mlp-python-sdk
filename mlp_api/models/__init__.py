@@ -73,4 +73,5 @@ from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status
 from mlp_api.model.status_info import StatusInfo
+from mlp_api.model.task_suite_status import TaskSuiteStatus
 from mlp_api.model.task_type_data import TaskTypeData

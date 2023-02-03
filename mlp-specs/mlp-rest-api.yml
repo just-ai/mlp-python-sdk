@@ -1759,6 +1759,37 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{accountId}/dataset/{datasetId}/paraphrase:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: paraphraseDataset
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: datasetId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
   /api/mlpgate/account/{accountId}/dataset/{datasetId}/content:
     get:
       tags:
@@ -3393,6 +3424,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{accountId}/dataset/{newDatasetId}/paraphrase:
+    get:
+      tags:
+      - dataset-endpoint
+      operationId: getParaphrasedDatasetStatus
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: newDatasetId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskSuiteStatus'
   /api/mlpgate-internal/test-mail:
     get:
       tags:
@@ -4964,6 +5026,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageInfoData'
+    TaskSuiteStatus:
+      required:
+      - accountId
+      - completed
+      - datasetId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+        completed:
+          type: boolean
     PagedDataImageInfoData:
       required:
       - paging
