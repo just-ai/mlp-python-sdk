@@ -61,6 +61,7 @@ from mlp_api.model.paged_image_info_data import PagedImageInfoData
 from mlp_api.model.paged_model_info_data import PagedModelInfoData
 from mlp_api.model.pagination import Pagination
 from mlp_api.model.param_type_data import ParamTypeData
+from mlp_api.model.paraphrasing_status import ParaphrasingStatus
 from mlp_api.model.persistent_volume_data import PersistentVolumeData
 from mlp_api.model.predict_config_data import PredictConfigData
 from mlp_api.model.predict_config_pk import PredictConfigPK

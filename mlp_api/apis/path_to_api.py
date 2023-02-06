@@ -75,7 +75,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_id_metric_range import ApiMl
 from mlp_api.apis.paths.api_mlpgate_account_account_id_job import ApiMlpgateAccountAccountIdJob
 from mlp_api.apis.paths.api_mlpgate_account_account_id_job_job_id import ApiMlpgateAccountAccountIdJobJobId
 from mlp_api.apis.paths.api_mlpgate_account_account_id_image_image_id_logs import ApiMlpgateAccountAccountIdImageImageIdLogs
-from mlp_api.apis.paths.api_mlpgate_account_account_id_dataset_new_dataset_id_paraphrase import ApiMlpgateAccountAccountIdDatasetNewDatasetIdParaphrase
+from mlp_api.apis.paths.api_mlpgate_account_account_id_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountIdDatasetOriginalDatasetIdParaphrase
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
 from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
@@ -170,7 +170,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMlpgateAccountAccountIdJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMlpgateAccountAccountIdJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountIdImageImageIdLogs,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_NEW_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountIdDatasetNewDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountIdDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
@@ -266,7 +266,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB: ApiMlpgateAccountAccountIdJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID: ApiMlpgateAccountAccountIdJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountIdImageImageIdLogs,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_NEW_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountIdDatasetNewDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountIdDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
