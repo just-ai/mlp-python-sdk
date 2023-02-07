@@ -80,7 +80,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB = "/api/mlpgate/account/{accountId}/job"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_JOB_JOB_ID = "/api/mlpgate/account/{accountId}/job/{jobId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID_LOGS = "/api/mlpgate/account/{accountId}/image/{imageId}/logs"
-    API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_NEW_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{accountId}/dataset/{newDatasetId}/paraphrase"
+    API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{accountId}/dataset/{originalDatasetId}/paraphrase"
     API_MLPGATEINTERNAL_TESTMAIL = "/api/mlpgate-internal/test-mail"
     API_MLPGATEINTERNAL_STARTONEINSTANCE = "/api/mlpgate-internal/start-one-instance"
     API_MLPGATEINTERNAL_SETPUBLICFORALL = "/api/mlpgate-internal/set-public-for-all"

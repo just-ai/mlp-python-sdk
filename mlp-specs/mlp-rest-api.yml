@@ -3424,7 +3424,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/mlpgate/account/{accountId}/dataset/{newDatasetId}/paraphrase:
+  /api/mlpgate/account/{accountId}/dataset/{originalDatasetId}/paraphrase:
     get:
       tags:
       - dataset-endpoint
@@ -3436,7 +3436,7 @@ paths:
         schema:
           type: integer
           format: int64
-      - name: newDatasetId
+      - name: originalDatasetId
         in: path
         required: true
         schema:
@@ -3454,7 +3454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskSuiteStatus'
+                $ref: '#/components/schemas/ParaphrasingStatus'
   /api/mlpgate-internal/test-mail:
     get:
       tags:
@@ -5026,19 +5026,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageInfoData'
+    ParaphrasingStatus:
+      required:
+      - statuses
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSuiteStatus'
     TaskSuiteStatus:
       required:
       - accountId
       - completed
-      - datasetId
+      - created
+      - newDatasetId
+      - originalDatasetId
       type: object
       properties:
         accountId:
           type: integer
           format: int64
-        datasetId:
+        originalDatasetId:
           type: integer
           format: int64
+        newDatasetId:
+          type: integer
+          format: int64
+        created:
+          type: string
+          format: date-time
         completed:
           type: boolean
     PagedDataImageInfoData:

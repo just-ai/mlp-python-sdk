@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.task_suite_status import TaskSuiteStatus
+from mlp_api.model.paraphrasing_status import ParaphrasingStatus
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -54,12 +54,12 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountIdSchema = schemas.Int64Schema
-NewDatasetIdSchema = schemas.Int64Schema
+OriginalDatasetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'accountId': typing.Union[AccountIdSchema, decimal.Decimal, int, ],
-        'newDatasetId': typing.Union[NewDatasetIdSchema, decimal.Decimal, int, ],
+        'originalDatasetId': typing.Union[OriginalDatasetIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -80,13 +80,13 @@ request_path_account_id = api_client.PathParameter(
     schema=AccountIdSchema,
     required=True,
 )
-request_path_new_dataset_id = api_client.PathParameter(
-    name="newDatasetId",
+request_path_original_dataset_id = api_client.PathParameter(
+    name="originalDatasetId",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=NewDatasetIdSchema,
+    schema=OriginalDatasetIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = TaskSuiteStatus
+SchemaFor200ResponseBodyApplicationJson = ParaphrasingStatus
 
 
 @dataclass
@@ -170,7 +170,7 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account_id,
-            request_path_new_dataset_id,
+            request_path_original_dataset_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:

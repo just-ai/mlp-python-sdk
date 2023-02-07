@@ -36,29 +36,43 @@ class TaskSuiteStatus(
     class MetaOapg:
         required = {
             "accountId",
-            "datasetId",
+            "created",
             "completed",
+            "originalDatasetId",
+            "newDatasetId",
         }
         
         class properties:
             accountId = schemas.Int64Schema
-            datasetId = schemas.Int64Schema
+            originalDatasetId = schemas.Int64Schema
+            newDatasetId = schemas.Int64Schema
+            created = schemas.DateTimeSchema
             completed = schemas.BoolSchema
             __annotations__ = {
                 "accountId": accountId,
-                "datasetId": datasetId,
+                "originalDatasetId": originalDatasetId,
+                "newDatasetId": newDatasetId,
+                "created": created,
                 "completed": completed,
             }
     
     accountId: MetaOapg.properties.accountId
-    datasetId: MetaOapg.properties.datasetId
+    created: MetaOapg.properties.created
     completed: MetaOapg.properties.completed
+    originalDatasetId: MetaOapg.properties.originalDatasetId
+    newDatasetId: MetaOapg.properties.newDatasetId
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["accountId"]) -> MetaOapg.properties.accountId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["datasetId"]) -> MetaOapg.properties.datasetId: ...
+    def __getitem__(self, name: typing_extensions.Literal["originalDatasetId"]) -> MetaOapg.properties.originalDatasetId: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["newDatasetId"]) -> MetaOapg.properties.newDatasetId: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["created"]) -> MetaOapg.properties.created: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["completed"]) -> MetaOapg.properties.completed: ...
@@ -66,7 +80,7 @@ class TaskSuiteStatus(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "datasetId", "completed", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "originalDatasetId", "newDatasetId", "created", "completed", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -75,7 +89,13 @@ class TaskSuiteStatus(
     def get_item_oapg(self, name: typing_extensions.Literal["accountId"]) -> MetaOapg.properties.accountId: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["datasetId"]) -> MetaOapg.properties.datasetId: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["originalDatasetId"]) -> MetaOapg.properties.originalDatasetId: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["newDatasetId"]) -> MetaOapg.properties.newDatasetId: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["created"]) -> MetaOapg.properties.created: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["completed"]) -> MetaOapg.properties.completed: ...
@@ -83,7 +103,7 @@ class TaskSuiteStatus(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "datasetId", "completed", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "originalDatasetId", "newDatasetId", "created", "completed", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -91,8 +111,10 @@ class TaskSuiteStatus(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, ],
-        datasetId: typing.Union[MetaOapg.properties.datasetId, decimal.Decimal, int, ],
+        created: typing.Union[MetaOapg.properties.created, str, datetime, ],
         completed: typing.Union[MetaOapg.properties.completed, bool, ],
+        originalDatasetId: typing.Union[MetaOapg.properties.originalDatasetId, decimal.Decimal, int, ],
+        newDatasetId: typing.Union[MetaOapg.properties.newDatasetId, decimal.Decimal, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'TaskSuiteStatus':
@@ -100,8 +122,10 @@ class TaskSuiteStatus(
             cls,
             *_args,
             accountId=accountId,
-            datasetId=datasetId,
+            created=created,
             completed=completed,
+            originalDatasetId=originalDatasetId,
+            newDatasetId=newDatasetId,
             _configuration=_configuration,
             **kwargs,
         )
