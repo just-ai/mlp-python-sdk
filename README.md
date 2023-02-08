@@ -144,7 +144,7 @@ if container_config['storage_type'] == LocalStorage.name():
 ```
 
 Here's an example of config data for `LocalStorage`:
-
+ 
 ```buildoutcfg
 storage_type: local
 models_dir: my-nlp-models
@@ -154,4 +154,4 @@ __Attention__: the test case for S3 storage is created for Bitbacket CI environm
 
 ## Examples of usage
 
-See `./examples`
+See `./examples` 

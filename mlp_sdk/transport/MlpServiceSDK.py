@@ -232,6 +232,7 @@ class MlpServiceSDK:
         self.grpc_secure: bool = True
         self.connectors = list()
         self.client_api_url: str = ''
+        self.client_api_token: str = '' 
         self.connectors_lock = threading.Lock()
         self.pipeline_client = PipelineClient(self)
         self.connection_token: str = ''
@@ -247,12 +248,13 @@ class MlpServiceSDK:
         self.descriptor = impl.get_descriptor()
         # TODO: assert that descriptor is ServiceDescriptorProto type
 
-    def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None):
+    def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None, api_token=None):
         self.log.info("Starting ...")
 
         self.gate_urls = os.environ['MLP_GRPC_HOST'].split(",") if not url else url
         self.connection_token = os.environ['MLP_SERVICE_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ.get('MLP_REST_URL', None) if not api_url else api_url
+        self.client_api_token = os.environ['MLP_CLIENT_TOKEN'] if not api_token else api_token
         self.grpc_secure = os.environ.get('MLP_GRPC_SECURE',
                                           'true').lower() == 'true' if not grpc_secure else grpc_secure
 
@@ -589,12 +591,11 @@ class PipelineClient:
         self.sdk = sdk
         self._request_id_lock = threading.Lock()
         self.service_info = None
-        self.client_api_token = None
         self.log = logging.getLogger('PipelineClient')
 
     def get_api_client(self):
         configuration = Configuration(host=self.sdk.client_api_url)
-        return ApiClient(configuration, "MLP-API-KEY", self.__get_client_api_token())
+        return ApiClient(configuration, "MLP-API-KEY", self.sdk.client_api_token)
 
     def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
         client_proto = self.__build_predict_request_proto(account, model, data, config)
@@ -659,21 +660,6 @@ class PipelineClient:
             proto.account = account
 
         return proto
-
-    @staticmethod
-    def __build_token_request_proto():
-        return mlp_grpc_pb2.PipelineRequestProto(
-            token=mlp_grpc_pb2.ClientTokenRequestProto()
-        )
-
-    def __get_client_api_token(self):
-        if self.client_api_token is not None:
-            return self.client_api_token
-
-        client_proto = self.__build_token_request_proto()
-
-        self.client_api_token = self.send_request(client_proto).result(None).token.token
-        return self.client_api_token
 
     def registry_response(self, request_id: int, response_proto: mlp_grpc_pb2.PipelineResponseProto):
         result_future: Future = self.active_requests.get(request_id)
