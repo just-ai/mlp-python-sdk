@@ -254,7 +254,7 @@ class MlpServiceSDK:
         self.gate_urls = os.environ['MLP_GRPC_HOST'].split(",") if not url else url
         self.connection_token = os.environ['MLP_SERVICE_TOKEN'] if not connection_token else connection_token
         self.client_api_url = os.environ.get('MLP_REST_URL', None) if not api_url else api_url
-        self.client_api_token = os.environ['MLP_CLIENT_TOKEN'] if not api_token else api_token
+        self.client_api_token = os.environ.get('MLP_CLIENT_TOKEN', None) if not api_token else api_token
         self.grpc_secure = os.environ.get('MLP_GRPC_SECURE',
                                           'true').lower() == 'true' if not grpc_secure else grpc_secure
 
@@ -594,6 +594,12 @@ class PipelineClient:
         self.log = logging.getLogger('PipelineClient')
 
     def get_api_client(self):
+        if self.sdk.client_api_token is None or self.sdk.client_api_token == "":
+            raise Exception("API client token is not set. Your service should be composite")
+
+        if self.sdk.client_api_url is None or self.sdk.client_api_url == "":
+            raise Exception("API client url is not set")
+
         configuration = Configuration(host=self.sdk.client_api_url)
         return ApiClient(configuration, "MLP-API-KEY", self.sdk.client_api_token)
 
