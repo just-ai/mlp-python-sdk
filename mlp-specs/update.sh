@@ -16,7 +16,7 @@ fi
 if [ -z $SERVER ]; then
   # check parallel env exists
   SRV=https://caila.$BRANCH.caila-ci-feature.lo.test-ai.net
-  CHECK=$(curl -si $SRV/api/mlpgate/version | head -n 1 | grep 200)
+  CHECK=$(curl -si $SRV/api/mlpgate/version | head -n 1 | grep 200 || true)
   if [ "$CHECK" ]; then
     SERVER=$SRV
   fi
