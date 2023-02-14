@@ -64,6 +64,8 @@ message ServiceToGateProto {
 
     PipelineRequestProto request = 301;
   }
+
+  map<string, string> headers = 1000;
 }
 
 message GateToServiceProto {
@@ -88,6 +90,8 @@ message GateToServiceProto {
 
     PipelineResponseProto response = 301;
   }
+
+  map<string, string> headers = 1000;
 }
 
 message HeartBeatProto {
