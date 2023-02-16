@@ -55,12 +55,12 @@ class HealthInterval(
                 class MetaOapg:
                     
                     @staticmethod
-                    def items() -> typing.Type['Check']:
-                        return Check
+                    def items() -> typing.Type['CheckResult']:
+                        return CheckResult
             
                 def __new__(
                     cls,
-                    _arg: typing.Union[typing.Tuple['Check'], typing.List['Check']],
+                    _arg: typing.Union[typing.Tuple['CheckResult'], typing.List['CheckResult']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
                 ) -> 'firstErrors':
                     return super().__new__(
@@ -69,7 +69,7 @@ class HealthInterval(
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i: int) -> 'Check':
+                def __getitem__(self, i: int) -> 'CheckResult':
                     return super().__getitem__(i)
             __annotations__ = {
                 "from": _from,
@@ -140,4 +140,4 @@ class HealthInterval(
             **kwargs,
         )
 
-from mlp_api.model.check import Check
+from mlp_api.model.check_result import CheckResult

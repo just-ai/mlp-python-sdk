@@ -4735,7 +4735,7 @@ components:
         pageSize:
           type: integer
           format: int32
-    Check:
+    CheckResult:
       required:
       - critical
       - name
@@ -4762,7 +4762,7 @@ components:
         checks:
           type: array
           items:
-            $ref: '#/components/schemas/Check'
+            $ref: '#/components/schemas/CheckResult'
     Status:
       required:
       - message
@@ -4800,7 +4800,7 @@ components:
         firstErrors:
           type: array
           items:
-            $ref: '#/components/schemas/Check'
+            $ref: '#/components/schemas/CheckResult'
     StatLogData:
       required:
       - accountId

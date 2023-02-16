@@ -15,7 +15,7 @@ from mlp_api.model.access_token_data import AccessTokenData
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
-from mlp_api.model.check import Check
+from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_info_data import DataImageInfoData
