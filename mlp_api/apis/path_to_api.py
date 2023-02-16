@@ -52,6 +52,7 @@ from mlp_api.apis.paths.api_mlpgate_model import ApiMlpgateModel
 from mlp_api.apis.paths.api_mlpgate_model_featured import ApiMlpgateModelFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
 from mlp_api.apis.paths.api_mlpgate_health_test import ApiMlpgateHealthTest
+from mlp_api.apis.paths.api_mlpgate_health_history import ApiMlpgateHealthHistory
 from mlp_api.apis.paths.api_mlpgate_admin_account import ApiMlpgateAdminAccount
 from mlp_api.apis.paths.api_mlpgate_admin_account_account_id import ApiMlpgateAdminAccountAccountId
 from mlp_api.apis.paths.api_mlpgate_account_account_id_token_token import ApiMlpgateAccountAccountIdTokenToken
@@ -147,6 +148,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_MODEL_FEATURED: ApiMlpgateModelFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
+        PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT: ApiMlpgateAdminAccount,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiMlpgateAdminAccountAccountId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiMlpgateAccountAccountIdTokenToken,
@@ -243,6 +245,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_MODEL_FEATURED: ApiMlpgateModelFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
+        PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT: ApiMlpgateAdminAccount,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_ID: ApiMlpgateAdminAccountAccountId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN: ApiMlpgateAccountAccountIdTokenToken,

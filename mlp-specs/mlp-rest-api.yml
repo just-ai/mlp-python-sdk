@@ -2515,6 +2515,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /api/mlpgate/health/history:
+    get:
+      tags:
+      - system-endpoint
+      operationId: healthCheckHistory
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckHistoryResult'
   /api/mlpgate/admin/account:
     get:
       tags:
@@ -4754,6 +4773,34 @@ components:
           type: boolean
         message:
           type: string
+    HealthCheckHistoryResult:
+      required:
+      - failedIntervals
+      type: object
+      properties:
+        failedIntervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthInterval'
+    HealthInterval:
+      required:
+      - count
+      - firstErrors
+      - from
+      - to
+      type: object
+      properties:
+        from:
+          type: string
+        count:
+          type: integer
+          format: int32
+        to:
+          type: string
+        firstErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Check'
     StatLogData:
       required:
       - accountId

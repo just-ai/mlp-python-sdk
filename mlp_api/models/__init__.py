@@ -32,7 +32,9 @@ from mlp_api.model.feature_data import FeatureData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.fit_config_pk import FitConfigPK
 from mlp_api.model.fit_request_data import FitRequestData
+from mlp_api.model.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.model.health_check_result import HealthCheckResult
+from mlp_api.model.health_interval import HealthInterval
 from mlp_api.model.image_info_data import ImageInfoData
 from mlp_api.model.image_info_pk import ImageInfoPK
 from mlp_api.model.instance_environment_data import InstanceEnvironmentData
