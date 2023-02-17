@@ -15,7 +15,7 @@ from mlp_api.model.access_token_data import AccessTokenData
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
-from mlp_api.model.check import Check
+from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_info_data import DataImageInfoData
@@ -32,7 +32,9 @@ from mlp_api.model.feature_data import FeatureData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.fit_config_pk import FitConfigPK
 from mlp_api.model.fit_request_data import FitRequestData
+from mlp_api.model.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.model.health_check_result import HealthCheckResult
+from mlp_api.model.health_interval import HealthInterval
 from mlp_api.model.image_info_data import ImageInfoData
 from mlp_api.model.image_info_pk import ImageInfoPK
 from mlp_api.model.instance_environment_data import InstanceEnvironmentData

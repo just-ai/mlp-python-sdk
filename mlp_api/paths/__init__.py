@@ -57,6 +57,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_MODEL_FEATURED = "/api/mlpgate/model/featured"
     API_MLPGATE_HEALTH = "/api/mlpgate/health"
     API_MLPGATE_HEALTH_TEST = "/api/mlpgate/health/test"
+    API_MLPGATE_HEALTH_HISTORY = "/api/mlpgate/health/history"
     API_MLPGATE_ADMIN_ACCOUNT = "/api/mlpgate/admin/account"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_ID = "/api/mlpgate/admin/account/{accountId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_TOKEN_TOKEN = "/api/mlpgate/account/{accountId}/token/{token}"
