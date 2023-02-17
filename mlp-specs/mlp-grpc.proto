@@ -225,6 +225,8 @@ message ClientRequestProto {
     // Нужно как-то передавать имя целевой модели, которая будет создана или обновлена после обучения
     ExtendedRequestProto ext = 103;
   }
+
+  map<string, string> headers = 1000;
 }
 
 message ClientResponseProto {
@@ -234,6 +236,8 @@ message ClientResponseProto {
 
     ApiErrorProto error = 201;
   }
+
+  map<string, string> headers = 1000;
 }
 
 message PipelineRequestProto {
