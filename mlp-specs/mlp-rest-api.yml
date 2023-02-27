@@ -1867,6 +1867,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{accountId}/dataset/form:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetByForm
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: dataType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accessMode
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
   /api/mlpgate/account/{accountId}/data-image:
     get:
       tags:

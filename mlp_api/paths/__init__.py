@@ -38,6 +38,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID = "/api/mlpgate/account/{accountId}/dataset/{datasetId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{accountId}/dataset/{datasetId}/paraphrase"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_DATASET_ID_CONTENT = "/api/mlpgate/account/{accountId}/dataset/{datasetId}/content"
+    API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATASET_FORM = "/api/mlpgate/account/{accountId}/dataset/form"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE = "/api/mlpgate/account/{accountId}/data-image"
     API_MLPGATE_ACCOUNT_ACCOUNT_ID_DATAIMAGE_IMAGE_ID = "/api/mlpgate/account/{accountId}/data-image/{imageId}"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_ID_UPDATELIMITS = "/api/mlpgate-internal/account/{accountId}/update-limits"
