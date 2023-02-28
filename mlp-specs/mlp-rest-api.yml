@@ -4016,6 +4016,9 @@ components:
             type: string
         displayName:
           type: string
+        lastActivity:
+          type: integer
+          format: int64
     AccountFeatureData:
       required:
       - features
@@ -4164,24 +4167,15 @@ components:
             type: string
     ModelLimitsData:
       required:
-      - cpuLimit
       - cpuRequest
       - ephemeralDiskLimit
-      - ephemeralDiskRequest
       - gpuRequested
       - memoryLimit
-      - memoryRequest
       type: object
       properties:
         cpuRequest:
           type: string
-        cpuLimit:
-          type: string
-        memoryRequest:
-          type: string
         memoryLimit:
-          type: string
-        ephemeralDiskRequest:
           type: string
         ephemeralDiskLimit:
           type: string
@@ -4434,6 +4428,9 @@ components:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         restrictedImageAccess:
           type: boolean
+        lastActivity:
+          type: integer
+          format: int64
     ModelInfoPK:
       required:
       - accountId
