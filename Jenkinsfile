@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Tests') {
             when {
-                expression { params.RUN_TESTS ?: false }
+                expression { params.RUN_TESTS ?: false || env.NEED_REBUILD == 'true' }
             }
 
             environment {
