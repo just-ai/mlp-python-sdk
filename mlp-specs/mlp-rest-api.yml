@@ -5179,6 +5179,7 @@ components:
       - connectionToken
       - id
       - kubeType
+      - lastHeartBeat
       - started
       - type
       type: object
@@ -5188,6 +5189,9 @@ components:
         connectionToken:
           type: string
         started:
+          type: string
+          format: date-time
+        lastHeartBeat:
           type: string
           format: date-time
         type:

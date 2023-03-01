@@ -35,6 +35,7 @@ class ModelInstance(
 
     class MetaOapg:
         required = {
+            "lastHeartBeat",
             "connectionToken",
             "started",
             "id",
@@ -49,6 +50,7 @@ class ModelInstance(
                 return ModelInstancePK
             connectionToken = schemas.StrSchema
             started = schemas.DateTimeSchema
+            lastHeartBeat = schemas.DateTimeSchema
             
             
             class type(
@@ -119,6 +121,7 @@ class ModelInstance(
                 "id": id,
                 "connectionToken": connectionToken,
                 "started": started,
+                "lastHeartBeat": lastHeartBeat,
                 "type": type,
                 "kubeType": kubeType,
                 "resourceName": resourceName,
@@ -127,6 +130,7 @@ class ModelInstance(
                 "deleteTimestamp": deleteTimestamp,
             }
     
+    lastHeartBeat: MetaOapg.properties.lastHeartBeat
     connectionToken: MetaOapg.properties.connectionToken
     started: MetaOapg.properties.started
     id: 'ModelInstancePK'
@@ -141,6 +145,9 @@ class ModelInstance(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["started"]) -> MetaOapg.properties.started: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["lastHeartBeat"]) -> MetaOapg.properties.lastHeartBeat: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
@@ -163,7 +170,7 @@ class ModelInstance(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -176,6 +183,9 @@ class ModelInstance(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["started"]) -> MetaOapg.properties.started: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["lastHeartBeat"]) -> MetaOapg.properties.lastHeartBeat: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
@@ -198,13 +208,14 @@ class ModelInstance(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        lastHeartBeat: typing.Union[MetaOapg.properties.lastHeartBeat, str, datetime, ],
         connectionToken: typing.Union[MetaOapg.properties.connectionToken, str, ],
         started: typing.Union[MetaOapg.properties.started, str, datetime, ],
         id: 'ModelInstancePK',
@@ -220,6 +231,7 @@ class ModelInstance(
         return super().__new__(
             cls,
             *_args,
+            lastHeartBeat=lastHeartBeat,
             connectionToken=connectionToken,
             started=started,
             id=id,
