@@ -232,7 +232,7 @@ class MlpServiceSDK:
         self.grpc_secure: bool = True
         self.connectors = list()
         self.client_api_url: str = ''
-        self.client_api_token: str = '' 
+        self.client_api_token: str = ''
         self.connectors_lock = threading.Lock()
         self.pipeline_client = PipelineClient(self)
         self.connection_token: str = ''
@@ -360,6 +360,9 @@ class MlpServiceSDK:
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
 
     def __try_to_process_request(self, req_type, request, connector: MlpServiceConnector):
+
+        _t0 = time.perf_counter()
+
         try:
             response = self.__process_request(req_type, request)
         except MlpException as e:
@@ -380,7 +383,12 @@ class MlpServiceSDK:
                     status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
             )
+
+        _elapsed = round((time.perf_counter() - _t0) * 1000)  # to ms and round mathematically
+
         response.requestId = request.requestId
+        response.headers['Z-Server-Time'] = f'{_elapsed}'
+
         self.__log_response(request, response)
         connector.action_to_gate_queue.put_nowait(response)
 
