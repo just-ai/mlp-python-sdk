@@ -7,7 +7,7 @@ cd $BASEDIR
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ $BRANCH == 'dev' ]; then
-  SERVER=https://caila.caila-ci-dev.lo.test-ai.net
+  SERVER=https://mlp.caila-ci-dev.lo.test-ai.net
 fi
 if [ $BRANCH == 'stable' ]; then
   SERVER=https://caila.stable.caila-x-sls.test-ai.net
@@ -15,7 +15,7 @@ fi
 
 if [ -z $SERVER ]; then
   # check parallel env exists
-  SRV=https://caila.$BRANCH.caila-ci-feature.lo.test-ai.net
+  SRV=https://mlp.$BRANCH.caila-ci-feature.lo.test-ai.net
   CHECK=$(curl -si $SRV/api/mlpgate/version | head -n 1 | grep 200 || true)
   if [ "$CHECK" ]; then
     SERVER=$SRV
