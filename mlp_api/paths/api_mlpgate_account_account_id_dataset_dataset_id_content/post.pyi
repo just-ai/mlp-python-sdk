@@ -95,17 +95,12 @@ class SchemaForRequestBodyMultipartFormData(
 
 
     class MetaOapg:
-        required = {
-            "file",
-        }
         
         class properties:
             file = schemas.BinarySchema
             __annotations__ = {
                 "file": file,
             }
-    
-    file: MetaOapg.properties.file
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
@@ -119,7 +114,7 @@ class SchemaForRequestBodyMultipartFormData(
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["file"]) -> typing.Union[MetaOapg.properties.file, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
@@ -131,7 +126,7 @@ class SchemaForRequestBodyMultipartFormData(
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, ],
+        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyMultipartFormData':
