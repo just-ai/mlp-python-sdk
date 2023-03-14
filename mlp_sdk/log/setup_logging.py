@@ -1,44 +1,31 @@
 import logging
-from logging.config import dictConfig
-from typing import Optional
+import os
 
-LOGGING_CONFIG_TEMPLATE = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "basic": {
-            "format": "%(asctime)s - [%(levelname)s] - [%(pathname)s: %(module)s.%(funcName)s:%(lineno)d]: %(message)s"
-        },
-    },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler", "formatter": "basic"
-        },
-    },
-    "root": {
-        "level": logging.INFO,
-        "handlers": ("console", ),
-    },
-}
+from mlp_sdk.log.graylog_handler import GrayLogHandler
+
+_NAME = 'root'
 
 
-def get_logger(graylog_host: Optional[str] = None, graylog_udp_port: Optional[int] = None) -> logging.Logger:
+def get_logger(name: str = _NAME, level: str = 'INFO') -> logging.Logger:
 
-    logging_config = LOGGING_CONFIG_TEMPLATE.copy()
-    if graylog_host is not None and graylog_udp_port is not None:
-        # TODO: Take host/port info from env variables
-        # TODO: Add and handle custom required fields: task, instance, server, etc
-        # TODO: Test graylog with mocking emit func?
-        graylog_handler = {
-            "class": "mlp_sdk.log.graylog_handler.GrayLogHandler",
-            "host": graylog_host,
-            "port": graylog_udp_port,
-            "level_names": True,
-            "formatter": "basic"
-        }
-        logging_config["handlers"]["graylog"] = graylog_handler
-        logging_config["root"]["handlers"] += ("graylog", )
+    logging_level = logging.getLevelName(level)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging_level)
 
-    dictConfig(logging_config)
-    logger = logging.getLogger("root")
+    # create console handler
+    ch = logging.StreamHandler()
+    ch.setLevel(logging_level)
+
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter(
+        "%(asctime)s - [%(levelname)s] - [%(pathname)s: %(module)s.%(funcName)s:%(lineno)d]: %(message)s")
+    ch.setFormatter(formatter)
+
+    logger.addHandler(ch)
+
+    if os.environ.get('GRAYLOG_SERVER') and os.environ.get('GRAYLOG_PORT'):
+        graylog_handler = GrayLogHandler(os.environ.get('GRAYLOG_SERVER'),
+                                         int(os.environ.get('GRAYLOG_PORT')), extra_fields=True)
+        logger.addHandler(graylog_handler)
+
     return logger

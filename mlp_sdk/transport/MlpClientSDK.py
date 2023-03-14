@@ -1,7 +1,5 @@
-import logging
 import os
 import pathlib
-import sys
 import time
 from typing import Dict, Optional, List
 
@@ -9,14 +7,12 @@ import grpc
 import yaml
 
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
+from mlp_sdk.log.setup_logging import get_logger
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
 
-logging.basicConfig(format=CONFIG["logging"]["format"],
-                    level=logging.getLevelName(CONFIG["logging"]["level"]),
-                    stream=sys.stdout)
 
 
 class MlpClientSDK:
@@ -25,7 +21,7 @@ class MlpClientSDK:
         self.urls = None
         self.token = None
         self.grpc_secure = None
-        self.log = logging.getLogger('MlpClientSDK')
+        self.log = get_logger('MlpClientSDK', CONFIG["logging"]["level"])
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
