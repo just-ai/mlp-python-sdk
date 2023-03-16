@@ -154,6 +154,8 @@ class ModelInfoData(
             @staticmethod
             def image() -> typing.Type['ImageInfoData']:
                 return ImageInfoData
+            modelGroupId = schemas.Int64Schema
+            modelGroupName = schemas.StrSchema
             trainingDatasetAccountId = schemas.Int64Schema
             trainingDatasetId = schemas.Int64Schema
         
@@ -231,6 +233,8 @@ class ModelInfoData(
                 "modelAccountDisplayName": modelAccountDisplayName,
                 "imageId": imageId,
                 "image": image,
+                "modelGroupId": modelGroupId,
+                "modelGroupName": modelGroupName,
                 "trainingDatasetAccountId": trainingDatasetAccountId,
                 "trainingDatasetId": trainingDatasetId,
                 "trainingDataset": trainingDataset,
@@ -320,6 +324,12 @@ class ModelInfoData(
     def __getitem__(self, name: typing_extensions.Literal["image"]) -> 'ImageInfoData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["modelGroupId"]) -> MetaOapg.properties.modelGroupId: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["modelGroupName"]) -> MetaOapg.properties.modelGroupName: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingDatasetAccountId"]) -> MetaOapg.properties.trainingDatasetAccountId: ...
     
     @typing.overload
@@ -373,7 +383,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -433,6 +443,12 @@ class ModelInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["image"]) -> typing.Union['ImageInfoData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["modelGroupId"]) -> typing.Union[MetaOapg.properties.modelGroupId, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["modelGroupName"]) -> typing.Union[MetaOapg.properties.modelGroupName, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingDatasetAccountId"]) -> typing.Union[MetaOapg.properties.trainingDatasetAccountId, schemas.Unset]: ...
     
     @typing.overload
@@ -486,7 +502,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -511,6 +527,8 @@ class ModelInfoData(
         modelAccountDisplayName: typing.Union[MetaOapg.properties.modelAccountDisplayName, str, schemas.Unset] = schemas.unset,
         imageId: typing.Union[MetaOapg.properties.imageId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         image: typing.Union['ImageInfoData', schemas.Unset] = schemas.unset,
+        modelGroupId: typing.Union[MetaOapg.properties.modelGroupId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        modelGroupName: typing.Union[MetaOapg.properties.modelGroupName, str, schemas.Unset] = schemas.unset,
         trainingDatasetAccountId: typing.Union[MetaOapg.properties.trainingDatasetAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDatasetId: typing.Union[MetaOapg.properties.trainingDatasetId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingDataset: typing.Union['DatasetInfoData', schemas.Unset] = schemas.unset,
@@ -552,6 +570,8 @@ class ModelInfoData(
             modelAccountDisplayName=modelAccountDisplayName,
             imageId=imageId,
             image=image,
+            modelGroupId=modelGroupId,
+            modelGroupName=modelGroupName,
             trainingDatasetAccountId=trainingDatasetAccountId,
             trainingDatasetId=trainingDatasetId,
             trainingDataset=trainingDataset,

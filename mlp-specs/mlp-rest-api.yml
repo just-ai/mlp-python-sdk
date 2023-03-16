@@ -219,6 +219,12 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: groupId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
@@ -1356,6 +1362,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
+  /api/mlpgate/account/{accountId}/model-group:
+    get:
+      tags:
+      - model-group-endpoint
+      operationId: getGroups
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelGroupData'
+    post:
+      tags:
+      - model-group-endpoint
+      operationId: createGroup
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelGroupData'
+    patch:
+      tags:
+      - model-group-endpoint
+      operationId: updateGroup
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelGroupData'
   /api/mlpgate/account/{accountId}/management/{featureName}:
     post:
       tags:
@@ -2312,6 +2405,39 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/mlpgate/account/{accountId}/model/{modelId}/model-group/{groupId}:
+    patch:
+      tags:
+      - model-group-endpoint
+      operationId: assignModelToGroup
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate-internal/resource-groups:
     get:
       tags:
@@ -2484,6 +2610,12 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: groupId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
@@ -3870,6 +4002,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExternalConnectionInfoData'
+  /api/mlpgate/account/{accountId}/model-group/{groupId}:
+    delete:
+      tags:
+      - model-group-endpoint
+      operationId: deleteGroup
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate-internal/instances/deleteByTimestamp:
     delete:
       tags:
@@ -4353,6 +4512,11 @@ components:
           format: int64
         image:
           $ref: '#/components/schemas/ImageInfoData'
+        modelGroupId:
+          type: integer
+          format: int64
+        modelGroupName:
+          type: string
         trainingDatasetAccountId:
           type: integer
           format: int64
@@ -4630,6 +4794,27 @@ components:
         minIntentSizeToDivide:
           type: integer
           format: int32
+    ModelGroupData:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelGroupPK'
+        name:
+          type: string
+    ModelGroupPK:
+      required:
+      - accountId
+      - groupId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        groupId:
+          type: integer
+          format: int64
     ManagementRequestData:
       required:
       - contacts

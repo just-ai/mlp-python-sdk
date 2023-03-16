@@ -47,6 +47,8 @@ from mlp_api.model.method_descriptor_data import MethodDescriptorData
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_create_update_data import ModelCreateUpdateData
 from mlp_api.model.model_defaults import ModelDefaults
+from mlp_api.model.model_group_data import ModelGroupData
+from mlp_api.model.model_group_pk import ModelGroupPK
 from mlp_api.model.model_info_data import ModelInfoData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_instance import ModelInstance
