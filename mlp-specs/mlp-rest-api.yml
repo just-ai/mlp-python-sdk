@@ -1449,6 +1449,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelGroupData'
+  /api/mlpgate/account/{accountId}/model-account/{modelAccountId}/model/{modelId}/favorite:
+    post:
+      tags:
+      - model-endpoint
+      operationId: setFavorite
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: modelAccountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/account/{accountId}/management/{featureName}:
     post:
       tags:
@@ -4483,6 +4522,7 @@ components:
       - batchesConfig
       - composite
       - dataImageMounts
+      - favorite
       - fittable
       - hostingType
       - id
@@ -4593,6 +4633,8 @@ components:
         lastActivity:
           type: integer
           format: int64
+        favorite:
+          type: boolean
     ModelInfoPK:
       required:
       - accountId

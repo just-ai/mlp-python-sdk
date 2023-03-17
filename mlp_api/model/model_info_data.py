@@ -48,6 +48,7 @@ class ModelInfoData(
             "publicSettings",
             "imageAccountId",
             "id",
+            "favorite",
             "batchesConfig",
         }
         
@@ -154,6 +155,7 @@ class ModelInfoData(
             def publicSettings() -> typing.Type['ModelPublicSettingsData']:
                 return ModelPublicSettingsData
             restrictedImageAccess = schemas.BoolSchema
+            favorite = schemas.BoolSchema
             modelAccountName = schemas.StrSchema
             modelAccountDisplayName = schemas.StrSchema
             imageId = schemas.Int64Schema
@@ -244,6 +246,7 @@ class ModelInfoData(
                 "batchesConfig": batchesConfig,
                 "publicSettings": publicSettings,
                 "restrictedImageAccess": restrictedImageAccess,
+                "favorite": favorite,
                 "modelAccountName": modelAccountName,
                 "modelAccountDisplayName": modelAccountDisplayName,
                 "imageId": imageId,
@@ -282,6 +285,7 @@ class ModelInfoData(
     publicSettings: 'ModelPublicSettingsData'
     imageAccountId: MetaOapg.properties.imageAccountId
     id: 'ModelInfoPK'
+    favorite: MetaOapg.properties.favorite
     batchesConfig: 'ModelBatchesData'
     
     @typing.overload
@@ -325,6 +329,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["favorite"]) -> MetaOapg.properties.favorite: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["modelAccountName"]) -> MetaOapg.properties.modelAccountName: ...
@@ -398,7 +405,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -444,6 +451,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["favorite"]) -> MetaOapg.properties.favorite: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["modelAccountName"]) -> typing.Union[MetaOapg.properties.modelAccountName, schemas.Unset]: ...
@@ -517,7 +527,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -537,6 +547,7 @@ class ModelInfoData(
         publicSettings: 'ModelPublicSettingsData',
         imageAccountId: typing.Union[MetaOapg.properties.imageAccountId, decimal.Decimal, int, ],
         id: 'ModelInfoPK',
+        favorite: typing.Union[MetaOapg.properties.favorite, bool, ],
         batchesConfig: 'ModelBatchesData',
         modelAccountName: typing.Union[MetaOapg.properties.modelAccountName, str, schemas.Unset] = schemas.unset,
         modelAccountDisplayName: typing.Union[MetaOapg.properties.modelAccountDisplayName, str, schemas.Unset] = schemas.unset,
@@ -580,6 +591,7 @@ class ModelInfoData(
             publicSettings=publicSettings,
             imageAccountId=imageAccountId,
             id=id,
+            favorite=favorite,
             batchesConfig=batchesConfig,
             modelAccountName=modelAccountName,
             modelAccountDisplayName=modelAccountDisplayName,

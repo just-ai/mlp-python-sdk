@@ -26,6 +26,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_derived im
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_cross_validation import ApiMlpgateAccountAccountIdModelModelIdCrossValidation
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_model_id_clone import ApiMlpgateAccountAccountIdModelModelIdClone
 from mlp_api.apis.paths.api_mlpgate_account_account_id_model_group import ApiMlpgateAccountAccountIdModelGroup
+from mlp_api.apis.paths.api_mlpgate_account_account_id_model_account_model_account_id_model_model_id_favorite import ApiMlpgateAccountAccountIdModelAccountModelAccountIdModelModelIdFavorite
 from mlp_api.apis.paths.api_mlpgate_account_account_id_management_feature_name import ApiMlpgateAccountAccountIdManagementFeatureName
 from mlp_api.apis.paths.api_mlpgate_account_account_id_image import ApiMlpgateAccountAccountIdImage
 from mlp_api.apis.paths.api_mlpgate_account_account_id_image_image_id import ApiMlpgateAccountAccountIdImageImageId
@@ -126,6 +127,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiMlpgateAccountAccountIdModelModelIdCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CLONE: ApiMlpgateAccountAccountIdModelModelIdClone,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODELGROUP: ApiMlpgateAccountAccountIdModelGroup,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODELACCOUNT_MODEL_ACCOUNT_ID_MODEL_MODEL_ID_FAVORITE: ApiMlpgateAccountAccountIdModelAccountModelAccountIdModelModelIdFavorite,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountIdManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiMlpgateAccountAccountIdImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiMlpgateAccountAccountIdImageImageId,
@@ -227,6 +229,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CROSSVALIDATION: ApiMlpgateAccountAccountIdModelModelIdCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODEL_MODEL_ID_CLONE: ApiMlpgateAccountAccountIdModelModelIdClone,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODELGROUP: ApiMlpgateAccountAccountIdModelGroup,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MODELACCOUNT_MODEL_ACCOUNT_ID_MODEL_MODEL_ID_FAVORITE: ApiMlpgateAccountAccountIdModelAccountModelAccountIdModelModelIdFavorite,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountIdManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE: ApiMlpgateAccountAccountIdImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_ID_IMAGE_IMAGE_ID: ApiMlpgateAccountAccountIdImageImageId,

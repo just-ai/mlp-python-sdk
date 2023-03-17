@@ -26,6 +26,7 @@ from mlp_api.paths.api_mlpgate_model.get import GetPublicModels
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_action_descriptor.get import GetServiceDescriptor
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_simple_doc.get import GetSimpleDoc
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_last_job.get import LastJob
+from mlp_api.paths.api_mlpgate_account_account_id_model_account_model_account_id_model_model_id_favorite.post import SetFavorite
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_instances.post import SetRequestedInstancesCount
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_simple_doc.post import SetSimpleDoc
 from mlp_api.paths.api_mlpgate_account_account_id_model_model_id_status.get import ShortModelStatus
@@ -52,6 +53,7 @@ class ModelEndpointApi(
     GetServiceDescriptor,
     GetSimpleDoc,
     LastJob,
+    SetFavorite,
     SetRequestedInstancesCount,
     SetSimpleDoc,
     ShortModelStatus,
