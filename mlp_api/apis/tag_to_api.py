@@ -13,6 +13,7 @@ from mlp_api.apis.tags.job_endpoint_api import JobEndpointApi
 from mlp_api.apis.tags.manual_management_endpoint_api import ManualManagementEndpointApi
 from mlp_api.apis.tags.metric_endpoint_api import MetricEndpointApi
 from mlp_api.apis.tags.model_endpoint_api import ModelEndpointApi
+from mlp_api.apis.tags.model_group_endpoint_api import ModelGroupEndpointApi
 from mlp_api.apis.tags.model_instance_endpoint_api import ModelInstanceEndpointApi
 from mlp_api.apis.tags.predict_config_endpoint_api import PredictConfigEndpointApi
 from mlp_api.apis.tags.process_endpoint_api import ProcessEndpointApi
@@ -36,6 +37,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.MANUALMANAGEMENTENDPOINT: ManualManagementEndpointApi,
         TagValues.METRICENDPOINT: MetricEndpointApi,
         TagValues.MODELENDPOINT: ModelEndpointApi,
+        TagValues.MODELGROUPENDPOINT: ModelGroupEndpointApi,
         TagValues.MODELINSTANCEENDPOINT: ModelInstanceEndpointApi,
         TagValues.PREDICTCONFIGENDPOINT: PredictConfigEndpointApi,
         TagValues.PROCESSENDPOINT: ProcessEndpointApi,
@@ -60,6 +62,7 @@ tag_to_api = TagToApi(
         TagValues.MANUALMANAGEMENTENDPOINT: ManualManagementEndpointApi,
         TagValues.METRICENDPOINT: MetricEndpointApi,
         TagValues.MODELENDPOINT: ModelEndpointApi,
+        TagValues.MODELGROUPENDPOINT: ModelGroupEndpointApi,
         TagValues.MODELINSTANCEENDPOINT: ModelInstanceEndpointApi,
         TagValues.PREDICTCONFIGENDPOINT: PredictConfigEndpointApi,
         TagValues.PROCESSENDPOINT: ProcessEndpointApi,

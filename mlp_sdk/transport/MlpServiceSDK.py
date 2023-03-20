@@ -1,10 +1,8 @@
-import logging
 import os
 import pathlib
 import queue
 import sched
 import signal
-import sys
 import threading
 import time
 import typing
@@ -20,14 +18,11 @@ from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
 
 from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
+from mlp_sdk.log.setup_logging import get_logger
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
-
-logging.basicConfig(format=CONFIG["logging"]["format"],
-                    level=logging.getLevelName(CONFIG["logging"]["level"]),
-                    stream=sys.stdout)
 
 
 class MlpServiceConnector:
@@ -37,7 +32,7 @@ class MlpServiceConnector:
         self.sdk = sdk
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = logging.getLogger(f'MlpServiceConnector-{url}')
+        self.log = get_logger(f'MlpServiceConnector-{url}', CONFIG["logging"]["level"])
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -162,14 +157,14 @@ class MlpServiceConnector:
         if req_type != 'heartBeat':
             self.__log_request(request)
         if req_type is None:
-            self.log.error("Request with empty body")
+            self.log.error("Request with empty body", extra={'requestId': request.requestId})
         elif req_type == 'serviceInfo':
             self.sdk.pipeline_client.service_info = request.serviceInfo
         elif req_type == 'heartBeat':
             self.last_heartbeat_from_gate = time.time()
 
             if self.heartbeat_thread is None:
-                self.log.info(" ... starting heartbeats")
+                self.log.info(" ... starting heartbeats", extra={'requestId': request.requestId})
                 self.heartbeat_thread_interval = request.heartBeat.interval
                 self.heartbeat_thread = threading.Thread(target=self.__heartbeat_proc)
                 self.heartbeat_thread.start()
@@ -187,9 +182,11 @@ class MlpServiceConnector:
     def __log_request(self, request):
         stringified_request = str(request)
         if len(stringified_request) < CONFIG["sdk"]["large_body_length"]:
-            self.log.info("Request: " + stringified_request)
+            self.log.info("Request: " + stringified_request, extra={'requestId': request.requestId})
         else:
-            self.log.info("Request with large body. Id=" + str(request.requestId))
+            self.log.info("Request with large body. Id=" + str(request.requestId),
+                          extra={'requestId': request.requestId}
+                          )
 
     def __heartbeat_proc(self):
         while self.state == State.connected or self.state == State.serving:
@@ -226,13 +223,13 @@ class MlpServiceConnector:
 class MlpServiceSDK:
 
     def __init__(self):
-        self.log = logging.getLogger('MlpServiceSDK')
+        self.log = get_logger('MlpServiceSDK', CONFIG["logging"]["level"])
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True
         self.connectors = list()
         self.client_api_url: str = ''
-        self.client_api_token: str = '' 
+        self.client_api_token: str = ''
         self.connectors_lock = threading.Lock()
         self.pipeline_client = PipelineClient(self)
         self.connection_token: str = ''
@@ -343,8 +340,8 @@ class MlpServiceSDK:
         barrier.wait(CONFIG["sdk"]["action_shutdown_timeout_seconds"])
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
-        self.log.error("Unknown request type " + req_type)
-        self.log.error(request)
+        self.log.error("Unknown request type " + req_type, extra={'requestId': request.requestId})
+        self.log.error(request, extra={'requestId': request.requestId})
         response = mlp_grpc_pb2.ServiceToGateProto(
             error=mlp_grpc_pb2.ApiErrorProto(
                 code='mlp-action.common.internal-error',
@@ -360,10 +357,13 @@ class MlpServiceSDK:
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
 
     def __try_to_process_request(self, req_type, request, connector: MlpServiceConnector):
+
+        _t0 = time.perf_counter()
+
         try:
             response = self.__process_request(req_type, request)
         except MlpException as e:
-            self.log.exception(e)
+            self.log.exception(e, extra={'requestId': request.requestId})
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code=e.code if e.code is not None else 'mlp-action.common.internal-error',
@@ -372,7 +372,7 @@ class MlpServiceSDK:
                 )
             )
         except Exception as e:
-            self.log.exception(e)
+            self.log.exception(e, extra={'requestId': request.requestId})
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code="mlp-action.common.processing-exception",
@@ -380,16 +380,22 @@ class MlpServiceSDK:
                     status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
                 )
             )
+
+        _elapsed = round((time.perf_counter() - _t0) * 1000)  # to ms and round mathematically
+
         response.requestId = request.requestId
+        response.headers['Z-Server-Time'] = f'{_elapsed}'
+
         self.__log_response(request, response)
         connector.action_to_gate_queue.put_nowait(response)
 
     def __log_response(self, request, response):
         stringified_response = str(response)
         if len(stringified_response) < CONFIG["sdk"]["large_body_length"]:
-            self.log.info("Response: " + stringified_response)
+            self.log.info("Response: " + stringified_response, extra={'requestId': request.requestId})
         else:
-            self.log.info("Response with large body. Id=" + str(request.requestId))
+            self.log.info("Response with large body. Id=" + str(request.requestId),
+                          extra={'requestId': request.requestId})
 
     def __process_request(self, req_type, request):
         if req_type == 'predict':
@@ -591,7 +597,7 @@ class PipelineClient:
         self.sdk = sdk
         self._request_id_lock = threading.Lock()
         self.service_info = None
-        self.log = logging.getLogger('PipelineClient')
+        self.log = get_logger('PipelineClient', CONFIG["logging"]["level"])
 
     def get_api_client(self):
         if self.sdk.client_api_token is None or self.sdk.client_api_token == "":

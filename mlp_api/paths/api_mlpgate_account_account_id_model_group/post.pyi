@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.dataset_info_data import DatasetInfoData
+from mlp_api.model.model_group_data import ModelGroupData
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -54,12 +54,10 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountIdSchema = schemas.Int64Schema
-DatasetIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'accountId': typing.Union[AccountIdSchema, decimal.Decimal, int, ],
-        'datasetId': typing.Union[DatasetIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -80,72 +78,18 @@ request_path_account_id = api_client.PathParameter(
     schema=AccountIdSchema,
     required=True,
 )
-request_path_dataset_id = api_client.PathParameter(
-    name="datasetId",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=DatasetIdSchema,
+# body param
+SchemaForRequestBodyApplicationJson = ModelGroupData
+
+
+request_body_model_group_data = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
     required=True,
 )
-# body param
-
-
-class SchemaForRequestBodyMultipartFormData(
-    schemas.DictSchema
-):
-
-
-    class MetaOapg:
-        
-        class properties:
-            file = schemas.BinarySchema
-            __annotations__ = {
-                "file": file,
-            }
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
-    
-    @typing.overload
-    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
-    
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
-        # dict_instance[name] accessor
-        return super().__getitem__(name)
-    
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["file"]) -> typing.Union[MetaOapg.properties.file, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
-    
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
-        return super().get_item_oapg(name)
-    
-
-    def __new__(
-        cls,
-        *_args: typing.Union[dict, frozendict.frozendict, ],
-        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
-        _configuration: typing.Optional[schemas.Configuration] = None,
-        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'SchemaForRequestBodyMultipartFormData':
-        return super().__new__(
-            cls,
-            *_args,
-            file=file,
-            _configuration=_configuration,
-            **kwargs,
-        )
-
-
-request_body_body = api_client.RequestBody(
-    content={
-        'multipart/form-data': api_client.MediaType(
-            schema=SchemaForRequestBodyMultipartFormData),
-    },
-)
-SchemaFor200ResponseBodyApplicationJson = DatasetInfoData
+SchemaFor200ResponseBodyApplicationJson = ModelGroupData
 
 
 @dataclass
@@ -171,10 +115,10 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _upload_dataset_content_oapg(
+    def _create_group_oapg(
         self,
-        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -186,10 +130,10 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _upload_dataset_content_oapg(
+    def _create_group_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -202,11 +146,11 @@ class BaseApi(api_client.Api):
 
 
     @typing.overload
-    def _upload_dataset_content_oapg(
+    def _create_group_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -215,10 +159,10 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _upload_dataset_content_oapg(
+    def _create_group_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -230,10 +174,10 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _upload_dataset_content_oapg(
+    def _create_group_oapg(
         self,
-        content_type: str = 'multipart/form-data',
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -253,7 +197,6 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account_id,
-            request_path_dataset_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -278,15 +221,17 @@ class BaseApi(api_client.Api):
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
 
+        if body is schemas.unset:
+            raise exceptions.ApiValueError(
+                'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
         _body = None
-        if body is not schemas.unset:
-            serialized_data = request_body_body.serialize(body, content_type)
-            _headers.add('Content-Type', content_type)
-            if 'fields' in serialized_data:
-                _fields = serialized_data['fields']
-            elif 'body' in serialized_data:
-                _body = serialized_data['body']
+        serialized_data = request_body_model_group_data.serialize(body, content_type)
+        _headers.add('Content-Type', content_type)
+        if 'fields' in serialized_data:
+            _fields = serialized_data['fields']
+        elif 'body' in serialized_data:
+            _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
             method='post'.upper(),
@@ -316,14 +261,14 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class UploadDatasetContent(BaseApi):
+class CreateGroup(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def upload_dataset_content(
+    def create_group(
         self,
-        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -335,10 +280,10 @@ class UploadDatasetContent(BaseApi):
     ]: ...
 
     @typing.overload
-    def upload_dataset_content(
+    def create_group(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -351,11 +296,11 @@ class UploadDatasetContent(BaseApi):
 
 
     @typing.overload
-    def upload_dataset_content(
+    def create_group(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -364,10 +309,10 @@ class UploadDatasetContent(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def upload_dataset_content(
+    def create_group(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -379,10 +324,10 @@ class UploadDatasetContent(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def upload_dataset_content(
+    def create_group(
         self,
-        content_type: str = 'multipart/form-data',
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -390,7 +335,7 @@ class UploadDatasetContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._upload_dataset_content_oapg(
+        return self._create_group_oapg(
             body=body,
             header_params=header_params,
             path_params=path_params,
@@ -408,8 +353,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -423,8 +368,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -439,9 +384,9 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -452,8 +397,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -467,8 +412,8 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        content_type: str = 'multipart/form-data',
-        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -476,7 +421,7 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._upload_dataset_content_oapg(
+        return self._create_group_oapg(
             body=body,
             header_params=header_params,
             path_params=path_params,
