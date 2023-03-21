@@ -4441,6 +4441,8 @@ components:
           - private
           - public
           - restricted
+        warning:
+          type: string
     DatasetPK:
       required:
       - accountId
