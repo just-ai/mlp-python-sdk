@@ -35,6 +35,8 @@ AccountSchema = schemas.StrSchema
 ModelSchema = schemas.StrSchema
 OnlyPublicSchema = schemas.BoolSchema
 GroupIdSchema = schemas.Int64Schema
+TaskTypeSchema = schemas.StrSchema
+LanguageSchema = schemas.StrSchema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
@@ -51,6 +53,8 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
         'model': typing.Union[ModelSchema, str, ],
         'onlyPublic': typing.Union[OnlyPublicSchema, bool, ],
         'groupId': typing.Union[GroupIdSchema, decimal.Decimal, int, ],
+        'taskType': typing.Union[TaskTypeSchema, str, ],
+        'language': typing.Union[LanguageSchema, str, ],
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
@@ -91,6 +95,18 @@ request_query_group_id = api_client.QueryParameter(
     name="groupId",
     style=api_client.ParameterStyle.FORM,
     schema=GroupIdSchema,
+    explode=True,
+)
+request_query_task_type = api_client.QueryParameter(
+    name="taskType",
+    style=api_client.ParameterStyle.FORM,
+    schema=TaskTypeSchema,
+    explode=True,
+)
+request_query_language = api_client.QueryParameter(
+    name="language",
+    style=api_client.ParameterStyle.FORM,
+    schema=LanguageSchema,
     explode=True,
 )
 request_query_page = api_client.QueryParameter(
@@ -271,6 +287,8 @@ class BaseApi(api_client.Api):
             request_query_model,
             request_query_only_public,
             request_query_group_id,
+            request_query_task_type,
+            request_query_language,
             request_query_page,
             request_query_size,
             request_query_sort,

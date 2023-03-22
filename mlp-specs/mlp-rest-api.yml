@@ -225,6 +225,16 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: taskType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
       - name: page
         in: query
         required: false
@@ -2655,6 +2665,16 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: taskType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
       - name: page
         in: query
         required: false
