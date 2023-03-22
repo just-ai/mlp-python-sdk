@@ -4657,6 +4657,12 @@ components:
           format: int64
         favorite:
           type: boolean
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
     ModelInfoPK:
       required:
       - accountId
