@@ -10,7 +10,7 @@ if [ $BRANCH == 'dev' ]; then
   SERVER=https://mlp.caila-ci-dev.lo.test-ai.net
 fi
 if [ $BRANCH == 'stable' ]; then
-  SERVER=https://caila.stable.caila-x-sls.test-ai.net
+  SERVER=https://mlp.stable.caila-x-sls.test-ai.net
 fi
 
 if [ -z $SERVER ]; then
