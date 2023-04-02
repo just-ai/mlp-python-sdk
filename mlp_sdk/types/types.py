@@ -437,6 +437,16 @@ class ScoredSeq2SeqTexts(Texts):
     perplexity_scores: Optional[List[float]]
 
 
+class DialogHistoryPair(BaseModel):
+    user: str
+    bot: str
+
+
+class Dialog(BaseModel):
+    user: str
+    dialog_history: Optional[List[DialogHistoryPair]]
+
+
 # COLLECTIONS
 
 class TextsCollection(BaseModel):
@@ -566,3 +576,7 @@ class TokenizedTextsCollectionTest(TokenizedTextsCollection):
 
 class TokenizedTextsCollectionWithErrorTest(TokenizedTextsCollection):
     tokens_list: int = 0
+
+
+class DialogCollection(BaseModel):
+    dialogs: List[Dialog]
