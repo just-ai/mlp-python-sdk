@@ -219,8 +219,8 @@ message ClientRequestProto {
   // через MLP API. Внутри системы, токен будет ассоциирован с конкретным аккаунтом в АА.
   string authToken = 3;
 
-  // Таймаут в миллисекундах. Если не указан, то используется значение по умолчанию
-  int32 timeoutSec = 4;
+  // Таймаут в секундах. Если не указан, то используется значение по умолчанию
+  optional int32 timeoutSec = 4;
 
   oneof body {
     PredictRequestProto predict = 101;
