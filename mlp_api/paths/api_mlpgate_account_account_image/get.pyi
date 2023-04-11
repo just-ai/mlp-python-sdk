@@ -29,6 +29,7 @@ from mlp_api.model.paged_image_info_data import PagedImageInfoData
 
 # Query params
 NameSchema = schemas.StrSchema
+OnlyMySchema = schemas.BoolSchema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
@@ -41,6 +42,7 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'name': typing.Union[NameSchema, str, ],
+        'onlyMy': typing.Union[OnlyMySchema, bool, ],
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
@@ -57,6 +59,12 @@ request_query_name = api_client.QueryParameter(
     name="name",
     style=api_client.ParameterStyle.FORM,
     schema=NameSchema,
+    explode=True,
+)
+request_query_only_my = api_client.QueryParameter(
+    name="onlyMy",
+    style=api_client.ParameterStyle.FORM,
+    schema=OnlyMySchema,
     explode=True,
 )
 request_query_page = api_client.QueryParameter(
@@ -230,6 +238,7 @@ class BaseApi(api_client.Api):
         prefix_separator_iterator = None
         for parameter in (
             request_query_name,
+            request_query_only_my,
             request_query_page,
             request_query_size,
             request_query_sort,

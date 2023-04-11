@@ -1576,6 +1576,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
@@ -2113,6 +2118,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
