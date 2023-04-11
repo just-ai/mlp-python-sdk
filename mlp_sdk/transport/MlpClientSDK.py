@@ -53,9 +53,9 @@ class MlpClientSDK:
             return response.predict
         elif response.error is not None:
             self.log.error(f'Error from gate. Error \n{response.error}')
-            raise CailaClientException(response.error.code, response.error.message, response.error.argsMap)
+            raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
         else:
-            raise CailaClientException("wrong-response", "Wrong response type: $response", {})
+            raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
     def __process_request_with_retry(self, request):
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = None
@@ -72,10 +72,10 @@ class MlpClientSDK:
                     self.__connect()
                 else:
                     self.log.error(f'Error from grpc channel. Error \n{rpc_error.details()}')
-                    raise CailaClientException(f'{rpc_error.code()}', f'{rpc_error.details()}', {})
+                    raise MlpClientException(f'{rpc_error.code()}', f'{rpc_error.details()}', {})
 
         if response is None:
-            raise CailaClientException(
+            raise MlpClientException(
                 'UNAVAILABLE',
                 f'Cannot connect after {request_retry_timeout_seconds} seconds',
                 {}
@@ -109,11 +109,11 @@ class MlpClientSDK:
         self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
 
-class CailaClientException(Exception):
+class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
         self.error_code: str = error_code
         self.error_message: str = error_message
         self.args: Dict[str, str] = args
 
     def __str__(self):
-        return f'CailaClientException({self.error_code}, {self.error_message}, {self.args})'
+        return f'MlpClientException({self.error_code}, {self.error_message}, {self.args})'
