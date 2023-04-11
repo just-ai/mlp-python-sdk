@@ -220,7 +220,7 @@ message ClientRequestProto {
   string authToken = 3;
 
   // Таймаут в секундах. Если не указан, то используется значение по умолчанию
-  optional int32 timeoutSec = 4;
+  int32 timeoutSec = 4;
 
   oneof body {
     PredictRequestProto predict = 101;
