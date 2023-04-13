@@ -3,14 +3,14 @@ import os
 
 from mlp_sdk.log.graylog_handler import GrayLogHandler
 
-_NAME = 'root'
 
-
-def get_logger(name: str = _NAME, level: str = 'INFO') -> logging.Logger:
+def get_logger(name: str, level: str = 'INFO') -> logging.Logger:
 
     logging_level = logging.getLevelName(level)
     logger = logging.getLogger(name)
     logger.setLevel(logging_level)
+
+    logger.propagate = False  # Global logger should not print messages again.
 
     # create console handler
     ch = logging.StreamHandler()

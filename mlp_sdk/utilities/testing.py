@@ -1,7 +1,7 @@
 import os
 from ..log import get_logger
 
-LOGGER = get_logger()
+LOGGER = get_logger(__name__)
 
 
 def heavy_test(test_function):
