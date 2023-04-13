@@ -8,7 +8,7 @@ from typing import IO
 from mlp_sdk.storage.abstract_storage import AbstractStorage
 from mlp_sdk.log import get_logger
 
-LOGGER = get_logger()
+LOGGER = get_logger(__name__)
 
 
 class LocalStorage(AbstractStorage):
