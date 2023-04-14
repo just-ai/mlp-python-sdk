@@ -230,7 +230,34 @@ class ModelInfoData(
             
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            minInstancesCount = schemas.Int32Schema
             lastActivity = schemas.Int64Schema
+            
+            
+            class state(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "RUNNING": "RUNNING",
+                        "STARTING": "STARTING",
+                        "INACTIVE": "INACTIVE",
+                    }
+                
+                @schemas.classproperty
+                def RUNNING(cls):
+                    return cls("RUNNING")
+                
+                @schemas.classproperty
+                def STARTING(cls):
+                    return cls("STARTING")
+                
+                @schemas.classproperty
+                def INACTIVE(cls):
+                    return cls("INACTIVE")
             __annotations__ = {
                 "id": id,
                 "modelName": modelName,
@@ -269,7 +296,9 @@ class ModelInfoData(
                 "resourceGroup": resourceGroup,
                 "shortDescription": shortDescription,
                 "languages": languages,
+                "minInstancesCount": minInstancesCount,
                 "lastActivity": lastActivity,
+                "state": state,
             }
     
     timeouts: 'ModelTimeoutsData'
@@ -400,12 +429,18 @@ class ModelInfoData(
     def __getitem__(self, name: typing_extensions.Literal["languages"]) -> MetaOapg.properties.languages: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["minInstancesCount"]) -> MetaOapg.properties.minInstancesCount: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["lastActivity"]) -> MetaOapg.properties.lastActivity: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["state"]) -> MetaOapg.properties.state: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -522,12 +557,18 @@ class ModelInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["languages"]) -> typing.Union[MetaOapg.properties.languages, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["minInstancesCount"]) -> typing.Union[MetaOapg.properties.minInstancesCount, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["lastActivity"]) -> typing.Union[MetaOapg.properties.lastActivity, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["state"]) -> typing.Union[MetaOapg.properties.state, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "lastActivity", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -571,7 +612,9 @@ class ModelInfoData(
         resourceGroup: typing.Union[MetaOapg.properties.resourceGroup, str, schemas.Unset] = schemas.unset,
         shortDescription: typing.Union[MetaOapg.properties.shortDescription, str, schemas.Unset] = schemas.unset,
         languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
+        minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         lastActivity: typing.Union[MetaOapg.properties.lastActivity, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        state: typing.Union[MetaOapg.properties.state, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelInfoData':
@@ -615,7 +658,9 @@ class ModelInfoData(
             resourceGroup=resourceGroup,
             shortDescription=shortDescription,
             languages=languages,
+            minInstancesCount=minInstancesCount,
             lastActivity=lastActivity,
+            state=state,
             _configuration=_configuration,
             **kwargs,
         )

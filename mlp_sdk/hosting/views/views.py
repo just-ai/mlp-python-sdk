@@ -10,7 +10,7 @@ from mlp_sdk.abstract import TASK_TYPE, Task
 from mlp_sdk.allowed_types import BASE_FIELD_NAME_TO_TYPE
 
 
-class CailaBaseModel(BaseModel):
+class MlpBaseModel(BaseModel):
     @classmethod
     def with_fields(cls, name, **field_definitions):
         return create_model(name, __base__=cls, **field_definitions)
@@ -45,7 +45,7 @@ def get_method_view(task: TASK_TYPE, method_name: str) -> Optional[Union[Callabl
                          for k, v in descriptor.methods[method_name].input.items()}
     output = descriptor.methods[method_name].output.type
 
-    RequestModel = CailaBaseModel.with_fields(f'{task.__class__.__name__}_{method_name}_RequestModel',
+    RequestModel = MlpBaseModel.with_fields(f'{task.__class__.__name__}_{method_name}_RequestModel',
                                               **input_arg_to_type)
     output_splitted = output.split()
     if output_splitted[0] == "array":

@@ -6,18 +6,53 @@ servers:
 - url: https://app.caila.io
   description: Generated server url
 paths:
-  /api/mlpgate/admin/account/{accountId}/limits:
+  /p/{accountField}/{modelField}:
+    post:
+      tags:
+      - process-endpoint
+      operationId: servletPredict
+      parameters:
+      - name: accountField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpgate/admin/account/{account}/limits:
     post:
       tags:
       - admin-endpoint
       operationId: updateLimits
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -37,18 +72,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpgate/admin/account/{accountId}/features:
+  /api/mlpgate/admin/account/{account}/features:
     get:
       tags:
       - admin-endpoint
       operationId: getAccountFeatures
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -67,12 +102,12 @@ paths:
       - admin-endpoint
       operationId: updateFeatures
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -131,18 +166,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpgate/account/{accountId}/token:
+  /api/mlpgate/account/{account}/token:
     get:
       tags:
       - access-token-endpoint
       operationId: listAccessTokens
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -163,12 +198,12 @@ paths:
       - access-token-endpoint
       operationId: createAccessToken
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: false
@@ -187,29 +222,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenData'
-  /api/mlpgate/account/{accountId}/model:
+  /api/mlpgate/account/{account}/model:
     get:
       tags:
       - model-endpoint
       operationId: getPagedModels
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: onlyMy
         in: query
         required: false
         schema:
           type: boolean
-      - name: account
+      - name: accountField
         in: query
         required: false
         schema:
           type: string
-      - name: model
+      - name: modelField
         in: query
         required: false
         schema:
@@ -225,6 +260,16 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: taskType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
       - name: page
         in: query
         required: false
@@ -260,12 +305,12 @@ paths:
       - model-endpoint
       operationId: createModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -285,24 +330,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
-  /api/mlpgate/account/{accountId}/model/{modelId}:
+  /api/mlpgate/account/{account}/model/{model}:
     get:
       tags:
       - model-endpoint
       operationId: getModelInfo
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -321,18 +366,18 @@ paths:
       - model-endpoint
       operationId: updateModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -357,18 +402,18 @@ paths:
       - model-endpoint
       operationId: deleteModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -378,24 +423,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/simple-doc:
+  /api/mlpgate/account/{account}/model/{model}/simple-doc:
     get:
       tags:
       - model-endpoint
       operationId: getSimpleDoc
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -414,18 +459,18 @@ paths:
       - model-endpoint
       operationId: setSimpleDoc
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -445,24 +490,24 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{accountId}/model/{modelId}/public-settings:
+  /api/mlpgate/account/{account}/model/{model}/public-settings:
     get:
       tags:
       - model-endpoint
       operationId: getModelPublicSettings
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -481,18 +526,18 @@ paths:
       - model-endpoint
       operationId: updateModelPublicSettings
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -512,24 +557,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelPublicSettingsData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/predict:
+  /api/mlpgate/account/{account}/model/{model}/predict:
     post:
       tags:
       - process-endpoint
       operationId: predict
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: query
         required: false
@@ -555,24 +600,24 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{accountId}/model/{modelId}/predict-with-config:
+  /api/mlpgate/account/{account}/model/{model}/predict-with-config:
     post:
       tags:
       - process-endpoint
       operationId: predictWithConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -592,24 +637,24 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{accountId}/model/{modelId}/predict-config:
+  /api/mlpgate/account/{account}/model/{model}/predict-config:
     get:
       tags:
       - predict-config-endpoint
       operationId: listPredictConfigs
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -630,18 +675,18 @@ paths:
       - predict-config-endpoint
       operationId: createPredictConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -661,24 +706,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PredictConfigData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/predict-config/{configId}:
+  /api/mlpgate/account/{account}/model/{model}/predict-config/{configId}:
     get:
       tags:
       - predict-config-endpoint
       operationId: getPredictConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -703,18 +748,18 @@ paths:
       - predict-config-endpoint
       operationId: updatePredictConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -745,18 +790,18 @@ paths:
       - predict-config-endpoint
       operationId: deletePredictConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -772,24 +817,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/instances:
+  /api/mlpgate/account/{account}/model/{model}/instances:
     get:
       tags:
       - model-endpoint
       operationId: getInstancesStatus
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -808,18 +853,18 @@ paths:
       - model-endpoint
       operationId: setRequestedInstancesCount
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -838,24 +883,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/terminate:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/terminate:
     post:
       tags:
       - model-instance-endpoint
       operationId: terminateInstance
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -871,24 +916,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/stop:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/stop:
     post:
       tags:
       - model-instance-endpoint
       operationId: stopInstance
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -904,24 +949,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/start:
+  /api/mlpgate/account/{account}/model/{model}/instance/start:
     post:
       tags:
       - model-endpoint
       operationId: startNewInstance
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -931,24 +976,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/fit:
+  /api/mlpgate/account/{account}/model/{model}/fit:
     post:
       tags:
       - process-endpoint
       operationId: fit
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -968,24 +1013,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/fit-config:
+  /api/mlpgate/account/{account}/model/{model}/fit-config:
     get:
       tags:
       - fit-config-endpoint
       operationId: listFitConfigs
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1006,18 +1051,18 @@ paths:
       - fit-config-endpoint
       operationId: createFitConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1037,24 +1082,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FitConfigData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/fit-config/{configId}:
+  /api/mlpgate/account/{account}/model/{model}/fit-config/{configId}:
     get:
       tags:
       - fit-config-endpoint
       operationId: getFitConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -1079,18 +1124,18 @@ paths:
       - fit-config-endpoint
       operationId: updateFitConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -1121,18 +1166,18 @@ paths:
       - fit-config-endpoint
       operationId: deleteFitConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: configId
         in: path
         required: true
@@ -1148,24 +1193,57 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/model/{modelId}/external:
+  /api/mlpgate/account/{account}/model/{model}/favorite:
+    post:
+      tags:
+      - model-endpoint
+      operationId: setFavorite
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/model/{model}/external:
     get:
       tags:
       - model-endpoint
       operationId: getExternalConnectionsInfo
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1186,18 +1264,18 @@ paths:
       - model-endpoint
       operationId: createExternalConnection
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1211,24 +1289,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExternalConnectionInfoData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/ext:
+  /api/mlpgate/account/{account}/model/{model}/ext:
     post:
       tags:
       - process-endpoint
       operationId: ext
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1248,24 +1326,24 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{accountId}/model/{modelId}/derived:
+  /api/mlpgate/account/{account}/model/{model}/derived:
     post:
       tags:
       - model-endpoint
       operationId: createDerivedModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: true
@@ -1289,24 +1367,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/cross-validation:
+  /api/mlpgate/account/{account}/model/{model}/cross-validation:
     post:
       tags:
       - process-endpoint
       operationId: crossValidation
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1326,24 +1404,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/clone:
+  /api/mlpgate/account/{account}/model/{model}/clone:
     post:
       tags:
       - model-endpoint
       operationId: createClonedModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: true
@@ -1362,18 +1440,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
-  /api/mlpgate/account/{accountId}/model-group:
+  /api/mlpgate/account/{account}/model-group:
     get:
       tags:
       - model-group-endpoint
       operationId: getGroups
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1394,12 +1472,12 @@ paths:
       - model-group-endpoint
       operationId: createGroup
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1424,12 +1502,12 @@ paths:
       - model-group-endpoint
       operationId: updateGroup
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1449,57 +1527,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelGroupData'
-  /api/mlpgate/account/{accountId}/model-account/{modelAccountId}/model/{modelId}/favorite:
-    post:
-      tags:
-      - model-endpoint
-      operationId: setFavorite
-      parameters:
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: modelAccountId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: modelId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: boolean
-        required: true
-      responses:
-        "200":
-          description: OK
-  /api/mlpgate/account/{accountId}/management/{featureName}:
+  /api/mlpgate/account/{account}/management/{featureName}:
     post:
       tags:
       - manual-management-endpoint
       operationId: requestFeature
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: featureName
         in: path
         required: true
@@ -1520,23 +1559,28 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/image:
+  /api/mlpgate/account/{account}/image:
     get:
       tags:
       - image-endpoint
       operationId: getPagedImages
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: false
         schema:
           type: string
+      - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
@@ -1572,12 +1616,12 @@ paths:
       - image-endpoint
       operationId: createImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1597,18 +1641,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageInfoData'
-  /api/mlpgate/account/{accountId}/image/{imageId}:
+  /api/mlpgate/account/{account}/image/{imageId}:
     get:
       tags:
       - image-endpoint
       operationId: getImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -1633,12 +1677,12 @@ paths:
       - image-endpoint
       operationId: updateImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -1669,12 +1713,12 @@ paths:
       - image-endpoint
       operationId: deleteImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -1690,18 +1734,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/dump:
+  /api/mlpgate/account/{account}/dump:
     get:
       tags:
       - account-endpoint
       operationId: dumpConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1720,12 +1764,12 @@ paths:
       - account-endpoint
       operationId: restoreConfig
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1741,18 +1785,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/dataset:
+  /api/mlpgate/account/{account}/dataset:
     get:
       tags:
       - dataset-endpoint
       operationId: listDatasets
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1773,12 +1817,12 @@ paths:
       - dataset-endpoint
       operationId: createDataset
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1798,18 +1842,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/mlpgate/account/{accountId}/dataset/{datasetId}:
+  /api/mlpgate/account/{account}/dataset/{datasetId}:
     get:
       tags:
       - dataset-endpoint
       operationId: getDatasetInfo
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1834,12 +1878,12 @@ paths:
       - dataset-endpoint
       operationId: updateDataset
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1870,12 +1914,12 @@ paths:
       - dataset-endpoint
       operationId: deleteDataset
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1891,18 +1935,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/dataset/{datasetId}/paraphrase:
+  /api/mlpgate/account/{account}/dataset/{datasetId}/paraphrase:
     post:
       tags:
       - dataset-endpoint
       operationId: paraphraseDataset
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1922,18 +1966,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/mlpgate/account/{accountId}/dataset/{datasetId}/content:
+  /api/mlpgate/account/{account}/dataset/{datasetId}/content:
     get:
       tags:
       - dataset-endpoint
       operationId: downloadDatasetContent
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1963,12 +2007,12 @@ paths:
       - dataset-endpoint
       operationId: uploadDatasetContent
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: datasetId
         in: path
         required: true
@@ -1997,18 +2041,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/mlpgate/account/{accountId}/dataset/form:
+  /api/mlpgate/account/{account}/dataset/form:
     post:
       tags:
       - dataset-endpoint
       operationId: createDatasetByForm
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: true
@@ -2057,23 +2101,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/mlpgate/account/{accountId}/data-image:
+  /api/mlpgate/account/{account}/data-image:
     get:
       tags:
       - data-image-endpoint
       operationId: getPagedDataImages
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: name
         in: query
         required: false
         schema:
           type: string
+      - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
@@ -2109,12 +2158,12 @@ paths:
       - data-image-endpoint
       operationId: createDataImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2134,18 +2183,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DataImageInfoData'
-  /api/mlpgate/account/{accountId}/data-image/{imageId}:
+  /api/mlpgate/account/{account}/data-image/{imageId}:
     get:
       tags:
       - data-image-endpoint
       operationId: getDataImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -2170,12 +2219,12 @@ paths:
       - data-image-endpoint
       operationId: updateDataImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -2206,12 +2255,12 @@ paths:
       - data-image-endpoint
       operationId: deleteDataImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -2227,18 +2276,33 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/{accountId}/update-limits:
+  /api/mlpgate-internal/accounts/deactivate:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: deactivateAccount
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate-internal/account/{account}/update-limits:
     post:
       tags:
       - internal-endpoint
       operationId: updateLimits_1
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2254,18 +2318,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/{accountId}/namespace/ensure:
+  /api/mlpgate-internal/account/{account}/namespace/ensure:
     post:
       tags:
       - internal-endpoint
       operationId: ensureNamespace
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2275,24 +2339,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/{accountId}/model/{modelId}/path:
+  /api/mlpgate-internal/account/{account}/model/{model}/path:
     post:
       tags:
       - internal-endpoint
       operationId: updateModelDir
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2308,24 +2372,24 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/{accountId}/model/{modelId}/instance/deactivate:
+  /api/mlpgate-internal/account/{account}/model/{model}/instance/deactivate:
     post:
       tags:
       - internal-endpoint
       operationId: deactivateAccountInstances
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2335,18 +2399,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/{accountId}/features:
+  /api/mlpgate-internal/account/{account}/features:
     get:
       tags:
       - internal-endpoint
       operationId: getAccountFeatures_1
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2365,12 +2429,12 @@ paths:
       - internal-endpoint
       operationId: updateAccountFeatures
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2386,12 +2450,61 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate-internal/account/deactivate:
+  /api/mlpgate-internal/account/{account}/bucket/deny:
     post:
       tags:
       - internal-endpoint
-      operationId: deactivateAccount
+      operationId: removeBucketAccess
       parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: foreignAccountId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate-internal/account/{account}/bucket/access:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: addBucketAccess
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: foreignAccountId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2444,24 +2557,24 @@ paths:
             application/json:
               schema:
                 type: object
-  /api/mlpgate/account/{accountId}/model/{modelId}/model-group/{groupId}:
+  /api/mlpgate/account/{account}/model/{model}/model-group/{groupId}:
     patch:
       tags:
       - model-group-endpoint
       operationId: assignModelToGroup
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: groupId
         in: path
         required: true
@@ -2623,7 +2736,7 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpgate/model:
+  /api/mlpgate/models:
     get:
       tags:
       - model-endpoint
@@ -2634,12 +2747,12 @@ paths:
         required: false
         schema:
           type: boolean
-      - name: account
+      - name: accountField
         in: query
         required: false
         schema:
           type: string
-      - name: model
+      - name: modelField
         in: query
         required: false
         schema:
@@ -2655,6 +2768,16 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: taskType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
       - name: page
         in: query
         required: false
@@ -2685,7 +2808,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedModelInfoData'
-  /api/mlpgate/model/featured:
+  /api/mlpgate/models/featured:
     get:
       tags:
       - model-endpoint
@@ -2763,7 +2886,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
-  /api/mlpgate/admin/account:
+  /api/mlpgate/admin/accounts:
     get:
       tags:
       - admin-endpoint
@@ -2789,18 +2912,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpgate/admin/account/{accountId}:
+  /api/mlpgate/admin/account/{account}:
     get:
       tags:
       - admin-endpoint
       operationId: getAccount
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2814,18 +2937,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpgate/account/{accountId}/token/{token}:
+  /api/mlpgate/account/{account}/token/{token}:
     get:
       tags:
       - access-token-endpoint
       operationId: checkAccessToken
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: token
         in: path
         required: true
@@ -2849,12 +2972,12 @@ paths:
       - access-token-endpoint
       operationId: deleteAccessToken
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: token
         in: path
         required: true
@@ -2869,18 +2992,18 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{accountId}/stat-log:
+  /api/mlpgate/account/{account}/stat-log:
     get:
       tags:
       - stat-log-endpoint
       operationId: listJobs
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2896,18 +3019,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/mlpgate/account/{accountId}/s3:
+  /api/mlpgate/account/{account}/s3:
     get:
       tags:
       - account-endpoint
       operationId: getS3Credentials
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2921,24 +3044,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/S3CredentialsData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/status:
+  /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:
       - model-endpoint
       operationId: shortModelStatus
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2952,24 +3075,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelShortStatusData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/metric:
+  /api/mlpgate/account/{account}/model/{model}/metric:
     get:
       tags:
       - metric-endpoint
       operationId: getModelMetric
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: metrics
         in: query
         required: true
@@ -3008,24 +3131,24 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/mlpgate/account/{accountId}/model/{modelId}/metric-range:
+  /api/mlpgate/account/{account}/model/{model}/metric-range:
     get:
       tags:
       - metric-endpoint
       operationId: getModelMetricRange
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: metrics
         in: query
         required: true
@@ -3071,24 +3194,24 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/mlpgate/account/{accountId}/model/{modelId}/logs:
+  /api/mlpgate/account/{account}/model/{model}/logs:
     get:
       tags:
       - model-endpoint
       operationId: getLogsByModel
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3104,24 +3227,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/last-job:
+  /api/mlpgate/account/{account}/model/{model}/last-job:
     get:
       tags:
       - model-endpoint
       operationId: lastJob
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3135,24 +3258,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance:
+  /api/mlpgate/account/{account}/model/{model}/instance:
     get:
       tags:
       - model-instance-endpoint
       operationId: getModelInstances
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3166,24 +3289,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInstanceListData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric:
     get:
       tags:
       - metric-endpoint
       operationId: getInstanceMetric
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3221,24 +3344,24 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/metric-range:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric-range:
     get:
       tags:
       - metric-endpoint
       operationId: getInstanceMetricRange
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3283,24 +3406,24 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/file:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file:
     get:
       tags:
       - model-instance-endpoint
       operationId: getInstancePodFile
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3326,24 +3449,24 @@ paths:
               schema:
                 type: string
                 format: binary
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/file/logs:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file/logs:
     get:
       tags:
       - model-instance-endpoint
       operationId: getInstanceLogFile
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3369,24 +3492,24 @@ paths:
               schema:
                 type: string
                 format: binary
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/events:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/events:
     get:
       tags:
       - model-instance-endpoint
       operationId: getInstanceEvents
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3406,24 +3529,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEventData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/instance/{instanceId}/environment:
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/environment:
     get:
       tags:
       - model-instance-endpoint
       operationId: getModelInstanceEnvironment
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -3443,24 +3566,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEnvironmentData'
-  /api/mlpgate/account/{accountId}/model/{modelId}/action-descriptor:
+  /api/mlpgate/account/{account}/model/{model}/action-descriptor:
     get:
       tags:
       - model-endpoint
       operationId: getServiceDescriptor
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3474,18 +3597,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceDescriptorData'
-  /api/mlpgate/account/{accountId}/metric:
+  /api/mlpgate/account/{account}/metric:
     get:
       tags:
       - metric-endpoint
       operationId: getAccountMetric
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: metrics
         in: query
         required: true
@@ -3524,18 +3647,18 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
-  /api/mlpgate/account/{accountId}/metric-range:
+  /api/mlpgate/account/{account}/metric-range:
     get:
       tags:
       - metric-endpoint
       operationId: getAccountMetricRange
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: metrics
         in: query
         required: true
@@ -3581,18 +3704,18 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
-  /api/mlpgate/account/{accountId}/job:
+  /api/mlpgate/account/{account}/job:
     get:
       tags:
       - job-endpoint
       operationId: listJobs_1
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3608,18 +3731,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{accountId}/job/{jobId}:
+  /api/mlpgate/account/{account}/job/{jobId}:
     get:
       tags:
       - job-endpoint
       operationId: jobStatus
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: jobId
         in: path
         required: true
@@ -3639,18 +3762,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{accountId}/image/{imageId}/logs:
+  /api/mlpgate/account/{account}/image/{imageId}/logs:
     get:
       tags:
       - image-endpoint
       operationId: getLogsByImage
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: imageId
         in: path
         required: true
@@ -3672,18 +3795,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/mlpgate/account/{accountId}/dataset/{originalDatasetId}/paraphrase:
+  /api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase:
     get:
       tags:
       - dataset-endpoint
       operationId: getParaphrasedDatasetStatus
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: originalDatasetId
         in: path
         required: true
@@ -3781,18 +3904,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInstance'
-  /api/mlpgate-internal/notify/{accountId}/user/{userId}:
+  /api/mlpgate-internal/notify/{account}/user/{userId}:
     get:
       tags:
       - internal-endpoint
       operationId: pushNotification
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: userId
         in: path
         required: true
@@ -3936,24 +4059,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpgate-internal/account/{accountId}/model/{modelId}/instances:
+  /api/mlpgate-internal/account/{account}/model/{model}/instances:
     get:
       tags:
       - internal-endpoint
       operationId: getAccountInstancesWithDeleted
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3969,24 +4092,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInstance'
-  /api/mlpgate-internal/account/{accountId}/model/{modelId}/actions:
+  /api/mlpgate-internal/account/{account}/model/{model}/actions:
     get:
       tags:
       - internal-endpoint
       operationId: listConnectedActions
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -4002,24 +4125,51 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpgate/account/{accountId}/model/{modelId}/external/{instanceId}:
+  /api/mlpgate/account/{account}/model/{model}/model-group:
+    delete:
+      tags:
+      - model-group-endpoint
+      operationId: removeModelFromGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/model/{model}/external/{instanceId}:
     delete:
       tags:
       - model-endpoint
       operationId: deleteExternalConnection
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
-      - name: modelId
+          type: string
+      - name: model
         in: path
+        description: Model id or model name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: instanceId
         in: path
         required: true
@@ -4041,18 +4191,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExternalConnectionInfoData'
-  /api/mlpgate/account/{accountId}/model-group/{groupId}:
+  /api/mlpgate/account/{account}/model-group/{groupId}:
     delete:
       tags:
       - model-group-endpoint
       operationId: deleteGroup
       parameters:
-      - name: accountId
+      - name: account
         in: path
+        description: Account id or account name
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       - name: groupId
         in: path
         required: true
@@ -4083,75 +4233,6 @@ paths:
       responses:
         "200":
           description: OK
-  /p/{account}/{model}:
-    get:
-      tags:
-      - process-servlet
-      description: Return model info
-      operationId: getModelInfoByName
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ModelInfoData'
-    post:
-      tags:
-      - process-servlet
-      description: Predict without config
-      operationId: predictByName
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
 components:
   schemas:
     AccountLimitsData:
@@ -4361,6 +4442,9 @@ components:
           type: array
           items:
             type: string
+        minInstancesCount:
+          type: integer
+          format: int32
     ModelLimitsData:
       required:
       - cpuRequest
@@ -4441,6 +4525,8 @@ components:
           - private
           - public
           - restricted
+        warning:
+          type: string
     DatasetPK:
       required:
       - accountId
@@ -4626,6 +4712,9 @@ components:
           type: array
           items:
             type: string
+        minInstancesCount:
+          type: integer
+          format: int32
         publicSettings:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         restrictedImageAccess:
@@ -4635,6 +4724,12 @@ components:
           format: int64
         favorite:
           type: boolean
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
     ModelInfoPK:
       required:
       - accountId

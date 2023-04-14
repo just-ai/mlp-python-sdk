@@ -12,7 +12,7 @@ from mlp_sdk.log import get_logger
 from mlp_sdk.storage.abstract_storage import AbstractStorage
 from mlp_sdk.utilities.misc import os_path_join_corrected
 
-LOGGER = get_logger()
+LOGGER = get_logger(__name__)
 
 
 class S3BytesStream(BytesIO):
