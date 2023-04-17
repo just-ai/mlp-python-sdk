@@ -25,6 +25,37 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
+from mlp_api.model.difference_i_account_data_dump import DifferenceIAccountDataDump
+
+from . import path
+
+# Query params
+DryRunSchema = schemas.BoolSchema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'dryRun': typing.Union[DryRunSchema, bool, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_dry_run = api_client.QueryParameter(
+    name="dryRun",
+    style=api_client.ParameterStyle.FORM,
+    schema=DryRunSchema,
+    required=True,
+    explode=True,
+)
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -52,12 +83,10 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountSchema = schemas.StrSchema
-ModelSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
-        'model': typing.Union[ModelSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -78,12 +107,6 @@ request_path_account = api_client.PathParameter(
     schema=AccountSchema,
     required=True,
 )
-request_path_model = api_client.PathParameter(
-    name="model",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSchema,
-    required=True,
-)
 # body param
 SchemaForRequestBodyTextPlain = schemas.StrSchema
 
@@ -95,7 +118,7 @@ request_body_body = api_client.RequestBody(
     },
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
+SchemaFor200ResponseBodyApplicationJson = DifferenceIAccountDataDump
 
 
 @dataclass
@@ -114,6 +137,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/json',
 )
@@ -121,10 +147,11 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _set_simple_doc_oapg(
+    def _restore_account_data_dump_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: typing_extensions.Literal["text/plain"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -136,10 +163,11 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _set_simple_doc_oapg(
+    def _restore_account_data_dump_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -152,11 +180,12 @@ class BaseApi(api_client.Api):
 
 
     @typing.overload
-    def _set_simple_doc_oapg(
+    def _restore_account_data_dump_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -165,10 +194,11 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _set_simple_doc_oapg(
+    def _restore_account_data_dump_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -180,10 +210,11 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _set_simple_doc_oapg(
+    def _restore_account_data_dump_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = 'text/plain',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -196,6 +227,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
         self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
@@ -203,7 +235,6 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account,
-            request_path_model,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -213,6 +244,19 @@ class BaseApi(api_client.Api):
 
         for k, v in _path_params.items():
             used_path = used_path.replace('{%s}' % k, v)
+
+        prefix_separator_iterator = None
+        for parameter in (
+            request_query_dry_run,
+        ):
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
+                continue
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -268,14 +312,15 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class SetSimpleDoc(BaseApi):
+class RestoreAccountDataDump(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def set_simple_doc(
+    def restore_account_data_dump(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: typing_extensions.Literal["text/plain"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -287,10 +332,11 @@ class SetSimpleDoc(BaseApi):
     ]: ...
 
     @typing.overload
-    def set_simple_doc(
+    def restore_account_data_dump(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -303,11 +349,12 @@ class SetSimpleDoc(BaseApi):
 
 
     @typing.overload
-    def set_simple_doc(
+    def restore_account_data_dump(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -316,10 +363,11 @@ class SetSimpleDoc(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def set_simple_doc(
+    def restore_account_data_dump(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -331,10 +379,11 @@ class SetSimpleDoc(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def set_simple_doc(
+    def restore_account_data_dump(
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = 'text/plain',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -342,8 +391,9 @@ class SetSimpleDoc(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._set_simple_doc_oapg(
+        return self._restore_account_data_dump_oapg(
             body=body,
+            query_params=query_params,
             header_params=header_params,
             path_params=path_params,
             content_type=content_type,
@@ -362,6 +412,7 @@ class ApiForpost(BaseApi):
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: typing_extensions.Literal["text/plain"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -377,6 +428,7 @@ class ApiForpost(BaseApi):
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -394,6 +446,7 @@ class ApiForpost(BaseApi):
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -406,6 +459,7 @@ class ApiForpost(BaseApi):
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -421,6 +475,7 @@ class ApiForpost(BaseApi):
         self,
         body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = 'text/plain',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -428,8 +483,9 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._set_simple_doc_oapg(
+        return self._restore_account_data_dump_oapg(
             body=body,
+            query_params=query_params,
             header_params=header_params,
             path_params=path_params,
             content_type=content_type,

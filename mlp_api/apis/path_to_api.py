@@ -2,6 +2,8 @@ import typing_extensions
 
 from mlp_api.paths import PathValues
 from mlp_api.apis.paths.p_account_field_model_field import PAccountFieldModelField
+from mlp_api.apis.paths.api_mlpgate_admin_system_config_account_account_data import ApiMlpgateAdminSystemConfigAccountAccountData
+from mlp_api.apis.paths.api_mlpgate_admin_system_config_account_account_config import ApiMlpgateAdminSystemConfigAccountAccountConfig
 from mlp_api.apis.paths.api_mlpgate_admin_account_account_limits import ApiMlpgateAdminAccountAccountLimits
 from mlp_api.apis.paths.api_mlpgate_admin_account_account_features import ApiMlpgateAdminAccountAccountFeatures
 from mlp_api.apis.paths.api_mlpgate_account import ApiMlpgateAccount
@@ -106,6 +108,8 @@ PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
+        PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA: ApiMlpgateAdminSystemConfigAccountAccountData,
+        PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG: ApiMlpgateAdminSystemConfigAccountAccountConfig,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS: ApiMlpgateAdminAccountAccountLimits,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateAdminAccountAccountFeatures,
         PathValues.API_MLPGATE_ACCOUNT: ApiMlpgateAccount,
@@ -211,6 +215,8 @@ PathToApi = typing_extensions.TypedDict(
 path_to_api = PathToApi(
     {
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
+        PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA: ApiMlpgateAdminSystemConfigAccountAccountData,
+        PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG: ApiMlpgateAdminSystemConfigAccountAccountConfig,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS: ApiMlpgateAdminAccountAccountLimits,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateAdminAccountAccountFeatures,
         PathValues.API_MLPGATE_ACCOUNT: ApiMlpgateAccount,

@@ -7,6 +7,8 @@ import enum
 
 class PathValues(str, enum.Enum):
     P_ACCOUNT_FIELD_MODEL_FIELD = "/p/{accountField}/{modelField}"
+    API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA = "/api/mlpgate/admin/system-config/account/{account}/data"
+    API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG = "/api/mlpgate/admin/system-config/account/{account}/config"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS = "/api/mlpgate/admin/account/{account}/limits"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES = "/api/mlpgate/admin/account/{account}/features"
     API_MLPGATE_ACCOUNT = "/api/mlpgate/account"

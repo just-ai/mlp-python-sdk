@@ -41,6 +41,126 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpgate/admin/system-config/account/{account}/data:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getAccountDataDump
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDataDump'
+    post:
+      tags:
+      - admin-endpoint
+      operationId: restoreAccountDataDump
+      parameters:
+      - name: dryRun
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DifferenceIAccountDataDump'
+  /api/mlpgate/admin/system-config/account/{account}/config:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getAccountConfigDump
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigDump'
+    post:
+      tags:
+      - admin-endpoint
+      operationId: restoreAccountConfigDump
+      parameters:
+      - name: dryRun
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountConfigDump'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DifferenceIAccountConfigDump'
   /api/mlpgate/admin/account/{account}/limits:
     post:
       tags:
@@ -451,7 +571,7 @@ paths:
         "200":
           description: OK
           content:
-            plain/text:
+            text/plain:
               schema:
                 type: string
     post:
@@ -479,7 +599,7 @@ paths:
           type: string
       requestBody:
         content:
-          plain/text:
+          text/plain:
             schema:
               type: string
         required: true
@@ -4235,6 +4355,323 @@ paths:
           description: OK
 components:
   schemas:
+    AccountDataDump:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageDump'
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelDump'
+        apiTokens:
+          type: array
+          items:
+            type: string
+        dataImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageDump'
+        modelGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelGroupDump'
+    DataImageDump:
+      required:
+      - dataPath
+      - image
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        dataPath:
+          type: string
+        accessMode:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+    DataImageMountDump:
+      required:
+      - image
+      - targetPath
+      type: object
+      properties:
+        imageAccount:
+          type: string
+        image:
+          type: string
+        targetPath:
+          type: string
+    DifferenceIAccountDataDump:
+      type: object
+      properties:
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
+    DocumentDump:
+      required:
+      - content
+      - filename
+      type: object
+      properties:
+        filename:
+          type: string
+        content:
+          type: string
+    FitConfigDump:
+      required:
+      - config
+      - isDefault
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        config:
+          type: string
+        isDefault:
+          type: boolean
+    ImageDump:
+      required:
+      - image
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        accessMode:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+    ModelBatchesData:
+      required:
+      - batchSize
+      - timeWaitMs
+      type: object
+      properties:
+        batchSize:
+          type: integer
+          format: int32
+        timeWaitMs:
+          type: integer
+          format: int64
+    ModelDump:
+      required:
+      - asPublicSettingsData
+      - docs
+      - fitConfigs
+      - image
+      - name
+      - predictConfigs
+      type: object
+      properties:
+        name:
+          type: string
+        imageAccount:
+          type: string
+        image:
+          type: string
+        modelGroup:
+          type: string
+        isPublic:
+          type: boolean
+        config:
+          type: object
+        env:
+          type: object
+        trainingModelAccount:
+          type: string
+        trainingModelName:
+          type: string
+        trainingDatasetAccount:
+          type: string
+        trainingDatasetName:
+          type: string
+        trainingFitConfigName:
+          type: string
+        taskType:
+          type: string
+        trainingDatasetType:
+          type: string
+        fitTemplateModelName:
+          type: string
+        composite:
+          type: boolean
+        fittable:
+          type: boolean
+        trainingType:
+          type: string
+          enum:
+          - singleContainer
+          - multipleFit
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountDump'
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        limits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retries:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batches:
+          $ref: '#/components/schemas/ModelBatchesData'
+        docs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentDump'
+        predictConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PredictConfigDump'
+        fitConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/FitConfigDump'
+        resourceGroup:
+          type: string
+        shortDescription:
+          type: string
+        languages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        availableInJaicp:
+          type: boolean
+        featured:
+          type: boolean
+        featuredListOrder:
+          type: integer
+          format: int32
+        minInstancesCount:
+          type: integer
+          format: int32
+        hidden:
+          type: boolean
+        asPublicSettingsData:
+          $ref: '#/components/schemas/ModelPublicSettingsData'
+    ModelGroupDump:
+      required:
+      - accountId
+      - groupId
+      - name
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        groupId:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ModelLimitsData:
+      required:
+      - cpuRequest
+      - ephemeralDiskLimit
+      - gpuRequested
+      - memoryLimit
+      type: object
+      properties:
+        cpuRequest:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuRequested:
+          type: boolean
+    ModelPublicSettingsData:
+      type: object
+      properties:
+        isPublic:
+          type: boolean
+        availableInJaicp:
+          type: boolean
+        featured:
+          type: boolean
+        featuredListOrder:
+          type: integer
+          format: int32
+        hidden:
+          type: boolean
+    ModelRetriesData:
+      required:
+      - maxRetries
+      - timeoutsMs
+      type: object
+      properties:
+        maxRetries:
+          type: integer
+          format: int32
+        timeoutsMs:
+          type: array
+          items:
+            type: integer
+            format: int64
+    ModelTimeoutsData:
+      required:
+      - podStartTimeoutSec
+      - predictTimeoutSec
+      type: object
+      properties:
+        podStartTimeoutSec:
+          type: integer
+          format: int64
+        predictTimeoutSec:
+          type: integer
+          format: int64
+    PredictConfigDump:
+      required:
+      - config
+      - isDefault
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        config:
+          type: string
+        isDefault:
+          type: boolean
+    AccountConfigDump:
+      required:
+      - accountName
+      type: object
+      properties:
+        accountName:
+          type: string
+        accountLimits:
+          $ref: '#/components/schemas/AccountLimitsData'
+        language:
+          type: string
+          enum:
+          - RU
+          - EN
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        accountDisplayName:
+          type: string
     AccountLimitsData:
       required:
       - baseModelInstanceLimit
@@ -4268,6 +4705,13 @@ components:
         fitPerMinute:
           type: integer
           format: int32
+    DifferenceIAccountConfigDump:
+      type: object
+      properties:
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
       - accountId
@@ -4352,18 +4796,6 @@ components:
           type: string
         targetPath:
           type: string
-    ModelBatchesData:
-      required:
-      - batchSize
-      - timeWaitMs
-      type: object
-      properties:
-        batchSize:
-          type: integer
-          format: int32
-        timeWaitMs:
-          type: integer
-          format: int64
     ModelCreateUpdateData:
       required:
       - modelName
@@ -4445,48 +4877,6 @@ components:
         minInstancesCount:
           type: integer
           format: int32
-    ModelLimitsData:
-      required:
-      - cpuRequest
-      - ephemeralDiskLimit
-      - gpuRequested
-      - memoryLimit
-      type: object
-      properties:
-        cpuRequest:
-          type: string
-        memoryLimit:
-          type: string
-        ephemeralDiskLimit:
-          type: string
-        gpuRequested:
-          type: boolean
-    ModelRetriesData:
-      required:
-      - maxRetries
-      - timeoutsMs
-      type: object
-      properties:
-        maxRetries:
-          type: integer
-          format: int32
-        timeoutsMs:
-          type: array
-          items:
-            type: integer
-            format: int64
-    ModelTimeoutsData:
-      required:
-      - podStartTimeoutSec
-      - predictTimeoutSec
-      type: object
-      properties:
-        podStartTimeoutSec:
-          type: integer
-          format: int64
-        predictTimeoutSec:
-          type: integer
-          format: int64
     PersistentVolumeData:
       required:
       - mountPath
@@ -4742,20 +5132,6 @@ components:
         modelId:
           type: integer
           format: int64
-    ModelPublicSettingsData:
-      type: object
-      properties:
-        isPublic:
-          type: boolean
-        availableInJaicp:
-          type: boolean
-        featured:
-          type: boolean
-        featuredListOrder:
-          type: integer
-          format: int32
-        hidden:
-          type: boolean
     PredictRequestData:
       required:
       - data
