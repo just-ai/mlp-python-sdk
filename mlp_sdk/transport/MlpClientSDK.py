@@ -5,7 +5,9 @@ from typing import Dict, Optional, List
 
 import grpc
 import yaml
+from mlp_api.apis.tags import model_endpoint_api
 
+from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
 from mlp_sdk.log.setup_logging import get_logger
 
@@ -18,6 +20,8 @@ CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)
 class MlpClientSDK:
 
     def __init__(self):
+        self.account_id = os.environ['MLP_ACCOUNT_ID']
+        self.model_id = os.environ['MLP_MODEL_ID']
         self.urls = None
         self.token = None
         self.grpc_secure = None
@@ -51,6 +55,27 @@ class MlpClientSDK:
 
         if response.predict is not None:
             return response.predict
+        elif response.error is not None:
+            self.log.error(f'Error from gate. Error \n{response.error}')
+            raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
+        else:
+            raise MlpClientException("wrong-response", "Wrong response type: $response", {})
+
+    def ext(self, account, model, method, data) -> mlp_grpc_pb2.ExtendedResponseProto:
+        request = mlp_grpc_pb2.ClientRequestProto(
+            account=account,
+            model=model,
+            authToken=self.token,
+            ext=mlp_grpc_pb2.ExtendedRequestProto(
+                methodName=method,
+                params=data
+            )
+        )
+
+        response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
+
+        if response.ext is not None:
+            return response.ext
         elif response.error is not None:
             self.log.error(f'Error from gate. Error \n{response.error}')
             raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
@@ -108,6 +133,22 @@ class MlpClientSDK:
             ])
         self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
+class MlpRestClient:
+
+    def __init__(self):
+        self.log = get_logger('MlpRestClient', CONFIG["logging"]["level"])
+
+    def init(self, url: Optional[str] = None, token=None):
+        self.account_id = os.environ['MLP_ACCOUNT_ID']
+        self.model_id = os.environ['MLP_MODEL_ID']
+        self.rest_url = os.environ['MLP_REST_URL'] if not url else url
+        self.client_token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
+        self.log.debug("Starting mpl client for url " + self.urls[0])
+
+        configuration = Configuration(host=self.rest_url)
+        self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
+
+        self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
 
 class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
