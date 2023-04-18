@@ -135,15 +135,13 @@ class MlpClientSDK:
 
 class MlpRestClient:
 
-    def __init__(self):
+    def __init__(self, url: Optional[str] = None, token=None):
         self.log = get_logger('MlpRestClient', CONFIG["logging"]["level"])
-
-    def init(self, url: Optional[str] = None, token=None):
         self.account_id = os.environ['MLP_ACCOUNT_ID']
         self.model_id = os.environ['MLP_MODEL_ID']
         self.rest_url = os.environ['MLP_REST_URL'] if not url else url
         self.client_token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
-        self.log.debug("Starting mpl client for url " + self.urls[0])
+        self.log.debug("Creating mpl client with url " + self.rest_url)
 
         configuration = Configuration(host=self.rest_url)
         self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
