@@ -2334,7 +2334,7 @@ paths:
           type: string
       requestBody:
         content:
-          multipart/form-data:
+          application/octet-stream:
             schema:
               type: array
               items:
@@ -2401,7 +2401,7 @@ paths:
           type: string
       requestBody:
         content:
-          multipart/form-data:
+          application/octet-stream:
             schema:
               type: array
               items:
