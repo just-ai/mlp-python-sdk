@@ -90,7 +90,7 @@ paths:
           type: string
       requestBody:
         content:
-          plain/text:
+          text/plain:
             schema:
               type: string
         required: true
@@ -571,7 +571,7 @@ paths:
         "200":
           description: OK
           content:
-            plain/text:
+            text/plain:
               schema:
                 type: string
     post:
@@ -599,7 +599,7 @@ paths:
           type: string
       requestBody:
         content:
-          plain/text:
+          text/plain:
             schema:
               type: string
         required: true
@@ -1935,7 +1935,7 @@ paths:
     post:
       tags:
       - dataset-endpoint
-      operationId: createEmptyDataset
+      operationId: createDataset
       parameters:
       - name: account
         in: path
@@ -1943,6 +1943,30 @@ paths:
         required: true
         schema:
           type: string
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: dataType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accessMode
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1951,10 +1975,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
-        required: true
+              type: object
+              properties:
+                rawContent:
+                  type: string
+                  format: binary
       responses:
         "200":
           description: OK
@@ -1962,7 +1989,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-      deprecated: true
   /api/mlpgate/account/{account}/dataset/{datasetId}:
     get:
       tags:
@@ -2216,6 +2242,37 @@ paths:
                 file:
                   type: string
                   format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/empty:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createEmptyDataset
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
+        required: true
       responses:
         "200":
           description: OK
@@ -4414,9 +4471,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -4710,9 +4767,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
