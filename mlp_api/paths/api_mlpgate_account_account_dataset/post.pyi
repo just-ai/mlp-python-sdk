@@ -157,43 +157,43 @@ class SchemaForRequestBodyMultipartFormData(
     class MetaOapg:
         
         class properties:
-            rawContent = schemas.BinarySchema
+            file = schemas.BinarySchema
             __annotations__ = {
-                "rawContent": rawContent,
+                "file": file,
             }
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["rawContent"]) -> MetaOapg.properties.rawContent: ...
+    def __getitem__(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["rawContent", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["rawContent"]) -> typing.Union[MetaOapg.properties.rawContent, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["file"]) -> typing.Union[MetaOapg.properties.file, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["rawContent", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        rawContent: typing.Union[MetaOapg.properties.rawContent, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
+        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyMultipartFormData':
         return super().__new__(
             cls,
             *_args,
-            rawContent=rawContent,
+            file=file,
             _configuration=_configuration,
             **kwargs,
         )

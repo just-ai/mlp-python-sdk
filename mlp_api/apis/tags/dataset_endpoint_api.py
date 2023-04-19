@@ -10,12 +10,6 @@
 """
 
 from mlp_api.paths.api_mlpgate_account_account_dataset.post import CreateDataset
-from mlp_api.paths.api_mlpgate_account_account_dataset_a.post import CreateDatasetA
-from mlp_api.paths.api_mlpgate_account_account_dataset_b_a.post import CreateDatasetBa
-from mlp_api.paths.api_mlpgate_account_account_dataset_b_b.post import CreateDatasetBb
-from mlp_api.paths.api_mlpgate_account_account_dataset_form.post import CreateDatasetByForm
-from mlp_api.paths.api_mlpgate_account_account_dataset_c_a.post import CreateDatasetCa
-from mlp_api.paths.api_mlpgate_account_account_dataset_c_b.post import CreateDatasetCb
 from mlp_api.paths.api_mlpgate_account_account_dataset_empty.post import CreateEmptyDataset
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.delete import DeleteDataset
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.get import DownloadDatasetRawContent
@@ -29,12 +23,6 @@ from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.post i
 
 class DatasetEndpointApi(
     CreateDataset,
-    CreateDatasetA,
-    CreateDatasetBa,
-    CreateDatasetBb,
-    CreateDatasetByForm,
-    CreateDatasetCa,
-    CreateDatasetCb,
     CreateEmptyDataset,
     DeleteDataset,
     DownloadDatasetRawContent,
