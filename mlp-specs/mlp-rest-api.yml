@@ -90,7 +90,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          plain/text:
             schema:
               type: string
         required: true
@@ -571,7 +571,7 @@ paths:
         "200":
           description: OK
           content:
-            text/plain:
+            plain/text:
               schema:
                 type: string
     post:
@@ -599,7 +599,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          plain/text:
             schema:
               type: string
         required: true
@@ -1935,7 +1935,7 @@ paths:
     post:
       tags:
       - dataset-endpoint
-      operationId: createDataset
+      operationId: createEmptyDataset
       parameters:
       - name: account
         in: path
@@ -1953,7 +1953,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DatasetInfoWithContentData'
+              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
         required: true
       responses:
         "200":
@@ -1962,6 +1962,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
+      deprecated: true
   /api/mlpgate/account/{account}/dataset/{datasetId}:
     get:
       tags:
@@ -2020,7 +2021,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DatasetInfoWithContentData'
+              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
         required: true
       responses:
         "200":
@@ -2090,7 +2091,7 @@ paths:
     get:
       tags:
       - dataset-endpoint
-      operationId: downloadDatasetContent
+      operationId: downloadDatasetRawContent
       parameters:
       - name: account
         in: path
@@ -2122,6 +2123,7 @@ paths:
             application/json:
               schema:
                 type: string
+                format: binary
     post:
       tags:
       - dataset-endpoint
@@ -5337,7 +5339,7 @@ components:
           type: string
         comment:
           type: string
-    DatasetInfoWithContentData:
+    CreateOrUpdateDatasetInfoData:
       required:
       - name
       type: object
@@ -5349,8 +5351,6 @@ components:
         description:
           type: string
         dataType:
-          type: string
-        content:
           type: string
         accessMode:
           type: string

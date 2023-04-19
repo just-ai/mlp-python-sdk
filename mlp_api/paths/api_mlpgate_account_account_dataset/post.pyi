@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.dataset_info_with_content_data import DatasetInfoWithContentData
+from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.model.dataset_info_data import DatasetInfoData
 
 # Header params
@@ -80,10 +80,10 @@ request_path_account = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = DatasetInfoWithContentData
+SchemaForRequestBodyApplicationJson = CreateOrUpdateDatasetInfoData
 
 
-request_body_dataset_info_with_content_data = api_client.RequestBody(
+request_body_create_or_update_dataset_info_data = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
@@ -116,7 +116,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _create_dataset_oapg(
+    def _create_empty_dataset_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: typing_extensions.Literal["application/json"] = ...,
@@ -131,7 +131,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _create_dataset_oapg(
+    def _create_empty_dataset_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
@@ -147,7 +147,7 @@ class BaseApi(api_client.Api):
 
 
     @typing.overload
-    def _create_dataset_oapg(
+    def _create_empty_dataset_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
@@ -160,7 +160,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _create_dataset_oapg(
+    def _create_empty_dataset_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
@@ -175,7 +175,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _create_dataset_oapg(
+    def _create_empty_dataset_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
@@ -227,7 +227,7 @@ class BaseApi(api_client.Api):
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
         _body = None
-        serialized_data = request_body_dataset_info_with_content_data.serialize(body, content_type)
+        serialized_data = request_body_create_or_update_dataset_info_data.serialize(body, content_type)
         _headers.add('Content-Type', content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
@@ -262,11 +262,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class CreateDataset(BaseApi):
+class CreateEmptyDataset(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def create_dataset(
+    def create_empty_dataset(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: typing_extensions.Literal["application/json"] = ...,
@@ -281,7 +281,7 @@ class CreateDataset(BaseApi):
     ]: ...
 
     @typing.overload
-    def create_dataset(
+    def create_empty_dataset(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
@@ -297,7 +297,7 @@ class CreateDataset(BaseApi):
 
 
     @typing.overload
-    def create_dataset(
+    def create_empty_dataset(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
@@ -310,7 +310,7 @@ class CreateDataset(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def create_dataset(
+    def create_empty_dataset(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
@@ -325,7 +325,7 @@ class CreateDataset(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def create_dataset(
+    def create_empty_dataset(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
@@ -336,7 +336,7 @@ class CreateDataset(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._create_dataset_oapg(
+        return self._create_empty_dataset_oapg(
             body=body,
             header_params=header_params,
             path_params=path_params,
@@ -422,7 +422,7 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._create_dataset_oapg(
+        return self._create_empty_dataset_oapg(
             body=body,
             header_params=header_params,
             path_params=path_params,
