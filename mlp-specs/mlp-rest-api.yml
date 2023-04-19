@@ -2280,6 +2280,174 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/c/b:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetCB
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: byte
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/c/a:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetCA
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                type: string
+                format: byte
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/b/b:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetBB
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: byte
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/b/a:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetBA
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                type: string
+                format: byte
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/a:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDatasetA
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rawContent:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
   /api/mlpgate/account/{account}/data-image:
     get:
       tags:
