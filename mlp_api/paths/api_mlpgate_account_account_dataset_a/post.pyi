@@ -81,7 +81,7 @@ request_path_account = api_client.PathParameter(
 # body param
 
 
-class SchemaForRequestBodyApplicationJson(
+class SchemaForRequestBodyApplicationOctetStream(
     schemas.DictSchema
 ):
 
@@ -121,7 +121,7 @@ class SchemaForRequestBodyApplicationJson(
         rawContent: typing.Union[MetaOapg.properties.rawContent, bytes, io.FileIO, io.BufferedReader, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'SchemaForRequestBodyApplicationJson':
+    ) -> 'SchemaForRequestBodyApplicationOctetStream':
         return super().__new__(
             cls,
             *_args,
@@ -133,8 +133,8 @@ class SchemaForRequestBodyApplicationJson(
 
 request_body_any_type = api_client.RequestBody(
     content={
-        'application/json': api_client.MediaType(
-            schema=SchemaForRequestBodyApplicationJson),
+        'application/octet-stream': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationOctetStream),
     },
 )
 SchemaFor200ResponseBodyApplicationJson = DatasetInfoData
@@ -165,8 +165,8 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _create_dataset_a_oapg(
         self,
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: typing_extensions.Literal["application/octet-stream"] = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -181,7 +181,7 @@ class BaseApi(api_client.Api):
     def _create_dataset_a_oapg(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -198,7 +198,7 @@ class BaseApi(api_client.Api):
         self,
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -210,7 +210,7 @@ class BaseApi(api_client.Api):
     def _create_dataset_a_oapg(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -224,8 +224,8 @@ class BaseApi(api_client.Api):
 
     def _create_dataset_a_oapg(
         self,
-        content_type: str = 'application/json',
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: str = 'application/octet-stream',
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -313,8 +313,8 @@ class CreateDatasetA(BaseApi):
     @typing.overload
     def create_dataset_a(
         self,
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: typing_extensions.Literal["application/octet-stream"] = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -329,7 +329,7 @@ class CreateDatasetA(BaseApi):
     def create_dataset_a(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -346,7 +346,7 @@ class CreateDatasetA(BaseApi):
         self,
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -358,7 +358,7 @@ class CreateDatasetA(BaseApi):
     def create_dataset_a(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -372,8 +372,8 @@ class CreateDatasetA(BaseApi):
 
     def create_dataset_a(
         self,
-        content_type: str = 'application/json',
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: str = 'application/octet-stream',
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -399,8 +399,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        content_type: typing_extensions.Literal["application/json"] = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: typing_extensions.Literal["application/octet-stream"] = ...,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -415,7 +415,7 @@ class ApiForpost(BaseApi):
     def post(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -432,7 +432,7 @@ class ApiForpost(BaseApi):
         self,
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -444,7 +444,7 @@ class ApiForpost(BaseApi):
     def post(
         self,
         content_type: str = ...,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -458,8 +458,8 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        content_type: str = 'application/json',
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        content_type: str = 'application/octet-stream',
+        body: typing.Union[SchemaForRequestBodyApplicationOctetStream, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,

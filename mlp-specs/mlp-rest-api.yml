@@ -2434,7 +2434,7 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
+          application/octet-stream:
             schema:
               type: object
               properties:
