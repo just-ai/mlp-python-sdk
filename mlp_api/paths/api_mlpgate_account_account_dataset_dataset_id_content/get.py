@@ -112,30 +112,30 @@ request_path_dataset_id = api_client.PathParameter(
     schema=DatasetIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = schemas.BinarySchema
+SchemaFor0ResponseBodyApplicationOctetStream = schemas.BinarySchema
 
 
 @dataclass
-class ApiResponseFor200(api_client.ApiResponse):
+class ApiResponseForDefault(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationJson,
+        SchemaFor0ResponseBodyApplicationOctetStream,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_200 = api_client.OpenApiResponse(
-    response_cls=ApiResponseFor200,
+_response_for_default = api_client.OpenApiResponse(
+    response_cls=ApiResponseForDefault,
     content={
-        'application/json': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationJson),
+        'application/octet-stream': api_client.MediaType(
+            schema=SchemaFor0ResponseBodyApplicationOctetStream),
     },
 )
 _status_code_to_response = {
-    '200': _response_for_200,
+    'default': _response_for_default,
 }
 _all_accept_content_types = (
-    'application/json',
+    'application/octet-stream',
 )
 
 
@@ -151,7 +151,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
     ]: ...
 
     @typing.overload
@@ -177,7 +177,7 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
@@ -257,7 +257,11 @@ class BaseApi(api_client.Api):
             if response_for_status:
                 api_response = response_for_status.deserialize(response, self.api_client.configuration)
             else:
-                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+                default_response = _status_code_to_response.get('default')
+                if default_response:
+                    api_response = default_response.deserialize(response, self.api_client.configuration)
+                else:
+                    api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
             raise exceptions.ApiException(
@@ -283,7 +287,7 @@ class DownloadDatasetRawContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
     ]: ...
 
     @typing.overload
@@ -309,7 +313,7 @@ class DownloadDatasetRawContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
@@ -348,7 +352,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
     ]: ...
 
     @typing.overload
@@ -374,7 +378,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseFor200,
+        ApiResponseForDefault,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 

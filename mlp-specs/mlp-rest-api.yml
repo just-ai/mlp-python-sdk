@@ -2143,10 +2143,10 @@ paths:
         schema:
           type: string
       responses:
-        "200":
-          description: OK
+        default:
+          description: default response
           content:
-            application/json:
+            application/octet-stream:
               schema:
                 type: string
                 format: binary
