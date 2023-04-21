@@ -19,6 +19,7 @@ from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
 from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
+from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_dump import DataImageDump
 from mlp_api.model.data_image_info_data import DataImageInfoData
@@ -26,7 +27,6 @@ from mlp_api.model.data_image_info_pk import DataImageInfoPK
 from mlp_api.model.data_image_mount_data import DataImageMountData
 from mlp_api.model.data_image_mount_dump import DataImageMountDump
 from mlp_api.model.dataset_info_data import DatasetInfoData
-from mlp_api.model.dataset_info_with_content_data import DatasetInfoWithContentData
 from mlp_api.model.dataset_pk import DatasetPK
 from mlp_api.model.difference_i_account_config_dump import DifferenceIAccountConfigDump
 from mlp_api.model.difference_i_account_data_dump import DifferenceIAccountDataDump

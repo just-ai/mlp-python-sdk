@@ -1943,6 +1943,30 @@ paths:
         required: true
         schema:
           type: string
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: dataType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accessMode
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -1951,10 +1975,13 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/DatasetInfoWithContentData'
-        required: true
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
         "200":
           description: OK
@@ -2020,7 +2047,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DatasetInfoWithContentData'
+              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
         required: true
       responses:
         "200":
@@ -2090,7 +2117,7 @@ paths:
     get:
       tags:
       - dataset-endpoint
-      operationId: downloadDatasetContent
+      operationId: downloadDatasetRawContent
       parameters:
       - name: account
         in: path
@@ -2116,12 +2143,13 @@ paths:
         schema:
           type: string
       responses:
-        "200":
-          description: OK
+        default:
+          description: default response
           content:
-            application/json:
+            application/octet-stream:
               schema:
                 type: string
+                format: binary
     post:
       tags:
       - dataset-endpoint
@@ -2149,6 +2177,8 @@ paths:
         content:
           multipart/form-data:
             schema:
+              required:
+              - file
               type: object
               properties:
                 file:
@@ -2161,11 +2191,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-  /api/mlpgate/account/{account}/dataset/form:
+  /api/mlpgate/account/{account}/dataset/empty:
     post:
       tags:
       - dataset-endpoint
-      operationId: createDatasetByForm
+      operationId: createEmptyDataset
       parameters:
       - name: account
         in: path
@@ -2173,30 +2203,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: description
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: dataType
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: accessMode
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-          - private
-          - public
-          - restricted
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2205,15 +2211,10 @@ paths:
           type: string
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              required:
-              - file
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
+              $ref: '#/components/schemas/CreateOrUpdateDatasetInfoData'
+        required: true
       responses:
         "200":
           description: OK
@@ -4639,6 +4640,9 @@ components:
         predictTimeoutSec:
           type: integer
           format: int64
+        fitTimeoutSec:
+          type: integer
+          format: int64
     PredictConfigDump:
       required:
       - config
@@ -5337,7 +5341,7 @@ components:
           type: string
         comment:
           type: string
-    DatasetInfoWithContentData:
+    CreateOrUpdateDatasetInfoData:
       required:
       - name
       type: object
@@ -5349,8 +5353,6 @@ components:
         description:
           type: string
         dataType:
-          type: string
-        content:
           type: string
         accessMode:
           type: string

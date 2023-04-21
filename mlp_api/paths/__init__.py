@@ -43,7 +43,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID = "/api/mlpgate/account/{account}/dataset/{datasetId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{account}/dataset/{datasetId}/paraphrase"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_CONTENT = "/api/mlpgate/account/{account}/dataset/{datasetId}/content"
-    API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_FORM = "/api/mlpgate/account/{account}/dataset/form"
+    API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY = "/api/mlpgate/account/{account}/dataset/empty"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE = "/api/mlpgate/account/{account}/data-image"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID = "/api/mlpgate/account/{account}/data-image/{imageId}"
     API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE = "/api/mlpgate-internal/accounts/deactivate"

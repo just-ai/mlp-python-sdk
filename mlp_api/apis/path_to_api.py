@@ -38,7 +38,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_dataset import ApiMlpgateAcc
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_dataset_id import ApiMlpgateAccountAccountDatasetDatasetId
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetDatasetIdParaphrase
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_dataset_id_content import ApiMlpgateAccountAccountDatasetDatasetIdContent
-from mlp_api.apis.paths.api_mlpgate_account_account_dataset_form import ApiMlpgateAccountAccountDatasetForm
+from mlp_api.apis.paths.api_mlpgate_account_account_dataset_empty import ApiMlpgateAccountAccountDatasetEmpty
 from mlp_api.apis.paths.api_mlpgate_account_account_data_image import ApiMlpgateAccountAccountDataImage
 from mlp_api.apis.paths.api_mlpgate_account_account_data_image_image_id import ApiMlpgateAccountAccountDataImageImageId
 from mlp_api.apis.paths.api_mlpgate_internal_accounts_deactivate import ApiMlpgateInternalAccountsDeactivate
@@ -144,7 +144,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID: ApiMlpgateAccountAccountDatasetDatasetId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_CONTENT: ApiMlpgateAccountAccountDatasetDatasetIdContent,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_FORM: ApiMlpgateAccountAccountDatasetForm,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY: ApiMlpgateAccountAccountDatasetEmpty,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE: ApiMlpgateAccountAccountDataImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
@@ -251,7 +251,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID: ApiMlpgateAccountAccountDatasetDatasetId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_CONTENT: ApiMlpgateAccountAccountDatasetDatasetIdContent,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_FORM: ApiMlpgateAccountAccountDatasetForm,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY: ApiMlpgateAccountAccountDatasetEmpty,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE: ApiMlpgateAccountAccountDataImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
