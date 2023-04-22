@@ -40,6 +40,7 @@ message ServiceInfoProto {
   int64 modelId = 2;
   string modelName = 3;
   string authToken = 4;
+  optional string bucketName = 5;
 }
 
 message ServiceToGateProto {
