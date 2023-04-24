@@ -53,9 +53,10 @@ class MlpClientSDK:
 
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
-        if response.predict is not None:
+        res = response.WhichOneof('body')
+        if res == 'predict':
             return response.predict
-        elif response.error is not None:
+        elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
             raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
         else:
@@ -74,9 +75,10 @@ class MlpClientSDK:
 
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
-        if response.ext is not None:
+        res = response.WhichOneof('body')
+        if res == 'ext':
             return response.ext
-        elif response.error is not None:
+        elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
             raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
         else:
