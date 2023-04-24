@@ -10,9 +10,9 @@
 """
 
 from mlp_api.paths.api_mlpgate_account_account_dataset.post import CreateDataset
-from mlp_api.paths.api_mlpgate_account_account_dataset_form.post import CreateDatasetByForm
+from mlp_api.paths.api_mlpgate_account_account_dataset_empty.post import CreateEmptyDataset
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.delete import DeleteDataset
-from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.get import DownloadDatasetContent
+from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.get import DownloadDatasetRawContent
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.get import GetDatasetInfo
 from mlp_api.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase.get import GetParaphrasedDatasetStatus
 from mlp_api.paths.api_mlpgate_account_account_dataset.get import ListDatasets
@@ -23,9 +23,9 @@ from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.post i
 
 class DatasetEndpointApi(
     CreateDataset,
-    CreateDatasetByForm,
+    CreateEmptyDataset,
     DeleteDataset,
-    DownloadDatasetContent,
+    DownloadDatasetRawContent,
     GetDatasetInfo,
     GetParaphrasedDatasetStatus,
     ListDatasets,
