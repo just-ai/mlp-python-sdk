@@ -7,6 +7,39 @@ servers:
   description: Generated server url
 paths:
   /p/{accountField}/{modelField}:
+    get:
+      tags:
+      - process-endpoint
+      operationId: getModelInfo
+      parameters:
+      - name: accountField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: body
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
     post:
       tags:
       - process-endpoint
@@ -454,7 +487,7 @@ paths:
     get:
       tags:
       - model-endpoint
-      operationId: getModelInfo
+      operationId: getModelInfo_1
       parameters:
       - name: account
         in: path

@@ -19,7 +19,7 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_external.get import G
 from mlp_api.paths.api_mlpgate_models_featured.get import GetFeaturedModels
 from mlp_api.paths.api_mlpgate_account_account_model_model_instances.get import GetInstancesStatus
 from mlp_api.paths.api_mlpgate_account_account_model_model_logs.get import GetLogsByModel
-from mlp_api.paths.api_mlpgate_account_account_model_model.get import GetModelInfo
+from mlp_api.paths.api_mlpgate_account_account_model_model.get import GetModelInfo1
 from mlp_api.paths.api_mlpgate_account_account_model_model_public_settings.get import GetModelPublicSettings
 from mlp_api.paths.api_mlpgate_account_account_model.get import GetPagedModels
 from mlp_api.paths.api_mlpgate_models.get import GetPublicModels
@@ -46,7 +46,7 @@ class ModelEndpointApi(
     GetFeaturedModels,
     GetInstancesStatus,
     GetLogsByModel,
-    GetModelInfo,
+    GetModelInfo1,
     GetModelPublicSettings,
     GetPagedModels,
     GetPublicModels,
