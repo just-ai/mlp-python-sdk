@@ -12,6 +12,7 @@
 from mlp_api.paths.api_mlpgate_account_account_model_model_cross_validation.post import CrossValidation
 from mlp_api.paths.api_mlpgate_account_account_model_model_ext.post import Ext
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit.post import Fit
+from mlp_api.paths.p_account_field_model_field.get import GetModelInfo
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict.post import Predict
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config.post import PredictWithConfig
 from mlp_api.paths.p_account_field_model_field.post import ServletPredict
@@ -21,6 +22,7 @@ class ProcessEndpointApi(
     CrossValidation,
     Ext,
     Fit,
+    GetModelInfo,
     Predict,
     PredictWithConfig,
     ServletPredict,
