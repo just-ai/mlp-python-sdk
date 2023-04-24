@@ -55,8 +55,6 @@ message ServiceToGateProto {
     FitResponseProto fit = 102;
     ExtendedResponseProto ext = 103;
 
-    RefreshResponseProto refresh = 104;
-
     StatusResponseProto status = 105;
 
     BatchResponseProto batch = 106;
@@ -80,8 +78,6 @@ message GateToServiceProto {
     PredictRequestProto predict = 101;
     FitRequestProto fit = 102;
     ExtendedRequestProto ext = 103;
-
-    RefreshRequestProto refresh = 104;
 
     StatusRequestProto status = 105;
 
@@ -183,13 +179,6 @@ message BatchPayloadResponseProto {
     PredictResponseProto predict = 101;
     ApiErrorProto error = 201;
   }
-}
-
-message RefreshRequestProto {
-  optional string modelDir = 1;
-}
-
-message RefreshResponseProto {
 }
 
 message StatusRequestProto {
