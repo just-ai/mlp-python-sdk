@@ -10,7 +10,7 @@ paths:
     get:
       tags:
       - process-endpoint
-      operationId: getModelInfo
+      operationId: getModelInfoOld
       parameters:
       - name: accountField
         in: path
@@ -367,7 +367,7 @@ paths:
     get:
       tags:
       - model-endpoint
-      operationId: getModelInfo_1
+      operationId: getModelInfo
       parameters:
       - name: account
         in: path

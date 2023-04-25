@@ -144,7 +144,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_model_info_oapg(
+    def _get_model_info_old_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -158,7 +158,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_model_info_oapg(
+    def _get_model_info_old_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -170,7 +170,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_model_info_oapg(
+    def _get_model_info_old_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -184,7 +184,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_model_info_oapg(
+    def _get_model_info_old_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -272,11 +272,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetModelInfo(BaseApi):
+class GetModelInfoOld(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_model_info(
+    def get_model_info_old(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -290,7 +290,7 @@ class GetModelInfo(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_model_info(
+    def get_model_info_old(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -302,7 +302,7 @@ class GetModelInfo(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_model_info(
+    def get_model_info_old(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -316,7 +316,7 @@ class GetModelInfo(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_model_info(
+    def get_model_info_old(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -326,7 +326,7 @@ class GetModelInfo(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_model_info_oapg(
+        return self._get_model_info_old_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,
@@ -391,7 +391,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_model_info_oapg(
+        return self._get_model_info_old_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,
