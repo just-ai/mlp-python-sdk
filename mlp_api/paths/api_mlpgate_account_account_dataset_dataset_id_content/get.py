@@ -112,36 +112,36 @@ request_path_dataset_id = api_client.PathParameter(
     schema=DatasetIdSchema,
     required=True,
 )
-SchemaFor0ResponseBodyApplicationOctetStream = schemas.BinarySchema
+SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
 
 
 @dataclass
-class ApiResponseForDefault(api_client.ApiResponse):
+class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor0ResponseBodyApplicationOctetStream,
+        SchemaFor200ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
 
-_response_for_default = api_client.OpenApiResponse(
-    response_cls=ApiResponseForDefault,
+_response_for_200 = api_client.OpenApiResponse(
+    response_cls=ApiResponseFor200,
     content={
-        'application/octet-stream': api_client.MediaType(
-            schema=SchemaFor0ResponseBodyApplicationOctetStream),
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
 _status_code_to_response = {
-    'default': _response_for_default,
+    '200': _response_for_200,
 }
 _all_accept_content_types = (
-    'application/octet-stream',
+    'application/json',
 )
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _download_dataset_raw_content_oapg(
+    def _download_dataset_content_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -151,11 +151,11 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
     ]: ...
 
     @typing.overload
-    def _download_dataset_raw_content_oapg(
+    def _download_dataset_content_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -167,7 +167,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _download_dataset_raw_content_oapg(
+    def _download_dataset_content_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -177,11 +177,11 @@ class BaseApi(api_client.Api):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _download_dataset_raw_content_oapg(
+    def _download_dataset_content_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -257,11 +257,7 @@ class BaseApi(api_client.Api):
             if response_for_status:
                 api_response = response_for_status.deserialize(response, self.api_client.configuration)
             else:
-                default_response = _status_code_to_response.get('default')
-                if default_response:
-                    api_response = default_response.deserialize(response, self.api_client.configuration)
-                else:
-                    api_response = api_client.ApiResponseWithoutDeserialization(response=response)
+                api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
             raise exceptions.ApiException(
@@ -273,11 +269,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class DownloadDatasetRawContent(BaseApi):
+class DownloadDatasetContent(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def download_dataset_raw_content(
+    def download_dataset_content(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -287,11 +283,11 @@ class DownloadDatasetRawContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
     ]: ...
 
     @typing.overload
-    def download_dataset_raw_content(
+    def download_dataset_content(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -303,7 +299,7 @@ class DownloadDatasetRawContent(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def download_dataset_raw_content(
+    def download_dataset_content(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -313,11 +309,11 @@ class DownloadDatasetRawContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def download_dataset_raw_content(
+    def download_dataset_content(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -327,7 +323,7 @@ class DownloadDatasetRawContent(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._download_dataset_raw_content_oapg(
+        return self._download_dataset_content_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,
@@ -352,7 +348,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
     ]: ...
 
     @typing.overload
@@ -378,7 +374,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
     ) -> typing.Union[
-        ApiResponseForDefault,
+        ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
@@ -392,7 +388,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._download_dataset_raw_content_oapg(
+        return self._download_dataset_content_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,

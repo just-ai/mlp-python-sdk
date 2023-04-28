@@ -7,8 +7,6 @@ import enum
 
 class PathValues(str, enum.Enum):
     P_ACCOUNT_FIELD_MODEL_FIELD = "/p/{accountField}/{modelField}"
-    API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA = "/api/mlpgate/admin/system-config/account/{account}/data"
-    API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG = "/api/mlpgate/admin/system-config/account/{account}/config"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS = "/api/mlpgate/admin/account/{account}/limits"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES = "/api/mlpgate/admin/account/{account}/features"
     API_MLPGATE_ACCOUNT = "/api/mlpgate/account"
@@ -43,7 +41,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID = "/api/mlpgate/account/{account}/dataset/{datasetId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{account}/dataset/{datasetId}/paraphrase"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_DATASET_ID_CONTENT = "/api/mlpgate/account/{account}/dataset/{datasetId}/content"
-    API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY = "/api/mlpgate/account/{account}/dataset/empty"
+    API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_FORM = "/api/mlpgate/account/{account}/dataset/form"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE = "/api/mlpgate/account/{account}/data-image"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID = "/api/mlpgate/account/{account}/data-image/{imageId}"
     API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE = "/api/mlpgate-internal/accounts/deactivate"

@@ -86,14 +86,14 @@ request_path_model = api_client.PathParameter(
     schema=ModelSchema,
     required=True,
 )
-SchemaFor200ResponseBodyTextPlain = schemas.StrSchema
+SchemaFor200ResponseBodyPlainText = schemas.StrSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyTextPlain,
+        SchemaFor200ResponseBodyPlainText,
     ]
     headers: schemas.Unset = schemas.unset
 
@@ -101,15 +101,15 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'text/plain': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyTextPlain),
+        'plain/text': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyPlainText),
     },
 )
 _status_code_to_response = {
     '200': _response_for_200,
 }
 _all_accept_content_types = (
-    'text/plain',
+    'plain/text',
 )
 
 

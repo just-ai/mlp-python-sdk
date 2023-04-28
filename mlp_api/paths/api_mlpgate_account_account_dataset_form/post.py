@@ -25,19 +25,52 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.difference_i_account_data_dump import DifferenceIAccountDataDump
+from mlp_api.model.dataset_info_data import DatasetInfoData
+
+from . import path
 
 # Query params
-DryRunSchema = schemas.BoolSchema
+NameSchema = schemas.StrSchema
+DescriptionSchema = schemas.StrSchema
+DataTypeSchema = schemas.StrSchema
+
+
+class AccessModeSchema(
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+
+
+    class MetaOapg:
+        enum_value_to_name = {
+            "private": "PRIVATE",
+            "public": "PUBLIC",
+            "restricted": "RESTRICTED",
+        }
+    
+    @schemas.classproperty
+    def PRIVATE(cls):
+        return cls("private")
+    
+    @schemas.classproperty
+    def PUBLIC(cls):
+        return cls("public")
+    
+    @schemas.classproperty
+    def RESTRICTED(cls):
+        return cls("restricted")
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'dryRun': typing.Union[DryRunSchema, bool, ],
+        'name': typing.Union[NameSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'description': typing.Union[DescriptionSchema, str, ],
+        'dataType': typing.Union[DataTypeSchema, str, ],
+        'accessMode': typing.Union[AccessModeSchema, str, ],
     },
     total=False
 )
@@ -47,11 +80,29 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
-request_query_dry_run = api_client.QueryParameter(
-    name="dryRun",
+request_query_name = api_client.QueryParameter(
+    name="name",
     style=api_client.ParameterStyle.FORM,
-    schema=DryRunSchema,
+    schema=NameSchema,
     required=True,
+    explode=True,
+)
+request_query_description = api_client.QueryParameter(
+    name="description",
+    style=api_client.ParameterStyle.FORM,
+    schema=DescriptionSchema,
+    explode=True,
+)
+request_query_data_type = api_client.QueryParameter(
+    name="dataType",
+    style=api_client.ParameterStyle.FORM,
+    schema=DataTypeSchema,
+    explode=True,
+)
+request_query_access_mode = api_client.QueryParameter(
+    name="accessMode",
+    style=api_client.ParameterStyle.FORM,
+    schema=AccessModeSchema,
     explode=True,
 )
 # Header params
@@ -106,17 +157,70 @@ request_path_account = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyTextPlain = schemas.StrSchema
+
+
+class SchemaForRequestBodyMultipartFormData(
+    schemas.DictSchema
+):
+
+
+    class MetaOapg:
+        required = {
+            "file",
+        }
+        
+        class properties:
+            file = schemas.BinarySchema
+            __annotations__ = {
+                "file": file,
+            }
+    
+    file: MetaOapg.properties.file
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
+    
+    @typing.overload
+    def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
+    
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
+        # dict_instance[name] accessor
+        return super().__getitem__(name)
+    
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["file"]) -> MetaOapg.properties.file: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
+    
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["file", ], str]):
+        return super().get_item_oapg(name)
+    
+
+    def __new__(
+        cls,
+        *_args: typing.Union[dict, frozendict.frozendict, ],
+        file: typing.Union[MetaOapg.properties.file, bytes, io.FileIO, io.BufferedReader, ],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+        **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+    ) -> 'SchemaForRequestBodyMultipartFormData':
+        return super().__new__(
+            cls,
+            *_args,
+            file=file,
+            _configuration=_configuration,
+            **kwargs,
+        )
 
 
 request_body_body = api_client.RequestBody(
     content={
-        'text/plain': api_client.MediaType(
-            schema=SchemaForRequestBodyTextPlain),
+        'multipart/form-data': api_client.MediaType(
+            schema=SchemaForRequestBodyMultipartFormData),
     },
-    required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = DifferenceIAccountDataDump
+SchemaFor200ResponseBodyApplicationJson = DatasetInfoData
 
 
 @dataclass
@@ -135,6 +239,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/json',
 )
@@ -142,10 +249,10 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _restore_account_data_dump_oapg(
+    def _create_dataset_by_form_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -158,10 +265,10 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _restore_account_data_dump_oapg(
+    def _create_dataset_by_form_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -175,11 +282,11 @@ class BaseApi(api_client.Api):
 
 
     @typing.overload
-    def _restore_account_data_dump_oapg(
+    def _create_dataset_by_form_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -189,10 +296,10 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _restore_account_data_dump_oapg(
+    def _create_dataset_by_form_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -205,10 +312,10 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _restore_account_data_dump_oapg(
+    def _create_dataset_by_form_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        content_type: str = 'multipart/form-data',
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -242,7 +349,10 @@ class BaseApi(api_client.Api):
 
         prefix_separator_iterator = None
         for parameter in (
-            request_query_dry_run,
+            request_query_name,
+            request_query_description,
+            request_query_data_type,
+            request_query_access_mode,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -267,17 +377,15 @@ class BaseApi(api_client.Api):
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
 
-        if body is schemas.unset:
-            raise exceptions.ApiValueError(
-                'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
         _body = None
-        serialized_data = request_body_body.serialize(body, content_type)
-        _headers.add('Content-Type', content_type)
-        if 'fields' in serialized_data:
-            _fields = serialized_data['fields']
-        elif 'body' in serialized_data:
-            _body = serialized_data['body']
+        if body is not schemas.unset:
+            serialized_data = request_body_body.serialize(body, content_type)
+            _headers.add('Content-Type', content_type)
+            if 'fields' in serialized_data:
+                _fields = serialized_data['fields']
+            elif 'body' in serialized_data:
+                _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
             method='post'.upper(),
@@ -307,14 +415,14 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class RestoreAccountDataDump(BaseApi):
+class CreateDatasetByForm(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def restore_account_data_dump(
+    def create_dataset_by_form(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -327,10 +435,10 @@ class RestoreAccountDataDump(BaseApi):
     ]: ...
 
     @typing.overload
-    def restore_account_data_dump(
+    def create_dataset_by_form(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -344,11 +452,11 @@ class RestoreAccountDataDump(BaseApi):
 
 
     @typing.overload
-    def restore_account_data_dump(
+    def create_dataset_by_form(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -358,10 +466,10 @@ class RestoreAccountDataDump(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def restore_account_data_dump(
+    def create_dataset_by_form(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -374,10 +482,10 @@ class RestoreAccountDataDump(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def restore_account_data_dump(
+    def create_dataset_by_form(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        content_type: str = 'multipart/form-data',
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -386,7 +494,7 @@ class RestoreAccountDataDump(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._restore_account_data_dump_oapg(
+        return self._create_dataset_by_form_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,
@@ -405,8 +513,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        content_type: typing_extensions.Literal["multipart/form-data"] = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -421,8 +529,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -438,9 +546,9 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -452,8 +560,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
         content_type: str = ...,
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -468,8 +576,8 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        content_type: str = 'multipart/form-data',
+        body: typing.Union[SchemaForRequestBodyMultipartFormData, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -478,7 +586,7 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._restore_account_data_dump_oapg(
+        return self._create_dataset_by_form_oapg(
             body=body,
             query_params=query_params,
             header_params=header_params,

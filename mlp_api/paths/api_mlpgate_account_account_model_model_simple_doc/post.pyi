@@ -85,13 +85,13 @@ request_path_model = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyTextPlain = schemas.StrSchema
+SchemaForRequestBodyPlainText = schemas.StrSchema
 
 
 request_body_body = api_client.RequestBody(
     content={
-        'text/plain': api_client.MediaType(
-            schema=SchemaForRequestBodyTextPlain),
+        'plain/text': api_client.MediaType(
+            schema=SchemaForRequestBodyPlainText),
     },
     required=True,
 )
@@ -123,8 +123,8 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _set_simple_doc_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: typing_extensions.Literal["plain/text"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -138,7 +138,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _set_simple_doc_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -154,7 +154,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _set_simple_doc_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -167,7 +167,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _set_simple_doc_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -182,8 +182,8 @@ class BaseApi(api_client.Api):
 
     def _set_simple_doc_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: str = 'plain/text',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -274,8 +274,8 @@ class SetSimpleDoc(BaseApi):
     @typing.overload
     def set_simple_doc(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: typing_extensions.Literal["plain/text"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -289,7 +289,7 @@ class SetSimpleDoc(BaseApi):
     @typing.overload
     def set_simple_doc(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -305,7 +305,7 @@ class SetSimpleDoc(BaseApi):
     @typing.overload
     def set_simple_doc(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -318,7 +318,7 @@ class SetSimpleDoc(BaseApi):
     @typing.overload
     def set_simple_doc(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -333,8 +333,8 @@ class SetSimpleDoc(BaseApi):
 
     def set_simple_doc(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: str = 'plain/text',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -360,8 +360,8 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: typing_extensions.Literal["text/plain"] = ...,
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: typing_extensions.Literal["plain/text"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -375,7 +375,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -391,7 +391,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -404,7 +404,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -419,8 +419,8 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextPlain,str, ],
-        content_type: str = 'text/plain',
+        body: typing.Union[SchemaForRequestBodyPlainText,str, ],
+        content_type: str = 'plain/text',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
