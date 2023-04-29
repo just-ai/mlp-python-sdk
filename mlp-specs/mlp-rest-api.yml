@@ -22,11 +22,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: body
-        in: query
-        required: true
-        schema:
-          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
