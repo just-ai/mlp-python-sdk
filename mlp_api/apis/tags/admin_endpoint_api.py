@@ -10,9 +10,13 @@
 """
 
 from mlp_api.paths.api_mlpgate_admin_account_account.get import GetAccount
+from mlp_api.paths.api_mlpgate_admin_system_config_account_account_config.get import GetAccountConfigDump
+from mlp_api.paths.api_mlpgate_admin_system_config_account_account_data.get import GetAccountDataDump
 from mlp_api.paths.api_mlpgate_admin_account_account_features.get import GetAccountFeatures
 from mlp_api.paths.api_mlpgate_admin_accounts.get import GetAccounts
 from mlp_api.paths.api_mlpgate_admin_resource_groups.get import GetResourceGroups
+from mlp_api.paths.api_mlpgate_admin_system_config_account_account_config.post import RestoreAccountConfigDump
+from mlp_api.paths.api_mlpgate_admin_system_config_account_account_data.post import RestoreAccountDataDump
 from mlp_api.paths.api_mlpgate_admin_account_account_features.post import UpdateFeatures
 from mlp_api.paths.api_mlpgate_admin_account_account_limits.post import UpdateLimits
 from mlp_api.paths.api_mlpgate_admin_resource_groups.patch import UpdateResourceGroups
@@ -20,9 +24,13 @@ from mlp_api.paths.api_mlpgate_admin_resource_groups.patch import UpdateResource
 
 class AdminEndpointApi(
     GetAccount,
+    GetAccountConfigDump,
+    GetAccountDataDump,
     GetAccountFeatures,
     GetAccounts,
     GetResourceGroups,
+    RestoreAccountConfigDump,
+    RestoreAccountDataDump,
     UpdateFeatures,
     UpdateLimits,
     UpdateResourceGroups,

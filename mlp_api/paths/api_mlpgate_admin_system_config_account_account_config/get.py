@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.model_info_data import ModelInfoData
+from mlp_api.model.account_config_dump import AccountConfigDump
 
 from . import path
 
@@ -55,13 +55,11 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     schema=MLPAPIKEYSchema,
 )
 # Path params
-AccountFieldSchema = schemas.StrSchema
-ModelFieldSchema = schemas.StrSchema
+AccountSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
-        'accountField': typing.Union[AccountFieldSchema, str, ],
-        'modelField': typing.Union[ModelFieldSchema, str, ],
+        'account': typing.Union[AccountSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -76,19 +74,13 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
     pass
 
 
-request_path_account_field = api_client.PathParameter(
-    name="accountField",
+request_path_account = api_client.PathParameter(
+    name="account",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=AccountFieldSchema,
+    schema=AccountSchema,
     required=True,
 )
-request_path_model_field = api_client.PathParameter(
-    name="modelField",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelFieldSchema,
-    required=True,
-)
-SchemaFor200ResponseBodyApplicationJson = ModelInfoData
+SchemaFor200ResponseBodyApplicationJson = AccountConfigDump
 
 
 @dataclass
@@ -117,7 +109,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_model_info_old_oapg(
+    def _get_account_config_dump_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -130,7 +122,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_model_info_old_oapg(
+    def _get_account_config_dump_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -141,7 +133,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_model_info_old_oapg(
+    def _get_account_config_dump_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -154,7 +146,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_model_info_old_oapg(
+    def _get_account_config_dump_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -174,8 +166,7 @@ class BaseApi(api_client.Api):
 
         _path_params = {}
         for parameter in (
-            request_path_account_field,
-            request_path_model_field,
+            request_path_account,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -227,11 +218,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetModelInfoOld(BaseApi):
+class GetAccountConfigDump(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_model_info_old(
+    def get_account_config_dump(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -244,7 +235,7 @@ class GetModelInfoOld(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_model_info_old(
+    def get_account_config_dump(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -255,7 +246,7 @@ class GetModelInfoOld(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_model_info_old(
+    def get_account_config_dump(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -268,7 +259,7 @@ class GetModelInfoOld(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_model_info_old(
+    def get_account_config_dump(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -277,7 +268,7 @@ class GetModelInfoOld(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_model_info_old_oapg(
+        return self._get_account_config_dump_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -337,7 +328,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_model_info_old_oapg(
+        return self._get_account_config_dump_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
