@@ -38,57 +38,57 @@ class DifferenceIAccountConfigDump(
         class properties:
         
             @staticmethod
-            def before() -> typing.Type['AccountConfigDump']:
+            def after() -> typing.Type['AccountConfigDump']:
                 return AccountConfigDump
         
             @staticmethod
-            def after() -> typing.Type['AccountConfigDump']:
+            def before() -> typing.Type['AccountConfigDump']:
                 return AccountConfigDump
             __annotations__ = {
-                "before": before,
                 "after": after,
+                "before": before,
             }
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["before"]) -> 'AccountConfigDump': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["after"]) -> 'AccountConfigDump': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["before"]) -> 'AccountConfigDump': ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["before", "after", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["after", "before", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["before"]) -> typing.Union['AccountConfigDump', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["after"]) -> typing.Union['AccountConfigDump', schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["after"]) -> typing.Union['AccountConfigDump', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["before"]) -> typing.Union['AccountConfigDump', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["before", "after", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["after", "before", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        before: typing.Union['AccountConfigDump', schemas.Unset] = schemas.unset,
         after: typing.Union['AccountConfigDump', schemas.Unset] = schemas.unset,
+        before: typing.Union['AccountConfigDump', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'DifferenceIAccountConfigDump':
         return super().__new__(
             cls,
             *_args,
-            before=before,
             after=after,
+            before=before,
             _configuration=_configuration,
             **kwargs,
         )
