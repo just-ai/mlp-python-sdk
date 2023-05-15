@@ -29,6 +29,7 @@ from mlp_api.model.paged_model_info_data import PagedModelInfoData
 
 # Query params
 OnlyMySchema = schemas.BoolSchema
+WithFavoritesSchema = schemas.BoolSchema
 AccountFieldSchema = schemas.StrSchema
 ModelFieldSchema = schemas.StrSchema
 OnlyPublicSchema = schemas.BoolSchema
@@ -47,6 +48,7 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'onlyMy': typing.Union[OnlyMySchema, bool, ],
+        'withFavorites': typing.Union[WithFavoritesSchema, bool, ],
         'accountField': typing.Union[AccountFieldSchema, str, ],
         'modelField': typing.Union[ModelFieldSchema, str, ],
         'onlyPublic': typing.Union[OnlyPublicSchema, bool, ],
@@ -69,6 +71,12 @@ request_query_only_my = api_client.QueryParameter(
     name="onlyMy",
     style=api_client.ParameterStyle.FORM,
     schema=OnlyMySchema,
+    explode=True,
+)
+request_query_with_favorites = api_client.QueryParameter(
+    name="withFavorites",
+    style=api_client.ParameterStyle.FORM,
+    schema=WithFavoritesSchema,
     explode=True,
 )
 request_query_account_field = api_client.QueryParameter(
@@ -234,6 +242,7 @@ class BaseApi(api_client.Api):
         prefix_separator_iterator = None
         for parameter in (
             request_query_only_my,
+            request_query_with_favorites,
             request_query_account_field,
             request_query_model_field,
             request_query_only_public,

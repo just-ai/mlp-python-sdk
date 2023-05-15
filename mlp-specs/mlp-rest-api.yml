@@ -387,6 +387,11 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: withFavorites
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: accountField
         in: query
         required: false
@@ -2896,6 +2901,11 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: withFavorites
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: accountField
         in: query
         required: false
@@ -4441,9 +4451,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -4737,9 +4747,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
