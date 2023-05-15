@@ -1976,7 +1976,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: name
+      - name: datasetName
         in: query
         required: true
         schema:
@@ -5378,12 +5378,12 @@ components:
           type: string
     CreateOrUpdateDatasetInfoData:
       required:
-      - name
+      - datasetName
       type: object
       properties:
         id:
           $ref: '#/components/schemas/DatasetPK'
-        name:
+        datasetName:
           type: string
         description:
           type: string
