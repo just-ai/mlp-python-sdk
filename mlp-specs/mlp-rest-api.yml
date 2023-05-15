@@ -387,6 +387,11 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: withFavorites
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: accountField
         in: query
         required: false
@@ -2892,6 +2897,11 @@ paths:
       operationId: getPublicModels
       parameters:
       - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: withFavorites
         in: query
         required: false
         schema:
