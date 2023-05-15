@@ -29,13 +29,13 @@ from mlp_api.model.paged_model_info_data import PagedModelInfoData
 
 # Query params
 OnlyMySchema = schemas.BoolSchema
-WithFavoritesSchema = schemas.BoolSchema
 AccountFieldSchema = schemas.StrSchema
 ModelFieldSchema = schemas.StrSchema
 OnlyPublicSchema = schemas.BoolSchema
 GroupIdSchema = schemas.Int64Schema
 TaskTypeSchema = schemas.StrSchema
 LanguageSchema = schemas.StrSchema
+WithFavoritesSchema = schemas.BoolSchema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
@@ -48,13 +48,13 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
         'onlyMy': typing.Union[OnlyMySchema, bool, ],
-        'withFavorites': typing.Union[WithFavoritesSchema, bool, ],
         'accountField': typing.Union[AccountFieldSchema, str, ],
         'modelField': typing.Union[ModelFieldSchema, str, ],
         'onlyPublic': typing.Union[OnlyPublicSchema, bool, ],
         'groupId': typing.Union[GroupIdSchema, decimal.Decimal, int, ],
         'taskType': typing.Union[TaskTypeSchema, str, ],
         'language': typing.Union[LanguageSchema, str, ],
+        'withFavorites': typing.Union[WithFavoritesSchema, bool, ],
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
@@ -71,12 +71,6 @@ request_query_only_my = api_client.QueryParameter(
     name="onlyMy",
     style=api_client.ParameterStyle.FORM,
     schema=OnlyMySchema,
-    explode=True,
-)
-request_query_with_favorites = api_client.QueryParameter(
-    name="withFavorites",
-    style=api_client.ParameterStyle.FORM,
-    schema=WithFavoritesSchema,
     explode=True,
 )
 request_query_account_field = api_client.QueryParameter(
@@ -113,6 +107,12 @@ request_query_language = api_client.QueryParameter(
     name="language",
     style=api_client.ParameterStyle.FORM,
     schema=LanguageSchema,
+    explode=True,
+)
+request_query_with_favorites = api_client.QueryParameter(
+    name="withFavorites",
+    style=api_client.ParameterStyle.FORM,
+    schema=WithFavoritesSchema,
     explode=True,
 )
 request_query_page = api_client.QueryParameter(
@@ -242,13 +242,13 @@ class BaseApi(api_client.Api):
         prefix_separator_iterator = None
         for parameter in (
             request_query_only_my,
-            request_query_with_favorites,
             request_query_account_field,
             request_query_model_field,
             request_query_only_public,
             request_query_group_id,
             request_query_task_type,
             request_query_language,
+            request_query_with_favorites,
             request_query_page,
             request_query_size,
             request_query_sort,

@@ -387,11 +387,6 @@ paths:
         required: false
         schema:
           type: boolean
-      - name: withFavorites
-        in: query
-        required: false
-        schema:
-          type: boolean
       - name: accountField
         in: query
         required: false
@@ -423,6 +418,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: withFavorites
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
@@ -2901,11 +2901,6 @@ paths:
         required: false
         schema:
           type: boolean
-      - name: withFavorites
-        in: query
-        required: false
-        schema:
-          type: boolean
       - name: accountField
         in: query
         required: false
@@ -2937,6 +2932,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: withFavorites
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: page
         in: query
         required: false
