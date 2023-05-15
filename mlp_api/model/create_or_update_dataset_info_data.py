@@ -35,11 +35,11 @@ class CreateOrUpdateDatasetInfoData(
 
     class MetaOapg:
         required = {
-            "datasetName",
+            "name",
         }
         
         class properties:
-            datasetName = schemas.StrSchema
+            name = schemas.StrSchema
         
             @staticmethod
             def id() -> typing.Type['DatasetPK']:
@@ -73,17 +73,17 @@ class CreateOrUpdateDatasetInfoData(
                 def RESTRICTED(cls):
                     return cls("restricted")
             __annotations__ = {
-                "datasetName": datasetName,
+                "name": name,
                 "id": id,
                 "description": description,
                 "dataType": dataType,
                 "accessMode": accessMode,
             }
     
-    datasetName: MetaOapg.properties.datasetName
+    name: MetaOapg.properties.name
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["datasetName"]) -> MetaOapg.properties.datasetName: ...
+    def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["id"]) -> 'DatasetPK': ...
@@ -100,13 +100,13 @@ class CreateOrUpdateDatasetInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["datasetName", "id", "description", "dataType", "accessMode", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "accessMode", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["datasetName"]) -> MetaOapg.properties.datasetName: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["id"]) -> typing.Union['DatasetPK', schemas.Unset]: ...
@@ -123,14 +123,14 @@ class CreateOrUpdateDatasetInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["datasetName", "id", "description", "dataType", "accessMode", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "id", "description", "dataType", "accessMode", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        datasetName: typing.Union[MetaOapg.properties.datasetName, str, ],
+        name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union['DatasetPK', schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
         dataType: typing.Union[MetaOapg.properties.dataType, str, schemas.Unset] = schemas.unset,
@@ -141,7 +141,7 @@ class CreateOrUpdateDatasetInfoData(
         return super().__new__(
             cls,
             *_args,
-            datasetName=datasetName,
+            name=name,
             id=id,
             description=description,
             dataType=dataType,

@@ -5378,12 +5378,12 @@ components:
           type: string
     CreateOrUpdateDatasetInfoData:
       required:
-      - datasetName
+      - name
       type: object
       properties:
         id:
           $ref: '#/components/schemas/DatasetPK'
-        datasetName:
+        name:
           type: string
         description:
           type: string
