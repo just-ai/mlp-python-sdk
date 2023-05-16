@@ -55,15 +55,13 @@ message ServiceToGateProto {
     FitResponseProto fit = 102;
     ExtendedResponseProto ext = 103;
 
-    RefreshResponseProto refresh = 104;
-
     StatusResponseProto status = 105;
 
     BatchResponseProto batch = 106;
 
-    ApiErrorProto error = 201;
+    PartialPredictResponseProto partialPredict = 107;
 
-    PipelineRequestProto request = 301;
+    ApiErrorProto error = 201;
   }
 
   map<string, string> headers = 1000;
@@ -81,15 +79,13 @@ message GateToServiceProto {
     FitRequestProto fit = 102;
     ExtendedRequestProto ext = 103;
 
-    RefreshRequestProto refresh = 104;
-
     StatusRequestProto status = 105;
 
     BatchRequestProto batch = 106;
 
-    ApiErrorProto error = 201;
+    PartialPredictRequestProto partialPredict = 107;
 
-    PipelineResponseProto response = 301;
+    ApiErrorProto error = 201;
   }
 
   map<string, string> headers = 1000;
@@ -116,6 +112,13 @@ message PredictRequestProto {
   optional PayloadProto config = 102;
 }
 
+message PartialPredictRequestProto {
+  PayloadProto data = 101;
+  optional PayloadProto config = 102;
+  optional bool start = 103;
+  optional bool finish = 104;
+}
+
 message BatchRequestProto {
   repeated BatchPayloadProto data = 101;
   optional PayloadProto config = 102;
@@ -123,6 +126,12 @@ message BatchRequestProto {
 
 message PredictResponseProto {
   PayloadProto data = 101;
+}
+
+message PartialPredictResponseProto {
+  PayloadProto data = 101;
+  optional bool start = 103;
+  optional bool finish = 104;
 }
 
 message BatchResponseProto {
@@ -172,13 +181,6 @@ message BatchPayloadResponseProto {
   }
 }
 
-message RefreshRequestProto {
-  optional string modelDir = 1;
-}
-
-message RefreshResponseProto {
-}
-
 message StatusRequestProto {
 }
 
@@ -225,8 +227,6 @@ message ClientRequestProto {
 
   oneof body {
     PredictRequestProto predict = 101;
-    // структуру запроса и логику обработки для метода fit надо будет доработать.
-    // Нужно как-то передавать имя целевой модели, которая будет создана или обновлена после обучения
     ExtendedRequestProto ext = 103;
   }
 
@@ -242,27 +242,6 @@ message ClientResponseProto {
   }
 
   map<string, string> headers = 1000;
-}
-
-message PipelineRequestProto {
-  string account = 1;
-  string model = 2;
-
-  oneof body {
-    PredictRequestProto predict = 101;
-    ExtendedRequestProto ext = 102;
-    ClientTokenRequestProto token = 103;
-  }
-}
-
-message PipelineResponseProto {
-  oneof body {
-    PredictResponseProto predict = 101;
-    ExtendedResponseProto ext = 102;
-    ClientTokenResponseProto token = 103;
-
-    ApiErrorProto error = 201;
-  }
 }
 
 message ClientTokenRequestProto {
