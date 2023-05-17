@@ -7,6 +7,34 @@ servers:
   description: Generated server url
 paths:
   /p/{accountField}/{modelField}:
+    get:
+      tags:
+      - process-endpoint
+      operationId: getModelInfoOld
+      parameters:
+      - name: accountField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelField
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
     post:
       tags:
       - process-endpoint
@@ -355,6 +383,11 @@ paths:
         schema:
           type: string
       - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: withFavorites
         in: query
         required: false
         schema:
@@ -1943,7 +1976,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: name
+      - name: datasetName
         in: query
         required: true
         schema:
@@ -2864,6 +2897,11 @@ paths:
       operationId: getPublicModels
       parameters:
       - name: onlyMy
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: withFavorites
         in: query
         required: false
         schema:
@@ -4468,6 +4506,9 @@ components:
         timeWaitMs:
           type: integer
           format: int64
+        maxLengthToSkip:
+          type: integer
+          format: int64
     ModelDump:
       required:
       - asPublicSettingsData
@@ -4628,6 +4669,9 @@ components:
           items:
             type: integer
             format: int64
+        maxRetriesPerInstance:
+          type: integer
+          format: int32
     ModelTimeoutsData:
       required:
       - podStartTimeoutSec

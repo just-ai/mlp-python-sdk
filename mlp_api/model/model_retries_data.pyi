@@ -64,9 +64,11 @@ class ModelRetriesData(
             
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            maxRetriesPerInstance = schemas.Int32Schema
             __annotations__ = {
                 "maxRetries": maxRetries,
                 "timeoutsMs": timeoutsMs,
+                "maxRetriesPerInstance": maxRetriesPerInstance,
             }
     
     maxRetries: MetaOapg.properties.maxRetries
@@ -79,9 +81,12 @@ class ModelRetriesData(
     def __getitem__(self, name: typing_extensions.Literal["timeoutsMs"]) -> MetaOapg.properties.timeoutsMs: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["maxRetriesPerInstance"]) -> MetaOapg.properties.maxRetriesPerInstance: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["maxRetries", "timeoutsMs", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["maxRetries", "timeoutsMs", "maxRetriesPerInstance", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -93,9 +98,12 @@ class ModelRetriesData(
     def get_item_oapg(self, name: typing_extensions.Literal["timeoutsMs"]) -> MetaOapg.properties.timeoutsMs: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["maxRetriesPerInstance"]) -> typing.Union[MetaOapg.properties.maxRetriesPerInstance, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["maxRetries", "timeoutsMs", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["maxRetries", "timeoutsMs", "maxRetriesPerInstance", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -104,6 +112,7 @@ class ModelRetriesData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         maxRetries: typing.Union[MetaOapg.properties.maxRetries, decimal.Decimal, int, ],
         timeoutsMs: typing.Union[MetaOapg.properties.timeoutsMs, list, tuple, ],
+        maxRetriesPerInstance: typing.Union[MetaOapg.properties.maxRetriesPerInstance, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelRetriesData':
@@ -112,6 +121,7 @@ class ModelRetriesData(
             *_args,
             maxRetries=maxRetries,
             timeoutsMs=timeoutsMs,
+            maxRetriesPerInstance=maxRetriesPerInstance,
             _configuration=_configuration,
             **kwargs,
         )
