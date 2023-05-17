@@ -36,6 +36,7 @@ class MlpServiceConnector:
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
+        self.service_info = None
         self.action_to_gate_queue = queue.Queue()
         self.stopping_event = None
         self.channel = None
@@ -159,7 +160,7 @@ class MlpServiceConnector:
         if req_type is None:
             self.log.error("Request with empty body", extra={'requestId': request.requestId})
         elif req_type == 'serviceInfo':
-            self.sdk.pipeline_client.service_info = request.serviceInfo
+            self.sdk.service_info = request.serviceInfo
         elif req_type == 'heartBeat':
             self.last_heartbeat_from_gate = time.time()
 
@@ -174,8 +175,6 @@ class MlpServiceConnector:
             self.sdk.update_connectors(request.cluster.servers)
         elif req_type in ['predict', 'fit', 'ext', 'batch']:
             self.sdk.process_request_async(req_type, request, self)
-        elif req_type == 'response':
-            self.sdk.pipeline_client.registry_response(request.requestId, request.response)
         else:
             self.sdk.handle_unknown_request(req_type, request, self)
 
@@ -231,7 +230,6 @@ class MlpServiceSDK:
         self.client_api_url: str = ''
         self.client_api_token: str = ''
         self.connectors_lock = threading.Lock()
-        self.pipeline_client = PipelineClient(self)
         self.connection_token: str = ''
 
         self.requests_executor = ThreadPoolExecutor(max_workers=CONFIG["sdk"]["requests_executor_pool_size"])
@@ -586,101 +584,6 @@ class MlpServiceSDK:
         else:
             res.protobuf = bytes(data)
         return res
-
-
-class PipelineClient:
-
-    def __init__(self, sdk: MlpServiceSDK):
-        self._last_request_id = 0
-        self.active_requests = {}
-        self.scheduler = sched.scheduler(time.time, time.sleep)
-        self.sdk = sdk
-        self._request_id_lock = threading.Lock()
-        self.service_info = None
-        self.log = get_logger('PipelineClient', CONFIG["logging"]["level"])
-
-    def get_api_client(self):
-        if self.sdk.client_api_token is None or self.sdk.client_api_token == "":
-            raise Exception("API client token is not set. Your service should be composite")
-
-        if self.sdk.client_api_url is None or self.sdk.client_api_url == "":
-            raise Exception("API client url is not set")
-
-        configuration = Configuration(host=self.sdk.client_api_url)
-        return ApiClient(configuration, "MLP-API-KEY", self.sdk.client_api_token)
-
-    def predict(self, account: Optional[str], model: str, data: str, config: Optional[str]) -> Future:
-        client_proto = self.__build_predict_request_proto(account, model, data, config)
-
-        return self.send_request(client_proto)
-
-    def ext(self, account: Optional[str], model: str, methodName: str, data: typing.Dict[str, typing.Any]) -> Future:
-        client_proto = self.__build_ext_request_proto(account, model, methodName, data)
-
-        return self.send_request(client_proto)
-
-    def send_request(self, client_proto: mlp_grpc_pb2.PipelineRequestProto) -> Future:
-        with self._request_id_lock:
-            request_id = self._last_request_id
-            self._last_request_id -= 1
-
-        action_to_gate_proto = mlp_grpc_pb2.ServiceToGateProto(
-            requestId=request_id,
-            request=client_proto
-        )
-
-        sent = False
-        for connector in self.sdk.connectors:
-            if connector.state == State.serving:
-                connector.action_to_gate_queue.put_nowait(action_to_gate_proto)
-                sent = True
-                break
-
-        if not sent:
-            raise RuntimeError('There is no active connector')
-
-        future: Future = Future()
-        self.active_requests[request_id] = future
-        self.scheduler.enter(60, 1, self.__remove_request_future, argument=(request_id,))
-
-        return future
-
-    @staticmethod
-    def __build_predict_request_proto(account: Optional[str], model, data, config):
-        proto = mlp_grpc_pb2.PipelineRequestProto(
-            model=model,
-            predict=mlp_grpc_pb2.PredictRequestProto(
-                data=mlp_grpc_pb2.PayloadProto(json=data),
-                config=mlp_grpc_pb2.PayloadProto(json=config),
-            )
-        )
-        if account is not None:
-            proto.account = account
-
-        return proto
-
-    @staticmethod
-    def __build_ext_request_proto(account: Optional[str], model, method_name, data):
-        proto = mlp_grpc_pb2.PipelineRequestProto(
-            model=model,
-            ext=mlp_grpc_pb2.ExtendedRequestProto(
-                methodName=method_name,
-                params={k: mlp_grpc_pb2.PayloadProto(json=v) for k, v in data.items()}
-            )
-        )
-        if account is not None:
-            proto.account = account
-
-        return proto
-
-    def registry_response(self, request_id: int, response_proto: mlp_grpc_pb2.PipelineResponseProto):
-        result_future: Future = self.active_requests.get(request_id)
-        if result_future is not None:
-            result_future.set_result(response_proto)
-
-    def __remove_request_future(self, request_id: int):
-        del self.active_requests[request_id]
-
 
 class MlpException(Exception):
     def __init__(self, message: str, code: Optional[str] = None):
