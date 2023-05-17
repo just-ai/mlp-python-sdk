@@ -49,7 +49,7 @@ pipeline {
                 sh "./generate-protobuf.sh"
                 sh "./generate-api-client.sh"
 
-                sh "docker images --digests | grep openapitools/openapi-generator-cli"
+//                 sh "docker images --digests | grep openapitools/openapi-generator-cli"
                 sh "git add mlp_api"
                 sh "git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc"
                 sh "git push"
