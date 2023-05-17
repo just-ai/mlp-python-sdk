@@ -1968,7 +1968,7 @@ paths:
     post:
       tags:
       - dataset-endpoint
-      operationId: createDataset
+      operationId: deprecatedCreateDataset
       parameters:
       - name: account
         in: path
@@ -1976,30 +1976,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: datasetName
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: description
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: dataType
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: accessMode
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-          - private
-          - public
-          - restricted
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -2008,13 +1984,10 @@ paths:
           type: string
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
+              $ref: '#/components/schemas/DeprecatedDatasetInfoWithContentData'
+        required: true
       responses:
         "200":
           description: OK
@@ -2022,6 +1995,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
+      deprecated: true
   /api/mlpgate/account/{account}/dataset/{datasetId}:
     get:
       tags:
@@ -2053,6 +2027,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: deprecatedUpdateDataset
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: datasetId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeprecatedDatasetInfoWithContentData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+      deprecated: true
+    delete:
+      tags:
+      - dataset-endpoint
+      operationId: deleteDataset
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: datasetId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/dataset/{datasetId}/raw:
     post:
       tags:
       - dataset-endpoint
@@ -2089,32 +2127,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatasetInfoData'
-    delete:
-      tags:
-      - dataset-endpoint
-      operationId: deleteDataset
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: datasetId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpgate/account/{account}/dataset/{datasetId}/paraphrase:
     post:
       tags:
@@ -2212,6 +2224,64 @@ paths:
             schema:
               required:
               - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/dataset/raw:
+    post:
+      tags:
+      - dataset-endpoint
+      operationId: createDataset
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: datasetName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: dataType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accessMode
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
               type: object
               properties:
                 file:
@@ -5384,6 +5454,19 @@ components:
         contacts:
           type: string
         comment:
+          type: string
+    DeprecatedDatasetInfoWithContentData:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+        content:
           type: string
     CreateOrUpdateDatasetInfoData:
       required:
