@@ -6,6 +6,7 @@ from typing import Dict, Optional, List
 import grpc
 import yaml
 from mlp_api.apis.tags import model_endpoint_api
+from mlp_api.apis.tags import process_endpoint_api
 
 from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
@@ -20,8 +21,8 @@ CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)
 class MlpClientSDK:
 
     def __init__(self):
-        self.account_id = os.environ['MLP_ACCOUNT_ID']
-        self.model_id = os.environ['MLP_MODEL_ID']
+        self.account_id = os.environ.get('MLP_ACCOUNT_ID')
+        self.model_id = os.environ.get('MLP_MODEL_ID')
         self.urls = None
         self.token = None
         self.grpc_secure = None
@@ -29,9 +30,9 @@ class MlpClientSDK:
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
-        self.urls: List[str] = os.environ['MLP_GRPC_HOST'].split(",") if not urls else urls
+        self.urls: List[str] = os.environ.get('MLP_GRPC_HOST', 'gate.caila.io').split(",") if not urls else urls
         self.token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
-        self.grpc_secure = os.environ['MLP_GRPC_SECURE'].lower() == 'true' if not grpc_secure else grpc_secure
+        self.grpc_secure = os.environ.get('MLP_GRPC_SECURE', 'true').lower() == 'true' if not grpc_secure else grpc_secure
         self.log.debug("Starting mpl client for url " + self.urls[0])
 
         self.__connect()
@@ -139,9 +140,9 @@ class MlpRestClient:
 
     def __init__(self, url: Optional[str] = None, token=None):
         self.log = get_logger('MlpRestClient', CONFIG["logging"]["level"])
-        self.account_id = os.environ['MLP_ACCOUNT_ID']
-        self.model_id = os.environ['MLP_MODEL_ID']
-        self.rest_url = os.environ['MLP_REST_URL'] if not url else url
+        self.account_id = os.environ.get('MLP_ACCOUNT_ID')
+        self.model_id = os.environ.get('MLP_MODEL_ID')
+        self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if not url else url
         self.client_token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
         self.log.debug("Creating mpl client with url " + self.rest_url)
 
@@ -149,6 +150,7 @@ class MlpRestClient:
         self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
 
         self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
+        self.processApi = process_endpoint_api.ProcessEndpointApi(self.api_client)
 
 class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
