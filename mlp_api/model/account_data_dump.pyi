@@ -38,6 +38,55 @@ class AccountDataDump(
         class properties:
             
             
+            class apiTokens(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'apiTokens':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
+            
+            
+            class modelGroups(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    @staticmethod
+                    def items() -> typing.Type['ModelGroupDump']:
+                        return ModelGroupDump
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple['ModelGroupDump'], typing.List['ModelGroupDump']],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'modelGroups':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> 'ModelGroupDump':
+                    return super().__getitem__(i)
+            
+            
             class images(
                 schemas.ListSchema
             ):
@@ -61,55 +110,6 @@ class AccountDataDump(
                     )
             
                 def __getitem__(self, i: int) -> 'ImageDump':
-                    return super().__getitem__(i)
-            
-            
-            class models(
-                schemas.ListSchema
-            ):
-            
-            
-                class MetaOapg:
-                    
-                    @staticmethod
-                    def items() -> typing.Type['ModelDump']:
-                        return ModelDump
-            
-                def __new__(
-                    cls,
-                    _arg: typing.Union[typing.Tuple['ModelDump'], typing.List['ModelDump']],
-                    _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'models':
-                    return super().__new__(
-                        cls,
-                        _arg,
-                        _configuration=_configuration,
-                    )
-            
-                def __getitem__(self, i: int) -> 'ModelDump':
-                    return super().__getitem__(i)
-            
-            
-            class apiTokens(
-                schemas.ListSchema
-            ):
-            
-            
-                class MetaOapg:
-                    items = schemas.StrSchema
-            
-                def __new__(
-                    cls,
-                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
-                    _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'apiTokens':
-                    return super().__new__(
-                        cls,
-                        _arg,
-                        _configuration=_configuration,
-                    )
-            
-                def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             
             
@@ -139,7 +139,7 @@ class AccountDataDump(
                     return super().__getitem__(i)
             
             
-            class modelGroups(
+            class models(
                 schemas.ListSchema
             ):
             
@@ -147,94 +147,94 @@ class AccountDataDump(
                 class MetaOapg:
                     
                     @staticmethod
-                    def items() -> typing.Type['ModelGroupDump']:
-                        return ModelGroupDump
+                    def items() -> typing.Type['ModelDump']:
+                        return ModelDump
             
                 def __new__(
                     cls,
-                    _arg: typing.Union[typing.Tuple['ModelGroupDump'], typing.List['ModelGroupDump']],
+                    _arg: typing.Union[typing.Tuple['ModelDump'], typing.List['ModelDump']],
                     _configuration: typing.Optional[schemas.Configuration] = None,
-                ) -> 'modelGroups':
+                ) -> 'models':
                     return super().__new__(
                         cls,
                         _arg,
                         _configuration=_configuration,
                     )
             
-                def __getitem__(self, i: int) -> 'ModelGroupDump':
+                def __getitem__(self, i: int) -> 'ModelDump':
                     return super().__getitem__(i)
             __annotations__ = {
-                "images": images,
-                "models": models,
                 "apiTokens": apiTokens,
-                "dataImages": dataImages,
                 "modelGroups": modelGroups,
+                "images": images,
+                "dataImages": dataImages,
+                "models": models,
             }
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["images"]) -> MetaOapg.properties.images: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["models"]) -> MetaOapg.properties.models: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["apiTokens"]) -> MetaOapg.properties.apiTokens: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["modelGroups"]) -> MetaOapg.properties.modelGroups: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["images"]) -> MetaOapg.properties.images: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["dataImages"]) -> MetaOapg.properties.dataImages: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["modelGroups"]) -> MetaOapg.properties.modelGroups: ...
+    def __getitem__(self, name: typing_extensions.Literal["models"]) -> MetaOapg.properties.models: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["images", "models", "apiTokens", "dataImages", "modelGroups", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["images"]) -> typing.Union[MetaOapg.properties.images, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["models"]) -> typing.Union[MetaOapg.properties.models, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["apiTokens"]) -> typing.Union[MetaOapg.properties.apiTokens, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["dataImages"]) -> typing.Union[MetaOapg.properties.dataImages, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["modelGroups"]) -> typing.Union[MetaOapg.properties.modelGroups, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["images"]) -> typing.Union[MetaOapg.properties.images, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["dataImages"]) -> typing.Union[MetaOapg.properties.dataImages, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["models"]) -> typing.Union[MetaOapg.properties.models, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["images", "models", "apiTokens", "dataImages", "modelGroups", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        images: typing.Union[MetaOapg.properties.images, list, tuple, schemas.Unset] = schemas.unset,
-        models: typing.Union[MetaOapg.properties.models, list, tuple, schemas.Unset] = schemas.unset,
         apiTokens: typing.Union[MetaOapg.properties.apiTokens, list, tuple, schemas.Unset] = schemas.unset,
-        dataImages: typing.Union[MetaOapg.properties.dataImages, list, tuple, schemas.Unset] = schemas.unset,
         modelGroups: typing.Union[MetaOapg.properties.modelGroups, list, tuple, schemas.Unset] = schemas.unset,
+        images: typing.Union[MetaOapg.properties.images, list, tuple, schemas.Unset] = schemas.unset,
+        dataImages: typing.Union[MetaOapg.properties.dataImages, list, tuple, schemas.Unset] = schemas.unset,
+        models: typing.Union[MetaOapg.properties.models, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AccountDataDump':
         return super().__new__(
             cls,
             *_args,
-            images=images,
-            models=models,
             apiTokens=apiTokens,
-            dataImages=dataImages,
             modelGroups=modelGroups,
+            images=images,
+            dataImages=dataImages,
+            models=models,
             _configuration=_configuration,
             **kwargs,
         )
