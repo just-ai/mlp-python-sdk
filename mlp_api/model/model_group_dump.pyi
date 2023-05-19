@@ -35,30 +35,16 @@ class ModelGroupDump(
 
     class MetaOapg:
         required = {
-            "accountId",
-            "groupId",
             "name",
         }
         
         class properties:
-            accountId = schemas.Int64Schema
-            groupId = schemas.Int64Schema
             name = schemas.StrSchema
             __annotations__ = {
-                "accountId": accountId,
-                "groupId": groupId,
                 "name": name,
             }
     
-    accountId: MetaOapg.properties.accountId
-    groupId: MetaOapg.properties.groupId
     name: MetaOapg.properties.name
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["accountId"]) -> MetaOapg.properties.accountId: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["groupId"]) -> MetaOapg.properties.groupId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -66,16 +52,10 @@ class ModelGroupDump(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "groupId", "name", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["accountId"]) -> MetaOapg.properties.accountId: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["groupId"]) -> MetaOapg.properties.groupId: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -83,15 +63,13 @@ class ModelGroupDump(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "groupId", "name", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, ],
-        groupId: typing.Union[MetaOapg.properties.groupId, decimal.Decimal, int, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -99,8 +77,6 @@ class ModelGroupDump(
         return super().__new__(
             cls,
             *_args,
-            accountId=accountId,
-            groupId=groupId,
             name=name,
             _configuration=_configuration,
             **kwargs,
