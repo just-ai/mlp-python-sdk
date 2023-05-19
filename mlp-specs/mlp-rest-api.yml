@@ -4679,17 +4679,9 @@ components:
           $ref: '#/components/schemas/ModelPublicSettingsData'
     ModelGroupDump:
       required:
-      - accountId
-      - groupId
       - name
       type: object
       properties:
-        accountId:
-          type: integer
-          format: int64
-        groupId:
-          type: integer
-          format: int64
         name:
           type: string
     ModelLimitsData:
