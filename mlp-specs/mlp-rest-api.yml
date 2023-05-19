@@ -4467,26 +4467,26 @@ components:
     AccountDataDump:
       type: object
       properties:
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageDump'
-        models:
-          type: array
-          items:
-            $ref: '#/components/schemas/ModelDump'
         apiTokens:
           type: array
           items:
             type: string
-        dataImages:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataImageDump'
         modelGroups:
           type: array
           items:
             $ref: '#/components/schemas/ModelGroupDump'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageDump'
+        dataImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageDump'
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelDump'
     DataImageDump:
       required:
       - dataPath
