@@ -62,6 +62,9 @@ message ServiceToGateProto {
     PartialPredictResponseProto partialPredict = 107;
 
     ApiErrorProto error = 201;
+
+    // TODO Deprecated
+    PipelineRequestProto request = 301;
   }
 
   map<string, string> headers = 1000;
@@ -74,6 +77,7 @@ message GateToServiceProto {
     HeartBeatProto heartBeat = 2;
     ClusterUpdateProto cluster = 3;
     ServiceInfoProto serviceInfo = 4;
+    StopServingProto stopServing = 5;
 
     PredictRequestProto predict = 101;
     FitRequestProto fit = 102;
@@ -86,6 +90,9 @@ message GateToServiceProto {
     PartialPredictRequestProto partialPredict = 107;
 
     ApiErrorProto error = 201;
+
+    // TODO Deprecated
+    PipelineResponseProto response = 301;
   }
 
   map<string, string> headers = 1000;
@@ -105,6 +112,7 @@ message StartServingProto {
 }
 
 message StopServingProto {
+  optional string reason = 1;
 }
 
 message PredictRequestProto {
@@ -242,6 +250,29 @@ message ClientResponseProto {
   }
 
   map<string, string> headers = 1000;
+}
+
+// TODO Deprecated
+message PipelineRequestProto {
+  string account = 1;
+  string model = 2;
+
+  oneof body {
+    PredictRequestProto predict = 101;
+    ExtendedRequestProto ext = 102;
+    ClientTokenRequestProto token = 103;
+  }
+}
+
+// TODO Deprecated
+message PipelineResponseProto {
+  oneof body {
+    PredictResponseProto predict = 101;
+    ExtendedResponseProto ext = 102;
+    ClientTokenResponseProto token = 103;
+
+    ApiErrorProto error = 201;
+  }
 }
 
 message ClientTokenRequestProto {
