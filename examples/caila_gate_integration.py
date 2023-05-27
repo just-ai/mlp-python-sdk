@@ -1,4 +1,5 @@
 import sys
+import threading
 from typing import Type
 
 from pydantic import BaseModel
@@ -6,7 +7,7 @@ from pydantic import BaseModel
 from mlp_sdk.abstract import Task
 from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.types import Items, Item, TextsCollection
-
+from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 
 class MyCustomPredictSchema(BaseModel):
     top_n: int
@@ -18,11 +19,13 @@ class MyCustomTask(Task):
         return BaseModel
 
     def predict(self, data: TextsCollection, config: BaseModel) -> Items:
-        result = Items(items=[Item("a")] * len(data.texts))
+        items = [Item(value="a")] * len(data.texts)
+        result = Items(items=items)
+
+        MlpResponseHeaders.headers["Z-custom-billing"] = "101"
+
         return result
 
 
 if __name__ == '__main__':
-    url = sys.argv[1]
-    token = sys.argv[2]
-    host_mlp_cloud(task=MyCustomTask, params=BaseModel(), url=url, connection_token=token)
+    host_mlp_cloud(task=MyCustomTask, params=BaseModel())

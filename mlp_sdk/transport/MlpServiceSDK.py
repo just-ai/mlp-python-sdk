@@ -9,6 +9,7 @@ import typing
 from concurrent.futures import Future, ThreadPoolExecutor
 from enum import Enum
 from inspect import signature
+from threading import local
 from typing import Optional
 
 import grpc
@@ -24,6 +25,7 @@ __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
 
+MlpResponseHeaders = threading.local()
 
 class MlpServiceConnector:
 
@@ -397,8 +399,13 @@ class MlpServiceSDK:
 
     def __process_request(self, req_type, request):
         if req_type == 'predict':
+            global MlpResponseHeaders
+            MlpResponseHeaders.__dict__.clear()
+            MlpResponseHeaders.headers = {}
+
             result = self.__handle_predict(request.predict)
-            return mlp_grpc_pb2.ServiceToGateProto(predict=result)
+
+            return mlp_grpc_pb2.ServiceToGateProto(predict=result, headers=MlpResponseHeaders.headers)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
             return mlp_grpc_pb2.ServiceToGateProto(fit=result)
