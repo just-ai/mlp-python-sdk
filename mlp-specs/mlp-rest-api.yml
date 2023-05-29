@@ -2248,7 +2248,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: name
+      - name: datasetName
         in: query
         required: true
         schema:
@@ -4576,6 +4576,9 @@ components:
         timeWaitMs:
           type: integer
           format: int64
+        maxLengthToSkip:
+          type: integer
+          format: int64
     ModelDump:
       required:
       - asPublicSettingsData
@@ -4728,6 +4731,9 @@ components:
           items:
             type: integer
             format: int64
+        maxRetriesPerInstance:
+          type: integer
+          format: int32
     ModelTimeoutsData:
       required:
       - podStartTimeoutSec
@@ -4738,6 +4744,9 @@ components:
           type: integer
           format: int64
         predictTimeoutSec:
+          type: integer
+          format: int64
+        fitTimeoutSec:
           type: integer
           format: int64
     PredictConfigDump:
