@@ -28,7 +28,7 @@ from mlp_api import schemas  # noqa: F401
 from mlp_api.model.dataset_info_data import DatasetInfoData
 
 # Query params
-NameSchema = schemas.StrSchema
+DatasetNameSchema = schemas.StrSchema
 DescriptionSchema = schemas.StrSchema
 DataTypeSchema = schemas.StrSchema
 
@@ -52,7 +52,7 @@ class AccessModeSchema(
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'name': typing.Union[NameSchema, str, ],
+        'datasetName': typing.Union[DatasetNameSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing_extensions.TypedDict(
@@ -70,10 +70,10 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
-request_query_name = api_client.QueryParameter(
-    name="name",
+request_query_dataset_name = api_client.QueryParameter(
+    name="datasetName",
     style=api_client.ParameterStyle.FORM,
-    schema=NameSchema,
+    schema=DatasetNameSchema,
     required=True,
     explode=True,
 )
@@ -331,7 +331,7 @@ class BaseApi(api_client.Api):
 
         prefix_separator_iterator = None
         for parameter in (
-            request_query_name,
+            request_query_dataset_name,
             request_query_description,
             request_query_data_type,
             request_query_access_mode,

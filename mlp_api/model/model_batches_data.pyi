@@ -42,9 +42,11 @@ class ModelBatchesData(
         class properties:
             batchSize = schemas.Int32Schema
             timeWaitMs = schemas.Int64Schema
+            maxLengthToSkip = schemas.Int64Schema
             __annotations__ = {
                 "batchSize": batchSize,
                 "timeWaitMs": timeWaitMs,
+                "maxLengthToSkip": maxLengthToSkip,
             }
     
     timeWaitMs: MetaOapg.properties.timeWaitMs
@@ -57,9 +59,12 @@ class ModelBatchesData(
     def __getitem__(self, name: typing_extensions.Literal["timeWaitMs"]) -> MetaOapg.properties.timeWaitMs: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["maxLengthToSkip"]) -> MetaOapg.properties.maxLengthToSkip: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["batchSize", "timeWaitMs", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["batchSize", "timeWaitMs", "maxLengthToSkip", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -71,9 +76,12 @@ class ModelBatchesData(
     def get_item_oapg(self, name: typing_extensions.Literal["timeWaitMs"]) -> MetaOapg.properties.timeWaitMs: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["maxLengthToSkip"]) -> typing.Union[MetaOapg.properties.maxLengthToSkip, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["batchSize", "timeWaitMs", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["batchSize", "timeWaitMs", "maxLengthToSkip", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -82,6 +90,7 @@ class ModelBatchesData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         timeWaitMs: typing.Union[MetaOapg.properties.timeWaitMs, decimal.Decimal, int, ],
         batchSize: typing.Union[MetaOapg.properties.batchSize, decimal.Decimal, int, ],
+        maxLengthToSkip: typing.Union[MetaOapg.properties.maxLengthToSkip, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelBatchesData':
@@ -90,6 +99,7 @@ class ModelBatchesData(
             *_args,
             timeWaitMs=timeWaitMs,
             batchSize=batchSize,
+            maxLengthToSkip=maxLengthToSkip,
             _configuration=_configuration,
             **kwargs,
         )
