@@ -55,15 +55,14 @@ message ServiceToGateProto {
     FitResponseProto fit = 102;
     ExtendedResponseProto ext = 103;
 
+    RefreshResponseProto refresh = 104;
+
     StatusResponseProto status = 105;
 
     BatchResponseProto batch = 106;
 
-    PartialPredictResponseProto partialPredict = 107;
-
     ApiErrorProto error = 201;
 
-    // TODO Deprecated
     PipelineRequestProto request = 301;
   }
 
@@ -77,21 +76,19 @@ message GateToServiceProto {
     HeartBeatProto heartBeat = 2;
     ClusterUpdateProto cluster = 3;
     ServiceInfoProto serviceInfo = 4;
-    StopServingProto stopServing = 5;
 
     PredictRequestProto predict = 101;
     FitRequestProto fit = 102;
     ExtendedRequestProto ext = 103;
 
+    RefreshRequestProto refresh = 104;
+
     StatusRequestProto status = 105;
 
     BatchRequestProto batch = 106;
 
-    PartialPredictRequestProto partialPredict = 107;
-
     ApiErrorProto error = 201;
 
-    // TODO Deprecated
     PipelineResponseProto response = 301;
   }
 
@@ -112,19 +109,11 @@ message StartServingProto {
 }
 
 message StopServingProto {
-  optional string reason = 1;
 }
 
 message PredictRequestProto {
   PayloadProto data = 101;
   optional PayloadProto config = 102;
-}
-
-message PartialPredictRequestProto {
-  PayloadProto data = 101;
-  optional PayloadProto config = 102;
-  optional bool start = 103;
-  optional bool finish = 104;
 }
 
 message BatchRequestProto {
@@ -134,12 +123,6 @@ message BatchRequestProto {
 
 message PredictResponseProto {
   PayloadProto data = 101;
-}
-
-message PartialPredictResponseProto {
-  PayloadProto data = 101;
-  optional bool start = 103;
-  optional bool finish = 104;
 }
 
 message BatchResponseProto {
@@ -189,6 +172,13 @@ message BatchPayloadResponseProto {
   }
 }
 
+message RefreshRequestProto {
+  optional string modelDir = 1;
+}
+
+message RefreshResponseProto {
+}
+
 message StatusRequestProto {
 }
 
@@ -235,6 +225,8 @@ message ClientRequestProto {
 
   oneof body {
     PredictRequestProto predict = 101;
+    // структуру запроса и логику обработки для метода fit надо будет доработать.
+    // Нужно как-то передавать имя целевой модели, которая будет создана или обновлена после обучения
     ExtendedRequestProto ext = 103;
   }
 
@@ -252,7 +244,6 @@ message ClientResponseProto {
   map<string, string> headers = 1000;
 }
 
-// TODO Deprecated
 message PipelineRequestProto {
   string account = 1;
   string model = 2;
@@ -264,7 +255,6 @@ message PipelineRequestProto {
   }
 }
 
-// TODO Deprecated
 message PipelineResponseProto {
   oneof body {
     PredictResponseProto predict = 101;
