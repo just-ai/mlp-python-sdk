@@ -1,5 +1,3 @@
-import sys
-import threading
 from typing import Type
 
 from pydantic import BaseModel
@@ -8,6 +6,7 @@ from mlp_sdk.abstract import Task
 from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.types import Items, Item, TextsCollection
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
+
 
 class MyCustomPredictSchema(BaseModel):
     top_n: int
