@@ -36,9 +36,28 @@ class ModelShortStatusData(
     class MetaOapg:
         required = {
             "instances",
+            "state",
         }
         
         class properties:
+            
+            
+            class state(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+                
+                @schemas.classproperty
+                def RUNNING(cls):
+                    return cls("RUNNING")
+                
+                @schemas.classproperty
+                def STARTING(cls):
+                    return cls("STARTING")
+                
+                @schemas.classproperty
+                def INACTIVE(cls):
+                    return cls("INACTIVE")
         
             @staticmethod
             def instances() -> typing.Type['InstancesStatusData']:
@@ -48,11 +67,16 @@ class ModelShortStatusData(
             def lastJob() -> typing.Type['JobStatusData']:
                 return JobStatusData
             __annotations__ = {
+                "state": state,
                 "instances": instances,
                 "lastJob": lastJob,
             }
     
     instances: 'InstancesStatusData'
+    state: MetaOapg.properties.state
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["state"]) -> MetaOapg.properties.state: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["instances"]) -> 'InstancesStatusData': ...
@@ -63,10 +87,13 @@ class ModelShortStatusData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["instances", "lastJob", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["state", "instances", "lastJob", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["state"]) -> MetaOapg.properties.state: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["instances"]) -> 'InstancesStatusData': ...
@@ -77,7 +104,7 @@ class ModelShortStatusData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["instances", "lastJob", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["state", "instances", "lastJob", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -85,6 +112,7 @@ class ModelShortStatusData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         instances: 'InstancesStatusData',
+        state: typing.Union[MetaOapg.properties.state, str, ],
         lastJob: typing.Union['JobStatusData', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -93,6 +121,7 @@ class ModelShortStatusData(
             cls,
             *_args,
             instances=instances,
+            state=state,
             lastJob=lastJob,
             _configuration=_configuration,
             **kwargs,
