@@ -5756,8 +5756,15 @@ components:
     ModelShortStatusData:
       required:
       - instances
+      - state
       type: object
       properties:
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
