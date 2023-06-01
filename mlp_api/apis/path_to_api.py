@@ -92,7 +92,9 @@ from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternal
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
 from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
 from mlp_api.apis.paths.api_mlpgate_internal_services import ApiMlpgateInternalServices
+from mlp_api.apis.paths.api_mlpgate_internal_pg_test_account import ApiMlpgateInternalPgTestAccount
 from mlp_api.apis.paths.api_mlpgate_internal_notify_account_user_user_id import ApiMlpgateInternalNotifyAccountUserUserId
+from mlp_api.apis.paths.api_mlpgate_internal_empty_test import ApiMlpgateInternalEmptyTest
 from mlp_api.apis.paths.api_mlpgate_internal_cluster import ApiMlpgateInternalCluster
 from mlp_api.apis.paths.api_mlpgate_internal_clear_public_for_all import ApiMlpgateInternalClearPublicForAll
 from mlp_api.apis.paths.api_mlpgate_internal_clear_instances import ApiMlpgateInternalClearInstances
@@ -200,7 +202,9 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,
+        PathValues.API_MLPGATEINTERNAL_PGTEST_ACCOUNT: ApiMlpgateInternalPgTestAccount,
         PathValues.API_MLPGATEINTERNAL_NOTIFY_ACCOUNT_USER_USER_ID: ApiMlpgateInternalNotifyAccountUserUserId,
+        PathValues.API_MLPGATEINTERNAL_EMPTYTEST: ApiMlpgateInternalEmptyTest,
         PathValues.API_MLPGATEINTERNAL_CLUSTER: ApiMlpgateInternalCluster,
         PathValues.API_MLPGATEINTERNAL_CLEARPUBLICFORALL: ApiMlpgateInternalClearPublicForAll,
         PathValues.API_MLPGATEINTERNAL_CLEARINSTANCES: ApiMlpgateInternalClearInstances,
@@ -309,7 +313,9 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,
+        PathValues.API_MLPGATEINTERNAL_PGTEST_ACCOUNT: ApiMlpgateInternalPgTestAccount,
         PathValues.API_MLPGATEINTERNAL_NOTIFY_ACCOUNT_USER_USER_ID: ApiMlpgateInternalNotifyAccountUserUserId,
+        PathValues.API_MLPGATEINTERNAL_EMPTYTEST: ApiMlpgateInternalEmptyTest,
         PathValues.API_MLPGATEINTERNAL_CLUSTER: ApiMlpgateInternalCluster,
         PathValues.API_MLPGATEINTERNAL_CLEARPUBLICFORALL: ApiMlpgateInternalClearPublicForAll,
         PathValues.API_MLPGATEINTERNAL_CLEARINSTANCES: ApiMlpgateInternalClearInstances,

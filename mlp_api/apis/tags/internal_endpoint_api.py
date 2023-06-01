@@ -25,6 +25,8 @@ from mlp_api.paths.api_mlpgate_internal_resource_groups.get import GetResourceGr
 from mlp_api.paths.api_mlpgate_internal_actions.get import ListAllConnectedActions
 from mlp_api.paths.api_mlpgate_internal_account_account_model_model_actions.get import ListConnectedActions
 from mlp_api.paths.api_mlpgate_internal_services.get import ListRegisteredServices
+from mlp_api.paths.api_mlpgate_internal_pg_test_account.get import PostgresTest
+from mlp_api.paths.api_mlpgate_internal_empty_test.get import PostgresTest1
 from mlp_api.paths.api_mlpgate_internal_notify_account_user_user_id.get import PushNotification
 from mlp_api.paths.api_mlpgate_internal_account_account_bucket_deny.post import RemoveBucketAccess
 from mlp_api.paths.api_mlpgate_internal_test_mail.get import SendTestEMail
@@ -53,6 +55,8 @@ class InternalEndpointApi(
     ListAllConnectedActions,
     ListConnectedActions,
     ListRegisteredServices,
+    PostgresTest,
+    PostgresTest1,
     PushNotification,
     RemoveBucketAccess,
     SendTestEMail,

@@ -4133,6 +4133,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInstance'
+  /api/mlpgate-internal/pg-test/{account}:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: postgresTest
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
   /api/mlpgate-internal/notify/{account}/user/{userId}:
     get:
       tags:
@@ -4150,6 +4175,21 @@ paths:
         required: true
         schema:
           type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate-internal/empty-test:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: postgresTest_1
+      parameters:
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
