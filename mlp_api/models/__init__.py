@@ -37,6 +37,7 @@ from mlp_api.model.event_source import EventSource
 from mlp_api.model.extended_request_data import ExtendedRequestData
 from mlp_api.model.external_connection_info_data import ExternalConnectionInfoData
 from mlp_api.model.feature_data import FeatureData
+from mlp_api.model.fit2_request_data import Fit2RequestData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.fit_config_dump import FitConfigDump
 from mlp_api.model.fit_config_pk import FitConfigPK
@@ -79,6 +80,7 @@ from mlp_api.model.pagination import Pagination
 from mlp_api.model.param_type_data import ParamTypeData
 from mlp_api.model.paraphrasing_status import ParaphrasingStatus
 from mlp_api.model.persistent_volume_data import PersistentVolumeData
+from mlp_api.model.predict2_request_data import Predict2RequestData
 from mlp_api.model.predict_config_data import PredictConfigData
 from mlp_api.model.predict_config_dump import PredictConfigDump
 from mlp_api.model.predict_config_pk import PredictConfigPK
