@@ -14,6 +14,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_simple_doc impor
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_public_settings import ApiMlpgateAccountAccountModelModelPublicSettings
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict import ApiMlpgateAccountAccountModelModelPredict
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config import ApiMlpgateAccountAccountModelModelPredictWithConfig
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config_v2 import ApiMlpgateAccountAccountModelModelPredictWithConfigV2
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config import ApiMlpgateAccountAccountModelModelPredictConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config_config_id import ApiMlpgateAccountAccountModelModelPredictConfigConfigId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instances import ApiMlpgateAccountAccountModelModelInstances
@@ -21,6 +22,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instanc
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_stop import ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_start import ApiMlpgateAccountAccountModelModelInstanceStart
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_fit import ApiMlpgateAccountAccountModelModelFit
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_fit_v2 import ApiMlpgateAccountAccountModelModelFitV2
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_fit_config import ApiMlpgateAccountAccountModelModelFitConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_fit_config_config_id import ApiMlpgateAccountAccountModelModelFitConfigConfigId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_favorite import ApiMlpgateAccountAccountModelModelFavorite
@@ -124,6 +126,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -131,6 +134,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_STOP: ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_START: ApiMlpgateAccountAccountModelModelInstanceStart,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FIT: ApiMlpgateAccountAccountModelModelFit,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITV2: ApiMlpgateAccountAccountModelModelFitV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITCONFIG: ApiMlpgateAccountAccountModelModelFitConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelFitConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FAVORITE: ApiMlpgateAccountAccountModelModelFavorite,
@@ -235,6 +239,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -242,6 +247,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_STOP: ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_START: ApiMlpgateAccountAccountModelModelInstanceStart,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FIT: ApiMlpgateAccountAccountModelModelFit,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITV2: ApiMlpgateAccountAccountModelModelFitV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITCONFIG: ApiMlpgateAccountAccountModelModelFitConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FITCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelFitConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_FAVORITE: ApiMlpgateAccountAccountModelModelFavorite,
