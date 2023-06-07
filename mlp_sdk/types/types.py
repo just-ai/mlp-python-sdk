@@ -449,6 +449,10 @@ class Dialog(BaseModel):
 
 # COLLECTIONS
 
+class BytesCollection(BaseModel):
+    data: List[bytes]
+
+
 class BytearrayCollection(BaseModel):
     data: List[bytearray]
 
