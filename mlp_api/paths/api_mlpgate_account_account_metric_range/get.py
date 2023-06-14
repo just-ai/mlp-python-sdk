@@ -134,6 +134,7 @@ class MetricsSchema(
     def __getitem__(self, i: int) -> MetaOapg.items:
         return super().__getitem__(i)
 MinutesSchema = schemas.Int64Schema
+StepSecondsSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -144,6 +145,7 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'stepSeconds': typing.Union[StepSecondsSchema, decimal.Decimal, int, ],
     },
     total=False
 )
@@ -165,6 +167,12 @@ request_query_minutes = api_client.QueryParameter(
     style=api_client.ParameterStyle.FORM,
     schema=MinutesSchema,
     required=True,
+    explode=True,
+)
+request_query_step_seconds = api_client.QueryParameter(
+    name="stepSeconds",
+    style=api_client.ParameterStyle.FORM,
+    schema=StepSecondsSchema,
     explode=True,
 )
 # Header params
@@ -377,6 +385,7 @@ class BaseApi(api_client.Api):
         for parameter in (
             request_query_metrics,
             request_query_minutes,
+            request_query_step_seconds,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
