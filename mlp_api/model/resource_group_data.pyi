@@ -42,8 +42,8 @@ class ResourceGroupData(
         
         class properties:
             name = schemas.StrSchema
-            tolerations = schemas.StrSchema
-            affinity = schemas.StrSchema
+            tolerations = schemas.DictSchema
+            affinity = schemas.DictSchema
             accountId = schemas.Int64Schema
             accountName = schemas.StrSchema
             isDefault = schemas.BoolSchema
@@ -114,9 +114,9 @@ class ResourceGroupData(
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        tolerations: typing.Union[MetaOapg.properties.tolerations, str, ],
+        tolerations: typing.Union[MetaOapg.properties.tolerations, dict, frozendict.frozendict, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
-        affinity: typing.Union[MetaOapg.properties.affinity, str, ],
+        affinity: typing.Union[MetaOapg.properties.affinity, dict, frozendict.frozendict, ],
         accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         accountName: typing.Union[MetaOapg.properties.accountName, str, schemas.Unset] = schemas.unset,
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,

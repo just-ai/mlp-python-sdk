@@ -5666,9 +5666,9 @@ components:
           type: string
           writeOnly: true
         tolerations:
-          type: string
+          $ref: '#/components/schemas/JsonNode'
         affinity:
-          type: string
+          $ref: '#/components/schemas/JsonNode'
         isDefault:
           type: boolean
     ResourceGroupsData:
