@@ -41,6 +41,7 @@ class ModelInstance(
             "id",
             "type",
             "kubeType",
+            "isEvictable",
         }
         
         class properties:
@@ -113,6 +114,7 @@ class ModelInstance(
                 @schemas.classproperty
                 def EXTERNAL(cls):
                     return cls("external")
+            isEvictable = schemas.BoolSchema
             resourceName = schemas.StrSchema
             alias = schemas.StrSchema
             customData = schemas.StrSchema
@@ -124,6 +126,7 @@ class ModelInstance(
                 "lastHeartBeat": lastHeartBeat,
                 "type": type,
                 "kubeType": kubeType,
+                "isEvictable": isEvictable,
                 "resourceName": resourceName,
                 "alias": alias,
                 "customData": customData,
@@ -136,6 +139,7 @@ class ModelInstance(
     id: 'ModelInstancePK'
     type: MetaOapg.properties.type
     kubeType: MetaOapg.properties.kubeType
+    isEvictable: MetaOapg.properties.isEvictable
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["id"]) -> 'ModelInstancePK': ...
@@ -156,6 +160,9 @@ class ModelInstance(
     def __getitem__(self, name: typing_extensions.Literal["kubeType"]) -> MetaOapg.properties.kubeType: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["isEvictable"]) -> MetaOapg.properties.isEvictable: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["resourceName"]) -> MetaOapg.properties.resourceName: ...
     
     @typing.overload
@@ -170,7 +177,7 @@ class ModelInstance(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -194,6 +201,9 @@ class ModelInstance(
     def get_item_oapg(self, name: typing_extensions.Literal["kubeType"]) -> MetaOapg.properties.kubeType: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["isEvictable"]) -> MetaOapg.properties.isEvictable: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["resourceName"]) -> typing.Union[MetaOapg.properties.resourceName, schemas.Unset]: ...
     
     @typing.overload
@@ -208,7 +218,7 @@ class ModelInstance(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -221,6 +231,7 @@ class ModelInstance(
         id: 'ModelInstancePK',
         type: typing.Union[MetaOapg.properties.type, str, ],
         kubeType: typing.Union[MetaOapg.properties.kubeType, str, ],
+        isEvictable: typing.Union[MetaOapg.properties.isEvictable, bool, ],
         resourceName: typing.Union[MetaOapg.properties.resourceName, str, schemas.Unset] = schemas.unset,
         alias: typing.Union[MetaOapg.properties.alias, str, schemas.Unset] = schemas.unset,
         customData: typing.Union[MetaOapg.properties.customData, str, schemas.Unset] = schemas.unset,
@@ -237,6 +248,7 @@ class ModelInstance(
             id=id,
             type=type,
             kubeType=kubeType,
+            isEvictable=isEvictable,
             resourceName=resourceName,
             alias=alias,
             customData=customData,

@@ -6159,6 +6159,7 @@ components:
       required:
       - connectionToken
       - id
+      - isEvictable
       - kubeType
       - lastHeartBeat
       - started
@@ -6198,3 +6199,5 @@ components:
         deleteTimestamp:
           type: string
           format: date-time
+        isEvictable:
+          type: boolean
