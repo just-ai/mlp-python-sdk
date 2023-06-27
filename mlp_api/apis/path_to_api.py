@@ -31,6 +31,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_ext import ApiMl
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_derived import ApiMlpgateAccountAccountModelModelDerived
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_cross_validation import ApiMlpgateAccountAccountModelModelCrossValidation
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_clone import ApiMlpgateAccountAccountModelModelClone
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_billing import ApiMlpgateAccountAccountModelModelBilling
 from mlp_api.apis.paths.api_mlpgate_account_account_model_group import ApiMlpgateAccountAccountModelGroup
 from mlp_api.apis.paths.api_mlpgate_account_account_management_feature_name import ApiMlpgateAccountAccountManagementFeatureName
 from mlp_api.apis.paths.api_mlpgate_account_account_image import ApiMlpgateAccountAccountImage
@@ -143,6 +144,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DERIVED: ApiMlpgateAccountAccountModelModelDerived,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CROSSVALIDATION: ApiMlpgateAccountAccountModelModelCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CLONE: ApiMlpgateAccountAccountModelModelClone,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_BILLING: ApiMlpgateAccountAccountModelModelBilling,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP: ApiMlpgateAccountAccountModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE: ApiMlpgateAccountAccountImage,
@@ -256,6 +258,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DERIVED: ApiMlpgateAccountAccountModelModelDerived,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CROSSVALIDATION: ApiMlpgateAccountAccountModelModelCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CLONE: ApiMlpgateAccountAccountModelModelClone,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_BILLING: ApiMlpgateAccountAccountModelModelBilling,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP: ApiMlpgateAccountAccountModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE: ApiMlpgateAccountAccountImage,
