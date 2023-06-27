@@ -39,6 +39,7 @@ class ModelInfoData(
             "hostingType",
             "resourceLimits",
             "restrictedImageAccess",
+            "billingSettings",
             "modelName",
             "dataImageMounts",
             "fittable",
@@ -154,6 +155,10 @@ class ModelInfoData(
             @staticmethod
             def publicSettings() -> typing.Type['ModelPublicSettingsData']:
                 return ModelPublicSettingsData
+        
+            @staticmethod
+            def billingSettings() -> typing.Type['ModelBillingSettingsData']:
+                return ModelBillingSettingsData
             restrictedImageAccess = schemas.BoolSchema
             favorite = schemas.BoolSchema
             modelAccountName = schemas.StrSchema
@@ -272,6 +277,7 @@ class ModelInfoData(
                 "retriesConfig": retriesConfig,
                 "batchesConfig": batchesConfig,
                 "publicSettings": publicSettings,
+                "billingSettings": billingSettings,
                 "restrictedImageAccess": restrictedImageAccess,
                 "favorite": favorite,
                 "modelAccountName": modelAccountName,
@@ -305,6 +311,7 @@ class ModelInfoData(
     hostingType: MetaOapg.properties.hostingType
     resourceLimits: 'ModelLimitsData'
     restrictedImageAccess: MetaOapg.properties.restrictedImageAccess
+    billingSettings: 'ModelBillingSettingsData'
     modelName: MetaOapg.properties.modelName
     dataImageMounts: MetaOapg.properties.dataImageMounts
     fittable: MetaOapg.properties.fittable
@@ -355,6 +362,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["billingSettings"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -440,7 +450,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -483,6 +493,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["billingSettings"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -568,7 +581,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -579,6 +592,7 @@ class ModelInfoData(
         hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
         resourceLimits: 'ModelLimitsData',
         restrictedImageAccess: typing.Union[MetaOapg.properties.restrictedImageAccess, bool, ],
+        billingSettings: 'ModelBillingSettingsData',
         modelName: typing.Union[MetaOapg.properties.modelName, str, ],
         dataImageMounts: typing.Union[MetaOapg.properties.dataImageMounts, list, tuple, ],
         fittable: typing.Union[MetaOapg.properties.fittable, bool, ],
@@ -625,6 +639,7 @@ class ModelInfoData(
             hostingType=hostingType,
             resourceLimits=resourceLimits,
             restrictedImageAccess=restrictedImageAccess,
+            billingSettings=billingSettings,
             modelName=modelName,
             dataImageMounts=dataImageMounts,
             fittable=fittable,
@@ -670,6 +685,7 @@ from mlp_api.model.dataset_info_data import DatasetInfoData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.image_info_data import ImageInfoData
 from mlp_api.model.model_batches_data import ModelBatchesData
+from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_limits_data import ModelLimitsData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
