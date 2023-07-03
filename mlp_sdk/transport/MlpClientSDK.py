@@ -59,7 +59,7 @@ class MlpClientSDK:
             return response.predict
         elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
-            raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
+            raise MlpClientException(response.error.code, response.error.message, response.error.args)
         else:
             raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
@@ -81,7 +81,7 @@ class MlpClientSDK:
             return response.ext
         elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
-            raise MlpClientException(response.error.code, response.error.message, response.error.argsMap)
+            raise MlpClientException(response.error.code, response.error.message, response.error.args)
         else:
             raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
