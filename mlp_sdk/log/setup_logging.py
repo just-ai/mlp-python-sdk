@@ -23,9 +23,9 @@ def get_logger(name: str, level: str = 'INFO') -> logging.Logger:
 
     logger.addHandler(ch)
 
-    if os.environ.get('GRAYLOG_SERVER') and os.environ.get('GRAYLOG_PORT'):
-        graylog_handler = GrayLogHandler(os.environ.get('GRAYLOG_SERVER'),
-                                         int(os.environ.get('GRAYLOG_PORT')), extra_fields=True)
+    if os.environ.get('MLP_GRAYLOG_SERVER') and os.environ.get('MLP_GRAYLOG_PORT'):
+        graylog_handler = GrayLogHandler(os.environ.get('MLP_GRAYLOG_SERVER'),
+                                         int(os.environ.get('MLP_GRAYLOG_PORT')), extra_fields=True)
         logger.addHandler(graylog_handler)
 
     return logger
