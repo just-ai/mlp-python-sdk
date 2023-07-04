@@ -99,6 +99,7 @@ class LearnableMixin(ABCTask):
         pass
 
 
+# TODO: check usage and delete
 class UpdatableMixin(ABCTask):
     __METHODS = [
         'update',
