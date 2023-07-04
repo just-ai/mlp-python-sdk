@@ -1,15 +1,13 @@
 import os
 import pathlib
 import queue
-import sched
 import signal
 import threading
 import time
 import typing
-from concurrent.futures import Future, ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 from inspect import signature
-from threading import local
 from typing import Optional
 
 import grpc
@@ -17,7 +15,6 @@ import yaml
 from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
 
-from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 
@@ -26,6 +23,7 @@ __default_config = pathlib.Path(__file__).parent / "config.yml"
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
 
 MlpResponseHeaders = threading.local()
+
 
 class MlpServiceConnector:
 
@@ -446,10 +444,16 @@ class MlpServiceSDK:
             req.targetsData, desc.input['targets'].type, is_json, self.impl, 'fit', 'targets')
         config = self.__convert_from_proto(req.config, desc.input['config'].type, is_json, self.impl, 'fit', 'config')
 
+        target_service_info = self.__convert_from_proto(
+            req.targetServiceInfo, desc.input['target_service_info'].type, False, self.impl, 'fit',
+            'target_service_info')
+        dataset_info = self.__convert_from_proto(req.datasetInfo, desc.input['dataset_info'].type, False, self.impl,
+                                                 'fit', 'dataset_info')
+
         if not hasattr(self.impl, 'fit'):
             raise NotImplementedError('Fit requests are not supported by this action')
 
-        self.impl.fit(train, targets, config, req.modelDir, req.previousModelDir)
+        self.impl.fit(train, targets, config, target_service_info, dataset_info, req.modelDir, req.previousModelDir)
         return mlp_grpc_pb2.FitResponseProto()
 
     def __handle_ext(self, req):
@@ -504,9 +508,6 @@ class MlpServiceSDK:
         return mlp_grpc_pb2.BatchResponseProto(data=responses_protos)
 
     def __convert_from_proto(self, payload, payload_type, is_json, action_impl, method, arg):
-        if not payload.HasField('json') and not payload.HasField('protobuf'):
-            return None
-
         class_ = signature(getattr(action_impl, method)).parameters[arg].annotation
         if class_ is None:
             return None
@@ -525,7 +526,7 @@ class MlpServiceSDK:
             else:
                 converted = json_format.Parse(payload.json, class_())
         else:
-            converted = class_().ParseFromString(payload.protobuf)
+            converted = class_.parse_raw(json_format.MessageToJson(payload))
         return converted
 
     def __validate_batch_method_params(self, predict_data_type, predict_config_type):
@@ -591,6 +592,7 @@ class MlpServiceSDK:
         else:
             res.protobuf = bytes(data)
         return res
+
 
 class MlpException(Exception):
     def __init__(self, message: str, code: Optional[str] = None):

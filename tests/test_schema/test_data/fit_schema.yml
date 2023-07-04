@@ -18,6 +18,27 @@ fit:
     - fit_param_3
     title: FitConfigSchema
     type: object
+  dataset_info:
+    properties:
+      accountId:
+        title: Accountid
+        type: integer
+      datasetId:
+        title: Datasetid
+        type: integer
+      name:
+        title: Name
+        type: string
+      type:
+        title: Type
+        type: string
+    required:
+    - accountId
+    - datasetId
+    - name
+    - type
+    title: DatasetInfo
+    type: object
   model_dir:
     title: str
     type: string
@@ -25,6 +46,30 @@ fit:
     title: str
     type: string
   return: null
+  target_service_info:
+    properties:
+      accountId:
+        title: Accountid
+        type: integer
+      authToken:
+        title: Authtoken
+        type: string
+      bucketName:
+        title: Bucketname
+        type: string
+      modelId:
+        title: Modelid
+        type: integer
+      modelName:
+        title: Modelname
+        type: string
+    required:
+    - accountId
+    - modelId
+    - modelName
+    - authToken
+    title: ServiceInfo
+    type: object
   targets:
     definitions:
       Item:

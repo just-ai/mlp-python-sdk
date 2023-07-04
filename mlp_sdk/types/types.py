@@ -564,6 +564,21 @@ class PredictOutputCDQA(BaseModel):
     output: List[ExtractedTextsListCDQA]
 
 
+class ServiceInfo(BaseModel):
+    accountId: int
+    modelId: int
+    modelName: str
+    authToken: str
+    bucketName: Optional[str]
+
+
+class DatasetInfo(BaseModel):
+    accountId: int
+    datasetId: int
+    name: str
+    type: str
+
+
 # TEST COLLECTIONS
 
 class InflectorConformerTextsCollectionTest(ConformerTextsCollection, InflectorTextsCollection):
