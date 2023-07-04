@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.task_mixin import LearnableMixin
-from mlp_sdk.types import TextsCollection
+from mlp_sdk.types import TextsCollection, ServiceInfo, DatasetInfo
 
 
 class FitConfigSchema(BaseModel):
@@ -15,7 +15,7 @@ class MyTaskLearnableMixin(LearnableMixin):
     def _load_state(self) -> None:
         pass
 
-    def prune_state(self, model_dir: str = '') -> None:
+    def prune_state(self, model_dir: str) -> None:
         pass
 
     def fit(
@@ -23,7 +23,9 @@ class MyTaskLearnableMixin(LearnableMixin):
             train_data: TextsCollection,
             targets: BaseModel,
             config: FitConfigSchema,
-            model_dir: str = '',
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
+            model_dir: str,
             previous_model_dir: str = '',
     ) -> None:
         pass
@@ -37,5 +39,7 @@ def test_fit_without_targets():
     task = MyTaskLearnableMixin()
     train_data = TextsCollection(texts=["test1"])
     config = FitConfigSchema(fit_param_1="test")
+    service_info = ServiceInfo(accountId=12, modelId=32, modelName="name", authToken="token", bucketName="bucket")
+    dataset_info = DatasetInfo(accountId=12, datasetId=32, name="name", type="json")
 
-    task.fit(train_data, None, config, '', '')
+    task.fit(train_data, None, config, service_info, dataset_info, 'test', '')

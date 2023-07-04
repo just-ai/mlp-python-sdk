@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from mlp_sdk.abstract.task import ABCTask
 from mlp_sdk.abstract.task_utils import is_allowed_input_type
+from mlp_sdk.types.types import ServiceInfo, DatasetInfo
 
 
 class LearnableMixin(ABCTask):
@@ -19,12 +20,18 @@ class LearnableMixin(ABCTask):
             self,
             train_data: BaseModel,
             targets: BaseModel,
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
     ) -> None:
         if not is_allowed_input_type(type(self), "fit", "train_data", type(train_data)):
             raise RuntimeError()
         if targets is not None and not is_allowed_input_type(type(self), "fit", "targets", type(targets)):
+            raise RuntimeError()
+        if not is_allowed_input_type(type(self), "fit", "target_service_info", type(target_service_info)):
+            raise RuntimeError()
+        if not is_allowed_input_type(type(self), "fit", "dataset_info", type(dataset_info)):
             raise RuntimeError()
         if not is_allowed_input_type(type(self), "fit", "model_dir", type(model_dir)):
             raise RuntimeError()
@@ -36,11 +43,14 @@ class LearnableMixin(ABCTask):
             train_data: BaseModel,
             targets: BaseModel,
             config: BaseModel,
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
     ) -> None:
         self._check_config_validness(config, "fit")
-        self._check_fit_input_types(train_data, targets, model_dir, previous_model_dir)
+        self._check_fit_input_types(train_data, targets, target_service_info, dataset_info, model_dir,
+                                    previous_model_dir)
 
     @abstractmethod
     def fit(
@@ -48,9 +58,10 @@ class LearnableMixin(ABCTask):
             train_data: BaseModel,
             targets: BaseModel,
             config: BaseModel,
-            model_dir: str = '',
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
+            model_dir: str,
             previous_model_dir: str = '',
-
     ) -> None:
         pass
 
@@ -59,6 +70,8 @@ class LearnableMixin(ABCTask):
             train_data: BaseModel,
             targets: BaseModel,
             config: BaseModel,
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
     ) -> None:
@@ -77,7 +90,7 @@ class LearnableMixin(ABCTask):
         pass
 
     @abstractmethod
-    def prune_state(self, model_dir: str = '') -> None:
+    def prune_state(self, model_dir: str) -> None:
         pass
 
     @property
