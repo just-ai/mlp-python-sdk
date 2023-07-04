@@ -568,7 +568,7 @@ class ServiceInfo(BaseModel):
     accountId: int
     modelId: int
     modelName: str
-    authToken: str
+    authToken: Optional[str]
     bucketName: Optional[str]
 
 
