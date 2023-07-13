@@ -37,9 +37,11 @@ class ModelInfoData(
         required = {
             "timeouts",
             "hostingType",
+            "caching",
             "resourceLimits",
             "restrictedImageAccess",
             "billingSettings",
+            "priorityQueue",
             "modelName",
             "dataImageMounts",
             "fittable",
@@ -144,6 +146,14 @@ class ModelInfoData(
             @staticmethod
             def batchesConfig() -> typing.Type['ModelBatchesData']:
                 return ModelBatchesData
+        
+            @staticmethod
+            def caching() -> typing.Type['ModelCachingData']:
+                return ModelCachingData
+        
+            @staticmethod
+            def priorityQueue() -> typing.Type['ModelPriorityQueueData']:
+                return ModelPriorityQueueData
         
             @staticmethod
             def publicSettings() -> typing.Type['ModelPublicSettingsData']:
@@ -253,6 +263,8 @@ class ModelInfoData(
                 "resourceLimits": resourceLimits,
                 "retriesConfig": retriesConfig,
                 "batchesConfig": batchesConfig,
+                "caching": caching,
+                "priorityQueue": priorityQueue,
                 "publicSettings": publicSettings,
                 "billingSettings": billingSettings,
                 "restrictedImageAccess": restrictedImageAccess,
@@ -286,9 +298,11 @@ class ModelInfoData(
     
     timeouts: 'ModelTimeoutsData'
     hostingType: MetaOapg.properties.hostingType
+    caching: 'ModelCachingData'
     resourceLimits: 'ModelLimitsData'
     restrictedImageAccess: MetaOapg.properties.restrictedImageAccess
     billingSettings: 'ModelBillingSettingsData'
+    priorityQueue: 'ModelPriorityQueueData'
     modelName: MetaOapg.properties.modelName
     dataImageMounts: MetaOapg.properties.dataImageMounts
     fittable: MetaOapg.properties.fittable
@@ -336,6 +350,12 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["batchesConfig"]) -> 'ModelBatchesData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["caching"]) -> 'ModelCachingData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
@@ -427,7 +447,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -467,6 +487,12 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["batchesConfig"]) -> 'ModelBatchesData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["caching"]) -> 'ModelCachingData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
@@ -558,7 +584,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -567,9 +593,11 @@ class ModelInfoData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         timeouts: 'ModelTimeoutsData',
         hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
+        caching: 'ModelCachingData',
         resourceLimits: 'ModelLimitsData',
         restrictedImageAccess: typing.Union[MetaOapg.properties.restrictedImageAccess, bool, ],
         billingSettings: 'ModelBillingSettingsData',
+        priorityQueue: 'ModelPriorityQueueData',
         modelName: typing.Union[MetaOapg.properties.modelName, str, ],
         dataImageMounts: typing.Union[MetaOapg.properties.dataImageMounts, list, tuple, ],
         fittable: typing.Union[MetaOapg.properties.fittable, bool, ],
@@ -614,9 +642,11 @@ class ModelInfoData(
             *_args,
             timeouts=timeouts,
             hostingType=hostingType,
+            caching=caching,
             resourceLimits=resourceLimits,
             restrictedImageAccess=restrictedImageAccess,
             billingSettings=billingSettings,
+            priorityQueue=priorityQueue,
             modelName=modelName,
             dataImageMounts=dataImageMounts,
             fittable=fittable,
@@ -663,8 +693,10 @@ from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.image_info_data import ImageInfoData
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
+from mlp_api.model.model_caching_data import ModelCachingData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_limits_data import ModelLimitsData
+from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.model.model_retries_data import ModelRetriesData
 from mlp_api.model.model_timeouts_data import ModelTimeoutsData
