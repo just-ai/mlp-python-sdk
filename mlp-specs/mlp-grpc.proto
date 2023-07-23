@@ -11,7 +11,7 @@ service Gate {
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
-//  rpc processWithResponseStream(ClientRequestProto) returns (stream ClientPartialResponseProto) {}
+  //rpc audioStreamAsync(stream ServiceRequestProto) returns (stream ServiceResponseProto) {}
 }
 
 message ServiceDescriptorProto {
@@ -251,34 +251,6 @@ message ClientResponseProto {
 
   map<string, string> headers = 1000;
 }
-
-//  Заготовка для реализации поддержки tts-стриминга через наш grpc-протокол
-//
-//message ClientPartialInitProto {
-//  string account = 1; // тут можно передавать либо id либо shortName аккаунта и модели соответственно
-//  string model = 2;   // обработка будет происходить так: если только цифры - значит id, иначе name
-//  string authToken = 3;
-//  int32 timeoutSec = 4;
-//  optional PayloadProto config = 102;
-//}
-//
-//message ClientPartialRequestProto {
-//  oneof body {
-//    ClientPartialInitProto init = 101;
-//    PartialPredictResponseProto chunk = 104;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
-//
-//message ClientPartialResponseProto {
-//  oneof body {
-//    PartialPredictResponseProto partial = 104;
-//    ApiErrorProto error = 201;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
 
 // TODO Deprecated
 message PipelineRequestProto {

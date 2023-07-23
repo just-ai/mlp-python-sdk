@@ -576,78 +576,6 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{account}/model/{model}/tts-stream:
-    get:
-      tags:
-      - process-endpoint
-      operationId: ttsStreamGet
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: text
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/octet-stream:
-              schema:
-                $ref: '#/components/schemas/ResponseBodyEmitter'
-    post:
-      tags:
-      - process-endpoint
-      operationId: ttsStreamPost
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/octet-stream:
-              schema:
-                $ref: '#/components/schemas/ResponseBodyEmitter'
   /api/mlpgate/account/{account}/model/{model}/simple-doc:
     get:
       tags:
@@ -4872,23 +4800,6 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
-    ModelCachingData:
-      required:
-      - collectionName
-      - enabled
-      - mongoUri
-      - recordsLimit
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        mongoUri:
-          type: string
-        collectionName:
-          type: string
-        recordsLimit:
-          type: integer
-          format: int64
     ModelDump:
       required:
       - asBillingSettingsData
@@ -4956,10 +4867,6 @@ components:
           $ref: '#/components/schemas/ModelRetriesData'
         batches:
           $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
         docs:
           type: array
           items:
@@ -5034,17 +4941,6 @@ components:
           type: string
         gpuRequested:
           type: boolean
-    ModelPriorityQueueData:
-      required:
-      - concurrencyLevel
-      - enabled
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        concurrencyLevel:
-          type: integer
-          format: int32
     ModelPublicSettingsData:
       type: object
       properties:
@@ -5319,10 +5215,6 @@ components:
           $ref: '#/components/schemas/ModelRetriesData'
         batchesConfig:
           $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
         shortDescription:
           type: string
         languages:
@@ -5453,7 +5345,6 @@ components:
       required:
       - batchesConfig
       - billingSettings
-      - caching
       - composite
       - dataImageMounts
       - favorite
@@ -5463,7 +5354,6 @@ components:
       - imageAccountId
       - modelName
       - persistentVolumes
-      - priorityQueue
       - publicSettings
       - resourceLimits
       - restrictedImageAccess
@@ -5554,10 +5444,6 @@ components:
           $ref: '#/components/schemas/ModelRetriesData'
         batchesConfig:
           $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
         shortDescription:
           type: string
         languages:
@@ -5595,12 +5481,6 @@ components:
           type: integer
           format: int64
         modelId:
-          type: integer
-          format: int64
-    ResponseBodyEmitter:
-      type: object
-      properties:
-        timeout:
           type: integer
           format: int64
     PredictRequestData:
