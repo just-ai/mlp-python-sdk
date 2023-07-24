@@ -10,6 +10,7 @@ from mlp_api.apis.paths.api_mlpgate_account import ApiMlpgateAccount
 from mlp_api.apis.paths.api_mlpgate_account_account_token import ApiMlpgateAccountAccountToken
 from mlp_api.apis.paths.api_mlpgate_account_account_model import ApiMlpgateAccountAccountModel
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model import ApiMlpgateAccountAccountModelModel
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_tts_stream import ApiMlpgateAccountAccountModelModelTtsStream
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_simple_doc import ApiMlpgateAccountAccountModelModelSimpleDoc
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_public_settings import ApiMlpgateAccountAccountModelModelPublicSettings
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict import ApiMlpgateAccountAccountModelModelPredict
@@ -123,6 +124,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTSSTREAM: ApiMlpgateAccountAccountModelModelTtsStream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_SIMPLEDOC: ApiMlpgateAccountAccountModelModelSimpleDoc,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
@@ -237,6 +239,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTSSTREAM: ApiMlpgateAccountAccountModelModelTtsStream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_SIMPLEDOC: ApiMlpgateAccountAccountModelModelSimpleDoc,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
