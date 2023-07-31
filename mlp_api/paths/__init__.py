@@ -15,6 +15,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN = "/api/mlpgate/account/{account}/token"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL = "/api/mlpgate/account/{account}/model"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL = "/api/mlpgate/account/{account}/model/{model}"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTSSTREAM = "/api/mlpgate/account/{account}/model/{model}/tts-stream"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_SIMPLEDOC = "/api/mlpgate/account/{account}/model/{model}/simple-doc"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS = "/api/mlpgate/account/{account}/model/{model}/public-settings"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT = "/api/mlpgate/account/{account}/model/{model}/predict"
