@@ -22,6 +22,7 @@ class TagValues(str, enum.Enum):
     MODELINSTANCEENDPOINT = "model-instance-endpoint"
     PREDICTCONFIGENDPOINT = "predict-config-endpoint"
     PROCESSENDPOINT = "process-endpoint"
+    RESOURCEGROUPENDPOINT = "resource-group-endpoint"
     STATLOGENDPOINT = "stat-log-endpoint"
     SYSTEMCONFIGENDPOINT = "system-config-endpoint"
     SYSTEMENDPOINT = "system-endpoint"

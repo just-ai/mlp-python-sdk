@@ -73,6 +73,12 @@ from mlp_api.apis.paths.api_mlpgate_admin_account_account import ApiMlpgateAdmin
 from mlp_api.apis.paths.api_mlpgate_account_account_token_token import ApiMlpgateAccountAccountTokenToken
 from mlp_api.apis.paths.api_mlpgate_account_account_stat_log import ApiMlpgateAccountAccountStatLog
 from mlp_api.apis.paths.api_mlpgate_account_account_s3 import ApiMlpgateAccountAccountS3
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups import ApiMlpgateAccountAccountResourceGroups
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_metric import ApiMlpgateAccountAccountResourceGroupsGroupNameMetric
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_metric_range import ApiMlpgateAccountAccountResourceGroupsGroupNameMetricRange
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_logs import ApiMlpgateAccountAccountResourceGroupsGroupNameLogs
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_capacity import ApiMlpgateAccountAccountResourceGroupsGroupNameCapacity
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_capacity_logs import ApiMlpgateAccountAccountResourceGroupsGroupNameCapacityLogs
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_status import ApiMlpgateAccountAccountModelModelStatus
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_metric import ApiMlpgateAccountAccountModelModelMetric
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_metric_range import ApiMlpgateAccountAccountModelModelMetricRange
@@ -187,6 +193,12 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS: ApiMlpgateAccountAccountResourceGroups,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRIC: ApiMlpgateAccountAccountResourceGroupsGroupNameMetric,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRICRANGE: ApiMlpgateAccountAccountResourceGroupsGroupNameMetricRange,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_LOGS: ApiMlpgateAccountAccountResourceGroupsGroupNameLogs,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY: ApiMlpgateAccountAccountResourceGroupsGroupNameCapacity,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY_LOGS: ApiMlpgateAccountAccountResourceGroupsGroupNameCapacityLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_STATUS: ApiMlpgateAccountAccountModelModelStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC: ApiMlpgateAccountAccountModelModelMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRICRANGE: ApiMlpgateAccountAccountModelModelMetricRange,
@@ -302,6 +314,12 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS: ApiMlpgateAccountAccountResourceGroups,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRIC: ApiMlpgateAccountAccountResourceGroupsGroupNameMetric,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRICRANGE: ApiMlpgateAccountAccountResourceGroupsGroupNameMetricRange,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_LOGS: ApiMlpgateAccountAccountResourceGroupsGroupNameLogs,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY: ApiMlpgateAccountAccountResourceGroupsGroupNameCapacity,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY_LOGS: ApiMlpgateAccountAccountResourceGroupsGroupNameCapacityLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_STATUS: ApiMlpgateAccountAccountModelModelStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC: ApiMlpgateAccountAccountModelModelMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRICRANGE: ApiMlpgateAccountAccountModelModelMetricRange,
