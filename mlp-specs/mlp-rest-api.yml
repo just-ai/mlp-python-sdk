@@ -4291,6 +4291,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEnvironmentData'
+  /api/mlpgate/account/{account}/model/{model}/dataset/allowed:
+    get:
+      tags:
+      - dataset-endpoint
+      operationId: getAllowedDatasetsForFit
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/model/{model}/dataset/allowed-types:
+    get:
+      tags:
+      - dataset-endpoint
+      operationId: getAllowedDataTypesForFit
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  type: string
   /api/mlpgate/account/{account}/model/{model}/action-descriptor:
     get:
       tags:
