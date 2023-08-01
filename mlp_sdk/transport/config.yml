@@ -11,6 +11,9 @@ sdk:
   startup_thread_timeout_seconds: 3
   heartbeat_thread_timeout_seconds: 3
   action_shutdown_timeout_seconds: 10
+  request_retry_pps_max_attempts: 10
+  request_retry_pps_backoff_seconds: 0.3
+  request_retry_pps_error_code: mlp.gate.pps_limit_exceeded
 
 grpc:
   max_send_message_length: 104857600 # 100 MB
