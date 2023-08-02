@@ -564,6 +564,15 @@ class PredictOutputCDQA(BaseModel):
     output: List[ExtractedTextsListCDQA]
 
 
+class GenerativeQA(TextsCollection):
+    answer: str
+    scores: List[float]
+
+
+class GenerativeQACollection(BaseModel):
+    output: List[GenerativeQA]
+
+
 class ServiceInfo(BaseModel):
     accountId: int
     modelId: int
