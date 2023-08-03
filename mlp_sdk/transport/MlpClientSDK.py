@@ -105,28 +105,28 @@ class MlpClientSDK:
         request_retry_timeout_seconds = CONFIG["sdk"]["request_retry_timeout_seconds"]
         end_time = time.time() + request_retry_timeout_seconds
 
-        request_retry_pps_max_attempts = CONFIG["sdk"]["request_retry_pps_max_attempts"]
-        request_retry_pps_backoff_seconds = CONFIG["sdk"]["request_retry_pps_backoff_seconds"]
-        request_retry_pps_error_code = CONFIG["sdk"]["request_retry_pps_error_code"]
+        request_retry_max_attempts = CONFIG["sdk"]["request_retry_max_attempts"]
+        request_retry_backoff_seconds = CONFIG["sdk"]["request_retry_backoff_seconds"]
+        request_retry_error_codes = CONFIG["sdk"]["request_retry_error_codes"]
 
-        request_retry_pps_failures = 0
+        request_retry_failures = 0
 
         while time.time() < end_time:
             try:
                 response = self.stub.process(request)
 
                 has_error = response.WhichOneof('body') == 'error'
-                should_retry = has_error and response.error.code == request_retry_pps_error_code
+                should_retry = has_error and response.error.code in request_retry_error_codes
 
                 if not should_retry:
                     break
 
-                request_retry_pps_failures += 1
-                if request_retry_pps_failures >= request_retry_pps_max_attempts:
+                request_retry_failures += 1
+                if request_retry_failures >= request_retry_max_attempts:
                     break
 
-                self.log.error(f'Error from gate, attempt {request_retry_pps_failures}:\n{response.error}')
-                time.sleep(request_retry_pps_backoff_seconds)
+                self.log.error(f'Error from gate, attempt {request_retry_failures}:\n{response.error}')
+                time.sleep(request_retry_backoff_seconds)
                 continue
             except grpc.RpcError as rpc_error:
                 if rpc_error.code() == grpc.StatusCode.UNAVAILABLE:
