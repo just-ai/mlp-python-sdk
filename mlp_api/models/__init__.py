@@ -57,6 +57,7 @@ from mlp_api.model.measurement import Measurement
 from mlp_api.model.method_descriptor_data import MethodDescriptorData
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
+from mlp_api.model.model_caching_data import ModelCachingData
 from mlp_api.model.model_create_update_data import ModelCreateUpdateData
 from mlp_api.model.model_defaults import ModelDefaults
 from mlp_api.model.model_dump import ModelDump
@@ -70,6 +71,7 @@ from mlp_api.model.model_instance_data import ModelInstanceData
 from mlp_api.model.model_instance_list_data import ModelInstanceListData
 from mlp_api.model.model_instance_pk import ModelInstancePK
 from mlp_api.model.model_limits_data import ModelLimitsData
+from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.model.model_retries_data import ModelRetriesData
 from mlp_api.model.model_short_status_data import ModelShortStatusData
@@ -88,6 +90,7 @@ from mlp_api.model.predict_config_pk import PredictConfigPK
 from mlp_api.model.predict_request_data import PredictRequestData
 from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
+from mlp_api.model.response_body_emitter import ResponseBodyEmitter
 from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData

@@ -232,6 +232,14 @@ class ModelDump(
             @staticmethod
             def batches() -> typing.Type['ModelBatchesData']:
                 return ModelBatchesData
+        
+            @staticmethod
+            def caching() -> typing.Type['ModelCachingData']:
+                return ModelCachingData
+        
+            @staticmethod
+            def priorityQueue() -> typing.Type['ModelPriorityQueueData']:
+                return ModelPriorityQueueData
             resourceGroup = schemas.StrSchema
             shortDescription = schemas.StrSchema
             
@@ -322,6 +330,8 @@ class ModelDump(
                 "limits": limits,
                 "retries": retries,
                 "batches": batches,
+                "caching": caching,
+                "priorityQueue": priorityQueue,
                 "resourceGroup": resourceGroup,
                 "shortDescription": shortDescription,
                 "languages": languages,
@@ -432,6 +442,12 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["batches"]) -> 'ModelBatchesData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["caching"]) -> 'ModelCachingData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["resourceGroup"]) -> MetaOapg.properties.resourceGroup: ...
     
     @typing.overload
@@ -470,7 +486,7 @@ class ModelDump(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -563,6 +579,12 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["batches"]) -> typing.Union['ModelBatchesData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["caching"]) -> typing.Union['ModelCachingData', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["priorityQueue"]) -> typing.Union['ModelPriorityQueueData', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["resourceGroup"]) -> typing.Union[MetaOapg.properties.resourceGroup, schemas.Unset]: ...
     
     @typing.overload
@@ -601,7 +623,7 @@ class ModelDump(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -637,6 +659,8 @@ class ModelDump(
         limits: typing.Union['ModelLimitsData', schemas.Unset] = schemas.unset,
         retries: typing.Union['ModelRetriesData', schemas.Unset] = schemas.unset,
         batches: typing.Union['ModelBatchesData', schemas.Unset] = schemas.unset,
+        caching: typing.Union['ModelCachingData', schemas.Unset] = schemas.unset,
+        priorityQueue: typing.Union['ModelPriorityQueueData', schemas.Unset] = schemas.unset,
         resourceGroup: typing.Union[MetaOapg.properties.resourceGroup, str, schemas.Unset] = schemas.unset,
         shortDescription: typing.Union[MetaOapg.properties.shortDescription, str, schemas.Unset] = schemas.unset,
         languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
@@ -684,6 +708,8 @@ class ModelDump(
             limits=limits,
             retries=retries,
             batches=batches,
+            caching=caching,
+            priorityQueue=priorityQueue,
             resourceGroup=resourceGroup,
             shortDescription=shortDescription,
             languages=languages,
@@ -705,7 +731,9 @@ from mlp_api.model.document_dump import DocumentDump
 from mlp_api.model.fit_config_dump import FitConfigDump
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
+from mlp_api.model.model_caching_data import ModelCachingData
 from mlp_api.model.model_limits_data import ModelLimitsData
+from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.model.model_retries_data import ModelRetriesData
 from mlp_api.model.model_timeouts_data import ModelTimeoutsData

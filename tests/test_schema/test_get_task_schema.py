@@ -5,7 +5,7 @@ from pathlib import Path
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
-from mlp_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection
+from mlp_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection, ServiceInfo, DatasetInfo
 
 
 class InitConfigSchema(BaseModel):
@@ -53,6 +53,8 @@ class MyTaskLearnableMixin(LearnableMixin):
             train_data: TextsCollection,
             targets: ItemsCollection,
             config: FitConfigSchema,
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
             model_dir: str = '',
             previous_model_dir: str = '',
     ) -> None:
