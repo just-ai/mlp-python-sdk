@@ -3804,6 +3804,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: metrics
         in: query
         required: true
@@ -3819,6 +3825,7 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT
@@ -3875,6 +3882,7 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT

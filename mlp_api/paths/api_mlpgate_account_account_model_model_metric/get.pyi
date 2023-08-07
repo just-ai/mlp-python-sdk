@@ -26,6 +26,7 @@ import frozendict  # noqa: F401
 from mlp_api import schemas  # noqa: F401
 
 # Query params
+TimeSchema = schemas.Int64Schema
 
 
 class MetricsSchema(
@@ -68,6 +69,10 @@ class MetricsSchema(
             @schemas.classproperty
             def RECONNECTS_COUNT(cls):
                 return cls("MODEL_RECONNECTS_COUNT")
+            
+            @schemas.classproperty
+            def INSTANCES_COUNT(cls):
+                return cls("MODEL_INSTANCES_COUNT")
             
             @schemas.classproperty
             def SUCCESS_REQUESTS_COUNT(cls):
@@ -119,6 +124,7 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'time': typing.Union[TimeSchema, decimal.Decimal, int, ],
     },
     total=False
 )
@@ -128,6 +134,12 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
+request_query_time = api_client.QueryParameter(
+    name="time",
+    style=api_client.ParameterStyle.FORM,
+    schema=TimeSchema,
+    explode=True,
+)
 request_query_metrics = api_client.QueryParameter(
     name="metrics",
     style=api_client.ParameterStyle.FORM,
@@ -324,6 +336,7 @@ class BaseApi(api_client.Api):
 
         prefix_separator_iterator = None
         for parameter in (
+            request_query_time,
             request_query_metrics,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)

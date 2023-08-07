@@ -55,6 +55,7 @@ class MetricsSchema(
                     "MODEL_RAM_REQUESTED": "RAM_REQUESTED",
                     "MODEL_RAM_LIMIT": "RAM_LIMIT",
                     "MODEL_RECONNECTS_COUNT": "RECONNECTS_COUNT",
+                    "MODEL_INSTANCES_COUNT": "INSTANCES_COUNT",
                     "MODEL_SUCCESS_REQUESTS_COUNT": "SUCCESS_REQUESTS_COUNT",
                     "MODEL_FAILED_REQUESTS_COUNT": "FAILED_REQUESTS_COUNT",
                     "MODEL_ACTIVE_REQUESTS_COUNT": "ACTIVE_REQUESTS_COUNT",
@@ -91,6 +92,10 @@ class MetricsSchema(
             @schemas.classproperty
             def RECONNECTS_COUNT(cls):
                 return cls("MODEL_RECONNECTS_COUNT")
+            
+            @schemas.classproperty
+            def INSTANCES_COUNT(cls):
+                return cls("MODEL_INSTANCES_COUNT")
             
             @schemas.classproperty
             def SUCCESS_REQUESTS_COUNT(cls):
