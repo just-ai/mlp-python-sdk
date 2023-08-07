@@ -75,6 +75,14 @@ class MetricsSchema(
                 return cls("MODEL_INSTANCES_COUNT")
             
             @schemas.classproperty
+            def GPU_REQUESTED(cls):
+                return cls("MODEL_GPU_REQUESTED")
+            
+            @schemas.classproperty
+            def EPHEMERAL_DISK_REQUESTED(cls):
+                return cls("MODEL_EPHEMERAL_DISK_REQUESTED")
+            
+            @schemas.classproperty
             def SUCCESS_REQUESTS_COUNT(cls):
                 return cls("MODEL_SUCCESS_REQUESTS_COUNT")
             

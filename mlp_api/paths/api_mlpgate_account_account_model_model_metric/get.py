@@ -55,6 +55,8 @@ class MetricsSchema(
                     "MODEL_RAM_LIMIT": "RAM_LIMIT",
                     "MODEL_RECONNECTS_COUNT": "RECONNECTS_COUNT",
                     "MODEL_INSTANCES_COUNT": "INSTANCES_COUNT",
+                    "MODEL_GPU_REQUESTED": "GPU_REQUESTED",
+                    "MODEL_EPHEMERAL_DISK_REQUESTED": "EPHEMERAL_DISK_REQUESTED",
                     "MODEL_SUCCESS_REQUESTS_COUNT": "SUCCESS_REQUESTS_COUNT",
                     "MODEL_FAILED_REQUESTS_COUNT": "FAILED_REQUESTS_COUNT",
                     "MODEL_ACTIVE_REQUESTS_COUNT": "ACTIVE_REQUESTS_COUNT",
@@ -95,6 +97,14 @@ class MetricsSchema(
             @schemas.classproperty
             def INSTANCES_COUNT(cls):
                 return cls("MODEL_INSTANCES_COUNT")
+            
+            @schemas.classproperty
+            def GPU_REQUESTED(cls):
+                return cls("MODEL_GPU_REQUESTED")
+            
+            @schemas.classproperty
+            def EPHEMERAL_DISK_REQUESTED(cls):
+                return cls("MODEL_EPHEMERAL_DISK_REQUESTED")
             
             @schemas.classproperty
             def SUCCESS_REQUESTS_COUNT(cls):
