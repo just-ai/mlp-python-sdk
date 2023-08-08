@@ -3513,6 +3513,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupServices
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /api/mlpgate/account/{account}/resource-groups/{groupName}/metric:
     get:
       tags:
