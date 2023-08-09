@@ -564,7 +564,13 @@ class PredictOutputCDQA(BaseModel):
     output: List[ExtractedTextsListCDQA]
 
 
-class GenerativeQA(TextsCollection):
+class OpenAIMeta(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class GenerativeQA(TextsCollection, OpenAIMeta):
     answer: str
     scores: List[float]
 
