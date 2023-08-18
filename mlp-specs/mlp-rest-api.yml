@@ -5776,6 +5776,7 @@ components:
       - config
       - id
       - isDefault
+      - isManual
       - name
       type: object
       properties:
@@ -5784,6 +5785,8 @@ components:
         name:
           type: string
         isDefault:
+          type: boolean
+        isManual:
           type: boolean
         config:
           type: string
