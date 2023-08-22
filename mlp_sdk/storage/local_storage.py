@@ -36,7 +36,7 @@ class LocalStorage(AbstractStorage):
         full_path = self.path / path
 
         try:
-            LOGGER.info(f'Try to open path {full_path}')
+            LOGGER.debug(f'Try to open path {full_path}')
             if 'w' in mode and len(full_path.parents) and not full_path.parents[0].exists():
                 Path(full_path.parents[0]).mkdir(parents=True, exist_ok=True)
 
@@ -47,10 +47,10 @@ class LocalStorage(AbstractStorage):
     def remove(self, path: str) -> None:
         full_path = self.path / path
 
-        LOGGER.info(f'Try to remove path {full_path}')
+        LOGGER.debug(f'Try to remove path {full_path}')
         if full_path.exists():
             if full_path.is_dir():
-                LOGGER.info(f"'{full_path}' is directory")
+                LOGGER.debug(f"'{full_path}' is directory")
                 shutil.rmtree(full_path)
             else:
                 os.remove(full_path)
@@ -63,7 +63,7 @@ class LocalStorage(AbstractStorage):
 
     def download(self, remote_path: str, local_path: str) -> None:
         is_directory = not os.path.isfile(remote_path)
-        LOGGER.info(f'Try to download from {remote_path} to {local_path}, is directory: {is_directory}')
+        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {is_directory}')
 
         if is_directory:
             Path(local_path).mkdir(parents=True, exist_ok=True)
