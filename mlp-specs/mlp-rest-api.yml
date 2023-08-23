@@ -118,7 +118,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
@@ -676,7 +676,7 @@ paths:
         "200":
           description: OK
           content:
-            text/plain:
+            text/plain;charset=UTF-8:
               schema:
                 type: string
     post:
@@ -704,7 +704,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
