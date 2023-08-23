@@ -4,7 +4,7 @@ import os
 from mlp_sdk.log.graylog_handler import GrayLogHandler
 
 
-def get_logger(name: str, level: str = 'INFO') -> logging.Logger:
+def get_logger(name: str, level: str = 'DEBUG') -> logging.Logger:
 
     logging_level = logging.getLevelName(level)
     logger = logging.getLogger(name)
