@@ -30,3 +30,18 @@ def host_mlp_cloud(
     mpl.register_impl(task(params, mpl))
     mpl.start()
     mpl.block_until_shutdown()
+
+
+def host_mlp_cloud_with_config(
+        task: Type[TASK_TYPE],
+        params: BaseModel,
+        config
+):
+    if isinstance(params, str):
+        init_config_type = task.get_init_config_schema()
+        params = init_config_type.parse_raw(params)
+
+    mpl = MlpServiceSDK(config)
+    mpl.register_impl(task(params, mpl))
+    mpl.start()
+    mpl.block_until_shutdown()

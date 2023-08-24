@@ -20,13 +20,14 @@ CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)
 
 class MlpClientSDK:
 
-    def __init__(self):
+    def __init__(self, config=CONFIG):
+        self.config = config
         self.account_id = os.environ.get('MLP_ACCOUNT_ID')
         self.model_id = os.environ.get('MLP_MODEL_ID')
         self.urls = None
         self.token = None
         self.grpc_secure = None
-        self.log = get_logger('MlpClientSDK', CONFIG["logging"]["level"])
+        self.log = get_logger('MlpClientSDK', self.config["logging"]["level"])
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
@@ -102,12 +103,12 @@ class MlpClientSDK:
     def __process_request_with_retry(self, request):
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = None
 
-        request_retry_timeout_seconds = CONFIG["sdk"]["request_retry_timeout_seconds"]
+        request_retry_timeout_seconds = self.config["sdk"]["request_retry_timeout_seconds"]
         end_time = time.time() + request_retry_timeout_seconds
 
-        request_retry_max_attempts = CONFIG["sdk"]["request_retry_max_attempts"]
-        request_retry_backoff_seconds = CONFIG["sdk"]["request_retry_backoff_seconds"]
-        request_retry_error_codes = CONFIG["sdk"]["request_retry_error_codes"]
+        request_retry_max_attempts = self.config["sdk"]["request_retry_max_attempts"]
+        request_retry_backoff_seconds = self.config["sdk"]["request_retry_backoff_seconds"]
+        request_retry_error_codes = self.config["sdk"]["request_retry_error_codes"]
 
         request_retry_failures = 0
 
@@ -159,20 +160,21 @@ class MlpClientSDK:
                 creds = grpc.ssl_channel_credentials()
 
             self.channel = grpc.secure_channel(self.urls[0], creds, options=[
-                ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
-                ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
+                ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
+                ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
             ])
         else:
             self.channel = grpc.insecure_channel(self.urls[0], options=[
-                ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
-                ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
+                ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
+                ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
             ])
         self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
 class MlpRestClient:
 
-    def __init__(self, url: Optional[str] = None, token=None):
-        self.log = get_logger('MlpRestClient', CONFIG["logging"]["level"])
+    def __init__(self, url: Optional[str] = None, token=None, config=CONFIG):
+        self.config = config
+        self.log = get_logger('MlpRestClient', self.config["logging"]["level"])
         self.account_id = os.environ.get('MLP_ACCOUNT_ID')
         self.model_id = os.environ.get('MLP_MODEL_ID')
         self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if not url else url
