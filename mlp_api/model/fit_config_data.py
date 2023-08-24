@@ -36,6 +36,7 @@ class FitConfigData(
     class MetaOapg:
         required = {
             "isDefault",
+            "isManual",
             "name",
             "id",
             "config",
@@ -48,15 +49,18 @@ class FitConfigData(
                 return FitConfigPK
             name = schemas.StrSchema
             isDefault = schemas.BoolSchema
+            isManual = schemas.BoolSchema
             config = schemas.StrSchema
             __annotations__ = {
                 "id": id,
                 "name": name,
                 "isDefault": isDefault,
+                "isManual": isManual,
                 "config": config,
             }
     
     isDefault: MetaOapg.properties.isDefault
+    isManual: MetaOapg.properties.isManual
     name: MetaOapg.properties.name
     id: 'FitConfigPK'
     config: MetaOapg.properties.config
@@ -71,12 +75,15 @@ class FitConfigData(
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["isManual"]) -> MetaOapg.properties.isManual: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "config", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "isManual", "config", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -91,12 +98,15 @@ class FitConfigData(
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["isManual"]) -> MetaOapg.properties.isManual: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["config"]) -> MetaOapg.properties.config: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "config", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "isDefault", "isManual", "config", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -104,6 +114,7 @@ class FitConfigData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, ],
+        isManual: typing.Union[MetaOapg.properties.isManual, bool, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: 'FitConfigPK',
         config: typing.Union[MetaOapg.properties.config, str, ],
@@ -114,6 +125,7 @@ class FitConfigData(
             cls,
             *_args,
             isDefault=isDefault,
+            isManual=isManual,
             name=name,
             id=id,
             config=config,

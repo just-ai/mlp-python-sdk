@@ -118,7 +118,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
@@ -676,7 +676,7 @@ paths:
         "200":
           description: OK
           content:
-            text/plain:
+            text/plain;charset=UTF-8:
               schema:
                 type: string
     post:
@@ -704,7 +704,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
@@ -3486,6 +3486,313 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/S3CredentialsData'
+  /api/mlpgate/account/{account}/resource-groups:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getAvailableResourceGroups
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupServices
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/metric:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - NODE_CPU_USAGE
+            - NODE_CPU_REQUESTED
+            - NODE_CPU_CAPACITY
+            - NODE_CPU_ALLOCATABLE_CAPACITY
+            - NODE_RAM_USAGE
+            - NODE_RAM_REQUESTED
+            - NODE_RAM_CAPACITY
+            - NODE_RAM_ALLOCATABLE_CAPACITY
+            - NODE_DISK_USAGE
+            - NODE_EPHEMERAL_DISK_REQUESTED
+            - NODE_EPHEMERAL_DISK_CAPACITY
+            - NODE_EPHEMERAL_DISK_ALLOCATABLE_CAPACITY
+            - NODE_GPU_PODS_COUNT
+            - NODE_GPU_PODS_LIMIT
+            - NODE_GPU_USAGE
+            - NODE_GPU_LIMIT
+            - NODE_VRAM_USAGE
+            - NODE_VRAM_LIMIT
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: nodeName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/metric-range:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceMetricRange
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - NODE_CPU_USAGE
+            - NODE_CPU_REQUESTED
+            - NODE_CPU_CAPACITY
+            - NODE_CPU_ALLOCATABLE_CAPACITY
+            - NODE_RAM_USAGE
+            - NODE_RAM_REQUESTED
+            - NODE_RAM_CAPACITY
+            - NODE_RAM_ALLOCATABLE_CAPACITY
+            - NODE_DISK_USAGE
+            - NODE_EPHEMERAL_DISK_REQUESTED
+            - NODE_EPHEMERAL_DISK_CAPACITY
+            - NODE_EPHEMERAL_DISK_ALLOCATABLE_CAPACITY
+            - NODE_GPU_PODS_COUNT
+            - NODE_GPU_PODS_LIMIT
+            - NODE_GPU_USAGE
+            - NODE_GPU_LIMIT
+            - NODE_VRAM_USAGE
+            - NODE_VRAM_LIMIT
+      - name: minutes
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: stepSeconds
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 60
+      - name: nodeName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Measurement'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/logs:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getLogsByResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/capacity:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupCapacity
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupCapacity'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getLogsByResourceGroupCapacity
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
   /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:
@@ -3535,6 +3842,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: metrics
         in: query
         required: true
@@ -3550,6 +3863,9 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT
@@ -3606,6 +3922,9 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT
@@ -4022,6 +4341,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceEnvironmentData'
+  /api/mlpgate/account/{account}/model/{model}/dataset/allowed:
+    get:
+      tags:
+      - dataset-endpoint
+      operationId: getAllowedDatasetsForFit
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatasetInfoData'
+  /api/mlpgate/account/{account}/model/{model}/dataset/allowed-types:
+    get:
+      tags:
+      - dataset-endpoint
+      operationId: getAllowedDataTypesForFit
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  type: string
   /api/mlpgate/account/{account}/model/{model}/action-descriptor:
     get:
       tags:
@@ -5390,6 +5776,7 @@ components:
       - config
       - id
       - isDefault
+      - isManual
       - name
       type: object
       properties:
@@ -5398,6 +5785,8 @@ components:
         name:
           type: string
         isDefault:
+          type: boolean
+        isManual:
           type: boolean
         config:
           type: string
@@ -6078,6 +6467,8 @@ components:
         userId:
           type: integer
           format: int64
+        node:
+          type: string
         imageId:
           type: integer
           format: int64
@@ -6087,6 +6478,8 @@ components:
         jobId:
           type: integer
           format: int64
+        resourceGroup:
+          type: string
         timestamp:
           type: string
         level:
@@ -6116,6 +6509,58 @@ components:
           type: string
         bucketName:
           type: string
+    Measurement:
+      required:
+      - ts
+      - v
+      type: object
+      properties:
+        ts:
+          type: integer
+          format: int64
+        v:
+          type: number
+          format: double
+    ResourceGroupCapacity:
+      required:
+      - diskMb
+      - gpu
+      - gpuModels
+      - milliCpu
+      - nodes
+      - ramMb
+      - vramMb
+      type: object
+      properties:
+        milliCpu:
+          type: integer
+          format: int64
+        ramMb:
+          type: integer
+          format: int64
+        diskMb:
+          type: integer
+          format: int64
+        gpu:
+          type: integer
+          format: int32
+        gpuModels:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        vRamMb:
+          type: integer
+          format: int32
+          writeOnly: true
+        nodes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        vramMb:
+          type: integer
+          format: int32
     InstancesStatusData:
       required:
       - externalRequested
@@ -6152,18 +6597,6 @@ components:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
           $ref: '#/components/schemas/JobStatusData'
-    Measurement:
-      required:
-      - ts
-      - v
-      type: object
-      properties:
-        ts:
-          type: integer
-          format: int64
-        v:
-          type: number
-          format: double
     ModelInstanceData:
       required:
       - id

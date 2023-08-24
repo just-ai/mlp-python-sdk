@@ -66,9 +66,11 @@ class StatLogData(
             args = schemas.DictSchema
             message = schemas.StrSchema
             userId = schemas.Int64Schema
+            node = schemas.StrSchema
             imageId = schemas.Int64Schema
             modelId = schemas.Int64Schema
             jobId = schemas.Int64Schema
+            resourceGroup = schemas.StrSchema
             __annotations__ = {
                 "accountId": accountId,
                 "recordId": recordId,
@@ -78,9 +80,11 @@ class StatLogData(
                 "args": args,
                 "message": message,
                 "userId": userId,
+                "node": node,
                 "imageId": imageId,
                 "modelId": modelId,
                 "jobId": jobId,
+                "resourceGroup": resourceGroup,
             }
     
     args: MetaOapg.properties.args
@@ -116,6 +120,9 @@ class StatLogData(
     def __getitem__(self, name: typing_extensions.Literal["userId"]) -> MetaOapg.properties.userId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["node"]) -> MetaOapg.properties.node: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["imageId"]) -> MetaOapg.properties.imageId: ...
     
     @typing.overload
@@ -125,9 +132,12 @@ class StatLogData(
     def __getitem__(self, name: typing_extensions.Literal["jobId"]) -> MetaOapg.properties.jobId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["resourceGroup"]) -> MetaOapg.properties.resourceGroup: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "recordId", "timestamp", "level", "code", "args", "message", "userId", "imageId", "modelId", "jobId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["accountId", "recordId", "timestamp", "level", "code", "args", "message", "userId", "node", "imageId", "modelId", "jobId", "resourceGroup", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -157,6 +167,9 @@ class StatLogData(
     def get_item_oapg(self, name: typing_extensions.Literal["userId"]) -> typing.Union[MetaOapg.properties.userId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["node"]) -> typing.Union[MetaOapg.properties.node, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["imageId"]) -> typing.Union[MetaOapg.properties.imageId, schemas.Unset]: ...
     
     @typing.overload
@@ -166,9 +179,12 @@ class StatLogData(
     def get_item_oapg(self, name: typing_extensions.Literal["jobId"]) -> typing.Union[MetaOapg.properties.jobId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["resourceGroup"]) -> typing.Union[MetaOapg.properties.resourceGroup, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "recordId", "timestamp", "level", "code", "args", "message", "userId", "imageId", "modelId", "jobId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["accountId", "recordId", "timestamp", "level", "code", "args", "message", "userId", "node", "imageId", "modelId", "jobId", "resourceGroup", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -183,9 +199,11 @@ class StatLogData(
         message: typing.Union[MetaOapg.properties.message, str, ],
         timestamp: typing.Union[MetaOapg.properties.timestamp, str, ],
         userId: typing.Union[MetaOapg.properties.userId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        node: typing.Union[MetaOapg.properties.node, str, schemas.Unset] = schemas.unset,
         imageId: typing.Union[MetaOapg.properties.imageId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         modelId: typing.Union[MetaOapg.properties.modelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         jobId: typing.Union[MetaOapg.properties.jobId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        resourceGroup: typing.Union[MetaOapg.properties.resourceGroup, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'StatLogData':
@@ -200,9 +218,11 @@ class StatLogData(
             message=message,
             timestamp=timestamp,
             userId=userId,
+            node=node,
             imageId=imageId,
             modelId=modelId,
             jobId=jobId,
+            resourceGroup=resourceGroup,
             _configuration=_configuration,
             **kwargs,
         )

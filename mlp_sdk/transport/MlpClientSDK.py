@@ -37,10 +37,13 @@ class MlpClientSDK:
 
         self.__connect()
 
-    def predict(self, account, model, data, config="{}") -> mlp_grpc_pb2.PredictResponseProto:
+    def predict(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.PredictResponseProto:
 
         if isinstance(data, str):
             data = str.encode(data)
+
+        if headers is None:
+            headers = {}
 
         request = mlp_grpc_pb2.ClientRequestProto(
             account=account,
@@ -49,9 +52,13 @@ class MlpClientSDK:
             predict=mlp_grpc_pb2.PredictRequestProto(
                 data=mlp_grpc_pb2.PayloadProto(json=data),
                 config=mlp_grpc_pb2.PayloadProto(json=config)
-            )
+            ),
+            headers=headers
         )
 
+        return self.predict_raw(request)
+
+    def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
@@ -63,7 +70,10 @@ class MlpClientSDK:
         else:
             raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
-    def ext(self, account, model, method, data) -> mlp_grpc_pb2.ExtendedResponseProto:
+    def ext(self, account, model, method, data, headers=None) -> mlp_grpc_pb2.ExtendedResponseProto:
+        if headers is None:
+            headers = {}
+
         request = mlp_grpc_pb2.ClientRequestProto(
             account=account,
             model=model,
@@ -71,9 +81,13 @@ class MlpClientSDK:
             ext=mlp_grpc_pb2.ExtendedRequestProto(
                 methodName=method,
                 params=data
-            )
+            ),
+            headers=headers
         )
 
+        return self.ext_raw(request)
+
+    def ext_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.ExtendedResponseProto:
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
@@ -91,10 +105,29 @@ class MlpClientSDK:
         request_retry_timeout_seconds = CONFIG["sdk"]["request_retry_timeout_seconds"]
         end_time = time.time() + request_retry_timeout_seconds
 
+        request_retry_max_attempts = CONFIG["sdk"]["request_retry_max_attempts"]
+        request_retry_backoff_seconds = CONFIG["sdk"]["request_retry_backoff_seconds"]
+        request_retry_error_codes = CONFIG["sdk"]["request_retry_error_codes"]
+
+        request_retry_failures = 0
+
         while time.time() < end_time:
             try:
                 response = self.stub.process(request)
-                break
+
+                has_error = response.WhichOneof('body') == 'error'
+                should_retry = has_error and response.error.code in request_retry_error_codes
+
+                if not should_retry:
+                    break
+
+                request_retry_failures += 1
+                if request_retry_failures >= request_retry_max_attempts:
+                    break
+
+                self.log.error(f'Error from gate, attempt {request_retry_failures}:\n{response.error}')
+                time.sleep(request_retry_backoff_seconds)
+                continue
             except grpc.RpcError as rpc_error:
                 if rpc_error.code() == grpc.StatusCode.UNAVAILABLE:
                     self.__connect()

@@ -15,6 +15,8 @@ from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.delete import 
 from mlp_api.paths.api_mlpgate_account_account_dataset.post import DeprecatedCreateDataset
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.post import DeprecatedUpdateDataset
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id_content.get import DownloadDatasetRawContent
+from mlp_api.paths.api_mlpgate_account_account_model_model_dataset_allowed_types.get import GetAllowedDataTypesForFit
+from mlp_api.paths.api_mlpgate_account_account_model_model_dataset_allowed.get import GetAllowedDatasetsForFit
 from mlp_api.paths.api_mlpgate_account_account_dataset_dataset_id.get import GetDatasetInfo
 from mlp_api.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase.get import GetParaphrasedDatasetStatus
 from mlp_api.paths.api_mlpgate_account_account_dataset.get import ListDatasets
@@ -30,6 +32,8 @@ class DatasetEndpointApi(
     DeprecatedCreateDataset,
     DeprecatedUpdateDataset,
     DownloadDatasetRawContent,
+    GetAllowedDataTypesForFit,
+    GetAllowedDatasetsForFit,
     GetDatasetInfo,
     GetParaphrasedDatasetStatus,
     ListDatasets,

@@ -88,6 +88,7 @@ from mlp_api.model.predict_config_data import PredictConfigData
 from mlp_api.model.predict_config_dump import PredictConfigDump
 from mlp_api.model.predict_config_pk import PredictConfigPK
 from mlp_api.model.predict_request_data import PredictRequestData
+from mlp_api.model.resource_group_capacity import ResourceGroupCapacity
 from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
 from mlp_api.model.response_body_emitter import ResponseBodyEmitter
