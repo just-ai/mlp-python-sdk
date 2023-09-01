@@ -5379,6 +5379,8 @@ components:
           format: int32
         hidden:
           type: boolean
+        publicTestingAllowed:
+          type: boolean
         isBillingEnabled:
           type: boolean
         billingUnit:
@@ -5444,6 +5446,8 @@ components:
           type: integer
           format: int32
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
     ModelRetriesData:
       required:

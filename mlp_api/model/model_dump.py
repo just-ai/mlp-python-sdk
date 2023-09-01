@@ -271,6 +271,7 @@ class ModelDump(
             featuredListOrder = schemas.Int32Schema
             minInstancesCount = schemas.Int32Schema
             hidden = schemas.BoolSchema
+            publicTestingAllowed = schemas.BoolSchema
             isBillingEnabled = schemas.BoolSchema
             
             
@@ -340,6 +341,7 @@ class ModelDump(
                 "featuredListOrder": featuredListOrder,
                 "minInstancesCount": minInstancesCount,
                 "hidden": hidden,
+                "publicTestingAllowed": publicTestingAllowed,
                 "isBillingEnabled": isBillingEnabled,
                 "billingUnit": billingUnit,
                 "billingUnitPriceInNanoToken": billingUnitPriceInNanoToken,
@@ -472,6 +474,9 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["hidden"]) -> MetaOapg.properties.hidden: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["publicTestingAllowed"]) -> MetaOapg.properties.publicTestingAllowed: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isBillingEnabled"]) -> MetaOapg.properties.isBillingEnabled: ...
     
     @typing.overload
@@ -486,7 +491,7 @@ class ModelDump(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -609,6 +614,9 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["hidden"]) -> typing.Union[MetaOapg.properties.hidden, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["publicTestingAllowed"]) -> typing.Union[MetaOapg.properties.publicTestingAllowed, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isBillingEnabled"]) -> typing.Union[MetaOapg.properties.isBillingEnabled, schemas.Unset]: ...
     
     @typing.overload
@@ -623,7 +631,7 @@ class ModelDump(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "minInstancesCount", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -669,6 +677,7 @@ class ModelDump(
         featuredListOrder: typing.Union[MetaOapg.properties.featuredListOrder, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         hidden: typing.Union[MetaOapg.properties.hidden, bool, schemas.Unset] = schemas.unset,
+        publicTestingAllowed: typing.Union[MetaOapg.properties.publicTestingAllowed, bool, schemas.Unset] = schemas.unset,
         isBillingEnabled: typing.Union[MetaOapg.properties.isBillingEnabled, bool, schemas.Unset] = schemas.unset,
         billingUnit: typing.Union[MetaOapg.properties.billingUnit, str, schemas.Unset] = schemas.unset,
         billingUnitPriceInNanoToken: typing.Union[MetaOapg.properties.billingUnitPriceInNanoToken, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -718,6 +727,7 @@ class ModelDump(
             featuredListOrder=featuredListOrder,
             minInstancesCount=minInstancesCount,
             hidden=hidden,
+            publicTestingAllowed=publicTestingAllowed,
             isBillingEnabled=isBillingEnabled,
             billingUnit=billingUnit,
             billingUnitPriceInNanoToken=billingUnitPriceInNanoToken,

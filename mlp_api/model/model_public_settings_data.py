@@ -41,12 +41,14 @@ class ModelPublicSettingsData(
             featured = schemas.BoolSchema
             featuredListOrder = schemas.Int32Schema
             hidden = schemas.BoolSchema
+            publicTestingAllowed = schemas.BoolSchema
             __annotations__ = {
                 "isPublic": isPublic,
                 "availableInJaicp": availableInJaicp,
                 "featured": featured,
                 "featuredListOrder": featuredListOrder,
                 "hidden": hidden,
+                "publicTestingAllowed": publicTestingAllowed,
             }
     
     @typing.overload
@@ -65,9 +67,12 @@ class ModelPublicSettingsData(
     def __getitem__(self, name: typing_extensions.Literal["hidden"]) -> MetaOapg.properties.hidden: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["publicTestingAllowed"]) -> MetaOapg.properties.publicTestingAllowed: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isPublic", "availableInJaicp", "featured", "featuredListOrder", "hidden", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isPublic", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -88,9 +93,12 @@ class ModelPublicSettingsData(
     def get_item_oapg(self, name: typing_extensions.Literal["hidden"]) -> typing.Union[MetaOapg.properties.hidden, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["publicTestingAllowed"]) -> typing.Union[MetaOapg.properties.publicTestingAllowed, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isPublic", "availableInJaicp", "featured", "featuredListOrder", "hidden", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isPublic", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -102,6 +110,7 @@ class ModelPublicSettingsData(
         featured: typing.Union[MetaOapg.properties.featured, bool, schemas.Unset] = schemas.unset,
         featuredListOrder: typing.Union[MetaOapg.properties.featuredListOrder, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         hidden: typing.Union[MetaOapg.properties.hidden, bool, schemas.Unset] = schemas.unset,
+        publicTestingAllowed: typing.Union[MetaOapg.properties.publicTestingAllowed, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelPublicSettingsData':
@@ -113,6 +122,7 @@ class ModelPublicSettingsData(
             featured=featured,
             featuredListOrder=featuredListOrder,
             hidden=hidden,
+            publicTestingAllowed=publicTestingAllowed,
             _configuration=_configuration,
             **kwargs,
         )
