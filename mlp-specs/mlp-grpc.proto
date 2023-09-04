@@ -11,7 +11,7 @@ service Gate {
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
-//  rpc processWithResponseStream(ClientRequestProto) returns (stream ClientPartialResponseProto) {}
+  rpc processSynthesis(ClientRequestProto) returns (stream ClientResponseProto) {}
 }
 
 message ServiceDescriptorProto {
@@ -60,6 +60,7 @@ message ServiceToGateProto {
     BatchResponseProto batch = 106;
 
     PartialPredictResponseProto partialPredict = 107;
+    UtteranceSynthesisResponseProto tts = 108;
 
     ApiErrorProto error = 201;
   }
@@ -230,6 +231,7 @@ message ClientRequestProto {
   oneof body {
     PredictRequestProto predict = 101;
     ExtendedRequestProto ext = 103;
+    UtteranceSynthesisRequestProto tts = 108;
   }
 
   map<string, string> headers = 1000;
@@ -239,40 +241,13 @@ message ClientResponseProto {
   oneof body {
     PredictResponseProto predict = 101;
     ExtendedResponseProto ext = 103;
+    UtteranceSynthesisResponseProto tts = 108;
 
     ApiErrorProto error = 201;
   }
 
   map<string, string> headers = 1000;
 }
-
-//  Заготовка для реализации поддержки tts-стриминга через наш grpc-протокол
-//
-//message ClientPartialInitProto {
-//  string account = 1; // тут можно передавать либо id либо shortName аккаунта и модели соответственно
-//  string model = 2;   // обработка будет происходить так: если только цифры - значит id, иначе name
-//  string authToken = 3;
-//  int32 timeoutSec = 4;
-//  optional PayloadProto config = 102;
-//}
-//
-//message ClientPartialRequestProto {
-//  oneof body {
-//    ClientPartialInitProto init = 101;
-//    PartialPredictResponseProto chunk = 104;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
-//
-//message ClientPartialResponseProto {
-//  oneof body {
-//    PartialPredictResponseProto partial = 104;
-//    ApiErrorProto error = 201;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
 
 message ClientTokenRequestProto {
 }
@@ -288,5 +263,32 @@ message ClusterUpdateProto {
 
 message SimpleTextProto {
   string text = 1;
+}
+
+// GRPC TTS API
+message UtteranceSynthesisRequestProto {
+  string text = 1;
+  string voice = 2;
+  AudioFormatOptions output_audio_spec = 3;
+}
+
+message AudioFormatOptions {
+  enum AudioEncoding {
+    LINEAR16_PCM = 0;
+  }
+  AudioEncoding audio_encoding = 1;
+  int64 sample_rate_hertz = 2;
+  int64 chunk_size_kb = 3;
+}
+
+message UtteranceSynthesisResponseProto {
+  message AudioChunk {
+    bytes data = 1;
+  }
+
+  AudioChunk audio_chunk = 1;
+
+  optional bool first = 10;
+  optional bool last = 12;
 }
 

@@ -27,6 +27,82 @@ from mlp_api import schemas  # noqa: F401
 
 from mlp_api.model.response_body_emitter import ResponseBodyEmitter
 
+from . import path
+
+# Query params
+TextSchema = schemas.StrSchema
+VoiceSchema = schemas.StrSchema
+
+
+class AudioEncodingSchema(
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+
+
+    class MetaOapg:
+        enum_value_to_name = {
+            "LINEAR_16PCM": "LINEAR_16PCM",
+        }
+    
+    @schemas.classproperty
+    def LINEAR_16PCM(cls):
+        return cls("LINEAR_16PCM")
+SampleRateHertzSchema = schemas.Int32Schema
+ChunkSizeKbSchema = schemas.Int32Schema
+RequestRequiredQueryParams = typing_extensions.TypedDict(
+    'RequestRequiredQueryParams',
+    {
+        'text': typing.Union[TextSchema, str, ],
+    }
+)
+RequestOptionalQueryParams = typing_extensions.TypedDict(
+    'RequestOptionalQueryParams',
+    {
+        'voice': typing.Union[VoiceSchema, str, ],
+        'audioEncoding': typing.Union[AudioEncodingSchema, str, ],
+        'sampleRateHertz': typing.Union[SampleRateHertzSchema, decimal.Decimal, int, ],
+        'chunkSizeKb': typing.Union[ChunkSizeKbSchema, decimal.Decimal, int, ],
+    },
+    total=False
+)
+
+
+class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
+    pass
+
+
+request_query_text = api_client.QueryParameter(
+    name="text",
+    style=api_client.ParameterStyle.FORM,
+    schema=TextSchema,
+    required=True,
+    explode=True,
+)
+request_query_voice = api_client.QueryParameter(
+    name="voice",
+    style=api_client.ParameterStyle.FORM,
+    schema=VoiceSchema,
+    explode=True,
+)
+request_query_audio_encoding = api_client.QueryParameter(
+    name="audioEncoding",
+    style=api_client.ParameterStyle.FORM,
+    schema=AudioEncodingSchema,
+    explode=True,
+)
+request_query_sample_rate_hertz = api_client.QueryParameter(
+    name="sampleRateHertz",
+    style=api_client.ParameterStyle.FORM,
+    schema=SampleRateHertzSchema,
+    explode=True,
+)
+request_query_chunk_size_kb = api_client.QueryParameter(
+    name="chunkSizeKb",
+    style=api_client.ParameterStyle.FORM,
+    schema=ChunkSizeKbSchema,
+    explode=True,
+)
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -86,17 +162,6 @@ request_path_model = api_client.PathParameter(
     schema=ModelSchema,
     required=True,
 )
-# body param
-SchemaForRequestBodyApplicationJson = schemas.StrSchema
-
-
-request_body_body = api_client.RequestBody(
-    content={
-        'application/json': api_client.MediaType(
-            schema=SchemaForRequestBodyApplicationJson),
-    },
-    required=True,
-)
 SchemaFor200ResponseBodyApplicationOctetStream = ResponseBodyEmitter
 
 
@@ -116,6 +181,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationOctetStream),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/octet-stream',
 )
@@ -123,10 +191,9 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _tts_stream_post_oapg(
+    def _tts_stream_get_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: typing_extensions.Literal["application/json"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -138,27 +205,10 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _tts_stream_post_oapg(
+    def _tts_stream_get_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-
-    @typing.overload
-    def _tts_stream_post_oapg(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -167,10 +217,9 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _tts_stream_post_oapg(
+    def _tts_stream_get_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -182,10 +231,9 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _tts_stream_post_oapg(
+    def _tts_stream_get_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = 'application/json',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -198,6 +246,7 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
+        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
         self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
@@ -216,6 +265,23 @@ class BaseApi(api_client.Api):
         for k, v in _path_params.items():
             used_path = used_path.replace('{%s}' % k, v)
 
+        prefix_separator_iterator = None
+        for parameter in (
+            request_query_text,
+            request_query_voice,
+            request_query_audio_encoding,
+            request_query_sample_rate_hertz,
+            request_query_chunk_size_kb,
+        ):
+            parameter_data = query_params.get(parameter.name, schemas.unset)
+            if parameter_data is schemas.unset:
+                continue
+            if prefix_separator_iterator is None:
+                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
+            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
+            for serialized_value in serialized_data.values():
+                used_path += serialized_value
+
         _headers = HTTPHeaderDict()
         for parameter in (
             request_header_mlp_api_key,
@@ -230,23 +296,10 @@ class BaseApi(api_client.Api):
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
 
-        if body is schemas.unset:
-            raise exceptions.ApiValueError(
-                'The required body parameter has an invalid value of: unset. Set a valid value instead')
-        _fields = None
-        _body = None
-        serialized_data = request_body_body.serialize(body, content_type)
-        _headers.add('Content-Type', content_type)
-        if 'fields' in serialized_data:
-            _fields = serialized_data['fields']
-        elif 'body' in serialized_data:
-            _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='post'.upper(),
+            method='get'.upper(),
             headers=_headers,
-            fields=_fields,
-            body=_body,
             stream=stream,
             timeout=timeout,
         )
@@ -270,14 +323,13 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class TtsStreamPost(BaseApi):
+class TtsStreamGet(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def tts_stream_post(
+    def tts_stream_get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: typing_extensions.Literal["application/json"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -289,27 +341,10 @@ class TtsStreamPost(BaseApi):
     ]: ...
 
     @typing.overload
-    def tts_stream_post(
+    def tts_stream_get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-
-    @typing.overload
-    def tts_stream_post(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -318,10 +353,9 @@ class TtsStreamPost(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def tts_stream_post(
+    def tts_stream_get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -333,10 +367,9 @@ class TtsStreamPost(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def tts_stream_post(
+    def tts_stream_get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = 'application/json',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -344,11 +377,10 @@ class TtsStreamPost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_post_oapg(
-            body=body,
+        return self._tts_stream_get_oapg(
+            query_params=query_params,
             header_params=header_params,
             path_params=path_params,
-            content_type=content_type,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -356,14 +388,13 @@ class TtsStreamPost(BaseApi):
         )
 
 
-class ApiForpost(BaseApi):
+class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     @typing.overload
-    def post(
+    def get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: typing_extensions.Literal["application/json"] = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -375,27 +406,10 @@ class ApiForpost(BaseApi):
     ]: ...
 
     @typing.overload
-    def post(
+    def get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-
-    @typing.overload
-    def post(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -404,10 +418,9 @@ class ApiForpost(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def post(
+    def get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = ...,
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -419,10 +432,9 @@ class ApiForpost(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def post(
+    def get(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
-        content_type: str = 'application/json',
+        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -430,11 +442,10 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_post_oapg(
-            body=body,
+        return self._tts_stream_get_oapg(
+            query_params=query_params,
             header_params=header_params,
             path_params=path_params,
-            content_type=content_type,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
