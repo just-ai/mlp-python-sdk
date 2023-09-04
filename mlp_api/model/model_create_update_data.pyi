@@ -184,6 +184,7 @@ class ModelCreateUpdateData(
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
             minInstancesCount = schemas.Int32Schema
+            startTimeSec = schemas.Float32Schema
             __annotations__ = {
                 "modelName": modelName,
                 "imageAccountId": imageAccountId,
@@ -214,6 +215,7 @@ class ModelCreateUpdateData(
                 "shortDescription": shortDescription,
                 "languages": languages,
                 "minInstancesCount": minInstancesCount,
+                "startTimeSec": startTimeSec,
             }
     
     modelName: MetaOapg.properties.modelName
@@ -306,9 +308,12 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["minInstancesCount"]) -> MetaOapg.properties.minInstancesCount: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["startTimeSec"]) -> MetaOapg.properties.startTimeSec: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -401,9 +406,12 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["minInstancesCount"]) -> typing.Union[MetaOapg.properties.minInstancesCount, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["startTimeSec"]) -> typing.Union[MetaOapg.properties.startTimeSec, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -439,6 +447,7 @@ class ModelCreateUpdateData(
         shortDescription: typing.Union[MetaOapg.properties.shortDescription, str, schemas.Unset] = schemas.unset,
         languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
         minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        startTimeSec: typing.Union[MetaOapg.properties.startTimeSec, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelCreateUpdateData':
@@ -474,6 +483,7 @@ class ModelCreateUpdateData(
             shortDescription=shortDescription,
             languages=languages,
             minInstancesCount=minInstancesCount,
+            startTimeSec=startTimeSec,
             _configuration=_configuration,
             **kwargs,
         )
