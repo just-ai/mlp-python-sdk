@@ -87,11 +87,11 @@ class MlpServiceConnector:
                 self.state = State.connected
                 break
             except _InactiveRpcError:
-                self.log.info("Cannot connect to " + self.url + " retry in 3 sec")
+                self.log.warning("Cannot connect to " + self.url + " retry in 3 sec")
 
             except Exception as e:
-                self.log.info("Cannot connect to " + self.url + " " + type(e).__name__)
-                self.log.info(e, exc_info=True)
+                self.log.error("Cannot connect to " + self.url + " " + type(e).__name__)
+                self.log.error(e, exc_info=True)
 
             self.shutdown_event.wait(CONFIG["sdk"]["shutdown_event_timeout_seconds"])
 
@@ -103,7 +103,7 @@ class MlpServiceConnector:
                 self.log.error(e, exc_info=True)
 
     def __start_streaming(self):
-        self.log.info(" ... init streaming")
+        self.log.debug(" ... init streaming")
         self.stopping_event = threading.Event()
 
         def action_to_gate_generator():
@@ -114,7 +114,7 @@ class MlpServiceConnector:
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
-        self.log.info(" ... start serving")
+        self.log.debug(" ... start serving")
         self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
             startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
@@ -140,13 +140,13 @@ class MlpServiceConnector:
         except _MultiThreadedRendezvous as e:
             # noinspection PyProtectedMember
             if e._state.code == grpc.StatusCode.CANCELLED:
-                self.log.info("Channel closed. (Got StatusCode.CANCELLED exception)")
+                self.log.error("Channel closed. (Got StatusCode.CANCELLED exception)")
             elif e._state.code == grpc.StatusCode.UNAVAILABLE:
-                self.log.info("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
+                self.log.error("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
                 if self.state == State.serving:
                     self.sdk.restart(self)
             else:
-                self.log.info("Unknown MultiThreadedRendezvous exception")
+                self.log.error("Unknown MultiThreadedRendezvous exception")
                 self.log.error(e, exc_info=True)
 
         except BaseException as e:
@@ -165,7 +165,7 @@ class MlpServiceConnector:
             self.last_heartbeat_from_gate = time.time()
 
             if self.heartbeat_thread is None:
-                self.log.info(" ... starting heartbeats", extra={'requestId': request.requestId})
+                self.log.debug(" ... starting heartbeats", extra={'requestId': request.requestId})
                 self.heartbeat_thread_interval = request.heartBeat.interval
                 self.heartbeat_thread = threading.Thread(target=self.__heartbeat_proc)
                 self.heartbeat_thread.start()
@@ -181,9 +181,9 @@ class MlpServiceConnector:
     def __log_request(self, request):
         stringified_request = str(request)
         if len(stringified_request) < CONFIG["sdk"]["large_body_length"]:
-            self.log.info("Request: " + stringified_request, extra={'requestId': request.requestId})
+            self.log.debug("Request: " + stringified_request, extra={'requestId': request.requestId})
         else:
-            self.log.info("Request with large body. Id=" + str(request.requestId),
+            self.log.debug("Request with large body. Id=" + str(request.requestId),
                           extra={'requestId': request.requestId}
                           )
 
@@ -285,7 +285,7 @@ class MlpServiceSDK:
                     continue
 
                 if time.time() > last_active_time + 10:
-                    self.log.info("Service is not connected to gate: " + str(self.gate_urls))
+                    self.log.warning("Service is not connected to gate: " + str(self.gate_urls))
                     self.update_connectors(self.gate_urls)
                     last_active_time = time.time()
 
@@ -390,9 +390,9 @@ class MlpServiceSDK:
     def __log_response(self, request, response):
         stringified_response = str(response)
         if len(stringified_response) < CONFIG["sdk"]["large_body_length"]:
-            self.log.info("Response: " + stringified_response, extra={'requestId': request.requestId})
+            self.log.debug("Response: " + stringified_response, extra={'requestId': request.requestId})
         else:
-            self.log.info("Response with large body. Id=" + str(request.requestId),
+            self.log.debug("Response with large body. Id=" + str(request.requestId),
                           extra={'requestId': request.requestId})
 
     def __process_request(self, req_type, request):
@@ -426,7 +426,7 @@ class MlpServiceSDK:
         else:
             config = None
 
-        self.log.info(f"Config: {config}")
+        self.log.debug(f"Config: {config}")
 
         if not hasattr(self.impl, 'predict'):
             raise NotImplementedError('Predict requests are not supported by this action')

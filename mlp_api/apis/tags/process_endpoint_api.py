@@ -18,8 +18,8 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_predict.post import P
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config.post import PredictWithConfig
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config_v2.post import PredictWithConfigV2
 from mlp_api.paths.p_account_field_model_field.post import ServletPredict
-from mlp_api.paths.api_mlpgate_account_account_model_model_tts_stream.get import TtsStreamGet
-from mlp_api.paths.api_mlpgate_account_account_model_model_tts_stream.post import TtsStreamPost
+from mlp_api.paths.api_mlpgate_account_account_model_model_tts.get import TtsStreamGet
+from mlp_api.paths.api_mlpgate_account_account_model_model_tts.post import TtsStreamPost
 
 
 class ProcessEndpointApi(

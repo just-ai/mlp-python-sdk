@@ -17,6 +17,7 @@ from mlp_api.model.account_data_dump import AccountDataDump
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
+from mlp_api.model.audio_format_options import AudioFormatOptions
 from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
@@ -100,3 +101,4 @@ from mlp_api.model.status import Status
 from mlp_api.model.status_info import StatusInfo
 from mlp_api.model.task_suite_status import TaskSuiteStatus
 from mlp_api.model.task_type_data import TaskTypeData
+from mlp_api.model.tts_request_data import TtsRequestData

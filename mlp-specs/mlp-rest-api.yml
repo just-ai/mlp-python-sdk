@@ -576,7 +576,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{account}/model/{model}/tts-stream:
+  /api/mlpgate/account/{account}/model/{model}/tts:
     get:
       tags:
       - process-endpoint
@@ -599,6 +599,30 @@ paths:
         required: true
         schema:
           type: string
+      - name: voice
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: audioEncoding
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - LINEAR_16PCM
+      - name: sampleRateHertz
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: chunkSizeKb
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -639,7 +663,7 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/TtsRequestData'
         required: true
       responses:
         "200":
@@ -5377,7 +5401,12 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
         isBillingEnabled:
           type: boolean
@@ -5444,6 +5473,8 @@ components:
           type: integer
           format: int32
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
     ModelRetriesData:
       required:
@@ -5719,6 +5750,9 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
     PersistentVolumeData:
       required:
       - mountPath
@@ -5986,6 +6020,30 @@ components:
         modelId:
           type: integer
           format: int64
+    AudioFormatOptions:
+      type: object
+      properties:
+        audioEncoding:
+          type: string
+          enum:
+          - LINEAR_16PCM
+        sampleRateHertz:
+          type: integer
+          format: int32
+        chunkSizeKb:
+          type: integer
+          format: int32
+    TtsRequestData:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
+        voice:
+          type: string
+        outputAudioSpec:
+          $ref: '#/components/schemas/AudioFormatOptions'
     ResponseBodyEmitter:
       type: object
       properties:
@@ -6597,6 +6655,9 @@ components:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
           $ref: '#/components/schemas/JobStatusData'
+        startTimeSeconds:
+          type: number
+          format: float
     ModelInstanceData:
       required:
       - id
