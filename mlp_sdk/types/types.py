@@ -624,6 +624,7 @@ class TtsConfig(BaseModel):
 
 
 class TtsResponse(BaseModel):
+    text: str
     audio_base64: str
 
 
