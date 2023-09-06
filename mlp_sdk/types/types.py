@@ -628,10 +628,10 @@ class TtsResponse(BaseModel):
     audio_base64: str
 
 
-class TtsDictionary(BaseModel):
-    dictionary: List[TtsDictionaryEntry]
-
-
 class TtsDictionaryEntry(BaseModel):
     original: str
     replacement: str
+
+
+class TtsDictionary(BaseModel):
+    dictionary: List[TtsDictionaryEntry]
