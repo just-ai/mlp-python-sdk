@@ -570,7 +570,11 @@ class OpenAIMeta(BaseModel):
     total_tokens: int
 
 
-class GenerativeQA(TextsCollection, OpenAIMeta):
+class DocIdListCollection(BaseModel):
+    doc_ids: Optional[List[List[int]]]
+
+
+class GenerativeQA(TextsCollection, DocIdListCollection, OpenAIMeta):
     answer: str
     scores: List[float]
 
