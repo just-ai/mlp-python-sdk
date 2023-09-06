@@ -36,10 +36,10 @@ def prepare_app(task_type: Type[TASK_TYPE], initialization_params: BaseModel) ->
                 )
 
     def health_check():
-        return http.HTTPStatus.OK
+        return http.HTTPStatus.OK.phrase
 
     app.add_api_route(
-        "/health_check",
+        "/healthCheck",
         endpoint=health_check,
         methods=["GET"],
         name="health_check"
