@@ -19,7 +19,6 @@ class LearnableMixin(ABCTask):
     def _check_fit_input_types(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             target_service_info: ServiceInfo,
             dataset_info: DatasetInfo,
@@ -48,36 +47,36 @@ class LearnableMixin(ABCTask):
             dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
-            train_data_ids: BaseModel = []
+            train_data_ids: BaseModel = [],
     ) -> None:
         self._check_config_validness(config, "fit")
         self._check_fit_input_types(train_data, targets, target_service_info, dataset_info, model_dir,
-                                    previous_model_dir, train_data_ids)
+                                    previous_model_dir)
 
     @abstractmethod
     def fit(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             config: BaseModel,
             target_service_info: ServiceInfo,
             dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str = '',
+            train_data_ids: BaseModel = [],
     ) -> None:
         pass
 
     def post_fit(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             config: BaseModel,
             target_service_info: ServiceInfo,
             dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
+            train_data_ids: BaseModel,
     ) -> None:
         self._save_state()
 
