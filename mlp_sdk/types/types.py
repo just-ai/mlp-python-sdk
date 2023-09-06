@@ -574,6 +574,10 @@ class DocIdListCollection(BaseModel):
     doc_ids: Optional[List[List[int]]]
 
 
+class IdsCollection(BaseModel):
+    ids: List[int]
+
+
 class GenerativeQA(TextsCollection, DocIdListCollection, OpenAIMeta):
     answer: str
     scores: List[float]
