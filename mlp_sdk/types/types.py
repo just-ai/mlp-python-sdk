@@ -575,7 +575,7 @@ class DocIdListCollection(BaseModel):
 
 
 class IdsCollection(BaseModel):
-    ids: List[int]
+    ids: Optional[List[int]]
 
 
 class GenerativeQA(TextsCollection, DocIdListCollection, OpenAIMeta):
