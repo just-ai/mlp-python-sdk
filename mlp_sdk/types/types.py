@@ -568,14 +568,10 @@ class OpenAIMeta(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     total_tokens: int
-
-
-# class DocIdListCollection(BaseModel):
-#     doc_ids: Optional[List[List[int]]]
-
+    
 
 class IdsCollection(BaseModel):
-    doc_ids: Optional[List[int]]
+    doc_ids: List[int]
 
 
 class GenerativeQA(TextsCollection, IdsCollection, OpenAIMeta):
