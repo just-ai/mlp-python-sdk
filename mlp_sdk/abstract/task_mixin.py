@@ -79,7 +79,7 @@ class LearnableMixin(ABCTask):
             target_service_info: ServiceInfo,
             dataset_info: DatasetInfo,
             model_dir: str,
-            previous_model_dir: str
+            previous_model_dir: str,
     ) -> None:
         self._save_state()
 
