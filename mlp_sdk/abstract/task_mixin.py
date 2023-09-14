@@ -19,7 +19,6 @@ class LearnableMixin(ABCTask):
     def _check_fit_input_types(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             target_service_info: ServiceInfo,
             dataset_info: DatasetInfo,
@@ -27,8 +26,6 @@ class LearnableMixin(ABCTask):
             previous_model_dir: str,
     ) -> None:
         if not is_allowed_input_type(type(self), "fit", "train_data", type(train_data)):
-            raise RuntimeError()
-        if not is_allowed_input_type(type(self), "fit", "train_data_ids", type(train_data_ids)):
             raise RuntimeError()
         if targets is not None and not is_allowed_input_type(type(self), "fit", "targets", type(targets)):
             raise RuntimeError()
@@ -44,7 +41,6 @@ class LearnableMixin(ABCTask):
     def pre_fit(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             config: BaseModel,
             target_service_info: ServiceInfo,
@@ -53,14 +49,13 @@ class LearnableMixin(ABCTask):
             previous_model_dir: str,
     ) -> None:
         self._check_config_validness(config, "fit")
-        self._check_fit_input_types(train_data, train_data_ids, targets, target_service_info, dataset_info, model_dir,
+        self._check_fit_input_types(train_data, targets, target_service_info, dataset_info, model_dir,
                                     previous_model_dir)
 
     @abstractmethod
     def fit(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             config: BaseModel,
             target_service_info: ServiceInfo,
@@ -73,7 +68,6 @@ class LearnableMixin(ABCTask):
     def post_fit(
             self,
             train_data: BaseModel,
-            train_data_ids: BaseModel,
             targets: BaseModel,
             config: BaseModel,
             target_service_info: ServiceInfo,
