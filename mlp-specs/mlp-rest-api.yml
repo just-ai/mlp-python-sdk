@@ -830,11 +830,6 @@ paths:
         schema:
           type: integer
           format: int64
-      - name: g-recaptcha-response
-        in: header
-        required: false
-        schema:
-          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -872,11 +867,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: g-recaptcha-response
-        in: header
-        required: false
-        schema:
-          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -912,11 +902,6 @@ paths:
         in: path
         description: Model id or model name
         required: true
-        schema:
-          type: string
-      - name: g-recaptcha-response
-        in: header
-        required: false
         schema:
           type: string
       - name: MLP-API-KEY

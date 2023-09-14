@@ -52,7 +52,6 @@ request_query_config_id = api_client.QueryParameter(
     explode=True,
 )
 # Header params
-GRecaptchaResponseSchema = schemas.StrSchema
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
@@ -62,7 +61,6 @@ RequestRequiredHeaderParams = typing_extensions.TypedDict(
 RequestOptionalHeaderParams = typing_extensions.TypedDict(
     'RequestOptionalHeaderParams',
     {
-        'g-recaptcha-response': typing.Union[GRecaptchaResponseSchema, str, ],
         'MLP-API-KEY': typing.Union[MLPAPIKEYSchema, str, ],
     },
     total=False
@@ -73,11 +71,6 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
     pass
 
 
-request_header_g_recaptcha_response = api_client.HeaderParameter(
-    name="g-recaptcha-response",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=GRecaptchaResponseSchema,
-)
 request_header_mlp_api_key = api_client.HeaderParameter(
     name="MLP-API-KEY",
     style=api_client.ParameterStyle.SIMPLE,
@@ -268,7 +261,6 @@ class BaseApi(api_client.Api):
 
         _headers = HTTPHeaderDict()
         for parameter in (
-            request_header_g_recaptcha_response,
             request_header_mlp_api_key,
         ):
             parameter_data = header_params.get(parameter.name, schemas.unset)
