@@ -830,6 +830,11 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: g-recaptcha-response
+        in: header
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -867,6 +872,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: g-recaptcha-response
+        in: header
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -902,6 +912,11 @@ paths:
         in: path
         description: Model id or model name
         required: true
+        schema:
+          type: string
+      - name: g-recaptcha-response
+        in: header
+        required: false
         schema:
           type: string
       - name: MLP-API-KEY
@@ -3197,6 +3212,25 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/system-config/captcha:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: getCaptchaConfig
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpgate/models:
     get:
       tags:
@@ -6406,6 +6440,19 @@ components:
         limits:
           $ref: '#/components/schemas/ModelLimitsData'
         resourceGroup:
+          type: string
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      - url
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        url:
+          type: string
+        siteKey:
           type: string
     PagedModelInfoData:
       required:
