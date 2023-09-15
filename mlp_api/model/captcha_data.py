@@ -37,28 +37,21 @@ class CaptchaData(
         required = {
             "siteKey",
             "enabled",
-            "url",
         }
         
         class properties:
             enabled = schemas.BoolSchema
-            url = schemas.StrSchema
             siteKey = schemas.StrSchema
             __annotations__ = {
                 "enabled": enabled,
-                "url": url,
                 "siteKey": siteKey,
             }
     
     siteKey: MetaOapg.properties.siteKey
     enabled: MetaOapg.properties.enabled
-    url: MetaOapg.properties.url
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["enabled"]) -> MetaOapg.properties.enabled: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["url"]) -> MetaOapg.properties.url: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["siteKey"]) -> MetaOapg.properties.siteKey: ...
@@ -66,7 +59,7 @@ class CaptchaData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["enabled", "url", "siteKey", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["enabled", "siteKey", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -75,15 +68,12 @@ class CaptchaData(
     def get_item_oapg(self, name: typing_extensions.Literal["enabled"]) -> MetaOapg.properties.enabled: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["url"]) -> MetaOapg.properties.url: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["siteKey"]) -> MetaOapg.properties.siteKey: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["enabled", "url", "siteKey", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["enabled", "siteKey", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -92,7 +82,6 @@ class CaptchaData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         siteKey: typing.Union[MetaOapg.properties.siteKey, str, ],
         enabled: typing.Union[MetaOapg.properties.enabled, bool, ],
-        url: typing.Union[MetaOapg.properties.url, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'CaptchaData':
@@ -101,7 +90,6 @@ class CaptchaData(
             *_args,
             siteKey=siteKey,
             enabled=enabled,
-            url=url,
             _configuration=_configuration,
             **kwargs,
         )

@@ -6430,13 +6430,10 @@ components:
       required:
       - enabled
       - siteKey
-      - url
       type: object
       properties:
         enabled:
           type: boolean
-        url:
-          type: string
         siteKey:
           type: string
     PagedModelInfoData:
