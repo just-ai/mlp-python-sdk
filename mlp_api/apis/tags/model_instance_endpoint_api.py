@@ -13,6 +13,7 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_file_logs.get import GetInstanceLogFile
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_file.get import GetInstancePodFile
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_environment.get import GetModelInstanceEnvironment
+from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_laststate.get import GetModelInstanceLastState
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_timing.get import GetModelInstanceStartTime
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance.get import GetModelInstances
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_stop.post import StopInstance
@@ -24,6 +25,7 @@ class ModelInstanceEndpointApi(
     GetInstanceLogFile,
     GetInstancePodFile,
     GetModelInstanceEnvironment,
+    GetModelInstanceLastState,
     GetModelInstanceStartTime,
     GetModelInstances,
     StopInstance,

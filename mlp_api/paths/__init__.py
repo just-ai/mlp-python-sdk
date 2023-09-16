@@ -95,6 +95,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TIMING = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/timing"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRIC = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRICRANGE = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric-range"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_LASTSTATE = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/laststate"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE_LOGS = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file/logs"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_EVENTS = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/events"
