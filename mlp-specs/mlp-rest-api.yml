@@ -4100,6 +4100,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInstanceListData'
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/timing:
+    get:
+      tags:
+      - model-instance-endpoint
+      operationId: getModelInstanceStartTime
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelStartTimeData'
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric:
     get:
       tags:
@@ -6737,6 +6774,31 @@ components:
           type: boolean
         podStatus:
           type: string
+    ModelStartTimeData:
+      required:
+      - instanceId
+      - instanceStartTime
+      - modelId
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        modelAverageStartTimeSec:
+          type: number
+          format: float
+        instanceStartTime:
+          type: string
+          format: date-time
+        instanceStartedTime:
+          type: string
+          format: date-time
+        instanceErrorTime:
+          type: string
+          format: date-time
     EventData:
       required:
       - name

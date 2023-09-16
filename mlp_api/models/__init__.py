@@ -77,6 +77,7 @@ from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.model.model_retries_data import ModelRetriesData
 from mlp_api.model.model_short_status_data import ModelShortStatusData
+from mlp_api.model.model_start_time_data import ModelStartTimeData
 from mlp_api.model.model_timeouts_data import ModelTimeoutsData
 from mlp_api.model.paged_data_image_info_data import PagedDataImageInfoData
 from mlp_api.model.paged_image_info_data import PagedImageInfoData
