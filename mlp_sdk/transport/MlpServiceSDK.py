@@ -27,12 +27,13 @@ MlpResponseHeaders = threading.local()
 
 class MlpServiceConnector:
 
-    def __init__(self, url, sdk, grpc_secure=True):
+    def __init__(self, url, sdk, config=CONFIG, grpc_secure=True):
         self.url = url
         self.sdk = sdk
+        self.config = config
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = get_logger(f'MlpServiceConnector-{url}', CONFIG["logging"]["level"])
+        self.log = get_logger(f'MlpServiceConnector-{url}', self.config["logging"]["level"])
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -72,13 +73,13 @@ class MlpServiceConnector:
                         creds = grpc.ssl_channel_credentials()
 
                     self.channel = grpc.secure_channel(self.url, creds, options=[
-                        ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
-                        ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
+                        ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
+                        ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
                     ])
                 else:
                     self.channel = grpc.insecure_channel(self.url, options=[
-                        ('grpc.max_send_message_length', CONFIG["grpc"]["max_send_message_length"]),
-                        ('grpc.max_receive_message_length', CONFIG["grpc"]["max_receive_message_length"])
+                        ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
+                        ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
                     ])
                 self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
 
@@ -93,7 +94,7 @@ class MlpServiceConnector:
                 self.log.error("Cannot connect to " + self.url + " " + type(e).__name__)
                 self.log.error(e, exc_info=True)
 
-            self.shutdown_event.wait(CONFIG["sdk"]["shutdown_event_timeout_seconds"])
+            self.shutdown_event.wait(self.config["sdk"]["shutdown_event_timeout_seconds"])
 
         if self.state == State.connected:
             try:
@@ -180,7 +181,7 @@ class MlpServiceConnector:
 
     def __log_request(self, request):
         stringified_request = str(request)
-        if len(stringified_request) < CONFIG["sdk"]["large_body_length"]:
+        if len(stringified_request) < self.config["sdk"]["large_body_length"]:
             self.log.debug("Request: " + stringified_request, extra={'requestId': request.requestId})
         else:
             self.log.debug("Request with large body. Id=" + str(request.requestId),
@@ -208,21 +209,22 @@ class MlpServiceConnector:
 
         # waiting for close
         if self.stopping_event is not None:
-            self.stopping_event.wait(CONFIG["sdk"]["stopping_event_timeout_seconds"])
+            self.stopping_event.wait(self.config["sdk"]["stopping_event_timeout_seconds"])
 
         self.shutdown_event.set()
         if self.channel is not None:
             self.channel.close()
         if self.startup_thread is not None and threading.current_thread() != self.startup_thread:
-            self.startup_thread.join(CONFIG["sdk"]["startup_thread_timeout_seconds"])
+            self.startup_thread.join(self.config["sdk"]["startup_thread_timeout_seconds"])
         if self.heartbeat_thread is not None:
-            self.heartbeat_thread.join(CONFIG["sdk"]["heartbeat_thread_timeout_seconds"])
+            self.heartbeat_thread.join(self.config["sdk"]["heartbeat_thread_timeout_seconds"])
 
 
 class MlpServiceSDK:
 
-    def __init__(self):
-        self.log = get_logger('MlpServiceSDK', CONFIG["logging"]["level"])
+    def __init__(self, config=CONFIG):
+        self.config = config
+        self.log = get_logger('MlpServiceSDK', self.config["logging"]["level"])
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True
@@ -232,7 +234,7 @@ class MlpServiceSDK:
         self.connectors_lock = threading.Lock()
         self.connection_token: str = ''
 
-        self.requests_executor = ThreadPoolExecutor(max_workers=CONFIG["sdk"]["requests_executor_pool_size"])
+        self.requests_executor = ThreadPoolExecutor(max_workers=self.config["sdk"]["requests_executor_pool_size"])
 
         self.impl = None
         self.schema = None
@@ -335,7 +337,7 @@ class MlpServiceSDK:
 
         signal.signal(signal.SIGINT, shutdown)
         signal.signal(signal.SIGTERM, shutdown)
-        barrier.wait(CONFIG["sdk"]["action_shutdown_timeout_seconds"])
+        barrier.wait(self.config["sdk"]["action_shutdown_timeout_seconds"])
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
         self.log.error("Unknown request type " + req_type, extra={'requestId': request.requestId})
@@ -389,7 +391,7 @@ class MlpServiceSDK:
 
     def __log_response(self, request, response):
         stringified_response = str(response)
-        if len(stringified_response) < CONFIG["sdk"]["large_body_length"]:
+        if len(stringified_response) < self.config["sdk"]["large_body_length"]:
             self.log.debug("Response: " + stringified_response, extra={'requestId': request.requestId})
         else:
             self.log.debug("Response with large body. Id=" + str(request.requestId),
