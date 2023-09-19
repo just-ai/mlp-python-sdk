@@ -27,7 +27,7 @@ MlpResponseHeaders = threading.local()
 
 class MlpServiceConnector:
 
-    def __init__(self, url, sdk, config=CONFIG, grpc_secure=True):
+    def __init__(self, url, sdk, grpc_secure=True, config=CONFIG):
         self.url = url
         self.sdk = sdk
         self.config = config
