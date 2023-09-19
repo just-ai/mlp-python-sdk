@@ -618,6 +618,8 @@ class TtsRequest(BaseModel):
 
 
 class TtsConfig(BaseModel):
+    voice: Optional[str]
+    output_audio_spec: Optional[AudioFormatOptions] = Field(alias='outputAudioSpec')
     encode_base64: Optional[bool] = Field(True, alias='encodeBase64')
 
 
