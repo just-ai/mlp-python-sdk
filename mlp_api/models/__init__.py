@@ -17,6 +17,8 @@ from mlp_api.model.account_data_dump import AccountDataDump
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
+from mlp_api.model.audio_format_options import AudioFormatOptions
+from mlp_api.model.captcha_data import CaptchaData
 from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
@@ -50,6 +52,10 @@ from mlp_api.model.image_info_data import ImageInfoData
 from mlp_api.model.image_info_pk import ImageInfoPK
 from mlp_api.model.instance_environment_data import InstanceEnvironmentData
 from mlp_api.model.instance_event_data import InstanceEventData
+from mlp_api.model.instance_last_state import InstanceLastState
+from mlp_api.model.instance_state_running import InstanceStateRunning
+from mlp_api.model.instance_state_terminated import InstanceStateTerminated
+from mlp_api.model.instance_state_waiting import InstanceStateWaiting
 from mlp_api.model.instances_status_data import InstancesStatusData
 from mlp_api.model.job_status_data import JobStatusData
 from mlp_api.model.management_request_data import ManagementRequestData
@@ -75,6 +81,7 @@ from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.model.model_retries_data import ModelRetriesData
 from mlp_api.model.model_short_status_data import ModelShortStatusData
+from mlp_api.model.model_start_time_data import ModelStartTimeData
 from mlp_api.model.model_timeouts_data import ModelTimeoutsData
 from mlp_api.model.paged_data_image_info_data import PagedDataImageInfoData
 from mlp_api.model.paged_image_info_data import PagedImageInfoData
@@ -100,3 +107,4 @@ from mlp_api.model.status import Status
 from mlp_api.model.status_info import StatusInfo
 from mlp_api.model.task_suite_status import TaskSuiteStatus
 from mlp_api.model.task_type_data import TaskTypeData
+from mlp_api.model.tts_request_data import TtsRequestData

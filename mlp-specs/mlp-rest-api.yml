@@ -576,7 +576,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{account}/model/{model}/tts-stream:
+  /api/mlpgate/account/{account}/model/{model}/tts:
     get:
       tags:
       - process-endpoint
@@ -599,6 +599,30 @@ paths:
         required: true
         schema:
           type: string
+      - name: voice
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: audioEncoding
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - LINEAR_16PCM
+      - name: sampleRateHertz
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: chunkSizeKb
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -639,7 +663,7 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/TtsRequestData'
         required: true
       responses:
         "200":
@@ -1142,6 +1166,33 @@ paths:
               type: integer
               format: int32
         required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/model/{model}/instances/single:
+    post:
+      tags:
+      - model-endpoint
+      operationId: startSingleInstance
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -3173,6 +3224,25 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/system-config/captcha:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: getCaptchaConfig
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpgate/models:
     get:
       tags:
@@ -4057,6 +4127,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInstanceListData'
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/timing:
+    get:
+      tags:
+      - model-instance-endpoint
+      operationId: getModelInstanceStartTime
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelStartTimeData'
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric:
     get:
       tags:
@@ -4181,6 +4288,43 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/laststate:
+    get:
+      tags:
+      - model-instance-endpoint
+      operationId: getModelInstanceLastState
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceLastState'
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file:
     get:
       tags:
@@ -5377,7 +5521,12 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
         isBillingEnabled:
           type: boolean
@@ -5444,6 +5593,8 @@ components:
           type: integer
           format: int32
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
     ModelRetriesData:
       required:
@@ -5719,6 +5870,9 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
     PersistentVolumeData:
       required:
       - mountPath
@@ -5986,6 +6140,30 @@ components:
         modelId:
           type: integer
           format: int64
+    AudioFormatOptions:
+      type: object
+      properties:
+        audioEncoding:
+          type: string
+          enum:
+          - LINEAR_16PCM
+        sampleRateHertz:
+          type: integer
+          format: int32
+        chunkSizeKb:
+          type: integer
+          format: int32
+    TtsRequestData:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
+        voice:
+          type: string
+        outputAudioSpec:
+          $ref: '#/components/schemas/AudioFormatOptions'
     ResponseBodyEmitter:
       type: object
       properties:
@@ -6349,6 +6527,16 @@ components:
           $ref: '#/components/schemas/ModelLimitsData'
         resourceGroup:
           type: string
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        siteKey:
+          type: string
     PagedModelInfoData:
       required:
       - paging
@@ -6597,6 +6785,9 @@ components:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
           $ref: '#/components/schemas/JobStatusData'
+        startTimeSeconds:
+          type: number
+          format: float
     ModelInstanceData:
       required:
       - id
@@ -6646,6 +6837,66 @@ components:
         isConnectedToAllGates:
           type: boolean
         podStatus:
+          type: string
+    ModelStartTimeData:
+      required:
+      - instanceId
+      - instanceStartTime
+      - modelId
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        modelAverageStartTimeSec:
+          type: number
+          format: float
+        instanceStartTime:
+          type: string
+          format: date-time
+        instanceStartedTime:
+          type: string
+          format: date-time
+        instanceErrorTime:
+          type: string
+          format: date-time
+    InstanceLastState:
+      type: object
+      properties:
+        running:
+          $ref: '#/components/schemas/InstanceStateRunning'
+        terminated:
+          $ref: '#/components/schemas/InstanceStateTerminated'
+        waiting:
+          $ref: '#/components/schemas/InstanceStateWaiting'
+    InstanceStateRunning:
+      type: object
+      properties:
+        startedAt:
+          type: string
+    InstanceStateTerminated:
+      type: object
+      properties:
+        startedAt:
+          type: string
+        finishedAt:
+          type: string
+        exitCode:
+          type: integer
+          format: int32
+        reason:
+          type: string
+        message:
+          type: string
+    InstanceStateWaiting:
+      type: object
+      properties:
+        reason:
+          type: string
+        message:
           type: string
     EventData:
       required:

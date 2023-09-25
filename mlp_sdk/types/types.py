@@ -1,7 +1,7 @@
 import enum
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 PACKAGE_NAME = "types"
 
@@ -599,3 +599,57 @@ class TokenizedTextsCollectionWithErrorTest(TokenizedTextsCollection):
 
 class DialogCollection(BaseModel):
     dialogs: List[Dialog]
+
+
+class AudioEncoding(enum.Enum):
+    LINEAR16_PCM = 'LINEAR16_PCM'
+
+
+class AudioFormatOptions(BaseModel):
+    audio_encoding: Optional[AudioEncoding] = Field(alias='audioEncoding')
+    sample_rate_hertz: Optional[int] = Field(alias='sampleRateHertz')
+    chunk_size_kb: Optional[int] = Field(alias='chunkSizeKb')
+
+
+class TtsRequest(BaseModel):
+    text: str
+    voice: Optional[str]
+    output_audio_spec: Optional[AudioFormatOptions] = Field(alias='outputAudioSpec')
+
+
+class TtsConfig(BaseModel):
+    voice: Optional[str]
+    output_audio_spec: Optional[AudioFormatOptions] = Field(alias='outputAudioSpec')
+    encode_base64: Optional[bool] = Field(True, alias='encodeBase64')
+
+
+class TtsResponse(BaseModel):
+    audio_base64: str
+
+
+# JustGPT motivated
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
+class ChatCompletionSimpleRequest(BaseModel):
+    messages: List[ChatMessage]
+
+
+class ChatCompletionUsage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class ChatCompletionChoice(BaseModel):
+    index: int
+    message: ChatMessage
+    finish_reason: str
+
+
+class ChatCompletionResult(BaseModel):
+    model: str
+    choices: List[ChatCompletionChoice]
+    usage: ChatCompletionUsage

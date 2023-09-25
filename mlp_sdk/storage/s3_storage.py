@@ -68,7 +68,7 @@ class S3Storage(AbstractStorage):
             raise
 
         try:
-            LOGGER.info(f"Check bucket {self.bucket} existence and accessibility")
+            LOGGER.debug(f"Check bucket {self.bucket} existence and accessibility")
             self.client.head_bucket(Bucket=self.bucket)
             LOGGER.info(f"Bucket {self.bucket} exists and is accessible")
 
@@ -76,7 +76,7 @@ class S3Storage(AbstractStorage):
             LOGGER.error(str(exc))
 
             try:
-                LOGGER.info(f"Bucket {self.bucket} does not exist, try to create new one")
+                LOGGER.debug(f"Bucket {self.bucket} does not exist, try to create new one")
                 self.client.create_bucket(Bucket=self.bucket)
                 LOGGER.info(f"Bucket {self.bucket} was successfully created")
 
@@ -90,7 +90,7 @@ class S3Storage(AbstractStorage):
         if self.data_dir is not None:
             path = os_path_join_corrected(self.data_dir, path)
 
-        LOGGER.info(f'Try to open path {path}')
+        LOGGER.debug(f'Try to open path {path}')
 
         if ('r' in modes or 'w' in modes) and (len(modes) == 1 or (len(modes) == 2 and 'b' in modes)):
             if 'r' in mode:
@@ -133,7 +133,7 @@ class S3Storage(AbstractStorage):
             error_msg = f"File or directory doesn't exist: '{path}'"
             LOGGER.warning(error_msg)
 
-        LOGGER.info(f'Try to remove path {path}')
+        LOGGER.debug(f'Try to remove path {path}')
         if objects_count > 1:
             for obj in self.resource.Bucket(self.bucket).objects.filter(Prefix=path):
                 self.client.delete_object(Bucket=self.bucket, Key=obj.key)
@@ -155,7 +155,7 @@ class S3Storage(AbstractStorage):
         for _ in self.resource.Bucket(self.bucket).objects.filter(Prefix=remote_path):
             objects_count += 1
 
-        LOGGER.info(f'Try to download from {remote_path} to {local_path}, is directory: {objects_count > 1}')
+        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {objects_count > 1}')
         if objects_count > 1:
             Path(local_path).mkdir(parents=True, exist_ok=True)
             self._download_directory(remote_path, local_path)
@@ -195,7 +195,7 @@ class S3Storage(AbstractStorage):
         if self.data_dir is not None:
             remote_path = os_path_join_corrected(self.data_dir, remote_path)
 
-        LOGGER.info(f'Try to download from {remote_path} to {local_path}, is directory: {os.path.isdir(local_path)}')
+        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {os.path.isdir(local_path)}')
         if os.path.isdir(local_path):
             self._upload_directory(local_path, remote_path)
         else:

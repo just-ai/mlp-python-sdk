@@ -10,7 +10,7 @@ from mlp_api.apis.paths.api_mlpgate_account import ApiMlpgateAccount
 from mlp_api.apis.paths.api_mlpgate_account_account_token import ApiMlpgateAccountAccountToken
 from mlp_api.apis.paths.api_mlpgate_account_account_model import ApiMlpgateAccountAccountModel
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model import ApiMlpgateAccountAccountModelModel
-from mlp_api.apis.paths.api_mlpgate_account_account_model_model_tts_stream import ApiMlpgateAccountAccountModelModelTtsStream
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_tts import ApiMlpgateAccountAccountModelModelTts
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_simple_doc import ApiMlpgateAccountAccountModelModelSimpleDoc
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_public_settings import ApiMlpgateAccountAccountModelModelPublicSettings
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict import ApiMlpgateAccountAccountModelModelPredict
@@ -19,6 +19,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_con
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config import ApiMlpgateAccountAccountModelModelPredictConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config_config_id import ApiMlpgateAccountAccountModelModelPredictConfigConfigId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instances import ApiMlpgateAccountAccountModelModelInstances
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instances_single import ApiMlpgateAccountAccountModelModelInstancesSingle
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_terminate import ApiMlpgateAccountAccountModelModelInstanceInstanceIdTerminate
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_stop import ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_start import ApiMlpgateAccountAccountModelModelInstanceStart
@@ -63,6 +64,7 @@ from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSy
 from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpgateSystemConfigResourceGroups
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
 from mlp_api.apis.paths.api_mlpgate_system_config_dataset_data_type import ApiMlpgateSystemConfigDatasetDataType
+from mlp_api.apis.paths.api_mlpgate_system_config_captcha import ApiMlpgateSystemConfigCaptcha
 from mlp_api.apis.paths.api_mlpgate_models import ApiMlpgateModels
 from mlp_api.apis.paths.api_mlpgate_models_featured import ApiMlpgateModelsFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
@@ -86,8 +88,10 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_metric_range imp
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_logs import ApiMlpgateAccountAccountModelModelLogs
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_last_job import ApiMlpgateAccountAccountModelModelLastJob
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance import ApiMlpgateAccountAccountModelModelInstance
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_timing import ApiMlpgateAccountAccountModelModelInstanceInstanceIdTiming
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric import ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetric
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric_range import ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetricRange
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_laststate import ApiMlpgateAccountAccountModelModelInstanceInstanceIdLaststate
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_file import ApiMlpgateAccountAccountModelModelInstanceInstanceIdFile
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_file_logs import ApiMlpgateAccountAccountModelModelInstanceInstanceIdFileLogs
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_events import ApiMlpgateAccountAccountModelModelInstanceInstanceIdEvents
@@ -133,7 +137,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTSSTREAM: ApiMlpgateAccountAccountModelModelTtsStream,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTS: ApiMlpgateAccountAccountModelModelTts,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_SIMPLEDOC: ApiMlpgateAccountAccountModelModelSimpleDoc,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
@@ -142,6 +146,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES_SINGLE: ApiMlpgateAccountAccountModelModelInstancesSingle,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TERMINATE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdTerminate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_STOP: ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_START: ApiMlpgateAccountAccountModelModelInstanceStart,
@@ -186,6 +191,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
+        PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
@@ -209,8 +215,10 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_LOGS: ApiMlpgateAccountAccountModelModelLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_LASTJOB: ApiMlpgateAccountAccountModelModelLastJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE: ApiMlpgateAccountAccountModelModelInstance,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TIMING: ApiMlpgateAccountAccountModelModelInstanceInstanceIdTiming,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRIC: ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRICRANGE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetricRange,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_LASTSTATE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdLaststate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdFile,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiMlpgateAccountAccountModelModelInstanceInstanceIdFileLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_EVENTS: ApiMlpgateAccountAccountModelModelInstanceInstanceIdEvents,
@@ -257,7 +265,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTSSTREAM: ApiMlpgateAccountAccountModelModelTtsStream,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTS: ApiMlpgateAccountAccountModelModelTts,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_SIMPLEDOC: ApiMlpgateAccountAccountModelModelSimpleDoc,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PUBLICSETTINGS: ApiMlpgateAccountAccountModelModelPublicSettings,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
@@ -266,6 +274,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES_SINGLE: ApiMlpgateAccountAccountModelModelInstancesSingle,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TERMINATE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdTerminate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_STOP: ApiMlpgateAccountAccountModelModelInstanceInstanceIdStop,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_START: ApiMlpgateAccountAccountModelModelInstanceStart,
@@ -310,6 +319,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
+        PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
@@ -333,8 +343,10 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_LOGS: ApiMlpgateAccountAccountModelModelLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_LASTJOB: ApiMlpgateAccountAccountModelModelLastJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE: ApiMlpgateAccountAccountModelModelInstance,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TIMING: ApiMlpgateAccountAccountModelModelInstanceInstanceIdTiming,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRIC: ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_METRICRANGE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdMetricRange,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_LASTSTATE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdLaststate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE: ApiMlpgateAccountAccountModelModelInstanceInstanceIdFile,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_FILE_LOGS: ApiMlpgateAccountAccountModelModelInstanceInstanceIdFileLogs,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_EVENTS: ApiMlpgateAccountAccountModelModelInstanceInstanceIdEvents,

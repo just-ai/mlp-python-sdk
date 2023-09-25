@@ -27,8 +27,29 @@ from mlp_api import schemas  # noqa: F401
 
 from mlp_api.model.response_body_emitter import ResponseBodyEmitter
 
+from . import path
+
 # Query params
 TextSchema = schemas.StrSchema
+VoiceSchema = schemas.StrSchema
+
+
+class AudioEncodingSchema(
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+
+
+    class MetaOapg:
+        enum_value_to_name = {
+            "LINEAR_16PCM": "LINEAR_16PCM",
+        }
+    
+    @schemas.classproperty
+    def LINEAR_16PCM(cls):
+        return cls("LINEAR_16PCM")
+SampleRateHertzSchema = schemas.Int32Schema
+ChunkSizeKbSchema = schemas.Int32Schema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -38,6 +59,10 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'voice': typing.Union[VoiceSchema, str, ],
+        'audioEncoding': typing.Union[AudioEncodingSchema, str, ],
+        'sampleRateHertz': typing.Union[SampleRateHertzSchema, decimal.Decimal, int, ],
+        'chunkSizeKb': typing.Union[ChunkSizeKbSchema, decimal.Decimal, int, ],
     },
     total=False
 )
@@ -52,6 +77,30 @@ request_query_text = api_client.QueryParameter(
     style=api_client.ParameterStyle.FORM,
     schema=TextSchema,
     required=True,
+    explode=True,
+)
+request_query_voice = api_client.QueryParameter(
+    name="voice",
+    style=api_client.ParameterStyle.FORM,
+    schema=VoiceSchema,
+    explode=True,
+)
+request_query_audio_encoding = api_client.QueryParameter(
+    name="audioEncoding",
+    style=api_client.ParameterStyle.FORM,
+    schema=AudioEncodingSchema,
+    explode=True,
+)
+request_query_sample_rate_hertz = api_client.QueryParameter(
+    name="sampleRateHertz",
+    style=api_client.ParameterStyle.FORM,
+    schema=SampleRateHertzSchema,
+    explode=True,
+)
+request_query_chunk_size_kb = api_client.QueryParameter(
+    name="chunkSizeKb",
+    style=api_client.ParameterStyle.FORM,
+    schema=ChunkSizeKbSchema,
     explode=True,
 )
 # Header params
@@ -132,6 +181,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationOctetStream),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/octet-stream',
 )
@@ -216,6 +268,10 @@ class BaseApi(api_client.Api):
         prefix_separator_iterator = None
         for parameter in (
             request_query_text,
+            request_query_voice,
+            request_query_audio_encoding,
+            request_query_sample_rate_hertz,
+            request_query_chunk_size_kb,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:

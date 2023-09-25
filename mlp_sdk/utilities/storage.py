@@ -14,7 +14,7 @@ def check_and_download_dl_model(
     logger.info(f'Model file {target_model_path} does{" " if target_model_path.exists() else " NOT"} exist')
 
     if not target_model_path.exists():
-        logger.info("Downloading model checkpoint from storage")
+        logger.debug("Downloading model checkpoint from storage")
 
         storage = storage_creator()
 
@@ -31,7 +31,7 @@ def check_and_download_dl_model(
                     f'does{" " if target_backbone_model_path.exists() else " NOT"} exist')
 
         if not target_backbone_model_path.exists():
-            logger.info("Downloading backbone model from storage")
+            logger.debug("Downloading backbone model from storage")
 
             storage = storage_creator()
 
@@ -59,10 +59,10 @@ def check_and_download_dl_model_artifacts(
 
         if not artifact_path.exists():
             if storage is None:
-                logger.info("Creating storage")
+                logger.debug("Creating storage")
                 storage = storage_creator()
 
-            logger.info(f"Downloading model from storage: '{remote_path}'")
+            logger.debug(f"Downloading model from storage: '{remote_path}'")
 
             try:
                 storage.download(remote_path, str(artifact_path))
@@ -70,7 +70,7 @@ def check_and_download_dl_model_artifacts(
                 logger.error(str(e))
                 raise
 
-            logger.info("Successfully downloaded")
+            logger.debug("Successfully downloaded")
 
         artifact_name_to_target_path[artifact_name_path] = artifact_path
 
