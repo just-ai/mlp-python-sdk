@@ -24,6 +24,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG = "/api/mlpgate/account/{account}/model/{model}/predict-config"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID = "/api/mlpgate/account/{account}/model/{model}/predict-config/{configId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES = "/api/mlpgate/account/{account}/model/{model}/instances"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES_SINGLE = "/api/mlpgate/account/{account}/model/{model}/instances/single"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_TERMINATE = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/terminate"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_STOP = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/stop"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_START = "/api/mlpgate/account/{account}/model/{model}/instance/start"

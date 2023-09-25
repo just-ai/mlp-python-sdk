@@ -1169,6 +1169,33 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/model/{model}/instances/single:
+    post:
+      tags:
+      - model-endpoint
+      operationId: startSingleInstance
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/terminate:
     post:
       tags:
