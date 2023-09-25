@@ -11,7 +11,7 @@ service Gate {
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
-  rpc processSynthesis(ClientRequestProto) returns (stream ClientResponseProto) {}
+  rpc processSynthesis(ClientTtsRequestProto) returns (stream ClientTtsResponseProto) {}
 }
 
 message ServiceDescriptorProto {
@@ -60,7 +60,6 @@ message ServiceToGateProto {
     BatchResponseProto batch = 106;
 
     PartialPredictResponseProto partialPredict = 107;
-    UtteranceSynthesisResponseProto tts = 108;
 
     ApiErrorProto error = 201;
   }
@@ -231,7 +230,6 @@ message ClientRequestProto {
   oneof body {
     PredictRequestProto predict = 101;
     ExtendedRequestProto ext = 103;
-    UtteranceSynthesisRequestProto tts = 108;
   }
 
   map<string, string> headers = 1000;
@@ -241,7 +239,6 @@ message ClientResponseProto {
   oneof body {
     PredictResponseProto predict = 101;
     ExtendedResponseProto ext = 103;
-    UtteranceSynthesisResponseProto tts = 108;
 
     ApiErrorProto error = 201;
   }
@@ -266,22 +263,37 @@ message SimpleTextProto {
 }
 
 // GRPC TTS API
-message UtteranceSynthesisRequestProto {
+message ClientTtsRequestProto {
+  string account = 1;
+  string model = 2;
+  string authToken = 3;
+
+  TtsRequestProto tts = 101;
+}
+
+message TtsRequestProto {
   string text = 1;
-  string voice = 2;
-  AudioFormatOptions output_audio_spec = 3;
+  optional string voice = 2;
+  optional AudioFormatOptions output_audio_spec = 3;
 }
 
 message AudioFormatOptions {
   enum AudioEncoding {
     LINEAR16_PCM = 0;
   }
-  AudioEncoding audio_encoding = 1;
-  int64 sample_rate_hertz = 2;
-  int64 chunk_size_kb = 3;
+  optional AudioEncoding audio_encoding = 1;
+  optional int64 sample_rate_hertz = 2;
+  optional int64 chunk_size_kb = 3;
 }
 
-message UtteranceSynthesisResponseProto {
+message ClientTtsResponseProto {
+  oneof body {
+    TtsResponseProto tts = 101;
+    ApiErrorProto error = 201;
+  }
+}
+
+message TtsResponseProto {
   message AudioChunk {
     bytes data = 1;
   }

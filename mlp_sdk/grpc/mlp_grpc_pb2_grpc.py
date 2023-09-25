@@ -31,8 +31,8 @@ class GateStub(object):
                 )
         self.processSynthesis = channel.unary_stream(
                 '/com.mlp.gate.Gate/processSynthesis',
-                request_serializer=mlp__grpc__pb2.ClientRequestProto.SerializeToString,
-                response_deserializer=mlp__grpc__pb2.ClientResponseProto.FromString,
+                request_serializer=mlp__grpc__pb2.ClientTtsRequestProto.SerializeToString,
+                response_deserializer=mlp__grpc__pb2.ClientTtsResponseProto.FromString,
                 )
 
 
@@ -83,8 +83,8 @@ def add_GateServicer_to_server(servicer, server):
             ),
             'processSynthesis': grpc.unary_stream_rpc_method_handler(
                     servicer.processSynthesis,
-                    request_deserializer=mlp__grpc__pb2.ClientRequestProto.FromString,
-                    response_serializer=mlp__grpc__pb2.ClientResponseProto.SerializeToString,
+                    request_deserializer=mlp__grpc__pb2.ClientTtsRequestProto.FromString,
+                    response_serializer=mlp__grpc__pb2.ClientTtsResponseProto.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -159,7 +159,7 @@ class Gate(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/com.mlp.gate.Gate/processSynthesis',
-            mlp__grpc__pb2.ClientRequestProto.SerializeToString,
-            mlp__grpc__pb2.ClientResponseProto.FromString,
+            mlp__grpc__pb2.ClientTtsRequestProto.SerializeToString,
+            mlp__grpc__pb2.ClientTtsResponseProto.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
