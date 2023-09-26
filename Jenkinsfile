@@ -79,6 +79,21 @@ pipeline {
                 }
             }
         }
+        stage('Rebuild MLP Services') {
+            steps {
+                parallel (
+                    "build mlp-aimyvoice-base-service" : {
+                        build job: "mlp-aimyvoice-base-service-build/${params.BRANCH}", wait: false
+                    },
+//                     "build mlp_task_zoo" : {
+//                         build job: "mlp_task_zoo-build/${params.BRANCH}", wait: false
+//                     },
+                    "build sd" : {
+                        build job: "sd-build/${params.BRANCH}", wait: false
+                    }
+                )
+            }
+        }
     }
     post {
         failure {
