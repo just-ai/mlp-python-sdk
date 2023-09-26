@@ -90,6 +90,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY = "/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY_LOGS = "/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_CAPACITY_LOGS_PAGE = "/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs/page"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODELS_METRIC = "/api/mlpgate/account/{account}/models/metric"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_STATUS = "/api/mlpgate/account/{account}/model/{model}/status"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC = "/api/mlpgate/account/{account}/model/{model}/metric"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC_STARTTIME = "/api/mlpgate/account/{account}/model/{model}/metric/start-time"

@@ -4029,6 +4029,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageStatLogData'
+  /api/mlpgate/account/{account}/models/metric:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getModelsMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - MODEL_CPU_USAGE
+            - MODEL_CPU_REQUESTED
+            - MODEL_CPU_LIMIT
+            - MODEL_RAM_USAGE
+            - MODEL_RAM_REQUESTED
+            - MODEL_RAM_LIMIT
+            - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
+            - MODEL_SUCCESS_REQUESTS_COUNT
+            - MODEL_FAILED_REQUESTS_COUNT
+            - MODEL_ACTIVE_REQUESTS_COUNT
+            - MODEL_AVERAGE_REQUEST_TIME
+            - MODEL_MIN_REQUEST_TIME
+            - MODEL_MAX_REQUEST_TIME
+            - MODEL_INSTANT_REQUEST_TIME
+      - name: models
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                    format: double
   /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:

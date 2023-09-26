@@ -19,6 +19,7 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric_range.get import GetInstanceMetricRange
 from mlp_api.paths.api_mlpgate_account_account_model_model_metric.get import GetModelMetric
 from mlp_api.paths.api_mlpgate_account_account_model_model_metric_range.get import GetModelMetricRange
+from mlp_api.paths.api_mlpgate_account_account_models_metric.get import GetModelsMetric
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric.get import GetResourceGroupMetric
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_services.get import GetResourceGroupServices
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric_range.get import GetResourceMetricRange
@@ -35,6 +36,7 @@ class MetricEndpointApi(
     GetInstanceMetricRange,
     GetModelMetric,
     GetModelMetricRange,
+    GetModelsMetric,
     GetResourceGroupMetric,
     GetResourceGroupServices,
     GetResourceMetricRange,
