@@ -11,15 +11,10 @@
 
 from mlp_api.paths.api_mlpgate_account_account_metric.get import GetAccountMetric
 from mlp_api.paths.api_mlpgate_account_account_metric_range.get import GetAccountMetricRange
-from mlp_api.paths.api_mlpgate_account_account_metric_start_time.get import GetEarliestTimestampOfAccountMetric
-from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric_start_time.get import GetEarliestTimestampOfInstanceMetric
-from mlp_api.paths.api_mlpgate_account_account_model_model_metric_start_time.get import GetEarliestTimestampOfModelMetric
-from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric_start_time.get import GetEarliestTimestampOfResourceGroupMetric
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric.get import GetInstanceMetric
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_instance_id_metric_range.get import GetInstanceMetricRange
 from mlp_api.paths.api_mlpgate_account_account_model_model_metric.get import GetModelMetric
 from mlp_api.paths.api_mlpgate_account_account_model_model_metric_range.get import GetModelMetricRange
-from mlp_api.paths.api_mlpgate_account_account_models_metric.get import GetModelsMetric
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric.get import GetResourceGroupMetric
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_services.get import GetResourceGroupServices
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric_range.get import GetResourceMetricRange
@@ -28,15 +23,10 @@ from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_metric
 class MetricEndpointApi(
     GetAccountMetric,
     GetAccountMetricRange,
-    GetEarliestTimestampOfAccountMetric,
-    GetEarliestTimestampOfInstanceMetric,
-    GetEarliestTimestampOfModelMetric,
-    GetEarliestTimestampOfResourceGroupMetric,
     GetInstanceMetric,
     GetInstanceMetricRange,
     GetModelMetric,
     GetModelMetricRange,
-    GetModelsMetric,
     GetResourceGroupMetric,
     GetResourceGroupServices,
     GetResourceMetricRange,
