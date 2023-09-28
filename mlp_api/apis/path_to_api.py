@@ -111,6 +111,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_metric_range import ApiMlpga
 from mlp_api.apis.paths.api_mlpgate_account_account_job import ApiMlpgateAccountAccountJob
 from mlp_api.apis.paths.api_mlpgate_account_account_job_job_id import ApiMlpgateAccountAccountJobJobId
 from mlp_api.apis.paths.api_mlpgate_account_account_image_image_id_logs import ApiMlpgateAccountAccountImageImageIdLogs
+from mlp_api.apis.paths.api_mlpgate_account_account_image_v2 import ApiMlpgateAccountAccountImageV2
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
@@ -245,6 +246,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_JOB: ApiMlpgateAccountAccountJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_JOB_JOB_ID: ApiMlpgateAccountAccountJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountImageImageIdLogs,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
@@ -380,6 +382,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_JOB: ApiMlpgateAccountAccountJob,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_JOB_JOB_ID: ApiMlpgateAccountAccountJobJobId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE_IMAGE_ID_LOGS: ApiMlpgateAccountAccountImageImageIdLogs,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
