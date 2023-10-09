@@ -568,13 +568,9 @@ class OpenAIMeta(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     total_tokens: int
-    
-
-class IdsCollection(BaseModel):
-    doc_ids: List[int]
 
 
-class GenerativeQA(TextsCollection, IdsCollection, OpenAIMeta):
+class GenerativeQA(TextsCollection, Texts, OpenAIMeta):
     answer: str
     scores: List[float]
 
