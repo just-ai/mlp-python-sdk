@@ -5920,6 +5920,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         dataImageMounts:
           type: array
           items:
@@ -6284,6 +6285,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -6525,6 +6527,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -6574,6 +6577,7 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
     ModelInfoPK:
       required:
       - accountId
@@ -7257,6 +7261,8 @@ components:
     InstancesStatusData:
       required:
       - externalRequested
+      - hostingServerActive
+      - hostingServerRequested
       - internalActive
       - internalInError
       - internalRequested
@@ -7269,6 +7275,12 @@ components:
           type: integer
           format: int32
         internalInError:
+          type: integer
+          format: int32
+        hostingServerRequested:
+          type: integer
+          format: int32
+        hostingServerActive:
           type: integer
           format: int32
         externalRequested:
@@ -7286,6 +7298,7 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
@@ -7605,6 +7618,7 @@ components:
           - deployment
           - pod
           - external
+          - hostingServer
         resourceName:
           type: string
         alias:
@@ -7616,3 +7630,5 @@ components:
           format: date-time
         isEvictable:
           type: boolean
+        hostingServerId:
+          type: string

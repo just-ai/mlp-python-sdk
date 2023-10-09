@@ -87,6 +87,7 @@ class ModelCreateUpdateData(
                     enum_value_to_name = {
                         "EXTERNAL": "EXTERNAL",
                         "INTERNAL": "INTERNAL",
+                        "HOSTING_SERVER": "HOSTING_SERVER",
                     }
                 
                 @schemas.classproperty
@@ -96,6 +97,10 @@ class ModelCreateUpdateData(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("HOSTING_SERVER")
             
             
             class persistentVolumes(
