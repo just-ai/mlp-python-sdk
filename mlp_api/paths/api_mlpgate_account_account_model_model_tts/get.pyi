@@ -38,8 +38,8 @@ class AudioEncodingSchema(
 ):
     
     @schemas.classproperty
-    def LINEAR_16PCM(cls):
-        return cls("LINEAR_16PCM")
+    def LINEAR16_PCM(cls):
+        return cls("LINEAR16_PCM")
 SampleRateHertzSchema = schemas.Int32Schema
 ChunkSizeKbSchema = schemas.Int32Schema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
