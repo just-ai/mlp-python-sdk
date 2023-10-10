@@ -7348,6 +7348,7 @@ components:
           enum:
           - RUNNING
           - WAITING
+          - SLEEPING
           - FAILED
           - DELETED
         isDeleted:
