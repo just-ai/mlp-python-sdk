@@ -6737,7 +6737,6 @@ components:
     ExternalConnectionInfoData:
       required:
       - connected
-      - dockerRunCommand
       - envVariables
       - id
       type: object
@@ -7308,6 +7307,7 @@ components:
           format: float
     ModelInstanceData:
       required:
+      - hostingType
       - id
       - restartCount
       - statusInfo
@@ -7327,6 +7327,13 @@ components:
           type: string
         createdTimestamp:
           type: string
+        hostingType:
+          type: string
+          enum:
+          - deployment
+          - pod
+          - external
+          - hostingServer
     ModelInstanceListData:
       required:
       - instances
