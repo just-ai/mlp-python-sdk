@@ -624,4 +624,14 @@ class TtsConfig(BaseModel):
 
 
 class TtsResponse(BaseModel):
+    text: str
     audio_base64: str
+
+
+class TtsDictionaryEntry(BaseModel):
+    original: str
+    replacement: str
+
+
+class TtsDictionary(BaseModel):
+    dictionary: List[TtsDictionaryEntry]
