@@ -1161,7 +1161,7 @@ paths:
         content:
           application/json:
             schema:
-              maximum: 100
+              maximum: 1000
               minimum: 0
               type: integer
               format: int32
