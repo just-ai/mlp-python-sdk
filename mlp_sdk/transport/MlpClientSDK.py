@@ -61,8 +61,9 @@ class MlpClientSDK:
         return self.predict_raw(request)
 
     def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
-        if "Z-requestId" in MlpResponseHeaders.headers and "Z-requestId" not in request.headers:
-            request.headers["Z-requestId"] = MlpResponseHeaders.headers["Z-requestId"]
+        request_id = MlpResponseHeaders.headers.get("Z-requestId") if hasattr(MlpResponseHeaders, 'headers') else None
+        if request_id is not None and "Z-requestId" not in request.headers:
+            request.headers["Z-requestId"] = request_id
 
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
