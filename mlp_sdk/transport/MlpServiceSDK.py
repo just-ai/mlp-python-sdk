@@ -402,6 +402,10 @@ class MlpServiceSDK:
             global MlpResponseHeaders
             MlpResponseHeaders.__dict__.clear()
             MlpResponseHeaders.headers = {}
+            if "Z-requestId" in request.headers:
+                MlpResponseHeaders.headers["Z-requestId"] = request.headers["Z-requestId"]
+            else:
+                MlpResponseHeaders.headers["Z-requestId"] = request.requestId
 
             result = self.__handle_predict(request.predict)
 

@@ -11,6 +11,7 @@ from mlp_api.apis.tags import process_endpoint_api
 from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
 from mlp_sdk.log.setup_logging import get_logger
+from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
@@ -45,6 +46,9 @@ class MlpClientSDK:
 
         if headers is None:
             headers = {}
+
+        if "Z-requestId" in MlpResponseHeaders.headers:
+            headers["Z-requestId"] = MlpResponseHeaders.headers["Z-requestId"]
 
         request = mlp_grpc_pb2.ClientRequestProto(
             account=account,
