@@ -47,9 +47,6 @@ class MlpClientSDK:
         if headers is None:
             headers = {}
 
-        if "Z-requestId" in MlpResponseHeaders.headers:
-            headers["Z-requestId"] = MlpResponseHeaders.headers["Z-requestId"]
-
         request = mlp_grpc_pb2.ClientRequestProto(
             account=account,
             model=model,
@@ -64,6 +61,9 @@ class MlpClientSDK:
         return self.predict_raw(request)
 
     def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
+        if "Z-requestId" in MlpResponseHeaders.headers and "Z-requestId" not in request.headers:
+            request.headers["Z-requestId"] = MlpResponseHeaders.headers["Z-requestId"]
+
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
