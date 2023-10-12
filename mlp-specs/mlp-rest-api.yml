@@ -7307,8 +7307,8 @@ components:
           format: float
     ModelInstanceData:
       required:
-      - hostingType
       - id
+      - instanceHostingType
       - restartCount
       - statusInfo
       type: object
@@ -7327,7 +7327,7 @@ components:
           type: string
         createdTimestamp:
           type: string
-        hostingType:
+        instanceHostingType:
           type: string
           enum:
           - deployment
