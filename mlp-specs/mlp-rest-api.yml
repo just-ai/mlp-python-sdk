@@ -610,7 +610,7 @@ paths:
         schema:
           type: string
           enum:
-          - LINEAR_16PCM
+          - LINEAR16_PCM
       - name: sampleRateHertz
         in: query
         required: false
@@ -6596,7 +6596,7 @@ components:
         audioEncoding:
           type: string
           enum:
-          - LINEAR_16PCM
+          - LINEAR16_PCM
         sampleRateHertz:
           type: integer
           format: int32
