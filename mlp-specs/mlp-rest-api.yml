@@ -7181,11 +7181,11 @@ components:
           $ref: '#/components/schemas/Sort'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -7307,8 +7307,8 @@ components:
           format: float
     ModelInstanceData:
       required:
-      - hostingType
       - id
+      - instanceHostingType
       - restartCount
       - statusInfo
       type: object
@@ -7327,7 +7327,7 @@ components:
           type: string
         createdTimestamp:
           type: string
-        hostingType:
+        instanceHostingType:
           type: string
           enum:
           - deployment
