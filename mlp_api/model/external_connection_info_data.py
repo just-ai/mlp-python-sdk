@@ -36,7 +36,6 @@ class ExternalConnectionInfoData(
     class MetaOapg:
         required = {
             "connected",
-            "dockerRunCommand",
             "envVariables",
             "id",
         }
@@ -47,7 +46,6 @@ class ExternalConnectionInfoData(
             def id() -> typing.Type['ModelInstancePK']:
                 return ModelInstancePK
             connected = schemas.BoolSchema
-            dockerRunCommand = schemas.StrSchema
             
             
             class envVariables(
@@ -77,15 +75,15 @@ class ExternalConnectionInfoData(
                         _configuration=_configuration,
                         **kwargs,
                     )
+            dockerRunCommand = schemas.StrSchema
             __annotations__ = {
                 "id": id,
                 "connected": connected,
-                "dockerRunCommand": dockerRunCommand,
                 "envVariables": envVariables,
+                "dockerRunCommand": dockerRunCommand,
             }
     
     connected: MetaOapg.properties.connected
-    dockerRunCommand: MetaOapg.properties.dockerRunCommand
     envVariables: MetaOapg.properties.envVariables
     id: 'ModelInstancePK'
     
@@ -96,15 +94,15 @@ class ExternalConnectionInfoData(
     def __getitem__(self, name: typing_extensions.Literal["connected"]) -> MetaOapg.properties.connected: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["dockerRunCommand"]) -> MetaOapg.properties.dockerRunCommand: ...
+    def __getitem__(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
+    def __getitem__(self, name: typing_extensions.Literal["dockerRunCommand"]) -> MetaOapg.properties.dockerRunCommand: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connected", "dockerRunCommand", "envVariables", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connected", "envVariables", "dockerRunCommand", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -116,15 +114,15 @@ class ExternalConnectionInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["connected"]) -> MetaOapg.properties.connected: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["dockerRunCommand"]) -> MetaOapg.properties.dockerRunCommand: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["envVariables"]) -> MetaOapg.properties.envVariables: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["dockerRunCommand"]) -> typing.Union[MetaOapg.properties.dockerRunCommand, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connected", "dockerRunCommand", "envVariables", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connected", "envVariables", "dockerRunCommand", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -132,9 +130,9 @@ class ExternalConnectionInfoData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         connected: typing.Union[MetaOapg.properties.connected, bool, ],
-        dockerRunCommand: typing.Union[MetaOapg.properties.dockerRunCommand, str, ],
         envVariables: typing.Union[MetaOapg.properties.envVariables, dict, frozendict.frozendict, ],
         id: 'ModelInstancePK',
+        dockerRunCommand: typing.Union[MetaOapg.properties.dockerRunCommand, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ExternalConnectionInfoData':
@@ -142,9 +140,9 @@ class ExternalConnectionInfoData(
             cls,
             *_args,
             connected=connected,
-            dockerRunCommand=dockerRunCommand,
             envVariables=envVariables,
             id=id,
+            dockerRunCommand=dockerRunCommand,
             _configuration=_configuration,
             **kwargs,
         )

@@ -1161,7 +1161,7 @@ paths:
         content:
           application/json:
             schema:
-              maximum: 100
+              maximum: 1000
               minimum: 0
               type: integer
               format: int32
@@ -2028,6 +2028,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedImageInfoData'
+      deprecated: true
     post:
       tags:
       - image-endpoint
@@ -5174,6 +5175,65 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{account}/image-v2:
+    get:
+      tags:
+      - image-endpoint
+      operationId: getPagedImages_v2
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: belonging
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ALL
+          - MINE
+          - MINE_PUBLIC
+          - MINE_RESTRICTED
+          - MINE_PRIVATE
+          - NOT_MINE
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedImageInfoData'
   /api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase:
     get:
       tags:
@@ -5860,6 +5920,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         dataImageMounts:
           type: array
           items:
@@ -6224,6 +6285,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -6465,6 +6527,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -6514,6 +6577,7 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
     ModelInfoPK:
       required:
       - accountId
@@ -6673,7 +6737,6 @@ components:
     ExternalConnectionInfoData:
       required:
       - connected
-      - dockerRunCommand
       - envVariables
       - id
       type: object
@@ -7104,17 +7167,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        sort:
-          $ref: '#/components/schemas/Sort'
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -7125,34 +7177,45 @@ components:
         number:
           type: integer
           format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/Sort'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        sort:
-          $ref: '#/components/schemas/Sort'
         paged:
           type: boolean
         unpaged:
           type: boolean
-        offset:
-          type: integer
-          format: int64
     Sort:
       type: object
       properties:
+        empty:
+          type: boolean
         sorted:
           type: boolean
         unsorted:
-          type: boolean
-        empty:
           type: boolean
     ResourceGroupCapacity:
       required:
@@ -7197,6 +7260,8 @@ components:
     InstancesStatusData:
       required:
       - externalRequested
+      - hostingServerActive
+      - hostingServerRequested
       - internalActive
       - internalInError
       - internalRequested
@@ -7209,6 +7274,12 @@ components:
           type: integer
           format: int32
         internalInError:
+          type: integer
+          format: int32
+        hostingServerRequested:
+          type: integer
+          format: int32
+        hostingServerActive:
           type: integer
           format: int32
         externalRequested:
@@ -7226,6 +7297,7 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
@@ -7235,6 +7307,7 @@ components:
           format: float
     ModelInstanceData:
       required:
+      - hostingType
       - id
       - restartCount
       - statusInfo
@@ -7254,6 +7327,13 @@ components:
           type: string
         createdTimestamp:
           type: string
+        hostingType:
+          type: string
+          enum:
+          - deployment
+          - pod
+          - external
+          - hostingServer
     ModelInstanceListData:
       required:
       - instances
@@ -7275,6 +7355,7 @@ components:
           enum:
           - RUNNING
           - WAITING
+          - SLEEPING
           - FAILED
           - DELETED
         isDeleted:
@@ -7545,6 +7626,7 @@ components:
           - deployment
           - pod
           - external
+          - hostingServer
         resourceName:
           type: string
         alias:
@@ -7556,3 +7638,5 @@ components:
           format: date-time
         isEvictable:
           type: boolean
+        hostingServerId:
+          type: string
