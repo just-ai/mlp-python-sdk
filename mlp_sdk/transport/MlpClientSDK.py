@@ -61,9 +61,14 @@ class MlpClientSDK:
         return self.predict_raw(request)
 
     def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
-        request_id = MlpResponseHeaders.headers.get("Z-requestId") if hasattr(MlpResponseHeaders, 'headers') else None
-        if request_id is not None and "Z-requestId" not in request.headers:
-            request.headers["Z-requestId"] = request_id
+        if hasattr(MlpResponseHeaders, 'headers')
+            request_id = MlpResponseHeaders.headers.get("Z-requestId")
+            if request_id is not None and "Z-requestId" not in request.headers:
+                request.headers["Z-requestId"] = request_id
+
+            billing_key = MlpResponseHeaders.headers.get("MLP-BILLING-KEY")
+            if billing_key is not None:
+                request.headers["MLP-BILLING-KEY"] = billing_key
 
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 

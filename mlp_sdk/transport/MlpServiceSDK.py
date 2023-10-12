@@ -406,6 +406,8 @@ class MlpServiceSDK:
                 MlpResponseHeaders.headers["Z-requestId"] = request.headers["Z-requestId"]
             else:
                 MlpResponseHeaders.headers["Z-requestId"] = request.requestId
+            if "MLP-BILLING-KEY" in request.headers:
+                MlpResponseHeaders.headers["MLP-BILLING-KEY"] = request.headers["MLP-BILLING-KEY"]
 
             result = self.__handle_predict(request.predict)
 
