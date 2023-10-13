@@ -325,7 +325,9 @@ class MlpServiceSDK:
             self.__start_connector(connector.url)
 
     def block_until_shutdown(self):
+        self.log.info("Creating barrier")
         barrier = threading.Event()
+        self.log.info("Barrier created")
 
         # TODO think about lock
         def shutdown(_signo, _stack_frame):
@@ -335,9 +337,15 @@ class MlpServiceSDK:
                 connector.stop()
             barrier.set()
 
+        self.log.info("Setting SIGINT")
         signal.signal(signal.SIGINT, shutdown)
+        self.log.info("Setting SIGTERM")
         signal.signal(signal.SIGTERM, shutdown)
+        self.log.info("Signals set")
+        timeout = self.config["sdk"]["action_shutdown_timeout_seconds"]
+        self.log.info(f'Do barrier wait with timeout {timeout}')
         barrier.wait(self.config["sdk"]["action_shutdown_timeout_seconds"])
+        self.log.info("Done waiting on barrier")
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
         self.log.error("Unknown request type " + req_type, extra={'requestId': request.requestId})
