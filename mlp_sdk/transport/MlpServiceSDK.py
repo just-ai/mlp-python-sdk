@@ -333,8 +333,12 @@ class MlpServiceSDK:
         def shutdown(_signo, _stack_frame):
             self.log.info("Shutdown")
             self.state = State.stopping
-            for connector in self.connectors:
+            shutdown_deadline = time.time() + self.config["sdk"]["action_shutdown_timeout_seconds"]
+            connectors = self.connectors.copy()
+            for connector in connectors:
                 connector.stop()
+            for connector in connectors:
+                connector.shutdown_event.wait(shutdown_deadline - time.time())
             barrier.set()
 
         self.log.info("Setting SIGINT")
@@ -344,7 +348,7 @@ class MlpServiceSDK:
         self.log.info("Signals set")
         timeout = self.config["sdk"]["action_shutdown_timeout_seconds"]
         self.log.info(f'Do barrier wait with timeout {timeout}')
-        barrier.wait(self.config["sdk"]["action_shutdown_timeout_seconds"])
+        barrier.wait()
         self.log.info("Done waiting on barrier")
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
