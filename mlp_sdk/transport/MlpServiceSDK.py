@@ -331,13 +331,18 @@ class MlpServiceSDK:
         def shutdown(_signo, _stack_frame):
             self.log.info("Shutdown")
             self.state = State.stopping
-            for connector in self.connectors:
+
+            shutdown_deadline = time.time() + self.config["sdk"]["action_shutdown_timeout_seconds"]
+            connectors = self.connectors.copy()
+            for connector in connectors:
                 connector.stop()
+            for connector in connectors:
+                connector.shutdown_event.wait(shutdown_deadline - time.time())
             barrier.set()
 
         signal.signal(signal.SIGINT, shutdown)
         signal.signal(signal.SIGTERM, shutdown)
-        barrier.wait(self.config["sdk"]["action_shutdown_timeout_seconds"])
+        barrier.wait()
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
         self.log.error("Unknown request type " + req_type, extra={'requestId': request.requestId})
