@@ -180,7 +180,7 @@ class MlpServiceConnector:
             self.sdk.handle_unknown_request(req_type, request, self)
 
     def __log_request(self, request):
-        stringified_request = str(request)
+        stringified_request = json_format.MessageToJson(request, ensure_ascii=False)
         if len(stringified_request) < self.config["sdk"]["large_body_length"]:
             self.log.debug("Request: " + stringified_request, extra={'requestId': request.requestId})
         else:
@@ -390,7 +390,7 @@ class MlpServiceSDK:
         connector.action_to_gate_queue.put_nowait(response)
 
     def __log_response(self, request, response):
-        stringified_response = str(response)
+        stringified_response = json_format.MessageToJson(response, ensure_ascii=False)
         if len(stringified_response) < self.config["sdk"]["large_body_length"]:
             self.log.debug("Response: " + stringified_response, extra={'requestId': request.requestId})
         else:
