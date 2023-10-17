@@ -423,6 +423,18 @@ paths:
         required: false
         schema:
           type: string
+      - name: imageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: dataImageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
@@ -3291,6 +3303,18 @@ paths:
         required: false
         schema:
           type: string
+      - name: imageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: dataImageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
