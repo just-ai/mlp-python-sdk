@@ -5869,6 +5869,9 @@ components:
         billingUnitPriceInNanoToken:
           type: integer
           format: int64
+        billingUnitPriceInRubles:
+          type: number
+          format: double
         freeUnitQuota:
           type: integer
           format: int32
