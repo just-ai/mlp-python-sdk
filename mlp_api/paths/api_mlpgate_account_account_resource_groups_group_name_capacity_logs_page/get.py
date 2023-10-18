@@ -25,19 +25,27 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.response_body_emitter import ResponseBodyEmitter
+from mlp_api.model.page_stat_log_data import PageStatLogData
+
+from . import path
 
 # Query params
-TextSchema = schemas.StrSchema
+MinutesSchema = schemas.Int64Schema
+PageSchema = schemas.Int32Schema
+SizeSchema = schemas.Int32Schema
+SortSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'text': typing.Union[TextSchema, str, ],
+        'minutes': typing.Union[MinutesSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'page': typing.Union[PageSchema, decimal.Decimal, int, ],
+        'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
+        'sort': typing.Union[SortSchema, str, ],
     },
     total=False
 )
@@ -47,11 +55,29 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
-request_query_text = api_client.QueryParameter(
-    name="text",
+request_query_minutes = api_client.QueryParameter(
+    name="minutes",
     style=api_client.ParameterStyle.FORM,
-    schema=TextSchema,
+    schema=MinutesSchema,
     required=True,
+    explode=True,
+)
+request_query_page = api_client.QueryParameter(
+    name="page",
+    style=api_client.ParameterStyle.FORM,
+    schema=PageSchema,
+    explode=True,
+)
+request_query_size = api_client.QueryParameter(
+    name="size",
+    style=api_client.ParameterStyle.FORM,
+    schema=SizeSchema,
+    explode=True,
+)
+request_query_sort = api_client.QueryParameter(
+    name="sort",
+    style=api_client.ParameterStyle.FORM,
+    schema=SortSchema,
     explode=True,
 )
 # Header params
@@ -81,12 +107,12 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountSchema = schemas.StrSchema
-ModelSchema = schemas.StrSchema
+GroupNameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
-        'model': typing.Union[ModelSchema, str, ],
+        'groupName': typing.Union[GroupNameSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -107,20 +133,20 @@ request_path_account = api_client.PathParameter(
     schema=AccountSchema,
     required=True,
 )
-request_path_model = api_client.PathParameter(
-    name="model",
+request_path_group_name = api_client.PathParameter(
+    name="groupName",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=ModelSchema,
+    schema=GroupNameSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationOctetStream = ResponseBodyEmitter
+SchemaFor200ResponseBodyApplicationJson = PageStatLogData
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationOctetStream,
+        SchemaFor200ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
@@ -128,18 +154,21 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'application/octet-stream': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationOctetStream),
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
-    'application/octet-stream',
+    'application/json',
 )
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_pageable_logs_by_resource_group_capacity_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -153,7 +182,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_pageable_logs_by_resource_group_capacity_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -165,7 +194,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_pageable_logs_by_resource_group_capacity_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -179,7 +208,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _tts_stream_get_oapg(
+    def _get_pageable_logs_by_resource_group_capacity_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -202,7 +231,7 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account,
-            request_path_model,
+            request_path_group_name,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -215,7 +244,10 @@ class BaseApi(api_client.Api):
 
         prefix_separator_iterator = None
         for parameter in (
-            request_query_text,
+            request_query_minutes,
+            request_query_page,
+            request_query_size,
+            request_query_sort,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -267,11 +299,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class TtsStreamGet(BaseApi):
+class GetPageableLogsByResourceGroupCapacity(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def tts_stream_get(
+    def get_pageable_logs_by_resource_group_capacity(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -285,7 +317,7 @@ class TtsStreamGet(BaseApi):
     ]: ...
 
     @typing.overload
-    def tts_stream_get(
+    def get_pageable_logs_by_resource_group_capacity(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -297,7 +329,7 @@ class TtsStreamGet(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def tts_stream_get(
+    def get_pageable_logs_by_resource_group_capacity(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -311,7 +343,7 @@ class TtsStreamGet(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def tts_stream_get(
+    def get_pageable_logs_by_resource_group_capacity(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -321,7 +353,7 @@ class TtsStreamGet(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get_oapg(
+        return self._get_pageable_logs_by_resource_group_capacity_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,
@@ -386,7 +418,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get_oapg(
+        return self._get_pageable_logs_by_resource_group_capacity_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,

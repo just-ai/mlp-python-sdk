@@ -37,26 +37,34 @@ class InstancesStatusData(
         required = {
             "externalRequested",
             "internalActive",
+            "hostingServerActive",
             "internalInError",
             "internalRequested",
+            "hostingServerRequested",
         }
         
         class properties:
             internalRequested = schemas.Int32Schema
             internalActive = schemas.Int32Schema
             internalInError = schemas.Int32Schema
+            hostingServerRequested = schemas.Int32Schema
+            hostingServerActive = schemas.Int32Schema
             externalRequested = schemas.Int32Schema
             __annotations__ = {
                 "internalRequested": internalRequested,
                 "internalActive": internalActive,
                 "internalInError": internalInError,
+                "hostingServerRequested": hostingServerRequested,
+                "hostingServerActive": hostingServerActive,
                 "externalRequested": externalRequested,
             }
     
     externalRequested: MetaOapg.properties.externalRequested
     internalActive: MetaOapg.properties.internalActive
+    hostingServerActive: MetaOapg.properties.hostingServerActive
     internalInError: MetaOapg.properties.internalInError
     internalRequested: MetaOapg.properties.internalRequested
+    hostingServerRequested: MetaOapg.properties.hostingServerRequested
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["internalRequested"]) -> MetaOapg.properties.internalRequested: ...
@@ -68,12 +76,18 @@ class InstancesStatusData(
     def __getitem__(self, name: typing_extensions.Literal["internalInError"]) -> MetaOapg.properties.internalInError: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["hostingServerRequested"]) -> MetaOapg.properties.hostingServerRequested: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["hostingServerActive"]) -> MetaOapg.properties.hostingServerActive: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["externalRequested"]) -> MetaOapg.properties.externalRequested: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalRequested", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "hostingServerRequested", "hostingServerActive", "externalRequested", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -88,12 +102,18 @@ class InstancesStatusData(
     def get_item_oapg(self, name: typing_extensions.Literal["internalInError"]) -> MetaOapg.properties.internalInError: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["hostingServerRequested"]) -> MetaOapg.properties.hostingServerRequested: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["hostingServerActive"]) -> MetaOapg.properties.hostingServerActive: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["externalRequested"]) -> MetaOapg.properties.externalRequested: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "externalRequested", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["internalRequested", "internalActive", "internalInError", "hostingServerRequested", "hostingServerActive", "externalRequested", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -102,8 +122,10 @@ class InstancesStatusData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         externalRequested: typing.Union[MetaOapg.properties.externalRequested, decimal.Decimal, int, ],
         internalActive: typing.Union[MetaOapg.properties.internalActive, decimal.Decimal, int, ],
+        hostingServerActive: typing.Union[MetaOapg.properties.hostingServerActive, decimal.Decimal, int, ],
         internalInError: typing.Union[MetaOapg.properties.internalInError, decimal.Decimal, int, ],
         internalRequested: typing.Union[MetaOapg.properties.internalRequested, decimal.Decimal, int, ],
+        hostingServerRequested: typing.Union[MetaOapg.properties.hostingServerRequested, decimal.Decimal, int, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'InstancesStatusData':
@@ -112,8 +134,10 @@ class InstancesStatusData(
             *_args,
             externalRequested=externalRequested,
             internalActive=internalActive,
+            hostingServerActive=hostingServerActive,
             internalInError=internalInError,
             internalRequested=internalRequested,
+            hostingServerRequested=hostingServerRequested,
             _configuration=_configuration,
             **kwargs,
         )

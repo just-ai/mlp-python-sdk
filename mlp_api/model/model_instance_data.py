@@ -38,6 +38,7 @@ class ModelInstanceData(
             "statusInfo",
             "restartCount",
             "id",
+            "instanceHostingType",
         }
         
         class properties:
@@ -47,6 +48,37 @@ class ModelInstanceData(
             def statusInfo() -> typing.Type['StatusInfo']:
                 return StatusInfo
             restartCount = schemas.Int32Schema
+            
+            
+            class instanceHostingType(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "deployment": "DEPLOYMENT",
+                        "pod": "POD",
+                        "external": "EXTERNAL",
+                        "hostingServer": "HOSTING_SERVER",
+                    }
+                
+                @schemas.classproperty
+                def DEPLOYMENT(cls):
+                    return cls("deployment")
+                
+                @schemas.classproperty
+                def POD(cls):
+                    return cls("pod")
+                
+                @schemas.classproperty
+                def EXTERNAL(cls):
+                    return cls("external")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("hostingServer")
             name = schemas.StrSchema
             lastRestartTimestamp = schemas.StrSchema
             createdTimestamp = schemas.StrSchema
@@ -54,6 +86,7 @@ class ModelInstanceData(
                 "id": id,
                 "statusInfo": statusInfo,
                 "restartCount": restartCount,
+                "instanceHostingType": instanceHostingType,
                 "name": name,
                 "lastRestartTimestamp": lastRestartTimestamp,
                 "createdTimestamp": createdTimestamp,
@@ -62,6 +95,7 @@ class ModelInstanceData(
     statusInfo: 'StatusInfo'
     restartCount: MetaOapg.properties.restartCount
     id: MetaOapg.properties.id
+    instanceHostingType: MetaOapg.properties.instanceHostingType
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["id"]) -> MetaOapg.properties.id: ...
@@ -71,6 +105,9 @@ class ModelInstanceData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["restartCount"]) -> MetaOapg.properties.restartCount: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["instanceHostingType"]) -> MetaOapg.properties.instanceHostingType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -84,7 +121,7 @@ class ModelInstanceData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "statusInfo", "restartCount", "name", "lastRestartTimestamp", "createdTimestamp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "statusInfo", "restartCount", "instanceHostingType", "name", "lastRestartTimestamp", "createdTimestamp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -99,6 +136,9 @@ class ModelInstanceData(
     def get_item_oapg(self, name: typing_extensions.Literal["restartCount"]) -> MetaOapg.properties.restartCount: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["instanceHostingType"]) -> MetaOapg.properties.instanceHostingType: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
@@ -110,7 +150,7 @@ class ModelInstanceData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "statusInfo", "restartCount", "name", "lastRestartTimestamp", "createdTimestamp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "statusInfo", "restartCount", "instanceHostingType", "name", "lastRestartTimestamp", "createdTimestamp", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -120,6 +160,7 @@ class ModelInstanceData(
         statusInfo: 'StatusInfo',
         restartCount: typing.Union[MetaOapg.properties.restartCount, decimal.Decimal, int, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
+        instanceHostingType: typing.Union[MetaOapg.properties.instanceHostingType, str, ],
         name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         lastRestartTimestamp: typing.Union[MetaOapg.properties.lastRestartTimestamp, str, schemas.Unset] = schemas.unset,
         createdTimestamp: typing.Union[MetaOapg.properties.createdTimestamp, str, schemas.Unset] = schemas.unset,
@@ -132,6 +173,7 @@ class ModelInstanceData(
             statusInfo=statusInfo,
             restartCount=restartCount,
             id=id,
+            instanceHostingType=instanceHostingType,
             name=name,
             lastRestartTimestamp=lastRestartTimestamp,
             createdTimestamp=createdTimestamp,

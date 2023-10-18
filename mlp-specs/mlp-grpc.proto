@@ -11,7 +11,7 @@ service Gate {
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
-//  rpc processWithResponseStream(ClientRequestProto) returns (stream ClientPartialResponseProto) {}
+  rpc processSynthesis(ClientTtsRequestProto) returns (stream ClientTtsResponseProto) {}
 }
 
 message ServiceDescriptorProto {
@@ -246,34 +246,6 @@ message ClientResponseProto {
   map<string, string> headers = 1000;
 }
 
-//  Заготовка для реализации поддержки tts-стриминга через наш grpc-протокол
-//
-//message ClientPartialInitProto {
-//  string account = 1; // тут можно передавать либо id либо shortName аккаунта и модели соответственно
-//  string model = 2;   // обработка будет происходить так: если только цифры - значит id, иначе name
-//  string authToken = 3;
-//  int32 timeoutSec = 4;
-//  optional PayloadProto config = 102;
-//}
-//
-//message ClientPartialRequestProto {
-//  oneof body {
-//    ClientPartialInitProto init = 101;
-//    PartialPredictResponseProto chunk = 104;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
-//
-//message ClientPartialResponseProto {
-//  oneof body {
-//    PartialPredictResponseProto partial = 104;
-//    ApiErrorProto error = 201;
-//  }
-//
-//  map<string, string> headers = 1000;
-//}
-
 message ClientTokenRequestProto {
 }
 
@@ -288,5 +260,47 @@ message ClusterUpdateProto {
 
 message SimpleTextProto {
   string text = 1;
+}
+
+// GRPC TTS API
+message ClientTtsRequestProto {
+  string account = 1;
+  string model = 2;
+  string authToken = 3;
+
+  TtsRequestProto tts = 101;
+}
+
+message TtsRequestProto {
+  string text = 1;
+  optional string voice = 2;
+  optional AudioFormatOptions output_audio_spec = 3;
+}
+
+message AudioFormatOptions {
+  enum AudioEncoding {
+    LINEAR16_PCM = 0;
+  }
+  optional AudioEncoding audio_encoding = 1;
+  optional int64 sample_rate_hertz = 2;
+  optional int64 chunk_size_kb = 3;
+}
+
+message ClientTtsResponseProto {
+  oneof body {
+    TtsResponseProto tts = 101;
+    ApiErrorProto error = 201;
+  }
+}
+
+message TtsResponseProto {
+  message AudioChunk {
+    bytes data = 1;
+  }
+
+  AudioChunk audio_chunk = 1;
+
+  optional bool first = 10;
+  optional bool last = 12;
 }
 

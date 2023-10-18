@@ -25,16 +25,85 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.response_body_emitter import ResponseBodyEmitter
-
-from . import path
-
 # Query params
-TextSchema = schemas.StrSchema
+
+
+class MetricSchema(
+    schemas.EnumBase,
+    schemas.StrSchema
+):
+    
+    @schemas.classproperty
+    def CPU_USAGE(cls):
+        return cls("MODEL_CPU_USAGE")
+    
+    @schemas.classproperty
+    def CPU_REQUESTED(cls):
+        return cls("MODEL_CPU_REQUESTED")
+    
+    @schemas.classproperty
+    def CPU_LIMIT(cls):
+        return cls("MODEL_CPU_LIMIT")
+    
+    @schemas.classproperty
+    def RAM_USAGE(cls):
+        return cls("MODEL_RAM_USAGE")
+    
+    @schemas.classproperty
+    def RAM_REQUESTED(cls):
+        return cls("MODEL_RAM_REQUESTED")
+    
+    @schemas.classproperty
+    def RAM_LIMIT(cls):
+        return cls("MODEL_RAM_LIMIT")
+    
+    @schemas.classproperty
+    def RECONNECTS_COUNT(cls):
+        return cls("MODEL_RECONNECTS_COUNT")
+    
+    @schemas.classproperty
+    def INSTANCES_COUNT(cls):
+        return cls("MODEL_INSTANCES_COUNT")
+    
+    @schemas.classproperty
+    def GPU_REQUESTED(cls):
+        return cls("MODEL_GPU_REQUESTED")
+    
+    @schemas.classproperty
+    def EPHEMERAL_DISK_REQUESTED(cls):
+        return cls("MODEL_EPHEMERAL_DISK_REQUESTED")
+    
+    @schemas.classproperty
+    def SUCCESS_REQUESTS_COUNT(cls):
+        return cls("MODEL_SUCCESS_REQUESTS_COUNT")
+    
+    @schemas.classproperty
+    def FAILED_REQUESTS_COUNT(cls):
+        return cls("MODEL_FAILED_REQUESTS_COUNT")
+    
+    @schemas.classproperty
+    def ACTIVE_REQUESTS_COUNT(cls):
+        return cls("MODEL_ACTIVE_REQUESTS_COUNT")
+    
+    @schemas.classproperty
+    def AVERAGE_REQUEST_TIME(cls):
+        return cls("MODEL_AVERAGE_REQUEST_TIME")
+    
+    @schemas.classproperty
+    def MIN_REQUEST_TIME(cls):
+        return cls("MODEL_MIN_REQUEST_TIME")
+    
+    @schemas.classproperty
+    def MAX_REQUEST_TIME(cls):
+        return cls("MODEL_MAX_REQUEST_TIME")
+    
+    @schemas.classproperty
+    def INSTANT_REQUEST_TIME(cls):
+        return cls("MODEL_INSTANT_REQUEST_TIME")
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
-        'text': typing.Union[TextSchema, str, ],
+        'metric': typing.Union[MetricSchema, str, ],
     }
 )
 RequestOptionalQueryParams = typing_extensions.TypedDict(
@@ -49,10 +118,10 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
-request_query_text = api_client.QueryParameter(
-    name="text",
+request_query_metric = api_client.QueryParameter(
+    name="metric",
     style=api_client.ParameterStyle.FORM,
-    schema=TextSchema,
+    schema=MetricSchema,
     required=True,
     explode=True,
 )
@@ -115,14 +184,14 @@ request_path_model = api_client.PathParameter(
     schema=ModelSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationOctetStream = ResponseBodyEmitter
+SchemaFor200ResponseBodyApplicationJson = schemas.Int64Schema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationOctetStream,
+        SchemaFor200ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
@@ -130,21 +199,18 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'application/octet-stream': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationOctetStream),
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
-_status_code_to_response = {
-    '200': _response_for_200,
-}
 _all_accept_content_types = (
-    'application/octet-stream',
+    'application/json',
 )
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_earliest_timestamp_of_model_metric_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -158,7 +224,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_earliest_timestamp_of_model_metric_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -170,7 +236,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _tts_stream_get_oapg(
+    def _get_earliest_timestamp_of_model_metric_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -184,7 +250,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _tts_stream_get_oapg(
+    def _get_earliest_timestamp_of_model_metric_oapg(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -220,7 +286,7 @@ class BaseApi(api_client.Api):
 
         prefix_separator_iterator = None
         for parameter in (
-            request_query_text,
+            request_query_metric,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -272,11 +338,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class TtsStreamGet(BaseApi):
+class GetEarliestTimestampOfModelMetric(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def tts_stream_get(
+    def get_earliest_timestamp_of_model_metric(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -290,7 +356,7 @@ class TtsStreamGet(BaseApi):
     ]: ...
 
     @typing.overload
-    def tts_stream_get(
+    def get_earliest_timestamp_of_model_metric(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
@@ -302,7 +368,7 @@ class TtsStreamGet(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def tts_stream_get(
+    def get_earliest_timestamp_of_model_metric(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -316,7 +382,7 @@ class TtsStreamGet(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def tts_stream_get(
+    def get_earliest_timestamp_of_model_metric(
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -326,7 +392,7 @@ class TtsStreamGet(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get_oapg(
+        return self._get_earliest_timestamp_of_model_metric_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,
@@ -391,7 +457,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get_oapg(
+        return self._get_earliest_timestamp_of_model_metric_oapg(
             query_params=query_params,
             header_params=header_params,
             path_params=path_params,

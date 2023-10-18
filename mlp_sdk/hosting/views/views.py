@@ -1,5 +1,5 @@
 import http
-from collections import Callable
+from collections.abc import Callable
 from typing import Optional, Tuple, Union, List
 
 from fastapi import Response

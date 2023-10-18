@@ -118,7 +118,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
@@ -423,6 +423,18 @@ paths:
         required: false
         schema:
           type: string
+      - name: imageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: dataImageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
@@ -576,7 +588,7 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpgate/account/{account}/model/{model}/tts-stream:
+  /api/mlpgate/account/{account}/model/{model}/tts:
     get:
       tags:
       - process-endpoint
@@ -599,6 +611,30 @@ paths:
         required: true
         schema:
           type: string
+      - name: voice
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: audioEncoding
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - LINEAR16_PCM
+      - name: sampleRateHertz
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: chunkSizeKb
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -639,7 +675,7 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/TtsRequestData'
         required: true
       responses:
         "200":
@@ -676,7 +712,7 @@ paths:
         "200":
           description: OK
           content:
-            text/plain:
+            text/plain;charset=UTF-8:
               schema:
                 type: string
     post:
@@ -704,7 +740,7 @@ paths:
           type: string
       requestBody:
         content:
-          text/plain:
+          text/plain;charset=UTF-8:
             schema:
               type: string
         required: true
@@ -1137,11 +1173,38 @@ paths:
         content:
           application/json:
             schema:
-              maximum: 100
+              maximum: 1000
               minimum: 0
               type: integer
               format: int32
         required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/model/{model}/instances/single:
+    post:
+      tags:
+      - model-endpoint
+      operationId: startSingleInstance
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -1977,6 +2040,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedImageInfoData'
+      deprecated: true
     post:
       tags:
       - image-endpoint
@@ -3173,6 +3237,25 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/system-config/captcha:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: getCaptchaConfig
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpgate/models:
     get:
       tags:
@@ -3220,6 +3303,18 @@ paths:
         required: false
         schema:
           type: string
+      - name: imageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: dataImageId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: page
         in: query
         required: false
@@ -3513,6 +3608,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupServices
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /api/mlpgate/account/{account}/resource-groups/{groupName}/metric:
     get:
       tags:
@@ -3583,6 +3716,66 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/metric/start-time:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getEarliestTimestampOfResourceGroupMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - NODE_CPU_USAGE
+          - NODE_CPU_REQUESTED
+          - NODE_CPU_CAPACITY
+          - NODE_CPU_ALLOCATABLE_CAPACITY
+          - NODE_RAM_USAGE
+          - NODE_RAM_REQUESTED
+          - NODE_RAM_CAPACITY
+          - NODE_RAM_ALLOCATABLE_CAPACITY
+          - NODE_DISK_USAGE
+          - NODE_EPHEMERAL_DISK_REQUESTED
+          - NODE_EPHEMERAL_DISK_CAPACITY
+          - NODE_EPHEMERAL_DISK_ALLOCATABLE_CAPACITY
+          - NODE_GPU_PODS_COUNT
+          - NODE_GPU_PODS_LIMIT
+          - NODE_GPU_USAGE
+          - NODE_GPU_LIMIT
+          - NODE_VRAM_USAGE
+          - NODE_VRAM_LIMIT
+      - name: nodeName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
   /api/mlpgate/account/{account}/resource-groups/{groupName}/metric-range:
     get:
       tags:
@@ -3693,6 +3886,59 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/logs/page:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getPageableLogsByResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: minutes
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageStatLogData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/capacity:
     get:
       tags:
@@ -3755,6 +4001,127 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs/page:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getPageableLogsByResourceGroupCapacity
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: minutes
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageStatLogData'
+  /api/mlpgate/account/{account}/models/metric:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getModelsMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - MODEL_CPU_USAGE
+            - MODEL_CPU_REQUESTED
+            - MODEL_CPU_LIMIT
+            - MODEL_RAM_USAGE
+            - MODEL_RAM_REQUESTED
+            - MODEL_RAM_LIMIT
+            - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
+            - MODEL_SUCCESS_REQUESTS_COUNT
+            - MODEL_FAILED_REQUESTS_COUNT
+            - MODEL_ACTIVE_REQUESTS_COUNT
+            - MODEL_AVERAGE_REQUEST_TIME
+            - MODEL_MIN_REQUEST_TIME
+            - MODEL_MAX_REQUEST_TIME
+            - MODEL_INSTANT_REQUEST_TIME
+      - name: models
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                    format: double
   /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:
@@ -3804,6 +4171,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: metrics
         in: query
         required: true
@@ -3819,6 +4192,9 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT
@@ -3842,6 +4218,61 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
+  /api/mlpgate/account/{account}/model/{model}/metric/start-time:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getEarliestTimestampOfModelMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - MODEL_CPU_USAGE
+          - MODEL_CPU_REQUESTED
+          - MODEL_CPU_LIMIT
+          - MODEL_RAM_USAGE
+          - MODEL_RAM_REQUESTED
+          - MODEL_RAM_LIMIT
+          - MODEL_RECONNECTS_COUNT
+          - MODEL_INSTANCES_COUNT
+          - MODEL_GPU_REQUESTED
+          - MODEL_EPHEMERAL_DISK_REQUESTED
+          - MODEL_SUCCESS_REQUESTS_COUNT
+          - MODEL_FAILED_REQUESTS_COUNT
+          - MODEL_ACTIVE_REQUESTS_COUNT
+          - MODEL_AVERAGE_REQUEST_TIME
+          - MODEL_MIN_REQUEST_TIME
+          - MODEL_MAX_REQUEST_TIME
+          - MODEL_INSTANT_REQUEST_TIME
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
   /api/mlpgate/account/{account}/model/{model}/metric-range:
     get:
       tags:
@@ -3875,6 +4306,9 @@ paths:
             - MODEL_RAM_REQUESTED
             - MODEL_RAM_LIMIT
             - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
             - MODEL_ACTIVE_REQUESTS_COUNT
@@ -4007,6 +4441,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInstanceListData'
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/timing:
+    get:
+      tags:
+      - model-instance-endpoint
+      operationId: getModelInstanceStartTime
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelStartTimeData'
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric:
     get:
       tags:
@@ -4062,6 +4533,57 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric/start-time:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getEarliestTimestampOfInstanceMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - INSTANCE_CPU_USAGE
+          - INSTANCE_CPU_REQUESTED
+          - INSTANCE_CPU_LIMIT
+          - INSTANCE_RAM_USAGE
+          - INSTANCE_RAM_REQUESTED
+          - INSTANCE_RAM_LIMIT
+          - INSTANCE_RECONNECTS_COUNT
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric-range:
     get:
       tags:
@@ -4131,6 +4653,43 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Measurement'
+  /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/laststate:
+    get:
+      tags:
+      - model-instance-endpoint
+      operationId: getModelInstanceLastState
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceLastState'
   /api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/file:
     get:
       tags:
@@ -4439,6 +4998,52 @@ paths:
                 additionalProperties:
                   type: number
                   format: double
+  /api/mlpgate/account/{account}/metric/start-time:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getEarliestTimestampOfAccountMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - ACCOUNT_CPU_USAGE
+          - ACCOUNT_CPU_REQUESTED
+          - ACCOUNT_CPU_LIMIT
+          - ACCOUNT_RAM_USAGE
+          - ACCOUNT_RAM_REQUESTED
+          - ACCOUNT_RAM_LIMIT
+          - ACCOUNT_DISK_REQUESTED
+          - ACCOUNT_DISK_LIMIT
+          - ACCOUNT_GPU_REQUESTED
+          - ACCOUNT_GPU_LIMIT
+          - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_TOTAL
+          - ACCOUNT_PREDICTS_COUNT_PER_MINUTE_EXCEEDED
+          - ACCOUNT_FITS_COUNT_PER_MINUTE_TOTAL
+          - ACCOUNT_FITS_COUNT_PER_MINUTE_EXCEEDED
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
   /api/mlpgate/account/{account}/metric-range:
     get:
       tags:
@@ -4594,6 +5199,65 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpgate/account/{account}/image-v2:
+    get:
+      tags:
+      - image-endpoint
+      operationId: getPagedImages_v2
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: belonging
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ALL
+          - MINE
+          - MINE_PUBLIC
+          - MINE_RESTRICTED
+          - MINE_PRIVATE
+          - NOT_MINE
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedImageInfoData'
   /api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase:
     get:
       tags:
@@ -5205,6 +5869,9 @@ components:
         billingUnitPriceInNanoToken:
           type: integer
           format: int64
+        billingUnitPriceInRubles:
+          type: number
+          format: double
         freeUnitQuota:
           type: integer
           format: int32
@@ -5280,6 +5947,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         dataImageMounts:
           type: array
           items:
@@ -5327,7 +5995,12 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
         isBillingEnabled:
           type: boolean
@@ -5394,6 +6067,8 @@ components:
           type: integer
           format: int32
         hidden:
+          type: boolean
+        publicTestingAllowed:
           type: boolean
     ModelRetriesData:
       required:
@@ -5637,6 +6312,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -5669,6 +6345,9 @@ components:
         minInstancesCount:
           type: integer
           format: int32
+        startTimeSec:
+          type: number
+          format: float
     PersistentVolumeData:
       required:
       - mountPath
@@ -5726,6 +6405,7 @@ components:
       - config
       - id
       - isDefault
+      - isManual
       - name
       type: object
       properties:
@@ -5734,6 +6414,8 @@ components:
         name:
           type: string
         isDefault:
+          type: boolean
+        isManual:
           type: boolean
         config:
           type: string
@@ -5872,6 +6554,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - HOSTING_SERVER
         persistentVolumes:
           type: array
           items:
@@ -5921,6 +6604,7 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
     ModelInfoPK:
       required:
       - accountId
@@ -5933,6 +6617,30 @@ components:
         modelId:
           type: integer
           format: int64
+    AudioFormatOptions:
+      type: object
+      properties:
+        audioEncoding:
+          type: string
+          enum:
+          - LINEAR16_PCM
+        sampleRateHertz:
+          type: integer
+          format: int32
+        chunkSizeKb:
+          type: integer
+          format: int32
+    TtsRequestData:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
+        voice:
+          type: string
+        outputAudioSpec:
+          $ref: '#/components/schemas/AudioFormatOptions'
     ResponseBodyEmitter:
       type: object
       properties:
@@ -6056,7 +6764,6 @@ components:
     ExternalConnectionInfoData:
       required:
       - connected
-      - dockerRunCommand
       - envVariables
       - id
       type: object
@@ -6296,6 +7003,16 @@ components:
           $ref: '#/components/schemas/ModelLimitsData'
         resourceGroup:
           type: string
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        siteKey:
+          type: string
     PagedModelInfoData:
       required:
       - paging
@@ -6468,6 +7185,65 @@ components:
         v:
           type: number
           format: double
+    PageStatLogData:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatLogData'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/Sort'
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+    Sort:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     ResourceGroupCapacity:
       required:
       - diskMb
@@ -6511,6 +7287,8 @@ components:
     InstancesStatusData:
       required:
       - externalRequested
+      - hostingServerActive
+      - hostingServerRequested
       - internalActive
       - internalInError
       - internalRequested
@@ -6523,6 +7301,12 @@ components:
           type: integer
           format: int32
         internalInError:
+          type: integer
+          format: int32
+        hostingServerRequested:
+          type: integer
+          format: int32
+        hostingServerActive:
           type: integer
           format: int32
         externalRequested:
@@ -6540,13 +7324,18 @@ components:
           - RUNNING
           - STARTING
           - INACTIVE
+          - SLEEPING
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
           $ref: '#/components/schemas/JobStatusData'
+        startTimeSeconds:
+          type: number
+          format: float
     ModelInstanceData:
       required:
       - id
+      - instanceHostingType
       - restartCount
       - statusInfo
       type: object
@@ -6565,6 +7354,13 @@ components:
           type: string
         createdTimestamp:
           type: string
+        instanceHostingType:
+          type: string
+          enum:
+          - deployment
+          - pod
+          - external
+          - hostingServer
     ModelInstanceListData:
       required:
       - instances
@@ -6586,6 +7382,7 @@ components:
           enum:
           - RUNNING
           - WAITING
+          - SLEEPING
           - FAILED
           - DELETED
         isDeleted:
@@ -6593,6 +7390,66 @@ components:
         isConnectedToAllGates:
           type: boolean
         podStatus:
+          type: string
+    ModelStartTimeData:
+      required:
+      - instanceId
+      - instanceStartTime
+      - modelId
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        modelAverageStartTimeSec:
+          type: number
+          format: float
+        instanceStartTime:
+          type: string
+          format: date-time
+        instanceStartedTime:
+          type: string
+          format: date-time
+        instanceErrorTime:
+          type: string
+          format: date-time
+    InstanceLastState:
+      type: object
+      properties:
+        running:
+          $ref: '#/components/schemas/InstanceStateRunning'
+        terminated:
+          $ref: '#/components/schemas/InstanceStateTerminated'
+        waiting:
+          $ref: '#/components/schemas/InstanceStateWaiting'
+    InstanceStateRunning:
+      type: object
+      properties:
+        startedAt:
+          type: string
+    InstanceStateTerminated:
+      type: object
+      properties:
+        startedAt:
+          type: string
+        finishedAt:
+          type: string
+        exitCode:
+          type: integer
+          format: int32
+        reason:
+          type: string
+        message:
+          type: string
+    InstanceStateWaiting:
+      type: object
+      properties:
+        reason:
+          type: string
+        message:
           type: string
     EventData:
       required:
@@ -6796,6 +7653,7 @@ components:
           - deployment
           - pod
           - external
+          - hostingServer
         resourceName:
           type: string
         alias:
@@ -6807,3 +7665,5 @@ components:
           format: date-time
         isEvictable:
           type: boolean
+        hostingServerId:
+          type: string

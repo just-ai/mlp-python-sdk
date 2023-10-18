@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'P\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0emlp-grpc.proto\x12\x0c\x63om.mlp.gate\"\xd1\x02\n\x16ServiceDescriptorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x66ittable\x18\n \x01(\x08\x12\x42\n\x07methods\x18\x14 \x03(\x0b\x32\x31.com.mlp.gate.ServiceDescriptorProto.MethodsEntry\x12J\n\x0bschemaFiles\x18\x1e \x03(\x0b\x32\x35.com.mlp.gate.ServiceDescriptorProto.SchemaFilesEntry\x1aS\n\x0cMethodsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x32\n\x05value\x18\x02 \x01(\x0b\x32#.com.mlp.gate.MethodDescriptorProto:\x02\x38\x01\x1a\x32\n\x10SchemaFilesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xfc\x01\n\x15MethodDescriptorProto\x12=\n\x05input\x18\x01 \x03(\x0b\x32..com.mlp.gate.MethodDescriptorProto.InputEntry\x12\x32\n\x06output\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto\x12\x13\n\x06\x66itted\x18\x03 \x01(\x08H\x00\x88\x01\x01\x1aP\n\nInputEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x31\n\x05value\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto:\x02\x38\x01\x42\t\n\x07_fitted\"$\n\x14ParamDescriptorProto\x12\x0c\n\x04type\x18\x01 \x01(\t\"\x84\x01\n\x10ServiceInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x0f\n\x07modelId\x18\x02 \x01(\x03\x12\x11\n\tmodelName\x18\x03 \x01(\t\x12\x11\n\tauthToken\x18\x04 \x01(\t\x12\x17\n\nbucketName\x18\x05 \x01(\tH\x00\x88\x01\x01\x42\r\n\x0b_bucketName\"\xb9\x05\n\x12ServiceToGateProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x37\n\x0cstartServing\x18\x03 \x01(\x0b\x32\x1f.com.mlp.gate.StartServingProtoH\x00\x12\x35\n\x0bstopServing\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1e.com.mlp.gate.FitResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x33\n\x06status\x18i \x01(\x0b\x32!.com.mlp.gate.StatusResponseProtoH\x00\x12\x31\n\x05\x62\x61tch\x18j \x01(\x0b\x32 .com.mlp.gate.BatchResponseProtoH\x00\x12\x43\n\x0epartialPredict\x18k \x01(\x0b\x32).com.mlp.gate.PartialPredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.ServiceToGateProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\xe6\x05\n\x12GateToServiceProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x33\n\x07\x63luster\x18\x03 \x01(\x0b\x32 .com.mlp.gate.ClusterUpdateProtoH\x00\x12\x35\n\x0bserviceInfo\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProtoH\x00\x12\x35\n\x0bstopServing\x18\x05 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12,\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1d.com.mlp.gate.FitRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x32\n\x06status\x18i \x01(\x0b\x32 .com.mlp.gate.StatusRequestProtoH\x00\x12\x30\n\x05\x62\x61tch\x18j \x01(\x0b\x32\x1f.com.mlp.gate.BatchRequestProtoH\x00\x12\x42\n\x0epartialPredict\x18k \x01(\x0b\x32(.com.mlp.gate.PartialPredictRequestProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.GateToServiceProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"2\n\x0eHeartBeatProto\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x10\n\x08interval\x18\x02 \x01(\x05\"m\n\x11StartServingProto\x12\x17\n\x0f\x63onnectionToken\x18\x01 \x01(\t\x12?\n\x11serviceDescriptor\x18\x03 \x01(\x0b\x32$.com.mlp.gate.ServiceDescriptorProto\"2\n\x10StopServingProto\x12\x13\n\x06reason\x18\x01 \x01(\tH\x00\x88\x01\x01\x42\t\n\x07_reason\"{\n\x13PredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"\xc0\x01\n\x1aPartialPredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12\x12\n\x05start\x18g \x01(\x08H\x01\x88\x01\x01\x12\x13\n\x06\x66inish\x18h \x01(\x08H\x02\x88\x01\x01\x42\t\n\x07_configB\x08\n\x06_startB\t\n\x07_finish\"~\n\x11\x42\x61tchRequestProto\x12-\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\x1f.com.mlp.gate.BatchPayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"@\n\x14PredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x85\x01\n\x1bPartialPredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x12\n\x05start\x18g \x01(\x08H\x00\x88\x01\x01\x12\x13\n\x06\x66inish\x18h \x01(\x08H\x01\x88\x01\x01\x42\x08\n\x06_startB\t\n\x07_finish\"K\n\x12\x42\x61tchResponseProto\x12\x35\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\'.com.mlp.gate.BatchPayloadResponseProto\"T\n\x10\x44\x61tasetInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x11\n\tdatasetId\x18\x02 \x01(\x03\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\"\xf8\x02\n\x0f\x46itRequestProto\x12-\n\ttrainData\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x34\n\x0btargetsData\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12/\n\x06\x63onfig\x18g \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x01\x88\x01\x01\x12\x10\n\x08modelDir\x18h \x01(\t\x12\x1d\n\x10previousModelDir\x18i \x01(\tH\x02\x88\x01\x01\x12\x39\n\x11targetServiceInfo\x18j \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProto\x12\x33\n\x0b\x64\x61tasetInfo\x18k \x01(\x0b\x32\x1e.com.mlp.gate.DatasetInfoProtoB\x0e\n\x0c_targetsDataB\t\n\x07_configB\x13\n\x11_previousModelDir\"\x12\n\x10\x46itResponseProto\"\xb5\x01\n\x14\x45xtendedRequestProto\x12\x12\n\nmethodName\x18\x01 \x01(\t\x12>\n\x06params\x18\x02 \x03(\x0b\x32..com.mlp.gate.ExtendedRequestProto.ParamsEntry\x1aI\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto:\x02\x38\x01\"A\n\x15\x45xtendedResponseProto\x12(\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"P\n\x11\x42\x61tchPayloadProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x9c\x01\n\x19\x42\x61tchPayloadResponseProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\x14\n\x12StatusRequestProto\"J\n\x13StatusResponseProto\x12\x16\n\x0e\x63onnectedGates\x18\x01 \x03(\t\x12\x1b\n\x13\x63onnectedToAllGates\x18\x02 \x01(\x08\"^\n\x0cPayloadProto\x12\x15\n\x08\x64\x61taType\x18\x01 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x04json\x18\x65 \x01(\tH\x00\x12\x12\n\x08protobuf\x18\x66 \x01(\x0cH\x00\x42\x06\n\x04\x62odyB\x0b\n\t_dataType\"\xc1\x01\n\rApiErrorProto\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12/\n\x06status\x18\x03 \x01(\x0e\x32\x1f.com.mlp.gate.SimpleStatusProto\x12\x33\n\x04\x61rgs\x18\x04 \x03(\x0b\x32%.com.mlp.gate.ApiErrorProto.ArgsEntry\x1a+\n\tArgsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xbd\x02\n\x12\x43lientRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\tauthToken\x18\x03 \x01(\t\x12\x12\n\ntimeoutSec\x18\x04 \x01(\x05\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.ClientRequestProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\xa9\x02\n\x13\x43lientResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12@\n\x07headers\x18\xe8\x07 \x03(\x0b\x32..com.mlp.gate.ClientResponseProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\x19\n\x17\x43lientTokenRequestProto\")\n\x18\x43lientTokenResponseProto\x12\r\n\x05token\x18\x01 \x01(\t\"<\n\x12\x43lusterUpdateProto\x12\x0f\n\x07servers\x18\x01 \x03(\t\x12\x15\n\rcurrentServer\x18\x02 \x01(\t\"\x1f\n\x0fSimpleTextProto\x12\x0c\n\x04text\x18\x01 \x01(\t*Y\n\x11SimpleStatusProto\x12\x06\n\x02OK\x10\x00\x12\x10\n\x0b\x42\x41\x44_REQUEST\x10\x90\x03\x12\x0e\n\tNOT_FOUND\x10\x94\x03\x12\x1a\n\x15INTERNAL_SERVER_ERROR\x10\xf4\x03\x32\xfd\x01\n\x04Gate\x12I\n\x0bhealthCheck\x12\x1c.com.mlp.gate.HeartBeatProto\x1a\x1c.com.mlp.gate.HeartBeatProto\x12X\n\x0cprocessAsync\x12 .com.mlp.gate.ServiceToGateProto\x1a .com.mlp.gate.GateToServiceProto\"\x00(\x01\x30\x01\x12P\n\x07process\x12 .com.mlp.gate.ClientRequestProto\x1a!.com.mlp.gate.ClientResponseProto\"\x00\x42\x02P\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0emlp-grpc.proto\x12\x0c\x63om.mlp.gate\"\xd1\x02\n\x16ServiceDescriptorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x66ittable\x18\n \x01(\x08\x12\x42\n\x07methods\x18\x14 \x03(\x0b\x32\x31.com.mlp.gate.ServiceDescriptorProto.MethodsEntry\x12J\n\x0bschemaFiles\x18\x1e \x03(\x0b\x32\x35.com.mlp.gate.ServiceDescriptorProto.SchemaFilesEntry\x1aS\n\x0cMethodsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x32\n\x05value\x18\x02 \x01(\x0b\x32#.com.mlp.gate.MethodDescriptorProto:\x02\x38\x01\x1a\x32\n\x10SchemaFilesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xfc\x01\n\x15MethodDescriptorProto\x12=\n\x05input\x18\x01 \x03(\x0b\x32..com.mlp.gate.MethodDescriptorProto.InputEntry\x12\x32\n\x06output\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto\x12\x13\n\x06\x66itted\x18\x03 \x01(\x08H\x00\x88\x01\x01\x1aP\n\nInputEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x31\n\x05value\x18\x02 \x01(\x0b\x32\".com.mlp.gate.ParamDescriptorProto:\x02\x38\x01\x42\t\n\x07_fitted\"$\n\x14ParamDescriptorProto\x12\x0c\n\x04type\x18\x01 \x01(\t\"\x84\x01\n\x10ServiceInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x0f\n\x07modelId\x18\x02 \x01(\x03\x12\x11\n\tmodelName\x18\x03 \x01(\t\x12\x11\n\tauthToken\x18\x04 \x01(\t\x12\x17\n\nbucketName\x18\x05 \x01(\tH\x00\x88\x01\x01\x42\r\n\x0b_bucketName\"\xb9\x05\n\x12ServiceToGateProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x37\n\x0cstartServing\x18\x03 \x01(\x0b\x32\x1f.com.mlp.gate.StartServingProtoH\x00\x12\x35\n\x0bstopServing\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1e.com.mlp.gate.FitResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12\x33\n\x06status\x18i \x01(\x0b\x32!.com.mlp.gate.StatusResponseProtoH\x00\x12\x31\n\x05\x62\x61tch\x18j \x01(\x0b\x32 .com.mlp.gate.BatchResponseProtoH\x00\x12\x43\n\x0epartialPredict\x18k \x01(\x0b\x32).com.mlp.gate.PartialPredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.ServiceToGateProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\xe6\x05\n\x12GateToServiceProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x31\n\theartBeat\x18\x02 \x01(\x0b\x32\x1c.com.mlp.gate.HeartBeatProtoH\x00\x12\x33\n\x07\x63luster\x18\x03 \x01(\x0b\x32 .com.mlp.gate.ClusterUpdateProtoH\x00\x12\x35\n\x0bserviceInfo\x18\x04 \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProtoH\x00\x12\x35\n\x0bstopServing\x18\x05 \x01(\x0b\x32\x1e.com.mlp.gate.StopServingProtoH\x00\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12,\n\x03\x66it\x18\x66 \x01(\x0b\x32\x1d.com.mlp.gate.FitRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12\x32\n\x06status\x18i \x01(\x0b\x32 .com.mlp.gate.StatusRequestProtoH\x00\x12\x30\n\x05\x62\x61tch\x18j \x01(\x0b\x32\x1f.com.mlp.gate.BatchRequestProtoH\x00\x12\x42\n\x0epartialPredict\x18k \x01(\x0b\x32(.com.mlp.gate.PartialPredictRequestProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.GateToServiceProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"2\n\x0eHeartBeatProto\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x10\n\x08interval\x18\x02 \x01(\x05\"m\n\x11StartServingProto\x12\x17\n\x0f\x63onnectionToken\x18\x01 \x01(\t\x12?\n\x11serviceDescriptor\x18\x03 \x01(\x0b\x32$.com.mlp.gate.ServiceDescriptorProto\"2\n\x10StopServingProto\x12\x13\n\x06reason\x18\x01 \x01(\tH\x00\x88\x01\x01\x42\t\n\x07_reason\"{\n\x13PredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"\xc0\x01\n\x1aPartialPredictRequestProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12\x12\n\x05start\x18g \x01(\x08H\x01\x88\x01\x01\x12\x13\n\x06\x66inish\x18h \x01(\x08H\x02\x88\x01\x01\x42\t\n\x07_configB\x08\n\x06_startB\t\n\x07_finish\"~\n\x11\x42\x61tchRequestProto\x12-\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\x1f.com.mlp.gate.BatchPayloadProto\x12/\n\x06\x63onfig\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x42\t\n\x07_config\"@\n\x14PredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x85\x01\n\x1bPartialPredictResponseProto\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x12\n\x05start\x18g \x01(\x08H\x00\x88\x01\x01\x12\x13\n\x06\x66inish\x18h \x01(\x08H\x01\x88\x01\x01\x42\x08\n\x06_startB\t\n\x07_finish\"K\n\x12\x42\x61tchResponseProto\x12\x35\n\x04\x64\x61ta\x18\x65 \x03(\x0b\x32\'.com.mlp.gate.BatchPayloadResponseProto\"T\n\x10\x44\x61tasetInfoProto\x12\x11\n\taccountId\x18\x01 \x01(\x03\x12\x11\n\tdatasetId\x18\x02 \x01(\x03\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\"\xf8\x02\n\x0f\x46itRequestProto\x12-\n\ttrainData\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\x12\x34\n\x0btargetsData\x18\x66 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x00\x88\x01\x01\x12/\n\x06\x63onfig\x18g \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProtoH\x01\x88\x01\x01\x12\x10\n\x08modelDir\x18h \x01(\t\x12\x1d\n\x10previousModelDir\x18i \x01(\tH\x02\x88\x01\x01\x12\x39\n\x11targetServiceInfo\x18j \x01(\x0b\x32\x1e.com.mlp.gate.ServiceInfoProto\x12\x33\n\x0b\x64\x61tasetInfo\x18k \x01(\x0b\x32\x1e.com.mlp.gate.DatasetInfoProtoB\x0e\n\x0c_targetsDataB\t\n\x07_configB\x13\n\x11_previousModelDir\"\x12\n\x10\x46itResponseProto\"\xb5\x01\n\x14\x45xtendedRequestProto\x12\x12\n\nmethodName\x18\x01 \x01(\t\x12>\n\x06params\x18\x02 \x03(\x0b\x32..com.mlp.gate.ExtendedRequestProto.ParamsEntry\x1aI\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto:\x02\x38\x01\"A\n\x15\x45xtendedResponseProto\x12(\n\x04\x64\x61ta\x18\x01 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"P\n\x11\x42\x61tchPayloadProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12(\n\x04\x64\x61ta\x18\x65 \x01(\x0b\x32\x1a.com.mlp.gate.PayloadProto\"\x9c\x01\n\x19\x42\x61tchPayloadResponseProto\x12\x11\n\trequestId\x18\x01 \x01(\x03\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\x14\n\x12StatusRequestProto\"J\n\x13StatusResponseProto\x12\x16\n\x0e\x63onnectedGates\x18\x01 \x03(\t\x12\x1b\n\x13\x63onnectedToAllGates\x18\x02 \x01(\x08\"^\n\x0cPayloadProto\x12\x15\n\x08\x64\x61taType\x18\x01 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x04json\x18\x65 \x01(\tH\x00\x12\x12\n\x08protobuf\x18\x66 \x01(\x0cH\x00\x42\x06\n\x04\x62odyB\x0b\n\t_dataType\"\xc1\x01\n\rApiErrorProto\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12/\n\x06status\x18\x03 \x01(\x0e\x32\x1f.com.mlp.gate.SimpleStatusProto\x12\x33\n\x04\x61rgs\x18\x04 \x03(\x0b\x32%.com.mlp.gate.ApiErrorProto.ArgsEntry\x1a+\n\tArgsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xbd\x02\n\x12\x43lientRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\tauthToken\x18\x03 \x01(\t\x12\x12\n\ntimeoutSec\x18\x04 \x01(\x05\x12\x34\n\x07predict\x18\x65 \x01(\x0b\x32!.com.mlp.gate.PredictRequestProtoH\x00\x12\x31\n\x03\x65xt\x18g \x01(\x0b\x32\".com.mlp.gate.ExtendedRequestProtoH\x00\x12?\n\x07headers\x18\xe8\x07 \x03(\x0b\x32-.com.mlp.gate.ClientRequestProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\xa9\x02\n\x13\x43lientResponseProto\x12\x35\n\x07predict\x18\x65 \x01(\x0b\x32\".com.mlp.gate.PredictResponseProtoH\x00\x12\x32\n\x03\x65xt\x18g \x01(\x0b\x32#.com.mlp.gate.ExtendedResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x12@\n\x07headers\x18\xe8\x07 \x03(\x0b\x32..com.mlp.gate.ClientResponseProto.HeadersEntry\x1a.\n\x0cHeadersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x06\n\x04\x62ody\"\x19\n\x17\x43lientTokenRequestProto\")\n\x18\x43lientTokenResponseProto\x12\r\n\x05token\x18\x01 \x01(\t\"<\n\x12\x43lusterUpdateProto\x12\x0f\n\x07servers\x18\x01 \x03(\t\x12\x15\n\rcurrentServer\x18\x02 \x01(\t\"\x1f\n\x0fSimpleTextProto\x12\x0c\n\x04text\x18\x01 \x01(\t\"v\n\x15\x43lientTtsRequestProto\x12\x0f\n\x07\x61\x63\x63ount\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\tauthToken\x18\x03 \x01(\t\x12*\n\x03tts\x18\x65 \x01(\x0b\x32\x1d.com.mlp.gate.TtsRequestProto\"\x95\x01\n\x0fTtsRequestProto\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x12\n\x05voice\x18\x02 \x01(\tH\x00\x88\x01\x01\x12@\n\x11output_audio_spec\x18\x03 \x01(\x0b\x32 .com.mlp.gate.AudioFormatOptionsH\x01\x88\x01\x01\x42\x08\n\x06_voiceB\x14\n\x12_output_audio_spec\"\xfb\x01\n\x12\x41udioFormatOptions\x12K\n\x0e\x61udio_encoding\x18\x01 \x01(\x0e\x32..com.mlp.gate.AudioFormatOptions.AudioEncodingH\x00\x88\x01\x01\x12\x1e\n\x11sample_rate_hertz\x18\x02 \x01(\x03H\x01\x88\x01\x01\x12\x1a\n\rchunk_size_kb\x18\x03 \x01(\x03H\x02\x88\x01\x01\"!\n\rAudioEncoding\x12\x10\n\x0cLINEAR16_PCM\x10\x00\x42\x11\n\x0f_audio_encodingB\x14\n\x12_sample_rate_hertzB\x10\n\x0e_chunk_size_kb\"~\n\x16\x43lientTtsResponseProto\x12-\n\x03tts\x18\x65 \x01(\x0b\x32\x1e.com.mlp.gate.TtsResponseProtoH\x00\x12-\n\x05\x65rror\x18\xc9\x01 \x01(\x0b\x32\x1b.com.mlp.gate.ApiErrorProtoH\x00\x42\x06\n\x04\x62ody\"\xa8\x01\n\x10TtsResponseProto\x12>\n\x0b\x61udio_chunk\x18\x01 \x01(\x0b\x32).com.mlp.gate.TtsResponseProto.AudioChunk\x12\x12\n\x05\x66irst\x18\n \x01(\x08H\x00\x88\x01\x01\x12\x11\n\x04last\x18\x0c \x01(\x08H\x01\x88\x01\x01\x1a\x1a\n\nAudioChunk\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x42\x08\n\x06_firstB\x07\n\x05_last*Y\n\x11SimpleStatusProto\x12\x06\n\x02OK\x10\x00\x12\x10\n\x0b\x42\x41\x44_REQUEST\x10\x90\x03\x12\x0e\n\tNOT_FOUND\x10\x94\x03\x12\x1a\n\x15INTERNAL_SERVER_ERROR\x10\xf4\x03\x32\xe0\x02\n\x04Gate\x12I\n\x0bhealthCheck\x12\x1c.com.mlp.gate.HeartBeatProto\x1a\x1c.com.mlp.gate.HeartBeatProto\x12X\n\x0cprocessAsync\x12 .com.mlp.gate.ServiceToGateProto\x1a .com.mlp.gate.GateToServiceProto\"\x00(\x01\x30\x01\x12P\n\x07process\x12 .com.mlp.gate.ClientRequestProto\x1a!.com.mlp.gate.ClientResponseProto\"\x00\x12\x61\n\x10processSynthesis\x12#.com.mlp.gate.ClientTtsRequestProto\x1a$.com.mlp.gate.ClientTtsResponseProto\"\x00\x30\x01\x42\x02P\x01\x62\x06proto3'
 )
 
 _SIMPLESTATUSPROTO = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _SIMPLESTATUSPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5339,
-  serialized_end=5428,
+  serialized_start=6164,
+  serialized_end=6253,
 )
 _sym_db.RegisterEnumDescriptor(_SIMPLESTATUSPROTO)
 
@@ -64,6 +64,26 @@ BAD_REQUEST = 400
 NOT_FOUND = 404
 INTERNAL_SERVER_ERROR = 500
 
+
+_AUDIOFORMATOPTIONS_AUDIOENCODING = _descriptor.EnumDescriptor(
+  name='AudioEncoding',
+  full_name='com.mlp.gate.AudioFormatOptions.AudioEncoding',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='LINEAR16_PCM', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=5771,
+  serialized_end=5804,
+)
+_sym_db.RegisterEnumDescriptor(_AUDIOFORMATOPTIONS_AUDIOENCODING)
 
 
 _SERVICEDESCRIPTORPROTO_METHODSENTRY = _descriptor.Descriptor(
@@ -2000,6 +2020,308 @@ _SIMPLETEXTPROTO = _descriptor.Descriptor(
   serialized_end=5337,
 )
 
+
+_CLIENTTTSREQUESTPROTO = _descriptor.Descriptor(
+  name='ClientTtsRequestProto',
+  full_name='com.mlp.gate.ClientTtsRequestProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='account', full_name='com.mlp.gate.ClientTtsRequestProto.account', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='model', full_name='com.mlp.gate.ClientTtsRequestProto.model', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='authToken', full_name='com.mlp.gate.ClientTtsRequestProto.authToken', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='tts', full_name='com.mlp.gate.ClientTtsRequestProto.tts', index=3,
+      number=101, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=5339,
+  serialized_end=5457,
+)
+
+
+_TTSREQUESTPROTO = _descriptor.Descriptor(
+  name='TtsRequestProto',
+  full_name='com.mlp.gate.TtsRequestProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='text', full_name='com.mlp.gate.TtsRequestProto.text', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='voice', full_name='com.mlp.gate.TtsRequestProto.voice', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='output_audio_spec', full_name='com.mlp.gate.TtsRequestProto.output_audio_spec', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_voice', full_name='com.mlp.gate.TtsRequestProto._voice',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_output_audio_spec', full_name='com.mlp.gate.TtsRequestProto._output_audio_spec',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=5460,
+  serialized_end=5609,
+)
+
+
+_AUDIOFORMATOPTIONS = _descriptor.Descriptor(
+  name='AudioFormatOptions',
+  full_name='com.mlp.gate.AudioFormatOptions',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='audio_encoding', full_name='com.mlp.gate.AudioFormatOptions.audio_encoding', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='sample_rate_hertz', full_name='com.mlp.gate.AudioFormatOptions.sample_rate_hertz', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='chunk_size_kb', full_name='com.mlp.gate.AudioFormatOptions.chunk_size_kb', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _AUDIOFORMATOPTIONS_AUDIOENCODING,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_audio_encoding', full_name='com.mlp.gate.AudioFormatOptions._audio_encoding',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_sample_rate_hertz', full_name='com.mlp.gate.AudioFormatOptions._sample_rate_hertz',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_chunk_size_kb', full_name='com.mlp.gate.AudioFormatOptions._chunk_size_kb',
+      index=2, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=5612,
+  serialized_end=5863,
+)
+
+
+_CLIENTTTSRESPONSEPROTO = _descriptor.Descriptor(
+  name='ClientTtsResponseProto',
+  full_name='com.mlp.gate.ClientTtsResponseProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='tts', full_name='com.mlp.gate.ClientTtsResponseProto.tts', index=0,
+      number=101, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='error', full_name='com.mlp.gate.ClientTtsResponseProto.error', index=1,
+      number=201, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='body', full_name='com.mlp.gate.ClientTtsResponseProto.body',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=5865,
+  serialized_end=5991,
+)
+
+
+_TTSRESPONSEPROTO_AUDIOCHUNK = _descriptor.Descriptor(
+  name='AudioChunk',
+  full_name='com.mlp.gate.TtsResponseProto.AudioChunk',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='data', full_name='com.mlp.gate.TtsResponseProto.AudioChunk.data', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=6117,
+  serialized_end=6143,
+)
+
+_TTSRESPONSEPROTO = _descriptor.Descriptor(
+  name='TtsResponseProto',
+  full_name='com.mlp.gate.TtsResponseProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='audio_chunk', full_name='com.mlp.gate.TtsResponseProto.audio_chunk', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='first', full_name='com.mlp.gate.TtsResponseProto.first', index=1,
+      number=10, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='last', full_name='com.mlp.gate.TtsResponseProto.last', index=2,
+      number=12, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_TTSRESPONSEPROTO_AUDIOCHUNK, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_first', full_name='com.mlp.gate.TtsResponseProto._first',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_last', full_name='com.mlp.gate.TtsResponseProto._last',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=5994,
+  serialized_end=6162,
+)
+
 _SERVICEDESCRIPTORPROTO_METHODSENTRY.fields_by_name['value'].message_type = _METHODDESCRIPTORPROTO
 _SERVICEDESCRIPTORPROTO_METHODSENTRY.containing_type = _SERVICEDESCRIPTORPROTO
 _SERVICEDESCRIPTORPROTO_SCHEMAFILESENTRY.containing_type = _SERVICEDESCRIPTORPROTO
@@ -2200,6 +2522,41 @@ _CLIENTRESPONSEPROTO.fields_by_name['ext'].containing_oneof = _CLIENTRESPONSEPRO
 _CLIENTRESPONSEPROTO.oneofs_by_name['body'].fields.append(
   _CLIENTRESPONSEPROTO.fields_by_name['error'])
 _CLIENTRESPONSEPROTO.fields_by_name['error'].containing_oneof = _CLIENTRESPONSEPROTO.oneofs_by_name['body']
+_CLIENTTTSREQUESTPROTO.fields_by_name['tts'].message_type = _TTSREQUESTPROTO
+_TTSREQUESTPROTO.fields_by_name['output_audio_spec'].message_type = _AUDIOFORMATOPTIONS
+_TTSREQUESTPROTO.oneofs_by_name['_voice'].fields.append(
+  _TTSREQUESTPROTO.fields_by_name['voice'])
+_TTSREQUESTPROTO.fields_by_name['voice'].containing_oneof = _TTSREQUESTPROTO.oneofs_by_name['_voice']
+_TTSREQUESTPROTO.oneofs_by_name['_output_audio_spec'].fields.append(
+  _TTSREQUESTPROTO.fields_by_name['output_audio_spec'])
+_TTSREQUESTPROTO.fields_by_name['output_audio_spec'].containing_oneof = _TTSREQUESTPROTO.oneofs_by_name['_output_audio_spec']
+_AUDIOFORMATOPTIONS.fields_by_name['audio_encoding'].enum_type = _AUDIOFORMATOPTIONS_AUDIOENCODING
+_AUDIOFORMATOPTIONS_AUDIOENCODING.containing_type = _AUDIOFORMATOPTIONS
+_AUDIOFORMATOPTIONS.oneofs_by_name['_audio_encoding'].fields.append(
+  _AUDIOFORMATOPTIONS.fields_by_name['audio_encoding'])
+_AUDIOFORMATOPTIONS.fields_by_name['audio_encoding'].containing_oneof = _AUDIOFORMATOPTIONS.oneofs_by_name['_audio_encoding']
+_AUDIOFORMATOPTIONS.oneofs_by_name['_sample_rate_hertz'].fields.append(
+  _AUDIOFORMATOPTIONS.fields_by_name['sample_rate_hertz'])
+_AUDIOFORMATOPTIONS.fields_by_name['sample_rate_hertz'].containing_oneof = _AUDIOFORMATOPTIONS.oneofs_by_name['_sample_rate_hertz']
+_AUDIOFORMATOPTIONS.oneofs_by_name['_chunk_size_kb'].fields.append(
+  _AUDIOFORMATOPTIONS.fields_by_name['chunk_size_kb'])
+_AUDIOFORMATOPTIONS.fields_by_name['chunk_size_kb'].containing_oneof = _AUDIOFORMATOPTIONS.oneofs_by_name['_chunk_size_kb']
+_CLIENTTTSRESPONSEPROTO.fields_by_name['tts'].message_type = _TTSRESPONSEPROTO
+_CLIENTTTSRESPONSEPROTO.fields_by_name['error'].message_type = _APIERRORPROTO
+_CLIENTTTSRESPONSEPROTO.oneofs_by_name['body'].fields.append(
+  _CLIENTTTSRESPONSEPROTO.fields_by_name['tts'])
+_CLIENTTTSRESPONSEPROTO.fields_by_name['tts'].containing_oneof = _CLIENTTTSRESPONSEPROTO.oneofs_by_name['body']
+_CLIENTTTSRESPONSEPROTO.oneofs_by_name['body'].fields.append(
+  _CLIENTTTSRESPONSEPROTO.fields_by_name['error'])
+_CLIENTTTSRESPONSEPROTO.fields_by_name['error'].containing_oneof = _CLIENTTTSRESPONSEPROTO.oneofs_by_name['body']
+_TTSRESPONSEPROTO_AUDIOCHUNK.containing_type = _TTSRESPONSEPROTO
+_TTSRESPONSEPROTO.fields_by_name['audio_chunk'].message_type = _TTSRESPONSEPROTO_AUDIOCHUNK
+_TTSRESPONSEPROTO.oneofs_by_name['_first'].fields.append(
+  _TTSRESPONSEPROTO.fields_by_name['first'])
+_TTSRESPONSEPROTO.fields_by_name['first'].containing_oneof = _TTSRESPONSEPROTO.oneofs_by_name['_first']
+_TTSRESPONSEPROTO.oneofs_by_name['_last'].fields.append(
+  _TTSRESPONSEPROTO.fields_by_name['last'])
+_TTSRESPONSEPROTO.fields_by_name['last'].containing_oneof = _TTSRESPONSEPROTO.oneofs_by_name['_last']
 DESCRIPTOR.message_types_by_name['ServiceDescriptorProto'] = _SERVICEDESCRIPTORPROTO
 DESCRIPTOR.message_types_by_name['MethodDescriptorProto'] = _METHODDESCRIPTORPROTO
 DESCRIPTOR.message_types_by_name['ParamDescriptorProto'] = _PARAMDESCRIPTORPROTO
@@ -2232,6 +2589,11 @@ DESCRIPTOR.message_types_by_name['ClientTokenRequestProto'] = _CLIENTTOKENREQUES
 DESCRIPTOR.message_types_by_name['ClientTokenResponseProto'] = _CLIENTTOKENRESPONSEPROTO
 DESCRIPTOR.message_types_by_name['ClusterUpdateProto'] = _CLUSTERUPDATEPROTO
 DESCRIPTOR.message_types_by_name['SimpleTextProto'] = _SIMPLETEXTPROTO
+DESCRIPTOR.message_types_by_name['ClientTtsRequestProto'] = _CLIENTTTSREQUESTPROTO
+DESCRIPTOR.message_types_by_name['TtsRequestProto'] = _TTSREQUESTPROTO
+DESCRIPTOR.message_types_by_name['AudioFormatOptions'] = _AUDIOFORMATOPTIONS
+DESCRIPTOR.message_types_by_name['ClientTtsResponseProto'] = _CLIENTTTSRESPONSEPROTO
+DESCRIPTOR.message_types_by_name['TtsResponseProto'] = _TTSRESPONSEPROTO
 DESCRIPTOR.enum_types_by_name['SimpleStatusProto'] = _SIMPLESTATUSPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -2531,6 +2893,49 @@ SimpleTextProto = _reflection.GeneratedProtocolMessageType('SimpleTextProto', (_
   })
 _sym_db.RegisterMessage(SimpleTextProto)
 
+ClientTtsRequestProto = _reflection.GeneratedProtocolMessageType('ClientTtsRequestProto', (_message.Message,), {
+  'DESCRIPTOR' : _CLIENTTTSREQUESTPROTO,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.ClientTtsRequestProto)
+  })
+_sym_db.RegisterMessage(ClientTtsRequestProto)
+
+TtsRequestProto = _reflection.GeneratedProtocolMessageType('TtsRequestProto', (_message.Message,), {
+  'DESCRIPTOR' : _TTSREQUESTPROTO,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.TtsRequestProto)
+  })
+_sym_db.RegisterMessage(TtsRequestProto)
+
+AudioFormatOptions = _reflection.GeneratedProtocolMessageType('AudioFormatOptions', (_message.Message,), {
+  'DESCRIPTOR' : _AUDIOFORMATOPTIONS,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.AudioFormatOptions)
+  })
+_sym_db.RegisterMessage(AudioFormatOptions)
+
+ClientTtsResponseProto = _reflection.GeneratedProtocolMessageType('ClientTtsResponseProto', (_message.Message,), {
+  'DESCRIPTOR' : _CLIENTTTSRESPONSEPROTO,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.ClientTtsResponseProto)
+  })
+_sym_db.RegisterMessage(ClientTtsResponseProto)
+
+TtsResponseProto = _reflection.GeneratedProtocolMessageType('TtsResponseProto', (_message.Message,), {
+
+  'AudioChunk' : _reflection.GeneratedProtocolMessageType('AudioChunk', (_message.Message,), {
+    'DESCRIPTOR' : _TTSRESPONSEPROTO_AUDIOCHUNK,
+    '__module__' : 'mlp_grpc_pb2'
+    # @@protoc_insertion_point(class_scope:com.mlp.gate.TtsResponseProto.AudioChunk)
+    })
+  ,
+  'DESCRIPTOR' : _TTSRESPONSEPROTO,
+  '__module__' : 'mlp_grpc_pb2'
+  # @@protoc_insertion_point(class_scope:com.mlp.gate.TtsResponseProto)
+  })
+_sym_db.RegisterMessage(TtsResponseProto)
+_sym_db.RegisterMessage(TtsResponseProto.AudioChunk)
+
 
 DESCRIPTOR._options = None
 _SERVICEDESCRIPTORPROTO_METHODSENTRY._options = None
@@ -2550,8 +2955,8 @@ _GATE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=5431,
-  serialized_end=5684,
+  serialized_start=6256,
+  serialized_end=6608,
   methods=[
   _descriptor.MethodDescriptor(
     name='healthCheck',
@@ -2580,6 +2985,16 @@ _GATE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CLIENTREQUESTPROTO,
     output_type=_CLIENTRESPONSEPROTO,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='processSynthesis',
+    full_name='com.mlp.gate.Gate.processSynthesis',
+    index=3,
+    containing_service=None,
+    input_type=_CLIENTTTSREQUESTPROTO,
+    output_type=_CLIENTTTSRESPONSEPROTO,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

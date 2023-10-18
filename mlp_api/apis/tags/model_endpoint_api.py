@@ -32,6 +32,7 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_instances.post import
 from mlp_api.paths.api_mlpgate_account_account_model_model_simple_doc.post import SetSimpleDoc
 from mlp_api.paths.api_mlpgate_account_account_model_model_status.get import ShortModelStatus
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_start.post import StartNewInstance
+from mlp_api.paths.api_mlpgate_account_account_model_model_instances_single.post import StartSingleInstance
 from mlp_api.paths.api_mlpgate_account_account_model_model.post import UpdateModel
 from mlp_api.paths.api_mlpgate_account_account_model_model_billing.post import UpdateModelBillingSettings
 from mlp_api.paths.api_mlpgate_account_account_model_model_public_settings.post import UpdateModelPublicSettings
@@ -61,6 +62,7 @@ class ModelEndpointApi(
     SetSimpleDoc,
     ShortModelStatus,
     StartNewInstance,
+    StartSingleInstance,
     UpdateModel,
     UpdateModelBillingSettings,
     UpdateModelPublicSettings,

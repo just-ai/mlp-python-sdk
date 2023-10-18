@@ -96,7 +96,7 @@ class SchemaForRequestBodyApplicationJson(
 
     class MetaOapg:
         format = 'int32'
-        inclusive_maximum = 100
+        inclusive_maximum = 1000
         inclusive_minimum = 0
 
 
