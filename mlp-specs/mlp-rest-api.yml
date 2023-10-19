@@ -7179,10 +7179,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
