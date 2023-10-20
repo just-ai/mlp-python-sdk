@@ -370,6 +370,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenData'
+  /api/mlpgate/account/{account}/resource-group:
+    post:
+      tags:
+      - resource-group-endpoint
+      operationId: createResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupData'
   /api/mlpgate/account/{account}/model:
     get:
       tags:
@@ -3608,6 +3639,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupData'
+      deprecated: true
+  /api/mlpgate/account/{account}/resource-groups/{groupName}:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupShortData
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupShortData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
     get:
       tags:
@@ -3646,6 +3708,66 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/servers:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupServers
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServersData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/servers/status:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupServersStatus
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServersStatusData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/metric:
     get:
       tags:
@@ -4054,6 +4176,90 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageStatLogData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/active-services:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupActiveServices
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServicesData'
+  /api/mlpgate/account/{account}/owned-resource-groups:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getOwnedResourceGroups
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupShortData'
+  /api/mlpgate/account/{account}/owned-resource-groups/short-status:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getOwnedResourceGroupsShortStatus
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupShortStatusData'
   /api/mlpgate/account/{account}/models/metric:
     get:
       tags:
@@ -6016,10 +6222,10 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
-        asBillingSettingsData:
-          $ref: '#/components/schemas/ModelBillingSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
+        asBillingSettingsData:
+          $ref: '#/components/schemas/ModelBillingSettingsData'
     ModelGroupDump:
       required:
       - name
@@ -6235,6 +6441,70 @@ components:
           type: string
         creationDate:
           type: string
+    CreateResourceGroupData:
+      required:
+      - access
+      - enabledAutoScaling
+      - enabledEviction
+      - isDefault
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - KUBERNETES
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+    ResourceGroupData:
+      required:
+      - affinity
+      - name
+      - tolerations
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        accountName:
+          type: string
+          writeOnly: true
+        tolerations:
+          type: object
+        affinity:
+          type: object
+        ownerId:
+          type: integer
+          format: int64
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - KUBERNETES
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -6940,27 +7210,6 @@ components:
         imageId:
           type: integer
           format: int64
-    ResourceGroupData:
-      required:
-      - affinity
-      - name
-      - tolerations
-      type: object
-      properties:
-        name:
-          type: string
-        accountId:
-          type: integer
-          format: int64
-        accountName:
-          type: string
-          writeOnly: true
-        tolerations:
-          type: object
-        affinity:
-          type: object
-        isDefault:
-          type: boolean
     ResourceGroupsData:
       required:
       - groups
@@ -7173,6 +7422,133 @@ components:
           type: string
         bucketName:
           type: string
+    ResourceGroupShortData:
+      required:
+      - access
+      - enabledAutoScaling
+      - enabledEviction
+      - isDefault
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - KUBERNETES
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+    Quantity:
+      type: object
+      properties:
+        number:
+          type: number
+        format:
+          type: string
+          enum:
+          - DECIMAL_EXPONENT
+          - DECIMAL_SI
+          - BINARY_SI
+    ResourceGroupServersData:
+      required:
+      - servers
+      type: object
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServerData'
+    Resources:
+      required:
+      - baseInstanceCount
+      - cpu
+      - derivedInstanceCount
+      - disk
+      - gpu
+      - podsCount
+      - ram
+      - strictlyNegativeOrZero
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/Quantity'
+        ram:
+          $ref: '#/components/schemas/Quantity'
+        disk:
+          $ref: '#/components/schemas/Quantity'
+        gpu:
+          type: integer
+          format: int32
+        baseInstanceCount:
+          type: integer
+          format: int32
+        derivedInstanceCount:
+          type: integer
+          format: int32
+        podsCount:
+          type: integer
+          format: int32
+        strictlyNegativeOrZero:
+          type: boolean
+    ServerData:
+      required:
+      - id
+      - name
+      - resources
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - STOPPED
+        resources:
+          $ref: '#/components/schemas/Resources'
+    ResourceGroupServersStatusData:
+      required:
+      - statuses
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServerStatusData'
+    ServerStatusData:
+      required:
+      - id
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - STOPPED
     Measurement:
       required:
       - ts
@@ -7282,6 +7658,63 @@ components:
           items:
             type: string
         vramMb:
+          type: integer
+          format: int32
+    ResourceGroupServicesData:
+      required:
+      - services
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceData'
+    ServiceData:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInfoPK'
+        name:
+          type: string
+    ResourceGroupShortStatusData:
+      required:
+      - access
+      - enabledAutoScaling
+      - enabledEviction
+      - isDefault
+      - name
+      - serversCount
+      - servicesCount
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - KUBERNETES
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+        serversCount:
+          type: integer
+          format: int32
+        servicesCount:
           type: integer
           format: int32
     InstancesStatusData:
