@@ -57,6 +57,10 @@ class StatusInfo(
                     return cls("WAITING")
                 
                 @schemas.classproperty
+                def SLEEPING(cls):
+                    return cls("SLEEPING")
+                
+                @schemas.classproperty
                 def FAILED(cls):
                     return cls("FAILED")
                 

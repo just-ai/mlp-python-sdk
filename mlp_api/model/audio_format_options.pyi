@@ -44,8 +44,8 @@ class AudioFormatOptions(
             ):
                 
                 @schemas.classproperty
-                def LINEAR_16PCM(cls):
-                    return cls("LINEAR_16PCM")
+                def LINEAR16_PCM(cls):
+                    return cls("LINEAR16_PCM")
             sampleRateHertz = schemas.Int32Schema
             chunkSizeKb = schemas.Int32Schema
             __annotations__ = {

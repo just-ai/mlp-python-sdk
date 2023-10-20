@@ -58,6 +58,10 @@ class ModelShortStatusData(
                 @schemas.classproperty
                 def INACTIVE(cls):
                     return cls("INACTIVE")
+                
+                @schemas.classproperty
+                def SLEEPING(cls):
+                    return cls("SLEEPING")
         
             @staticmethod
             def instances() -> typing.Type['InstancesStatusData']:

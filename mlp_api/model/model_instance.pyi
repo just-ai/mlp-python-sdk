@@ -96,11 +96,16 @@ class ModelInstance(
                 @schemas.classproperty
                 def EXTERNAL(cls):
                     return cls("external")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("hostingServer")
             isEvictable = schemas.BoolSchema
             resourceName = schemas.StrSchema
             alias = schemas.StrSchema
             customData = schemas.StrSchema
             deleteTimestamp = schemas.DateTimeSchema
+            hostingServerId = schemas.StrSchema
             __annotations__ = {
                 "id": id,
                 "connectionToken": connectionToken,
@@ -113,6 +118,7 @@ class ModelInstance(
                 "alias": alias,
                 "customData": customData,
                 "deleteTimestamp": deleteTimestamp,
+                "hostingServerId": hostingServerId,
             }
     
     lastHeartBeat: MetaOapg.properties.lastHeartBeat
@@ -157,9 +163,12 @@ class ModelInstance(
     def __getitem__(self, name: typing_extensions.Literal["deleteTimestamp"]) -> MetaOapg.properties.deleteTimestamp: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["hostingServerId"]) -> MetaOapg.properties.hostingServerId: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -198,9 +207,12 @@ class ModelInstance(
     def get_item_oapg(self, name: typing_extensions.Literal["deleteTimestamp"]) -> typing.Union[MetaOapg.properties.deleteTimestamp, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["hostingServerId"]) -> typing.Union[MetaOapg.properties.hostingServerId, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -218,6 +230,7 @@ class ModelInstance(
         alias: typing.Union[MetaOapg.properties.alias, str, schemas.Unset] = schemas.unset,
         customData: typing.Union[MetaOapg.properties.customData, str, schemas.Unset] = schemas.unset,
         deleteTimestamp: typing.Union[MetaOapg.properties.deleteTimestamp, str, datetime, schemas.Unset] = schemas.unset,
+        hostingServerId: typing.Union[MetaOapg.properties.hostingServerId, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelInstance':
@@ -235,6 +248,7 @@ class ModelInstance(
             alias=alias,
             customData=customData,
             deleteTimestamp=deleteTimestamp,
+            hostingServerId=hostingServerId,
             _configuration=_configuration,
             **kwargs,
         )
