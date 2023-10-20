@@ -624,32 +624,14 @@ class TtsConfig(BaseModel):
 
 
 class TtsResponse(BaseModel):
+    text: str
     audio_base64: str
 
 
-# JustGPT motivated
-class ChatMessage(BaseModel):
-    role: str
-    content: str
+class TtsDictionaryEntry(BaseModel):
+    original: str
+    replacement: str
 
 
-class ChatCompletionSimpleRequest(BaseModel):
-    messages: List[ChatMessage]
-
-
-class ChatCompletionUsage(BaseModel):
-    prompt_tokens: int
-    completion_tokens: int
-    total_tokens: int
-
-
-class ChatCompletionChoice(BaseModel):
-    index: int
-    message: ChatMessage
-    finish_reason: str
-
-
-class ChatCompletionResult(BaseModel):
-    model: str
-    choices: List[ChatCompletionChoice]
-    usage: ChatCompletionUsage
+class TtsDictionary(BaseModel):
+    dictionary: List[TtsDictionaryEntry]

@@ -78,6 +78,10 @@ class ModelInfoData(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("HOSTING_SERVER")
             
             
             class persistentVolumes(
@@ -250,6 +254,10 @@ class ModelInfoData(
                 @schemas.classproperty
                 def INACTIVE(cls):
                     return cls("INACTIVE")
+                
+                @schemas.classproperty
+                def SLEEPING(cls):
+                    return cls("SLEEPING")
             __annotations__ = {
                 "id": id,
                 "modelName": modelName,

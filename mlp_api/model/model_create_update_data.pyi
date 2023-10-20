@@ -82,6 +82,10 @@ class ModelCreateUpdateData(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("HOSTING_SERVER")
             
             
             class persistentVolumes(

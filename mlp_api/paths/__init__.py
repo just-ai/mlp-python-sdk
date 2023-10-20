@@ -116,6 +116,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_JOB = "/api/mlpgate/account/{account}/job"
     API_MLPGATE_ACCOUNT_ACCOUNT_JOB_JOB_ID = "/api/mlpgate/account/{account}/job/{jobId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE_IMAGE_ID_LOGS = "/api/mlpgate/account/{account}/image/{imageId}/logs"
+    API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2 = "/api/mlpgate/account/{account}/image-v2"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase"
     API_MLPGATEINTERNAL_TESTMAIL = "/api/mlpgate-internal/test-mail"
     API_MLPGATEINTERNAL_STARTONEINSTANCE = "/api/mlpgate-internal/start-one-instance"

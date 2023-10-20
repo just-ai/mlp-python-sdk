@@ -53,6 +53,7 @@ class StatusInfo(
                     enum_value_to_name = {
                         "RUNNING": "RUNNING",
                         "WAITING": "WAITING",
+                        "SLEEPING": "SLEEPING",
                         "FAILED": "FAILED",
                         "DELETED": "DELETED",
                     }
@@ -64,6 +65,10 @@ class StatusInfo(
                 @schemas.classproperty
                 def WAITING(cls):
                     return cls("WAITING")
+                
+                @schemas.classproperty
+                def SLEEPING(cls):
+                    return cls("SLEEPING")
                 
                 @schemas.classproperty
                 def FAILED(cls):
