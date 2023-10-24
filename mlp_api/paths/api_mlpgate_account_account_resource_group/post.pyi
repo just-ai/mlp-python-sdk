@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_data import ResourceGroupData
+from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
 from mlp_api.model.create_resource_group_data import CreateResourceGroupData
 
 # Header params
@@ -90,7 +90,7 @@ request_body_create_resource_group_data = api_client.RequestBody(
     },
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupData
+SchemaFor200ResponseBodyApplicationJson = ResourceGroupEssentialData
 
 
 @dataclass

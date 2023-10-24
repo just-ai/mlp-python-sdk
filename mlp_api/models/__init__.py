@@ -101,10 +101,10 @@ from mlp_api.model.predict_request_data import PredictRequestData
 from mlp_api.model.quantity import Quantity
 from mlp_api.model.resource_group_capacity import ResourceGroupCapacity
 from mlp_api.model.resource_group_data import ResourceGroupData
+from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
 from mlp_api.model.resource_group_servers_data import ResourceGroupServersData
 from mlp_api.model.resource_group_servers_status_data import ResourceGroupServersStatusData
 from mlp_api.model.resource_group_services_data import ResourceGroupServicesData
-from mlp_api.model.resource_group_short_data import ResourceGroupShortData
 from mlp_api.model.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
 from mlp_api.model.resources import Resources

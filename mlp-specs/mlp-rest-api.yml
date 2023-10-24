@@ -400,7 +400,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupData'
+                $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate/account/{account}/model:
     get:
       tags:
@@ -3669,7 +3669,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupShortData'
+                $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
     get:
       tags:
@@ -4232,7 +4232,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceGroupShortData'
+                  $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate/account/{account}/owned-resource-groups/short-status:
     get:
       tags:
@@ -6222,10 +6222,10 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
-        asPublicSettingsData:
-          $ref: '#/components/schemas/ModelPublicSettingsData'
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        asPublicSettingsData:
+          $ref: '#/components/schemas/ModelPublicSettingsData'
     ModelGroupDump:
       required:
       - name
@@ -6468,25 +6468,18 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
-    ResourceGroupData:
+    ResourceGroupEssentialData:
       required:
-      - affinity
+      - access
+      - enabledAutoScaling
+      - enabledEviction
+      - isDefault
       - name
-      - tolerations
+      - type
       type: object
       properties:
         name:
           type: string
-        accountId:
-          type: integer
-          format: int64
-        accountName:
-          type: string
-          writeOnly: true
-        tolerations:
-          type: object
-        affinity:
-          type: object
         ownerId:
           type: integer
           format: int64
@@ -7210,6 +7203,43 @@ components:
         imageId:
           type: integer
           format: int64
+    ResourceGroupData:
+      required:
+      - affinity
+      - name
+      - tolerations
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        accountName:
+          type: string
+          writeOnly: true
+        tolerations:
+          type: object
+        affinity:
+          type: object
+        ownerId:
+          type: integer
+          format: int64
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - KUBERNETES
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
     ResourceGroupsData:
       required:
       - groups
@@ -7422,36 +7452,6 @@ components:
           type: string
         bucketName:
           type: string
-    ResourceGroupShortData:
-      required:
-      - access
-      - enabledAutoScaling
-      - enabledEviction
-      - isDefault
-      - name
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-        ownerId:
-          type: integer
-          format: int64
-        isDefault:
-          type: boolean
-        enabledAutoScaling:
-          type: boolean
-        enabledEviction:
-          type: boolean
-        type:
-          type: string
-          enum:
-          - KUBERNETES
-        access:
-          type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
     Quantity:
       type: object
       properties:

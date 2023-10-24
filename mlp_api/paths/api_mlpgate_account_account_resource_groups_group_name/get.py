@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_short_data import ResourceGroupShortData
+from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
 
 from . import path
 
@@ -88,7 +88,7 @@ request_path_group_name = api_client.PathParameter(
     schema=GroupNameSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupShortData
+SchemaFor200ResponseBodyApplicationJson = ResourceGroupEssentialData
 
 
 @dataclass

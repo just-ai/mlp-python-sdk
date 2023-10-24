@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_short_data import ResourceGroupShortData
+from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
 
 from . import path
 
@@ -90,12 +90,12 @@ class SchemaFor200ResponseBodyApplicationJson(
     class MetaOapg:
         
         @staticmethod
-        def items() -> typing.Type['ResourceGroupShortData']:
-            return ResourceGroupShortData
+        def items() -> typing.Type['ResourceGroupEssentialData']:
+            return ResourceGroupEssentialData
 
     def __new__(
         cls,
-        _arg: typing.Union[typing.Tuple['ResourceGroupShortData'], typing.List['ResourceGroupShortData']],
+        _arg: typing.Union[typing.Tuple['ResourceGroupEssentialData'], typing.List['ResourceGroupEssentialData']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
@@ -104,7 +104,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i: int) -> 'ResourceGroupShortData':
+    def __getitem__(self, i: int) -> 'ResourceGroupEssentialData':
         return super().__getitem__(i)
 
 
