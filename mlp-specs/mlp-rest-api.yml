@@ -370,7 +370,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenData'
-  /api/mlpgate/account/{account}/resource-group:
+  /api/mlpgate/account/{account}/resource-groups:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getAvailableResourceGroups
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupData'
+      deprecated: true
     post:
       tags:
       - resource-group-endpoint
@@ -401,6 +428,201 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupEssentialData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupData
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupEssentialData'
+    post:
+      tags:
+      - resource-group-endpoint
+      operationId: updateResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - resource-group-endpoint
+      operationId: deleteResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: getServersData
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupServerData'
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: addServerConfiguration
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupServer'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/copy:
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: copyServerConfiguration
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
   /api/mlpgate/account/{account}/model:
     get:
       tags:
@@ -3612,64 +3834,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/S3CredentialsData'
-  /api/mlpgate/account/{account}/resource-groups:
-    get:
-      tags:
-      - resource-group-endpoint
-      operationId: getAvailableResourceGroups
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ResourceGroupData'
-      deprecated: true
-  /api/mlpgate/account/{account}/resource-groups/{groupName}:
-    get:
-      tags:
-      - resource-group-endpoint
-      operationId: getResourceGroupShortData
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupName
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/services:
     get:
       tags:
@@ -3708,11 +3872,114 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpgate/account/{account}/resource-groups/{groupName}/servers:
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}:
     get:
       tags:
-      - resource-group-endpoint
-      operationId: getResourceGroupServers
+      - resource-group-servers-endpoint
+      operationId: getServerData
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
+    delete:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: deleteServerConfiguration
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/status:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: getServerStatus
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerDataWithStatus'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/template:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: getTemplates
       parameters:
       - name: account
         in: path
@@ -3737,12 +4004,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServersData'
-  /api/mlpgate/account/{account}/resource-groups/{groupName}/servers/status:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/status:
     get:
       tags:
-      - resource-group-endpoint
-      operationId: getResourceGroupServersStatus
+      - resource-group-servers-endpoint
+      operationId: getServersStatutes
       parameters:
       - name: account
         in: path
@@ -3767,7 +4036,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServersStatusData'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupServerDataWithStatus'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/metric:
     get:
       tags:
@@ -4206,6 +4477,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServicesData'
+  /api/mlpgate/account/{account}/resource-group-types:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getSupportedGroupTypes
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  enum:
+                  - KUBERNETES
   /api/mlpgate/account/{account}/owned-resource-groups:
     get:
       tags:
@@ -5464,6 +5764,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedImageInfoData'
+  /api/mlpgate/account/{account}/deployable-resource-groups:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getDeployableResourceGroups
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase:
     get:
       tags:
@@ -6443,12 +6770,7 @@ components:
           type: string
     CreateResourceGroupData:
       required:
-      - access
-      - enabledAutoScaling
-      - enabledEviction
-      - isDefault
       - name
-      - type
       type: object
       properties:
         name:
@@ -6498,6 +6820,39 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+    UpdateResourceGroupData:
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+        enabledAutoScaling:
+          type: boolean
+        enabledEviction:
+          type: boolean
+    CreateResourceGroupServer:
+      required:
+      - rawConfiguration
+      - serverName
+      type: object
+      properties:
+        serverName:
+          type: string
+        rawConfiguration:
+          type: string
+    ResourceGroupServerData:
+      required:
+      - id
+      - name
+      - rawConfiguration
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        rawConfiguration:
+          type: string
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -7463,15 +7818,30 @@ components:
           - DECIMAL_EXPONENT
           - DECIMAL_SI
           - BINARY_SI
-    ResourceGroupServersData:
+    ResourceGroupServerDataWithStatus:
       required:
-      - servers
+      - id
+      - name
+      - rawConfiguration
+      - resources
+      - status
       type: object
       properties:
-        servers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServerData'
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - STOPPED
+        resources:
+          $ref: '#/components/schemas/Resources'
+        rawConfiguration:
+          type: string
     Resources:
       required:
       - baseInstanceCount
@@ -7504,51 +7874,6 @@ components:
           format: int32
         strictlyNegativeOrZero:
           type: boolean
-    ServerData:
-      required:
-      - id
-      - name
-      - resources
-      - status
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        status:
-          type: string
-          enum:
-          - RUNNING
-          - STARTING
-          - STOPPED
-        resources:
-          $ref: '#/components/schemas/Resources'
-    ResourceGroupServersStatusData:
-      required:
-      - statuses
-      type: object
-      properties:
-        statuses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServerStatusData'
-    ServerStatusData:
-      required:
-      - id
-      - status
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        status:
-          type: string
-          enum:
-          - RUNNING
-          - STARTING
-          - STOPPED
     Measurement:
       required:
       - ts

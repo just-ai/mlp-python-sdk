@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
+from mlp_api.model.resource_group_server_data_with_status import ResourceGroupServerDataWithStatus
 
 from . import path
 
@@ -57,11 +57,13 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 # Path params
 AccountSchema = schemas.StrSchema
 GroupNameSchema = schemas.StrSchema
+ServerIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
         'groupName': typing.Union[GroupNameSchema, str, ],
+        'serverId': typing.Union[ServerIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -88,7 +90,13 @@ request_path_group_name = api_client.PathParameter(
     schema=GroupNameSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupEssentialData
+request_path_server_id = api_client.PathParameter(
+    name="serverId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ServerIdSchema,
+    required=True,
+)
+SchemaFor200ResponseBodyApplicationJson = ResourceGroupServerDataWithStatus
 
 
 @dataclass
@@ -117,7 +125,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_server_status_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -130,7 +138,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_server_status_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -141,7 +149,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_server_status_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -154,7 +162,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_resource_group_data_oapg(
+    def _get_server_status_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -176,6 +184,7 @@ class BaseApi(api_client.Api):
         for parameter in (
             request_path_account,
             request_path_group_name,
+            request_path_server_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -227,11 +236,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetResourceGroupData(BaseApi):
+class GetServerStatus(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_resource_group_data(
+    def get_server_status(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -244,7 +253,7 @@ class GetResourceGroupData(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def get_server_status(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -255,7 +264,7 @@ class GetResourceGroupData(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def get_server_status(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -268,7 +277,7 @@ class GetResourceGroupData(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_resource_group_data(
+    def get_server_status(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -277,7 +286,7 @@ class GetResourceGroupData(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._get_server_status_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -337,7 +346,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._get_server_status_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,

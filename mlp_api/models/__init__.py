@@ -23,6 +23,7 @@ from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.model.create_resource_group_data import CreateResourceGroupData
+from mlp_api.model.create_resource_group_server import CreateResourceGroupServer
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_dump import DataImageDump
 from mlp_api.model.data_image_info_data import DataImageInfoData
@@ -102,8 +103,8 @@ from mlp_api.model.quantity import Quantity
 from mlp_api.model.resource_group_capacity import ResourceGroupCapacity
 from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
-from mlp_api.model.resource_group_servers_data import ResourceGroupServersData
-from mlp_api.model.resource_group_servers_status_data import ResourceGroupServersStatusData
+from mlp_api.model.resource_group_server_data import ResourceGroupServerData
+from mlp_api.model.resource_group_server_data_with_status import ResourceGroupServerDataWithStatus
 from mlp_api.model.resource_group_services_data import ResourceGroupServicesData
 from mlp_api.model.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
@@ -111,8 +112,6 @@ from mlp_api.model.resources import Resources
 from mlp_api.model.response_body_emitter import ResponseBodyEmitter
 from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
-from mlp_api.model.server_data import ServerData
-from mlp_api.model.server_status_data import ServerStatusData
 from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 from mlp_api.model.sort import Sort
@@ -122,3 +121,4 @@ from mlp_api.model.status_info import StatusInfo
 from mlp_api.model.task_suite_status import TaskSuiteStatus
 from mlp_api.model.task_type_data import TaskTypeData
 from mlp_api.model.tts_request_data import TtsRequestData
+from mlp_api.model.update_resource_group_data import UpdateResourceGroupData

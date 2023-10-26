@@ -35,12 +35,7 @@ class CreateResourceGroupData(
 
     class MetaOapg:
         required = {
-            "isDefault",
-            "access",
             "name",
-            "enabledEviction",
-            "enabledAutoScaling",
-            "type",
         }
         
         class properties:
@@ -81,12 +76,7 @@ class CreateResourceGroupData(
                 "access": access,
             }
     
-    isDefault: MetaOapg.properties.isDefault
-    access: MetaOapg.properties.access
     name: MetaOapg.properties.name
-    enabledEviction: MetaOapg.properties.enabledEviction
-    enabledAutoScaling: MetaOapg.properties.enabledAutoScaling
-    type: MetaOapg.properties.type
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -118,19 +108,19 @@ class CreateResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> typing.Union[MetaOapg.properties.isDefault, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> typing.Union[MetaOapg.properties.enabledAutoScaling, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> typing.Union[MetaOapg.properties.enabledEviction, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> typing.Union[MetaOapg.properties.access, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
@@ -142,24 +132,24 @@ class CreateResourceGroupData(
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        isDefault: typing.Union[MetaOapg.properties.isDefault, bool, ],
-        access: typing.Union[MetaOapg.properties.access, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
-        enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, ],
-        enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, ],
-        type: typing.Union[MetaOapg.properties.type, str, ],
+        isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
+        enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, schemas.Unset] = schemas.unset,
+        enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
+        type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
+        access: typing.Union[MetaOapg.properties.access, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'CreateResourceGroupData':
         return super().__new__(
             cls,
             *_args,
-            isDefault=isDefault,
-            access=access,
             name=name,
-            enabledEviction=enabledEviction,
+            isDefault=isDefault,
             enabledAutoScaling=enabledAutoScaling,
+            enabledEviction=enabledEviction,
             type=type,
+            access=access,
             _configuration=_configuration,
             **kwargs,
         )

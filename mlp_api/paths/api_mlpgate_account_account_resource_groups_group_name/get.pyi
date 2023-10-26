@@ -112,7 +112,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_resource_group_short_data_oapg(
+    def _get_resource_group_data_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -125,7 +125,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_resource_group_short_data_oapg(
+    def _get_resource_group_data_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -136,7 +136,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_resource_group_short_data_oapg(
+    def _get_resource_group_data_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -149,7 +149,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_resource_group_short_data_oapg(
+    def _get_resource_group_data_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -222,11 +222,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetResourceGroupShortData(BaseApi):
+class GetResourceGroupData(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_resource_group_short_data(
+    def get_resource_group_data(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -239,7 +239,7 @@ class GetResourceGroupShortData(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_resource_group_short_data(
+    def get_resource_group_data(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -250,7 +250,7 @@ class GetResourceGroupShortData(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_resource_group_short_data(
+    def get_resource_group_data(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -263,7 +263,7 @@ class GetResourceGroupShortData(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_resource_group_short_data(
+    def get_resource_group_data(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -272,7 +272,7 @@ class GetResourceGroupShortData(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_short_data_oapg(
+        return self._get_resource_group_data_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -332,7 +332,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_short_data_oapg(
+        return self._get_resource_group_data_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,

@@ -25,9 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
-
-from . import path
+from mlp_api.model.resource_group_server_data import ResourceGroupServerData
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -57,11 +55,13 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 # Path params
 AccountSchema = schemas.StrSchema
 GroupNameSchema = schemas.StrSchema
+ServerIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
         'groupName': typing.Union[GroupNameSchema, str, ],
+        'serverId': typing.Union[ServerIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -88,7 +88,24 @@ request_path_group_name = api_client.PathParameter(
     schema=GroupNameSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupEssentialData
+request_path_server_id = api_client.PathParameter(
+    name="serverId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ServerIdSchema,
+    required=True,
+)
+# body param
+SchemaForRequestBodyApplicationJson = schemas.StrSchema
+
+
+request_body_body = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
+    },
+    required=True,
+)
+SchemaFor200ResponseBodyApplicationJson = ResourceGroupServerData
 
 
 @dataclass
@@ -107,9 +124,6 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
-_status_code_to_response = {
-    '200': _response_for_200,
-}
 _all_accept_content_types = (
     'application/json',
 )
@@ -117,8 +131,10 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _copy_server_configuration_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -130,9 +146,27 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _copy_server_configuration_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def _copy_server_configuration_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -141,8 +175,10 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _copy_server_configuration_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -154,8 +190,10 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_resource_group_data_oapg(
+    def _copy_server_configuration_oapg(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -176,6 +214,7 @@ class BaseApi(api_client.Api):
         for parameter in (
             request_path_account,
             request_path_group_name,
+            request_path_server_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -200,10 +239,23 @@ class BaseApi(api_client.Api):
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
 
+        if body is schemas.unset:
+            raise exceptions.ApiValueError(
+                'The required body parameter has an invalid value of: unset. Set a valid value instead')
+        _fields = None
+        _body = None
+        serialized_data = request_body_body.serialize(body, content_type)
+        _headers.add('Content-Type', content_type)
+        if 'fields' in serialized_data:
+            _fields = serialized_data['fields']
+        elif 'body' in serialized_data:
+            _body = serialized_data['body']
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='get'.upper(),
+            method='post'.upper(),
             headers=_headers,
+            fields=_fields,
+            body=_body,
             stream=stream,
             timeout=timeout,
         )
@@ -227,12 +279,14 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetResourceGroupData(BaseApi):
+class CopyServerConfiguration(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_resource_group_data(
+    def copy_server_configuration(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -244,9 +298,27 @@ class GetResourceGroupData(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def copy_server_configuration(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def copy_server_configuration(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -255,8 +327,10 @@ class GetResourceGroupData(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def copy_server_configuration(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -268,8 +342,10 @@ class GetResourceGroupData(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_resource_group_data(
+    def copy_server_configuration(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -277,9 +353,11 @@ class GetResourceGroupData(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._copy_server_configuration_oapg(
+            body=body,
             header_params=header_params,
             path_params=path_params,
+            content_type=content_type,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -287,12 +365,14 @@ class GetResourceGroupData(BaseApi):
         )
 
 
-class ApiForget(BaseApi):
+class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     @typing.overload
-    def get(
+    def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -304,9 +384,27 @@ class ApiForget(BaseApi):
     ]: ...
 
     @typing.overload
-    def get(
+    def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
+        header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -315,8 +413,10 @@ class ApiForget(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get(
+    def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -328,8 +428,10 @@ class ApiForget(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get(
+    def post(
         self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -337,9 +439,11 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._copy_server_configuration_oapg(
+            body=body,
             header_params=header_params,
             path_params=path_params,
+            content_type=content_type,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

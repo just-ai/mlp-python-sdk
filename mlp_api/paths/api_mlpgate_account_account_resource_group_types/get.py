@@ -25,8 +25,6 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
-
 from . import path
 
 # Header params
@@ -56,12 +54,10 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountSchema = schemas.StrSchema
-GroupNameSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
-        'groupName': typing.Union[GroupNameSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -82,13 +78,44 @@ request_path_account = api_client.PathParameter(
     schema=AccountSchema,
     required=True,
 )
-request_path_group_name = api_client.PathParameter(
-    name="groupName",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=GroupNameSchema,
-    required=True,
-)
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupEssentialData
+
+
+class SchemaFor200ResponseBodyApplicationJson(
+    schemas.ListSchema
+):
+
+
+    class MetaOapg:
+        
+        
+        class items(
+            schemas.EnumBase,
+            schemas.StrSchema
+        ):
+        
+        
+            class MetaOapg:
+                enum_value_to_name = {
+                    "KUBERNETES": "KUBERNETES",
+                }
+            
+            @schemas.classproperty
+            def KUBERNETES(cls):
+                return cls("KUBERNETES")
+
+    def __new__(
+        cls,
+        _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _configuration: typing.Optional[schemas.Configuration] = None,
+    ) -> 'SchemaFor200ResponseBodyApplicationJson':
+        return super().__new__(
+            cls,
+            _arg,
+            _configuration=_configuration,
+        )
+
+    def __getitem__(self, i: int) -> MetaOapg.items:
+        return super().__getitem__(i)
 
 
 @dataclass
@@ -117,7 +144,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_supported_group_types_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -130,7 +157,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_supported_group_types_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -141,7 +168,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_resource_group_data_oapg(
+    def _get_supported_group_types_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -154,7 +181,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_resource_group_data_oapg(
+    def _get_supported_group_types_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -175,7 +202,6 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account,
-            request_path_group_name,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -227,11 +253,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetResourceGroupData(BaseApi):
+class GetSupportedGroupTypes(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_resource_group_data(
+    def get_supported_group_types(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -244,7 +270,7 @@ class GetResourceGroupData(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def get_supported_group_types(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -255,7 +281,7 @@ class GetResourceGroupData(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_resource_group_data(
+    def get_supported_group_types(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -268,7 +294,7 @@ class GetResourceGroupData(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_resource_group_data(
+    def get_supported_group_types(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -277,7 +303,7 @@ class GetResourceGroupData(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._get_supported_group_types_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -337,7 +363,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_resource_group_data_oapg(
+        return self._get_supported_group_types_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
