@@ -96,12 +96,22 @@ class SchemaFor200ResponseBodyApplicationJson(
         
             class MetaOapg:
                 enum_value_to_name = {
+                    "DOCKER": "DOCKER",
                     "KUBERNETES": "KUBERNETES",
+                    "HOSTING_SERVER": "HOSTING_SERVER",
                 }
+            
+            @schemas.classproperty
+            def DOCKER(cls):
+                return cls("DOCKER")
             
             @schemas.classproperty
             def KUBERNETES(cls):
                 return cls("KUBERNETES")
+            
+            @schemas.classproperty
+            def HOSTING_SERVER(cls):
+                return cls("HOSTING_SERVER")
 
     def __new__(
         cls,

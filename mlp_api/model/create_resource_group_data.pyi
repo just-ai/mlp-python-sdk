@@ -45,14 +45,22 @@ class CreateResourceGroupData(
             enabledEviction = schemas.BoolSchema
             
             
-            class type(
+            class resourceGroupType(
                 schemas.EnumBase,
                 schemas.StrSchema
             ):
                 
                 @schemas.classproperty
+                def DOCKER(cls):
+                    return cls("DOCKER")
+                
+                @schemas.classproperty
                 def KUBERNETES(cls):
                     return cls("KUBERNETES")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("HOSTING_SERVER")
             
             
             class access(
@@ -72,7 +80,7 @@ class CreateResourceGroupData(
                 "isDefault": isDefault,
                 "enabledAutoScaling": enabledAutoScaling,
                 "enabledEviction": enabledEviction,
-                "type": type,
+                "resourceGroupType": resourceGroupType,
                 "access": access,
             }
     
@@ -91,7 +99,7 @@ class CreateResourceGroupData(
     def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
+    def __getitem__(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
@@ -99,7 +107,7 @@ class CreateResourceGroupData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "type", "access", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -117,7 +125,7 @@ class CreateResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> typing.Union[MetaOapg.properties.enabledEviction, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> typing.Union[MetaOapg.properties.type, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["resourceGroupType"]) -> typing.Union[MetaOapg.properties.resourceGroupType, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> typing.Union[MetaOapg.properties.access, schemas.Unset]: ...
@@ -125,7 +133,7 @@ class CreateResourceGroupData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "type", "access", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -136,7 +144,7 @@ class CreateResourceGroupData(
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, schemas.Unset] = schemas.unset,
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
-        type: typing.Union[MetaOapg.properties.type, str, schemas.Unset] = schemas.unset,
+        resourceGroupType: typing.Union[MetaOapg.properties.resourceGroupType, str, schemas.Unset] = schemas.unset,
         access: typing.Union[MetaOapg.properties.access, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -148,7 +156,7 @@ class CreateResourceGroupData(
             isDefault=isDefault,
             enabledAutoScaling=enabledAutoScaling,
             enabledEviction=enabledEviction,
-            type=type,
+            resourceGroupType=resourceGroupType,
             access=access,
             _configuration=_configuration,
             **kwargs,

@@ -4505,7 +4505,9 @@ paths:
                 items:
                   type: string
                   enum:
+                  - DOCKER
                   - KUBERNETES
+                  - HOSTING_SERVER
   /api/mlpgate/account/{account}/owned-resource-groups:
     get:
       tags:
@@ -6781,10 +6783,12 @@ components:
           type: boolean
         enabledEviction:
           type: boolean
-        type:
+        resourceGroupType:
           type: string
           enum:
+          - DOCKER
           - KUBERNETES
+          - HOSTING_SERVER
         access:
           type: string
           enum:
@@ -6797,7 +6801,7 @@ components:
       - enabledEviction
       - isDefault
       - name
-      - type
+      - resourceGroupType
       type: object
       properties:
         name:
@@ -6811,10 +6815,12 @@ components:
           type: boolean
         enabledEviction:
           type: boolean
-        type:
+        resourceGroupType:
           type: string
           enum:
+          - DOCKER
           - KUBERNETES
+          - HOSTING_SERVER
         access:
           type: string
           enum:
@@ -7586,10 +7592,12 @@ components:
           type: boolean
         enabledEviction:
           type: boolean
-        type:
+        resourceGroupType:
           type: string
           enum:
+          - DOCKER
           - KUBERNETES
+          - HOSTING_SERVER
         access:
           type: string
           enum:
@@ -8011,9 +8019,9 @@ components:
       - enabledEviction
       - isDefault
       - name
+      - resourceGroupType
       - serversCount
       - servicesCount
-      - type
       type: object
       properties:
         name:
@@ -8027,10 +8035,12 @@ components:
           type: boolean
         enabledEviction:
           type: boolean
-        type:
+        resourceGroupType:
           type: string
           enum:
+          - DOCKER
           - KUBERNETES
+          - HOSTING_SERVER
         access:
           type: string
           enum:

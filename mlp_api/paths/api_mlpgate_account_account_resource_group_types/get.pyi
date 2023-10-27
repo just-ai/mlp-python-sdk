@@ -92,8 +92,16 @@ class SchemaFor200ResponseBodyApplicationJson(
         ):
             
             @schemas.classproperty
+            def DOCKER(cls):
+                return cls("DOCKER")
+            
+            @schemas.classproperty
             def KUBERNETES(cls):
                 return cls("KUBERNETES")
+            
+            @schemas.classproperty
+            def HOSTING_SERVER(cls):
+                return cls("HOSTING_SERVER")
 
     def __new__(
         cls,

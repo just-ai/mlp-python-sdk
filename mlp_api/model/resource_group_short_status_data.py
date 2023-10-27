@@ -39,10 +39,10 @@ class ResourceGroupShortStatusData(
             "isDefault",
             "access",
             "name",
+            "resourceGroupType",
             "serversCount",
             "enabledEviction",
             "enabledAutoScaling",
-            "type",
         }
         
         class properties:
@@ -52,7 +52,7 @@ class ResourceGroupShortStatusData(
             enabledEviction = schemas.BoolSchema
             
             
-            class type(
+            class resourceGroupType(
                 schemas.EnumBase,
                 schemas.StrSchema
             ):
@@ -60,12 +60,22 @@ class ResourceGroupShortStatusData(
             
                 class MetaOapg:
                     enum_value_to_name = {
+                        "DOCKER": "DOCKER",
                         "KUBERNETES": "KUBERNETES",
+                        "HOSTING_SERVER": "HOSTING_SERVER",
                     }
+                
+                @schemas.classproperty
+                def DOCKER(cls):
+                    return cls("DOCKER")
                 
                 @schemas.classproperty
                 def KUBERNETES(cls):
                     return cls("KUBERNETES")
+                
+                @schemas.classproperty
+                def HOSTING_SERVER(cls):
+                    return cls("HOSTING_SERVER")
             
             
             class access(
@@ -95,7 +105,7 @@ class ResourceGroupShortStatusData(
                 "isDefault": isDefault,
                 "enabledAutoScaling": enabledAutoScaling,
                 "enabledEviction": enabledEviction,
-                "type": type,
+                "resourceGroupType": resourceGroupType,
                 "access": access,
                 "serversCount": serversCount,
                 "servicesCount": servicesCount,
@@ -106,10 +116,10 @@ class ResourceGroupShortStatusData(
     isDefault: MetaOapg.properties.isDefault
     access: MetaOapg.properties.access
     name: MetaOapg.properties.name
+    resourceGroupType: MetaOapg.properties.resourceGroupType
     serversCount: MetaOapg.properties.serversCount
     enabledEviction: MetaOapg.properties.enabledEviction
     enabledAutoScaling: MetaOapg.properties.enabledAutoScaling
-    type: MetaOapg.properties.type
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -124,7 +134,7 @@ class ResourceGroupShortStatusData(
     def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
+    def __getitem__(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
@@ -141,7 +151,7 @@ class ResourceGroupShortStatusData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "type", "access", "serversCount", "servicesCount", "ownerId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -159,7 +169,7 @@ class ResourceGroupShortStatusData(
     def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
@@ -176,7 +186,7 @@ class ResourceGroupShortStatusData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "type", "access", "serversCount", "servicesCount", "ownerId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -187,10 +197,10 @@ class ResourceGroupShortStatusData(
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, ],
         access: typing.Union[MetaOapg.properties.access, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
+        resourceGroupType: typing.Union[MetaOapg.properties.resourceGroupType, str, ],
         serversCount: typing.Union[MetaOapg.properties.serversCount, decimal.Decimal, int, ],
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, ],
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, ],
-        type: typing.Union[MetaOapg.properties.type, str, ],
         ownerId: typing.Union[MetaOapg.properties.ownerId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -202,10 +212,10 @@ class ResourceGroupShortStatusData(
             isDefault=isDefault,
             access=access,
             name=name,
+            resourceGroupType=resourceGroupType,
             serversCount=serversCount,
             enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
-            type=type,
             ownerId=ownerId,
             _configuration=_configuration,
             **kwargs,
