@@ -69,6 +69,7 @@ from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpg
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
 from mlp_api.apis.paths.api_mlpgate_system_config_dataset_data_type import ApiMlpgateSystemConfigDatasetDataType
 from mlp_api.apis.paths.api_mlpgate_system_config_captcha import ApiMlpgateSystemConfigCaptcha
+from mlp_api.apis.paths.api_mlpgate_system_config_billing_enabled import ApiMlpgateSystemConfigBillingEnabled
 from mlp_api.apis.paths.api_mlpgate_models import ApiMlpgateModels
 from mlp_api.apis.paths.api_mlpgate_models_featured import ApiMlpgateModelsFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
@@ -216,6 +217,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SYSTEMCONFIG_BILLINGENABLED: ApiMlpgateSystemConfigBillingEnabled,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
@@ -364,6 +366,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SYSTEMCONFIG_BILLINGENABLED: ApiMlpgateSystemConfigBillingEnabled,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
