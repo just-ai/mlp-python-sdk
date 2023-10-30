@@ -60,6 +60,7 @@ class ModelInstanceData(
                     enum_value_to_name = {
                         "deployment": "DEPLOYMENT",
                         "pod": "POD",
+                        "docker": "DOCKER",
                         "external": "EXTERNAL",
                         "hostingServer": "HOSTING_SERVER",
                     }
@@ -71,6 +72,10 @@ class ModelInstanceData(
                 @schemas.classproperty
                 def POD(cls):
                     return cls("pod")
+                
+                @schemas.classproperty
+                def DOCKER(cls):
+                    return cls("docker")
                 
                 @schemas.classproperty
                 def EXTERNAL(cls):

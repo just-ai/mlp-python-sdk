@@ -8156,6 +8156,7 @@ components:
           enum:
           - deployment
           - pod
+          - docker
           - external
           - hostingServer
     ModelInstanceListData:
@@ -8449,6 +8450,7 @@ components:
           enum:
           - deployment
           - pod
+          - docker
           - external
           - hostingServer
         resourceName:
@@ -8464,3 +8466,6 @@ components:
           type: boolean
         hostingServerId:
           type: string
+        serverId:
+          type: integer
+          format: int64
