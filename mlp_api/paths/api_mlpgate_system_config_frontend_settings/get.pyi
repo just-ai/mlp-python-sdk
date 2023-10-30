@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from . import path
+from mlp_api.model.frontend_settings import FrontendSettings
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -52,7 +52,7 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=MLPAPIKEYSchema,
 )
-SchemaFor200ResponseBodyApplicationJson = schemas.BoolSchema
+SchemaFor200ResponseBodyApplicationJson = FrontendSettings
 
 
 @dataclass
@@ -71,9 +71,6 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
-_status_code_to_response = {
-    '200': _response_for_200,
-}
 _all_accept_content_types = (
     'application/json',
 )
@@ -81,7 +78,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _is_billing_enabled_oapg(
+    def _get_frontend_settings_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -93,7 +90,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _is_billing_enabled_oapg(
+    def _get_frontend_settings_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -103,7 +100,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _is_billing_enabled_oapg(
+    def _get_frontend_settings_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -115,7 +112,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _is_billing_enabled_oapg(
+    def _get_frontend_settings_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -172,11 +169,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class IsBillingEnabled(BaseApi):
+class GetFrontendSettings(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def is_billing_enabled(
+    def get_frontend_settings(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -188,7 +185,7 @@ class IsBillingEnabled(BaseApi):
     ]: ...
 
     @typing.overload
-    def is_billing_enabled(
+    def get_frontend_settings(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -198,7 +195,7 @@ class IsBillingEnabled(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def is_billing_enabled(
+    def get_frontend_settings(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -210,7 +207,7 @@ class IsBillingEnabled(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def is_billing_enabled(
+    def get_frontend_settings(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -218,7 +215,7 @@ class IsBillingEnabled(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._is_billing_enabled_oapg(
+        return self._get_frontend_settings_oapg(
             header_params=header_params,
             accept_content_types=accept_content_types,
             stream=stream,
@@ -273,7 +270,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._is_billing_enabled_oapg(
+        return self._get_frontend_settings_oapg(
             header_params=header_params,
             accept_content_types=accept_content_types,
             stream=stream,

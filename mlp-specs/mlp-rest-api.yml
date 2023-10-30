@@ -3469,6 +3469,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelDefaults'
+  /api/mlpgate/system-config/frontend-settings:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: getFrontendSettings
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrontendSettings'
   /api/mlpgate/system-config/dataset-data-type:
     get:
       tags:
@@ -3509,25 +3528,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CaptchaData'
-  /api/mlpgate/system-config/billing-enabled:
-    get:
-      tags:
-      - system-config-endpoint
-      operationId: isBillingEnabled
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: boolean
   /api/mlpgate/models:
     get:
       tags:
@@ -6359,9 +6359,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -6735,9 +6735,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -7674,6 +7674,16 @@ components:
           $ref: '#/components/schemas/ModelLimitsData'
         resourceGroup:
           type: string
+    FrontendSettings:
+      required:
+      - isBillingEnabled
+      - isExtendedLanding
+      type: object
+      properties:
+        isBillingEnabled:
+          type: boolean
+        isExtendedLanding:
+          type: boolean
     CaptchaData:
       required:
       - enabled
@@ -8156,7 +8166,6 @@ components:
           enum:
           - deployment
           - pod
-          - docker
           - external
           - hostingServer
     ModelInstanceListData:
@@ -8450,7 +8459,6 @@ components:
           enum:
           - deployment
           - pod
-          - docker
           - external
           - hostingServer
         resourceName:
@@ -8466,6 +8474,3 @@ components:
           type: boolean
         hostingServerId:
           type: string
-        serverId:
-          type: integer
-          format: int64
