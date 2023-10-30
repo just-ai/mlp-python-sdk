@@ -4398,6 +4398,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: serverName
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -4449,6 +4454,11 @@ paths:
           type: integer
           format: int32
       - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: serverName
         in: query
         required: false
         schema:
