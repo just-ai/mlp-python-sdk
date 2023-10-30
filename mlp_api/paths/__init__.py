@@ -74,6 +74,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS = "/api/mlpgate/system-config/model-defaults"
     API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE = "/api/mlpgate/system-config/dataset-data-type"
     API_MLPGATE_SYSTEMCONFIG_CAPTCHA = "/api/mlpgate/system-config/captcha"
+    API_MLPGATE_SYSTEMCONFIG_BILLINGENABLED = "/api/mlpgate/system-config/billing-enabled"
     API_MLPGATE_MODELS = "/api/mlpgate/models"
     API_MLPGATE_MODELS_FEATURED = "/api/mlpgate/models/featured"
     API_MLPGATE_HEALTH = "/api/mlpgate/health"

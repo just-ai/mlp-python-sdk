@@ -3509,6 +3509,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CaptchaData'
+  /api/mlpgate/system-config/billing-enabled:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: isBillingEnabled
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
   /api/mlpgate/models:
     get:
       tags:
@@ -4379,6 +4398,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: serverName
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -4430,6 +4454,11 @@ paths:
           type: integer
           format: int32
       - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: serverName
         in: query
         required: false
         schema:
