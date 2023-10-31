@@ -34,7 +34,6 @@ MinutesSchema = schemas.Int64Schema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
-ServerNameSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -47,7 +46,6 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
-        'serverName': typing.Union[ServerNameSchema, str, ],
     },
     total=False
 )
@@ -80,12 +78,6 @@ request_query_sort = api_client.QueryParameter(
     name="sort",
     style=api_client.ParameterStyle.FORM,
     schema=SortSchema,
-    explode=True,
-)
-request_query_server_name = api_client.QueryParameter(
-    name="serverName",
-    style=api_client.ParameterStyle.FORM,
-    schema=ServerNameSchema,
     explode=True,
 )
 # Header params
@@ -256,7 +248,6 @@ class BaseApi(api_client.Api):
             request_query_page,
             request_query_size,
             request_query_sort,
-            request_query_server_name,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:

@@ -67,13 +67,11 @@ class ModelBillingSettingsData(
                 def CUSTOM(cls):
                     return cls("custom")
             billingUnitPriceInNanoToken = schemas.Int64Schema
-            billingUnitPriceInRubles = schemas.Float64Schema
             freeUnitQuota = schemas.Int32Schema
             __annotations__ = {
                 "isBillingEnabled": isBillingEnabled,
                 "billingUnit": billingUnit,
                 "billingUnitPriceInNanoToken": billingUnitPriceInNanoToken,
-                "billingUnitPriceInRubles": billingUnitPriceInRubles,
                 "freeUnitQuota": freeUnitQuota,
             }
     
@@ -89,15 +87,12 @@ class ModelBillingSettingsData(
     def __getitem__(self, name: typing_extensions.Literal["billingUnitPriceInNanoToken"]) -> MetaOapg.properties.billingUnitPriceInNanoToken: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["billingUnitPriceInRubles"]) -> MetaOapg.properties.billingUnitPriceInRubles: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["freeUnitQuota"]) -> MetaOapg.properties.freeUnitQuota: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInRubles", "freeUnitQuota", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -112,15 +107,12 @@ class ModelBillingSettingsData(
     def get_item_oapg(self, name: typing_extensions.Literal["billingUnitPriceInNanoToken"]) -> typing.Union[MetaOapg.properties.billingUnitPriceInNanoToken, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["billingUnitPriceInRubles"]) -> typing.Union[MetaOapg.properties.billingUnitPriceInRubles, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["freeUnitQuota"]) -> typing.Union[MetaOapg.properties.freeUnitQuota, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInRubles", "freeUnitQuota", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -130,7 +122,6 @@ class ModelBillingSettingsData(
         isBillingEnabled: typing.Union[MetaOapg.properties.isBillingEnabled, bool, ],
         billingUnit: typing.Union[MetaOapg.properties.billingUnit, str, schemas.Unset] = schemas.unset,
         billingUnitPriceInNanoToken: typing.Union[MetaOapg.properties.billingUnitPriceInNanoToken, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        billingUnitPriceInRubles: typing.Union[MetaOapg.properties.billingUnitPriceInRubles, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         freeUnitQuota: typing.Union[MetaOapg.properties.freeUnitQuota, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -141,7 +132,6 @@ class ModelBillingSettingsData(
             isBillingEnabled=isBillingEnabled,
             billingUnit=billingUnit,
             billingUnitPriceInNanoToken=billingUnitPriceInNanoToken,
-            billingUnitPriceInRubles=billingUnitPriceInRubles,
             freeUnitQuota=freeUnitQuota,
             _configuration=_configuration,
             **kwargs,

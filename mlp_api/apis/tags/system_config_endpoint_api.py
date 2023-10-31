@@ -11,7 +11,6 @@
 
 from mlp_api.paths.api_mlpgate_system_config_captcha.get import GetCaptchaConfig
 from mlp_api.paths.api_mlpgate_system_config_dataset_data_type.get import GetDatasetDataTypes
-from mlp_api.paths.api_mlpgate_system_config_frontend_settings.get import GetFrontendSettings
 from mlp_api.paths.api_mlpgate_system_config_model_defaults.get import GetModelDefaults
 from mlp_api.paths.api_mlpgate_system_config_resource_groups.get import GetResourceGroupsForAccount
 from mlp_api.paths.api_mlpgate_system_config_task_types.get import GetTaskTypes
@@ -20,7 +19,6 @@ from mlp_api.paths.api_mlpgate_system_config_task_types.get import GetTaskTypes
 class SystemConfigEndpointApi(
     GetCaptchaConfig,
     GetDatasetDataTypes,
-    GetFrontendSettings,
     GetModelDefaults,
     GetResourceGroupsForAccount,
     GetTaskTypes,

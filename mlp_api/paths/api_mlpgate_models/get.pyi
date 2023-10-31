@@ -36,8 +36,6 @@ OnlyPublicSchema = schemas.BoolSchema
 GroupIdSchema = schemas.Int64Schema
 TaskTypeSchema = schemas.StrSchema
 LanguageSchema = schemas.StrSchema
-ImageIdSchema = schemas.Int64Schema
-DataImageIdSchema = schemas.Int64Schema
 PageSchema = schemas.Int32Schema
 SizeSchema = schemas.Int32Schema
 SortSchema = schemas.StrSchema
@@ -57,8 +55,6 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
         'groupId': typing.Union[GroupIdSchema, decimal.Decimal, int, ],
         'taskType': typing.Union[TaskTypeSchema, str, ],
         'language': typing.Union[LanguageSchema, str, ],
-        'imageId': typing.Union[ImageIdSchema, decimal.Decimal, int, ],
-        'dataImageId': typing.Union[DataImageIdSchema, decimal.Decimal, int, ],
         'page': typing.Union[PageSchema, decimal.Decimal, int, ],
         'size': typing.Union[SizeSchema, decimal.Decimal, int, ],
         'sort': typing.Union[SortSchema, str, ],
@@ -117,18 +113,6 @@ request_query_language = api_client.QueryParameter(
     name="language",
     style=api_client.ParameterStyle.FORM,
     schema=LanguageSchema,
-    explode=True,
-)
-request_query_image_id = api_client.QueryParameter(
-    name="imageId",
-    style=api_client.ParameterStyle.FORM,
-    schema=ImageIdSchema,
-    explode=True,
-)
-request_query_data_image_id = api_client.QueryParameter(
-    name="dataImageId",
-    style=api_client.ParameterStyle.FORM,
-    schema=DataImageIdSchema,
     explode=True,
 )
 request_query_page = api_client.QueryParameter(
@@ -265,8 +249,6 @@ class BaseApi(api_client.Api):
             request_query_group_id,
             request_query_task_type,
             request_query_language,
-            request_query_image_id,
-            request_query_data_image_id,
             request_query_page,
             request_query_size,
             request_query_sort,
