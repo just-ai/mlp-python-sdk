@@ -7958,11 +7958,11 @@ components:
           $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
