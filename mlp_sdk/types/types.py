@@ -564,6 +564,21 @@ class PredictOutputCDQA(BaseModel):
     output: List[ExtractedTextsListCDQA]
 
 
+class OpenAIMeta(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class GenerativeQA(TextsCollection, Texts, OpenAIMeta):
+    answer: str
+    scores: List[float]
+
+
+class GenerativeQACollection(BaseModel):
+    output: List[GenerativeQA]
+
+
 class ServiceInfo(BaseModel):
     accountId: int
     modelId: int

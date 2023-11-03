@@ -11,6 +11,7 @@ from mlp_api.apis.tags import process_endpoint_api
 from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
 from mlp_sdk.log.setup_logging import get_logger
+from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
@@ -60,6 +61,15 @@ class MlpClientSDK:
         return self.predict_raw(request)
 
     def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
+        if hasattr(MlpResponseHeaders, 'headers'):
+            request_id = MlpResponseHeaders.headers.get("Z-requestId")
+            if request_id is not None and "Z-requestId" not in request.headers:
+                request.headers["Z-requestId"] = request_id
+
+            billing_key = MlpResponseHeaders.headers.get("MLP-BILLING-KEY")
+            if billing_key is not None:
+                request.headers["MLP-BILLING-KEY"] = billing_key
+
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
