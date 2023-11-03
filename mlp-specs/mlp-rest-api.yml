@@ -614,7 +614,7 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              $ref: '#/components/schemas/CopyResourceGroupServer'
         required: true
       responses:
         "200":
@@ -6888,6 +6888,13 @@ components:
           type: string
         rawConfiguration:
           type: string
+    CopyResourceGroupServer:
+      required:
+      - serverName
+      type: object
+      properties:
+        serverName:
+          type: string
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -7958,11 +7965,11 @@ components:
           type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:

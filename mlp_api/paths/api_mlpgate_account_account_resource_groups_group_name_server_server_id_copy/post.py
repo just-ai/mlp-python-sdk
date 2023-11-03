@@ -26,6 +26,7 @@ import frozendict  # noqa: F401
 from mlp_api import schemas  # noqa: F401
 
 from mlp_api.model.resource_group_server_data import ResourceGroupServerData
+from mlp_api.model.copy_resource_group_server import CopyResourceGroupServer
 
 from . import path
 
@@ -97,10 +98,10 @@ request_path_server_id = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = schemas.StrSchema
+SchemaForRequestBodyApplicationJson = CopyResourceGroupServer
 
 
-request_body_body = api_client.RequestBody(
+request_body_copy_resource_group_server = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
@@ -138,7 +139,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _copy_server_configuration_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -153,7 +154,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _copy_server_configuration_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -169,7 +170,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _copy_server_configuration_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -182,7 +183,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _copy_server_configuration_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -197,7 +198,7 @@ class BaseApi(api_client.Api):
 
     def _copy_server_configuration_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -249,7 +250,7 @@ class BaseApi(api_client.Api):
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
         _body = None
-        serialized_data = request_body_body.serialize(body, content_type)
+        serialized_data = request_body_copy_resource_group_server.serialize(body, content_type)
         _headers.add('Content-Type', content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
@@ -290,7 +291,7 @@ class CopyServerConfiguration(BaseApi):
     @typing.overload
     def copy_server_configuration(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -305,7 +306,7 @@ class CopyServerConfiguration(BaseApi):
     @typing.overload
     def copy_server_configuration(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -321,7 +322,7 @@ class CopyServerConfiguration(BaseApi):
     @typing.overload
     def copy_server_configuration(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -334,7 +335,7 @@ class CopyServerConfiguration(BaseApi):
     @typing.overload
     def copy_server_configuration(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -349,7 +350,7 @@ class CopyServerConfiguration(BaseApi):
 
     def copy_server_configuration(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -376,7 +377,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: typing_extensions.Literal["application/json"] = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -391,7 +392,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -407,7 +408,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -420,7 +421,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -435,7 +436,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
