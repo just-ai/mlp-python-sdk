@@ -21,6 +21,7 @@ from mlp_api.model.audio_format_options import AudioFormatOptions
 from mlp_api.model.captcha_data import CaptchaData
 from mlp_api.model.check_result import CheckResult
 from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
+from mlp_api.model.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.model.create_resource_group_data import CreateResourceGroupData
 from mlp_api.model.create_resource_group_server import CreateResourceGroupServer
