@@ -412,16 +412,13 @@ class MlpServiceSDK:
             if "Z-requestId" in request.headers:
                 MlpResponseHeaders.headers["Z-requestId"] = request.headers["Z-requestId"]
             else:
-                MlpResponseHeaders.headers["Z-requestId"] = request.requestId
+                MlpResponseHeaders.headers["Z-requestId"] = str(request.requestId)
             if "MLP-BILLING-KEY" in request.headers:
                 MlpResponseHeaders.headers["MLP-BILLING-KEY"] = request.headers["MLP-BILLING-KEY"]
 
             result = self.__handle_predict(request.predict)
 
-            return mlp_grpc_pb2.ServiceToGateProto(
-                predict=result,
-                headers={k: str(v) for k, v in MlpResponseHeaders.headers}
-            )
+            return mlp_grpc_pb2.ServiceToGateProto(predict=result, headers=MlpResponseHeaders.headers)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
             return mlp_grpc_pb2.ServiceToGateProto(fit=result)
