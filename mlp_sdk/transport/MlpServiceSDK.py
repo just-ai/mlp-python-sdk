@@ -181,11 +181,12 @@ class MlpServiceConnector:
 
     def __log_request(self, request):
         stringified_request = json_format.MessageToJson(request, ensure_ascii=False)
+        requestId = request.headers["Z-requestId"] if "Z-requestId" in request.headers else request.requestId
         if len(stringified_request) < self.config["sdk"]["large_body_length"]:
-            self.log.debug("Request: " + stringified_request, extra={'requestId': request.requestId})
+            self.log.debug("Request: " + stringified_request, extra={'requestId': requestId})
         else:
             self.log.debug("Request with large body. Id=" + str(request.requestId),
-                          extra={'requestId': request.requestId}
+                          extra={'requestId': requestId}
                           )
 
     def __heartbeat_proc(self):
@@ -396,11 +397,12 @@ class MlpServiceSDK:
 
     def __log_response(self, request, response):
         stringified_response = json_format.MessageToJson(response, ensure_ascii=False)
+        requestId = request.headers["Z-requestId"] if "Z-requestId" in request.headers else request.requestId
         if len(stringified_response) < self.config["sdk"]["large_body_length"]:
-            self.log.debug("Response: " + stringified_response, extra={'requestId': request.requestId})
+            self.log.debug("Response: " + stringified_response, extra={'requestId': requestId})
         else:
             self.log.debug("Response with large body. Id=" + str(request.requestId),
-                          extra={'requestId': request.requestId})
+                          extra={'requestId': requestId})
 
     def __process_request(self, req_type, request):
         if req_type == 'predict':
