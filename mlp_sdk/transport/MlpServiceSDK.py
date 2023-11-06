@@ -412,7 +412,7 @@ class MlpServiceSDK:
             if "Z-requestId" in request.headers:
                 MlpResponseHeaders.headers["Z-requestId"] = request.headers["Z-requestId"]
             else:
-                MlpResponseHeaders.headers["Z-requestId"] = request.requestId
+                MlpResponseHeaders.headers["Z-requestId"] = str(request.requestId)
             if "MLP-BILLING-KEY" in request.headers:
                 MlpResponseHeaders.headers["MLP-BILLING-KEY"] = request.headers["MLP-BILLING-KEY"]
 
