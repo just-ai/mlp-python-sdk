@@ -6,7 +6,7 @@ from mlp_sdk.log.graylog_handler import GrayLogHandler
 
 def get_logger(name: str) -> logging.Logger:
 
-    level = os.environ.get('MLP_LOG_LEVEL')
+    level = os.environ.get('MLP_LOG_LEVEL', 'WARN')
     logging_level = logging.getLevelName(level)
     logger = logging.getLogger(name)
     logger.setLevel(logging_level)
