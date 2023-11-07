@@ -4,7 +4,7 @@ import os
 from mlp_sdk.log.graylog_handler import GrayLogHandler
 
 
-def get_logger(name: str, level: str = 'DEBUG') -> logging.Logger:
+def get_logger(name: str, level: str = 'INFO') -> logging.Logger:
 
     logging_level = logging.getLevelName(level)
     logger = logging.getLogger(name)
@@ -18,15 +18,16 @@ def get_logger(name: str, level: str = 'DEBUG') -> logging.Logger:
         return logger
 
     # create console handler
-    ch = logging.StreamHandler()
-    ch.setLevel(logging_level)
+    if os.environ.get('MLP_CONSOLE_LOG'):
+        ch = logging.StreamHandler()
+        ch.setLevel(logging_level)
 
-    # create formatter and add it to the handlers
-    formatter = logging.Formatter(
-        "%(asctime)s - [%(levelname)s] - [%(pathname)s: %(module)s.%(funcName)s:%(lineno)d]: %(message)s")
-    ch.setFormatter(formatter)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter(
+            "%(asctime)s - [%(levelname)s] - [%(pathname)s: %(module)s.%(funcName)s:%(lineno)d]: %(message)s")
+        ch.setFormatter(formatter)
 
-    logger.addHandler(ch)
+        logger.addHandler(ch)
 
     if os.environ.get('MLP_GRAYLOG_SERVER') and os.environ.get('MLP_GRAYLOG_PORT'):
         graylog_handler = GrayLogHandler(os.environ.get('MLP_GRAYLOG_SERVER'),
