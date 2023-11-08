@@ -405,20 +405,11 @@ class MlpServiceSDK:
                           extra={'requestId': requestId})
 
     def __process_request(self, req_type, request):
+        self.__setup_headers(request)
         if req_type == 'predict':
-            global MlpResponseHeaders
-            MlpResponseHeaders.__dict__.clear()
-            MlpResponseHeaders.headers = {}
-            if "Z-requestId" in request.headers:
-                MlpResponseHeaders.headers["Z-requestId"] = request.headers["Z-requestId"]
-            else:
-                MlpResponseHeaders.headers["Z-requestId"] = str(request.requestId)
-            if "MLP-BILLING-KEY" in request.headers:
-                MlpResponseHeaders.headers["MLP-BILLING-KEY"] = request.headers["MLP-BILLING-KEY"]
-
             result = self.__handle_predict(request.predict)
-
-            return mlp_grpc_pb2.ServiceToGateProto(predict=result, headers=MlpResponseHeaders.headers)
+            headers = {k: str(v) for k, v in MlpResponseHeaders.headers.items()}
+            return mlp_grpc_pb2.ServiceToGateProto(predict=result, headers=headers)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
             return mlp_grpc_pb2.ServiceToGateProto(fit=result)
@@ -430,6 +421,19 @@ class MlpServiceSDK:
             return mlp_grpc_pb2.ServiceToGateProto(batch=result)
         else:
             raise ValueError('Unexpected request type: ' + req_type)
+
+    def __setup_headers(self, request):
+        global MlpResponseHeaders
+        MlpResponseHeaders.__dict__.clear()
+        MlpResponseHeaders.headers = {}
+
+        if "Z-requestId" in request.headers:
+            MlpResponseHeaders.headers["Z-requestId"] = str(request.headers["Z-requestId"])
+        else:
+            MlpResponseHeaders.headers["Z-requestId"] = str(request.requestId)
+
+        if "MLP-BILLING-KEY" in request.headers:
+            MlpResponseHeaders.headers["MLP-BILLING-KEY"] = str(request.headers["MLP-BILLING-KEY"])
 
     def __handle_predict(self, req):
         is_json = req.data.WhichOneof('body') == 'json'
