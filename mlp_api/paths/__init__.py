@@ -82,6 +82,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_HEALTH_HISTORY = "/api/mlpgate/health/history"
     API_MLPGATE_ADMIN_ACCOUNTS = "/api/mlpgate/admin/accounts"
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT = "/api/mlpgate/admin/account/{account}"
+    API_MLPGATE_ACCOUNT_ACCOUNT = "/api/mlpgate/account/{account}"
     API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN = "/api/mlpgate/account/{account}/token/{token}"
     API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG = "/api/mlpgate/account/{account}/stat-log"
     API_MLPGATE_ACCOUNT_ACCOUNT_S3 = "/api/mlpgate/account/{account}/s3"
