@@ -11,6 +11,7 @@
 
 from mlp_api.paths.api_mlpgate_account_account_dump.get import DumpConfig
 from mlp_api.paths.api_mlpgate_account.get import EnsureAccount
+from mlp_api.paths.api_mlpgate_account_account.get import EnsureAccountWithId
 from mlp_api.paths.api_mlpgate_account_account_s3.get import GetS3Credentials
 from mlp_api.paths.api_mlpgate_account_account_dump.post import RestoreConfig
 from mlp_api.paths.api_mlpgate_account.post import UpdateAccountData
@@ -19,6 +20,7 @@ from mlp_api.paths.api_mlpgate_account.post import UpdateAccountData
 class AccountEndpointApi(
     DumpConfig,
     EnsureAccount,
+    EnsureAccountWithId,
     GetS3Credentials,
     RestoreConfig,
     UpdateAccountData,

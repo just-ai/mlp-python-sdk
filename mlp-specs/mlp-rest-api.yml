@@ -3746,6 +3746,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
+  /api/mlpgate/account/{account}:
+    get:
+      tags:
+      - account-endpoint
+      operationId: ensureAccountWithId
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
   /api/mlpgate/account/{account}/token/{token}:
     get:
       tags:

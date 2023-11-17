@@ -77,6 +77,7 @@ from mlp_api.apis.paths.api_mlpgate_health_test import ApiMlpgateHealthTest
 from mlp_api.apis.paths.api_mlpgate_health_history import ApiMlpgateHealthHistory
 from mlp_api.apis.paths.api_mlpgate_admin_accounts import ApiMlpgateAdminAccounts
 from mlp_api.apis.paths.api_mlpgate_admin_account_account import ApiMlpgateAdminAccountAccount
+from mlp_api.apis.paths.api_mlpgate_account_account import ApiMlpgateAccountAccount
 from mlp_api.apis.paths.api_mlpgate_account_account_token_token import ApiMlpgateAccountAccountTokenToken
 from mlp_api.apis.paths.api_mlpgate_account_account_stat_log import ApiMlpgateAccountAccountStatLog
 from mlp_api.apis.paths.api_mlpgate_account_account_s3 import ApiMlpgateAccountAccountS3
@@ -225,6 +226,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
         PathValues.API_MLPGATE_ADMIN_ACCOUNTS: ApiMlpgateAdminAccounts,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
@@ -374,6 +376,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
         PathValues.API_MLPGATE_ADMIN_ACCOUNTS: ApiMlpgateAdminAccounts,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
