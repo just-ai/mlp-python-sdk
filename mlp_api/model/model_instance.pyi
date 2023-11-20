@@ -94,6 +94,10 @@ class ModelInstance(
                     return cls("pod")
                 
                 @schemas.classproperty
+                def DOCKER(cls):
+                    return cls("docker")
+                
+                @schemas.classproperty
                 def EXTERNAL(cls):
                     return cls("external")
                 
@@ -106,6 +110,7 @@ class ModelInstance(
             customData = schemas.StrSchema
             deleteTimestamp = schemas.DateTimeSchema
             hostingServerId = schemas.StrSchema
+            serverId = schemas.Int64Schema
             __annotations__ = {
                 "id": id,
                 "connectionToken": connectionToken,
@@ -119,6 +124,7 @@ class ModelInstance(
                 "customData": customData,
                 "deleteTimestamp": deleteTimestamp,
                 "hostingServerId": hostingServerId,
+                "serverId": serverId,
             }
     
     lastHeartBeat: MetaOapg.properties.lastHeartBeat
@@ -166,9 +172,12 @@ class ModelInstance(
     def __getitem__(self, name: typing_extensions.Literal["hostingServerId"]) -> MetaOapg.properties.hostingServerId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["serverId"]) -> MetaOapg.properties.serverId: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -210,9 +219,12 @@ class ModelInstance(
     def get_item_oapg(self, name: typing_extensions.Literal["hostingServerId"]) -> typing.Union[MetaOapg.properties.hostingServerId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["serverId"]) -> typing.Union[MetaOapg.properties.serverId, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "started", "lastHeartBeat", "type", "kubeType", "isEvictable", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -231,6 +243,7 @@ class ModelInstance(
         customData: typing.Union[MetaOapg.properties.customData, str, schemas.Unset] = schemas.unset,
         deleteTimestamp: typing.Union[MetaOapg.properties.deleteTimestamp, str, datetime, schemas.Unset] = schemas.unset,
         hostingServerId: typing.Union[MetaOapg.properties.hostingServerId, str, schemas.Unset] = schemas.unset,
+        serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelInstance':
@@ -249,6 +262,7 @@ class ModelInstance(
             customData=customData,
             deleteTimestamp=deleteTimestamp,
             hostingServerId=hostingServerId,
+            serverId=serverId,
             _configuration=_configuration,
             **kwargs,
         )
