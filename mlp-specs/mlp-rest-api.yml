@@ -4019,38 +4019,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerDataWithStatus'
-  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/register:
-    get:
-      tags:
-      - resource-group-servers-endpoint
-      operationId: registerServer
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupName
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: serverId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/template:
     get:
       tags:
@@ -6887,7 +6855,6 @@ components:
       - enabledEviction
       - isDefault
       - name
-      - ownerId
       - resourceGroupType
       type: object
       properties:
@@ -8231,7 +8198,6 @@ components:
           enum:
           - deployment
           - pod
-          - docker
           - external
           - hostingServer
     ModelInstanceListData:
@@ -8525,7 +8491,6 @@ components:
           enum:
           - deployment
           - pod
-          - docker
           - external
           - hostingServer
         resourceName:
@@ -8541,6 +8506,3 @@ components:
           type: boolean
         hostingServerId:
           type: string
-        serverId:
-          type: integer
-          format: int64

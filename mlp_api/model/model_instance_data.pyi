@@ -64,10 +64,6 @@ class ModelInstanceData(
                     return cls("pod")
                 
                 @schemas.classproperty
-                def DOCKER(cls):
-                    return cls("docker")
-                
-                @schemas.classproperty
                 def EXTERNAL(cls):
                     return cls("external")
                 
