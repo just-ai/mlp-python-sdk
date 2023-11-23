@@ -7950,6 +7950,7 @@ components:
           - RUNNING
           - STARTING
           - STOPPED
+          - UNAVAILABLE
         resources:
           $ref: '#/components/schemas/Resources'
         rawConfiguration:
