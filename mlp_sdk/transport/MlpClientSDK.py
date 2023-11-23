@@ -75,6 +75,9 @@ class MlpClientSDK:
         if self.billing_token is not None and "MLP-BILLING-KEY" not in request.headers:
             request.headers["MLP-BILLING-KEY"] = self.billing_token
 
+        self.log.info(" AUTH TOKEN: " + self.token)
+        self.log.info(" BILLING TOKEN: " + self.billing_token)
+
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
