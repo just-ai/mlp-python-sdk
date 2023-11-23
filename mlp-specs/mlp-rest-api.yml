@@ -6637,6 +6637,10 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
+        aliases:
+          type: array
+          items:
+            type: string
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
         asPublicSettingsData:
