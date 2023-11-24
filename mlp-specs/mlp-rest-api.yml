@@ -6616,9 +6616,6 @@ components:
         minInstancesCount:
           type: integer
           format: int32
-        startTimeSec:
-          type: number
-          format: float
         hidden:
           type: boolean
         publicTestingAllowed:
