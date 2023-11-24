@@ -41,12 +41,10 @@ class ResourceGroupEssentialData(
             "resourceGroupType",
             "enabledEviction",
             "enabledAutoScaling",
-            "ownerId",
         }
         
         class properties:
             name = schemas.StrSchema
-            ownerId = schemas.Int64Schema
             isDefault = schemas.BoolSchema
             enabledAutoScaling = schemas.BoolSchema
             enabledEviction = schemas.BoolSchema
@@ -97,14 +95,15 @@ class ResourceGroupEssentialData(
                 @schemas.classproperty
                 def PUBLIC(cls):
                     return cls("PUBLIC")
+            ownerId = schemas.Int64Schema
             __annotations__ = {
                 "name": name,
-                "ownerId": ownerId,
                 "isDefault": isDefault,
                 "enabledAutoScaling": enabledAutoScaling,
                 "enabledEviction": enabledEviction,
                 "resourceGroupType": resourceGroupType,
                 "access": access,
+                "ownerId": ownerId,
             }
     
     isDefault: MetaOapg.properties.isDefault
@@ -113,13 +112,9 @@ class ResourceGroupEssentialData(
     resourceGroupType: MetaOapg.properties.resourceGroupType
     enabledEviction: MetaOapg.properties.enabledEviction
     enabledAutoScaling: MetaOapg.properties.enabledAutoScaling
-    ownerId: MetaOapg.properties.ownerId
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["ownerId"]) -> MetaOapg.properties.ownerId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
@@ -137,18 +132,18 @@ class ResourceGroupEssentialData(
     def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["ownerId"]) -> MetaOapg.properties.ownerId: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "ownerId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["ownerId"]) -> MetaOapg.properties.ownerId: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
@@ -166,9 +161,12 @@ class ResourceGroupEssentialData(
     def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["ownerId"]) -> typing.Union[MetaOapg.properties.ownerId, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "ownerId", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -181,7 +179,7 @@ class ResourceGroupEssentialData(
         resourceGroupType: typing.Union[MetaOapg.properties.resourceGroupType, str, ],
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, ],
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, ],
-        ownerId: typing.Union[MetaOapg.properties.ownerId, decimal.Decimal, int, ],
+        ownerId: typing.Union[MetaOapg.properties.ownerId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupEssentialData':

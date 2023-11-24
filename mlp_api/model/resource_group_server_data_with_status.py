@@ -58,7 +58,6 @@ class ResourceGroupServerDataWithStatus(
                         "RUNNING": "RUNNING",
                         "STARTING": "STARTING",
                         "STOPPED": "STOPPED",
-                        "UNAVAILABLE": "UNAVAILABLE",
                     }
                 
                 @schemas.classproperty
@@ -72,10 +71,6 @@ class ResourceGroupServerDataWithStatus(
                 @schemas.classproperty
                 def STOPPED(cls):
                     return cls("STOPPED")
-                
-                @schemas.classproperty
-                def UNAVAILABLE(cls):
-                    return cls("UNAVAILABLE")
         
             @staticmethod
             def resources() -> typing.Type['Resources']:
