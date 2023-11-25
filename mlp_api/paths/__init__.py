@@ -89,6 +89,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES = "/api/mlpgate/account/{account}/resource-groups/{groupName}/services"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID = "/api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_STATUS = "/api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/status"
+    API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_REGISTER = "/api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/register"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_TEMPLATE = "/api/mlpgate/account/{account}/resource-groups/{groupName}/server/template"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_STATUS = "/api/mlpgate/account/{account}/resource-groups/{groupName}/server/status"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRIC = "/api/mlpgate/account/{account}/resource-groups/{groupName}/metric"
