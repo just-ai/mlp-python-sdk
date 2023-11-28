@@ -40,7 +40,7 @@ class MlpClientSDK:
         self.__connect()
 
     def predict(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.PredictResponseProto:
-        return self.predict_full(account, model, data, config, headers).response
+        return self.predict_full(account, model, data, config, headers).predict
 
     def predict_full(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.ServiceToGateProto:
 
