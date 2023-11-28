@@ -27,7 +27,6 @@ class MlpClientSDK:
         self.model_id = os.environ.get('MLP_MODEL_ID')
         self.urls = None
         self.token = None
-        self.billing_token = None
         self.grpc_secure = None
         self.log = get_logger('MlpClientSDK', self.config["logging"]["level"])
         self.channel = None
@@ -35,13 +34,15 @@ class MlpClientSDK:
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
         self.urls: List[str] = os.environ.get('MLP_GRPC_HOST', 'gate.caila.io').split(",") if not urls else urls
         self.token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
-        self.billing_token = os.environ.get('MLP_BILLING_TOKEN', None)
         self.grpc_secure = os.environ.get('MLP_GRPC_SECURE', 'true').lower() == 'true' if not grpc_secure else grpc_secure
         self.log.debug("Starting mpl client for url " + self.urls[0])
 
         self.__connect()
 
     def predict(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.PredictResponseProto:
+        return self.predict_full(self, account, model, data, config, headers).response
+
+    def predict_full(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.ServiceToGateProto:
 
         if isinstance(data, str):
             data = str.encode(data)
@@ -62,27 +63,17 @@ class MlpClientSDK:
 
         return self.predict_raw(request)
 
-    def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
+    def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.ServiceToGateProto:
         if hasattr(MlpResponseHeaders, 'headers'):
             request_id = MlpResponseHeaders.headers.get("Z-requestId")
             if request_id is not None and "Z-requestId" not in request.headers:
                 request.headers["Z-requestId"] = request_id
 
-            billing_key = MlpResponseHeaders.headers.get("MLP-BILLING-KEY")
-            if billing_key is not None:
-                request.headers["MLP-BILLING-KEY"] = billing_key
-
-        if self.billing_token is not None and "MLP-BILLING-KEY" not in request.headers:
-            request.headers["MLP-BILLING-KEY"] = self.billing_token
-
-        self.log.info(" AUTH TOKEN: " + self.token)
-        self.log.info(" BILLING TOKEN: " + self.billing_token)
-
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
         if res == 'predict':
-            return response.predict
+            return response
         elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
             raise MlpClientException(response.error.code, response.error.message, response.error.args)
@@ -107,9 +98,6 @@ class MlpClientSDK:
         return self.ext_raw(request)
 
     def ext_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.ExtendedResponseProto:
-        if self.billing_token is not None and "MLP-BILLING-KEY" not in request.headers:
-            request.headers["MLP-BILLING-KEY"] = self.billing_token
-
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
