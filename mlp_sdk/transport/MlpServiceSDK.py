@@ -433,6 +433,9 @@ class MlpServiceSDK:
         else:
             MlpResponseHeaders.headers["Z-requestId"] = str(request.requestId)
 
+        if "MLP-BILLING-KEY" in request.headers:
+            MlpResponseHeaders.headers["MLP-BILLING-KEY"] = str(request.headers["MLP-BILLING-KEY"])
+
     def __handle_predict(self, req):
         is_json = req.data.WhichOneof('body') == 'json'
         desc = self.descriptor.methods['predict']

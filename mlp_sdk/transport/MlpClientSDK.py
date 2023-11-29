@@ -69,6 +69,10 @@ class MlpClientSDK:
             if request_id is not None and "Z-requestId" not in request.headers:
                 request.headers["Z-requestId"] = request_id
 
+            billing_key = MlpResponseHeaders.headers.get("MLP-BILLING-KEY")
+            if billing_key is not None:
+                request.headers["MLP-BILLING-KEY"] = billing_key
+
         response: Optional[mlp_grpc_pb2.ClientResponseProto] = self.__process_request_with_retry(request)
 
         res = response.WhichOneof('body')
