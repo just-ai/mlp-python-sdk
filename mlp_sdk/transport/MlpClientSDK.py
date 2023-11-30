@@ -40,6 +40,9 @@ class MlpClientSDK:
         self.__connect()
 
     def predict(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.PredictResponseProto:
+        return self.predict_full(account, model, data, config, headers).predict
+
+    def predict_full(self, account, model, data, config="{}", headers=None) -> mlp_grpc_pb2.ServiceToGateProto:
 
         if isinstance(data, str):
             data = str.encode(data)
@@ -60,7 +63,7 @@ class MlpClientSDK:
 
         return self.predict_raw(request)
 
-    def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.PredictResponseProto:
+    def predict_raw(self, request: mlp_grpc_pb2.ClientRequestProto) -> mlp_grpc_pb2.ServiceToGateProto:
         if hasattr(MlpResponseHeaders, 'headers'):
             request_id = MlpResponseHeaders.headers.get("Z-requestId")
             if request_id is not None and "Z-requestId" not in request.headers:
@@ -74,7 +77,7 @@ class MlpClientSDK:
 
         res = response.WhichOneof('body')
         if res == 'predict':
-            return response.predict
+            return response
         elif res == 'error':
             self.log.error(f'Error from gate. Error \n{response.error}')
             raise MlpClientException(response.error.code, response.error.message, response.error.args)
