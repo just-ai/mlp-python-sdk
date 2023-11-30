@@ -412,7 +412,8 @@ class MlpServiceSDK:
             return mlp_grpc_pb2.ServiceToGateProto(predict=result, headers=headers)
         elif req_type == 'fit':
             result = self.__handle_fit(request.fit)
-            return mlp_grpc_pb2.ServiceToGateProto(fit=result)
+            headers = {k: str(v) for k, v in MlpResponseHeaders.headers.items()}
+            return mlp_grpc_pb2.ServiceToGateProto(fit=result, headers=headers)
         elif req_type == 'ext':
             result = self.__handle_ext(request.ext)
             return mlp_grpc_pb2.ServiceToGateProto(ext=result)
