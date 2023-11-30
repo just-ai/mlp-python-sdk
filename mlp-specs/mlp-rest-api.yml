@@ -4019,6 +4019,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerDataWithStatus'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/register:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: registerServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/template:
     get:
       tags:
@@ -6584,9 +6616,6 @@ components:
         minInstancesCount:
           type: integer
           format: int32
-        startTimeSec:
-          type: number
-          format: float
         hidden:
           type: boolean
         publicTestingAllowed:
@@ -6605,6 +6634,10 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
+        aliases:
+          type: array
+          items:
+            type: string
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
         asPublicSettingsData:
@@ -6855,6 +6888,7 @@ components:
       - enabledEviction
       - isDefault
       - name
+      - ownerId
       - resourceGroupType
       type: object
       properties:
@@ -7917,6 +7951,7 @@ components:
           - RUNNING
           - STARTING
           - STOPPED
+          - UNAVAILABLE
         resources:
           $ref: '#/components/schemas/Resources'
         rawConfiguration:
@@ -7974,6 +8009,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -7986,13 +8025,9 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        first:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -8000,17 +8035,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/Sort'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/Sort'
         paged:
           type: boolean
         unpaged:
@@ -8018,9 +8053,9 @@ components:
     Sort:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -8198,6 +8233,7 @@ components:
           enum:
           - deployment
           - pod
+          - docker
           - external
           - hostingServer
     ModelInstanceListData:
@@ -8491,6 +8527,7 @@ components:
           enum:
           - deployment
           - pod
+          - docker
           - external
           - hostingServer
         resourceName:
@@ -8506,3 +8543,6 @@ components:
           type: boolean
         hostingServerId:
           type: string
+        serverId:
+          type: integer
+          format: int64
