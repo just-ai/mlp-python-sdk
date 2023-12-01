@@ -42,10 +42,12 @@ class FitRequestData(
             datasetId = schemas.Int64Schema
             config = schemas.DictSchema
             configId = schemas.Int64Schema
+            billingToken = schemas.StrSchema
             __annotations__ = {
                 "datasetId": datasetId,
                 "config": config,
                 "configId": configId,
+                "billingToken": billingToken,
             }
     
     datasetId: MetaOapg.properties.datasetId
@@ -60,9 +62,12 @@ class FitRequestData(
     def __getitem__(self, name: typing_extensions.Literal["configId"]) -> MetaOapg.properties.configId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["billingToken"]) -> MetaOapg.properties.billingToken: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", "billingToken", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -77,9 +82,12 @@ class FitRequestData(
     def get_item_oapg(self, name: typing_extensions.Literal["configId"]) -> typing.Union[MetaOapg.properties.configId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["billingToken"]) -> typing.Union[MetaOapg.properties.billingToken, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["datasetId", "config", "configId", "billingToken", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -89,6 +97,7 @@ class FitRequestData(
         datasetId: typing.Union[MetaOapg.properties.datasetId, decimal.Decimal, int, ],
         config: typing.Union[MetaOapg.properties.config, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         configId: typing.Union[MetaOapg.properties.configId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        billingToken: typing.Union[MetaOapg.properties.billingToken, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'FitRequestData':
@@ -98,6 +107,7 @@ class FitRequestData(
             datasetId=datasetId,
             config=config,
             configId=configId,
+            billingToken=billingToken,
             _configuration=_configuration,
             **kwargs,
         )
