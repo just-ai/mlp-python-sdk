@@ -7440,6 +7440,8 @@ components:
         datasetId:
           type: integer
           format: int64
+        billingToken:
+          type: string
     JsonNode:
       type: object
     JobStatusData:
