@@ -33,7 +33,7 @@ class MlpServiceConnector:
         self.config = config
         self.grpc_secure = grpc_secure
         self.state = State.idle
-        self.log = get_logger(f'MlpServiceConnector-{url}', self.config["logging"]["level"])
+        self.log = get_logger(f'MlpServiceConnector-{url}')
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
@@ -225,7 +225,7 @@ class MlpServiceSDK:
 
     def __init__(self, config=CONFIG):
         self.config = config
-        self.log = get_logger('MlpServiceSDK', self.config["logging"]["level"])
+        self.log = get_logger('MlpServiceSDK')
         self.state = State.idle
         self.gate_urls: str = ''
         self.grpc_secure: bool = True

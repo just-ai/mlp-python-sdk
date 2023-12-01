@@ -28,7 +28,7 @@ class MlpClientSDK:
         self.urls = None
         self.token = None
         self.grpc_secure = None
-        self.log = get_logger('MlpClientSDK', self.config["logging"]["level"])
+        self.log = get_logger('MlpClientSDK')
         self.channel = None
 
     def init(self, urls: Optional[List[str]] = None, token=None, grpc_secure: Optional[bool] = None):
@@ -187,7 +187,7 @@ class MlpRestClient:
 
     def __init__(self, url: Optional[str] = None, token=None, config=CONFIG):
         self.config = config
-        self.log = get_logger('MlpRestClient', self.config["logging"]["level"])
+        self.log = get_logger('MlpRestClient')
         self.account_id = os.environ.get('MLP_ACCOUNT_ID')
         self.model_id = os.environ.get('MLP_MODEL_ID')
         self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if not url else url
