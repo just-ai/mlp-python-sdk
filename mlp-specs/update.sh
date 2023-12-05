@@ -12,6 +12,9 @@ fi
 if [ $BRANCH == 'stable' ]; then
   SERVER=https://mlp.caila-stable.test-ai.net
 fi
+if [ $BRANCH == 'release' ]; then
+  SERVER=https://mlp.caila-stable.test-ai.net
+fi
 
 if [ -z $SERVER ]; then
   # check parallel env exists
