@@ -419,7 +419,8 @@ class MlpServiceSDK:
             return mlp_grpc_pb2.ServiceToGateProto(ext=result)
         elif req_type == 'batch':
             result = self.__handle_predict_batch(request.batch)
-            return mlp_grpc_pb2.ServiceToGateProto(batch=result)
+            headers = {k: str(v) for k, v in MlpResponseHeaders.headers.items()}
+            return mlp_grpc_pb2.ServiceToGateProto(batch=result, headers=headers)
         else:
             raise ValueError('Unexpected request type: ' + req_type)
 
