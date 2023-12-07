@@ -427,6 +427,7 @@ class MlpServiceSDK:
         global MlpResponseHeaders
         MlpResponseHeaders.__dict__.clear()
         MlpResponseHeaders.headers = {}
+        MlpResponseHeaders.batch_headers = {}
 
         if "Z-requestId" in request.headers:
             MlpResponseHeaders.headers["Z-requestId"] = str(request.headers["Z-requestId"])
@@ -524,7 +525,7 @@ class MlpServiceSDK:
             proto = mlp_grpc_pb2.BatchPayloadResponseProto(
                 requestId=request_id,
                 predict=mlp_grpc_pb2.PredictResponseProto(data=converted),
-                headers={"Z-custom-billing": str(getattr(result, "billing_units", 0))}
+                headers=MlpResponseHeaders.batch_headers.get(index)
             )
             responses_protos.append(proto)
 
