@@ -521,8 +521,11 @@ class MlpServiceSDK:
         for index, result in enumerate(res_list):
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
             request_id = request.data[index].requestId
-            proto = mlp_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
-                                                           predict=mlp_grpc_pb2.PredictResponseProto(data=converted))
+            proto = mlp_grpc_pb2.BatchPayloadResponseProto(
+                requestId=request_id,
+                predict=mlp_grpc_pb2.PredictResponseProto(data=converted),
+                headers={"Z-custom-billing": str(getattr(result, "billing_units", 0))}
+            )
             responses_protos.append(proto)
 
         return mlp_grpc_pb2.BatchResponseProto(data=responses_protos)
