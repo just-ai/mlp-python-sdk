@@ -138,6 +138,29 @@ class ModelDump(
             isPublic = schemas.BoolSchema
             config = schemas.DictSchema
             env = schemas.DictSchema
+            
+            
+            class additionalFlags(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'additionalFlags':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             trainingModelAccount = schemas.StrSchema
             trainingModelName = schemas.StrSchema
             trainingDatasetAccount = schemas.StrSchema
@@ -321,6 +344,7 @@ class ModelDump(
                 "isPublic": isPublic,
                 "config": config,
                 "env": env,
+                "additionalFlags": additionalFlags,
                 "trainingModelAccount": trainingModelAccount,
                 "trainingModelName": trainingModelName,
                 "trainingDatasetAccount": trainingDatasetAccount,
@@ -399,6 +423,9 @@ class ModelDump(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["env"]) -> MetaOapg.properties.env: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["additionalFlags"]) -> MetaOapg.properties.additionalFlags: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingModelAccount"]) -> MetaOapg.properties.trainingModelAccount: ...
@@ -502,7 +529,7 @@ class ModelDump(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -542,6 +569,9 @@ class ModelDump(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["env"]) -> typing.Union[MetaOapg.properties.env, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["additionalFlags"]) -> typing.Union[MetaOapg.properties.additionalFlags, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingModelAccount"]) -> typing.Union[MetaOapg.properties.trainingModelAccount, schemas.Unset]: ...
@@ -645,7 +675,7 @@ class ModelDump(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -664,6 +694,7 @@ class ModelDump(
         isPublic: typing.Union[MetaOapg.properties.isPublic, bool, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
         env: typing.Union[MetaOapg.properties.env, dict, frozendict.frozendict, schemas.Unset] = schemas.unset,
+        additionalFlags: typing.Union[MetaOapg.properties.additionalFlags, list, tuple, schemas.Unset] = schemas.unset,
         trainingModelAccount: typing.Union[MetaOapg.properties.trainingModelAccount, str, schemas.Unset] = schemas.unset,
         trainingModelName: typing.Union[MetaOapg.properties.trainingModelName, str, schemas.Unset] = schemas.unset,
         trainingDatasetAccount: typing.Union[MetaOapg.properties.trainingDatasetAccount, str, schemas.Unset] = schemas.unset,
@@ -715,6 +746,7 @@ class ModelDump(
             isPublic=isPublic,
             config=config,
             env=env,
+            additionalFlags=additionalFlags,
             trainingModelAccount=trainingModelAccount,
             trainingModelName=trainingModelName,
             trainingDatasetAccount=trainingDatasetAccount,

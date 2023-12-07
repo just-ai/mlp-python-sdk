@@ -6552,6 +6552,10 @@ components:
           type: object
         env:
           type: object
+        additionalFlags:
+          type: array
+          items:
+            type: string
         trainingModelAccount:
           type: string
         trainingModelName:
@@ -7041,6 +7045,10 @@ components:
           type: string
         env:
           type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
         fittable:
           type: boolean
         hostingType:
