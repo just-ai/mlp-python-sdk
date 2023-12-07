@@ -7294,6 +7294,10 @@ components:
           type: string
         env:
           type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
         fittable:
           type: boolean
         hostingType:
