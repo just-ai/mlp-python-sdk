@@ -459,6 +459,7 @@ class TextsCollection(BaseModel):
 
 class EmbeddedTextsCollection(BaseModel):
     embedded_texts: List[EmbeddingVector]
+    billing_units: int = 0
 
 
 class TextsListCollection(BaseModel):
