@@ -172,6 +172,7 @@ message ExtendedResponseProto {
 message BatchPayloadProto {
   int64 requestId = 1;
   PayloadProto data = 101;
+  map<string, string> headers = 1000;
 }
 
 message BatchPayloadResponseProto {
