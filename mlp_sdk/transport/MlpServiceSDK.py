@@ -519,9 +519,9 @@ class MlpServiceSDK:
         responses_protos = []
 
         for index, result in enumerate(res_list):
-            print(f"Batch result: {result.__dict__}")
+            self.log.info(f"Batch result: {result.__dict__}")
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
-            print(f"Batch result converted: {converted.__dict__}")
+            self.log.info(f"Batch result converted: {converted}")
             request_id = request.data[index].requestId
             proto = mlp_grpc_pb2.BatchPayloadResponseProto(
                 requestId=request_id,
