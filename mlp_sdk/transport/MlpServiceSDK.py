@@ -526,7 +526,7 @@ class MlpServiceSDK:
             proto = mlp_grpc_pb2.BatchPayloadResponseProto(
                 requestId=request_id,
                 predict=mlp_grpc_pb2.PredictResponseProto(data=converted),
-                headers={"Z-custom-billing": str(123)}
+                headers={"Z-custom-billing": str(getattr(result, "billing_units", 0))}
             )
             responses_protos.append(proto)
 
