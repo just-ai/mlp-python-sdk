@@ -67,6 +67,29 @@ class ModelCreateUpdateData(
             composite = schemas.BoolSchema
             config = schemas.StrSchema
             env = schemas.StrSchema
+            
+            
+            class additionalFlags(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'additionalFlags':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             fittable = schemas.BoolSchema
             
             
@@ -205,6 +228,7 @@ class ModelCreateUpdateData(
                 "composite": composite,
                 "config": config,
                 "env": env,
+                "additionalFlags": additionalFlags,
                 "fittable": fittable,
                 "hostingType": hostingType,
                 "persistentVolumes": persistentVolumes,
@@ -270,6 +294,9 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["env"]) -> MetaOapg.properties.env: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["additionalFlags"]) -> MetaOapg.properties.additionalFlags: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["fittable"]) -> MetaOapg.properties.fittable: ...
     
     @typing.overload
@@ -317,7 +344,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -368,6 +395,9 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["env"]) -> typing.Union[MetaOapg.properties.env, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["additionalFlags"]) -> typing.Union[MetaOapg.properties.additionalFlags, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["fittable"]) -> typing.Union[MetaOapg.properties.fittable, schemas.Unset]: ...
     
     @typing.overload
@@ -415,7 +445,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -437,6 +467,7 @@ class ModelCreateUpdateData(
         composite: typing.Union[MetaOapg.properties.composite, bool, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, str, schemas.Unset] = schemas.unset,
         env: typing.Union[MetaOapg.properties.env, str, schemas.Unset] = schemas.unset,
+        additionalFlags: typing.Union[MetaOapg.properties.additionalFlags, list, tuple, schemas.Unset] = schemas.unset,
         fittable: typing.Union[MetaOapg.properties.fittable, bool, schemas.Unset] = schemas.unset,
         hostingType: typing.Union[MetaOapg.properties.hostingType, str, schemas.Unset] = schemas.unset,
         persistentVolumes: typing.Union[MetaOapg.properties.persistentVolumes, list, tuple, schemas.Unset] = schemas.unset,
@@ -473,6 +504,7 @@ class ModelCreateUpdateData(
             composite=composite,
             config=config,
             env=env,
+            additionalFlags=additionalFlags,
             fittable=fittable,
             hostingType=hostingType,
             persistentVolumes=persistentVolumes,

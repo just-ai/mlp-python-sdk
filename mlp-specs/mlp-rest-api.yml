@@ -6538,6 +6538,10 @@ components:
           type: object
         env:
           type: object
+        additionalFlags:
+          type: array
+          items:
+            type: string
         trainingModelAccount:
           type: string
         trainingModelName:
@@ -7024,6 +7028,10 @@ components:
           type: string
         env:
           type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
         fittable:
           type: boolean
         hostingType:
@@ -8011,8 +8019,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -8025,11 +8031,13 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
