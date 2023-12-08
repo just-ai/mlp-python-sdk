@@ -181,6 +181,8 @@ message BatchPayloadResponseProto {
     PredictResponseProto predict = 101;
     ApiErrorProto error = 201;
   }
+
+  map<string, string> headers = 1000;
 }
 
 message StatusRequestProto {
