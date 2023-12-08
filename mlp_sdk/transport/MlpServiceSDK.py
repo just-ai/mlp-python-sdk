@@ -427,6 +427,7 @@ class MlpServiceSDK:
         global MlpResponseHeaders
         MlpResponseHeaders.__dict__.clear()
         MlpResponseHeaders.headers = {}
+        MlpResponseHeaders.batch_headers = {}
 
         if "Z-requestId" in request.headers:
             MlpResponseHeaders.headers["Z-requestId"] = str(request.headers["Z-requestId"])
@@ -521,8 +522,11 @@ class MlpServiceSDK:
         for index, result in enumerate(res_list):
             converted = self.__convert_to_proto(result, desc.output.type, is_json)
             request_id = request.data[index].requestId
-            proto = mlp_grpc_pb2.BatchPayloadResponseProto(requestId=request_id,
-                                                           predict=mlp_grpc_pb2.PredictResponseProto(data=converted))
+            proto = mlp_grpc_pb2.BatchPayloadResponseProto(
+                requestId=request_id,
+                predict=mlp_grpc_pb2.PredictResponseProto(data=converted),
+                headers=MlpResponseHeaders.batch_headers.get(index)
+            )
             responses_protos.append(proto)
 
         return mlp_grpc_pb2.BatchResponseProto(data=responses_protos)
