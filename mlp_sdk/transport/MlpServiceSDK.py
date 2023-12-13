@@ -112,6 +112,8 @@ class MlpServiceConnector:
                 msg = self.action_to_gate_queue.get()
                 self.action_to_gate_queue.task_done()
                 yield msg
+                if msg.WhichOneof('body') == 'stopServing':
+                    return
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
@@ -174,6 +176,9 @@ class MlpServiceConnector:
             if self.url != request.cluster.currentServer:
                 self.url = request.cluster.currentServer
             self.sdk.update_connectors(request.cluster.servers)
+        elif req_type == 'stopServing':
+            self.log.info("Received stopServing from gate.")
+            self.sdk.shutdown()
         elif req_type in ['predict', 'fit', 'ext', 'batch']:
             self.sdk.process_request_async(req_type, request, self)
         else:
@@ -240,6 +245,7 @@ class MlpServiceSDK:
         self.impl = None
         self.schema = None
         self.descriptor = None
+        self.shutdown_event = threading.Event()
 
     def register_impl(self, impl):
         self.impl = impl
@@ -326,24 +332,24 @@ class MlpServiceSDK:
             self.__start_connector(connector.url)
 
     def block_until_shutdown(self):
-        barrier = threading.Event()
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
+        self.shutdown_event.wait()
 
-        # TODO think about lock
-        def shutdown(_signo, _stack_frame):
-            self.log.info("Shutdown")
-            self.state = State.stopping
+    def shutdown(self, _signo=None, _stack_frame=None):
+        if self.state == State.stopping:
+            return
 
-            shutdown_deadline = time.time() + self.config["sdk"]["action_shutdown_timeout_seconds"]
-            connectors = self.connectors.copy()
-            for connector in connectors:
-                connector.stop()
-            for connector in connectors:
-                connector.shutdown_event.wait(shutdown_deadline - time.time())
-            barrier.set()
+        self.log.info("Shutdown")
+        self.state = State.stopping
 
-        signal.signal(signal.SIGINT, shutdown)
-        signal.signal(signal.SIGTERM, shutdown)
-        barrier.wait()
+        shutdown_deadline = time.time() + self.config["sdk"]["action_shutdown_timeout_seconds"]
+        connectors = self.connectors.copy()
+        for connector in connectors:
+            connector.stop()
+        for connector in connectors:
+            connector.shutdown_event.wait(shutdown_deadline - time.time())
+        self.shutdown_event.set()
 
     def handle_unknown_request(self, req_type, request, connector: MlpServiceConnector):
         self.log.error("Unknown request type " + req_type, extra={'requestId': request.requestId})
