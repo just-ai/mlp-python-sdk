@@ -6642,10 +6642,10 @@ components:
           type: array
           items:
             type: string
-        asPublicSettingsData:
-          $ref: '#/components/schemas/ModelPublicSettingsData'
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        asPublicSettingsData:
+          $ref: '#/components/schemas/ModelPublicSettingsData'
     ModelGroupDump:
       required:
       - name
@@ -8023,6 +8023,8 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -8035,8 +8037,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        first:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
