@@ -178,7 +178,7 @@ class MlpServiceConnector:
             self.sdk.update_connectors(request.cluster.servers)
         elif req_type == 'stopServing':
             self.log.info("Received stopServing from gate.")
-            self.sdk.shutdown()
+            self.sdk.__stop_connector(self)
         elif req_type in ['predict', 'fit', 'ext', 'batch']:
             self.sdk.process_request_async(req_type, request, self)
         else:
