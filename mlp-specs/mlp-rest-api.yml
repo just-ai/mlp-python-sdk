@@ -7529,6 +7529,8 @@ components:
           type: boolean
         dockerRunCommand:
           type: string
+        dockerComposeContent:
+          type: string
         envVariables:
           type: object
           additionalProperties:
