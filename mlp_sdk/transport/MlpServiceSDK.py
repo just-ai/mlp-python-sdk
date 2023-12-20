@@ -178,7 +178,7 @@ class MlpServiceConnector:
             self.sdk.update_connectors(request.cluster.servers)
         elif req_type == 'stopServing':
             self.log.info("Received stopServing from gate.")
-            self.sdk.__stop_connector(self)
+            self.stop()
         elif req_type in ['predict', 'fit', 'ext', 'batch']:
             self.sdk.process_request_async(req_type, request, self)
         else:
@@ -293,7 +293,7 @@ class MlpServiceSDK:
                     last_active_time = time.time()
                     continue
 
-                if time.time() > last_active_time + 10:
+                if len(self.connectors) == 0 or time.time() > last_active_time + 10:
                     self.log.warning("Service is not connected to gate: " + str(self.gate_urls))
                     self.update_connectors(self.gate_urls)
                     last_active_time = time.time()
