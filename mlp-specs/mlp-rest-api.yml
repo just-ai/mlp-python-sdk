@@ -5511,6 +5511,39 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/account/{account}/model/{model}/available-fit-config:
+    get:
+      tags:
+      - fit-config-endpoint
+      operationId: listAvailableFitConfigs
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FitConfigData'
   /api/mlpgate/account/{account}/model/{model}/action-descriptor:
     get:
       tags:
