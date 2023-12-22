@@ -123,6 +123,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_ENVIRONMENT = "/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/environment"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWED = "/api/mlpgate/account/{account}/model/{model}/dataset/allowed"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWEDTYPES = "/api/mlpgate/account/{account}/model/{model}/dataset/allowed-types"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_AVAILABLEFITCONFIG = "/api/mlpgate/account/{account}/model/{model}/available-fit-config"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ACTIONDESCRIPTOR = "/api/mlpgate/account/{account}/model/{model}/action-descriptor"
     API_MLPGATE_ACCOUNT_ACCOUNT_METRIC = "/api/mlpgate/account/{account}/metric"
     API_MLPGATE_ACCOUNT_ACCOUNT_METRIC_STARTTIME = "/api/mlpgate/account/{account}/metric/start-time"
