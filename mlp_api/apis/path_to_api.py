@@ -118,6 +118,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instanc
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instance_instance_id_environment import ApiMlpgateAccountAccountModelModelInstanceInstanceIdEnvironment
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_dataset_allowed import ApiMlpgateAccountAccountModelModelDatasetAllowed
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_dataset_allowed_types import ApiMlpgateAccountAccountModelModelDatasetAllowedTypes
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_available_fit_config import ApiMlpgateAccountAccountModelModelAvailableFitConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_action_descriptor import ApiMlpgateAccountAccountModelModelActionDescriptor
 from mlp_api.apis.paths.api_mlpgate_account_account_metric import ApiMlpgateAccountAccountMetric
 from mlp_api.apis.paths.api_mlpgate_account_account_metric_start_time import ApiMlpgateAccountAccountMetricStartTime
@@ -268,6 +269,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMlpgateAccountAccountModelModelInstanceInstanceIdEnvironment,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWED: ApiMlpgateAccountAccountModelModelDatasetAllowed,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWEDTYPES: ApiMlpgateAccountAccountModelModelDatasetAllowedTypes,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_AVAILABLEFITCONFIG: ApiMlpgateAccountAccountModelModelAvailableFitConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ACTIONDESCRIPTOR: ApiMlpgateAccountAccountModelModelActionDescriptor,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_METRIC: ApiMlpgateAccountAccountMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_METRIC_STARTTIME: ApiMlpgateAccountAccountMetricStartTime,
@@ -419,6 +421,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_INSTANCE_ID_ENVIRONMENT: ApiMlpgateAccountAccountModelModelInstanceInstanceIdEnvironment,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWED: ApiMlpgateAccountAccountModelModelDatasetAllowed,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_DATASET_ALLOWEDTYPES: ApiMlpgateAccountAccountModelModelDatasetAllowedTypes,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_AVAILABLEFITCONFIG: ApiMlpgateAccountAccountModelModelAvailableFitConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ACTIONDESCRIPTOR: ApiMlpgateAccountAccountModelModelActionDescriptor,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_METRIC: ApiMlpgateAccountAccountMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_METRIC_STARTTIME: ApiMlpgateAccountAccountMetricStartTime,

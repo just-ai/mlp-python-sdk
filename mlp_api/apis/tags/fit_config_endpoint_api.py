@@ -12,6 +12,7 @@
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit_config.post import CreateFitConfig
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit_config_config_id.delete import DeleteFitConfig
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit_config_config_id.get import GetFitConfig
+from mlp_api.paths.api_mlpgate_account_account_model_model_available_fit_config.get import ListAvailableFitConfigs
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit_config.get import ListFitConfigs
 from mlp_api.paths.api_mlpgate_account_account_model_model_fit_config_config_id.post import UpdateFitConfig
 
@@ -20,6 +21,7 @@ class FitConfigEndpointApi(
     CreateFitConfig,
     DeleteFitConfig,
     GetFitConfig,
+    ListAvailableFitConfigs,
     ListFitConfigs,
     UpdateFitConfig,
 ):
