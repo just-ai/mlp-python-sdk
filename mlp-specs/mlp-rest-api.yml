@@ -7540,6 +7540,8 @@ components:
           type: boolean
         dockerRunCommand:
           type: string
+        dockerComposeContent:
+          type: string
         envVariables:
           type: object
           additionalProperties:
@@ -8073,10 +8075,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         empty:
           type: boolean
     PageableObject:
