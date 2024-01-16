@@ -7318,6 +7318,8 @@ components:
         trainingModelId:
           type: integer
           format: int64
+        trainingModelName:
+          type: string
         trainingType:
           type: string
           enum:
