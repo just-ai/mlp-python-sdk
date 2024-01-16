@@ -50,6 +50,7 @@ class ModelInfoData(
             "persistentVolumes",
             "publicSettings",
             "imageAccountId",
+            "autoScalingConfiguration",
             "id",
             "favorite",
             "batchesConfig",
@@ -168,6 +169,10 @@ class ModelInfoData(
                 return ModelPriorityQueueData
         
             @staticmethod
+            def autoScalingConfiguration() -> typing.Type['ModelAutoScalingConfiguration']:
+                return ModelAutoScalingConfiguration
+        
+            @staticmethod
             def publicSettings() -> typing.Type['ModelPublicSettingsData']:
                 return ModelPublicSettingsData
         
@@ -201,7 +206,6 @@ class ModelInfoData(
             taskType = schemas.StrSchema
             trainingModelAccountId = schemas.Int64Schema
             trainingModelId = schemas.Int64Schema
-            trainingModelName = schemas.StrSchema
             
             
             class trainingType(
@@ -322,6 +326,7 @@ class ModelInfoData(
                 "batchesConfig": batchesConfig,
                 "caching": caching,
                 "priorityQueue": priorityQueue,
+                "autoScalingConfiguration": autoScalingConfiguration,
                 "publicSettings": publicSettings,
                 "billingSettings": billingSettings,
                 "restrictedImageAccess": restrictedImageAccess,
@@ -342,7 +347,6 @@ class ModelInfoData(
                 "taskType": taskType,
                 "trainingModelAccountId": trainingModelAccountId,
                 "trainingModelId": trainingModelId,
-                "trainingModelName": trainingModelName,
                 "trainingType": trainingType,
                 "config": config,
                 "env": env,
@@ -370,6 +374,7 @@ class ModelInfoData(
     persistentVolumes: MetaOapg.properties.persistentVolumes
     publicSettings: 'ModelPublicSettingsData'
     imageAccountId: MetaOapg.properties.imageAccountId
+    autoScalingConfiguration: 'ModelAutoScalingConfiguration'
     id: 'ModelInfoPK'
     favorite: MetaOapg.properties.favorite
     batchesConfig: 'ModelBatchesData'
@@ -415,6 +420,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ModelAutoScalingConfiguration': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
@@ -477,9 +485,6 @@ class ModelInfoData(
     def __getitem__(self, name: typing_extensions.Literal["trainingModelId"]) -> MetaOapg.properties.trainingModelId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["trainingModelName"]) -> MetaOapg.properties.trainingModelName: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["trainingType"]) -> MetaOapg.properties.trainingType: ...
     
     @typing.overload
@@ -512,7 +517,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -558,6 +563,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ModelAutoScalingConfiguration': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["publicSettings"]) -> 'ModelPublicSettingsData': ...
@@ -620,9 +628,6 @@ class ModelInfoData(
     def get_item_oapg(self, name: typing_extensions.Literal["trainingModelId"]) -> typing.Union[MetaOapg.properties.trainingModelId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["trainingModelName"]) -> typing.Union[MetaOapg.properties.trainingModelName, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["trainingType"]) -> typing.Union[MetaOapg.properties.trainingType, schemas.Unset]: ...
     
     @typing.overload
@@ -655,7 +660,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -677,6 +682,7 @@ class ModelInfoData(
         persistentVolumes: typing.Union[MetaOapg.properties.persistentVolumes, list, tuple, ],
         publicSettings: 'ModelPublicSettingsData',
         imageAccountId: typing.Union[MetaOapg.properties.imageAccountId, decimal.Decimal, int, ],
+        autoScalingConfiguration: 'ModelAutoScalingConfiguration',
         id: 'ModelInfoPK',
         favorite: typing.Union[MetaOapg.properties.favorite, bool, ],
         batchesConfig: 'ModelBatchesData',
@@ -696,7 +702,6 @@ class ModelInfoData(
         taskType: typing.Union[MetaOapg.properties.taskType, str, schemas.Unset] = schemas.unset,
         trainingModelAccountId: typing.Union[MetaOapg.properties.trainingModelAccountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         trainingModelId: typing.Union[MetaOapg.properties.trainingModelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        trainingModelName: typing.Union[MetaOapg.properties.trainingModelName, str, schemas.Unset] = schemas.unset,
         trainingType: typing.Union[MetaOapg.properties.trainingType, str, schemas.Unset] = schemas.unset,
         config: typing.Union[MetaOapg.properties.config, str, schemas.Unset] = schemas.unset,
         env: typing.Union[MetaOapg.properties.env, str, schemas.Unset] = schemas.unset,
@@ -728,6 +733,7 @@ class ModelInfoData(
             persistentVolumes=persistentVolumes,
             publicSettings=publicSettings,
             imageAccountId=imageAccountId,
+            autoScalingConfiguration=autoScalingConfiguration,
             id=id,
             favorite=favorite,
             batchesConfig=batchesConfig,
@@ -747,7 +753,6 @@ class ModelInfoData(
             taskType=taskType,
             trainingModelAccountId=trainingModelAccountId,
             trainingModelId=trainingModelId,
-            trainingModelName=trainingModelName,
             trainingType=trainingType,
             config=config,
             env=env,
@@ -766,6 +771,7 @@ from mlp_api.model.data_image_mount_data import DataImageMountData
 from mlp_api.model.dataset_info_data import DatasetInfoData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.image_info_data import ImageInfoData
+from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.model.model_caching_data import ModelCachingData
