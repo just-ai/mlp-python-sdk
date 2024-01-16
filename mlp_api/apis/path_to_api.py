@@ -2,7 +2,6 @@ import typing_extensions
 
 from mlp_api.paths import PathValues
 from mlp_api.apis.paths.p_account_field_model_field import PAccountFieldModelField
-from mlp_api.apis.paths.api_mlpgate_server_heartbeat import ApiMlpgateServerHeartbeat
 from mlp_api.apis.paths.api_mlpgate_admin_system_config_account_account_data import ApiMlpgateAdminSystemConfigAccountAccountData
 from mlp_api.apis.paths.api_mlpgate_admin_system_config_account_account_config import ApiMlpgateAdminSystemConfigAccountAccountConfig
 from mlp_api.apis.paths.api_mlpgate_admin_account_account_limits import ApiMlpgateAdminAccountAccountLimits
@@ -85,6 +84,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_s3 import ApiMlpgateAccountA
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_services import ApiMlpgateAccountAccountResourceGroupsGroupNameServices
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_status import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_register import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdRegister
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_template import ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_status import ApiMlpgateAccountAccountResourceGroupsGroupNameServerStatus
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_metric import ApiMlpgateAccountAccountResourceGroupsGroupNameMetric
@@ -153,7 +153,6 @@ PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
-        PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
         PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA: ApiMlpgateAdminSystemConfigAccountAccountData,
         PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG: ApiMlpgateAdminSystemConfigAccountAccountConfig,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS: ApiMlpgateAdminAccountAccountLimits,
@@ -236,6 +235,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_REGISTER: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdRegister,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_TEMPLATE: ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRIC: ApiMlpgateAccountAccountResourceGroupsGroupNameMetric,
@@ -305,7 +305,6 @@ PathToApi = typing_extensions.TypedDict(
 path_to_api = PathToApi(
     {
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
-        PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
         PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_DATA: ApiMlpgateAdminSystemConfigAccountAccountData,
         PathValues.API_MLPGATE_ADMIN_SYSTEMCONFIG_ACCOUNT_ACCOUNT_CONFIG: ApiMlpgateAdminSystemConfigAccountAccountConfig,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_LIMITS: ApiMlpgateAdminAccountAccountLimits,
@@ -388,6 +387,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_REGISTER: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdRegister,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_TEMPLATE: ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_METRIC: ApiMlpgateAccountAccountResourceGroupsGroupNameMetric,

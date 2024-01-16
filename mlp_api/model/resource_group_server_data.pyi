@@ -44,14 +44,10 @@ class ResourceGroupServerData(
             id = schemas.Int64Schema
             name = schemas.StrSchema
             rawConfiguration = schemas.StrSchema
-            price = schemas.StrSchema
-            description = schemas.StrSchema
             __annotations__ = {
                 "id": id,
                 "name": name,
                 "rawConfiguration": rawConfiguration,
-                "price": price,
-                "description": description,
             }
     
     name: MetaOapg.properties.name
@@ -68,15 +64,9 @@ class ResourceGroupServerData(
     def __getitem__(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["price"]) -> MetaOapg.properties.price: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
-    
-    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "rawConfiguration", "price", "description", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "rawConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -91,15 +81,9 @@ class ResourceGroupServerData(
     def get_item_oapg(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["price"]) -> typing.Union[MetaOapg.properties.price, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "rawConfiguration", "price", "description", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "rawConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -109,8 +93,6 @@ class ResourceGroupServerData(
         name: typing.Union[MetaOapg.properties.name, str, ],
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
-        price: typing.Union[MetaOapg.properties.price, str, schemas.Unset] = schemas.unset,
-        description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupServerData':
@@ -120,8 +102,6 @@ class ResourceGroupServerData(
             name=name,
             id=id,
             rawConfiguration=rawConfiguration,
-            price=price,
-            description=description,
             _configuration=_configuration,
             **kwargs,
         )

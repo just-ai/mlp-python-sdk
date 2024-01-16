@@ -65,7 +65,6 @@ from mlp_api.model.job_status_data import JobStatusData
 from mlp_api.model.management_request_data import ManagementRequestData
 from mlp_api.model.measurement import Measurement
 from mlp_api.model.method_descriptor_data import MethodDescriptorData
-from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.model.model_caching_data import ModelCachingData
