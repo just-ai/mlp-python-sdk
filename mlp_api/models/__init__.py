@@ -117,6 +117,7 @@ from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
 from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData
+from mlp_api.model.service_info_at_time import ServiceInfoAtTime
 from mlp_api.model.sort import Sort
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status

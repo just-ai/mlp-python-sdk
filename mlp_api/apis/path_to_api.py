@@ -83,6 +83,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_token_token import ApiMlpgat
 from mlp_api.apis.paths.api_mlpgate_account_account_stat_log import ApiMlpgateAccountAccountStatLog
 from mlp_api.apis.paths.api_mlpgate_account_account_s3 import ApiMlpgateAccountAccountS3
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_services import ApiMlpgateAccountAccountResourceGroupsGroupNameServices
+from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_services_info import ApiMlpgateAccountAccountResourceGroupsGroupNameServicesInfo
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_status import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_template import ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate
@@ -99,6 +100,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_a
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_group_types import ApiMlpgateAccountAccountResourceGroupTypes
 from mlp_api.apis.paths.api_mlpgate_account_account_owned_resource_groups import ApiMlpgateAccountAccountOwnedResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_owned_resource_groups_short_status import ApiMlpgateAccountAccountOwnedResourceGroupsShortStatus
+from mlp_api.apis.paths.api_mlpgate_account_account_models_metrics import ApiMlpgateAccountAccountModelsMetrics
 from mlp_api.apis.paths.api_mlpgate_account_account_models_metric import ApiMlpgateAccountAccountModelsMetric
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_status import ApiMlpgateAccountAccountModelModelStatus
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_metric import ApiMlpgateAccountAccountModelModelMetric
@@ -234,6 +236,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICESINFO: ApiMlpgateAccountAccountResourceGroupsGroupNameServicesInfo,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_TEMPLATE: ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate,
@@ -250,6 +253,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPTYPES: ApiMlpgateAccountAccountResourceGroupTypes,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_OWNEDRESOURCEGROUPS: ApiMlpgateAccountAccountOwnedResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_OWNEDRESOURCEGROUPS_SHORTSTATUS: ApiMlpgateAccountAccountOwnedResourceGroupsShortStatus,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELS_METRICS: ApiMlpgateAccountAccountModelsMetrics,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELS_METRIC: ApiMlpgateAccountAccountModelsMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_STATUS: ApiMlpgateAccountAccountModelModelStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC: ApiMlpgateAccountAccountModelModelMetric,
@@ -386,6 +390,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICESINFO: ApiMlpgateAccountAccountResourceGroupsGroupNameServicesInfo,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_STATUS: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_TEMPLATE: ApiMlpgateAccountAccountResourceGroupsGroupNameServerTemplate,
@@ -402,6 +407,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPTYPES: ApiMlpgateAccountAccountResourceGroupTypes,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_OWNEDRESOURCEGROUPS: ApiMlpgateAccountAccountOwnedResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_OWNEDRESOURCEGROUPS_SHORTSTATUS: ApiMlpgateAccountAccountOwnedResourceGroupsShortStatus,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELS_METRICS: ApiMlpgateAccountAccountModelsMetrics,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELS_METRIC: ApiMlpgateAccountAccountModelsMetric,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_STATUS: ApiMlpgateAccountAccountModelModelStatus,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_METRIC: ApiMlpgateAccountAccountModelModelMetric,
