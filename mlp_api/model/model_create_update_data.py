@@ -201,6 +201,10 @@ class ModelCreateUpdateData(
             @staticmethod
             def priorityQueue() -> typing.Type['ModelPriorityQueueData']:
                 return ModelPriorityQueueData
+        
+            @staticmethod
+            def autoScalingConfiguration() -> typing.Type['ModelAutoScalingConfiguration']:
+                return ModelAutoScalingConfiguration
             shortDescription = schemas.StrSchema
             
             
@@ -256,6 +260,7 @@ class ModelCreateUpdateData(
                 "batchesConfig": batchesConfig,
                 "caching": caching,
                 "priorityQueue": priorityQueue,
+                "autoScalingConfiguration": autoScalingConfiguration,
                 "shortDescription": shortDescription,
                 "languages": languages,
                 "minInstancesCount": minInstancesCount,
@@ -346,6 +351,9 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["priorityQueue"]) -> 'ModelPriorityQueueData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ModelAutoScalingConfiguration': ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["shortDescription"]) -> MetaOapg.properties.shortDescription: ...
     
     @typing.overload
@@ -360,7 +368,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -447,6 +455,9 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["priorityQueue"]) -> typing.Union['ModelPriorityQueueData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ModelAutoScalingConfiguration', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["shortDescription"]) -> typing.Union[MetaOapg.properties.shortDescription, schemas.Unset]: ...
     
     @typing.overload
@@ -461,7 +472,7 @@ class ModelCreateUpdateData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -495,6 +506,7 @@ class ModelCreateUpdateData(
         batchesConfig: typing.Union['ModelBatchesData', schemas.Unset] = schemas.unset,
         caching: typing.Union['ModelCachingData', schemas.Unset] = schemas.unset,
         priorityQueue: typing.Union['ModelPriorityQueueData', schemas.Unset] = schemas.unset,
+        autoScalingConfiguration: typing.Union['ModelAutoScalingConfiguration', schemas.Unset] = schemas.unset,
         shortDescription: typing.Union[MetaOapg.properties.shortDescription, str, schemas.Unset] = schemas.unset,
         languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
         minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -532,6 +544,7 @@ class ModelCreateUpdateData(
             batchesConfig=batchesConfig,
             caching=caching,
             priorityQueue=priorityQueue,
+            autoScalingConfiguration=autoScalingConfiguration,
             shortDescription=shortDescription,
             languages=languages,
             minInstancesCount=minInstancesCount,
@@ -541,6 +554,7 @@ class ModelCreateUpdateData(
         )
 
 from mlp_api.model.data_image_mount_data import DataImageMountData
+from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_caching_data import ModelCachingData
 from mlp_api.model.model_limits_data import ModelLimitsData

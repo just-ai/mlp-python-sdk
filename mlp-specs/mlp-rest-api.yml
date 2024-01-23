@@ -69,6 +69,38 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpgate/server-heartbeat:
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: serverHeartbeat
+      parameters:
+      - name: account
+        in: query
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/admin/system-config/account/{account}/data:
     get:
       tags:
@@ -4019,38 +4051,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerDataWithStatus'
-  /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}/register:
-    get:
-      tags:
-      - resource-group-servers-endpoint
-      operationId: registerServer
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupName
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: serverId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/template:
     get:
       tags:
@@ -6492,6 +6492,20 @@ components:
           - private
           - public
           - restricted
+    ModelAutoScalingConfiguration:
+      required:
+      - minInstancesCount
+      type: object
+      properties:
+        minInstancesCount:
+          type: integer
+          format: int32
+        maxInstancesCount:
+          type: integer
+          format: int32
+        cooldownPeriodMinutes:
+          type: integer
+          format: int32
     ModelBatchesData:
       required:
       - batchSize
@@ -6622,6 +6636,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         docs:
           type: array
           items:
@@ -6648,9 +6664,6 @@ components:
         featured:
           type: boolean
         featuredListOrder:
-          type: integer
-          format: int32
-        minInstancesCount:
           type: integer
           format: int32
         hidden:
@@ -6984,6 +6997,10 @@ components:
           type: string
         rawConfiguration:
           type: string
+        price:
+          type: string
+        description:
+          type: string
     CopyResourceGroupServer:
       required:
       - serverName
@@ -7095,6 +7112,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         shortDescription:
           type: string
         languages:
@@ -7229,6 +7248,7 @@ components:
           format: int64
     ModelInfoData:
       required:
+      - autoScalingConfiguration
       - batchesConfig
       - billingSettings
       - caching
@@ -7298,6 +7318,8 @@ components:
         trainingModelId:
           type: integer
           format: int64
+        trainingModelName:
+          type: string
         trainingType:
           type: string
           enum:
@@ -7341,6 +7363,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         shortDescription:
           type: string
         languages:
@@ -7539,6 +7563,8 @@ components:
         connected:
           type: boolean
         dockerRunCommand:
+          type: string
+        dockerComposeContent:
           type: string
         envVariables:
           type: object
@@ -7999,6 +8025,7 @@ components:
           - STARTING
           - STOPPED
           - UNAVAILABLE
+          - DELETING
         resources:
           $ref: '#/components/schemas/Resources'
         rawConfiguration:
@@ -8056,6 +8083,8 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -8068,15 +8097,13 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        first:
-          type: boolean
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -8087,24 +8114,24 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
     Sort:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
     ResourceGroupCapacity:
       required:
