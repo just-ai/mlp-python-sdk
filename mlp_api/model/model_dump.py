@@ -127,12 +127,12 @@ class ModelDump(
                     return super().__getitem__(i)
         
             @staticmethod
-            def asBillingSettingsData() -> typing.Type['ModelBillingSettingsData']:
-                return ModelBillingSettingsData
-        
-            @staticmethod
             def asPublicSettingsData() -> typing.Type['ModelPublicSettingsData']:
                 return ModelPublicSettingsData
+        
+            @staticmethod
+            def asBillingSettingsData() -> typing.Type['ModelBillingSettingsData']:
+                return ModelBillingSettingsData
             imageAccount = schemas.StrSchema
             modelGroup = schemas.StrSchema
             isPublic = schemas.BoolSchema
@@ -361,8 +361,8 @@ class ModelDump(
                 "docs": docs,
                 "predictConfigs": predictConfigs,
                 "fitConfigs": fitConfigs,
-                "asBillingSettingsData": asBillingSettingsData,
                 "asPublicSettingsData": asPublicSettingsData,
+                "asBillingSettingsData": asBillingSettingsData,
                 "imageAccount": imageAccount,
                 "modelGroup": modelGroup,
                 "isPublic": isPublic,
@@ -428,10 +428,10 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["fitConfigs"]) -> MetaOapg.properties.fitConfigs: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
+    def __getitem__(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
+    def __getitem__(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["imageAccount"]) -> MetaOapg.properties.imageAccount: ...
@@ -553,7 +553,7 @@ class ModelDump(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -574,10 +574,10 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["fitConfigs"]) -> MetaOapg.properties.fitConfigs: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
+    def get_item_oapg(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
+    def get_item_oapg(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["imageAccount"]) -> typing.Union[MetaOapg.properties.imageAccount, schemas.Unset]: ...
@@ -699,7 +699,7 @@ class ModelDump(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
         return super().get_item_oapg(name)
     
 
