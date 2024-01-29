@@ -15,6 +15,7 @@ sdk:
   request_retry_backoff_seconds: 0.3
   request_retry_error_codes:
     - mlp.gate.pps_limit_exceeded
+    - mlp-action.common.channel-closed-error
 
 grpc:
   max_send_message_length: 104857600 # 100 MB

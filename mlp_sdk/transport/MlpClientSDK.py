@@ -16,7 +16,7 @@ from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
-
+RECONNECT_ERROR_CODES = ["mlp.gate.gate_is_shut_down"]
 
 
 class MlpClientSDK:
@@ -131,8 +131,12 @@ class MlpClientSDK:
 
                 has_error = response.WhichOneof('body') == 'error'
                 should_retry = has_error and response.error.code in request_retry_error_codes
+                should_reconnect = has_error and response.error.code in RECONNECT_ERROR_CODES
 
-                if not should_retry:
+                if should_reconnect:
+                    self.__connect()
+
+                if not should_retry and not should_reconnect:
                     break
 
                 request_retry_failures += 1
@@ -162,9 +166,6 @@ class MlpClientSDK:
         self.channel.close()
 
     def __connect(self):
-        if self.channel is not None:
-            self.channel.close()
-
         if self.grpc_secure:
             if hasattr(os.environ, "GRPC_SSL_CA_FILE_PATH"):
                 with open(os.environ["GRPC_SSL_CA_FILE_PATH"], 'rb') as f:
@@ -172,16 +173,23 @@ class MlpClientSDK:
             else:
                 creds = grpc.ssl_channel_credentials()
 
-            self.channel = grpc.secure_channel(self.urls[0], creds, options=[
+            new_channel = grpc.secure_channel(self.urls[0], creds, options=[
                 ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
                 ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
             ])
         else:
-            self.channel = grpc.insecure_channel(self.urls[0], options=[
+            new_channel = grpc.insecure_channel(self.urls[0], options=[
                 ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
                 ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
             ])
-        self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
+        self.stub = mlp_grpc_pb2_grpc.GateStub(new_channel)
+
+        previous_channel = self.channel
+        self.channel = new_channel
+
+        if previous_channel is not None:
+            previous_channel.close()
+
 
 class MlpRestClient:
 
