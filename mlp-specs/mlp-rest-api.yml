@@ -7455,6 +7455,7 @@ components:
       - favorite
       - fittable
       - hostingType
+      - httpSettings
       - id
       - imageAccountId
       - modelName
@@ -7577,6 +7578,8 @@ components:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         billingSettings:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         restrictedImageAccess:
           type: boolean
         lastActivity:
