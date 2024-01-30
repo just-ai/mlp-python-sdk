@@ -4,6 +4,7 @@ from mlp_api.apis.tags import TagValues
 from mlp_api.apis.tags.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.apis.tags.account_endpoint_api import AccountEndpointApi
 from mlp_api.apis.tags.admin_endpoint_api import AdminEndpointApi
+from mlp_api.apis.tags.auth_endpoint_api import AuthEndpointApi
 from mlp_api.apis.tags.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.apis.tags.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.apis.tags.fit_config_endpoint_api import FitConfigEndpointApi
@@ -29,6 +30,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.ACCESSTOKENENDPOINT: AccessTokenEndpointApi,
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
+        TagValues.AUTHENDPOINT: AuthEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
         TagValues.FITCONFIGENDPOINT: FitConfigEndpointApi,
@@ -55,6 +57,7 @@ tag_to_api = TagToApi(
         TagValues.ACCESSTOKENENDPOINT: AccessTokenEndpointApi,
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
+        TagValues.AUTHENDPOINT: AuthEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
         TagValues.FITCONFIGENDPOINT: FitConfigEndpointApi,

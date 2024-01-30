@@ -75,6 +75,7 @@ from mlp_api.model.model_dump import ModelDump
 from mlp_api.model.model_group_data import ModelGroupData
 from mlp_api.model.model_group_dump import ModelGroupDump
 from mlp_api.model.model_group_pk import ModelGroupPK
+from mlp_api.model.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.model.model_info_data import ModelInfoData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_instance import ModelInstance

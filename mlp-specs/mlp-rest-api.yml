@@ -1586,6 +1586,43 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/model/{model}/http:
+    post:
+      tags:
+      - model-endpoint
+      operationId: updateModelHttpSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelHttpSettingsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelHttpSettingsData'
   /api/mlpgate/account/{account}/model/{model}/fit:
     post:
       tags:
@@ -3727,6 +3764,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
+  /api/mlpgate/auth:
+    get:
+      tags:
+      - auth-endpoint
+      operationId: auth
+      parameters:
+      - name: account
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpgate/admin/accounts:
     get:
       tags:
@@ -6672,10 +6738,12 @@ components:
     ModelDump:
       required:
       - asBillingSettingsData
+      - asHttpSettingsData
       - asPublicSettingsData
       - docs
       - fitConfigs
       - image
+      - isHttpEnabled
       - name
       - predictConfigs
       type: object
@@ -6797,16 +6865,37 @@ components:
           type: array
           items:
             type: string
-        asBillingSettingsData:
-          $ref: '#/components/schemas/ModelBillingSettingsData'
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
+          type: string
+        asHttpSettingsData:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
+        asBillingSettingsData:
+          $ref: '#/components/schemas/ModelBillingSettingsData'
     ModelGroupDump:
       required:
       - name
       type: object
       properties:
         name:
+          type: string
+    ModelHttpSettingsData:
+      required:
+      - isHttpEnabled
+      type: object
+      properties:
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
           type: string
     ModelLimitsData:
       required:
