@@ -64,10 +64,12 @@ request_query_application = api_client.QueryParameter(
     explode=True,
 )
 # Header params
+CookieSchema = schemas.StrSchema
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
     'RequestRequiredHeaderParams',
     {
+        'Cookie': typing.Union[CookieSchema, str, ],
     }
 )
 RequestOptionalHeaderParams = typing_extensions.TypedDict(
@@ -83,6 +85,12 @@ class RequestHeaderParams(RequestRequiredHeaderParams, RequestOptionalHeaderPara
     pass
 
 
+request_header_cookie = api_client.HeaderParameter(
+    name="Cookie",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=CookieSchema,
+    required=True,
+)
 request_header_mlp_api_key = api_client.HeaderParameter(
     name="MLP-API-KEY",
     style=api_client.ParameterStyle.SIMPLE,
@@ -188,6 +196,7 @@ class BaseApi(api_client.Api):
 
         _headers = HTTPHeaderDict()
         for parameter in (
+            request_header_cookie,
             request_header_mlp_api_key,
         ):
             parameter_data = header_params.get(parameter.name, schemas.unset)
