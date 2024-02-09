@@ -8100,10 +8100,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -8114,24 +8114,24 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
     Sort:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
     ResourceGroupCapacity:
       required:
@@ -8570,11 +8570,12 @@ components:
     ModelInstance:
       required:
       - connectionToken
+      - created
       - id
       - isEvictable
       - kubeType
       - lastHeartBeat
-      - started
+      - status
       - type
       type: object
       properties:
@@ -8582,7 +8583,7 @@ components:
           $ref: '#/components/schemas/ModelInstancePK'
         connectionToken:
           type: string
-        started:
+        created:
           type: string
           format: date-time
         lastHeartBeat:
@@ -8620,3 +8621,9 @@ components:
         serverId:
           type: integer
           format: int64
+        status:
+          type: string
+          enum:
+          - IDLE
+          - STARTED
+          - DELETED
