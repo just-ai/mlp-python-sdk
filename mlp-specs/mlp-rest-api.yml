@@ -3858,11 +3858,49 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/task:
+    get:
+      tags:
+      - task-endpoint
+      operationId: listJobs
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: serverId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobStatusDataV2'
   /api/mlpgate/account/{account}/stat-log:
     get:
       tags:
       - stat-log-endpoint
-      operationId: listJobs
+      operationId: listJobs_1
       parameters:
       - name: account
         in: path
@@ -5739,7 +5777,7 @@ paths:
     get:
       tags:
       - job-endpoint
-      operationId: listJobs_1
+      operationId: listJobs_2
       parameters:
       - name: account
         in: path
@@ -6916,21 +6954,42 @@ components:
           type: string
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
           type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
         resourceGroupType:
           type: string
           enum:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
-        access:
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+    ResourceGroupAutoScalingConfiguration:
+      required:
+      - cooldownPeriodMinutes
+      - maxServersCount
+      - minServersCount
+      - serverConfiguration
+      type: object
+      properties:
+        serverConfiguration:
           type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
+        maxServersCount:
+          type: integer
+          format: int32
+        minServersCount:
+          type: integer
+          format: int32
+        cooldownPeriodMinutes:
+          type: integer
+          format: int32
     ResourceGroupEssentialData:
       required:
       - access
@@ -6949,8 +7008,11 @@ components:
           format: int64
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
         enabledEviction:
           type: boolean
         resourceGroupType:
@@ -6959,20 +7021,21 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
-        access:
-          type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     UpdateResourceGroupData:
       type: object
       properties:
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
           type: boolean
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     CreateResourceGroupServer:
       required:
       - rawConfiguration
@@ -7931,6 +7994,50 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CheckResult'
+    JobStatusDataV2:
+      required:
+      - jobId
+      - name
+      - parents
+      - status
+      type: object
+      properties:
+        jobId:
+          type: string
+        status:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - FAILED
+          - REVERTED
+        name:
+          type: string
+        parents:
+          type: array
+          items:
+            type: string
+        percentage:
+          type: integer
+          format: int32
+        accountId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        serverId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        errorMessage:
+          type: string
     StatLogData:
       required:
       - accountId
@@ -8100,10 +8207,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         empty:
           type: boolean
     PageableObject:
@@ -8114,24 +8221,24 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
     Sort:
       type: object
       properties:
         empty:
           type: boolean
-        sorted:
-          type: boolean
         unsorted:
+          type: boolean
+        sorted:
           type: boolean
     ResourceGroupCapacity:
       required:
@@ -8211,9 +8318,9 @@ components:
           format: int64
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
+          type: boolean
+        enabledAutoScaling:
           type: boolean
         resourceGroupType:
           type: string
@@ -8232,6 +8339,8 @@ components:
         servicesCount:
           type: integer
           format: int32
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     InstancesStatusData:
       required:
       - externalRequested

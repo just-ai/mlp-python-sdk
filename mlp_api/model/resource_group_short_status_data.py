@@ -48,8 +48,8 @@ class ResourceGroupShortStatusData(
         class properties:
             name = schemas.StrSchema
             isDefault = schemas.BoolSchema
-            enabledAutoScaling = schemas.BoolSchema
             enabledEviction = schemas.BoolSchema
+            enabledAutoScaling = schemas.BoolSchema
             
             
             class resourceGroupType(
@@ -100,16 +100,21 @@ class ResourceGroupShortStatusData(
             serversCount = schemas.Int32Schema
             servicesCount = schemas.Int32Schema
             ownerId = schemas.Int64Schema
+        
+            @staticmethod
+            def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
+                return ResourceGroupAutoScalingConfiguration
             __annotations__ = {
                 "name": name,
                 "isDefault": isDefault,
-                "enabledAutoScaling": enabledAutoScaling,
                 "enabledEviction": enabledEviction,
+                "enabledAutoScaling": enabledAutoScaling,
                 "resourceGroupType": resourceGroupType,
                 "access": access,
                 "serversCount": serversCount,
                 "servicesCount": servicesCount,
                 "ownerId": ownerId,
+                "autoScalingConfiguration": autoScalingConfiguration,
             }
     
     servicesCount: MetaOapg.properties.servicesCount
@@ -128,10 +133,10 @@ class ResourceGroupShortStatusData(
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
+    def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
+    def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
@@ -149,9 +154,12 @@ class ResourceGroupShortStatusData(
     def __getitem__(self, name: typing_extensions.Literal["ownerId"]) -> MetaOapg.properties.ownerId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ResourceGroupAutoScalingConfiguration': ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", "autoScalingConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -163,10 +171,10 @@ class ResourceGroupShortStatusData(
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
@@ -184,9 +192,12 @@ class ResourceGroupShortStatusData(
     def get_item_oapg(self, name: typing_extensions.Literal["ownerId"]) -> typing.Union[MetaOapg.properties.ownerId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "ownerId", "autoScalingConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -202,6 +213,7 @@ class ResourceGroupShortStatusData(
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, ],
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, ],
         ownerId: typing.Union[MetaOapg.properties.ownerId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        autoScalingConfiguration: typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupShortStatusData':
@@ -217,6 +229,9 @@ class ResourceGroupShortStatusData(
             enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
             ownerId=ownerId,
+            autoScalingConfiguration=autoScalingConfiguration,
             _configuration=_configuration,
             **kwargs,
         )
+
+from mlp_api.model.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration

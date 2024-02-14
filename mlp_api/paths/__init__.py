@@ -85,6 +85,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT = "/api/mlpgate/admin/account/{account}"
     API_MLPGATE_ACCOUNT_ACCOUNT = "/api/mlpgate/account/{account}"
     API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN = "/api/mlpgate/account/{account}/token/{token}"
+    API_MLPGATE_ACCOUNT_ACCOUNT_TASK = "/api/mlpgate/account/{account}/task"
     API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG = "/api/mlpgate/account/{account}/stat-log"
     API_MLPGATE_ACCOUNT_ACCOUNT_S3 = "/api/mlpgate/account/{account}/s3"
     API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES = "/api/mlpgate/account/{account}/resource-groups/{groupName}/services"

@@ -27,3 +27,4 @@ class TagValues(str, enum.Enum):
     STATLOGENDPOINT = "stat-log-endpoint"
     SYSTEMCONFIGENDPOINT = "system-config-endpoint"
     SYSTEMENDPOINT = "system-endpoint"
+    TASKENDPOINT = "task-endpoint"

@@ -22,6 +22,7 @@ from mlp_api.apis.tags.resource_group_servers_endpoint_api import ResourceGroupS
 from mlp_api.apis.tags.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.apis.tags.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.apis.tags.system_endpoint_api import SystemEndpointApi
+from mlp_api.apis.tags.task_endpoint_api import TaskEndpointApi
 
 TagToApi = typing_extensions.TypedDict(
     'TagToApi',
@@ -47,6 +48,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
+        TagValues.TASKENDPOINT: TaskEndpointApi,
     }
 )
 
@@ -73,5 +75,6 @@ tag_to_api = TagToApi(
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
+        TagValues.TASKENDPOINT: TaskEndpointApi,
     }
 )
