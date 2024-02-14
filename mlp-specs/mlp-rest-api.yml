@@ -7834,6 +7834,8 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupsData:
       required:
       - groups
