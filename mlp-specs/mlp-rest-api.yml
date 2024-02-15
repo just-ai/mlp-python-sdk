@@ -7859,7 +7859,6 @@ components:
             $ref: '#/components/schemas/ResourceGroupData'
     JobStatusDataV2:
       required:
-      - currentCommandName
       - jobId
       - jobStatus
       - name
