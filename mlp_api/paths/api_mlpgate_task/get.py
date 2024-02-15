@@ -27,7 +27,12 @@ from mlp_api import schemas  # noqa: F401
 
 from mlp_api.model.job_status_data_v2 import JobStatusDataV2
 
+from . import path
+
 # Query params
+AccountSchema = schemas.StrSchema
+ModelSchema = schemas.StrSchema
+InstanceIdSchema = schemas.Int64Schema
 GroupNameSchema = schemas.StrSchema
 ServerIdSchema = schemas.Int64Schema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
@@ -38,6 +43,9 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
+        'account': typing.Union[AccountSchema, str, ],
+        'model': typing.Union[ModelSchema, str, ],
+        'instanceId': typing.Union[InstanceIdSchema, decimal.Decimal, int, ],
         'groupName': typing.Union[GroupNameSchema, str, ],
         'serverId': typing.Union[ServerIdSchema, decimal.Decimal, int, ],
     },
@@ -49,6 +57,24 @@ class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams)
     pass
 
 
+request_query_account = api_client.QueryParameter(
+    name="account",
+    style=api_client.ParameterStyle.FORM,
+    schema=AccountSchema,
+    explode=True,
+)
+request_query_model = api_client.QueryParameter(
+    name="model",
+    style=api_client.ParameterStyle.FORM,
+    schema=ModelSchema,
+    explode=True,
+)
+request_query_instance_id = api_client.QueryParameter(
+    name="instanceId",
+    style=api_client.ParameterStyle.FORM,
+    schema=InstanceIdSchema,
+    explode=True,
+)
 request_query_group_name = api_client.QueryParameter(
     name="groupName",
     style=api_client.ParameterStyle.FORM,
@@ -85,32 +111,6 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     name="MLP-API-KEY",
     style=api_client.ParameterStyle.SIMPLE,
     schema=MLPAPIKEYSchema,
-)
-# Path params
-AccountSchema = schemas.StrSchema
-RequestRequiredPathParams = typing_extensions.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'account': typing.Union[AccountSchema, str, ],
-    }
-)
-RequestOptionalPathParams = typing_extensions.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-request_path_account = api_client.PathParameter(
-    name="account",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=AccountSchema,
-    required=True,
 )
 
 
@@ -156,6 +156,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/json',
 )
@@ -167,7 +170,6 @@ class BaseApi(api_client.Api):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -182,7 +184,6 @@ class BaseApi(api_client.Api):
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -193,7 +194,6 @@ class BaseApi(api_client.Api):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -207,7 +207,6 @@ class BaseApi(api_client.Api):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -220,24 +219,13 @@ class BaseApi(api_client.Api):
         """
         self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
-
-        _path_params = {}
-        for parameter in (
-            request_path_account,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
 
         prefix_separator_iterator = None
         for parameter in (
+            request_query_account,
+            request_query_model,
+            request_query_instance_id,
             request_query_group_name,
             request_query_server_id,
         ):
@@ -299,7 +287,6 @@ class ListJobs(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -314,7 +301,6 @@ class ListJobs(BaseApi):
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -325,7 +311,6 @@ class ListJobs(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -339,7 +324,6 @@ class ListJobs(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -348,7 +332,6 @@ class ListJobs(BaseApi):
         return self._list_jobs_oapg(
             query_params=query_params,
             header_params=header_params,
-            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -364,7 +347,6 @@ class ApiForget(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -379,7 +361,6 @@ class ApiForget(BaseApi):
         skip_deserialization: typing_extensions.Literal[True],
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -390,7 +371,6 @@ class ApiForget(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -404,7 +384,6 @@ class ApiForget(BaseApi):
         self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -413,7 +392,6 @@ class ApiForget(BaseApi):
         return self._list_jobs_oapg(
             query_params=query_params,
             header_params=header_params,
-            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

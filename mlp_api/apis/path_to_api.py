@@ -65,6 +65,7 @@ from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdmin
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
+from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
 from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSystemConfigTaskTypes
 from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpgateSystemConfigResourceGroups
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
@@ -80,7 +81,6 @@ from mlp_api.apis.paths.api_mlpgate_admin_accounts import ApiMlpgateAdminAccount
 from mlp_api.apis.paths.api_mlpgate_admin_account_account import ApiMlpgateAdminAccountAccount
 from mlp_api.apis.paths.api_mlpgate_account_account import ApiMlpgateAccountAccount
 from mlp_api.apis.paths.api_mlpgate_account_account_token_token import ApiMlpgateAccountAccountTokenToken
-from mlp_api.apis.paths.api_mlpgate_account_account_task import ApiMlpgateAccountAccountTask
 from mlp_api.apis.paths.api_mlpgate_account_account_stat_log import ApiMlpgateAccountAccountStatLog
 from mlp_api.apis.paths.api_mlpgate_account_account_s3 import ApiMlpgateAccountAccountS3
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_services import ApiMlpgateAccountAccountResourceGroupsGroupNameServices
@@ -217,6 +217,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
+        PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
@@ -232,7 +233,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TASK: ApiMlpgateAccountAccountTask,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,
@@ -370,6 +370,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
+        PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
@@ -385,7 +386,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN_TOKEN: ApiMlpgateAccountAccountTokenToken,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TASK: ApiMlpgateAccountAccountTask,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_STATLOG: ApiMlpgateAccountAccountStatLog,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_S3: ApiMlpgateAccountAccountS3,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVICES: ApiMlpgateAccountAccountResourceGroupsGroupNameServices,

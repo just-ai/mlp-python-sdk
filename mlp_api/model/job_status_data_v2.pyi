@@ -35,17 +35,20 @@ class JobStatusDataV2(
 
     class MetaOapg:
         required = {
+            "priorityName",
             "jobId",
+            "jobStatus",
             "name",
+            "startTime",
+            "currentCommandName",
             "parents",
-            "status",
         }
         
         class properties:
             jobId = schemas.StrSchema
             
             
-            class status(
+            class jobStatus(
                 schemas.EnumBase,
                 schemas.StrSchema
             ):
@@ -73,6 +76,7 @@ class JobStatusDataV2(
                 @schemas.classproperty
                 def REVERTED(cls):
                     return cls("REVERTED")
+            startTime = schemas.Int64Schema
             name = schemas.StrSchema
             
             
@@ -97,37 +101,52 @@ class JobStatusDataV2(
             
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            currentCommandName = schemas.StrSchema
+            priorityName = schemas.StrSchema
+            endTime = schemas.Int64Schema
             percentage = schemas.Int32Schema
+            errorMessage = schemas.StrSchema
             accountId = schemas.Int64Schema
-            groupName = schemas.StrSchema
-            serverId = schemas.Int64Schema
             modelId = schemas.Int64Schema
             instanceId = schemas.Int64Schema
-            errorMessage = schemas.StrSchema
+            groupOwnerId = schemas.Int64Schema
+            groupName = schemas.StrSchema
+            serverId = schemas.Int64Schema
             __annotations__ = {
                 "jobId": jobId,
-                "status": status,
+                "jobStatus": jobStatus,
+                "startTime": startTime,
                 "name": name,
                 "parents": parents,
+                "currentCommandName": currentCommandName,
+                "priorityName": priorityName,
+                "endTime": endTime,
                 "percentage": percentage,
+                "errorMessage": errorMessage,
                 "accountId": accountId,
-                "groupName": groupName,
-                "serverId": serverId,
                 "modelId": modelId,
                 "instanceId": instanceId,
-                "errorMessage": errorMessage,
+                "groupOwnerId": groupOwnerId,
+                "groupName": groupName,
+                "serverId": serverId,
             }
     
+    priorityName: MetaOapg.properties.priorityName
     jobId: MetaOapg.properties.jobId
+    jobStatus: MetaOapg.properties.jobStatus
     name: MetaOapg.properties.name
+    startTime: MetaOapg.properties.startTime
+    currentCommandName: MetaOapg.properties.currentCommandName
     parents: MetaOapg.properties.parents
-    status: MetaOapg.properties.status
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["jobId"]) -> MetaOapg.properties.jobId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
+    def __getitem__(self, name: typing_extensions.Literal["jobStatus"]) -> MetaOapg.properties.jobStatus: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["startTime"]) -> MetaOapg.properties.startTime: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -136,16 +155,22 @@ class JobStatusDataV2(
     def __getitem__(self, name: typing_extensions.Literal["parents"]) -> MetaOapg.properties.parents: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["currentCommandName"]) -> MetaOapg.properties.currentCommandName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["priorityName"]) -> MetaOapg.properties.priorityName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["endTime"]) -> MetaOapg.properties.endTime: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["percentage"]) -> MetaOapg.properties.percentage: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["errorMessage"]) -> MetaOapg.properties.errorMessage: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["accountId"]) -> MetaOapg.properties.accountId: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["groupName"]) -> MetaOapg.properties.groupName: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["serverId"]) -> MetaOapg.properties.serverId: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["modelId"]) -> MetaOapg.properties.modelId: ...
@@ -154,12 +179,18 @@ class JobStatusDataV2(
     def __getitem__(self, name: typing_extensions.Literal["instanceId"]) -> MetaOapg.properties.instanceId: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["errorMessage"]) -> MetaOapg.properties.errorMessage: ...
+    def __getitem__(self, name: typing_extensions.Literal["groupOwnerId"]) -> MetaOapg.properties.groupOwnerId: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["groupName"]) -> MetaOapg.properties.groupName: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["serverId"]) -> MetaOapg.properties.serverId: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "status", "name", "parents", "percentage", "accountId", "groupName", "serverId", "modelId", "instanceId", "errorMessage", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "currentCommandName", "priorityName", "endTime", "percentage", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -168,7 +199,10 @@ class JobStatusDataV2(
     def get_item_oapg(self, name: typing_extensions.Literal["jobId"]) -> MetaOapg.properties.jobId: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["jobStatus"]) -> MetaOapg.properties.jobStatus: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["startTime"]) -> MetaOapg.properties.startTime: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -177,16 +211,22 @@ class JobStatusDataV2(
     def get_item_oapg(self, name: typing_extensions.Literal["parents"]) -> MetaOapg.properties.parents: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["currentCommandName"]) -> MetaOapg.properties.currentCommandName: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["priorityName"]) -> MetaOapg.properties.priorityName: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["endTime"]) -> typing.Union[MetaOapg.properties.endTime, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["percentage"]) -> typing.Union[MetaOapg.properties.percentage, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["errorMessage"]) -> typing.Union[MetaOapg.properties.errorMessage, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["accountId"]) -> typing.Union[MetaOapg.properties.accountId, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["groupName"]) -> typing.Union[MetaOapg.properties.groupName, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["serverId"]) -> typing.Union[MetaOapg.properties.serverId, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["modelId"]) -> typing.Union[MetaOapg.properties.modelId, schemas.Unset]: ...
@@ -195,46 +235,62 @@ class JobStatusDataV2(
     def get_item_oapg(self, name: typing_extensions.Literal["instanceId"]) -> typing.Union[MetaOapg.properties.instanceId, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["errorMessage"]) -> typing.Union[MetaOapg.properties.errorMessage, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["groupOwnerId"]) -> typing.Union[MetaOapg.properties.groupOwnerId, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["groupName"]) -> typing.Union[MetaOapg.properties.groupName, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["serverId"]) -> typing.Union[MetaOapg.properties.serverId, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "status", "name", "parents", "percentage", "accountId", "groupName", "serverId", "modelId", "instanceId", "errorMessage", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "currentCommandName", "priorityName", "endTime", "percentage", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        priorityName: typing.Union[MetaOapg.properties.priorityName, str, ],
         jobId: typing.Union[MetaOapg.properties.jobId, str, ],
+        jobStatus: typing.Union[MetaOapg.properties.jobStatus, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
+        startTime: typing.Union[MetaOapg.properties.startTime, decimal.Decimal, int, ],
+        currentCommandName: typing.Union[MetaOapg.properties.currentCommandName, str, ],
         parents: typing.Union[MetaOapg.properties.parents, list, tuple, ],
-        status: typing.Union[MetaOapg.properties.status, str, ],
+        endTime: typing.Union[MetaOapg.properties.endTime, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         percentage: typing.Union[MetaOapg.properties.percentage, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        errorMessage: typing.Union[MetaOapg.properties.errorMessage, str, schemas.Unset] = schemas.unset,
         accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        groupName: typing.Union[MetaOapg.properties.groupName, str, schemas.Unset] = schemas.unset,
-        serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         modelId: typing.Union[MetaOapg.properties.modelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         instanceId: typing.Union[MetaOapg.properties.instanceId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        errorMessage: typing.Union[MetaOapg.properties.errorMessage, str, schemas.Unset] = schemas.unset,
+        groupOwnerId: typing.Union[MetaOapg.properties.groupOwnerId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        groupName: typing.Union[MetaOapg.properties.groupName, str, schemas.Unset] = schemas.unset,
+        serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'JobStatusDataV2':
         return super().__new__(
             cls,
             *_args,
+            priorityName=priorityName,
             jobId=jobId,
+            jobStatus=jobStatus,
             name=name,
+            startTime=startTime,
+            currentCommandName=currentCommandName,
             parents=parents,
-            status=status,
+            endTime=endTime,
             percentage=percentage,
+            errorMessage=errorMessage,
             accountId=accountId,
-            groupName=groupName,
-            serverId=serverId,
             modelId=modelId,
             instanceId=instanceId,
-            errorMessage=errorMessage,
+            groupOwnerId=groupOwnerId,
+            groupName=groupName,
+            serverId=serverId,
             _configuration=_configuration,
             **kwargs,
         )
