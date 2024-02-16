@@ -28,8 +28,8 @@ from mlp_api import schemas  # noqa: F401
 from mlp_api.model.job_status_data_v2 import JobStatusDataV2
 
 # Query params
-AccountSchema = schemas.StrSchema
-ModelSchema = schemas.StrSchema
+AccountSchema = schemas.Int64Schema
+ModelSchema = schemas.Int64Schema
 InstanceIdSchema = schemas.Int64Schema
 GroupNameSchema = schemas.StrSchema
 ServerIdSchema = schemas.Int64Schema
@@ -41,8 +41,8 @@ RequestRequiredQueryParams = typing_extensions.TypedDict(
 RequestOptionalQueryParams = typing_extensions.TypedDict(
     'RequestOptionalQueryParams',
     {
-        'account': typing.Union[AccountSchema, str, ],
-        'model': typing.Union[ModelSchema, str, ],
+        'account': typing.Union[AccountSchema, decimal.Decimal, int, ],
+        'model': typing.Union[ModelSchema, decimal.Decimal, int, ],
         'instanceId': typing.Union[InstanceIdSchema, decimal.Decimal, int, ],
         'groupName': typing.Union[GroupNameSchema, str, ],
         'serverId': typing.Union[ServerIdSchema, decimal.Decimal, int, ],
