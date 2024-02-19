@@ -111,6 +111,29 @@ class JobStatusDataV2(
             groupOwnerId = schemas.Int64Schema
             groupName = schemas.StrSchema
             serverId = schemas.Int64Schema
+            
+            
+            class waitFor(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'waitFor':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             __annotations__ = {
                 "jobId": jobId,
                 "jobStatus": jobStatus,
@@ -128,6 +151,7 @@ class JobStatusDataV2(
                 "groupOwnerId": groupOwnerId,
                 "groupName": groupName,
                 "serverId": serverId,
+                "waitFor": waitFor,
             }
     
     priorityName: MetaOapg.properties.priorityName
@@ -186,9 +210,12 @@ class JobStatusDataV2(
     def __getitem__(self, name: typing_extensions.Literal["serverId"]) -> MetaOapg.properties.serverId: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["waitFor"]) -> MetaOapg.properties.waitFor: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -242,9 +269,12 @@ class JobStatusDataV2(
     def get_item_oapg(self, name: typing_extensions.Literal["serverId"]) -> typing.Union[MetaOapg.properties.serverId, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["waitFor"]) -> typing.Union[MetaOapg.properties.waitFor, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -267,6 +297,7 @@ class JobStatusDataV2(
         groupOwnerId: typing.Union[MetaOapg.properties.groupOwnerId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         groupName: typing.Union[MetaOapg.properties.groupName, str, schemas.Unset] = schemas.unset,
         serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        waitFor: typing.Union[MetaOapg.properties.waitFor, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'JobStatusDataV2':
@@ -289,6 +320,7 @@ class JobStatusDataV2(
             groupOwnerId=groupOwnerId,
             groupName=groupName,
             serverId=serverId,
+            waitFor=waitFor,
             _configuration=_configuration,
             **kwargs,
         )

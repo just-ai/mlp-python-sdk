@@ -7916,6 +7916,10 @@ components:
         serverId:
           type: integer
           format: int64
+        waitFor:
+          type: array
+          items:
+            type: string
     TaskTypeData:
       required:
       - displayName
@@ -8233,11 +8237,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -8250,16 +8254,16 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
     Sort:
       type: object
       properties:
