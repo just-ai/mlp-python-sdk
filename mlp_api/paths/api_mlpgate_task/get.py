@@ -35,6 +35,7 @@ ModelSchema = schemas.Int64Schema
 InstanceIdSchema = schemas.Int64Schema
 GroupNameSchema = schemas.StrSchema
 ServerIdSchema = schemas.Int64Schema
+ExcludeStatusSchema = schemas.StrSchema
 RequestRequiredQueryParams = typing_extensions.TypedDict(
     'RequestRequiredQueryParams',
     {
@@ -48,6 +49,7 @@ RequestOptionalQueryParams = typing_extensions.TypedDict(
         'instanceId': typing.Union[InstanceIdSchema, decimal.Decimal, int, ],
         'groupName': typing.Union[GroupNameSchema, str, ],
         'serverId': typing.Union[ServerIdSchema, decimal.Decimal, int, ],
+        'excludeStatus': typing.Union[ExcludeStatusSchema, str, ],
     },
     total=False
 )
@@ -85,6 +87,12 @@ request_query_server_id = api_client.QueryParameter(
     name="serverId",
     style=api_client.ParameterStyle.FORM,
     schema=ServerIdSchema,
+    explode=True,
+)
+request_query_exclude_status = api_client.QueryParameter(
+    name="excludeStatus",
+    style=api_client.ParameterStyle.FORM,
+    schema=ExcludeStatusSchema,
     explode=True,
 )
 # Header params
@@ -228,6 +236,7 @@ class BaseApi(api_client.Api):
             request_query_instance_id,
             request_query_group_name,
             request_query_server_id,
+            request_query_exclude_status,
         ):
             parameter_data = query_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
