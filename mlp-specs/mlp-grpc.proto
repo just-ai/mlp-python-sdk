@@ -61,6 +61,8 @@ message ServiceToGateProto {
 
     PartialPredictResponseProto partialPredict = 107;
 
+    FitStatusProto fitStatus = 108;
+
     ApiErrorProto error = 201;
   }
 
@@ -134,6 +136,10 @@ message PartialPredictResponseProto {
   PayloadProto data = 101;
   optional bool start = 103;
   optional bool finish = 104;
+}
+
+message FitStatusProto {
+  int32 percentage = 101;
 }
 
 message BatchResponseProto {

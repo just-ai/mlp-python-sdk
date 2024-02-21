@@ -56,6 +56,8 @@ from mlp_api.apis.paths.api_mlpgate_account_account_data_image import ApiMlpgate
 from mlp_api.apis.paths.api_mlpgate_account_account_data_image_image_id import ApiMlpgateAccountAccountDataImageImageId
 from mlp_api.apis.paths.api_mlpgate_internal_accounts_deactivate import ApiMlpgateInternalAccountsDeactivate
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_update_limits import ApiMlpgateInternalAccountAccountUpdateLimits
+from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_group_name_test_server import ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer
+from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_test import ApiMlpgateInternalAccountAccountResourceGroupsTest
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_namespace_ensure import ApiMlpgateInternalAccountAccountNamespaceEnsure
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_path import ApiMlpgateInternalAccountAccountModelModelPath
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_instance_deactivate import ApiMlpgateInternalAccountAccountModelModelInstanceDeactivate
@@ -66,6 +68,7 @@ from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdmin
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
+from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
 from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSystemConfigTaskTypes
 from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpgateSystemConfigResourceGroups
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
@@ -133,6 +136,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_image_image_id_logs import A
 from mlp_api.apis.paths.api_mlpgate_account_account_image_v2 import ApiMlpgateAccountAccountImageV2
 from mlp_api.apis.paths.api_mlpgate_account_account_deployable_resource_groups import ApiMlpgateAccountAccountDeployableResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
+from mlp_api.apis.paths.api_mlpgate_account_account_application_token import ApiMlpgateAccountAccountApplicationToken
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
 from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
@@ -152,6 +156,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group impo
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_external_instance_id import ApiMlpgateAccountAccountModelModelExternalInstanceId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_group_group_id import ApiMlpgateAccountAccountModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_instances_delete_by_timestamp import ApiMlpgateInternalInstancesDeleteByTimestamp
+from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_group_name_server_server_id import ApiMlpgateInternalAccountAccountResourceGroupsGroupNameServerServerId
 
 PathToApi = typing_extensions.TypedDict(
     'PathToApi',
@@ -211,6 +216,8 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_UPDATELIMITS: ApiMlpgateInternalAccountAccountUpdateLimits,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_TESTSERVER: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_TEST: ApiMlpgateInternalAccountAccountResourceGroupsTest,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_NAMESPACE_ENSURE: ApiMlpgateInternalAccountAccountNamespaceEnsure,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_PATH: ApiMlpgateInternalAccountAccountModelModelPath,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_DEACTIVATE: ApiMlpgateInternalAccountAccountModelModelInstanceDeactivate,
@@ -221,6 +228,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
+        PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
@@ -288,6 +296,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationToken,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
@@ -307,6 +316,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountModelModelExternalInstanceId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMlpgateInternalInstancesDeleteByTimestamp,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameServerServerId,
     }
 )
 
@@ -367,6 +377,8 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_UPDATELIMITS: ApiMlpgateInternalAccountAccountUpdateLimits,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_TESTSERVER: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_TEST: ApiMlpgateInternalAccountAccountResourceGroupsTest,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_NAMESPACE_ENSURE: ApiMlpgateInternalAccountAccountNamespaceEnsure,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_PATH: ApiMlpgateInternalAccountAccountModelModelPath,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCE_DEACTIVATE: ApiMlpgateInternalAccountAccountModelModelInstanceDeactivate,
@@ -377,6 +389,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
+        PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
@@ -444,6 +457,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationToken,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
@@ -463,5 +477,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountModelModelExternalInstanceId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_INSTANCES_DELETE_BY_TIMESTAMP: ApiMlpgateInternalInstancesDeleteByTimestamp,
+        PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameServerServerId,
     }
 )

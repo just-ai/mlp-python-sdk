@@ -4,6 +4,7 @@ from mlp_api.apis.tags import TagValues
 from mlp_api.apis.tags.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.apis.tags.account_endpoint_api import AccountEndpointApi
 from mlp_api.apis.tags.admin_endpoint_api import AdminEndpointApi
+from mlp_api.apis.tags.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.apis.tags.auth_endpoint_api import AuthEndpointApi
 from mlp_api.apis.tags.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.apis.tags.dataset_endpoint_api import DatasetEndpointApi
@@ -23,6 +24,7 @@ from mlp_api.apis.tags.resource_group_servers_endpoint_api import ResourceGroupS
 from mlp_api.apis.tags.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.apis.tags.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.apis.tags.system_endpoint_api import SystemEndpointApi
+from mlp_api.apis.tags.task_endpoint_api import TaskEndpointApi
 
 TagToApi = typing_extensions.TypedDict(
     'TagToApi',
@@ -30,6 +32,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.ACCESSTOKENENDPOINT: AccessTokenEndpointApi,
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
+        TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
         TagValues.AUTHENDPOINT: AuthEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
@@ -49,6 +52,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
+        TagValues.TASKENDPOINT: TaskEndpointApi,
     }
 )
 
@@ -57,6 +61,7 @@ tag_to_api = TagToApi(
         TagValues.ACCESSTOKENENDPOINT: AccessTokenEndpointApi,
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
+        TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
         TagValues.AUTHENDPOINT: AuthEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
@@ -76,5 +81,6 @@ tag_to_api = TagToApi(
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
+        TagValues.TASKENDPOINT: TaskEndpointApi,
     }
 )
