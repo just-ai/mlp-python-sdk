@@ -8225,6 +8225,8 @@ components:
           format: int32
         currentCommandName:
           type: string
+        originalException:
+          type: string
         priorityName:
           type: string
         errorMessage:

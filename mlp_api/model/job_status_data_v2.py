@@ -115,6 +115,7 @@ class JobStatusDataV2(
             endTime = schemas.Int64Schema
             percentage = schemas.Int32Schema
             currentCommandName = schemas.StrSchema
+            originalException = schemas.StrSchema
             errorMessage = schemas.StrSchema
             accountId = schemas.Int64Schema
             modelId = schemas.Int64Schema
@@ -155,6 +156,7 @@ class JobStatusDataV2(
                 "endTime": endTime,
                 "percentage": percentage,
                 "currentCommandName": currentCommandName,
+                "originalException": originalException,
                 "errorMessage": errorMessage,
                 "accountId": accountId,
                 "modelId": modelId,
@@ -200,6 +202,9 @@ class JobStatusDataV2(
     def __getitem__(self, name: typing_extensions.Literal["currentCommandName"]) -> MetaOapg.properties.currentCommandName: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["originalException"]) -> MetaOapg.properties.originalException: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["errorMessage"]) -> MetaOapg.properties.errorMessage: ...
     
     @typing.overload
@@ -226,7 +231,7 @@ class JobStatusDataV2(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "originalException", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -259,6 +264,9 @@ class JobStatusDataV2(
     def get_item_oapg(self, name: typing_extensions.Literal["currentCommandName"]) -> typing.Union[MetaOapg.properties.currentCommandName, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["originalException"]) -> typing.Union[MetaOapg.properties.originalException, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["errorMessage"]) -> typing.Union[MetaOapg.properties.errorMessage, schemas.Unset]: ...
     
     @typing.overload
@@ -285,7 +293,7 @@ class JobStatusDataV2(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["jobId", "jobStatus", "startTime", "name", "parents", "priorityName", "endTime", "percentage", "currentCommandName", "originalException", "errorMessage", "accountId", "modelId", "instanceId", "groupOwnerId", "groupName", "serverId", "waitFor", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -301,6 +309,7 @@ class JobStatusDataV2(
         endTime: typing.Union[MetaOapg.properties.endTime, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         percentage: typing.Union[MetaOapg.properties.percentage, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         currentCommandName: typing.Union[MetaOapg.properties.currentCommandName, str, schemas.Unset] = schemas.unset,
+        originalException: typing.Union[MetaOapg.properties.originalException, str, schemas.Unset] = schemas.unset,
         errorMessage: typing.Union[MetaOapg.properties.errorMessage, str, schemas.Unset] = schemas.unset,
         accountId: typing.Union[MetaOapg.properties.accountId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         modelId: typing.Union[MetaOapg.properties.modelId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
@@ -324,6 +333,7 @@ class JobStatusDataV2(
             endTime=endTime,
             percentage=percentage,
             currentCommandName=currentCommandName,
+            originalException=originalException,
             errorMessage=errorMessage,
             accountId=accountId,
             modelId=modelId,
