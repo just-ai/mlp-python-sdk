@@ -1586,6 +1586,43 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/model/{model}/http:
+    post:
+      tags:
+      - model-endpoint
+      operationId: updateModelHttpSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelHttpSettingsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelHttpSettingsData'
   /api/mlpgate/account/{account}/model/{model}/fit:
     post:
       tags:
@@ -3104,6 +3141,73 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/account/{account}/resource-groups/{groupName}/test-server:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: addTestServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupServer'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate-internal/account/{account}/resource-groups/test:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: createTestResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate-internal/account/{account}/namespace/ensure:
     post:
       tags:
@@ -3440,6 +3544,61 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpgate/task:
+    get:
+      tags:
+      - task-endpoint
+      operationId: listJobs
+      parameters:
+      - name: account
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: model
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: instanceId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: groupName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: serverId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: excludeStatus
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobStatusDataV2'
   /api/mlpgate/system-config/task-types:
     get:
       tags:
@@ -3727,6 +3886,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
+  /api/mlpgate/auth:
+    get:
+      tags:
+      - auth-endpoint
+      operationId: auth
+      parameters:
+      - name: account
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpgate/admin/accounts:
     get:
       tags:
@@ -3862,7 +4050,7 @@ paths:
     get:
       tags:
       - stat-log-endpoint
-      operationId: listJobs
+      operationId: listJobs_1
       parameters:
       - name: account
         in: path
@@ -3948,6 +4136,45 @@ paths:
                 type: array
                 items:
                   type: string
+      deprecated: true
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/services-info:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupServicesInfo
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceInfoAtTime'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}:
     get:
       tags:
@@ -4648,6 +4875,75 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupShortStatusData'
+  /api/mlpgate/account/{account}/models/metrics:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getModelsMetricsById
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - MODEL_CPU_USAGE
+            - MODEL_CPU_REQUESTED
+            - MODEL_CPU_LIMIT
+            - MODEL_RAM_USAGE
+            - MODEL_RAM_REQUESTED
+            - MODEL_RAM_LIMIT
+            - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
+            - MODEL_SUCCESS_REQUESTS_COUNT
+            - MODEL_FAILED_REQUESTS_COUNT
+            - MODEL_ACTIVE_REQUESTS_COUNT
+            - MODEL_AVERAGE_REQUEST_TIME
+            - MODEL_MIN_REQUEST_TIME
+            - MODEL_MAX_REQUEST_TIME
+            - MODEL_INSTANT_REQUEST_TIME
+      - name: modelsIdes
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                    format: double
   /api/mlpgate/account/{account}/models/metric:
     get:
       tags:
@@ -4716,6 +5012,7 @@ paths:
                   additionalProperties:
                     type: number
                     format: double
+      deprecated: true
   /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:
@@ -5739,7 +6036,7 @@ paths:
     get:
       tags:
       - job-endpoint
-      operationId: listJobs_1
+      operationId: listJobs_2
       parameters:
       - name: account
         in: path
@@ -5943,6 +6240,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
+  /api/mlpgate/account/{account}/application/token:
+    get:
+      tags:
+      - application-endpoint
+      operationId: applicationsAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpgate-internal/test-mail:
     get:
       tags:
@@ -6390,6 +6712,38 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/account/{account}/resource-groups/{groupName}/server/{serverId}:
+    delete:
+      tags:
+      - internal-endpoint
+      operationId: deleteTestServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
 components:
   schemas:
     AccountDataDump:
@@ -6563,10 +6917,12 @@ components:
     ModelDump:
       required:
       - asBillingSettingsData
+      - asHttpSettingsData
       - asPublicSettingsData
       - docs
       - fitConfigs
       - image
+      - isHttpEnabled
       - name
       - predictConfigs
       type: object
@@ -6688,16 +7044,37 @@ components:
           type: array
           items:
             type: string
-        asBillingSettingsData:
-          $ref: '#/components/schemas/ModelBillingSettingsData'
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
+          type: string
+        asHttpSettingsData:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
+        asBillingSettingsData:
+          $ref: '#/components/schemas/ModelBillingSettingsData'
     ModelGroupDump:
       required:
       - name
       type: object
       properties:
         name:
+          type: string
+    ModelHttpSettingsData:
+      required:
+      - isHttpEnabled
+      type: object
+      properties:
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
           type: string
     ModelLimitsData:
       required:
@@ -6916,21 +7293,42 @@ components:
           type: string
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
           type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
         resourceGroupType:
           type: string
           enum:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
-        access:
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+    ResourceGroupAutoScalingConfiguration:
+      required:
+      - cooldownPeriodMinutes
+      - maxServersCount
+      - minServersCount
+      - serverConfiguration
+      type: object
+      properties:
+        serverConfiguration:
           type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
+        maxServersCount:
+          type: integer
+          format: int32
+        minServersCount:
+          type: integer
+          format: int32
+        cooldownPeriodMinutes:
+          type: integer
+          format: int32
     ResourceGroupEssentialData:
       required:
       - access
@@ -6949,8 +7347,11 @@ components:
           format: int64
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
         enabledEviction:
           type: boolean
         resourceGroupType:
@@ -6959,20 +7360,21 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
-        access:
-          type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     UpdateResourceGroupData:
       type: object
       properties:
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
           type: boolean
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     CreateResourceGroupServer:
       required:
       - rawConfiguration
@@ -7257,6 +7659,7 @@ components:
       - favorite
       - fittable
       - hostingType
+      - httpSettings
       - id
       - imageAccountId
       - modelName
@@ -7379,6 +7782,8 @@ components:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         billingSettings:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         restrictedImageAccess:
           type: boolean
         lastActivity:
@@ -7771,6 +8176,8 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupsData:
       required:
       - groups
@@ -7780,6 +8187,71 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceGroupData'
+    JobStatusDataV2:
+      required:
+      - jobId
+      - jobStatus
+      - name
+      - parents
+      - priorityName
+      - startTime
+      type: object
+      properties:
+        jobId:
+          type: string
+        jobStatus:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - FAILED
+          - REVERTED
+        startTime:
+          type: integer
+          format: int64
+        endTime:
+          type: integer
+          format: int64
+        name:
+          type: string
+        parents:
+          type: array
+          items:
+            type: string
+        percentage:
+          type: integer
+          format: int32
+        currentCommandName:
+          type: string
+        originalException:
+          type: string
+        priorityName:
+          type: string
+        errorMessage:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        groupOwnerId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        serverId:
+          type: integer
+          format: int64
+        waitFor:
+          type: array
+          items:
+            type: string
     TaskTypeData:
       required:
       - displayName
@@ -7993,6 +8465,19 @@ components:
           type: string
         bucketName:
           type: string
+    ServiceInfoAtTime:
+      required:
+      - modelId
+      - modelNameAtTime
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        modelNameAtTime:
+          type: string
+        actualModelName:
+          type: string
     Quantity:
       type: object
       properties:
@@ -8083,6 +8568,8 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -8095,8 +8582,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        first:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
@@ -8211,9 +8696,9 @@ components:
           format: int64
         isDefault:
           type: boolean
-        enabledAutoScaling:
-          type: boolean
         enabledEviction:
+          type: boolean
+        enabledAutoScaling:
           type: boolean
         resourceGroupType:
           type: string
@@ -8232,6 +8717,8 @@ components:
         servicesCount:
           type: integer
           format: int32
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     InstancesStatusData:
       required:
       - externalRequested
@@ -8570,11 +9057,12 @@ components:
     ModelInstance:
       required:
       - connectionToken
+      - created
       - id
       - isEvictable
       - kubeType
       - lastHeartBeat
-      - started
+      - status
       - type
       type: object
       properties:
@@ -8582,7 +9070,7 @@ components:
           $ref: '#/components/schemas/ModelInstancePK'
         connectionToken:
           type: string
-        started:
+        created:
           type: string
           format: date-time
         lastHeartBeat:
@@ -8620,3 +9108,9 @@ components:
         serverId:
           type: integer
           format: int64
+        status:
+          type: string
+          enum:
+          - IDLE
+          - STARTED
+          - DELETED

@@ -10,14 +10,17 @@
 """
 
 from mlp_api.paths.api_mlpgate_internal_account_account_bucket_access.post import AddBucketAccess
+from mlp_api.paths.api_mlpgate_internal_account_account_resource_groups_group_name_test_server.post import AddTestServer
 from mlp_api.paths.api_mlpgate_internal_clear_account.get import ClearAccount
 from mlp_api.paths.api_mlpgate_internal_clear_instances.get import ClearAllInstances
 from mlp_api.paths.api_mlpgate_internal_clear_public_for_all.get import ClearPublicForAll
 from mlp_api.paths.api_mlpgate_internal_cluster.get import Cluster
 from mlp_api.paths.api_mlpgate_internal_account.get import CreateTestAccount
+from mlp_api.paths.api_mlpgate_internal_account_account_resource_groups_test.post import CreateTestResourceGroup
 from mlp_api.paths.api_mlpgate_internal_accounts_deactivate.post import DeactivateAccount
 from mlp_api.paths.api_mlpgate_internal_account_account_model_model_instance_deactivate.post import DeactivateAccountInstances
 from mlp_api.paths.api_mlpgate_internal_instances_delete_by_timestamp.delete import DeleteMarkedInstances
+from mlp_api.paths.api_mlpgate_internal_account_account_resource_groups_group_name_server_server_id.delete import DeleteTestServer
 from mlp_api.paths.api_mlpgate_internal_account_account_namespace_ensure.post import EnsureNamespace
 from mlp_api.paths.api_mlpgate_internal_account_account_features.get import GetAccountFeatures1
 from mlp_api.paths.api_mlpgate_internal_account_account_model_model_instances.get import GetAccountInstancesWithDeleted
@@ -40,14 +43,17 @@ from mlp_api.paths.api_mlpgate_internal_resource_groups.patch import UpdateResou
 
 class InternalEndpointApi(
     AddBucketAccess,
+    AddTestServer,
     ClearAccount,
     ClearAllInstances,
     ClearPublicForAll,
     Cluster,
     CreateTestAccount,
+    CreateTestResourceGroup,
     DeactivateAccount,
     DeactivateAccountInstances,
     DeleteMarkedInstances,
+    DeleteTestServer,
     EnsureNamespace,
     GetAccountFeatures1,
     GetAccountInstancesWithDeleted,
