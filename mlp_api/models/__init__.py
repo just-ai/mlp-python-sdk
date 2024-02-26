@@ -62,7 +62,6 @@ from mlp_api.model.instance_state_terminated import InstanceStateTerminated
 from mlp_api.model.instance_state_waiting import InstanceStateWaiting
 from mlp_api.model.instances_status_data import InstancesStatusData
 from mlp_api.model.job_status_data import JobStatusData
-from mlp_api.model.job_status_data_v2 import JobStatusDataV2
 from mlp_api.model.management_request_data import ManagementRequestData
 from mlp_api.model.measurement import Measurement
 from mlp_api.model.method_descriptor_data import MethodDescriptorData
@@ -76,7 +75,6 @@ from mlp_api.model.model_dump import ModelDump
 from mlp_api.model.model_group_data import ModelGroupData
 from mlp_api.model.model_group_dump import ModelGroupDump
 from mlp_api.model.model_group_pk import ModelGroupPK
-from mlp_api.model.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.model.model_info_data import ModelInfoData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_instance import ModelInstance
@@ -105,7 +103,6 @@ from mlp_api.model.predict_config_dump import PredictConfigDump
 from mlp_api.model.predict_config_pk import PredictConfigPK
 from mlp_api.model.predict_request_data import PredictRequestData
 from mlp_api.model.quantity import Quantity
-from mlp_api.model.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
 from mlp_api.model.resource_group_capacity import ResourceGroupCapacity
 from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
@@ -120,7 +117,6 @@ from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
 from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData
-from mlp_api.model.service_info_at_time import ServiceInfoAtTime
 from mlp_api.model.sort import Sort
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status

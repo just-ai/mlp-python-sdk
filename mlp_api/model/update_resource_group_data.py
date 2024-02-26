@@ -37,35 +37,27 @@ class UpdateResourceGroupData(
         
         class properties:
             isDefault = schemas.BoolSchema
-            enabledEviction = schemas.BoolSchema
             enabledAutoScaling = schemas.BoolSchema
-        
-            @staticmethod
-            def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
-                return ResourceGroupAutoScalingConfiguration
+            enabledEviction = schemas.BoolSchema
             __annotations__ = {
                 "isDefault": isDefault,
-                "enabledEviction": enabledEviction,
                 "enabledAutoScaling": enabledAutoScaling,
-                "autoScalingConfiguration": autoScalingConfiguration,
+                "enabledEviction": enabledEviction,
             }
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ResourceGroupAutoScalingConfiguration': ...
+    def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledAutoScaling", "enabledEviction", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -74,18 +66,15 @@ class UpdateResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> typing.Union[MetaOapg.properties.isDefault, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> typing.Union[MetaOapg.properties.enabledEviction, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> typing.Union[MetaOapg.properties.enabledAutoScaling, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> typing.Union[MetaOapg.properties.enabledEviction, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledAutoScaling", "enabledEviction", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -93,9 +82,8 @@ class UpdateResourceGroupData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
-        enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, schemas.Unset] = schemas.unset,
-        autoScalingConfiguration: typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset] = schemas.unset,
+        enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'UpdateResourceGroupData':
@@ -103,11 +91,8 @@ class UpdateResourceGroupData(
             cls,
             *_args,
             isDefault=isDefault,
-            enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
-            autoScalingConfiguration=autoScalingConfiguration,
+            enabledEviction=enabledEviction,
             _configuration=_configuration,
             **kwargs,
         )
-
-from mlp_api.model.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration

@@ -48,27 +48,7 @@ class ResourceGroupEssentialData(
             name = schemas.StrSchema
             ownerId = schemas.Int64Schema
             isDefault = schemas.BoolSchema
-            
-            
-            class access(
-                schemas.EnumBase,
-                schemas.StrSchema
-            ):
-            
-            
-                class MetaOapg:
-                    enum_value_to_name = {
-                        "PRIVATE": "PRIVATE",
-                        "PUBLIC": "PUBLIC",
-                    }
-                
-                @schemas.classproperty
-                def PRIVATE(cls):
-                    return cls("PRIVATE")
-                
-                @schemas.classproperty
-                def PUBLIC(cls):
-                    return cls("PUBLIC")
+            enabledAutoScaling = schemas.BoolSchema
             enabledEviction = schemas.BoolSchema
             
             
@@ -96,20 +76,35 @@ class ResourceGroupEssentialData(
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("HOSTING_SERVER")
-            enabledAutoScaling = schemas.BoolSchema
-        
-            @staticmethod
-            def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
-                return ResourceGroupAutoScalingConfiguration
+            
+            
+            class access(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "PRIVATE": "PRIVATE",
+                        "PUBLIC": "PUBLIC",
+                    }
+                
+                @schemas.classproperty
+                def PRIVATE(cls):
+                    return cls("PRIVATE")
+                
+                @schemas.classproperty
+                def PUBLIC(cls):
+                    return cls("PUBLIC")
             __annotations__ = {
                 "name": name,
                 "ownerId": ownerId,
                 "isDefault": isDefault,
-                "access": access,
+                "enabledAutoScaling": enabledAutoScaling,
                 "enabledEviction": enabledEviction,
                 "resourceGroupType": resourceGroupType,
-                "enabledAutoScaling": enabledAutoScaling,
-                "autoScalingConfiguration": autoScalingConfiguration,
+                "access": access,
             }
     
     isDefault: MetaOapg.properties.isDefault
@@ -130,7 +125,7 @@ class ResourceGroupEssentialData(
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
+    def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
@@ -139,15 +134,12 @@ class ResourceGroupEssentialData(
     def __getitem__(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ResourceGroupAutoScalingConfiguration': ...
+    def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "access", "enabledEviction", "resourceGroupType", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -162,7 +154,7 @@ class ResourceGroupEssentialData(
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["enabledEviction"]) -> MetaOapg.properties.enabledEviction: ...
@@ -171,15 +163,12 @@ class ResourceGroupEssentialData(
     def get_item_oapg(self, name: typing_extensions.Literal["resourceGroupType"]) -> MetaOapg.properties.resourceGroupType: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "access", "enabledEviction", "resourceGroupType", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -193,7 +182,6 @@ class ResourceGroupEssentialData(
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, ],
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, ],
         ownerId: typing.Union[MetaOapg.properties.ownerId, decimal.Decimal, int, ],
-        autoScalingConfiguration: typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupEssentialData':
@@ -207,9 +195,6 @@ class ResourceGroupEssentialData(
             enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
             ownerId=ownerId,
-            autoScalingConfiguration=autoScalingConfiguration,
             _configuration=_configuration,
             **kwargs,
         )
-
-from mlp_api.model.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
