@@ -1586,6 +1586,43 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/model/{model}/http:
+    post:
+      tags:
+      - model-endpoint
+      operationId: updateModelHttpSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelHttpSettingsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelHttpSettingsData'
   /api/mlpgate/account/{account}/model/{model}/fit:
     post:
       tags:
@@ -3104,6 +3141,73 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/account/{account}/resource-groups/{groupName}/test-server:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: addTestServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupServer'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate-internal/account/{account}/resource-groups/test:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: createTestResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupEssentialData'
   /api/mlpgate-internal/account/{account}/namespace/ensure:
     post:
       tags:
@@ -3782,6 +3886,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
+  /api/mlpgate/auth:
+    get:
+      tags:
+      - auth-endpoint
+      operationId: auth
+      parameters:
+      - name: account
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpgate/admin/accounts:
     get:
       tags:
@@ -4003,6 +4136,45 @@ paths:
                 type: array
                 items:
                   type: string
+      deprecated: true
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/services-info:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getResourceGroupServicesInfo
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceInfoAtTime'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/{serverId}:
     get:
       tags:
@@ -4703,6 +4875,75 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResourceGroupShortStatusData'
+  /api/mlpgate/account/{account}/models/metrics:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getModelsMetricsById
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: metrics
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - MODEL_CPU_USAGE
+            - MODEL_CPU_REQUESTED
+            - MODEL_CPU_LIMIT
+            - MODEL_RAM_USAGE
+            - MODEL_RAM_REQUESTED
+            - MODEL_RAM_LIMIT
+            - MODEL_RECONNECTS_COUNT
+            - MODEL_INSTANCES_COUNT
+            - MODEL_GPU_REQUESTED
+            - MODEL_EPHEMERAL_DISK_REQUESTED
+            - MODEL_SUCCESS_REQUESTS_COUNT
+            - MODEL_FAILED_REQUESTS_COUNT
+            - MODEL_ACTIVE_REQUESTS_COUNT
+            - MODEL_AVERAGE_REQUEST_TIME
+            - MODEL_MIN_REQUEST_TIME
+            - MODEL_MAX_REQUEST_TIME
+            - MODEL_INSTANT_REQUEST_TIME
+      - name: modelsIdes
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                    format: double
   /api/mlpgate/account/{account}/models/metric:
     get:
       tags:
@@ -4771,6 +5012,7 @@ paths:
                   additionalProperties:
                     type: number
                     format: double
+      deprecated: true
   /api/mlpgate/account/{account}/model/{model}/status:
     get:
       tags:
@@ -5998,6 +6240,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
+  /api/mlpgate/account/{account}/application/token:
+    get:
+      tags:
+      - application-endpoint
+      operationId: applicationsAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpgate-internal/test-mail:
     get:
       tags:
@@ -6445,6 +6712,38 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/account/{account}/resource-groups/{groupName}/server/{serverId}:
+    delete:
+      tags:
+      - internal-endpoint
+      operationId: deleteTestServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
 components:
   schemas:
     AccountDataDump:
@@ -6504,9 +6803,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -6618,10 +6917,12 @@ components:
     ModelDump:
       required:
       - asBillingSettingsData
+      - asHttpSettingsData
       - asPublicSettingsData
       - docs
       - fitConfigs
       - image
+      - isHttpEnabled
       - name
       - predictConfigs
       type: object
@@ -6743,16 +7044,37 @@ components:
           type: array
           items:
             type: string
-        asBillingSettingsData:
-          $ref: '#/components/schemas/ModelBillingSettingsData'
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
+          type: string
+        asHttpSettingsData:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
+        asBillingSettingsData:
+          $ref: '#/components/schemas/ModelBillingSettingsData'
     ModelGroupDump:
       required:
       - name
       type: object
       properties:
         name:
+          type: string
+    ModelHttpSettingsData:
+      required:
+      - isHttpEnabled
+      type: object
+      properties:
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
           type: string
     ModelLimitsData:
       required:
@@ -6898,9 +7220,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -7337,6 +7659,7 @@ components:
       - favorite
       - fittable
       - hostingType
+      - httpSettings
       - id
       - imageAccountId
       - modelName
@@ -7459,6 +7782,8 @@ components:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         billingSettings:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         restrictedImageAccess:
           type: boolean
         lastActivity:
@@ -7900,6 +8225,8 @@ components:
           format: int32
         currentCommandName:
           type: string
+        originalException:
+          type: string
         priorityName:
           type: string
         errorMessage:
@@ -8138,6 +8465,19 @@ components:
           type: string
         bucketName:
           type: string
+    ServiceInfoAtTime:
+      required:
+      - modelId
+      - modelNameAtTime
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        modelNameAtTime:
+          type: string
+        actualModelName:
+          type: string
     Quantity:
       type: object
       properties:
@@ -8230,6 +8570,8 @@ components:
           format: int32
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -8242,18 +8584,22 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
       type: object
       properties:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
         offset:
           type: integer
           format: int64
@@ -8263,20 +8609,14 @@ components:
           type: boolean
         unpaged:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
     Sort:
       type: object
       properties:
+        sorted:
+          type: boolean
         empty:
           type: boolean
         unsorted:
-          type: boolean
-        sorted:
           type: boolean
     ResourceGroupCapacity:
       required:
