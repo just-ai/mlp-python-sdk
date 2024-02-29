@@ -25,6 +25,10 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
+from mlp_api.model.shared_pool_quota import SharedPoolQuota
+
+from . import path
+
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -52,10 +56,14 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountSchema = schemas.StrSchema
+GroupNameSchema = schemas.StrSchema
+QuotaIdSchema = schemas.Int64Schema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
+        'groupName': typing.Union[GroupNameSchema, str, ],
+        'quotaId': typing.Union[QuotaIdSchema, decimal.Decimal, int, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -76,6 +84,18 @@ request_path_account = api_client.PathParameter(
     schema=AccountSchema,
     required=True,
 )
+request_path_group_name = api_client.PathParameter(
+    name="groupName",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=GroupNameSchema,
+    required=True,
+)
+request_path_quota_id = api_client.PathParameter(
+    name="quotaId",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=QuotaIdSchema,
+    required=True,
+)
 
 
 class SchemaFor200ResponseBodyApplicationJson(
@@ -85,31 +105,13 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     class MetaOapg:
         
-        
-        class items(
-            schemas.EnumBase,
-            schemas.StrSchema
-        ):
-            
-            @schemas.classproperty
-            def DOCKER(cls):
-                return cls("DOCKER")
-            
-            @schemas.classproperty
-            def KUBERNETES(cls):
-                return cls("KUBERNETES")
-            
-            @schemas.classproperty
-            def HOSTING_SERVER(cls):
-                return cls("HOSTING_SERVER")
-            
-            @schemas.classproperty
-            def SHARED_RESOURCE_QUOTA(cls):
-                return cls("SHARED_RESOURCE_QUOTA")
+        @staticmethod
+        def items() -> typing.Type['SharedPoolQuota']:
+            return SharedPoolQuota
 
     def __new__(
         cls,
-        _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _arg: typing.Union[typing.Tuple['SharedPoolQuota'], typing.List['SharedPoolQuota']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
@@ -118,7 +120,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i: int) -> MetaOapg.items:
+    def __getitem__(self, i: int) -> 'SharedPoolQuota':
         return super().__getitem__(i)
 
 
@@ -138,6 +140,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/json',
 )
@@ -145,7 +150,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _get_supported_group_types_oapg(
+    def _delete_resource_group_quota_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -158,7 +163,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _get_supported_group_types_oapg(
+    def _delete_resource_group_quota_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -169,7 +174,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _get_supported_group_types_oapg(
+    def _delete_resource_group_quota_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -182,7 +187,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _get_supported_group_types_oapg(
+    def _delete_resource_group_quota_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -203,6 +208,8 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account,
+            request_path_group_name,
+            request_path_quota_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -229,7 +236,7 @@ class BaseApi(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='get'.upper(),
+            method='delete'.upper(),
             headers=_headers,
             stream=stream,
             timeout=timeout,
@@ -254,11 +261,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetSupportedGroupTypes(BaseApi):
+class DeleteResourceGroupQuota(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def get_supported_group_types(
+    def delete_resource_group_quota(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -271,7 +278,7 @@ class GetSupportedGroupTypes(BaseApi):
     ]: ...
 
     @typing.overload
-    def get_supported_group_types(
+    def delete_resource_group_quota(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -282,7 +289,7 @@ class GetSupportedGroupTypes(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get_supported_group_types(
+    def delete_resource_group_quota(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -295,7 +302,7 @@ class GetSupportedGroupTypes(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get_supported_group_types(
+    def delete_resource_group_quota(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -304,7 +311,7 @@ class GetSupportedGroupTypes(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_supported_group_types_oapg(
+        return self._delete_resource_group_quota_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,
@@ -314,11 +321,11 @@ class GetSupportedGroupTypes(BaseApi):
         )
 
 
-class ApiForget(BaseApi):
+class ApiFordelete(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     @typing.overload
-    def get(
+    def delete(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -331,7 +338,7 @@ class ApiForget(BaseApi):
     ]: ...
 
     @typing.overload
-    def get(
+    def delete(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -342,7 +349,7 @@ class ApiForget(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def get(
+    def delete(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -355,7 +362,7 @@ class ApiForget(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def get(
+    def delete(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
@@ -364,7 +371,7 @@ class ApiForget(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._get_supported_group_types_oapg(
+        return self._delete_resource_group_quota_oapg(
             header_params=header_params,
             path_params=path_params,
             accept_content_types=accept_content_types,

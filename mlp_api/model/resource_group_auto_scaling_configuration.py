@@ -35,37 +35,27 @@ class ResourceGroupAutoScalingConfiguration(
 
     class MetaOapg:
         required = {
-            "maxServersCount",
             "minServersCount",
-            "cooldownPeriodMinutes",
         }
         
         class properties:
-            maxServersCount = schemas.Int32Schema
             minServersCount = schemas.Int32Schema
-            cooldownPeriodMinutes = schemas.Int32Schema
             serverId = schemas.Int64Schema
             serverConfiguration = schemas.StrSchema
+            maxServersCount = schemas.Int32Schema
+            cooldownPeriodMinutes = schemas.Int32Schema
             __annotations__ = {
-                "maxServersCount": maxServersCount,
                 "minServersCount": minServersCount,
-                "cooldownPeriodMinutes": cooldownPeriodMinutes,
                 "serverId": serverId,
                 "serverConfiguration": serverConfiguration,
+                "maxServersCount": maxServersCount,
+                "cooldownPeriodMinutes": cooldownPeriodMinutes,
             }
     
-    maxServersCount: MetaOapg.properties.maxServersCount
     minServersCount: MetaOapg.properties.minServersCount
-    cooldownPeriodMinutes: MetaOapg.properties.cooldownPeriodMinutes
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["maxServersCount"]) -> MetaOapg.properties.maxServersCount: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["minServersCount"]) -> MetaOapg.properties.minServersCount: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> MetaOapg.properties.cooldownPeriodMinutes: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["serverId"]) -> MetaOapg.properties.serverId: ...
@@ -74,21 +64,21 @@ class ResourceGroupAutoScalingConfiguration(
     def __getitem__(self, name: typing_extensions.Literal["serverConfiguration"]) -> MetaOapg.properties.serverConfiguration: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["maxServersCount"]) -> MetaOapg.properties.maxServersCount: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> MetaOapg.properties.cooldownPeriodMinutes: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["maxServersCount", "minServersCount", "cooldownPeriodMinutes", "serverId", "serverConfiguration", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["maxServersCount"]) -> MetaOapg.properties.maxServersCount: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["minServersCount"]) -> MetaOapg.properties.minServersCount: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> MetaOapg.properties.cooldownPeriodMinutes: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["serverId"]) -> typing.Union[MetaOapg.properties.serverId, schemas.Unset]: ...
@@ -97,31 +87,37 @@ class ResourceGroupAutoScalingConfiguration(
     def get_item_oapg(self, name: typing_extensions.Literal["serverConfiguration"]) -> typing.Union[MetaOapg.properties.serverConfiguration, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["maxServersCount"]) -> typing.Union[MetaOapg.properties.maxServersCount, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> typing.Union[MetaOapg.properties.cooldownPeriodMinutes, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["maxServersCount", "minServersCount", "cooldownPeriodMinutes", "serverId", "serverConfiguration", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        maxServersCount: typing.Union[MetaOapg.properties.maxServersCount, decimal.Decimal, int, ],
         minServersCount: typing.Union[MetaOapg.properties.minServersCount, decimal.Decimal, int, ],
-        cooldownPeriodMinutes: typing.Union[MetaOapg.properties.cooldownPeriodMinutes, decimal.Decimal, int, ],
         serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         serverConfiguration: typing.Union[MetaOapg.properties.serverConfiguration, str, schemas.Unset] = schemas.unset,
+        maxServersCount: typing.Union[MetaOapg.properties.maxServersCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        cooldownPeriodMinutes: typing.Union[MetaOapg.properties.cooldownPeriodMinutes, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupAutoScalingConfiguration':
         return super().__new__(
             cls,
             *_args,
-            maxServersCount=maxServersCount,
             minServersCount=minServersCount,
-            cooldownPeriodMinutes=cooldownPeriodMinutes,
             serverId=serverId,
             serverConfiguration=serverConfiguration,
+            maxServersCount=maxServersCount,
+            cooldownPeriodMinutes=cooldownPeriodMinutes,
             _configuration=_configuration,
             **kwargs,
         )

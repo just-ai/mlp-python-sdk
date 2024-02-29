@@ -655,6 +655,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/quota:
+    get:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: getResourceGroupQuotas
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
+    post:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: createResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupQuota'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpgate/account/{account}/model:
     get:
       tags:
@@ -4821,6 +4890,7 @@ paths:
                   - DOCKER
                   - KUBERNETES
                   - HOSTING_SERVER
+                  - SHARED_RESOURCE_QUOTA
   /api/mlpgate/account/{account}/owned-resource-groups:
     get:
       tags:
@@ -6604,6 +6674,44 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
+    delete:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: deleteResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpgate/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -7300,20 +7408,20 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         resourceGroupType:
           type: string
           enum:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         enabledAutoScaling:
           type: boolean
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupAutoScalingConfiguration:
       required:
-      - cooldownPeriodMinutes
-      - maxServersCount
       - minServersCount
       type: object
       properties:
@@ -7322,10 +7430,10 @@ components:
           format: int64
         serverConfiguration:
           type: string
-        maxServersCount:
+        minServersCount:
           type: integer
           format: int32
-        minServersCount:
+        maxServersCount:
           type: integer
           format: int32
         cooldownPeriodMinutes:
@@ -7354,6 +7462,7 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         enabledEviction:
           type: boolean
         resourceGroupType:
@@ -7362,6 +7471,7 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         enabledAutoScaling:
           type: boolean
         autoScalingConfiguration:
@@ -7375,6 +7485,12 @@ components:
           type: boolean
         enabledAutoScaling:
           type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+          - SHARED_POOL
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     CreateResourceGroupServer:
@@ -7390,6 +7506,7 @@ components:
     ResourceGroupServerData:
       required:
       - id
+      - isAutoCreated
       - name
       - rawConfiguration
       type: object
@@ -7399,11 +7516,13 @@ components:
           format: int64
         name:
           type: string
-        rawConfiguration:
-          type: string
         price:
           type: string
         description:
+          type: string
+        isAutoCreated:
+          type: boolean
+        rawConfiguration:
           type: string
     CopyResourceGroupServer:
       required:
@@ -7412,6 +7531,82 @@ components:
       properties:
         serverName:
           type: string
+    CreateResourceGroupQuota:
+      required:
+      - accessibleForEveryone
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - memoryLimit
+      type: object
+      properties:
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
+        accessibleOnlyForUser:
+          type: integer
+          format: int64
+        accessibleForEveryone:
+          type: boolean
+    QuotaAccessPolicy:
+      type: object
+    SharedPoolQuota:
+      required:
+      - accessPolicy
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - groupName
+      - groupType
+      - memoryLimit
+      - ownerId
+      type: object
+      properties:
+        ownerId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        groupType:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        accessPolicy:
+          $ref: '#/components/schemas/QuotaAccessPolicy'
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -8173,11 +8368,13 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         access:
           type: string
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupsData:
@@ -8494,6 +8691,7 @@ components:
     ResourceGroupServerDataWithStatus:
       required:
       - id
+      - isAutoCreated
       - name
       - rawConfiguration
       - resources
@@ -8505,6 +8703,8 @@ components:
           format: int64
         name:
           type: string
+        price:
+          type: string
         status:
           type: string
           enum:
@@ -8515,6 +8715,10 @@ components:
           - DELETING
         resources:
           $ref: '#/components/schemas/Resources'
+        description:
+          type: string
+        isAutoCreated:
+          type: boolean
         rawConfiguration:
           type: string
     Resources:
@@ -8570,10 +8774,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -8708,11 +8912,13 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         access:
           type: string
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         serversCount:
           type: integer
           format: int32
