@@ -6956,16 +6956,34 @@ components:
           - restricted
     ModelAutoScalingConfiguration:
       required:
-      - minInstancesCount
+      - minInstanceCount
       type: object
       properties:
-        minInstancesCount:
+        minInstanceCount:
           type: integer
           format: int32
-        maxInstancesCount:
+        maxInstanceCount:
           type: integer
           format: int32
-        cooldownPeriodMinutes:
+        cooldownDurationMinutes:
+          type: integer
+          format: int32
+        scaleUpRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleDownRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleUpLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleDownLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleUpCpuThresholdMilliCores:
+          type: integer
+          format: int32
+        scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
     ModelBatchesData:
@@ -7083,6 +7101,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         dataImageMounts:
           type: array
@@ -7503,6 +7522,17 @@ components:
           type: string
         rawConfiguration:
           type: string
+    Quantity:
+      type: object
+      properties:
+        number:
+          type: number
+        format:
+          type: string
+          enum:
+          - DECIMAL_EXPONENT
+          - DECIMAL_SI
+          - BINARY_SI
     ResourceGroupServerData:
       required:
       - id
@@ -7524,6 +7554,40 @@ components:
           type: boolean
         rawConfiguration:
           type: string
+        templateCapacity:
+          $ref: '#/components/schemas/Resources'
+    Resources:
+      required:
+      - baseInstanceCount
+      - cpu
+      - derivedInstanceCount
+      - disk
+      - gpu
+      - podsCount
+      - ram
+      - strictlyNegativeOrZero
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/Quantity'
+        ram:
+          $ref: '#/components/schemas/Quantity'
+        disk:
+          $ref: '#/components/schemas/Quantity'
+        gpu:
+          type: integer
+          format: int32
+        baseInstanceCount:
+          type: integer
+          format: int32
+        derivedInstanceCount:
+          type: integer
+          format: int32
+        podsCount:
+          type: integer
+          format: int32
+        strictlyNegativeOrZero:
+          type: boolean
     CopyResourceGroupServer:
       required:
       - serverName
@@ -7688,6 +7752,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         persistentVolumes:
           type: array
@@ -7940,6 +8005,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         persistentVolumes:
           type: array
@@ -8677,17 +8743,6 @@ components:
           type: string
         actualModelName:
           type: string
-    Quantity:
-      type: object
-      properties:
-        number:
-          type: number
-        format:
-          type: string
-          enum:
-          - DECIMAL_EXPONENT
-          - DECIMAL_SI
-          - BINARY_SI
     ResourceGroupServerDataWithStatus:
       required:
       - id
@@ -8721,38 +8776,6 @@ components:
           type: boolean
         rawConfiguration:
           type: string
-    Resources:
-      required:
-      - baseInstanceCount
-      - cpu
-      - derivedInstanceCount
-      - disk
-      - gpu
-      - podsCount
-      - ram
-      - strictlyNegativeOrZero
-      type: object
-      properties:
-        cpu:
-          $ref: '#/components/schemas/Quantity'
-        ram:
-          $ref: '#/components/schemas/Quantity'
-        disk:
-          $ref: '#/components/schemas/Quantity'
-        gpu:
-          type: integer
-          format: int32
-        baseInstanceCount:
-          type: integer
-          format: int32
-        derivedInstanceCount:
-          type: integer
-          format: int32
-        podsCount:
-          type: integer
-          format: int32
-        strictlyNegativeOrZero:
-          type: boolean
     Measurement:
       required:
       - ts

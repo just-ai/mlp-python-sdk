@@ -48,6 +48,10 @@ class ResourceGroupServerData(
             rawConfiguration = schemas.StrSchema
             price = schemas.StrSchema
             description = schemas.StrSchema
+        
+            @staticmethod
+            def templateCapacity() -> typing.Type['Resources']:
+                return Resources
             __annotations__ = {
                 "id": id,
                 "name": name,
@@ -55,6 +59,7 @@ class ResourceGroupServerData(
                 "rawConfiguration": rawConfiguration,
                 "price": price,
                 "description": description,
+                "templateCapacity": templateCapacity,
             }
     
     isAutoCreated: MetaOapg.properties.isAutoCreated
@@ -81,9 +86,12 @@ class ResourceGroupServerData(
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["templateCapacity"]) -> 'Resources': ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "isAutoCreated", "rawConfiguration", "price", "description", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "isAutoCreated", "rawConfiguration", "price", "description", "templateCapacity", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -107,9 +115,12 @@ class ResourceGroupServerData(
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["templateCapacity"]) -> typing.Union['Resources', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "isAutoCreated", "rawConfiguration", "price", "description", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "isAutoCreated", "rawConfiguration", "price", "description", "templateCapacity", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -122,6 +133,7 @@ class ResourceGroupServerData(
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
         price: typing.Union[MetaOapg.properties.price, str, schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
+        templateCapacity: typing.Union['Resources', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupServerData':
@@ -134,6 +146,9 @@ class ResourceGroupServerData(
             rawConfiguration=rawConfiguration,
             price=price,
             description=description,
+            templateCapacity=templateCapacity,
             _configuration=_configuration,
             **kwargs,
         )
+
+from mlp_api.model.resources import Resources
