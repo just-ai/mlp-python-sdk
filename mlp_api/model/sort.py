@@ -37,27 +37,27 @@ class Sort(
         
         class properties:
             empty = schemas.BoolSchema
-            sorted = schemas.BoolSchema
             unsorted = schemas.BoolSchema
+            sorted = schemas.BoolSchema
             __annotations__ = {
                 "empty": empty,
-                "sorted": sorted,
                 "unsorted": unsorted,
+                "sorted": sorted,
             }
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["empty"]) -> MetaOapg.properties.empty: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["sorted"]) -> MetaOapg.properties.sorted: ...
+    def __getitem__(self, name: typing_extensions.Literal["unsorted"]) -> MetaOapg.properties.unsorted: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["unsorted"]) -> MetaOapg.properties.unsorted: ...
+    def __getitem__(self, name: typing_extensions.Literal["sorted"]) -> MetaOapg.properties.sorted: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["empty", "sorted", "unsorted", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["empty", "unsorted", "sorted", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -66,15 +66,15 @@ class Sort(
     def get_item_oapg(self, name: typing_extensions.Literal["empty"]) -> typing.Union[MetaOapg.properties.empty, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["sorted"]) -> typing.Union[MetaOapg.properties.sorted, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["unsorted"]) -> typing.Union[MetaOapg.properties.unsorted, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["unsorted"]) -> typing.Union[MetaOapg.properties.unsorted, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["sorted"]) -> typing.Union[MetaOapg.properties.sorted, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["empty", "sorted", "unsorted", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["empty", "unsorted", "sorted", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -82,8 +82,8 @@ class Sort(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         empty: typing.Union[MetaOapg.properties.empty, bool, schemas.Unset] = schemas.unset,
-        sorted: typing.Union[MetaOapg.properties.sorted, bool, schemas.Unset] = schemas.unset,
         unsorted: typing.Union[MetaOapg.properties.unsorted, bool, schemas.Unset] = schemas.unset,
+        sorted: typing.Union[MetaOapg.properties.sorted, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'Sort':
@@ -91,8 +91,8 @@ class Sort(
             cls,
             *_args,
             empty=empty,
-            sorted=sorted,
             unsorted=unsorted,
+            sorted=sorted,
             _configuration=_configuration,
             **kwargs,
         )
