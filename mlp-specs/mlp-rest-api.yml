@@ -69,6 +69,26 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpgate/task/{taskId}/stop:
+    post:
+      tags:
+      - task-endpoint
+      operationId: stopJob
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/server-heartbeat:
     post:
       tags:
