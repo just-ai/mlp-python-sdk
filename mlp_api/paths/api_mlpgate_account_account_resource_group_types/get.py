@@ -99,7 +99,6 @@ class SchemaFor200ResponseBodyApplicationJson(
                     "DOCKER": "DOCKER",
                     "KUBERNETES": "KUBERNETES",
                     "HOSTING_SERVER": "HOSTING_SERVER",
-                    "SHARED_RESOURCE_QUOTA": "SHARED_RESOURCE_QUOTA",
                 }
             
             @schemas.classproperty
@@ -113,10 +112,6 @@ class SchemaFor200ResponseBodyApplicationJson(
             @schemas.classproperty
             def HOSTING_SERVER(cls):
                 return cls("HOSTING_SERVER")
-            
-            @schemas.classproperty
-            def SHARED_RESOURCE_QUOTA(cls):
-                return cls("SHARED_RESOURCE_QUOTA")
 
     def __new__(
         cls,

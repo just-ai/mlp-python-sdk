@@ -13,7 +13,6 @@ from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups import ApiMl
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name import ApiMlpgateAccountAccountResourceGroupsGroupName
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server import ApiMlpgateAccountAccountResourceGroupsGroupNameServer
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_copy import ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdCopy
-from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_quota import ApiMlpgateAccountAccountResourceGroupsGroupNameQuota
 from mlp_api.apis.paths.api_mlpgate_account_account_model import ApiMlpgateAccountAccountModel
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model import ApiMlpgateAccountAccountModelModel
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_tts import ApiMlpgateAccountAccountModelModelTts
@@ -153,7 +152,6 @@ from mlp_api.apis.paths.api_mlpgate_internal_actions import ApiMlpgateInternalAc
 from mlp_api.apis.paths.api_mlpgate_internal_account import ApiMlpgateInternalAccount
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_instances import ApiMlpgateInternalAccountAccountModelModelInstances
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_actions import ApiMlpgateInternalAccountAccountModelModelActions
-from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_quota_quota_id import ApiMlpgateAccountAccountResourceGroupsGroupNameQuotaQuotaId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group import ApiMlpgateAccountAccountModelModelModelGroup
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_external_instance_id import ApiMlpgateAccountAccountModelModelExternalInstanceId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_group_group_id import ApiMlpgateAccountAccountModelGroupGroupId
@@ -175,7 +173,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME: ApiMlpgateAccountAccountResourceGroupsGroupName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER: ApiMlpgateAccountAccountResourceGroupsGroupNameServer,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_COPY: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdCopy,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_QUOTA: ApiMlpgateAccountAccountResourceGroupsGroupNameQuota,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTS: ApiMlpgateAccountAccountModelModelTts,
@@ -315,7 +312,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateInternalAccountAccountModelModelInstances,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_ACTIONS: ApiMlpgateInternalAccountAccountModelModelActions,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_QUOTA_QUOTA_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameQuotaQuotaId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP: ApiMlpgateAccountAccountModelModelModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountModelModelExternalInstanceId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelGroupGroupId,
@@ -338,7 +334,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME: ApiMlpgateAccountAccountResourceGroupsGroupName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER: ApiMlpgateAccountAccountResourceGroupsGroupNameServer,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER_SERVER_ID_COPY: ApiMlpgateAccountAccountResourceGroupsGroupNameServerServerIdCopy,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_QUOTA: ApiMlpgateAccountAccountResourceGroupsGroupNameQuota,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL: ApiMlpgateAccountAccountModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL: ApiMlpgateAccountAccountModelModel,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_TTS: ApiMlpgateAccountAccountModelModelTts,
@@ -478,7 +473,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT: ApiMlpgateInternalAccount,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateInternalAccountAccountModelModelInstances,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_MODEL_MODEL_ACTIONS: ApiMlpgateInternalAccountAccountModelModelActions,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_QUOTA_QUOTA_ID: ApiMlpgateAccountAccountResourceGroupsGroupNameQuotaQuotaId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP: ApiMlpgateAccountAccountModelModelModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_EXTERNAL_INSTANCE_ID: ApiMlpgateAccountAccountModelModelExternalInstanceId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelGroupGroupId,

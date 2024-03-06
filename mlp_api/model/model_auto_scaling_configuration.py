@@ -35,129 +35,69 @@ class ModelAutoScalingConfiguration(
 
     class MetaOapg:
         required = {
-            "minInstanceCount",
+            "minInstancesCount",
         }
         
         class properties:
-            minInstanceCount = schemas.Int32Schema
-            maxInstanceCount = schemas.Int32Schema
-            cooldownDurationMinutes = schemas.Int32Schema
-            scaleUpRequestsPerMinuteThreshold = schemas.Int32Schema
-            scaleDownRequestsPerMinuteThreshold = schemas.Int32Schema
-            scaleUpLatencyThresholdMs = schemas.Int32Schema
-            scaleDownLatencyThresholdMs = schemas.Int32Schema
-            scaleUpCpuThresholdMilliCores = schemas.Int32Schema
-            scaleDownCpuThresholdMilliCores = schemas.Int32Schema
+            minInstancesCount = schemas.Int32Schema
+            maxInstancesCount = schemas.Int32Schema
+            cooldownPeriodMinutes = schemas.Int32Schema
             __annotations__ = {
-                "minInstanceCount": minInstanceCount,
-                "maxInstanceCount": maxInstanceCount,
-                "cooldownDurationMinutes": cooldownDurationMinutes,
-                "scaleUpRequestsPerMinuteThreshold": scaleUpRequestsPerMinuteThreshold,
-                "scaleDownRequestsPerMinuteThreshold": scaleDownRequestsPerMinuteThreshold,
-                "scaleUpLatencyThresholdMs": scaleUpLatencyThresholdMs,
-                "scaleDownLatencyThresholdMs": scaleDownLatencyThresholdMs,
-                "scaleUpCpuThresholdMilliCores": scaleUpCpuThresholdMilliCores,
-                "scaleDownCpuThresholdMilliCores": scaleDownCpuThresholdMilliCores,
+                "minInstancesCount": minInstancesCount,
+                "maxInstancesCount": maxInstancesCount,
+                "cooldownPeriodMinutes": cooldownPeriodMinutes,
             }
     
-    minInstanceCount: MetaOapg.properties.minInstanceCount
+    minInstancesCount: MetaOapg.properties.minInstancesCount
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["minInstanceCount"]) -> MetaOapg.properties.minInstanceCount: ...
+    def __getitem__(self, name: typing_extensions.Literal["minInstancesCount"]) -> MetaOapg.properties.minInstancesCount: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["maxInstanceCount"]) -> MetaOapg.properties.maxInstanceCount: ...
+    def __getitem__(self, name: typing_extensions.Literal["maxInstancesCount"]) -> MetaOapg.properties.maxInstancesCount: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["cooldownDurationMinutes"]) -> MetaOapg.properties.cooldownDurationMinutes: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleUpRequestsPerMinuteThreshold"]) -> MetaOapg.properties.scaleUpRequestsPerMinuteThreshold: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleDownRequestsPerMinuteThreshold"]) -> MetaOapg.properties.scaleDownRequestsPerMinuteThreshold: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleUpLatencyThresholdMs"]) -> MetaOapg.properties.scaleUpLatencyThresholdMs: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleDownLatencyThresholdMs"]) -> MetaOapg.properties.scaleDownLatencyThresholdMs: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleUpCpuThresholdMilliCores"]) -> MetaOapg.properties.scaleUpCpuThresholdMilliCores: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["scaleDownCpuThresholdMilliCores"]) -> MetaOapg.properties.scaleDownCpuThresholdMilliCores: ...
+    def __getitem__(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> MetaOapg.properties.cooldownPeriodMinutes: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["minInstanceCount", "maxInstanceCount", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["minInstancesCount", "maxInstancesCount", "cooldownPeriodMinutes", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["minInstanceCount"]) -> MetaOapg.properties.minInstanceCount: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["minInstancesCount"]) -> MetaOapg.properties.minInstancesCount: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["maxInstanceCount"]) -> typing.Union[MetaOapg.properties.maxInstanceCount, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["maxInstancesCount"]) -> typing.Union[MetaOapg.properties.maxInstancesCount, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["cooldownDurationMinutes"]) -> typing.Union[MetaOapg.properties.cooldownDurationMinutes, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleUpRequestsPerMinuteThreshold"]) -> typing.Union[MetaOapg.properties.scaleUpRequestsPerMinuteThreshold, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleDownRequestsPerMinuteThreshold"]) -> typing.Union[MetaOapg.properties.scaleDownRequestsPerMinuteThreshold, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleUpLatencyThresholdMs"]) -> typing.Union[MetaOapg.properties.scaleUpLatencyThresholdMs, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleDownLatencyThresholdMs"]) -> typing.Union[MetaOapg.properties.scaleDownLatencyThresholdMs, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleUpCpuThresholdMilliCores"]) -> typing.Union[MetaOapg.properties.scaleUpCpuThresholdMilliCores, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["scaleDownCpuThresholdMilliCores"]) -> typing.Union[MetaOapg.properties.scaleDownCpuThresholdMilliCores, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["cooldownPeriodMinutes"]) -> typing.Union[MetaOapg.properties.cooldownPeriodMinutes, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["minInstanceCount", "maxInstanceCount", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["minInstancesCount", "maxInstancesCount", "cooldownPeriodMinutes", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        minInstanceCount: typing.Union[MetaOapg.properties.minInstanceCount, decimal.Decimal, int, ],
-        maxInstanceCount: typing.Union[MetaOapg.properties.maxInstanceCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        cooldownDurationMinutes: typing.Union[MetaOapg.properties.cooldownDurationMinutes, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleUpRequestsPerMinuteThreshold: typing.Union[MetaOapg.properties.scaleUpRequestsPerMinuteThreshold, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleDownRequestsPerMinuteThreshold: typing.Union[MetaOapg.properties.scaleDownRequestsPerMinuteThreshold, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleUpLatencyThresholdMs: typing.Union[MetaOapg.properties.scaleUpLatencyThresholdMs, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleDownLatencyThresholdMs: typing.Union[MetaOapg.properties.scaleDownLatencyThresholdMs, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleUpCpuThresholdMilliCores: typing.Union[MetaOapg.properties.scaleUpCpuThresholdMilliCores, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        scaleDownCpuThresholdMilliCores: typing.Union[MetaOapg.properties.scaleDownCpuThresholdMilliCores, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, ],
+        maxInstancesCount: typing.Union[MetaOapg.properties.maxInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        cooldownPeriodMinutes: typing.Union[MetaOapg.properties.cooldownPeriodMinutes, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelAutoScalingConfiguration':
         return super().__new__(
             cls,
             *_args,
-            minInstanceCount=minInstanceCount,
-            maxInstanceCount=maxInstanceCount,
-            cooldownDurationMinutes=cooldownDurationMinutes,
-            scaleUpRequestsPerMinuteThreshold=scaleUpRequestsPerMinuteThreshold,
-            scaleDownRequestsPerMinuteThreshold=scaleDownRequestsPerMinuteThreshold,
-            scaleUpLatencyThresholdMs=scaleUpLatencyThresholdMs,
-            scaleDownLatencyThresholdMs=scaleDownLatencyThresholdMs,
-            scaleUpCpuThresholdMilliCores=scaleUpCpuThresholdMilliCores,
-            scaleDownCpuThresholdMilliCores=scaleDownCpuThresholdMilliCores,
+            minInstancesCount=minInstancesCount,
+            maxInstancesCount=maxInstancesCount,
+            cooldownPeriodMinutes=cooldownPeriodMinutes,
             _configuration=_configuration,
             **kwargs,
         )

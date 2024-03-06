@@ -110,7 +110,6 @@ class ModelCreateUpdateData(
                     enum_value_to_name = {
                         "EXTERNAL": "EXTERNAL",
                         "INTERNAL": "INTERNAL",
-                        "AUTOMATIC": "AUTOMATIC",
                         "HOSTING_SERVER": "HOSTING_SERVER",
                     }
                 
@@ -121,10 +120,6 @@ class ModelCreateUpdateData(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
-                
-                @schemas.classproperty
-                def AUTOMATIC(cls):
-                    return cls("AUTOMATIC")
                 
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):

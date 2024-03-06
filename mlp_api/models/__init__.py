@@ -24,7 +24,6 @@ from mlp_api.model.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.model.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.model.create_resource_group_data import CreateResourceGroupData
-from mlp_api.model.create_resource_group_quota import CreateResourceGroupQuota
 from mlp_api.model.create_resource_group_server import CreateResourceGroupServer
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_dump import DataImageDump
@@ -122,7 +121,6 @@ from mlp_api.model.schema_file_data import SchemaFileData
 from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 from mlp_api.model.service_info_at_time import ServiceInfoAtTime
-from mlp_api.model.shared_pool_quota import SharedPoolQuota
 from mlp_api.model.sort import Sort
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status

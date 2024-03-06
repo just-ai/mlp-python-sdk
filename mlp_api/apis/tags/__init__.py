@@ -25,7 +25,6 @@ class TagValues(str, enum.Enum):
     PREDICTCONFIGENDPOINT = "predict-config-endpoint"
     PROCESSENDPOINT = "process-endpoint"
     RESOURCEGROUPENDPOINT = "resource-group-endpoint"
-    RESOURCEGROUPQUOTAENDPOINT = "resource-group-quota-endpoint"
     RESOURCEGROUPSERVERSENDPOINT = "resource-group-servers-endpoint"
     STATLOGENDPOINT = "stat-log-endpoint"
     SYSTEMCONFIGENDPOINT = "system-config-endpoint"

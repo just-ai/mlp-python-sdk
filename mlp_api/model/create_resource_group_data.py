@@ -54,7 +54,6 @@ class CreateResourceGroupData(
                     enum_value_to_name = {
                         "PRIVATE": "PRIVATE",
                         "PUBLIC": "PUBLIC",
-                        "SHARED_POOL": "SHARED_POOL",
                     }
                 
                 @schemas.classproperty
@@ -64,10 +63,6 @@ class CreateResourceGroupData(
                 @schemas.classproperty
                 def PUBLIC(cls):
                     return cls("PUBLIC")
-                
-                @schemas.classproperty
-                def SHARED_POOL(cls):
-                    return cls("SHARED_POOL")
             
             
             class resourceGroupType(
@@ -81,7 +76,6 @@ class CreateResourceGroupData(
                         "DOCKER": "DOCKER",
                         "KUBERNETES": "KUBERNETES",
                         "HOSTING_SERVER": "HOSTING_SERVER",
-                        "SHARED_RESOURCE_QUOTA": "SHARED_RESOURCE_QUOTA",
                     }
                 
                 @schemas.classproperty
@@ -95,10 +89,6 @@ class CreateResourceGroupData(
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("HOSTING_SERVER")
-                
-                @schemas.classproperty
-                def SHARED_RESOURCE_QUOTA(cls):
-                    return cls("SHARED_RESOURCE_QUOTA")
             enabledAutoScaling = schemas.BoolSchema
         
             @staticmethod

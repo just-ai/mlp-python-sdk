@@ -39,24 +39,6 @@ class UpdateResourceGroupData(
             isDefault = schemas.BoolSchema
             enabledEviction = schemas.BoolSchema
             enabledAutoScaling = schemas.BoolSchema
-            
-            
-            class access(
-                schemas.EnumBase,
-                schemas.StrSchema
-            ):
-                
-                @schemas.classproperty
-                def PRIVATE(cls):
-                    return cls("PRIVATE")
-                
-                @schemas.classproperty
-                def PUBLIC(cls):
-                    return cls("PUBLIC")
-                
-                @schemas.classproperty
-                def SHARED_POOL(cls):
-                    return cls("SHARED_POOL")
         
             @staticmethod
             def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
@@ -65,7 +47,6 @@ class UpdateResourceGroupData(
                 "isDefault": isDefault,
                 "enabledEviction": enabledEviction,
                 "enabledAutoScaling": enabledAutoScaling,
-                "access": access,
                 "autoScalingConfiguration": autoScalingConfiguration,
             }
     
@@ -79,15 +60,12 @@ class UpdateResourceGroupData(
     def __getitem__(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> MetaOapg.properties.enabledAutoScaling: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ResourceGroupAutoScalingConfiguration': ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -102,15 +80,12 @@ class UpdateResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["enabledAutoScaling"]) -> typing.Union[MetaOapg.properties.enabledAutoScaling, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> typing.Union[MetaOapg.properties.access, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "autoScalingConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -120,7 +95,6 @@ class UpdateResourceGroupData(
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, schemas.Unset] = schemas.unset,
-        access: typing.Union[MetaOapg.properties.access, str, schemas.Unset] = schemas.unset,
         autoScalingConfiguration: typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -131,7 +105,6 @@ class UpdateResourceGroupData(
             isDefault=isDefault,
             enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
-            access=access,
             autoScalingConfiguration=autoScalingConfiguration,
             _configuration=_configuration,
             **kwargs,
