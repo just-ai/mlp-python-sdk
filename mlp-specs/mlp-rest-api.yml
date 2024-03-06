@@ -655,6 +655,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/quota:
+    get:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: getResourceGroupQuotas
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
+    post:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: createResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupQuota'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpgate/account/{account}/model:
     get:
       tags:
@@ -4821,6 +4890,7 @@ paths:
                   - DOCKER
                   - KUBERNETES
                   - HOSTING_SERVER
+                  - SHARED_RESOURCE_QUOTA
   /api/mlpgate/account/{account}/owned-resource-groups:
     get:
       tags:
@@ -6604,6 +6674,44 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpgate/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
+    delete:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: deleteResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpgate/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -6848,16 +6956,34 @@ components:
           - restricted
     ModelAutoScalingConfiguration:
       required:
-      - minInstancesCount
+      - minInstanceCount
       type: object
       properties:
-        minInstancesCount:
+        minInstanceCount:
           type: integer
           format: int32
-        maxInstancesCount:
+        maxInstanceCount:
           type: integer
           format: int32
-        cooldownPeriodMinutes:
+        cooldownDurationMinutes:
+          type: integer
+          format: int32
+        scaleUpRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleDownRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleUpLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleDownLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleUpCpuThresholdMilliCores:
+          type: integer
+          format: int32
+        scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
     ModelBatchesData:
@@ -6975,6 +7101,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         dataImageMounts:
           type: array
@@ -7300,30 +7427,32 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         resourceGroupType:
           type: string
           enum:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         enabledAutoScaling:
           type: boolean
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupAutoScalingConfiguration:
       required:
-      - cooldownPeriodMinutes
-      - maxServersCount
       - minServersCount
-      - serverConfiguration
       type: object
       properties:
+        serverId:
+          type: integer
+          format: int64
         serverConfiguration:
           type: string
-        maxServersCount:
+        minServersCount:
           type: integer
           format: int32
-        minServersCount:
+        maxServersCount:
           type: integer
           format: int32
         cooldownPeriodMinutes:
@@ -7352,6 +7481,7 @@ components:
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         enabledEviction:
           type: boolean
         resourceGroupType:
@@ -7360,6 +7490,7 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         enabledAutoScaling:
           type: boolean
         autoScalingConfiguration:
@@ -7373,6 +7504,12 @@ components:
           type: boolean
         enabledAutoScaling:
           type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+          - SHARED_POOL
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     CreateResourceGroupServer:
@@ -7385,9 +7522,21 @@ components:
           type: string
         rawConfiguration:
           type: string
+    Quantity:
+      type: object
+      properties:
+        number:
+          type: number
+        format:
+          type: string
+          enum:
+          - DECIMAL_EXPONENT
+          - DECIMAL_SI
+          - BINARY_SI
     ResourceGroupServerData:
       required:
       - id
+      - isAutoCreated
       - name
       - rawConfiguration
       type: object
@@ -7397,12 +7546,48 @@ components:
           format: int64
         name:
           type: string
-        rawConfiguration:
-          type: string
         price:
           type: string
         description:
           type: string
+        isAutoCreated:
+          type: boolean
+        rawConfiguration:
+          type: string
+        templateCapacity:
+          $ref: '#/components/schemas/Resources'
+    Resources:
+      required:
+      - baseInstanceCount
+      - cpu
+      - derivedInstanceCount
+      - disk
+      - gpu
+      - podsCount
+      - ram
+      - strictlyNegativeOrZero
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/Quantity'
+        ram:
+          $ref: '#/components/schemas/Quantity'
+        disk:
+          $ref: '#/components/schemas/Quantity'
+        gpu:
+          type: integer
+          format: int32
+        baseInstanceCount:
+          type: integer
+          format: int32
+        derivedInstanceCount:
+          type: integer
+          format: int32
+        podsCount:
+          type: integer
+          format: int32
+        strictlyNegativeOrZero:
+          type: boolean
     CopyResourceGroupServer:
       required:
       - serverName
@@ -7410,6 +7595,82 @@ components:
       properties:
         serverName:
           type: string
+    CreateResourceGroupQuota:
+      required:
+      - accessibleForEveryone
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - memoryLimit
+      type: object
+      properties:
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
+        accessibleOnlyForUser:
+          type: integer
+          format: int64
+        accessibleForEveryone:
+          type: boolean
+    QuotaAccessPolicy:
+      type: object
+    SharedPoolQuota:
+      required:
+      - accessPolicy
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - groupName
+      - groupType
+      - memoryLimit
+      - ownerId
+      type: object
+      properties:
+        ownerId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        groupType:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        accessPolicy:
+          $ref: '#/components/schemas/QuotaAccessPolicy'
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -7491,6 +7752,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         persistentVolumes:
           type: array
@@ -7743,6 +8005,7 @@ components:
           enum:
           - EXTERNAL
           - INTERNAL
+          - AUTOMATIC
           - HOSTING_SERVER
         persistentVolumes:
           type: array
@@ -8171,11 +8434,13 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         access:
           type: string
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupsData:
@@ -8478,20 +8743,10 @@ components:
           type: string
         actualModelName:
           type: string
-    Quantity:
-      type: object
-      properties:
-        number:
-          type: number
-        format:
-          type: string
-          enum:
-          - DECIMAL_EXPONENT
-          - DECIMAL_SI
-          - BINARY_SI
     ResourceGroupServerDataWithStatus:
       required:
       - id
+      - isAutoCreated
       - name
       - rawConfiguration
       - resources
@@ -8503,6 +8758,8 @@ components:
           format: int64
         name:
           type: string
+        price:
+          type: string
         status:
           type: string
           enum:
@@ -8513,40 +8770,12 @@ components:
           - DELETING
         resources:
           $ref: '#/components/schemas/Resources'
+        description:
+          type: string
+        isAutoCreated:
+          type: boolean
         rawConfiguration:
           type: string
-    Resources:
-      required:
-      - baseInstanceCount
-      - cpu
-      - derivedInstanceCount
-      - disk
-      - gpu
-      - podsCount
-      - ram
-      - strictlyNegativeOrZero
-      type: object
-      properties:
-        cpu:
-          $ref: '#/components/schemas/Quantity'
-        ram:
-          $ref: '#/components/schemas/Quantity'
-        disk:
-          $ref: '#/components/schemas/Quantity'
-        gpu:
-          type: integer
-          format: int32
-        baseInstanceCount:
-          type: integer
-          format: int32
-        derivedInstanceCount:
-          type: integer
-          format: int32
-        podsCount:
-          type: integer
-          format: int32
-        strictlyNegativeOrZero:
-          type: boolean
     Measurement:
       required:
       - ts
@@ -8706,11 +8935,13 @@ components:
           - DOCKER
           - KUBERNETES
           - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
         access:
           type: string
           enum:
           - PRIVATE
           - PUBLIC
+          - SHARED_POOL
         serversCount:
           type: integer
           format: int32
