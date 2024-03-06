@@ -68,6 +68,10 @@ class ResourceGroupData(
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("HOSTING_SERVER")
+                
+                @schemas.classproperty
+                def SHARED_RESOURCE_QUOTA(cls):
+                    return cls("SHARED_RESOURCE_QUOTA")
             
             
             class access(
@@ -82,6 +86,10 @@ class ResourceGroupData(
                 @schemas.classproperty
                 def PUBLIC(cls):
                     return cls("PUBLIC")
+                
+                @schemas.classproperty
+                def SHARED_POOL(cls):
+                    return cls("SHARED_POOL")
         
             @staticmethod
             def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
