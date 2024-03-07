@@ -6301,6 +6301,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
+  /api/mlpgate/account/{account}/application/{application}/token:
+    get:
+      tags:
+      - application-endpoint
+      operationId: ensureApplicationToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpgate/account/{account}/application/{application}/set-cookie:
     get:
       tags:
@@ -9369,3 +9400,4 @@ components:
           - IDLE
           - STARTED
           - DELETED
+          - FAILED

@@ -137,6 +137,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_image_image_id_logs import A
 from mlp_api.apis.paths.api_mlpgate_account_account_image_v2 import ApiMlpgateAccountAccountImageV2
 from mlp_api.apis.paths.api_mlpgate_account_account_deployable_resource_groups import ApiMlpgateAccountAccountDeployableResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
+from mlp_api.apis.paths.api_mlpgate_account_account_application_application_token import ApiMlpgateAccountAccountApplicationApplicationToken
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_auth import ApiMlpgateAccountAccountApplicationApplicationAuth
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
@@ -300,6 +301,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
@@ -464,6 +466,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,

@@ -142,6 +142,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2 = "/api/mlpgate/account/{account}/image-v2"
     API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS = "/api/mlpgate/account/{account}/deployable-resource-groups"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase"
+    API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN = "/api/mlpgate/account/{account}/application/{application}/token"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE = "/api/mlpgate/account/{account}/application/{application}/set-cookie"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH = "/api/mlpgate/account/{account}/application/{application}/auth"
     API_MLPGATEINTERNAL_TESTMAIL = "/api/mlpgate-internal/test-mail"
