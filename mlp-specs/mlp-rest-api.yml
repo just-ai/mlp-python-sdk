@@ -3975,35 +3975,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
-  /api/mlpgate/auth:
-    get:
-      tags:
-      - auth-endpoint
-      operationId: auth
-      parameters:
-      - name: account
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: application
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
   /api/mlpgate/admin/accounts:
     get:
       tags:
@@ -6330,15 +6301,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
-  /api/mlpgate/account/{account}/application/token:
+  /api/mlpgate/account/{account}/application/{application}/set-cookie:
     get:
       tags:
       - application-endpoint
-      operationId: applicationsAccessToken
+      operationId: setApplicationCookies
       parameters:
       - name: account
         in: path
         description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpgate/account/{account}/application/{application}/auth:
+    get:
+      tags:
+      - application-endpoint
+      operationId: auth
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
         required: true
         schema:
           type: string
@@ -6354,7 +6358,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
   /api/mlpgate-internal/test-mail:
     get:
       tags:
@@ -8831,11 +8835,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -8848,24 +8852,24 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/Sort'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
     Sort:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
     ResourceGroupCapacity:
       required:

@@ -82,7 +82,6 @@ from mlp_api.apis.paths.api_mlpgate_models_featured import ApiMlpgateModelsFeatu
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
 from mlp_api.apis.paths.api_mlpgate_health_test import ApiMlpgateHealthTest
 from mlp_api.apis.paths.api_mlpgate_health_history import ApiMlpgateHealthHistory
-from mlp_api.apis.paths.api_mlpgate_auth import ApiMlpgateAuth
 from mlp_api.apis.paths.api_mlpgate_admin_accounts import ApiMlpgateAdminAccounts
 from mlp_api.apis.paths.api_mlpgate_admin_account_account import ApiMlpgateAdminAccountAccount
 from mlp_api.apis.paths.api_mlpgate_account_account import ApiMlpgateAccountAccount
@@ -138,7 +137,8 @@ from mlp_api.apis.paths.api_mlpgate_account_account_image_image_id_logs import A
 from mlp_api.apis.paths.api_mlpgate_account_account_image_v2 import ApiMlpgateAccountAccountImageV2
 from mlp_api.apis.paths.api_mlpgate_account_account_deployable_resource_groups import ApiMlpgateAccountAccountDeployableResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
-from mlp_api.apis.paths.api_mlpgate_account_account_application_token import ApiMlpgateAccountAccountApplicationToken
+from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
+from mlp_api.apis.paths.api_mlpgate_account_account_application_application_auth import ApiMlpgateAccountAccountApplicationApplicationAuth
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
 from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
@@ -245,7 +245,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
         PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
-        PathValues.API_MLPGATE_AUTH: ApiMlpgateAuth,
         PathValues.API_MLPGATE_ADMIN_ACCOUNTS: ApiMlpgateAdminAccounts,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
@@ -301,7 +300,8 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
@@ -409,7 +409,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
         PathValues.API_MLPGATE_HEALTH_TEST: ApiMlpgateHealthTest,
         PathValues.API_MLPGATE_HEALTH_HISTORY: ApiMlpgateHealthHistory,
-        PathValues.API_MLPGATE_AUTH: ApiMlpgateAuth,
         PathValues.API_MLPGATE_ADMIN_ACCOUNTS: ApiMlpgateAdminAccounts,
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT: ApiMlpgateAdminAccountAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT: ApiMlpgateAccountAccount,
@@ -465,7 +464,8 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGEV2: ApiMlpgateAccountAccountImageV2,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
