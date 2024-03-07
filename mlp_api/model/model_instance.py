@@ -139,6 +139,7 @@ class ModelInstance(
                         "IDLE": "IDLE",
                         "STARTED": "STARTED",
                         "DELETED": "DELETED",
+                        "FAILED": "FAILED",
                     }
                 
                 @schemas.classproperty
@@ -152,6 +153,10 @@ class ModelInstance(
                 @schemas.classproperty
                 def DELETED(cls):
                     return cls("DELETED")
+                
+                @schemas.classproperty
+                def FAILED(cls):
+                    return cls("FAILED")
             resourceName = schemas.StrSchema
             alias = schemas.StrSchema
             customData = schemas.StrSchema
