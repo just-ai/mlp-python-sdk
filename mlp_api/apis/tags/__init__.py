@@ -10,7 +10,6 @@ class TagValues(str, enum.Enum):
     ACCOUNTENDPOINT = "account-endpoint"
     ADMINENDPOINT = "admin-endpoint"
     APPLICATIONENDPOINT = "application-endpoint"
-    AUTHENDPOINT = "auth-endpoint"
     DATAIMAGEENDPOINT = "data-image-endpoint"
     DATASETENDPOINT = "dataset-endpoint"
     FITCONFIGENDPOINT = "fit-config-endpoint"
