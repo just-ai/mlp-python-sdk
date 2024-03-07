@@ -69,7 +69,6 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_access impor
 from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdminResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
-from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
 from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
 from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSystemConfigTaskTypes
@@ -139,6 +138,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_image_v2 import ApiMlpgateAc
 from mlp_api.apis.paths.api_mlpgate_account_account_deployable_resource_groups import ApiMlpgateAccountAccountDeployableResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_token import ApiMlpgateAccountAccountApplicationApplicationToken
+from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_auth import ApiMlpgateAccountAccountApplicationApplicationAuth
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
@@ -233,7 +233,6 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
@@ -303,6 +302,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
@@ -398,7 +398,6 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
@@ -468,6 +467,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DEPLOYABLERESOURCEGROUPS: ApiMlpgateAccountAccountDeployableResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
