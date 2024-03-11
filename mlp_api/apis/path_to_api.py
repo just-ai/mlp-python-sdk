@@ -71,6 +71,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_grou
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
 from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
+from mlp_api.apis.paths.api_mlpgate_task_user import ApiMlpgateTaskUser
 from mlp_api.apis.paths.api_mlpgate_system_config_task_types import ApiMlpgateSystemConfigTaskTypes
 from mlp_api.apis.paths.api_mlpgate_system_config_resource_groups import ApiMlpgateSystemConfigResourceGroups
 from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpgateSystemConfigModelDefaults
@@ -235,6 +236,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
+        PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
@@ -400,6 +402,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
+        PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
         PathValues.API_MLPGATE_SYSTEMCONFIG_TASKTYPES: ApiMlpgateSystemConfigTaskTypes,
         PathValues.API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS: ApiMlpgateSystemConfigResourceGroups,
         PathValues.API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS: ApiMlpgateSystemConfigModelDefaults,
