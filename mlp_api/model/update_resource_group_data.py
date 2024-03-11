@@ -36,6 +36,7 @@ class UpdateResourceGroupData(
     class MetaOapg:
         
         class properties:
+            name = schemas.StrSchema
             isDefault = schemas.BoolSchema
             enabledEviction = schemas.BoolSchema
             enabledAutoScaling = schemas.BoolSchema
@@ -70,12 +71,16 @@ class UpdateResourceGroupData(
             def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
                 return ResourceGroupAutoScalingConfiguration
             __annotations__ = {
+                "name": name,
                 "isDefault": isDefault,
                 "enabledEviction": enabledEviction,
                 "enabledAutoScaling": enabledAutoScaling,
                 "access": access,
                 "autoScalingConfiguration": autoScalingConfiguration,
             }
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isDefault"]) -> MetaOapg.properties.isDefault: ...
@@ -95,10 +100,13 @@ class UpdateResourceGroupData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["name"]) -> typing.Union[MetaOapg.properties.name, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isDefault"]) -> typing.Union[MetaOapg.properties.isDefault, schemas.Unset]: ...
@@ -118,13 +126,14 @@ class UpdateResourceGroupData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        name: typing.Union[MetaOapg.properties.name, str, schemas.Unset] = schemas.unset,
         isDefault: typing.Union[MetaOapg.properties.isDefault, bool, schemas.Unset] = schemas.unset,
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
         enabledAutoScaling: typing.Union[MetaOapg.properties.enabledAutoScaling, bool, schemas.Unset] = schemas.unset,
@@ -136,6 +145,7 @@ class UpdateResourceGroupData(
         return super().__new__(
             cls,
             *_args,
+            name=name,
             isDefault=isDefault,
             enabledEviction=enabledEviction,
             enabledAutoScaling=enabledAutoScaling,
