@@ -1,5 +1,5 @@
 import enum
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from pydantic import BaseModel, Field
 
@@ -650,3 +650,58 @@ class TtsDictionaryEntry(BaseModel):
 
 class TtsDictionary(BaseModel):
     dictionary: List[TtsDictionaryEntry]
+
+
+# OpenAI API TYPES
+
+class ChatCompletionRole(enum.Enum):
+    SYSTEM = 'system'
+    USER = 'user'
+    ASSISTANT = 'assistant'
+
+
+class ChatCompletionChoiceFinishReason(enum.Enum):
+    stop = 'stop'
+    length = 'length'
+    function_call = 'function_call'
+
+
+class Usage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class ChatMessage(BaseModel):
+    role: ChatCompletionRole
+    content: str
+
+
+class ChatCompletionChoice(BaseModel):
+    index: int
+    message: ChatMessage
+    finish_reason: Optional[ChatCompletionChoiceFinishReason] = Field(None)
+
+
+class ChatCompletionResult(BaseModel):
+    id: Optional[str] = Field(None)
+    object: Optional[str] = Field(None)
+    created: int = Field(0)
+    model: str
+    choices: List[ChatCompletionChoice]
+    usage: Optional[Usage] = Field(None)
+
+
+class ChatCompletionRequest(BaseModel):
+    model: Optional[str] = Field(None)
+    messages: List[ChatMessage]
+    temperature: Optional[float] = Field(None)
+    top_p: Optional[float] = Field(None)
+    n: Optional[int] = Field(None)
+    stream: Optional[bool] = Field(None)
+    stop: Optional[List[str]] = Field(None)
+    max_tokens: Optional[int] = Field(None)
+    presence_penalty: Optional[float] = Field(None)
+    frequency_penalty: Optional[float] = Field(None)
+    logit_bias: Optional[Dict[str, int]] = Field(None)
+    user: Optional[str] = Field(None)
