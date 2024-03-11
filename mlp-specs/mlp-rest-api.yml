@@ -3688,6 +3688,61 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobStatusDataV2'
+  /api/mlpgate/task/user:
+    get:
+      tags:
+      - task-endpoint
+      operationId: listAccountJobs
+      parameters:
+      - name: account
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: model
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: instanceId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: groupName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: serverId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: excludeStatus
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobStatusDataV2'
   /api/mlpgate/system-config/task-types:
     get:
       tags:
@@ -7553,6 +7608,8 @@ components:
     UpdateResourceGroupData:
       type: object
       properties:
+        name:
+          type: string
         isDefault:
           type: boolean
         enabledEviction:
