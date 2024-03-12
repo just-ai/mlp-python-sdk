@@ -163,12 +163,39 @@ class AccountDataDump(
             
                 def __getitem__(self, i: int) -> 'ModelDump':
                     return super().__getitem__(i)
+            
+            
+            class serverTemplates(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    
+                    @staticmethod
+                    def items() -> typing.Type['ServerTemplateDump']:
+                        return ServerTemplateDump
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple['ServerTemplateDump'], typing.List['ServerTemplateDump']],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'serverTemplates':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> 'ServerTemplateDump':
+                    return super().__getitem__(i)
             __annotations__ = {
                 "apiTokens": apiTokens,
                 "modelGroups": modelGroups,
                 "images": images,
                 "dataImages": dataImages,
                 "models": models,
+                "serverTemplates": serverTemplates,
             }
     
     @typing.overload
@@ -187,9 +214,12 @@ class AccountDataDump(
     def __getitem__(self, name: typing_extensions.Literal["models"]) -> MetaOapg.properties.models: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["serverTemplates"]) -> MetaOapg.properties.serverTemplates: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", "serverTemplates", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -210,9 +240,12 @@ class AccountDataDump(
     def get_item_oapg(self, name: typing_extensions.Literal["models"]) -> typing.Union[MetaOapg.properties.models, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["serverTemplates"]) -> typing.Union[MetaOapg.properties.serverTemplates, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["apiTokens", "modelGroups", "images", "dataImages", "models", "serverTemplates", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -224,6 +257,7 @@ class AccountDataDump(
         images: typing.Union[MetaOapg.properties.images, list, tuple, schemas.Unset] = schemas.unset,
         dataImages: typing.Union[MetaOapg.properties.dataImages, list, tuple, schemas.Unset] = schemas.unset,
         models: typing.Union[MetaOapg.properties.models, list, tuple, schemas.Unset] = schemas.unset,
+        serverTemplates: typing.Union[MetaOapg.properties.serverTemplates, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'AccountDataDump':
@@ -235,6 +269,7 @@ class AccountDataDump(
             images=images,
             dataImages=dataImages,
             models=models,
+            serverTemplates=serverTemplates,
             _configuration=_configuration,
             **kwargs,
         )
@@ -243,3 +278,4 @@ from mlp_api.model.data_image_dump import DataImageDump
 from mlp_api.model.image_dump import ImageDump
 from mlp_api.model.model_dump import ModelDump
 from mlp_api.model.model_group_dump import ModelGroupDump
+from mlp_api.model.server_template_dump import ServerTemplateDump

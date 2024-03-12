@@ -422,6 +422,100 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenData'
+  /api/mlpgate/account/{account}/server/template:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: getOwnTemplates
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceGroupServerData'
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: addServerTemplate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServer'
+  /api/mlpgate/account/{account}/server/template/{templateId}:
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: updateServerTemplate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServer'
   /api/mlpgate/account/{account}/resource-groups:
     get:
       tags:
@@ -6987,6 +7081,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ModelDump'
+        serverTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServerTemplateDump'
     DataImageDump:
       required:
       - dataPath
@@ -7401,6 +7499,30 @@ components:
           type: string
         isDefault:
           type: boolean
+    ServerTemplateDump:
+      required:
+      - configuration
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        price:
+          type: string
+        capacity:
+          type: string
+        description:
+          type: string
+        configuration:
+          type: string
     AccountConfigDump:
       required:
       - accountName
@@ -7521,6 +7643,98 @@ components:
           type: string
         creationDate:
           type: string
+    ResourceGroupServerTemplateData:
+      required:
+      - rawConfiguration
+      - templateName
+      - type
+      type: object
+      properties:
+        templateName:
+          type: string
+        type:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        price:
+          type: string
+        capacity:
+          type: string
+        description:
+          type: string
+        rawConfiguration:
+          type: string
+    ResourceGroupServer:
+      required:
+      - createTimestamp
+      - id
+      - isAutoCreated
+      - isPublicTemplate
+      - kubernetesSynthetic
+      - name
+      - ownerId
+      - rawConfiguration
+      - status
+      - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        type:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        isPublicTemplate:
+          type: boolean
+        rawConfiguration:
+          type: string
+        isAutoCreated:
+          type: boolean
+        templatePrice:
+          type: string
+        templateCapacity:
+          type: string
+        templateDescription:
+          type: string
+        lastCapacity:
+          type: string
+        lastHeartbeat:
+          type: string
+          format: date-time
+        deleteTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - IDLE
+          - STARTING
+          - STARTED
+          - FAILED
+          - DELETING
+          - DELETED
+        createTimestamp:
+          type: string
+          format: date-time
+        nextBillingActionTimestamp:
+          type: string
+          format: date-time
+        kubernetesSynthetic:
+          type: boolean
     CreateResourceGroupData:
       required:
       - name

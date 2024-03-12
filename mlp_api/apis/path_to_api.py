@@ -10,6 +10,8 @@ from mlp_api.apis.paths.api_mlpgate_admin_account_account_limits import ApiMlpga
 from mlp_api.apis.paths.api_mlpgate_admin_account_account_features import ApiMlpgateAdminAccountAccountFeatures
 from mlp_api.apis.paths.api_mlpgate_account import ApiMlpgateAccount
 from mlp_api.apis.paths.api_mlpgate_account_account_token import ApiMlpgateAccountAccountToken
+from mlp_api.apis.paths.api_mlpgate_account_account_server_template import ApiMlpgateAccountAccountServerTemplate
+from mlp_api.apis.paths.api_mlpgate_account_account_server_template_template_id import ApiMlpgateAccountAccountServerTemplateTemplateId
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups import ApiMlpgateAccountAccountResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name import ApiMlpgateAccountAccountResourceGroupsGroupName
 from mlp_api.apis.paths.api_mlpgate_account_account_resource_groups_group_name_server import ApiMlpgateAccountAccountResourceGroupsGroupNameServer
@@ -175,6 +177,8 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateAdminAccountAccountFeatures,
         PathValues.API_MLPGATE_ACCOUNT: ApiMlpgateAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_SERVER_TEMPLATE: ApiMlpgateAccountAccountServerTemplate,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_SERVER_TEMPLATE_TEMPLATE_ID: ApiMlpgateAccountAccountServerTemplateTemplateId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS: ApiMlpgateAccountAccountResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME: ApiMlpgateAccountAccountResourceGroupsGroupName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER: ApiMlpgateAccountAccountResourceGroupsGroupNameServer,
@@ -341,6 +345,8 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ADMIN_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateAdminAccountAccountFeatures,
         PathValues.API_MLPGATE_ACCOUNT: ApiMlpgateAccount,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_TOKEN: ApiMlpgateAccountAccountToken,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_SERVER_TEMPLATE: ApiMlpgateAccountAccountServerTemplate,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_SERVER_TEMPLATE_TEMPLATE_ID: ApiMlpgateAccountAccountServerTemplateTemplateId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS: ApiMlpgateAccountAccountResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME: ApiMlpgateAccountAccountResourceGroupsGroupName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_SERVER: ApiMlpgateAccountAccountResourceGroupsGroupNameServer,
