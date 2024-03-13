@@ -49,6 +49,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CROSSVALIDATION = "/api/mlpgate/account/{account}/model/{model}/cross-validation"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CLONE = "/api/mlpgate/account/{account}/model/{model}/clone"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_BILLING = "/api/mlpgate/account/{account}/model/{model}/billing"
+    API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ARCHIVE = "/api/mlpgate/account/{account}/model/{model}/archive"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP = "/api/mlpgate/account/{account}/model-group"
     API_MLPGATE_ACCOUNT_ACCOUNT_MANAGEMENT_FEATURE_NAME = "/api/mlpgate/account/{account}/management/{featureName}"
     API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE = "/api/mlpgate/account/{account}/image"

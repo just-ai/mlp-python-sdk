@@ -516,6 +516,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServer'
+    delete:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: deleteServerTemplate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/account/{account}/resource-groups:
     get:
       tags:
@@ -2374,6 +2400,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelBillingSettingsData'
+  /api/mlpgate/account/{account}/model/{model}/archive:
+    post:
+      tags:
+      - model-endpoint
+      operationId: updateModelArchiveSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelArchiveSettingsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelArchiveSettingsData'
   /api/mlpgate/account/{account}/model-group:
     get:
       tags:
@@ -7162,6 +7225,22 @@ components:
           - private
           - public
           - restricted
+    ModelArchiveSettingsData:
+      required:
+      - enabled
+      - encryptionEnabled
+      - numberOfArchivedRequests
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        numberOfArchivedRequests:
+          type: integer
+          format: int64
+        encryptionEnabled:
+          type: boolean
+        rsaPemPublicKey:
+          type: string
     ModelAutoScalingConfiguration:
       required:
       - minInstanceCount
@@ -7250,6 +7329,9 @@ components:
           format: int64
     ModelDump:
       required:
+      - archiveEnabled
+      - archiveEncryptionEnabled
+      - asArchiveSettingsData
       - asBillingSettingsData
       - asHttpSettingsData
       - asPublicSettingsData
@@ -7258,6 +7340,7 @@ components:
       - image
       - isHttpEnabled
       - name
+      - numberOfArchivedRequests
       - predictConfigs
       type: object
       properties:
@@ -7386,12 +7469,23 @@ components:
           format: int32
         mainPageEndpoint:
           type: string
+        archiveEnabled:
+          type: boolean
+        numberOfArchivedRequests:
+          type: integer
+          format: int64
+        archiveEncryptionEnabled:
+          type: boolean
+        archiveEncryptionPublicKey:
+          type: string
         asHttpSettingsData:
           $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        asArchiveSettingsData:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
     ModelGroupDump:
       required:
       - name
