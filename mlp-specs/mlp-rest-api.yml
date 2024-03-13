@@ -8332,6 +8332,7 @@ components:
           format: int64
     ModelInfoData:
       required:
+      - archiveSettings
       - autoScalingConfiguration
       - batchesConfig
       - billingSettings
@@ -8467,6 +8468,8 @@ components:
           $ref: '#/components/schemas/ModelBillingSettingsData'
         httpSettings:
           $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
         restrictedImageAccess:
           type: boolean
         lastActivity:
@@ -9217,10 +9220,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
