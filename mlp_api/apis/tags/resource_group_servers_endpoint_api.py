@@ -13,6 +13,7 @@ from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_server
 from mlp_api.paths.api_mlpgate_account_account_server_template.post import AddServerTemplate
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_copy.post import CopyServerConfiguration
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id.delete import DeleteServerConfiguration
+from mlp_api.paths.api_mlpgate_account_account_server_template_template_id.delete import DeleteServerTemplate
 from mlp_api.paths.api_mlpgate_account_account_server_template.get import GetOwnTemplates
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id.get import GetServerData
 from mlp_api.paths.api_mlpgate_account_account_resource_groups_group_name_server_server_id_status.get import GetServerStatus
@@ -28,6 +29,7 @@ class ResourceGroupServersEndpointApi(
     AddServerTemplate,
     CopyServerConfiguration,
     DeleteServerConfiguration,
+    DeleteServerTemplate,
     GetOwnTemplates,
     GetServerData,
     GetServerStatus,

@@ -516,6 +516,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServer'
+    delete:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: deleteServerTemplate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/account/{account}/resource-groups:
     get:
       tags:
