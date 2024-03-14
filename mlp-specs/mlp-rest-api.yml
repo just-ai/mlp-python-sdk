@@ -8906,8 +8906,11 @@ components:
       required:
       - isBillingEnabled
       - isExtendedLanding
+      - isSystemAccount
       type: object
       properties:
+        isSystemAccount:
+          type: boolean
         isBillingEnabled:
           type: boolean
         isExtendedLanding:
@@ -9163,11 +9166,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/Sort'
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
