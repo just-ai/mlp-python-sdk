@@ -8977,8 +8977,11 @@ components:
       required:
       - isBillingEnabled
       - isExtendedLanding
+      - isSystemAccount
       type: object
       properties:
+        isSystemAccount:
+          type: boolean
         isBillingEnabled:
           type: boolean
         isExtendedLanding:
