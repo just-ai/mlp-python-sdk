@@ -35,12 +35,14 @@ class ModelDump(
 
     class MetaOapg:
         required = {
+            "asHttpSettingsData",
             "image",
             "docs",
             "asPublicSettingsData",
             "fitConfigs",
             "name",
             "asBillingSettingsData",
+            "isHttpEnabled",
             "predictConfigs",
         }
         
@@ -125,14 +127,19 @@ class ModelDump(
             
                 def __getitem__(self, i: int) -> 'FitConfigDump':
                     return super().__getitem__(i)
+            isHttpEnabled = schemas.BoolSchema
         
             @staticmethod
-            def asBillingSettingsData() -> typing.Type['ModelBillingSettingsData']:
-                return ModelBillingSettingsData
+            def asHttpSettingsData() -> typing.Type['ModelHttpSettingsData']:
+                return ModelHttpSettingsData
         
             @staticmethod
             def asPublicSettingsData() -> typing.Type['ModelPublicSettingsData']:
                 return ModelPublicSettingsData
+        
+            @staticmethod
+            def asBillingSettingsData() -> typing.Type['ModelBillingSettingsData']:
+                return ModelBillingSettingsData
             imageAccount = schemas.StrSchema
             modelGroup = schemas.StrSchema
             isPublic = schemas.BoolSchema
@@ -204,6 +211,7 @@ class ModelDump(
                     enum_value_to_name = {
                         "EXTERNAL": "EXTERNAL",
                         "INTERNAL": "INTERNAL",
+                        "AUTOMATIC": "AUTOMATIC",
                         "HOSTING_SERVER": "HOSTING_SERVER",
                     }
                 
@@ -214,6 +222,10 @@ class ModelDump(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
+                
+                @schemas.classproperty
+                def AUTOMATIC(cls):
+                    return cls("AUTOMATIC")
                 
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
@@ -355,14 +367,18 @@ class ModelDump(
             
                 def __getitem__(self, i: int) -> MetaOapg.items:
                     return super().__getitem__(i)
+            httpPort = schemas.Int32Schema
+            mainPageEndpoint = schemas.StrSchema
             __annotations__ = {
                 "name": name,
                 "image": image,
                 "docs": docs,
                 "predictConfigs": predictConfigs,
                 "fitConfigs": fitConfigs,
-                "asBillingSettingsData": asBillingSettingsData,
+                "isHttpEnabled": isHttpEnabled,
+                "asHttpSettingsData": asHttpSettingsData,
                 "asPublicSettingsData": asPublicSettingsData,
+                "asBillingSettingsData": asBillingSettingsData,
                 "imageAccount": imageAccount,
                 "modelGroup": modelGroup,
                 "isPublic": isPublic,
@@ -402,14 +418,18 @@ class ModelDump(
                 "billingUnitPriceInNanoToken": billingUnitPriceInNanoToken,
                 "freeUnitQuota": freeUnitQuota,
                 "aliases": aliases,
+                "httpPort": httpPort,
+                "mainPageEndpoint": mainPageEndpoint,
             }
     
+    asHttpSettingsData: 'ModelHttpSettingsData'
     image: MetaOapg.properties.image
     docs: MetaOapg.properties.docs
     asPublicSettingsData: 'ModelPublicSettingsData'
     fitConfigs: MetaOapg.properties.fitConfigs
     name: MetaOapg.properties.name
     asBillingSettingsData: 'ModelBillingSettingsData'
+    isHttpEnabled: MetaOapg.properties.isHttpEnabled
     predictConfigs: MetaOapg.properties.predictConfigs
     
     @typing.overload
@@ -428,10 +448,16 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["fitConfigs"]) -> MetaOapg.properties.fitConfigs: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
+    def __getitem__(self, name: typing_extensions.Literal["isHttpEnabled"]) -> MetaOapg.properties.isHttpEnabled: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["asHttpSettingsData"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["imageAccount"]) -> MetaOapg.properties.imageAccount: ...
@@ -551,9 +577,15 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["aliases"]) -> MetaOapg.properties.aliases: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["httpPort"]) -> MetaOapg.properties.httpPort: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["mainPageEndpoint"]) -> MetaOapg.properties.mainPageEndpoint: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -574,10 +606,16 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["fitConfigs"]) -> MetaOapg.properties.fitConfigs: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
+    def get_item_oapg(self, name: typing_extensions.Literal["isHttpEnabled"]) -> MetaOapg.properties.isHttpEnabled: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["asHttpSettingsData"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["asPublicSettingsData"]) -> 'ModelPublicSettingsData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["imageAccount"]) -> typing.Union[MetaOapg.properties.imageAccount, schemas.Unset]: ...
@@ -697,21 +735,29 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["aliases"]) -> typing.Union[MetaOapg.properties.aliases, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["httpPort"]) -> typing.Union[MetaOapg.properties.httpPort, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["mainPageEndpoint"]) -> typing.Union[MetaOapg.properties.mainPageEndpoint, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "asBillingSettingsData", "asPublicSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        asHttpSettingsData: 'ModelHttpSettingsData',
         image: typing.Union[MetaOapg.properties.image, str, ],
         docs: typing.Union[MetaOapg.properties.docs, list, tuple, ],
         asPublicSettingsData: 'ModelPublicSettingsData',
         fitConfigs: typing.Union[MetaOapg.properties.fitConfigs, list, tuple, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         asBillingSettingsData: 'ModelBillingSettingsData',
+        isHttpEnabled: typing.Union[MetaOapg.properties.isHttpEnabled, bool, ],
         predictConfigs: typing.Union[MetaOapg.properties.predictConfigs, list, tuple, ],
         imageAccount: typing.Union[MetaOapg.properties.imageAccount, str, schemas.Unset] = schemas.unset,
         modelGroup: typing.Union[MetaOapg.properties.modelGroup, str, schemas.Unset] = schemas.unset,
@@ -752,18 +798,22 @@ class ModelDump(
         billingUnitPriceInNanoToken: typing.Union[MetaOapg.properties.billingUnitPriceInNanoToken, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         freeUnitQuota: typing.Union[MetaOapg.properties.freeUnitQuota, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         aliases: typing.Union[MetaOapg.properties.aliases, list, tuple, schemas.Unset] = schemas.unset,
+        httpPort: typing.Union[MetaOapg.properties.httpPort, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        mainPageEndpoint: typing.Union[MetaOapg.properties.mainPageEndpoint, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelDump':
         return super().__new__(
             cls,
             *_args,
+            asHttpSettingsData=asHttpSettingsData,
             image=image,
             docs=docs,
             asPublicSettingsData=asPublicSettingsData,
             fitConfigs=fitConfigs,
             name=name,
             asBillingSettingsData=asBillingSettingsData,
+            isHttpEnabled=isHttpEnabled,
             predictConfigs=predictConfigs,
             imageAccount=imageAccount,
             modelGroup=modelGroup,
@@ -804,6 +854,8 @@ class ModelDump(
             billingUnitPriceInNanoToken=billingUnitPriceInNanoToken,
             freeUnitQuota=freeUnitQuota,
             aliases=aliases,
+            httpPort=httpPort,
+            mainPageEndpoint=mainPageEndpoint,
             _configuration=_configuration,
             **kwargs,
         )
@@ -815,6 +867,7 @@ from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfi
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.model.model_caching_data import ModelCachingData
+from mlp_api.model.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.model.model_limits_data import ModelLimitsData
 from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_public_settings_data import ModelPublicSettingsData

@@ -37,6 +37,7 @@ class ModelInfoData(
         required = {
             "timeouts",
             "hostingType",
+            "httpSettings",
             "caching",
             "resourceLimits",
             "restrictedImageAccess",
@@ -77,6 +78,7 @@ class ModelInfoData(
                     enum_value_to_name = {
                         "EXTERNAL": "EXTERNAL",
                         "INTERNAL": "INTERNAL",
+                        "AUTOMATIC": "AUTOMATIC",
                         "HOSTING_SERVER": "HOSTING_SERVER",
                     }
                 
@@ -87,6 +89,10 @@ class ModelInfoData(
                 @schemas.classproperty
                 def INTERNAL(cls):
                     return cls("INTERNAL")
+                
+                @schemas.classproperty
+                def AUTOMATIC(cls):
+                    return cls("AUTOMATIC")
                 
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
@@ -179,6 +185,10 @@ class ModelInfoData(
             @staticmethod
             def billingSettings() -> typing.Type['ModelBillingSettingsData']:
                 return ModelBillingSettingsData
+        
+            @staticmethod
+            def httpSettings() -> typing.Type['ModelHttpSettingsData']:
+                return ModelHttpSettingsData
             restrictedImageAccess = schemas.BoolSchema
             favorite = schemas.BoolSchema
             modelAccountName = schemas.StrSchema
@@ -330,6 +340,7 @@ class ModelInfoData(
                 "autoScalingConfiguration": autoScalingConfiguration,
                 "publicSettings": publicSettings,
                 "billingSettings": billingSettings,
+                "httpSettings": httpSettings,
                 "restrictedImageAccess": restrictedImageAccess,
                 "favorite": favorite,
                 "modelAccountName": modelAccountName,
@@ -363,6 +374,7 @@ class ModelInfoData(
     
     timeouts: 'ModelTimeoutsData'
     hostingType: MetaOapg.properties.hostingType
+    httpSettings: 'ModelHttpSettingsData'
     caching: 'ModelCachingData'
     resourceLimits: 'ModelLimitsData'
     restrictedImageAccess: MetaOapg.properties.restrictedImageAccess
@@ -431,6 +443,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["billingSettings"]) -> 'ModelBillingSettingsData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["httpSettings"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -522,7 +537,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -577,6 +592,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["billingSettings"]) -> 'ModelBillingSettingsData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["httpSettings"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -668,7 +686,7 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -677,6 +695,7 @@ class ModelInfoData(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         timeouts: 'ModelTimeoutsData',
         hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
+        httpSettings: 'ModelHttpSettingsData',
         caching: 'ModelCachingData',
         resourceLimits: 'ModelLimitsData',
         restrictedImageAccess: typing.Union[MetaOapg.properties.restrictedImageAccess, bool, ],
@@ -729,6 +748,7 @@ class ModelInfoData(
             *_args,
             timeouts=timeouts,
             hostingType=hostingType,
+            httpSettings=httpSettings,
             caching=caching,
             resourceLimits=resourceLimits,
             restrictedImageAccess=restrictedImageAccess,
@@ -785,6 +805,7 @@ from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfi
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.model.model_caching_data import ModelCachingData
+from mlp_api.model.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.model.model_info_pk import ModelInfoPK
 from mlp_api.model.model_limits_data import ModelLimitsData
 from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData

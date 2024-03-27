@@ -107,6 +107,10 @@ class ModelCreateUpdateData(
                     return cls("INTERNAL")
                 
                 @schemas.classproperty
+                def AUTOMATIC(cls):
+                    return cls("AUTOMATIC")
+                
+                @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("HOSTING_SERVER")
             

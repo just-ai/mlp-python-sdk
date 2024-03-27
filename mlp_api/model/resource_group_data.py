@@ -63,6 +63,7 @@ class ResourceGroupData(
                         "DOCKER": "DOCKER",
                         "KUBERNETES": "KUBERNETES",
                         "HOSTING_SERVER": "HOSTING_SERVER",
+                        "SHARED_RESOURCE_QUOTA": "SHARED_RESOURCE_QUOTA",
                     }
                 
                 @schemas.classproperty
@@ -76,6 +77,10 @@ class ResourceGroupData(
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("HOSTING_SERVER")
+                
+                @schemas.classproperty
+                def SHARED_RESOURCE_QUOTA(cls):
+                    return cls("SHARED_RESOURCE_QUOTA")
             
             
             class access(
@@ -88,6 +93,7 @@ class ResourceGroupData(
                     enum_value_to_name = {
                         "PRIVATE": "PRIVATE",
                         "PUBLIC": "PUBLIC",
+                        "SHARED_POOL": "SHARED_POOL",
                     }
                 
                 @schemas.classproperty
@@ -97,6 +103,14 @@ class ResourceGroupData(
                 @schemas.classproperty
                 def PUBLIC(cls):
                     return cls("PUBLIC")
+                
+                @schemas.classproperty
+                def SHARED_POOL(cls):
+                    return cls("SHARED_POOL")
+        
+            @staticmethod
+            def autoScalingConfiguration() -> typing.Type['ResourceGroupAutoScalingConfiguration']:
+                return ResourceGroupAutoScalingConfiguration
             __annotations__ = {
                 "name": name,
                 "tolerations": tolerations,
@@ -109,6 +123,7 @@ class ResourceGroupData(
                 "enabledEviction": enabledEviction,
                 "resourceGroupType": resourceGroupType,
                 "access": access,
+                "autoScalingConfiguration": autoScalingConfiguration,
             }
     
     tolerations: MetaOapg.properties.tolerations
@@ -149,9 +164,12 @@ class ResourceGroupData(
     def __getitem__(self, name: typing_extensions.Literal["access"]) -> MetaOapg.properties.access: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> 'ResourceGroupAutoScalingConfiguration': ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "autoScalingConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -190,9 +208,12 @@ class ResourceGroupData(
     def get_item_oapg(self, name: typing_extensions.Literal["access"]) -> typing.Union[MetaOapg.properties.access, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["autoScalingConfiguration"]) -> typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "tolerations", "affinity", "accountId", "accountName", "ownerId", "isDefault", "enabledAutoScaling", "enabledEviction", "resourceGroupType", "access", "autoScalingConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -210,6 +231,7 @@ class ResourceGroupData(
         enabledEviction: typing.Union[MetaOapg.properties.enabledEviction, bool, schemas.Unset] = schemas.unset,
         resourceGroupType: typing.Union[MetaOapg.properties.resourceGroupType, str, schemas.Unset] = schemas.unset,
         access: typing.Union[MetaOapg.properties.access, str, schemas.Unset] = schemas.unset,
+        autoScalingConfiguration: typing.Union['ResourceGroupAutoScalingConfiguration', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupData':
@@ -227,6 +249,9 @@ class ResourceGroupData(
             enabledEviction=enabledEviction,
             resourceGroupType=resourceGroupType,
             access=access,
+            autoScalingConfiguration=autoScalingConfiguration,
             _configuration=_configuration,
             **kwargs,
         )
+
+from mlp_api.model.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration

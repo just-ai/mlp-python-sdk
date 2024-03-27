@@ -102,6 +102,10 @@ class SchemaFor200ResponseBodyApplicationJson(
             @schemas.classproperty
             def HOSTING_SERVER(cls):
                 return cls("HOSTING_SERVER")
+            
+            @schemas.classproperty
+            def SHARED_RESOURCE_QUOTA(cls):
+                return cls("SHARED_RESOURCE_QUOTA")
 
     def __new__(
         cls,

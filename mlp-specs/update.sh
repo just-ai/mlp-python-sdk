@@ -7,7 +7,7 @@ cd $BASEDIR
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ $BRANCH == 'dev' ]; then
-  SERVER=https://mlp.caila-ci-dev.lo.test-ai.net
+  SERVER=https://mlp.caila-ci-dev.testcloud-k8s.test-ai.net
 fi
 if [ $BRANCH == 'stable' ]; then
   SERVER=https://mlp.caila-stable.test-ai.net
