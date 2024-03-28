@@ -1,7 +1,7 @@
 import enum
 from typing import List, Optional, Dict
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Extra
 
 PACKAGE_NAME = "types"
 
@@ -679,17 +679,20 @@ class ChatMessage(BaseModel):
 
 class ChatCompletionChoice(BaseModel):
     index: int
-    message: ChatMessage
+    message: Optional[ChatMessage]
+    delta: Optional[ChatMessage]
     finish_reason: Optional[ChatCompletionChoiceFinishReason] = Field(None)
 
 
 class ChatCompletionResult(BaseModel):
-    id: Optional[str] = Field(None)
-    object: Optional[str] = Field(None)
-    created: int = Field(0)
     model: str
     choices: List[ChatCompletionChoice]
     usage: Optional[Usage] = Field(None)
+
+
+class ChatCompletionConfig(BaseModel, extra=Extra.allow):
+    temperature: float
+    max_tokens: int #max_new_tokens in hf
 
 
 class ChatCompletionRequest(BaseModel):
