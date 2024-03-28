@@ -693,15 +693,6 @@ class ChatCompletionResult(BaseModel):
 
 
 class ChatCompletionRequest(BaseModel):
-    model: Optional[str] = Field(None)
     messages: List[ChatMessage]
-    temperature: Optional[float] = Field(None)
-    top_p: Optional[float] = Field(None)
-    n: Optional[int] = Field(None)
+    model: Optional[str] = Field(None)
     stream: Optional[bool] = Field(None)
-    stop: Optional[List[str]] = Field(None)
-    max_tokens: Optional[int] = Field(None)
-    presence_penalty: Optional[float] = Field(None)
-    frequency_penalty: Optional[float] = Field(None)
-    logit_bias: Optional[Dict[str, int]] = Field(None)
-    user: Optional[str] = Field(None)
