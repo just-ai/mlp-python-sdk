@@ -691,10 +691,12 @@ class ChatCompletionResult(BaseModel):
 
 
 class ChatCompletionConfig(BaseModel, extra=Extra.allow):
-    temperature: float
-    max_tokens: int #max_new_tokens in hf
-
-
+    temperature: float = Field(None)
+    max_tokens: int = Field(None) #max_new_tokens in hf
+    top_p: float = Field(None)
+    # presence_penalty: 
+    # frequency_penalty:
+    
 class ChatCompletionRequest(BaseModel):
     messages: List[ChatMessage]
     model: Optional[str] = Field(None)
