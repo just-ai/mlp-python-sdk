@@ -685,8 +685,8 @@ class ChatCompletionChoice(BaseModel):
 
 
 class ChatCompletionResult(BaseModel):
-    model: str
     choices: List[ChatCompletionChoice]
+    model: Optional[str]
     usage: Optional[Usage] = Field(None)
 
 
