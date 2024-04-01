@@ -35,6 +35,7 @@ class ServerTemplateDump(
 
     class MetaOapg:
         required = {
+            "tarifficationPrice",
             "configuration",
             "name",
             "type",
@@ -65,18 +66,50 @@ class ServerTemplateDump(
                 def SHARED_RESOURCE_QUOTA(cls):
                     return cls("SHARED_RESOURCE_QUOTA")
             configuration = schemas.StrSchema
-            price = schemas.StrSchema
+            tarifficationPrice = schemas.NumberSchema
             capacity = schemas.StrSchema
             description = schemas.StrSchema
+            
+            
+            class tarifficationPeriod(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+                
+                @schemas.classproperty
+                def SECOND(cls):
+                    return cls("SECOND")
+                
+                @schemas.classproperty
+                def MINUTE(cls):
+                    return cls("MINUTE")
+                
+                @schemas.classproperty
+                def HOUR(cls):
+                    return cls("HOUR")
+                
+                @schemas.classproperty
+                def DAY(cls):
+                    return cls("DAY")
+                
+                @schemas.classproperty
+                def MONTH(cls):
+                    return cls("MONTH")
+                
+                @schemas.classproperty
+                def YEAR(cls):
+                    return cls("YEAR")
             __annotations__ = {
                 "name": name,
                 "type": type,
                 "configuration": configuration,
-                "price": price,
+                "tarifficationPrice": tarifficationPrice,
                 "capacity": capacity,
                 "description": description,
+                "tarifficationPeriod": tarifficationPeriod,
             }
     
+    tarifficationPrice: MetaOapg.properties.tarifficationPrice
     configuration: MetaOapg.properties.configuration
     name: MetaOapg.properties.name
     type: MetaOapg.properties.type
@@ -91,7 +124,7 @@ class ServerTemplateDump(
     def __getitem__(self, name: typing_extensions.Literal["configuration"]) -> MetaOapg.properties.configuration: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["price"]) -> MetaOapg.properties.price: ...
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["capacity"]) -> MetaOapg.properties.capacity: ...
@@ -100,9 +133,12 @@ class ServerTemplateDump(
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> MetaOapg.properties.tarifficationPeriod: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "type", "configuration", "price", "capacity", "description", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "type", "configuration", "tarifficationPrice", "capacity", "description", "tarifficationPeriod", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -117,7 +153,7 @@ class ServerTemplateDump(
     def get_item_oapg(self, name: typing_extensions.Literal["configuration"]) -> MetaOapg.properties.configuration: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["price"]) -> typing.Union[MetaOapg.properties.price, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["capacity"]) -> typing.Union[MetaOapg.properties.capacity, schemas.Unset]: ...
@@ -126,33 +162,38 @@ class ServerTemplateDump(
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> typing.Union[MetaOapg.properties.tarifficationPeriod, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "type", "configuration", "price", "capacity", "description", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "type", "configuration", "tarifficationPrice", "capacity", "description", "tarifficationPeriod", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        tarifficationPrice: typing.Union[MetaOapg.properties.tarifficationPrice, decimal.Decimal, int, float, ],
         configuration: typing.Union[MetaOapg.properties.configuration, str, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         type: typing.Union[MetaOapg.properties.type, str, ],
-        price: typing.Union[MetaOapg.properties.price, str, schemas.Unset] = schemas.unset,
         capacity: typing.Union[MetaOapg.properties.capacity, str, schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
+        tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ServerTemplateDump':
         return super().__new__(
             cls,
             *_args,
+            tarifficationPrice=tarifficationPrice,
             configuration=configuration,
             name=name,
             type=type,
-            price=price,
             capacity=capacity,
             description=description,
+            tarifficationPeriod=tarifficationPeriod,
             _configuration=_configuration,
             **kwargs,
         )

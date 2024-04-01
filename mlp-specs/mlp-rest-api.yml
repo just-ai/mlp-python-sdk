@@ -7597,6 +7597,7 @@ components:
       required:
       - configuration
       - name
+      - tarifficationPrice
       - type
       type: object
       properties:
@@ -7609,14 +7610,23 @@ components:
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
-        price:
-          type: string
         capacity:
           type: string
         description:
           type: string
         configuration:
           type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     AccountConfigDump:
       required:
       - accountName
@@ -7740,6 +7750,7 @@ components:
     ResourceGroupServerTemplateData:
       required:
       - rawConfiguration
+      - tarifficationPrice
       - templateName
       - type
       type: object
@@ -7753,14 +7764,23 @@ components:
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
-        price:
-          type: string
         capacity:
           type: string
         description:
           type: string
         rawConfiguration:
           type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     ResourceGroupServer:
       required:
       - createTimestamp
@@ -7772,6 +7792,7 @@ components:
       - ownerId
       - rawConfiguration
       - status
+      - tarifficationPrice
       - type
       type: object
       properties:
@@ -7798,20 +7819,23 @@ components:
           type: string
         isAutoCreated:
           type: boolean
-        templatePrice:
-          type: string
         templateCapacity:
           type: string
         templateDescription:
           type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
         lastCapacity:
           type: string
-        lastHeartbeat:
-          type: string
-          format: date-time
-        deleteTimestamp:
-          type: string
-          format: date-time
         status:
           type: string
           enum:
@@ -7821,7 +7845,13 @@ components:
           - FAILED
           - DELETING
           - DELETED
+        lastHeartbeat:
+          type: string
+          format: date-time
         createTimestamp:
+          type: string
+          format: date-time
+        deleteTimestamp:
           type: string
           format: date-time
         nextBillingActionTimestamp:
@@ -7959,14 +7989,13 @@ components:
       - isAutoCreated
       - name
       - rawConfiguration
+      - tarifficationPrice
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
-          type: string
-        price:
           type: string
         description:
           type: string
@@ -7976,6 +8005,17 @@ components:
           type: string
         templateCapacity:
           $ref: '#/components/schemas/Resources'
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     Resources:
       required:
       - baseInstanceCount
@@ -9177,14 +9217,13 @@ components:
       - rawConfiguration
       - resources
       - status
+      - tarifficationPrice
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
-          type: string
-        price:
           type: string
         status:
           type: string
@@ -9202,6 +9241,17 @@ components:
           type: boolean
         rawConfiguration:
           type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     Measurement:
       required:
       - ts
@@ -9223,10 +9273,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32

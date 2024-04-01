@@ -36,6 +36,7 @@ class ResourceGroupServer(
     class MetaOapg:
         required = {
             "isPublicTemplate",
+            "tarifficationPrice",
             "isAutoCreated",
             "kubernetesSynthetic",
             "name",
@@ -85,6 +86,7 @@ class ResourceGroupServer(
             isPublicTemplate = schemas.BoolSchema
             rawConfiguration = schemas.StrSchema
             isAutoCreated = schemas.BoolSchema
+            tarifficationPrice = schemas.NumberSchema
             
             
             class status(
@@ -129,9 +131,49 @@ class ResourceGroupServer(
             createTimestamp = schemas.DateTimeSchema
             kubernetesSynthetic = schemas.BoolSchema
             groupName = schemas.StrSchema
-            templatePrice = schemas.StrSchema
             templateCapacity = schemas.StrSchema
             templateDescription = schemas.StrSchema
+            
+            
+            class tarifficationPeriod(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "SECOND": "SECOND",
+                        "MINUTE": "MINUTE",
+                        "HOUR": "HOUR",
+                        "DAY": "DAY",
+                        "MONTH": "MONTH",
+                        "YEAR": "YEAR",
+                    }
+                
+                @schemas.classproperty
+                def SECOND(cls):
+                    return cls("SECOND")
+                
+                @schemas.classproperty
+                def MINUTE(cls):
+                    return cls("MINUTE")
+                
+                @schemas.classproperty
+                def HOUR(cls):
+                    return cls("HOUR")
+                
+                @schemas.classproperty
+                def DAY(cls):
+                    return cls("DAY")
+                
+                @schemas.classproperty
+                def MONTH(cls):
+                    return cls("MONTH")
+                
+                @schemas.classproperty
+                def YEAR(cls):
+                    return cls("YEAR")
             lastCapacity = schemas.StrSchema
             lastHeartbeat = schemas.DateTimeSchema
             deleteTimestamp = schemas.DateTimeSchema
@@ -144,13 +186,14 @@ class ResourceGroupServer(
                 "isPublicTemplate": isPublicTemplate,
                 "rawConfiguration": rawConfiguration,
                 "isAutoCreated": isAutoCreated,
+                "tarifficationPrice": tarifficationPrice,
                 "status": status,
                 "createTimestamp": createTimestamp,
                 "kubernetesSynthetic": kubernetesSynthetic,
                 "groupName": groupName,
-                "templatePrice": templatePrice,
                 "templateCapacity": templateCapacity,
                 "templateDescription": templateDescription,
+                "tarifficationPeriod": tarifficationPeriod,
                 "lastCapacity": lastCapacity,
                 "lastHeartbeat": lastHeartbeat,
                 "deleteTimestamp": deleteTimestamp,
@@ -158,6 +201,7 @@ class ResourceGroupServer(
             }
     
     isPublicTemplate: MetaOapg.properties.isPublicTemplate
+    tarifficationPrice: MetaOapg.properties.tarifficationPrice
     isAutoCreated: MetaOapg.properties.isAutoCreated
     kubernetesSynthetic: MetaOapg.properties.kubernetesSynthetic
     name: MetaOapg.properties.name
@@ -190,6 +234,9 @@ class ResourceGroupServer(
     def __getitem__(self, name: typing_extensions.Literal["isAutoCreated"]) -> MetaOapg.properties.isAutoCreated: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
@@ -202,13 +249,13 @@ class ResourceGroupServer(
     def __getitem__(self, name: typing_extensions.Literal["groupName"]) -> MetaOapg.properties.groupName: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["templatePrice"]) -> MetaOapg.properties.templatePrice: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["templateCapacity"]) -> MetaOapg.properties.templateCapacity: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["templateDescription"]) -> MetaOapg.properties.templateDescription: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> MetaOapg.properties.tarifficationPeriod: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["lastCapacity"]) -> MetaOapg.properties.lastCapacity: ...
@@ -225,7 +272,7 @@ class ResourceGroupServer(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "ownerId", "type", "isPublicTemplate", "rawConfiguration", "isAutoCreated", "status", "createTimestamp", "kubernetesSynthetic", "groupName", "templatePrice", "templateCapacity", "templateDescription", "lastCapacity", "lastHeartbeat", "deleteTimestamp", "nextBillingActionTimestamp", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "ownerId", "type", "isPublicTemplate", "rawConfiguration", "isAutoCreated", "tarifficationPrice", "status", "createTimestamp", "kubernetesSynthetic", "groupName", "templateCapacity", "templateDescription", "tarifficationPeriod", "lastCapacity", "lastHeartbeat", "deleteTimestamp", "nextBillingActionTimestamp", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -252,6 +299,9 @@ class ResourceGroupServer(
     def get_item_oapg(self, name: typing_extensions.Literal["isAutoCreated"]) -> MetaOapg.properties.isAutoCreated: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
@@ -264,13 +314,13 @@ class ResourceGroupServer(
     def get_item_oapg(self, name: typing_extensions.Literal["groupName"]) -> typing.Union[MetaOapg.properties.groupName, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["templatePrice"]) -> typing.Union[MetaOapg.properties.templatePrice, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["templateCapacity"]) -> typing.Union[MetaOapg.properties.templateCapacity, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["templateDescription"]) -> typing.Union[MetaOapg.properties.templateDescription, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> typing.Union[MetaOapg.properties.tarifficationPeriod, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["lastCapacity"]) -> typing.Union[MetaOapg.properties.lastCapacity, schemas.Unset]: ...
@@ -287,7 +337,7 @@ class ResourceGroupServer(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "ownerId", "type", "isPublicTemplate", "rawConfiguration", "isAutoCreated", "status", "createTimestamp", "kubernetesSynthetic", "groupName", "templatePrice", "templateCapacity", "templateDescription", "lastCapacity", "lastHeartbeat", "deleteTimestamp", "nextBillingActionTimestamp", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "ownerId", "type", "isPublicTemplate", "rawConfiguration", "isAutoCreated", "tarifficationPrice", "status", "createTimestamp", "kubernetesSynthetic", "groupName", "templateCapacity", "templateDescription", "tarifficationPeriod", "lastCapacity", "lastHeartbeat", "deleteTimestamp", "nextBillingActionTimestamp", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -295,6 +345,7 @@ class ResourceGroupServer(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         isPublicTemplate: typing.Union[MetaOapg.properties.isPublicTemplate, bool, ],
+        tarifficationPrice: typing.Union[MetaOapg.properties.tarifficationPrice, decimal.Decimal, int, float, ],
         isAutoCreated: typing.Union[MetaOapg.properties.isAutoCreated, bool, ],
         kubernetesSynthetic: typing.Union[MetaOapg.properties.kubernetesSynthetic, bool, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
@@ -305,9 +356,9 @@ class ResourceGroupServer(
         createTimestamp: typing.Union[MetaOapg.properties.createTimestamp, str, datetime, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
         groupName: typing.Union[MetaOapg.properties.groupName, str, schemas.Unset] = schemas.unset,
-        templatePrice: typing.Union[MetaOapg.properties.templatePrice, str, schemas.Unset] = schemas.unset,
         templateCapacity: typing.Union[MetaOapg.properties.templateCapacity, str, schemas.Unset] = schemas.unset,
         templateDescription: typing.Union[MetaOapg.properties.templateDescription, str, schemas.Unset] = schemas.unset,
+        tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         lastCapacity: typing.Union[MetaOapg.properties.lastCapacity, str, schemas.Unset] = schemas.unset,
         lastHeartbeat: typing.Union[MetaOapg.properties.lastHeartbeat, str, datetime, schemas.Unset] = schemas.unset,
         deleteTimestamp: typing.Union[MetaOapg.properties.deleteTimestamp, str, datetime, schemas.Unset] = schemas.unset,
@@ -319,6 +370,7 @@ class ResourceGroupServer(
             cls,
             *_args,
             isPublicTemplate=isPublicTemplate,
+            tarifficationPrice=tarifficationPrice,
             isAutoCreated=isAutoCreated,
             kubernetesSynthetic=kubernetesSynthetic,
             name=name,
@@ -329,9 +381,9 @@ class ResourceGroupServer(
             createTimestamp=createTimestamp,
             status=status,
             groupName=groupName,
-            templatePrice=templatePrice,
             templateCapacity=templateCapacity,
             templateDescription=templateDescription,
+            tarifficationPeriod=tarifficationPeriod,
             lastCapacity=lastCapacity,
             lastHeartbeat=lastHeartbeat,
             deleteTimestamp=deleteTimestamp,

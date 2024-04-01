@@ -35,6 +35,7 @@ class ResourceGroupServerDataWithStatus(
 
     class MetaOapg:
         required = {
+            "tarifficationPrice",
             "isAutoCreated",
             "name",
             "resources",
@@ -78,8 +79,38 @@ class ResourceGroupServerDataWithStatus(
                 return Resources
             isAutoCreated = schemas.BoolSchema
             rawConfiguration = schemas.StrSchema
-            price = schemas.StrSchema
+            tarifficationPrice = schemas.NumberSchema
             description = schemas.StrSchema
+            
+            
+            class tarifficationPeriod(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+                
+                @schemas.classproperty
+                def SECOND(cls):
+                    return cls("SECOND")
+                
+                @schemas.classproperty
+                def MINUTE(cls):
+                    return cls("MINUTE")
+                
+                @schemas.classproperty
+                def HOUR(cls):
+                    return cls("HOUR")
+                
+                @schemas.classproperty
+                def DAY(cls):
+                    return cls("DAY")
+                
+                @schemas.classproperty
+                def MONTH(cls):
+                    return cls("MONTH")
+                
+                @schemas.classproperty
+                def YEAR(cls):
+                    return cls("YEAR")
             __annotations__ = {
                 "id": id,
                 "name": name,
@@ -87,10 +118,12 @@ class ResourceGroupServerDataWithStatus(
                 "resources": resources,
                 "isAutoCreated": isAutoCreated,
                 "rawConfiguration": rawConfiguration,
-                "price": price,
+                "tarifficationPrice": tarifficationPrice,
                 "description": description,
+                "tarifficationPeriod": tarifficationPeriod,
             }
     
+    tarifficationPrice: MetaOapg.properties.tarifficationPrice
     isAutoCreated: MetaOapg.properties.isAutoCreated
     name: MetaOapg.properties.name
     resources: 'Resources'
@@ -117,15 +150,18 @@ class ResourceGroupServerDataWithStatus(
     def __getitem__(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["price"]) -> MetaOapg.properties.price: ...
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> MetaOapg.properties.tarifficationPeriod: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "status", "resources", "isAutoCreated", "rawConfiguration", "price", "description", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "name", "status", "resources", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "description", "tarifficationPeriod", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -149,43 +185,48 @@ class ResourceGroupServerDataWithStatus(
     def get_item_oapg(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["price"]) -> typing.Union[MetaOapg.properties.price, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> typing.Union[MetaOapg.properties.tarifficationPeriod, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "status", "resources", "isAutoCreated", "rawConfiguration", "price", "description", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "name", "status", "resources", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "description", "tarifficationPeriod", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        tarifficationPrice: typing.Union[MetaOapg.properties.tarifficationPrice, decimal.Decimal, int, float, ],
         isAutoCreated: typing.Union[MetaOapg.properties.isAutoCreated, bool, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
         resources: 'Resources',
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
-        price: typing.Union[MetaOapg.properties.price, str, schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
+        tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ResourceGroupServerDataWithStatus':
         return super().__new__(
             cls,
             *_args,
+            tarifficationPrice=tarifficationPrice,
             isAutoCreated=isAutoCreated,
             name=name,
             resources=resources,
             id=id,
             rawConfiguration=rawConfiguration,
             status=status,
-            price=price,
             description=description,
+            tarifficationPeriod=tarifficationPeriod,
             _configuration=_configuration,
             **kwargs,
         )
