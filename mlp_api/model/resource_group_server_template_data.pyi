@@ -67,7 +67,10 @@ class ResourceGroupServerTemplateData(
                     return cls("SHARED_RESOURCE_QUOTA")
             rawConfiguration = schemas.StrSchema
             tarifficationPrice = schemas.NumberSchema
-            capacity = schemas.StrSchema
+        
+            @staticmethod
+            def capacity() -> typing.Type['Resources']:
+                return Resources
             description = schemas.StrSchema
             
             
@@ -127,7 +130,7 @@ class ResourceGroupServerTemplateData(
     def __getitem__(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["capacity"]) -> MetaOapg.properties.capacity: ...
+    def __getitem__(self, name: typing_extensions.Literal["capacity"]) -> 'Resources': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
@@ -156,7 +159,7 @@ class ResourceGroupServerTemplateData(
     def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["capacity"]) -> typing.Union[MetaOapg.properties.capacity, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["capacity"]) -> typing.Union['Resources', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
@@ -178,7 +181,7 @@ class ResourceGroupServerTemplateData(
         templateName: typing.Union[MetaOapg.properties.templateName, str, ],
         type: typing.Union[MetaOapg.properties.type, str, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
-        capacity: typing.Union[MetaOapg.properties.capacity, str, schemas.Unset] = schemas.unset,
+        capacity: typing.Union['Resources', schemas.Unset] = schemas.unset,
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
         tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -197,3 +200,5 @@ class ResourceGroupServerTemplateData(
             _configuration=_configuration,
             **kwargs,
         )
+
+from mlp_api.model.resources import Resources

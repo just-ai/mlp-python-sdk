@@ -7593,6 +7593,49 @@ components:
           type: string
         isDefault:
           type: boolean
+    Quantity:
+      type: object
+      properties:
+        number:
+          type: number
+        format:
+          type: string
+          enum:
+          - DECIMAL_EXPONENT
+          - DECIMAL_SI
+          - BINARY_SI
+    Resources:
+      required:
+      - baseInstanceCount
+      - cpu
+      - derivedInstanceCount
+      - disk
+      - gpu
+      - podsCount
+      - ram
+      - strictlyNegativeOrZero
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/Quantity'
+        ram:
+          $ref: '#/components/schemas/Quantity'
+        disk:
+          $ref: '#/components/schemas/Quantity'
+        gpu:
+          type: integer
+          format: int32
+        baseInstanceCount:
+          type: integer
+          format: int32
+        derivedInstanceCount:
+          type: integer
+          format: int32
+        podsCount:
+          type: integer
+          format: int32
+        strictlyNegativeOrZero:
+          type: boolean
     ServerTemplateDump:
       required:
       - configuration
@@ -7611,7 +7654,7 @@ components:
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
         capacity:
-          type: string
+          $ref: '#/components/schemas/Resources'
         description:
           type: string
         configuration:
@@ -7765,7 +7808,7 @@ components:
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
         capacity:
-          type: string
+          $ref: '#/components/schemas/Resources'
         description:
           type: string
         rawConfiguration:
@@ -7972,17 +8015,6 @@ components:
           type: string
         rawConfiguration:
           type: string
-    Quantity:
-      type: object
-      properties:
-        number:
-          type: number
-        format:
-          type: string
-          enum:
-          - DECIMAL_EXPONENT
-          - DECIMAL_SI
-          - BINARY_SI
     ResourceGroupServerData:
       required:
       - id
@@ -8016,38 +8048,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-    Resources:
-      required:
-      - baseInstanceCount
-      - cpu
-      - derivedInstanceCount
-      - disk
-      - gpu
-      - podsCount
-      - ram
-      - strictlyNegativeOrZero
-      type: object
-      properties:
-        cpu:
-          $ref: '#/components/schemas/Quantity'
-        ram:
-          $ref: '#/components/schemas/Quantity'
-        disk:
-          $ref: '#/components/schemas/Quantity'
-        gpu:
-          type: integer
-          format: int32
-        baseInstanceCount:
-          type: integer
-          format: int32
-        derivedInstanceCount:
-          type: integer
-          format: int32
-        podsCount:
-          type: integer
-          format: int32
-        strictlyNegativeOrZero:
-          type: boolean
     CopyResourceGroupServer:
       required:
       - serverName
