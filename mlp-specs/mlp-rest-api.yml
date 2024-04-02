@@ -448,7 +448,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+                  $ref: '#/components/schemas/ServerTemplateData'
     post:
       tags:
       - resource-group-servers-endpoint
@@ -470,7 +470,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+              $ref: '#/components/schemas/CreateUpdateServerTemplateData'
         required: true
       responses:
         "200":
@@ -478,7 +478,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+                $ref: '#/components/schemas/ServerTemplateData'
   /api/mlpgate/account/{account}/server/template/{templateId}:
     post:
       tags:
@@ -507,7 +507,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+              $ref: '#/components/schemas/CreateUpdateServerTemplateData'
         required: true
       responses:
         "200":
@@ -515,7 +515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+                $ref: '#/components/schemas/ServerTemplateData'
     delete:
       tags:
       - resource-group-servers-endpoint
@@ -4581,7 +4581,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceGroupServerTemplateData'
+                  $ref: '#/components/schemas/ServerTemplateData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/status:
     get:
       tags:
@@ -7766,7 +7766,7 @@ components:
           type: string
         creationDate:
           type: string
-    ResourceGroupServerTemplateData:
+    CreateUpdateServerTemplateData:
       required:
       - description
       - name
@@ -7775,6 +7775,45 @@ components:
       - type
       type: object
       properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - DOCKER
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        capacity:
+          $ref: '#/components/schemas/ServerCapacityData'
+        description:
+          type: string
+        rawConfiguration:
+          type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    ServerTemplateData:
+      required:
+      - description
+      - id
+      - name
+      - rawConfiguration
+      - tarifficationPrice
+      - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
         name:
           type: string
         type:

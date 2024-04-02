@@ -26,6 +26,7 @@ from mlp_api.model.create_or_update_dataset_info_data import CreateOrUpdateDatas
 from mlp_api.model.create_resource_group_data import CreateResourceGroupData
 from mlp_api.model.create_resource_group_quota import CreateResourceGroupQuota
 from mlp_api.model.create_resource_group_server import CreateResourceGroupServer
+from mlp_api.model.create_update_server_template_data import CreateUpdateServerTemplateData
 from mlp_api.model.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.model.data_image_dump import DataImageDump
 from mlp_api.model.data_image_info_data import DataImageInfoData
@@ -112,7 +113,6 @@ from mlp_api.model.resource_group_data import ResourceGroupData
 from mlp_api.model.resource_group_essential_data import ResourceGroupEssentialData
 from mlp_api.model.resource_group_server_data import ResourceGroupServerData
 from mlp_api.model.resource_group_server_data_with_status import ResourceGroupServerDataWithStatus
-from mlp_api.model.resource_group_server_template_data import ResourceGroupServerTemplateData
 from mlp_api.model.resource_group_services_data import ResourceGroupServicesData
 from mlp_api.model.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.model.resource_groups_data import ResourceGroupsData
@@ -120,6 +120,7 @@ from mlp_api.model.response_body_emitter import ResponseBodyEmitter
 from mlp_api.model.s3_credentials_data import S3CredentialsData
 from mlp_api.model.schema_file_data import SchemaFileData
 from mlp_api.model.server_capacity_data import ServerCapacityData
+from mlp_api.model.server_template_data import ServerTemplateData
 from mlp_api.model.server_template_dump import ServerTemplateDump
 from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData

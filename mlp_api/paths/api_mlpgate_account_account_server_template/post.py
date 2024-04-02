@@ -25,7 +25,8 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_server_template_data import ResourceGroupServerTemplateData
+from mlp_api.model.create_update_server_template_data import CreateUpdateServerTemplateData
+from mlp_api.model.server_template_data import ServerTemplateData
 
 from . import path
 
@@ -81,17 +82,17 @@ request_path_account = api_client.PathParameter(
     required=True,
 )
 # body param
-SchemaForRequestBodyApplicationJson = ResourceGroupServerTemplateData
+SchemaForRequestBodyApplicationJson = CreateUpdateServerTemplateData
 
 
-request_body_resource_group_server_template_data = api_client.RequestBody(
+request_body_create_update_server_template_data = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
     },
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupServerTemplateData
+SchemaFor200ResponseBodyApplicationJson = ServerTemplateData
 
 
 @dataclass
@@ -231,7 +232,7 @@ class BaseApi(api_client.Api):
                 'The required body parameter has an invalid value of: unset. Set a valid value instead')
         _fields = None
         _body = None
-        serialized_data = request_body_resource_group_server_template_data.serialize(body, content_type)
+        serialized_data = request_body_create_update_server_template_data.serialize(body, content_type)
         _headers.add('Content-Type', content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
