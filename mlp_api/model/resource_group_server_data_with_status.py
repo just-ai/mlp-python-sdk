@@ -85,8 +85,8 @@ class ResourceGroupServerDataWithStatus(
                     return cls("DELETING")
         
             @staticmethod
-            def resources() -> typing.Type['Resources']:
-                return Resources
+            def resources() -> typing.Type['ServerCapacityData']:
+                return ServerCapacityData
             isAutoCreated = schemas.BoolSchema
             rawConfiguration = schemas.StrSchema
             tarifficationPrice = schemas.NumberSchema
@@ -147,7 +147,7 @@ class ResourceGroupServerDataWithStatus(
     tarifficationPrice: MetaOapg.properties.tarifficationPrice
     isAutoCreated: MetaOapg.properties.isAutoCreated
     name: MetaOapg.properties.name
-    resources: 'Resources'
+    resources: 'ServerCapacityData'
     id: MetaOapg.properties.id
     rawConfiguration: MetaOapg.properties.rawConfiguration
     status: MetaOapg.properties.status
@@ -162,7 +162,7 @@ class ResourceGroupServerDataWithStatus(
     def __getitem__(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["resources"]) -> 'Resources': ...
+    def __getitem__(self, name: typing_extensions.Literal["resources"]) -> 'ServerCapacityData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isAutoCreated"]) -> MetaOapg.properties.isAutoCreated: ...
@@ -197,7 +197,7 @@ class ResourceGroupServerDataWithStatus(
     def get_item_oapg(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["resources"]) -> 'Resources': ...
+    def get_item_oapg(self, name: typing_extensions.Literal["resources"]) -> 'ServerCapacityData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isAutoCreated"]) -> MetaOapg.properties.isAutoCreated: ...
@@ -227,7 +227,7 @@ class ResourceGroupServerDataWithStatus(
         tarifficationPrice: typing.Union[MetaOapg.properties.tarifficationPrice, decimal.Decimal, int, float, ],
         isAutoCreated: typing.Union[MetaOapg.properties.isAutoCreated, bool, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
-        resources: 'Resources',
+        resources: 'ServerCapacityData',
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
@@ -252,4 +252,4 @@ class ResourceGroupServerDataWithStatus(
             **kwargs,
         )
 
-from mlp_api.model.resources import Resources
+from mlp_api.model.server_capacity_data import ServerCapacityData

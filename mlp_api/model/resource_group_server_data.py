@@ -51,8 +51,8 @@ class ResourceGroupServerData(
             description = schemas.StrSchema
         
             @staticmethod
-            def templateCapacity() -> typing.Type['Resources']:
-                return Resources
+            def templateCapacity() -> typing.Type['ServerCapacityData']:
+                return ServerCapacityData
             
             
             class tarifficationPeriod(
@@ -130,7 +130,7 @@ class ResourceGroupServerData(
     def __getitem__(self, name: typing_extensions.Literal["description"]) -> MetaOapg.properties.description: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["templateCapacity"]) -> 'Resources': ...
+    def __getitem__(self, name: typing_extensions.Literal["templateCapacity"]) -> 'ServerCapacityData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> MetaOapg.properties.tarifficationPeriod: ...
@@ -162,7 +162,7 @@ class ResourceGroupServerData(
     def get_item_oapg(self, name: typing_extensions.Literal["description"]) -> typing.Union[MetaOapg.properties.description, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["templateCapacity"]) -> typing.Union['Resources', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["templateCapacity"]) -> typing.Union['ServerCapacityData', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> typing.Union[MetaOapg.properties.tarifficationPeriod, schemas.Unset]: ...
@@ -183,7 +183,7 @@ class ResourceGroupServerData(
         id: typing.Union[MetaOapg.properties.id, decimal.Decimal, int, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
         description: typing.Union[MetaOapg.properties.description, str, schemas.Unset] = schemas.unset,
-        templateCapacity: typing.Union['Resources', schemas.Unset] = schemas.unset,
+        templateCapacity: typing.Union['ServerCapacityData', schemas.Unset] = schemas.unset,
         tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -203,4 +203,4 @@ class ResourceGroupServerData(
             **kwargs,
         )
 
-from mlp_api.model.resources import Resources
+from mlp_api.model.server_capacity_data import ServerCapacityData

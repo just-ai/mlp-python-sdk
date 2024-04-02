@@ -448,7 +448,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceGroupServerData'
+                  $ref: '#/components/schemas/ResourceGroupServerTemplateData'
     post:
       tags:
       - resource-group-servers-endpoint
@@ -478,7 +478,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServer'
+                $ref: '#/components/schemas/ResourceGroupServerTemplateData'
   /api/mlpgate/account/{account}/server/template/{templateId}:
     post:
       tags:
@@ -515,7 +515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServer'
+                $ref: '#/components/schemas/ResourceGroupServerTemplateData'
     delete:
       tags:
       - resource-group-servers-endpoint
@@ -4581,7 +4581,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceGroupServerData'
+                  $ref: '#/components/schemas/ResourceGroupServerTemplateData'
   /api/mlpgate/account/{account}/resource-groups/{groupName}/server/status:
     get:
       tags:
@@ -7593,52 +7593,28 @@ components:
           type: string
         isDefault:
           type: boolean
-    Quantity:
-      type: object
-      properties:
-        number:
-          type: number
-        format:
-          type: string
-          enum:
-          - DECIMAL_EXPONENT
-          - DECIMAL_SI
-          - BINARY_SI
-    Resources:
+    ServerCapacityData:
       required:
-      - baseInstanceCount
       - cpu
-      - derivedInstanceCount
       - disk
-      - gpu
-      - podsCount
-      - ram
-      - strictlyNegativeOrZero
+      - gpuModels
+      - memory
       type: object
       properties:
         cpu:
-          $ref: '#/components/schemas/Quantity'
-        ram:
-          $ref: '#/components/schemas/Quantity'
+          type: string
+        memory:
+          type: string
         disk:
-          $ref: '#/components/schemas/Quantity'
-        gpu:
-          type: integer
-          format: int32
-        baseInstanceCount:
-          type: integer
-          format: int32
-        derivedInstanceCount:
-          type: integer
-          format: int32
-        podsCount:
-          type: integer
-          format: int32
-        strictlyNegativeOrZero:
-          type: boolean
+          type: string
+        gpuModels:
+          type: array
+          items:
+            type: string
     ServerTemplateDump:
       required:
       - configuration
+      - description
       - name
       - tarifficationPrice
       - type
@@ -7654,7 +7630,7 @@ components:
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
         capacity:
-          $ref: '#/components/schemas/Resources'
+          $ref: '#/components/schemas/ServerCapacityData'
         description:
           type: string
         configuration:
@@ -7792,13 +7768,14 @@ components:
           type: string
     ResourceGroupServerTemplateData:
       required:
+      - description
+      - name
       - rawConfiguration
       - tarifficationPrice
-      - templateName
       - type
       type: object
       properties:
-        templateName:
+        name:
           type: string
         type:
           type: string
@@ -7808,7 +7785,7 @@ components:
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
         capacity:
-          $ref: '#/components/schemas/Resources'
+          $ref: '#/components/schemas/ServerCapacityData'
         description:
           type: string
         rawConfiguration:
@@ -7824,84 +7801,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-    ResourceGroupServer:
-      required:
-      - createTimestamp
-      - id
-      - isAutoCreated
-      - isPublicTemplate
-      - kubernetesSynthetic
-      - name
-      - ownerId
-      - rawConfiguration
-      - status
-      - tarifficationPrice
-      - type
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        ownerId:
-          type: integer
-          format: int64
-        groupName:
-          type: string
-        type:
-          type: string
-          enum:
-          - DOCKER
-          - KUBERNETES
-          - HOSTING_SERVER
-          - SHARED_RESOURCE_QUOTA
-        isPublicTemplate:
-          type: boolean
-        rawConfiguration:
-          type: string
-        isAutoCreated:
-          type: boolean
-        templateCapacity:
-          type: string
-        templateDescription:
-          type: string
-        tarifficationPrice:
-          type: number
-        tarifficationPeriod:
-          type: string
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-        lastCapacity:
-          type: string
-        status:
-          type: string
-          enum:
-          - IDLE
-          - STARTING
-          - STARTED
-          - FAILED
-          - DELETING
-          - DELETED
-        lastHeartbeat:
-          type: string
-          format: date-time
-        createTimestamp:
-          type: string
-          format: date-time
-        deleteTimestamp:
-          type: string
-          format: date-time
-        nextBillingActionTimestamp:
-          type: string
-          format: date-time
-        kubernetesSynthetic:
-          type: boolean
     CreateResourceGroupData:
       required:
       - name
@@ -8015,6 +7914,17 @@ components:
           type: string
         rawConfiguration:
           type: string
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     ResourceGroupServerData:
       required:
       - id
@@ -8036,7 +7946,7 @@ components:
         rawConfiguration:
           type: string
         templateCapacity:
-          $ref: '#/components/schemas/Resources'
+          $ref: '#/components/schemas/ServerCapacityData'
         tarifficationPrice:
           type: number
         tarifficationPeriod:
@@ -9234,7 +9144,7 @@ components:
           - UNAVAILABLE
           - DELETING
         resources:
-          $ref: '#/components/schemas/Resources'
+          $ref: '#/components/schemas/ServerCapacityData'
         description:
           type: string
         isAutoCreated:
@@ -9273,10 +9183,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32

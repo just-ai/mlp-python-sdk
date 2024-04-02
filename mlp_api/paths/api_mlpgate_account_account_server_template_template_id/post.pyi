@@ -25,7 +25,6 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.resource_group_server import ResourceGroupServer
 from mlp_api.model.resource_group_server_template_data import ResourceGroupServerTemplateData
 
 # Header params
@@ -98,7 +97,7 @@ request_body_resource_group_server_template_data = api_client.RequestBody(
     },
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = ResourceGroupServer
+SchemaFor200ResponseBodyApplicationJson = ResourceGroupServerTemplateData
 
 
 @dataclass
