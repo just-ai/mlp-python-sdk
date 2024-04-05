@@ -6,6 +6,69 @@ servers:
 - url: https://app.caila.io
   description: Generated server url
 paths:
+  /api/mlpgate/account/{account}/request/{requestId}/mark/{mark}:
+    put:
+      tags:
+      - archive-endpoint
+      operationId: saveMark
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: mark
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - archive-endpoint
+      operationId: deleteMark
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: mark
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /p/{accountField}/{modelField}:
     get:
       tags:
@@ -9222,10 +9285,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
