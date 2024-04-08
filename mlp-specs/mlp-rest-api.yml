@@ -9027,6 +9027,7 @@ components:
           type: string
     FrontendSettings:
       required:
+      - isArchiveEnabled
       - isBillingEnabled
       - isExtendedLanding
       - isSystemAccount
@@ -9035,6 +9036,8 @@ components:
         isSystemAccount:
           type: boolean
         isBillingEnabled:
+          type: boolean
+        isArchiveEnabled:
           type: boolean
         isExtendedLanding:
           type: boolean
@@ -9285,10 +9288,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
