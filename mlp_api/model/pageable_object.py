@@ -41,8 +41,8 @@ class PageableObject(
             offset = schemas.Int64Schema
         
             @staticmethod
-            def sort() -> typing.Type['Sort']:
-                return Sort
+            def sort() -> typing.Type['SortObject']:
+                return SortObject
             paged = schemas.BoolSchema
             unpaged = schemas.BoolSchema
             __annotations__ = {
@@ -64,7 +64,7 @@ class PageableObject(
     def __getitem__(self, name: typing_extensions.Literal["offset"]) -> MetaOapg.properties.offset: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["sort"]) -> 'Sort': ...
+    def __getitem__(self, name: typing_extensions.Literal["sort"]) -> 'SortObject': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["paged"]) -> MetaOapg.properties.paged: ...
@@ -90,7 +90,7 @@ class PageableObject(
     def get_item_oapg(self, name: typing_extensions.Literal["offset"]) -> typing.Union[MetaOapg.properties.offset, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["sort"]) -> typing.Union['Sort', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["sort"]) -> typing.Union['SortObject', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["paged"]) -> typing.Union[MetaOapg.properties.paged, schemas.Unset]: ...
@@ -111,7 +111,7 @@ class PageableObject(
         pageNumber: typing.Union[MetaOapg.properties.pageNumber, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         pageSize: typing.Union[MetaOapg.properties.pageSize, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         offset: typing.Union[MetaOapg.properties.offset, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        sort: typing.Union['Sort', schemas.Unset] = schemas.unset,
+        sort: typing.Union['SortObject', schemas.Unset] = schemas.unset,
         paged: typing.Union[MetaOapg.properties.paged, bool, schemas.Unset] = schemas.unset,
         unpaged: typing.Union[MetaOapg.properties.unpaged, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -130,4 +130,4 @@ class PageableObject(
             **kwargs,
         )
 
-from mlp_api.model.sort import Sort
+from mlp_api.model.sort_object import SortObject
