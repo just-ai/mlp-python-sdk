@@ -26,6 +26,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_public_settings 
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict import ApiMlpgateAccountAccountModelModelPredict
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config import ApiMlpgateAccountAccountModelModelPredictWithConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config_v2 import ApiMlpgateAccountAccountModelModelPredictWithConfigV2
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config_v2_stream import ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config import ApiMlpgateAccountAccountModelModelPredictConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config_config_id import ApiMlpgateAccountAccountModelModelPredictConfigConfigId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instances import ApiMlpgateAccountAccountModelModelInstances
@@ -70,6 +71,8 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_instanc
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_features import ApiMlpgateInternalAccountAccountFeatures
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_deny import ApiMlpgateInternalAccountAccountBucketDeny
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_access import ApiMlpgateInternalAccountAccountBucketAccess
+from mlp_api.apis.paths.api_adapters_tts import ApiAdaptersTts
+from mlp_api.apis.paths.api_adapters_chat_gpt import ApiAdaptersChatGpt
 from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdminResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
@@ -195,6 +198,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2STREAM: ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -239,6 +243,8 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateInternalAccountAccountFeatures,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
+        PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
@@ -365,6 +371,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2STREAM: ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -409,6 +416,8 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateInternalAccountAccountFeatures,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
+        PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,

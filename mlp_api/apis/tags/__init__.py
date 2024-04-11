@@ -11,6 +11,7 @@ class TagValues(str, enum.Enum):
     ADMINENDPOINT = "admin-endpoint"
     APPLICATIONENDPOINT = "application-endpoint"
     ARCHIVEENDPOINT = "archive-endpoint"
+    CHATGPTENDPOINT = "chat-gpt-endpoint"
     DATAIMAGEENDPOINT = "data-image-endpoint"
     DATASETENDPOINT = "dataset-endpoint"
     FITCONFIGENDPOINT = "fit-config-endpoint"
@@ -31,3 +32,4 @@ class TagValues(str, enum.Enum):
     SYSTEMCONFIGENDPOINT = "system-config-endpoint"
     SYSTEMENDPOINT = "system-endpoint"
     TASKENDPOINT = "task-endpoint"
+    TTSENDPOINT = "tts-endpoint"

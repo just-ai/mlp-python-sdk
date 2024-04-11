@@ -1205,6 +1205,7 @@ paths:
             application/octet-stream:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
+      deprecated: true
     post:
       tags:
       - process-endpoint
@@ -1241,6 +1242,7 @@ paths:
             application/octet-stream:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
+      deprecated: true
   /api/mlpgate/account/{account}/model/{model}/simple-doc:
     get:
       tags:
@@ -1492,6 +1494,43 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpgate/account/{account}/model/{model}/predict-with-config-v2-stream:
+    post:
+      tags:
+      - process-endpoint
+      operationId: predictWithConfig_v2_stream
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Predict2RequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBodyEmitter'
   /api/mlpgate/account/{account}/model/{model}/predict-config:
     get:
       tags:
@@ -3713,6 +3752,123 @@ paths:
       responses:
         "200":
           description: OK
+  /api/adapters/tts:
+    get:
+      tags:
+      - tts-endpoint
+      operationId: ttsStreamGet_1
+      parameters:
+      - name: model
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: text
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: voice
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: audioEncoding
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - LINEAR16_PCM
+      - name: sampleRateHertz
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: chunkSizeKb
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseBodyEmitter'
+    post:
+      tags:
+      - tts-endpoint
+      operationId: ttsStreamPost_1
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TtsRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseBodyEmitter'
+  /api/adapters/chat-gpt:
+    post:
+      tags:
+      - chat-gpt-endpoint
+      operationId: chat
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Z-requestId
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-BILLING-KEY
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpgate/admin/resource-groups:
     get:
       tags:
@@ -8566,6 +8722,8 @@ components:
       - text
       type: object
       properties:
+        model:
+          type: string
         text:
           type: string
         voice:

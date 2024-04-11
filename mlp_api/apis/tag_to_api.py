@@ -6,6 +6,7 @@ from mlp_api.apis.tags.account_endpoint_api import AccountEndpointApi
 from mlp_api.apis.tags.admin_endpoint_api import AdminEndpointApi
 from mlp_api.apis.tags.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.apis.tags.archive_endpoint_api import ArchiveEndpointApi
+from mlp_api.apis.tags.chat_gpt_endpoint_api import ChatGptEndpointApi
 from mlp_api.apis.tags.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.apis.tags.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.apis.tags.fit_config_endpoint_api import FitConfigEndpointApi
@@ -26,6 +27,7 @@ from mlp_api.apis.tags.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.apis.tags.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.apis.tags.system_endpoint_api import SystemEndpointApi
 from mlp_api.apis.tags.task_endpoint_api import TaskEndpointApi
+from mlp_api.apis.tags.tts_endpoint_api import TtsEndpointApi
 
 TagToApi = typing_extensions.TypedDict(
     'TagToApi',
@@ -35,6 +37,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.ADMINENDPOINT: AdminEndpointApi,
         TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
         TagValues.ARCHIVEENDPOINT: ArchiveEndpointApi,
+        TagValues.CHATGPTENDPOINT: ChatGptEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
         TagValues.FITCONFIGENDPOINT: FitConfigEndpointApi,
@@ -55,6 +58,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
         TagValues.TASKENDPOINT: TaskEndpointApi,
+        TagValues.TTSENDPOINT: TtsEndpointApi,
     }
 )
 
@@ -65,6 +69,7 @@ tag_to_api = TagToApi(
         TagValues.ADMINENDPOINT: AdminEndpointApi,
         TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
         TagValues.ARCHIVEENDPOINT: ArchiveEndpointApi,
+        TagValues.CHATGPTENDPOINT: ChatGptEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
         TagValues.FITCONFIGENDPOINT: FitConfigEndpointApi,
@@ -85,5 +90,6 @@ tag_to_api = TagToApi(
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
         TagValues.TASKENDPOINT: TaskEndpointApi,
+        TagValues.TTSENDPOINT: TtsEndpointApi,
     }
 )
