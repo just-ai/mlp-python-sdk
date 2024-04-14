@@ -23,6 +23,7 @@ from mlp_api.apis.tags.process_endpoint_api import ProcessEndpointApi
 from mlp_api.apis.tags.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.apis.tags.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.apis.tags.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
+from mlp_api.apis.tags.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.apis.tags.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.apis.tags.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.apis.tags.system_endpoint_api import SystemEndpointApi
@@ -54,6 +55,7 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.RESOURCEGROUPENDPOINT: ResourceGroupEndpointApi,
         TagValues.RESOURCEGROUPQUOTAENDPOINT: ResourceGroupQuotaEndpointApi,
         TagValues.RESOURCEGROUPSERVERSENDPOINT: ResourceGroupServersEndpointApi,
+        TagValues.SPECSENDPOINT: SpecsEndpointApi,
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,
@@ -86,6 +88,7 @@ tag_to_api = TagToApi(
         TagValues.RESOURCEGROUPENDPOINT: ResourceGroupEndpointApi,
         TagValues.RESOURCEGROUPQUOTAENDPOINT: ResourceGroupQuotaEndpointApi,
         TagValues.RESOURCEGROUPSERVERSENDPOINT: ResourceGroupServersEndpointApi,
+        TagValues.SPECSENDPOINT: SpecsEndpointApi,
         TagValues.STATLOGENDPOINT: StatLogEndpointApi,
         TagValues.SYSTEMCONFIGENDPOINT: SystemConfigEndpointApi,
         TagValues.SYSTEMENDPOINT: SystemEndpointApi,

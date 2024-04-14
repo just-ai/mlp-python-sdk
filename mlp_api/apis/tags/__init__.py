@@ -28,6 +28,7 @@ class TagValues(str, enum.Enum):
     RESOURCEGROUPENDPOINT = "resource-group-endpoint"
     RESOURCEGROUPQUOTAENDPOINT = "resource-group-quota-endpoint"
     RESOURCEGROUPSERVERSENDPOINT = "resource-group-servers-endpoint"
+    SPECSENDPOINT = "specs-endpoint"
     STATLOGENDPOINT = "stat-log-endpoint"
     SYSTEMCONFIGENDPOINT = "system-config-endpoint"
     SYSTEMENDPOINT = "system-endpoint"

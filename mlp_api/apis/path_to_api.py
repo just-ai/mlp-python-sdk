@@ -76,6 +76,7 @@ from mlp_api.apis.paths.api_adapters_chat_gpt import ApiAdaptersChatGpt
 from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdminResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
+from mlp_api.apis.paths.specs_api_file import SpecsApiFile
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
 from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
 from mlp_api.apis.paths.api_mlpgate_task_user import ApiMlpgateTaskUser
@@ -85,6 +86,7 @@ from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpga
 from mlp_api.apis.paths.api_mlpgate_system_config_frontend_settings import ApiMlpgateSystemConfigFrontendSettings
 from mlp_api.apis.paths.api_mlpgate_system_config_dataset_data_type import ApiMlpgateSystemConfigDatasetDataType
 from mlp_api.apis.paths.api_mlpgate_system_config_captcha import ApiMlpgateSystemConfigCaptcha
+from mlp_api.apis.paths.api_mlpgate_specs_api_file import ApiMlpgateSpecsApiFile
 from mlp_api.apis.paths.api_mlpgate_models import ApiMlpgateModels
 from mlp_api.apis.paths.api_mlpgate_models_featured import ApiMlpgateModelsFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
@@ -248,6 +250,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
+        PathValues.SPECS_APIFILE: SpecsApiFile,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
@@ -257,6 +260,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_SYSTEMCONFIG_FRONTENDSETTINGS: ApiMlpgateSystemConfigFrontendSettings,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SPECS_APIFILE: ApiMlpgateSpecsApiFile,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
@@ -421,6 +425,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
+        PathValues.SPECS_APIFILE: SpecsApiFile,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
@@ -430,6 +435,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_SYSTEMCONFIG_FRONTENDSETTINGS: ApiMlpgateSystemConfigFrontendSettings,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SPECS_APIFILE: ApiMlpgateSpecsApiFile,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,

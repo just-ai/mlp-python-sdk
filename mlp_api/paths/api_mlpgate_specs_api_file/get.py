@@ -25,85 +25,8 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.response_body_emitter import ResponseBodyEmitter
+from . import path
 
-# Query params
-ModelSchema = schemas.StrSchema
-TextSchema = schemas.StrSchema
-VoiceSchema = schemas.StrSchema
-
-
-class AudioEncodingSchema(
-    schemas.EnumBase,
-    schemas.StrSchema
-):
-    
-    @schemas.classproperty
-    def LINEAR16_PCM(cls):
-        return cls("LINEAR16_PCM")
-SampleRateHertzSchema = schemas.Int32Schema
-ChunkSizeKbSchema = schemas.Int32Schema
-RequestRequiredQueryParams = typing_extensions.TypedDict(
-    'RequestRequiredQueryParams',
-    {
-        'model': typing.Union[ModelSchema, str, ],
-        'text': typing.Union[TextSchema, str, ],
-    }
-)
-RequestOptionalQueryParams = typing_extensions.TypedDict(
-    'RequestOptionalQueryParams',
-    {
-        'voice': typing.Union[VoiceSchema, str, ],
-        'audioEncoding': typing.Union[AudioEncodingSchema, str, ],
-        'sampleRateHertz': typing.Union[SampleRateHertzSchema, decimal.Decimal, int, ],
-        'chunkSizeKb': typing.Union[ChunkSizeKbSchema, decimal.Decimal, int, ],
-    },
-    total=False
-)
-
-
-class RequestQueryParams(RequestRequiredQueryParams, RequestOptionalQueryParams):
-    pass
-
-
-request_query_model = api_client.QueryParameter(
-    name="model",
-    style=api_client.ParameterStyle.FORM,
-    schema=ModelSchema,
-    required=True,
-    explode=True,
-)
-request_query_text = api_client.QueryParameter(
-    name="text",
-    style=api_client.ParameterStyle.FORM,
-    schema=TextSchema,
-    required=True,
-    explode=True,
-)
-request_query_voice = api_client.QueryParameter(
-    name="voice",
-    style=api_client.ParameterStyle.FORM,
-    schema=VoiceSchema,
-    explode=True,
-)
-request_query_audio_encoding = api_client.QueryParameter(
-    name="audioEncoding",
-    style=api_client.ParameterStyle.FORM,
-    schema=AudioEncodingSchema,
-    explode=True,
-)
-request_query_sample_rate_hertz = api_client.QueryParameter(
-    name="sampleRateHertz",
-    style=api_client.ParameterStyle.FORM,
-    schema=SampleRateHertzSchema,
-    explode=True,
-)
-request_query_chunk_size_kb = api_client.QueryParameter(
-    name="chunkSizeKb",
-    style=api_client.ParameterStyle.FORM,
-    schema=ChunkSizeKbSchema,
-    explode=True,
-)
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -129,14 +52,40 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=MLPAPIKEYSchema,
 )
-SchemaFor200ResponseBodyApplicationOctetStream = ResponseBodyEmitter
+# Path params
+ApiFileSchema = schemas.StrSchema
+RequestRequiredPathParams = typing_extensions.TypedDict(
+    'RequestRequiredPathParams',
+    {
+        'api-file': typing.Union[ApiFileSchema, str, ],
+    }
+)
+RequestOptionalPathParams = typing_extensions.TypedDict(
+    'RequestOptionalPathParams',
+    {
+    },
+    total=False
+)
+
+
+class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
+    pass
+
+
+request_path_api_file = api_client.PathParameter(
+    name="api-file",
+    style=api_client.ParameterStyle.SIMPLE,
+    schema=ApiFileSchema,
+    required=True,
+)
+SchemaFor200ResponseBodyApplicationJson = schemas.StrSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
     body: typing.Union[
-        SchemaFor200ResponseBodyApplicationOctetStream,
+        SchemaFor200ResponseBodyApplicationJson,
     ]
     headers: schemas.Unset = schemas.unset
 
@@ -144,21 +93,24 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
     content={
-        'application/octet-stream': api_client.MediaType(
-            schema=SchemaFor200ResponseBodyApplicationOctetStream),
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
-    'application/octet-stream',
+    'application/json',
 )
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _tts_stream_get1_oapg(
+    def _specs1_oapg(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -168,21 +120,21 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _tts_stream_get1_oapg(
+    def _specs1_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _tts_stream_get1_oapg(
+    def _specs1_oapg(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -192,10 +144,10 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _tts_stream_get1_oapg(
+    def _specs1_oapg(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -206,27 +158,22 @@ class BaseApi(api_client.Api):
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs_oapg(RequestQueryParams, query_params)
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
+        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
 
-        prefix_separator_iterator = None
+        _path_params = {}
         for parameter in (
-            request_query_model,
-            request_query_text,
-            request_query_voice,
-            request_query_audio_encoding,
-            request_query_sample_rate_hertz,
-            request_query_chunk_size_kb,
+            request_path_api_file,
         ):
-            parameter_data = query_params.get(parameter.name, schemas.unset)
+            parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
                 continue
-            if prefix_separator_iterator is None:
-                prefix_separator_iterator = parameter.get_prefix_separator_iterator()
-            serialized_data = parameter.serialize(parameter_data, prefix_separator_iterator)
-            for serialized_value in serialized_data.values():
-                used_path += serialized_value
+            serialized_data = parameter.serialize(parameter_data)
+            _path_params.update(serialized_data)
+
+        for k, v in _path_params.items():
+            used_path = used_path.replace('{%s}' % k, v)
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -269,14 +216,14 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class TtsStreamGet1(BaseApi):
+class Specs1(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def tts_stream_get1(
+    def specs1(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -286,21 +233,21 @@ class TtsStreamGet1(BaseApi):
     ]: ...
 
     @typing.overload
-    def tts_stream_get1(
+    def specs1(
         self,
         skip_deserialization: typing_extensions.Literal[True],
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def tts_stream_get1(
+    def specs1(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -310,18 +257,18 @@ class TtsStreamGet1(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def tts_stream_get1(
+    def specs1(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get1_oapg(
-            query_params=query_params,
+        return self._specs1_oapg(
             header_params=header_params,
+            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
@@ -335,8 +282,8 @@ class ApiForget(BaseApi):
     @typing.overload
     def get(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -349,8 +296,8 @@ class ApiForget(BaseApi):
     def get(
         self,
         skip_deserialization: typing_extensions.Literal[True],
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -359,8 +306,8 @@ class ApiForget(BaseApi):
     @typing.overload
     def get(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
@@ -372,16 +319,16 @@ class ApiForget(BaseApi):
 
     def get(
         self,
-        query_params: RequestQueryParams = frozendict.frozendict(),
         header_params: RequestHeaderParams = frozendict.frozendict(),
+        path_params: RequestPathParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._tts_stream_get1_oapg(
-            query_params=query_params,
+        return self._specs1_oapg(
             header_params=header_params,
+            path_params=path_params,
             accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,

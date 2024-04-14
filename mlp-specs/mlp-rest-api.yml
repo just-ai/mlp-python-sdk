@@ -3990,6 +3990,30 @@ paths:
             application/json:
               schema:
                 type: object
+  /specs/{api-file}:
+    get:
+      tags:
+      - specs-endpoint
+      operationId: specs
+      parameters:
+      - name: api-file
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpgate/version:
     get:
       tags:
@@ -4239,6 +4263,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CaptchaData'
+  /api/mlpgate/specs/{api-file}:
+    get:
+      tags:
+      - system-endpoint
+      operationId: specs_1
+      parameters:
+      - name: api-file
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpgate/models:
     get:
       tags:
