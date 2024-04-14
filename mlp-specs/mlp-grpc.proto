@@ -11,8 +11,6 @@ service Gate {
 
   rpc process(ClientRequestProto) returns (ClientResponseProto) {}
 
-  rpc processResponseStream(ClientRequestProto) returns (stream ClientResponseProto) {}
-
   rpc processSynthesis(ClientTtsRequestProto) returns (stream ClientTtsResponseProto) {}
 }
 
@@ -249,7 +247,6 @@ message ClientResponseProto {
   oneof body {
     PredictResponseProto predict = 101;
     ExtendedResponseProto ext = 103;
-    PartialPredictResponseProto partialPredict = 104;
 
     ApiErrorProto error = 201;
   }

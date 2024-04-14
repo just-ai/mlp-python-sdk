@@ -17,7 +17,6 @@ from mlp_api.paths.p_account_field_model_field.get import GetModelInfoOld
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict.post import Predict
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config.post import PredictWithConfig
 from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config_v2.post import PredictWithConfigV2
-from mlp_api.paths.api_mlpgate_account_account_model_model_predict_with_config_v2_stream.post import PredictWithConfigV2Stream
 from mlp_api.paths.p_account_field_model_field.post import ServletPredict
 from mlp_api.paths.api_mlpgate_account_account_model_model_tts.get import TtsStreamGet
 from mlp_api.paths.api_mlpgate_account_account_model_model_tts.post import TtsStreamPost
@@ -32,7 +31,6 @@ class ProcessEndpointApi(
     Predict,
     PredictWithConfig,
     PredictWithConfigV2,
-    PredictWithConfigV2Stream,
     ServletPredict,
     TtsStreamGet,
     TtsStreamPost,

@@ -35,19 +35,15 @@ class ModelDump(
 
     class MetaOapg:
         required = {
-            "asArchiveSettingsData",
-            "image",
-            "numberOfArchivedRequests",
-            "fitConfigs",
-            "asBillingSettingsData",
-            "archiveEncryptionEnabled",
-            "predictConfigs",
             "asHttpSettingsData",
+            "image",
             "docs",
             "asPublicSettingsData",
-            "archiveEnabled",
+            "fitConfigs",
             "name",
+            "asBillingSettingsData",
             "isHttpEnabled",
+            "predictConfigs",
         }
         
         class properties:
@@ -132,9 +128,6 @@ class ModelDump(
                 def __getitem__(self, i: int) -> 'FitConfigDump':
                     return super().__getitem__(i)
             isHttpEnabled = schemas.BoolSchema
-            archiveEnabled = schemas.BoolSchema
-            numberOfArchivedRequests = schemas.Int64Schema
-            archiveEncryptionEnabled = schemas.BoolSchema
         
             @staticmethod
             def asHttpSettingsData() -> typing.Type['ModelHttpSettingsData']:
@@ -147,10 +140,6 @@ class ModelDump(
             @staticmethod
             def asBillingSettingsData() -> typing.Type['ModelBillingSettingsData']:
                 return ModelBillingSettingsData
-        
-            @staticmethod
-            def asArchiveSettingsData() -> typing.Type['ModelArchiveSettingsData']:
-                return ModelArchiveSettingsData
             imageAccount = schemas.StrSchema
             modelGroup = schemas.StrSchema
             isPublic = schemas.BoolSchema
@@ -380,7 +369,6 @@ class ModelDump(
                     return super().__getitem__(i)
             httpPort = schemas.Int32Schema
             mainPageEndpoint = schemas.StrSchema
-            archiveEncryptionPublicKey = schemas.StrSchema
             __annotations__ = {
                 "name": name,
                 "image": image,
@@ -388,13 +376,9 @@ class ModelDump(
                 "predictConfigs": predictConfigs,
                 "fitConfigs": fitConfigs,
                 "isHttpEnabled": isHttpEnabled,
-                "archiveEnabled": archiveEnabled,
-                "numberOfArchivedRequests": numberOfArchivedRequests,
-                "archiveEncryptionEnabled": archiveEncryptionEnabled,
                 "asHttpSettingsData": asHttpSettingsData,
                 "asPublicSettingsData": asPublicSettingsData,
                 "asBillingSettingsData": asBillingSettingsData,
-                "asArchiveSettingsData": asArchiveSettingsData,
                 "imageAccount": imageAccount,
                 "modelGroup": modelGroup,
                 "isPublic": isPublic,
@@ -436,22 +420,17 @@ class ModelDump(
                 "aliases": aliases,
                 "httpPort": httpPort,
                 "mainPageEndpoint": mainPageEndpoint,
-                "archiveEncryptionPublicKey": archiveEncryptionPublicKey,
             }
     
-    asArchiveSettingsData: 'ModelArchiveSettingsData'
-    image: MetaOapg.properties.image
-    numberOfArchivedRequests: MetaOapg.properties.numberOfArchivedRequests
-    fitConfigs: MetaOapg.properties.fitConfigs
-    asBillingSettingsData: 'ModelBillingSettingsData'
-    archiveEncryptionEnabled: MetaOapg.properties.archiveEncryptionEnabled
-    predictConfigs: MetaOapg.properties.predictConfigs
     asHttpSettingsData: 'ModelHttpSettingsData'
+    image: MetaOapg.properties.image
     docs: MetaOapg.properties.docs
     asPublicSettingsData: 'ModelPublicSettingsData'
-    archiveEnabled: MetaOapg.properties.archiveEnabled
+    fitConfigs: MetaOapg.properties.fitConfigs
     name: MetaOapg.properties.name
+    asBillingSettingsData: 'ModelBillingSettingsData'
     isHttpEnabled: MetaOapg.properties.isHttpEnabled
+    predictConfigs: MetaOapg.properties.predictConfigs
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["name"]) -> MetaOapg.properties.name: ...
@@ -472,15 +451,6 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["isHttpEnabled"]) -> MetaOapg.properties.isHttpEnabled: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["archiveEnabled"]) -> MetaOapg.properties.archiveEnabled: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["numberOfArchivedRequests"]) -> MetaOapg.properties.numberOfArchivedRequests: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["archiveEncryptionEnabled"]) -> MetaOapg.properties.archiveEncryptionEnabled: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["asHttpSettingsData"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
@@ -488,9 +458,6 @@ class ModelDump(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["asArchiveSettingsData"]) -> 'ModelArchiveSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["imageAccount"]) -> MetaOapg.properties.imageAccount: ...
@@ -616,12 +583,9 @@ class ModelDump(
     def __getitem__(self, name: typing_extensions.Literal["mainPageEndpoint"]) -> MetaOapg.properties.mainPageEndpoint: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["archiveEncryptionPublicKey"]) -> MetaOapg.properties.archiveEncryptionPublicKey: ...
-    
-    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", "archiveEncryptionPublicKey", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -645,15 +609,6 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["isHttpEnabled"]) -> MetaOapg.properties.isHttpEnabled: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["archiveEnabled"]) -> MetaOapg.properties.archiveEnabled: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["numberOfArchivedRequests"]) -> MetaOapg.properties.numberOfArchivedRequests: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["archiveEncryptionEnabled"]) -> MetaOapg.properties.archiveEncryptionEnabled: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["asHttpSettingsData"]) -> 'ModelHttpSettingsData': ...
     
     @typing.overload
@@ -661,9 +616,6 @@ class ModelDump(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["asBillingSettingsData"]) -> 'ModelBillingSettingsData': ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["asArchiveSettingsData"]) -> 'ModelArchiveSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["imageAccount"]) -> typing.Union[MetaOapg.properties.imageAccount, schemas.Unset]: ...
@@ -789,31 +741,24 @@ class ModelDump(
     def get_item_oapg(self, name: typing_extensions.Literal["mainPageEndpoint"]) -> typing.Union[MetaOapg.properties.mainPageEndpoint, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["archiveEncryptionPublicKey"]) -> typing.Union[MetaOapg.properties.archiveEncryptionPublicKey, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", "archiveEncryptionPublicKey", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["name", "image", "docs", "predictConfigs", "fitConfigs", "isHttpEnabled", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "imageAccount", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "httpPort", "mainPageEndpoint", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        asArchiveSettingsData: 'ModelArchiveSettingsData',
-        image: typing.Union[MetaOapg.properties.image, str, ],
-        numberOfArchivedRequests: typing.Union[MetaOapg.properties.numberOfArchivedRequests, decimal.Decimal, int, ],
-        fitConfigs: typing.Union[MetaOapg.properties.fitConfigs, list, tuple, ],
-        asBillingSettingsData: 'ModelBillingSettingsData',
-        archiveEncryptionEnabled: typing.Union[MetaOapg.properties.archiveEncryptionEnabled, bool, ],
-        predictConfigs: typing.Union[MetaOapg.properties.predictConfigs, list, tuple, ],
         asHttpSettingsData: 'ModelHttpSettingsData',
+        image: typing.Union[MetaOapg.properties.image, str, ],
         docs: typing.Union[MetaOapg.properties.docs, list, tuple, ],
         asPublicSettingsData: 'ModelPublicSettingsData',
-        archiveEnabled: typing.Union[MetaOapg.properties.archiveEnabled, bool, ],
+        fitConfigs: typing.Union[MetaOapg.properties.fitConfigs, list, tuple, ],
         name: typing.Union[MetaOapg.properties.name, str, ],
+        asBillingSettingsData: 'ModelBillingSettingsData',
         isHttpEnabled: typing.Union[MetaOapg.properties.isHttpEnabled, bool, ],
+        predictConfigs: typing.Union[MetaOapg.properties.predictConfigs, list, tuple, ],
         imageAccount: typing.Union[MetaOapg.properties.imageAccount, str, schemas.Unset] = schemas.unset,
         modelGroup: typing.Union[MetaOapg.properties.modelGroup, str, schemas.Unset] = schemas.unset,
         isPublic: typing.Union[MetaOapg.properties.isPublic, bool, schemas.Unset] = schemas.unset,
@@ -855,26 +800,21 @@ class ModelDump(
         aliases: typing.Union[MetaOapg.properties.aliases, list, tuple, schemas.Unset] = schemas.unset,
         httpPort: typing.Union[MetaOapg.properties.httpPort, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         mainPageEndpoint: typing.Union[MetaOapg.properties.mainPageEndpoint, str, schemas.Unset] = schemas.unset,
-        archiveEncryptionPublicKey: typing.Union[MetaOapg.properties.archiveEncryptionPublicKey, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelDump':
         return super().__new__(
             cls,
             *_args,
-            asArchiveSettingsData=asArchiveSettingsData,
-            image=image,
-            numberOfArchivedRequests=numberOfArchivedRequests,
-            fitConfigs=fitConfigs,
-            asBillingSettingsData=asBillingSettingsData,
-            archiveEncryptionEnabled=archiveEncryptionEnabled,
-            predictConfigs=predictConfigs,
             asHttpSettingsData=asHttpSettingsData,
+            image=image,
             docs=docs,
             asPublicSettingsData=asPublicSettingsData,
-            archiveEnabled=archiveEnabled,
+            fitConfigs=fitConfigs,
             name=name,
+            asBillingSettingsData=asBillingSettingsData,
             isHttpEnabled=isHttpEnabled,
+            predictConfigs=predictConfigs,
             imageAccount=imageAccount,
             modelGroup=modelGroup,
             isPublic=isPublic,
@@ -916,7 +856,6 @@ class ModelDump(
             aliases=aliases,
             httpPort=httpPort,
             mainPageEndpoint=mainPageEndpoint,
-            archiveEncryptionPublicKey=archiveEncryptionPublicKey,
             _configuration=_configuration,
             **kwargs,
         )
@@ -924,7 +863,6 @@ class ModelDump(
 from mlp_api.model.data_image_mount_dump import DataImageMountDump
 from mlp_api.model.document_dump import DocumentDump
 from mlp_api.model.fit_config_dump import FitConfigDump
-from mlp_api.model.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData

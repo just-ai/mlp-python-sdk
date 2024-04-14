@@ -34,7 +34,6 @@ from mlp_api.paths.api_mlpgate_account_account_model_model_status.get import Sho
 from mlp_api.paths.api_mlpgate_account_account_model_model_instance_start.post import StartNewInstance
 from mlp_api.paths.api_mlpgate_account_account_model_model_instances_single.post import StartSingleInstance
 from mlp_api.paths.api_mlpgate_account_account_model_model.post import UpdateModel
-from mlp_api.paths.api_mlpgate_account_account_model_model_archive.post import UpdateModelArchiveSettings
 from mlp_api.paths.api_mlpgate_account_account_model_model_billing.post import UpdateModelBillingSettings
 from mlp_api.paths.api_mlpgate_account_account_model_model_http.post import UpdateModelHttpSettings
 from mlp_api.paths.api_mlpgate_account_account_model_model_public_settings.post import UpdateModelPublicSettings
@@ -66,7 +65,6 @@ class ModelEndpointApi(
     StartNewInstance,
     StartSingleInstance,
     UpdateModel,
-    UpdateModelArchiveSettings,
     UpdateModelBillingSettings,
     UpdateModelHttpSettings,
     UpdateModelPublicSettings,

@@ -42,42 +42,9 @@ class CreateResourceGroupServer(
         class properties:
             serverName = schemas.StrSchema
             rawConfiguration = schemas.StrSchema
-            tarifficationPrice = schemas.NumberSchema
-            
-            
-            class tarifficationPeriod(
-                schemas.EnumBase,
-                schemas.StrSchema
-            ):
-                
-                @schemas.classproperty
-                def SECOND(cls):
-                    return cls("SECOND")
-                
-                @schemas.classproperty
-                def MINUTE(cls):
-                    return cls("MINUTE")
-                
-                @schemas.classproperty
-                def HOUR(cls):
-                    return cls("HOUR")
-                
-                @schemas.classproperty
-                def DAY(cls):
-                    return cls("DAY")
-                
-                @schemas.classproperty
-                def MONTH(cls):
-                    return cls("MONTH")
-                
-                @schemas.classproperty
-                def YEAR(cls):
-                    return cls("YEAR")
             __annotations__ = {
                 "serverName": serverName,
                 "rawConfiguration": rawConfiguration,
-                "tarifficationPrice": tarifficationPrice,
-                "tarifficationPeriod": tarifficationPeriod,
             }
     
     serverName: MetaOapg.properties.serverName
@@ -90,15 +57,9 @@ class CreateResourceGroupServer(
     def __getitem__(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["tarifficationPrice"]) -> MetaOapg.properties.tarifficationPrice: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> MetaOapg.properties.tarifficationPeriod: ...
-    
-    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["serverName", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["serverName", "rawConfiguration", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -110,15 +71,9 @@ class CreateResourceGroupServer(
     def get_item_oapg(self, name: typing_extensions.Literal["rawConfiguration"]) -> MetaOapg.properties.rawConfiguration: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPrice"]) -> typing.Union[MetaOapg.properties.tarifficationPrice, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["tarifficationPeriod"]) -> typing.Union[MetaOapg.properties.tarifficationPeriod, schemas.Unset]: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["serverName", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["serverName", "rawConfiguration", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -127,8 +82,6 @@ class CreateResourceGroupServer(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         serverName: typing.Union[MetaOapg.properties.serverName, str, ],
         rawConfiguration: typing.Union[MetaOapg.properties.rawConfiguration, str, ],
-        tarifficationPrice: typing.Union[MetaOapg.properties.tarifficationPrice, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
-        tarifficationPeriod: typing.Union[MetaOapg.properties.tarifficationPeriod, str, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'CreateResourceGroupServer':
@@ -137,8 +90,6 @@ class CreateResourceGroupServer(
             *_args,
             serverName=serverName,
             rawConfiguration=rawConfiguration,
-            tarifficationPrice=tarifficationPrice,
-            tarifficationPeriod=tarifficationPeriod,
             _configuration=_configuration,
             **kwargs,
         )

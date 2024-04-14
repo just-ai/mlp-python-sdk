@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.server_template_data import ServerTemplateData
+from mlp_api.model.resource_group_server_data import ResourceGroupServerData
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -88,12 +88,12 @@ class SchemaFor200ResponseBodyApplicationJson(
     class MetaOapg:
         
         @staticmethod
-        def items() -> typing.Type['ServerTemplateData']:
-            return ServerTemplateData
+        def items() -> typing.Type['ResourceGroupServerData']:
+            return ResourceGroupServerData
 
     def __new__(
         cls,
-        _arg: typing.Union[typing.Tuple['ServerTemplateData'], typing.List['ServerTemplateData']],
+        _arg: typing.Union[typing.Tuple['ResourceGroupServerData'], typing.List['ResourceGroupServerData']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
@@ -102,7 +102,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i: int) -> 'ServerTemplateData':
+    def __getitem__(self, i: int) -> 'ResourceGroupServerData':
         return super().__getitem__(i)
 
 
