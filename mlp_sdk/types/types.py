@@ -1,7 +1,7 @@
 import enum
-from typing import List, Optional
+from typing import List, Optional, Dict
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Extra
 
 PACKAGE_NAME = "types"
 
@@ -650,3 +650,55 @@ class TtsDictionaryEntry(BaseModel):
 
 class TtsDictionary(BaseModel):
     dictionary: List[TtsDictionaryEntry]
+
+
+# OpenAI API TYPES
+
+class ChatCompletionRole(enum.Enum):
+    SYSTEM = 'system'
+    USER = 'user'
+    ASSISTANT = 'assistant'
+
+
+class ChatCompletionChoiceFinishReason(enum.Enum):
+    stop = 'stop'
+    length = 'length'
+    function_call = 'function_call'
+
+
+class Usage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
+    total_tokens: int
+
+
+class ChatMessage(BaseModel):
+    role: ChatCompletionRole
+    content: str
+
+
+class ChatCompletionChoice(BaseModel):
+    index: int
+    message: Optional[ChatMessage]
+    delta: Optional[ChatMessage]
+    finish_reason: Optional[ChatCompletionChoiceFinishReason] = Field(None)
+
+
+class ChatCompletionResult(BaseModel):
+    choices: List[ChatCompletionChoice]
+    model: Optional[str]
+    usage: Optional[Usage] = Field(None)
+
+
+class ChatCompletionConfig(BaseModel, extra=Extra.allow):
+    temperature: float = Field(None)
+    max_tokens: int = Field(None)  # max_new_tokens in hf
+    top_p: float = Field(None)
+    system_prompt: str = Field(None)
+    # presence_penalty:
+    # frequency_penalty:
+    
+class ChatCompletionRequest(BaseModel):
+    messages: List[ChatMessage]
+    model: Optional[str] = Field(None)
+    stream: Optional[bool] = Field(None)
