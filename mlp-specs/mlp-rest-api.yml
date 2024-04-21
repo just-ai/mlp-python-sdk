@@ -8137,7 +8137,6 @@ components:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
     ResourceGroupAutoScalingConfiguration:
       required:
-      - fallbackServersIds
       - minServersCount
       type: object
       properties:
