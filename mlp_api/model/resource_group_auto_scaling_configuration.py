@@ -35,16 +35,41 @@ class ResourceGroupAutoScalingConfiguration(
 
     class MetaOapg:
         required = {
+            "fallbackServersIds",
             "minServersCount",
         }
         
         class properties:
+            
+            
+            class fallbackServersIds(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.Int64Schema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, decimal.Decimal, int, ]], typing.List[typing.Union[MetaOapg.items, decimal.Decimal, int, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'fallbackServersIds':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             minServersCount = schemas.Int32Schema
             serverId = schemas.Int64Schema
             serverConfiguration = schemas.StrSchema
             maxServersCount = schemas.Int32Schema
             cooldownPeriodMinutes = schemas.Int32Schema
             __annotations__ = {
+                "fallbackServersIds": fallbackServersIds,
                 "minServersCount": minServersCount,
                 "serverId": serverId,
                 "serverConfiguration": serverConfiguration,
@@ -52,7 +77,11 @@ class ResourceGroupAutoScalingConfiguration(
                 "cooldownPeriodMinutes": cooldownPeriodMinutes,
             }
     
+    fallbackServersIds: MetaOapg.properties.fallbackServersIds
     minServersCount: MetaOapg.properties.minServersCount
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["fallbackServersIds"]) -> MetaOapg.properties.fallbackServersIds: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["minServersCount"]) -> MetaOapg.properties.minServersCount: ...
@@ -72,10 +101,13 @@ class ResourceGroupAutoScalingConfiguration(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["fallbackServersIds", "minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["fallbackServersIds"]) -> MetaOapg.properties.fallbackServersIds: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["minServersCount"]) -> MetaOapg.properties.minServersCount: ...
@@ -95,13 +127,14 @@ class ResourceGroupAutoScalingConfiguration(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["fallbackServersIds", "minServersCount", "serverId", "serverConfiguration", "maxServersCount", "cooldownPeriodMinutes", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        fallbackServersIds: typing.Union[MetaOapg.properties.fallbackServersIds, list, tuple, ],
         minServersCount: typing.Union[MetaOapg.properties.minServersCount, decimal.Decimal, int, ],
         serverId: typing.Union[MetaOapg.properties.serverId, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         serverConfiguration: typing.Union[MetaOapg.properties.serverConfiguration, str, schemas.Unset] = schemas.unset,
@@ -113,6 +146,7 @@ class ResourceGroupAutoScalingConfiguration(
         return super().__new__(
             cls,
             *_args,
+            fallbackServersIds=fallbackServersIds,
             minServersCount=minServersCount,
             serverId=serverId,
             serverConfiguration=serverConfiguration,
