@@ -18,14 +18,15 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    manager.addShortText("${env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH}")
+                    RESULT_BRANCH = env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH
+                    manager.addShortText("${RESULT_BRANCH}")
                     echo "${env.gitlabBranch}"
                 }
 
                 updateGitlabCommitStatus name: "build", state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
-                        branch: "${env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH}",
+                        branch: "${RESULT_BRANCH}",
                         credentialsId: 'bitbucket_key'
             }
         }
@@ -81,16 +82,19 @@ pipeline {
             }
         }
         stage('Rebuild MLP Services') {
+            when {
+                expression { RESULT_BRANCH in ['dev','stable','release'] }
+            }
             steps {
                 parallel (
                     "build mlp-aimyvoice-base-service" : {
-                        build job: "mlp-aimyvoice-base-service-build/${env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH}", wait: false
+                        build job: "mlp-aimyvoice-base-service-build/${RESULT_BRANCH}", wait: false
                     },
                     "build mlp_task_zoo" : {
-                        build job: "mlp_task_zoo-build/${env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH}", wait: false
+                        build job: "mlp_task_zoo-build/${RESULT_BRANCH}", wait: false
                     },
                     "build sd" : {
-                        build job: "sd-build/${env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH}", wait: false
+                        build job: "sd-build/${RESULT_BRANCH}", wait: false
                     }
                 )
             }

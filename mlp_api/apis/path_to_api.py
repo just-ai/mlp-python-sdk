@@ -1,6 +1,7 @@
 import typing_extensions
 
 from mlp_api.paths import PathValues
+from mlp_api.apis.paths.api_mlpgate_account_account_request_request_id_mark_mark import ApiMlpgateAccountAccountRequestRequestIdMarkMark
 from mlp_api.apis.paths.p_account_field_model_field import PAccountFieldModelField
 from mlp_api.apis.paths.api_mlpgate_task_task_id_stop import ApiMlpgateTaskTaskIdStop
 from mlp_api.apis.paths.api_mlpgate_server_heartbeat import ApiMlpgateServerHeartbeat
@@ -25,6 +26,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_public_settings 
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict import ApiMlpgateAccountAccountModelModelPredict
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config import ApiMlpgateAccountAccountModelModelPredictWithConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config_v2 import ApiMlpgateAccountAccountModelModelPredictWithConfigV2
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_with_config_v2_stream import ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config import ApiMlpgateAccountAccountModelModelPredictConfig
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_predict_config_config_id import ApiMlpgateAccountAccountModelModelPredictConfigConfigId
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_instances import ApiMlpgateAccountAccountModelModelInstances
@@ -44,6 +46,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_model_model_derived import A
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_cross_validation import ApiMlpgateAccountAccountModelModelCrossValidation
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_clone import ApiMlpgateAccountAccountModelModelClone
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_billing import ApiMlpgateAccountAccountModelModelBilling
+from mlp_api.apis.paths.api_mlpgate_account_account_model_model_archive import ApiMlpgateAccountAccountModelModelArchive
 from mlp_api.apis.paths.api_mlpgate_account_account_model_group import ApiMlpgateAccountAccountModelGroup
 from mlp_api.apis.paths.api_mlpgate_account_account_management_feature_name import ApiMlpgateAccountAccountManagementFeatureName
 from mlp_api.apis.paths.api_mlpgate_account_account_image import ApiMlpgateAccountAccountImage
@@ -68,9 +71,12 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_model_model_instanc
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_features import ApiMlpgateInternalAccountAccountFeatures
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_deny import ApiMlpgateInternalAccountAccountBucketDeny
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_access import ApiMlpgateInternalAccountAccountBucketAccess
+from mlp_api.apis.paths.api_adapters_tts import ApiAdaptersTts
+from mlp_api.apis.paths.api_adapters_chat_gpt import ApiAdaptersChatGpt
 from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdminResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
 from mlp_api.apis.paths.api_mlpgate_internal_resource_groups import ApiMlpgateInternalResourceGroups
+from mlp_api.apis.paths.specs_api_file import SpecsApiFile
 from mlp_api.apis.paths.api_mlpgate_version import ApiMlpgateVersion
 from mlp_api.apis.paths.api_mlpgate_task import ApiMlpgateTask
 from mlp_api.apis.paths.api_mlpgate_task_user import ApiMlpgateTaskUser
@@ -80,6 +86,7 @@ from mlp_api.apis.paths.api_mlpgate_system_config_model_defaults import ApiMlpga
 from mlp_api.apis.paths.api_mlpgate_system_config_frontend_settings import ApiMlpgateSystemConfigFrontendSettings
 from mlp_api.apis.paths.api_mlpgate_system_config_dataset_data_type import ApiMlpgateSystemConfigDatasetDataType
 from mlp_api.apis.paths.api_mlpgate_system_config_captcha import ApiMlpgateSystemConfigCaptcha
+from mlp_api.apis.paths.api_mlpgate_specs_api_file import ApiMlpgateSpecsApiFile
 from mlp_api.apis.paths.api_mlpgate_models import ApiMlpgateModels
 from mlp_api.apis.paths.api_mlpgate_models_featured import ApiMlpgateModelsFeatured
 from mlp_api.apis.paths.api_mlpgate_health import ApiMlpgateHealth
@@ -168,6 +175,7 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_gro
 PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
@@ -192,6 +200,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2STREAM: ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -211,6 +220,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CROSSVALIDATION: ApiMlpgateAccountAccountModelModelCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CLONE: ApiMlpgateAccountAccountModelModelClone,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_BILLING: ApiMlpgateAccountAccountModelModelBilling,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ARCHIVE: ApiMlpgateAccountAccountModelModelArchive,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP: ApiMlpgateAccountAccountModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE: ApiMlpgateAccountAccountImage,
@@ -235,9 +245,12 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateInternalAccountAccountFeatures,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
+        PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
+        PathValues.SPECS_APIFILE: SpecsApiFile,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
@@ -247,6 +260,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_SYSTEMCONFIG_FRONTENDSETTINGS: ApiMlpgateSystemConfigFrontendSettings,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SPECS_APIFILE: ApiMlpgateSpecsApiFile,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,
@@ -336,6 +350,7 @@ PathToApi = typing_extensions.TypedDict(
 
 path_to_api = PathToApi(
     {
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
@@ -360,6 +375,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICT: ApiMlpgateAccountAccountModelModelPredict,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIG: ApiMlpgateAccountAccountModelModelPredictWithConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2: ApiMlpgateAccountAccountModelModelPredictWithConfigV2,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTWITHCONFIGV2STREAM: ApiMlpgateAccountAccountModelModelPredictWithConfigV2Stream,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG: ApiMlpgateAccountAccountModelModelPredictConfig,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_PREDICTCONFIG_CONFIG_ID: ApiMlpgateAccountAccountModelModelPredictConfigConfigId,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_INSTANCES: ApiMlpgateAccountAccountModelModelInstances,
@@ -379,6 +395,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CROSSVALIDATION: ApiMlpgateAccountAccountModelModelCrossValidation,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_CLONE: ApiMlpgateAccountAccountModelModelClone,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_BILLING: ApiMlpgateAccountAccountModelModelBilling,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_ARCHIVE: ApiMlpgateAccountAccountModelModelArchive,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODELGROUP: ApiMlpgateAccountAccountModelGroup,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MANAGEMENT_FEATURE_NAME: ApiMlpgateAccountAccountManagementFeatureName,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_IMAGE: ApiMlpgateAccountAccountImage,
@@ -403,9 +420,12 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_FEATURES: ApiMlpgateInternalAccountAccountFeatures,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
+        PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
         PathValues.API_MLPGATEINTERNAL_RESOURCEGROUPS: ApiMlpgateInternalResourceGroups,
+        PathValues.SPECS_APIFILE: SpecsApiFile,
         PathValues.API_MLPGATE_VERSION: ApiMlpgateVersion,
         PathValues.API_MLPGATE_TASK: ApiMlpgateTask,
         PathValues.API_MLPGATE_TASK_USER: ApiMlpgateTaskUser,
@@ -415,6 +435,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_SYSTEMCONFIG_FRONTENDSETTINGS: ApiMlpgateSystemConfigFrontendSettings,
         PathValues.API_MLPGATE_SYSTEMCONFIG_DATASETDATATYPE: ApiMlpgateSystemConfigDatasetDataType,
         PathValues.API_MLPGATE_SYSTEMCONFIG_CAPTCHA: ApiMlpgateSystemConfigCaptcha,
+        PathValues.API_MLPGATE_SPECS_APIFILE: ApiMlpgateSpecsApiFile,
         PathValues.API_MLPGATE_MODELS: ApiMlpgateModels,
         PathValues.API_MLPGATE_MODELS_FEATURED: ApiMlpgateModelsFeatured,
         PathValues.API_MLPGATE_HEALTH: ApiMlpgateHealth,

@@ -29,6 +29,11 @@ class GateStub(object):
                 request_serializer=mlp__grpc__pb2.ClientRequestProto.SerializeToString,
                 response_deserializer=mlp__grpc__pb2.ClientResponseProto.FromString,
                 )
+        self.processResponseStream = channel.unary_stream(
+                '/com.mlp.gate.Gate/processResponseStream',
+                request_serializer=mlp__grpc__pb2.ClientRequestProto.SerializeToString,
+                response_deserializer=mlp__grpc__pb2.ClientResponseProto.FromString,
+                )
         self.processSynthesis = channel.unary_stream(
                 '/com.mlp.gate.Gate/processSynthesis',
                 request_serializer=mlp__grpc__pb2.ClientTtsRequestProto.SerializeToString,
@@ -57,6 +62,12 @@ class GateServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def processResponseStream(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def processSynthesis(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -78,6 +89,11 @@ def add_GateServicer_to_server(servicer, server):
             ),
             'process': grpc.unary_unary_rpc_method_handler(
                     servicer.process,
+                    request_deserializer=mlp__grpc__pb2.ClientRequestProto.FromString,
+                    response_serializer=mlp__grpc__pb2.ClientResponseProto.SerializeToString,
+            ),
+            'processResponseStream': grpc.unary_stream_rpc_method_handler(
+                    servicer.processResponseStream,
                     request_deserializer=mlp__grpc__pb2.ClientRequestProto.FromString,
                     response_serializer=mlp__grpc__pb2.ClientResponseProto.SerializeToString,
             ),
@@ -142,6 +158,23 @@ class Gate(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/com.mlp.gate.Gate/process',
+            mlp__grpc__pb2.ClientRequestProto.SerializeToString,
+            mlp__grpc__pb2.ClientResponseProto.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def processResponseStream(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/com.mlp.gate.Gate/processResponseStream',
             mlp__grpc__pb2.ClientRequestProto.SerializeToString,
             mlp__grpc__pb2.ClientResponseProto.FromString,
             options, channel_credentials,

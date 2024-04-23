@@ -37,21 +37,25 @@ class FrontendSettings(
         required = {
             "isBillingEnabled",
             "isSystemAccount",
+            "isArchiveEnabled",
             "isExtendedLanding",
         }
         
         class properties:
             isSystemAccount = schemas.BoolSchema
             isBillingEnabled = schemas.BoolSchema
+            isArchiveEnabled = schemas.BoolSchema
             isExtendedLanding = schemas.BoolSchema
             __annotations__ = {
                 "isSystemAccount": isSystemAccount,
                 "isBillingEnabled": isBillingEnabled,
+                "isArchiveEnabled": isArchiveEnabled,
                 "isExtendedLanding": isExtendedLanding,
             }
     
     isBillingEnabled: MetaOapg.properties.isBillingEnabled
     isSystemAccount: MetaOapg.properties.isSystemAccount
+    isArchiveEnabled: MetaOapg.properties.isArchiveEnabled
     isExtendedLanding: MetaOapg.properties.isExtendedLanding
     
     @typing.overload
@@ -61,12 +65,15 @@ class FrontendSettings(
     def __getitem__(self, name: typing_extensions.Literal["isBillingEnabled"]) -> MetaOapg.properties.isBillingEnabled: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["isArchiveEnabled"]) -> MetaOapg.properties.isArchiveEnabled: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isExtendedLanding"]) -> MetaOapg.properties.isExtendedLanding: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isSystemAccount", "isBillingEnabled", "isExtendedLanding", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -78,12 +85,15 @@ class FrontendSettings(
     def get_item_oapg(self, name: typing_extensions.Literal["isBillingEnabled"]) -> MetaOapg.properties.isBillingEnabled: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["isArchiveEnabled"]) -> MetaOapg.properties.isArchiveEnabled: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isExtendedLanding"]) -> MetaOapg.properties.isExtendedLanding: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isSystemAccount", "isBillingEnabled", "isExtendedLanding", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -92,6 +102,7 @@ class FrontendSettings(
         *_args: typing.Union[dict, frozendict.frozendict, ],
         isBillingEnabled: typing.Union[MetaOapg.properties.isBillingEnabled, bool, ],
         isSystemAccount: typing.Union[MetaOapg.properties.isSystemAccount, bool, ],
+        isArchiveEnabled: typing.Union[MetaOapg.properties.isArchiveEnabled, bool, ],
         isExtendedLanding: typing.Union[MetaOapg.properties.isExtendedLanding, bool, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -101,6 +112,7 @@ class FrontendSettings(
             *_args,
             isBillingEnabled=isBillingEnabled,
             isSystemAccount=isSystemAccount,
+            isArchiveEnabled=isArchiveEnabled,
             isExtendedLanding=isExtendedLanding,
             _configuration=_configuration,
             **kwargs,

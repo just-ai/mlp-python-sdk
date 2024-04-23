@@ -40,6 +40,7 @@ class TtsRequestData(
         
         class properties:
             text = schemas.StrSchema
+            model = schemas.StrSchema
             voice = schemas.StrSchema
         
             @staticmethod
@@ -47,6 +48,7 @@ class TtsRequestData(
                 return AudioFormatOptions
             __annotations__ = {
                 "text": text,
+                "model": model,
                 "voice": voice,
                 "outputAudioSpec": outputAudioSpec,
             }
@@ -57,6 +59,9 @@ class TtsRequestData(
     def __getitem__(self, name: typing_extensions.Literal["text"]) -> MetaOapg.properties.text: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["model"]) -> MetaOapg.properties.model: ...
+    
+    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["voice"]) -> MetaOapg.properties.voice: ...
     
     @typing.overload
@@ -65,13 +70,16 @@ class TtsRequestData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["text", "voice", "outputAudioSpec", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["text", "model", "voice", "outputAudioSpec", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["text"]) -> MetaOapg.properties.text: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["model"]) -> typing.Union[MetaOapg.properties.model, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["voice"]) -> typing.Union[MetaOapg.properties.voice, schemas.Unset]: ...
@@ -82,7 +90,7 @@ class TtsRequestData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["text", "voice", "outputAudioSpec", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["text", "model", "voice", "outputAudioSpec", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -90,6 +98,7 @@ class TtsRequestData(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
         text: typing.Union[MetaOapg.properties.text, str, ],
+        model: typing.Union[MetaOapg.properties.model, str, schemas.Unset] = schemas.unset,
         voice: typing.Union[MetaOapg.properties.voice, str, schemas.Unset] = schemas.unset,
         outputAudioSpec: typing.Union['AudioFormatOptions', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -99,6 +108,7 @@ class TtsRequestData(
             cls,
             *_args,
             text=text,
+            model=model,
             voice=voice,
             outputAudioSpec=outputAudioSpec,
             _configuration=_configuration,

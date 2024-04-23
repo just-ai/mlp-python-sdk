@@ -35,6 +35,7 @@ class ModelInfoData(
 
     class MetaOapg:
         required = {
+            "archiveSettings",
             "timeouts",
             "hostingType",
             "httpSettings",
@@ -189,6 +190,10 @@ class ModelInfoData(
             @staticmethod
             def httpSettings() -> typing.Type['ModelHttpSettingsData']:
                 return ModelHttpSettingsData
+        
+            @staticmethod
+            def archiveSettings() -> typing.Type['ModelArchiveSettingsData']:
+                return ModelArchiveSettingsData
             restrictedImageAccess = schemas.BoolSchema
             favorite = schemas.BoolSchema
             modelAccountName = schemas.StrSchema
@@ -341,6 +346,7 @@ class ModelInfoData(
                 "publicSettings": publicSettings,
                 "billingSettings": billingSettings,
                 "httpSettings": httpSettings,
+                "archiveSettings": archiveSettings,
                 "restrictedImageAccess": restrictedImageAccess,
                 "favorite": favorite,
                 "modelAccountName": modelAccountName,
@@ -372,6 +378,7 @@ class ModelInfoData(
                 "state": state,
             }
     
+    archiveSettings: 'ModelArchiveSettingsData'
     timeouts: 'ModelTimeoutsData'
     hostingType: MetaOapg.properties.hostingType
     httpSettings: 'ModelHttpSettingsData'
@@ -446,6 +453,9 @@ class ModelInfoData(
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["httpSettings"]) -> 'ModelHttpSettingsData': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["archiveSettings"]) -> 'ModelArchiveSettingsData': ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -537,7 +547,7 @@ class ModelInfoData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -595,6 +605,9 @@ class ModelInfoData(
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["httpSettings"]) -> 'ModelHttpSettingsData': ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["archiveSettings"]) -> 'ModelArchiveSettingsData': ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["restrictedImageAccess"]) -> MetaOapg.properties.restrictedImageAccess: ...
@@ -686,13 +699,14 @@ class ModelInfoData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "modelName", "imageAccountId", "composite", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "favorite", "modelAccountName", "modelAccountDisplayName", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "resourceGroup", "shortDescription", "languages", "minInstancesCount", "lastActivity", "state", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
+        archiveSettings: 'ModelArchiveSettingsData',
         timeouts: 'ModelTimeoutsData',
         hostingType: typing.Union[MetaOapg.properties.hostingType, str, ],
         httpSettings: 'ModelHttpSettingsData',
@@ -746,6 +760,7 @@ class ModelInfoData(
         return super().__new__(
             cls,
             *_args,
+            archiveSettings=archiveSettings,
             timeouts=timeouts,
             hostingType=hostingType,
             httpSettings=httpSettings,
@@ -801,6 +816,7 @@ from mlp_api.model.data_image_mount_data import DataImageMountData
 from mlp_api.model.dataset_info_data import DatasetInfoData
 from mlp_api.model.fit_config_data import FitConfigData
 from mlp_api.model.image_info_data import ImageInfoData
+from mlp_api.model.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_billing_settings_data import ModelBillingSettingsData
