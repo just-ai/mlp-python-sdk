@@ -8472,6 +8472,8 @@ components:
         startTimeSec:
           type: number
           format: float
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
     PersistentVolumeData:
       required:
       - mountPath

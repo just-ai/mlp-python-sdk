@@ -220,6 +220,10 @@ class ModelCreateUpdateData(
                     return super().__getitem__(i)
             minInstancesCount = schemas.Int32Schema
             startTimeSec = schemas.Float32Schema
+        
+            @staticmethod
+            def httpSettings() -> typing.Type['ModelHttpSettingsData']:
+                return ModelHttpSettingsData
             __annotations__ = {
                 "modelName": modelName,
                 "imageAccountId": imageAccountId,
@@ -253,6 +257,7 @@ class ModelCreateUpdateData(
                 "languages": languages,
                 "minInstancesCount": minInstancesCount,
                 "startTimeSec": startTimeSec,
+                "httpSettings": httpSettings,
             }
     
     modelName: MetaOapg.properties.modelName
@@ -354,9 +359,12 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["startTimeSec"]) -> MetaOapg.properties.startTimeSec: ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["httpSettings"]) -> 'ModelHttpSettingsData': ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -458,9 +466,12 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["startTimeSec"]) -> typing.Union[MetaOapg.properties.startTimeSec, schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["httpSettings"]) -> typing.Union['ModelHttpSettingsData', schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -499,6 +510,7 @@ class ModelCreateUpdateData(
         languages: typing.Union[MetaOapg.properties.languages, list, tuple, schemas.Unset] = schemas.unset,
         minInstancesCount: typing.Union[MetaOapg.properties.minInstancesCount, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         startTimeSec: typing.Union[MetaOapg.properties.startTimeSec, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
+        httpSettings: typing.Union['ModelHttpSettingsData', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelCreateUpdateData':
@@ -537,6 +549,7 @@ class ModelCreateUpdateData(
             languages=languages,
             minInstancesCount=minInstancesCount,
             startTimeSec=startTimeSec,
+            httpSettings=httpSettings,
             _configuration=_configuration,
             **kwargs,
         )
@@ -545,6 +558,7 @@ from mlp_api.model.data_image_mount_data import DataImageMountData
 from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
 from mlp_api.model.model_caching_data import ModelCachingData
+from mlp_api.model.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.model.model_limits_data import ModelLimitsData
 from mlp_api.model.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.model.model_retries_data import ModelRetriesData
