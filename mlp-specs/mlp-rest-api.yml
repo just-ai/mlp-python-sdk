@@ -8474,6 +8474,8 @@ components:
           format: float
         httpSettings:
           $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
     PersistentVolumeData:
       required:
       - mountPath
