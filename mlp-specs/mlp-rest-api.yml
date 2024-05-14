@@ -8573,6 +8573,8 @@ components:
           format: float
         httpSettings:
           $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
         aliases:
           type: array
           items:
