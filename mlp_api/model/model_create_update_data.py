@@ -245,6 +245,29 @@ class ModelCreateUpdateData(
             @staticmethod
             def archiveSettings() -> typing.Type['ModelArchiveSettingsData']:
                 return ModelArchiveSettingsData
+            
+            
+            class aliases(
+                schemas.ListSchema
+            ):
+            
+            
+                class MetaOapg:
+                    items = schemas.StrSchema
+            
+                def __new__(
+                    cls,
+                    _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'aliases':
+                    return super().__new__(
+                        cls,
+                        _arg,
+                        _configuration=_configuration,
+                    )
+            
+                def __getitem__(self, i: int) -> MetaOapg.items:
+                    return super().__getitem__(i)
             __annotations__ = {
                 "modelName": modelName,
                 "imageAccountId": imageAccountId,
@@ -280,6 +303,7 @@ class ModelCreateUpdateData(
                 "startTimeSec": startTimeSec,
                 "httpSettings": httpSettings,
                 "archiveSettings": archiveSettings,
+                "aliases": aliases,
             }
     
     modelName: MetaOapg.properties.modelName
@@ -387,9 +411,12 @@ class ModelCreateUpdateData(
     def __getitem__(self, name: typing_extensions.Literal["archiveSettings"]) -> 'ModelArchiveSettingsData': ...
     
     @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["aliases"]) -> MetaOapg.properties.aliases: ...
+    
+    @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -497,9 +524,12 @@ class ModelCreateUpdateData(
     def get_item_oapg(self, name: typing_extensions.Literal["archiveSettings"]) -> typing.Union['ModelArchiveSettingsData', schemas.Unset]: ...
     
     @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["aliases"]) -> typing.Union[MetaOapg.properties.aliases, schemas.Unset]: ...
+    
+    @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -540,6 +570,7 @@ class ModelCreateUpdateData(
         startTimeSec: typing.Union[MetaOapg.properties.startTimeSec, decimal.Decimal, int, float, schemas.Unset] = schemas.unset,
         httpSettings: typing.Union['ModelHttpSettingsData', schemas.Unset] = schemas.unset,
         archiveSettings: typing.Union['ModelArchiveSettingsData', schemas.Unset] = schemas.unset,
+        aliases: typing.Union[MetaOapg.properties.aliases, list, tuple, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'ModelCreateUpdateData':
@@ -580,6 +611,7 @@ class ModelCreateUpdateData(
             startTimeSec=startTimeSec,
             httpSettings=httpSettings,
             archiveSettings=archiveSettings,
+            aliases=aliases,
             _configuration=_configuration,
             **kwargs,
         )
