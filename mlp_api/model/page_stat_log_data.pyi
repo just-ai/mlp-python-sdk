@@ -75,8 +75,8 @@ class PageStatLogData(
             @staticmethod
             def sort() -> typing.Type['SortObject']:
                 return SortObject
-            numberOfElements = schemas.Int32Schema
             last = schemas.BoolSchema
+            numberOfElements = schemas.Int32Schema
             empty = schemas.BoolSchema
             __annotations__ = {
                 "totalElements": totalElements,
@@ -87,8 +87,8 @@ class PageStatLogData(
                 "content": content,
                 "number": number,
                 "sort": sort,
-                "numberOfElements": numberOfElements,
                 "last": last,
+                "numberOfElements": numberOfElements,
                 "empty": empty,
             }
     
@@ -117,10 +117,10 @@ class PageStatLogData(
     def __getitem__(self, name: typing_extensions.Literal["sort"]) -> 'SortObject': ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["numberOfElements"]) -> MetaOapg.properties.numberOfElements: ...
+    def __getitem__(self, name: typing_extensions.Literal["last"]) -> MetaOapg.properties.last: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["last"]) -> MetaOapg.properties.last: ...
+    def __getitem__(self, name: typing_extensions.Literal["numberOfElements"]) -> MetaOapg.properties.numberOfElements: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["empty"]) -> MetaOapg.properties.empty: ...
@@ -128,7 +128,7 @@ class PageStatLogData(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "numberOfElements", "last", "empty", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "last", "numberOfElements", "empty", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -158,10 +158,10 @@ class PageStatLogData(
     def get_item_oapg(self, name: typing_extensions.Literal["sort"]) -> typing.Union['SortObject', schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["numberOfElements"]) -> typing.Union[MetaOapg.properties.numberOfElements, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["last"]) -> typing.Union[MetaOapg.properties.last, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["last"]) -> typing.Union[MetaOapg.properties.last, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["numberOfElements"]) -> typing.Union[MetaOapg.properties.numberOfElements, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["empty"]) -> typing.Union[MetaOapg.properties.empty, schemas.Unset]: ...
@@ -169,7 +169,7 @@ class PageStatLogData(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "numberOfElements", "last", "empty", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "last", "numberOfElements", "empty", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -184,8 +184,8 @@ class PageStatLogData(
         content: typing.Union[MetaOapg.properties.content, list, tuple, schemas.Unset] = schemas.unset,
         number: typing.Union[MetaOapg.properties.number, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         sort: typing.Union['SortObject', schemas.Unset] = schemas.unset,
-        numberOfElements: typing.Union[MetaOapg.properties.numberOfElements, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         last: typing.Union[MetaOapg.properties.last, bool, schemas.Unset] = schemas.unset,
+        numberOfElements: typing.Union[MetaOapg.properties.numberOfElements, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         empty: typing.Union[MetaOapg.properties.empty, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
@@ -201,8 +201,8 @@ class PageStatLogData(
             content=content,
             number=number,
             sort=sort,
-            numberOfElements=numberOfElements,
             last=last,
+            numberOfElements=numberOfElements,
             empty=empty,
             _configuration=_configuration,
             **kwargs,
