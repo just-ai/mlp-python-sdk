@@ -5,8 +5,7 @@ from typing import Dict, Optional, List
 
 import grpc
 import yaml
-from mlp_api.apis.tags import model_endpoint_api
-from mlp_api.apis.tags import process_endpoint_api
+from mlp_api.apis.tags import model_endpoint_api, process_endpoint_api, dataset_endpoint_api
 
 from mlp_api import Configuration, ApiClient
 from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
@@ -207,7 +206,8 @@ class MlpRestClient:
 
         self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
         self.processApi = process_endpoint_api.ProcessEndpointApi(self.api_client)
-
+        self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self.api_client)
+        
 class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
         self.error_code: str = error_code

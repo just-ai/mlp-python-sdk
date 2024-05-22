@@ -17,6 +17,7 @@ from mlp_api.model.account_data_dump import AccountDataDump
 from mlp_api.model.account_feature_data import AccountFeatureData
 from mlp_api.model.account_info_data import AccountInfoData
 from mlp_api.model.account_limits_data import AccountLimitsData
+from mlp_api.model.alias_data import AliasData
 from mlp_api.model.audio_format_options import AudioFormatOptions
 from mlp_api.model.captcha_data import CaptchaData
 from mlp_api.model.check_result import CheckResult
@@ -68,6 +69,7 @@ from mlp_api.model.job_status_data_v2 import JobStatusDataV2
 from mlp_api.model.management_request_data import ManagementRequestData
 from mlp_api.model.measurement import Measurement
 from mlp_api.model.method_descriptor_data import MethodDescriptorData
+from mlp_api.model.model_alias_data import ModelAliasData
 from mlp_api.model.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.model.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.model.model_batches_data import ModelBatchesData
