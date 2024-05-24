@@ -1,7 +1,6 @@
 import typing_extensions
 
 from mlp_api.paths import PathValues
-from mlp_api.apis.paths.api_mlpgate_account_account_request_request_id_mark_mark import ApiMlpgateAccountAccountRequestRequestIdMarkMark
 from mlp_api.apis.paths.p_account_field_model_field import PAccountFieldModelField
 from mlp_api.apis.paths.api_mlpgate_task_task_id_stop import ApiMlpgateTaskTaskIdStop
 from mlp_api.apis.paths.api_mlpgate_server_heartbeat import ApiMlpgateServerHeartbeat
@@ -177,7 +176,6 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_gro
 PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
@@ -354,7 +352,6 @@ PathToApi = typing_extensions.TypedDict(
 
 path_to_api = PathToApi(
     {
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,

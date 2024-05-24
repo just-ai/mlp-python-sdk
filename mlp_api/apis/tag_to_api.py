@@ -5,7 +5,6 @@ from mlp_api.apis.tags.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.apis.tags.account_endpoint_api import AccountEndpointApi
 from mlp_api.apis.tags.admin_endpoint_api import AdminEndpointApi
 from mlp_api.apis.tags.application_endpoint_api import ApplicationEndpointApi
-from mlp_api.apis.tags.archive_endpoint_api import ArchiveEndpointApi
 from mlp_api.apis.tags.chat_gpt_endpoint_api import ChatGptEndpointApi
 from mlp_api.apis.tags.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.apis.tags.dataset_endpoint_api import DatasetEndpointApi
@@ -38,7 +37,6 @@ TagToApi = typing_extensions.TypedDict(
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
         TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
-        TagValues.ARCHIVEENDPOINT: ArchiveEndpointApi,
         TagValues.CHATGPTENDPOINT: ChatGptEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
@@ -72,7 +70,6 @@ tag_to_api = TagToApi(
         TagValues.ACCOUNTENDPOINT: AccountEndpointApi,
         TagValues.ADMINENDPOINT: AdminEndpointApi,
         TagValues.APPLICATIONENDPOINT: ApplicationEndpointApi,
-        TagValues.ARCHIVEENDPOINT: ArchiveEndpointApi,
         TagValues.CHATGPTENDPOINT: ChatGptEndpointApi,
         TagValues.DATAIMAGEENDPOINT: DataImageEndpointApi,
         TagValues.DATASETENDPOINT: DatasetEndpointApi,
