@@ -20,6 +20,7 @@ class TagValues(str, enum.Enum):
     JOBENDPOINT = "job-endpoint"
     MANUALMANAGEMENTENDPOINT = "manual-management-endpoint"
     METRICENDPOINT = "metric-endpoint"
+    MODELALIASENDPOINT = "model-alias-endpoint"
     MODELENDPOINT = "model-endpoint"
     MODELGROUPENDPOINT = "model-group-endpoint"
     MODELINSTANCEENDPOINT = "model-instance-endpoint"
