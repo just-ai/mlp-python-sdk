@@ -77,6 +77,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY = "/api/mlpgate-internal/account/{account}/bucket/deny"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS = "/api/mlpgate-internal/account/{account}/bucket/access"
     API_ADAPTERS_TTS = "/api/adapters/tts"
+    API_ADAPTERS_OPENAI_CHAT_COMPLETIONS = "/api/adapters/openai/chat/completions"
     API_ADAPTERS_CHATGPT = "/api/adapters/chat-gpt"
     API_MLPGATE_ADMIN_RESOURCEGROUPS = "/api/mlpgate/admin/resource-groups"
     API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID = "/api/mlpgate/account/{account}/model/{model}/model-group/{groupId}"

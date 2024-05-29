@@ -72,6 +72,7 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_features import Api
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_deny import ApiMlpgateInternalAccountAccountBucketDeny
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_bucket_access import ApiMlpgateInternalAccountAccountBucketAccess
 from mlp_api.apis.paths.api_adapters_tts import ApiAdaptersTts
+from mlp_api.apis.paths.api_adapters_openai_chat_completions import ApiAdaptersOpenaiChatCompletions
 from mlp_api.apis.paths.api_adapters_chat_gpt import ApiAdaptersChatGpt
 from mlp_api.apis.paths.api_mlpgate_admin_resource_groups import ApiMlpgateAdminResourceGroups
 from mlp_api.apis.paths.api_mlpgate_account_account_model_model_model_group_group_id import ApiMlpgateAccountAccountModelModelModelGroupGroupId
@@ -247,6 +248,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
         PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_OPENAI_CHAT_COMPLETIONS: ApiAdaptersOpenaiChatCompletions,
         PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,
@@ -423,6 +425,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_DENY: ApiMlpgateInternalAccountAccountBucketDeny,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_BUCKET_ACCESS: ApiMlpgateInternalAccountAccountBucketAccess,
         PathValues.API_ADAPTERS_TTS: ApiAdaptersTts,
+        PathValues.API_ADAPTERS_OPENAI_CHAT_COMPLETIONS: ApiAdaptersOpenaiChatCompletions,
         PathValues.API_ADAPTERS_CHATGPT: ApiAdaptersChatGpt,
         PathValues.API_MLPGATE_ADMIN_RESOURCEGROUPS: ApiMlpgateAdminResourceGroups,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_MODEL_MODEL_MODELGROUP_GROUP_ID: ApiMlpgateAccountAccountModelModelModelGroupGroupId,

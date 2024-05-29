@@ -3832,7 +3832,7 @@ paths:
             application/octet-stream:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
-  /api/adapters/chat-gpt:
+  /api/adapters/openai/chat/completions:
     post:
       tags:
       - chat-gpt-endpoint
@@ -3862,6 +3862,52 @@ paths:
       requestBody:
         content:
           application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/event-stream:
+              schema:
+                type: object
+  /api/adapters/chat-gpt:
+    post:
+      tags:
+      - chat-gpt-endpoint
+      operationId: chat1
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Z-requestId
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-BILLING-KEY
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+          text/event-stream:
             schema:
               type: string
         required: true
@@ -9554,10 +9600,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
