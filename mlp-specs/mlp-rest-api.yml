@@ -2539,72 +2539,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelArchiveSettingsData'
-  /api/mlpgate/account/{account}/model/{model}/alias:
-    get:
-      tags:
-      - model-alias-endpoint
-      operationId: getModelAliases
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ModelAliasData'
-    post:
-      tags:
-      - model-alias-endpoint
-      operationId: createAlias
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AliasData'
   /api/mlpgate/account/{account}/model-group:
     get:
       tags:
@@ -3895,7 +3829,7 @@ paths:
             application/octet-stream:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
-  /api/adapters/chat-gpt:
+  /api/adapters/openai/chat/completions:
     post:
       tags:
       - chat-gpt-endpoint
@@ -3933,6 +3867,52 @@ paths:
           description: OK
           content:
             application/json:
+              schema:
+                type: object
+            text/event-stream:
+              schema:
+                type: object
+  /api/adapters/chat-gpt:
+    post:
+      tags:
+      - chat-gpt-endpoint
+      operationId: chat1
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Z-requestId
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-BILLING-KEY
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/event-stream:
               schema:
                 type: object
   /api/mlpgate/admin/resource-groups:
@@ -7378,39 +7358,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExternalConnectionInfoData'
-  /api/mlpgate/account/{account}/model/{model}/alias/{aliasId}:
-    delete:
-      tags:
-      - model-alias-endpoint
-      operationId: deleteAlias
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: aliasId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpgate/account/{account}/model-group/{groupId}:
     delete:
       tags:
@@ -8573,12 +8520,6 @@ components:
           format: float
         httpSettings:
           $ref: '#/components/schemas/ModelHttpSettingsData'
-        archiveSettings:
-          $ref: '#/components/schemas/ModelArchiveSettingsData'
-        aliases:
-          type: array
-          items:
-            type: string
     PersistentVolumeData:
       required:
       - mountPath
@@ -9096,17 +9037,6 @@ components:
         minIntentSizeToDivide:
           type: integer
           format: int32
-    AliasData:
-      required:
-      - id
-      - name
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     ModelGroupData:
       required:
       - name
@@ -9617,10 +9547,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -9994,18 +9924,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    ModelAliasData:
-      required:
-      - aliases
-      - id
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/ModelInfoPK'
-        aliases:
-          type: array
-          items:
-            $ref: '#/components/schemas/AliasData'
     MethodDescriptorData:
       required:
       - fitted
