@@ -25,6 +25,8 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
+from . import path
+
 # Header params
 AuthorizationSchema = schemas.StrSchema
 ZRequestIdSchema = schemas.StrSchema
@@ -105,6 +107,9 @@ _response_for_200 = api_client.OpenApiResponse(
             schema=SchemaFor200ResponseBodyApplicationJson),
     },
 )
+_status_code_to_response = {
+    '200': _response_for_200,
+}
 _all_accept_content_types = (
     'application/json',
 )
@@ -112,7 +117,7 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: typing_extensions.Literal["application/json"] = ...,
@@ -126,7 +131,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyTextEventStream,str, ],
         content_type: typing_extensions.Literal["text/event-stream"],
@@ -140,7 +145,7 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = ...,
@@ -155,7 +160,7 @@ class BaseApi(api_client.Api):
 
 
     @typing.overload
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         skip_deserialization: typing_extensions.Literal[True],
@@ -167,7 +172,7 @@ class BaseApi(api_client.Api):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = ...,
@@ -181,7 +186,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _chat1_oapg(
+    def _chat_oapg(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = 'application/json',
@@ -256,11 +261,11 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class Chat1(BaseApi):
+class Chat(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: typing_extensions.Literal["application/json"] = ...,
@@ -274,7 +279,7 @@ class Chat1(BaseApi):
     ]: ...
 
     @typing.overload
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyTextEventStream,str, ],
         content_type: typing_extensions.Literal["text/event-stream"],
@@ -288,7 +293,7 @@ class Chat1(BaseApi):
     ]: ...
 
     @typing.overload
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = ...,
@@ -303,7 +308,7 @@ class Chat1(BaseApi):
 
 
     @typing.overload
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         skip_deserialization: typing_extensions.Literal[True],
@@ -315,7 +320,7 @@ class Chat1(BaseApi):
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = ...,
@@ -329,7 +334,7 @@ class Chat1(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def chat1(
+    def chat(
         self,
         body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
         content_type: str = 'application/json',
@@ -339,7 +344,7 @@ class Chat1(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._chat1_oapg(
+        return self._chat_oapg(
             body=body,
             header_params=header_params,
             content_type=content_type,
@@ -433,7 +438,7 @@ class ApiForpost(BaseApi):
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._chat1_oapg(
+        return self._chat_oapg(
             body=body,
             header_params=header_params,
             content_type=content_type,
