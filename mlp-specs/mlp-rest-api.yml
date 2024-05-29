@@ -3927,15 +3927,15 @@ paths:
           application/json:
             schema:
               type: string
-          text/event-stream:
-            schema:
-              type: string
         required: true
       responses:
         "200":
           description: OK
           content:
             application/json:
+              schema:
+                type: object
+            text/event-stream:
               schema:
                 type: object
   /api/adapters/chat-gpt:
@@ -7594,9 +7594,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8114,9 +8114,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
