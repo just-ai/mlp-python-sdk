@@ -76,15 +76,12 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # body param
 SchemaForRequestBodyApplicationJson = schemas.StrSchema
-SchemaForRequestBodyTextEventStream = schemas.StrSchema
 
 
 request_body_body = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
-        'text/event-stream': api_client.MediaType(
-            schema=SchemaForRequestBodyTextEventStream),
     },
     required=True,
 )
@@ -138,21 +135,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _chat1_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyTextEventStream,str, ],
-        content_type: typing_extensions.Literal["text/event-stream"],
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-    @typing.overload
-    def _chat1_oapg(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -167,7 +150,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _chat1_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -179,7 +162,7 @@ class BaseApi(api_client.Api):
     @typing.overload
     def _chat1_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -193,7 +176,7 @@ class BaseApi(api_client.Api):
 
     def _chat1_oapg(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -286,21 +269,7 @@ class Chat1(BaseApi):
     @typing.overload
     def chat1(
         self,
-        body: typing.Union[SchemaForRequestBodyTextEventStream,str, ],
-        content_type: typing_extensions.Literal["text/event-stream"],
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-    @typing.overload
-    def chat1(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -315,7 +284,7 @@ class Chat1(BaseApi):
     @typing.overload
     def chat1(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -327,7 +296,7 @@ class Chat1(BaseApi):
     @typing.overload
     def chat1(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -341,7 +310,7 @@ class Chat1(BaseApi):
 
     def chat1(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -380,21 +349,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyTextEventStream,str, ],
-        content_type: typing_extensions.Literal["text/event-stream"],
-        header_params: RequestHeaderParams = frozendict.frozendict(),
-        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
-        stream: bool = False,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
-        skip_deserialization: typing_extensions.Literal[False] = ...,
-    ) -> typing.Union[
-        ApiResponseFor200,
-    ]: ...
-
-    @typing.overload
-    def post(
-        self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -409,7 +364,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         skip_deserialization: typing_extensions.Literal[True],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
@@ -421,7 +376,7 @@ class ApiForpost(BaseApi):
     @typing.overload
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = ...,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
@@ -435,7 +390,7 @@ class ApiForpost(BaseApi):
 
     def post(
         self,
-        body: typing.Union[SchemaForRequestBodyApplicationJson,str, SchemaForRequestBodyTextEventStream,str, ],
+        body: typing.Union[SchemaForRequestBodyApplicationJson,str, ],
         content_type: str = 'application/json',
         header_params: RequestHeaderParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
