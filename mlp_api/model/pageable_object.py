@@ -36,35 +36,35 @@ class PageableObject(
     class MetaOapg:
         
         class properties:
-            pageNumber = schemas.Int32Schema
-            pageSize = schemas.Int32Schema
             offset = schemas.Int64Schema
         
             @staticmethod
             def sort() -> typing.Type['SortObject']:
                 return SortObject
+            pageNumber = schemas.Int32Schema
+            pageSize = schemas.Int32Schema
             paged = schemas.BoolSchema
             unpaged = schemas.BoolSchema
             __annotations__ = {
-                "pageNumber": pageNumber,
-                "pageSize": pageSize,
                 "offset": offset,
                 "sort": sort,
+                "pageNumber": pageNumber,
+                "pageSize": pageSize,
                 "paged": paged,
                 "unpaged": unpaged,
             }
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["pageNumber"]) -> MetaOapg.properties.pageNumber: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["pageSize"]) -> MetaOapg.properties.pageSize: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["offset"]) -> MetaOapg.properties.offset: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["sort"]) -> 'SortObject': ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["pageNumber"]) -> MetaOapg.properties.pageNumber: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["pageSize"]) -> MetaOapg.properties.pageSize: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["paged"]) -> MetaOapg.properties.paged: ...
@@ -75,22 +75,22 @@ class PageableObject(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["offset", "sort", "pageNumber", "pageSize", "paged", "unpaged", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["pageNumber"]) -> typing.Union[MetaOapg.properties.pageNumber, schemas.Unset]: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["pageSize"]) -> typing.Union[MetaOapg.properties.pageSize, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["offset"]) -> typing.Union[MetaOapg.properties.offset, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["sort"]) -> typing.Union['SortObject', schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["pageNumber"]) -> typing.Union[MetaOapg.properties.pageNumber, schemas.Unset]: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["pageSize"]) -> typing.Union[MetaOapg.properties.pageSize, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["paged"]) -> typing.Union[MetaOapg.properties.paged, schemas.Unset]: ...
@@ -101,17 +101,17 @@ class PageableObject(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["offset", "sort", "pageNumber", "pageSize", "paged", "unpaged", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *_args: typing.Union[dict, frozendict.frozendict, ],
-        pageNumber: typing.Union[MetaOapg.properties.pageNumber, decimal.Decimal, int, schemas.Unset] = schemas.unset,
-        pageSize: typing.Union[MetaOapg.properties.pageSize, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         offset: typing.Union[MetaOapg.properties.offset, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         sort: typing.Union['SortObject', schemas.Unset] = schemas.unset,
+        pageNumber: typing.Union[MetaOapg.properties.pageNumber, decimal.Decimal, int, schemas.Unset] = schemas.unset,
+        pageSize: typing.Union[MetaOapg.properties.pageSize, decimal.Decimal, int, schemas.Unset] = schemas.unset,
         paged: typing.Union[MetaOapg.properties.paged, bool, schemas.Unset] = schemas.unset,
         unpaged: typing.Union[MetaOapg.properties.unpaged, bool, schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
@@ -120,10 +120,10 @@ class PageableObject(
         return super().__new__(
             cls,
             *_args,
-            pageNumber=pageNumber,
-            pageSize=pageSize,
             offset=offset,
             sort=sort,
+            pageNumber=pageNumber,
+            pageSize=pageSize,
             paged=paged,
             unpaged=unpaged,
             _configuration=_configuration,
