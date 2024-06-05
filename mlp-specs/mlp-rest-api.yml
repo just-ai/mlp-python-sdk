@@ -9689,10 +9689,10 @@ components:
     PageableObject:
       type: object
       properties:
-        pageSize:
+        pageNumber:
           type: integer
           format: int32
-        pageNumber:
+        pageSize:
           type: integer
           format: int32
         offset:
