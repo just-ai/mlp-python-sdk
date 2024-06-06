@@ -4255,6 +4255,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobStatusDataV2'
+  /api/mlpgate/task/short:
+    get:
+      tags:
+      - task-endpoint
+      operationId: shortTasksView
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortView'
   /api/mlpgate/system-config/task-types:
     get:
       tags:
@@ -9367,6 +9388,38 @@ components:
           type: array
           items:
             type: string
+    ShortView:
+      required:
+      - children
+      - currentStep
+      - jobId
+      - percentage
+      - status
+      - title
+      type: object
+      properties:
+        jobId:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - FAILED
+          - REVERTED
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortView'
+        percentage:
+          type: number
+          format: double
+        currentStep:
+          type: string
     TaskTypeData:
       required:
       - displayName
