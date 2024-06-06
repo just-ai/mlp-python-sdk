@@ -86,6 +86,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_VERSION = "/api/mlpgate/version"
     API_MLPGATE_TASK = "/api/mlpgate/task"
     API_MLPGATE_TASK_USER = "/api/mlpgate/task/user"
+    API_MLPGATE_TASK_SHORT = "/api/mlpgate/task/short"
     API_MLPGATE_SYSTEMCONFIG_TASKTYPES = "/api/mlpgate/system-config/task-types"
     API_MLPGATE_SYSTEMCONFIG_RESOURCEGROUPS = "/api/mlpgate/system-config/resource-groups"
     API_MLPGATE_SYSTEMCONFIG_MODELDEFAULTS = "/api/mlpgate/system-config/model-defaults"
