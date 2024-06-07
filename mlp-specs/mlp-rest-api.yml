@@ -4212,7 +4212,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ShortView'
+                  $ref: '#/components/schemas/ShortJobView'
   /api/mlpgate/system-config/task-types:
     get:
       tags:
@@ -9325,21 +9325,28 @@ components:
           type: array
           items:
             type: string
-    ShortView:
+    ShortJobView:
       required:
       - children
       - currentStep
       - jobId
       - percentage
-      - status
       - title
+      - viewStatus
       type: object
       properties:
         jobId:
           type: string
         title:
           type: string
-        status:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortJobView'
+        percentage:
+          type: number
+          format: double
+        viewStatus:
           type: string
           enum:
           - IDLE
@@ -9348,13 +9355,6 @@ components:
           - COMPLETED
           - FAILED
           - REVERTED
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShortView'
-        percentage:
-          type: number
-          format: double
         currentStep:
           type: string
     TaskTypeData:

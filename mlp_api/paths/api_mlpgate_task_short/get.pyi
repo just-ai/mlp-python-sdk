@@ -25,7 +25,7 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from mlp_api.model.short_view import ShortView
+from mlp_api.model.short_job_view import ShortJobView
 
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
@@ -62,12 +62,12 @@ class SchemaFor200ResponseBodyApplicationJson(
     class MetaOapg:
         
         @staticmethod
-        def items() -> typing.Type['ShortView']:
-            return ShortView
+        def items() -> typing.Type['ShortJobView']:
+            return ShortJobView
 
     def __new__(
         cls,
-        _arg: typing.Union[typing.Tuple['ShortView'], typing.List['ShortView']],
+        _arg: typing.Union[typing.Tuple['ShortJobView'], typing.List['ShortJobView']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
@@ -76,7 +76,7 @@ class SchemaFor200ResponseBodyApplicationJson(
             _configuration=_configuration,
         )
 
-    def __getitem__(self, i: int) -> 'ShortView':
+    def __getitem__(self, i: int) -> 'ShortJobView':
         return super().__getitem__(i)
 
 
