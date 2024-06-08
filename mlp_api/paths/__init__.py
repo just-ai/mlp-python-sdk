@@ -159,6 +159,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE = "/api/mlpgate/account/{account}/application/{application}/set-cookie"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH = "/api/mlpgate/account/{account}/application/{application}/auth"
     API_MLPGATEINTERNAL_TESTMAIL = "/api/mlpgate-internal/test-mail"
+    API_MLPGATEINTERNAL_TASKS_MOCK = "/api/mlpgate-internal/tasks/mock"
     API_MLPGATEINTERNAL_STARTONEINSTANCE = "/api/mlpgate-internal/start-one-instance"
     API_MLPGATEINTERNAL_SETPUBLICFORALL = "/api/mlpgate-internal/set-public-for-all"
     API_MLPGATEINTERNAL_SERVICES = "/api/mlpgate-internal/services"
