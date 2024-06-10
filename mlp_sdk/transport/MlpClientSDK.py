@@ -191,13 +191,13 @@ class MlpClientSDK:
 
 class MlpRestClient(ApiClient):
 
-    def __init__(self, url: Optional[str] = None, token=None, config=CONFIG):
+    def __init__(self, url: Optional[str] = None, token: Optional[str] = None, config=CONFIG):
         self.config = config
         self.log = get_logger('MlpRestClient')
         self.account_id = os.environ.get('MLP_ACCOUNT_ID')
         self.model_id = os.environ.get('MLP_MODEL_ID')
-        self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if not url else url
-        self.client_token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
+        self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if url is None else url
+        self.client_token = os.environ['MLP_CLIENT_TOKEN'] if token is None else token
         self.log.debug("Creating mpl client with url " + self.rest_url)
 
         configuration = Configuration(host=self.rest_url)
