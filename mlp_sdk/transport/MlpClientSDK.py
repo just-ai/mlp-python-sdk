@@ -219,7 +219,7 @@ class MlpRestClient:
         Returns:
             Callable instance of class.
         """
-        if module_path in self._valid_apis:
+        if module_path not in self._valid_apis:
             raise NotImplementedError(
                 "Unimplemented module. Call `self.valid_apis` to get list of supported modules."
             )
@@ -233,7 +233,8 @@ class MlpRestClient:
     def _get_valid_apis(self) -> List[str]:
         """Get valid apis from modules."""
         modules = []
-        for module_path in Path("mlp_api/apis/tags").glob("*.py"):
+        api_storage = importlib.resources.files("mlp_api.apis.tags")
+        for module_path in api_storage.glob("*.py"):
             if "__init__.py" in str(module_path):
                 continue
             modules.append(str(module_path))
