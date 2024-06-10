@@ -207,37 +207,38 @@ class MlpRestClient:
         self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
         self.processApi = process_endpoint_api.ProcessEndpointApi(self.api_client)
         self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self.api_client)
+        self._api_module = "mlp_api.apis.tags"
         self._valid_apis = self._get_valid_apis()
 
-    def load_api(self, module_path: str)-> Callable:
-        """Load API implementation from module path.
+    def load_api(self, module_name: str)-> Callable:
+        """Load API implementation from module path by name.
 
         Args:
-            module_path: Path to module. 
+            module_name: Module name for importing. 
                 Valid modules for loading can be viewed by calling `self.valid_apis` function.
 
         Returns:
             Callable instance of class.
         """
-        if module_path not in self._valid_apis:
+        if module_name not in self.valid_apis:
             raise NotImplementedError(
                 "Unimplemented module. Call `self.valid_apis` to get list of supported modules."
             )
 
-        full_name_of_imported_module = module_path.replace("/", ".").replace(".py", "")
-        imported_module_name = full_name_of_imported_module.split(".")[-1]
-        class_name = "".join([word.capitalize() for word in imported_module_name.split("_")])
-        module = importlib.import_module(full_name_of_imported_module)
+        class_name = "".join([word.capitalize() for word in module_name.split("_")])
+        module = importlib.import_module(self._api_module + "." + module_name)
         return getattr(module, class_name)
 
     def _get_valid_apis(self) -> List[str]:
         """Get valid apis from modules."""
         modules = []
-        api_storage = importlib.resources.files("mlp_api.apis.tags")
-        for module_path in api_storage.glob("*.py"):
+        all_api = importlib.resources.files(self._api_module)
+        for module_path in all_api.glob("*.py"):
+            module_path = str(module_path)
             if "__init__.py" in str(module_path):
                 continue
-            modules.append(str(module_path))
+            imported_module_name = module_path.replace("/", ".").split(".")[-2]
+            modules.append(imported_module_name)
         return modules
 
     @property
