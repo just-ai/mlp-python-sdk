@@ -189,7 +189,7 @@ class MlpClientSDK:
             previous_channel.close()
 
 
-class MlpRestClient:
+class MlpRestClient(ApiClient):
 
     def __init__(self, url: Optional[str] = None, token=None, config=CONFIG):
         self.config = config
@@ -201,7 +201,7 @@ class MlpRestClient:
         self.log.debug("Creating mpl client with url " + self.rest_url)
 
         configuration = Configuration(host=self.rest_url)
-        self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
+        super().__init__(configuration, "MLP-API-KEY", self.client_token)
 
         
 class MlpClientException(Exception):
