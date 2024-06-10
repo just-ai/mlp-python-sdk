@@ -1,14 +1,12 @@
-import importlib
 import os
 import time
 from pathlib import Path
-from typing import Callable, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import grpc
 import yaml
 
 from mlp_api import ApiClient, Configuration
-from mlp_api.apis.tags import dataset_endpoint_api, model_endpoint_api, process_endpoint_api
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
@@ -204,47 +202,6 @@ class MlpRestClient:
 
         configuration = Configuration(host=self.rest_url)
         self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
-        self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
-        self.processApi = process_endpoint_api.ProcessEndpointApi(self.api_client)
-        self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self.api_client)
-        self._api_module = "mlp_api.apis.tags"
-        self._valid_apis = self._get_valid_apis()
-
-    def load_api(self, module_name: str)-> Callable:
-        """Load API implementation from module path by name.
-
-        Args:
-            module_name: Module name for importing. 
-                Valid modules for loading can be viewed by calling `self.valid_apis` function.
-
-        Returns:
-            Callable instance of class.
-        """
-        if module_name not in self.valid_apis:
-            raise NotImplementedError(
-                "Unimplemented module. Call `self.valid_apis` to get list of supported modules."
-            )
-
-        class_name = "".join([word.capitalize() for word in module_name.split("_")])
-        module = importlib.import_module(self._api_module + "." + module_name)
-        return getattr(module, class_name)
-
-    def _get_valid_apis(self) -> List[str]:
-        """Get valid apis from modules."""
-        modules = []
-        all_api = importlib.resources.files(self._api_module)
-        for module_path in all_api.glob("*.py"):
-            module_path = str(module_path)
-            if "__init__.py" in str(module_path):
-                continue
-            imported_module_name = module_path.replace("/", ".").split(".")[-2]
-            modules.append(imported_module_name)
-        return modules
-
-    @property
-    def valid_apis(self) -> List[str]:
-        """List of valid apis for initialization."""
-        return self._valid_apis
 
         
 class MlpClientException(Exception):
