@@ -7,6 +7,7 @@ import grpc
 import yaml
 
 from mlp_api import ApiClient, Configuration
+from mlp_api.api import dataset_endpoint_api, model_endpoint_api, process_endpoint_api
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
@@ -202,6 +203,10 @@ class MlpRestClient(ApiClient):
 
         configuration = Configuration(host=self.rest_url)
         super().__init__(configuration, "MLP-API-KEY", self.client_token)
+
+        self.modelApi = model_endpoint_api.ModelEndpointApi(self)
+        self.processApi = process_endpoint_api.ProcessEndpointApi(self)
+        self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self)
 
         
 class MlpClientException(Exception):
