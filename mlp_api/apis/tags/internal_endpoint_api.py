@@ -24,6 +24,7 @@ from mlp_api.paths.api_mlpgate_internal_account_account_resource_groups_group_na
 from mlp_api.paths.api_mlpgate_internal_account_account_namespace_ensure.post import EnsureNamespace
 from mlp_api.paths.api_mlpgate_internal_account_account_features.get import GetAccountFeatures1
 from mlp_api.paths.api_mlpgate_internal_account_account_model_model_instances.get import GetAccountInstancesWithDeleted
+from mlp_api.paths.api_mlpgate_internal_tasks_mock.get import GetMockTasks
 from mlp_api.paths.api_mlpgate_internal_resource_groups.get import GetResourceGroups1
 from mlp_api.paths.api_mlpgate_internal_actions.get import ListAllConnectedActions
 from mlp_api.paths.api_mlpgate_internal_account_account_model_model_actions.get import ListConnectedActions
@@ -57,6 +58,7 @@ class InternalEndpointApi(
     EnsureNamespace,
     GetAccountFeatures1,
     GetAccountInstancesWithDeleted,
+    GetMockTasks,
     GetResourceGroups1,
     ListAllConnectedActions,
     ListConnectedActions,

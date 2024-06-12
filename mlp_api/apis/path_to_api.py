@@ -153,6 +153,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_application_application_toke
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_auth import ApiMlpgateAccountAccountApplicationApplicationAuth
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
+from mlp_api.apis.paths.api_mlpgate_internal_tasks_mock import ApiMlpgateInternalTasksMock
 from mlp_api.apis.paths.api_mlpgate_internal_start_one_instance import ApiMlpgateInternalStartOneInstance
 from mlp_api.apis.paths.api_mlpgate_internal_set_public_for_all import ApiMlpgateInternalSetPublicForAll
 from mlp_api.apis.paths.api_mlpgate_internal_services import ApiMlpgateInternalServices
@@ -330,6 +331,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
+        PathValues.API_MLPGATEINTERNAL_TASKS_MOCK: ApiMlpgateInternalTasksMock,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,
@@ -508,6 +510,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
+        PathValues.API_MLPGATEINTERNAL_TASKS_MOCK: ApiMlpgateInternalTasksMock,
         PathValues.API_MLPGATEINTERNAL_STARTONEINSTANCE: ApiMlpgateInternalStartOneInstance,
         PathValues.API_MLPGATEINTERNAL_SETPUBLICFORALL: ApiMlpgateInternalSetPublicForAll,
         PathValues.API_MLPGATEINTERNAL_SERVICES: ApiMlpgateInternalServices,

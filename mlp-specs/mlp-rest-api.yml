@@ -6954,6 +6954,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/tasks/mock:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: getMockTasks
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortJobView'
   /api/mlpgate-internal/start-one-instance:
     get:
       tags:
