@@ -204,10 +204,6 @@ class MlpRestClient(ApiClient):
         configuration = Configuration(host=self.rest_url)
         super().__init__(configuration, "MLP-API-KEY", self.client_token)
 
-        self.modelApi = model_endpoint_api.ModelEndpointApi(self)
-        self.processApi = process_endpoint_api.ProcessEndpointApi(self)
-        self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self)
-
         
 class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
