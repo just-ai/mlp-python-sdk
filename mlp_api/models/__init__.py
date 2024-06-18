@@ -128,6 +128,7 @@ from mlp_api.model.service_data import ServiceData
 from mlp_api.model.service_descriptor_data import ServiceDescriptorData
 from mlp_api.model.service_info_at_time import ServiceInfoAtTime
 from mlp_api.model.shared_pool_quota import SharedPoolQuota
+from mlp_api.model.short_job_view import ShortJobView
 from mlp_api.model.sort_object import SortObject
 from mlp_api.model.stat_log_data import StatLogData
 from mlp_api.model.status import Status

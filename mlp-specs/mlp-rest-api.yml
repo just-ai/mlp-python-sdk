@@ -4255,6 +4255,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/JobStatusDataV2'
+  /api/mlpgate/task/short:
+    get:
+      tags:
+      - task-endpoint
+      operationId: shortTasksView
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortJobView'
   /api/mlpgate/system-config/task-types:
     get:
       tags:
@@ -6996,6 +7017,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/tasks/mock:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: getMockTasks
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortJobView'
   /api/mlpgate-internal/start-one-instance:
     get:
       tags:
@@ -7594,9 +7636,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8114,9 +8156,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -9367,6 +9409,38 @@ components:
           type: array
           items:
             type: string
+    ShortJobView:
+      required:
+      - children
+      - currentStep
+      - jobId
+      - percentage
+      - title
+      - viewStatus
+      type: object
+      properties:
+        jobId:
+          type: string
+        title:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortJobView'
+        percentage:
+          type: number
+          format: double
+        viewStatus:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - FAILED
+          - REVERTED
+        currentStep:
+          type: string
     TaskTypeData:
       required:
       - displayName
