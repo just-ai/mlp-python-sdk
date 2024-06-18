@@ -7478,6 +7478,21 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/cache:
+    delete:
+      tags:
+      - internal-endpoint
+      operationId: clearAllCaches
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate-internal/account/{account}/resource-groups/{groupName}/server/{serverId}:
     delete:
       tags:
@@ -9878,7 +9893,6 @@ components:
     ModelInstanceData:
       required:
       - id
-      - instanceHostingType
       - restartCount
       - statusInfo
       type: object
@@ -10180,7 +10194,6 @@ components:
       - created
       - id
       - isEvictable
-      - kubeType
       - lastHeartBeat
       - status
       - type
@@ -10232,6 +10245,7 @@ components:
           type: string
           enum:
           - IDLE
+          - SCHEDULED
           - STARTED
           - DELETED
           - FAILED

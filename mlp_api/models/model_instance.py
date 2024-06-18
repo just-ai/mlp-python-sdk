@@ -31,7 +31,7 @@ class ModelInstance(BaseModel):
     created: datetime = Field(...)
     last_heart_beat: datetime = Field(default=..., alias="lastHeartBeat")
     type: StrictStr = Field(...)
-    kube_type: StrictStr = Field(default=..., alias="kubeType")
+    kube_type: Optional[StrictStr] = Field(default=None, alias="kubeType")
     resource_name: Optional[StrictStr] = Field(default=None, alias="resourceName")
     alias: Optional[StrictStr] = None
     custom_data: Optional[StrictStr] = Field(default=None, alias="customData")
@@ -52,6 +52,9 @@ class ModelInstance(BaseModel):
     @validator('kube_type')
     def kube_type_validate_enum(cls, value):
         """Validates the enum"""
+        if value is None:
+            return value
+
         if value not in ('deployment', 'pod', 'docker', 'external', 'hostingServer'):
             raise ValueError("must be one of enum values ('deployment', 'pod', 'docker', 'external', 'hostingServer')")
         return value
@@ -59,8 +62,8 @@ class ModelInstance(BaseModel):
     @validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('IDLE', 'STARTED', 'DELETED', 'FAILED'):
-            raise ValueError("must be one of enum values ('IDLE', 'STARTED', 'DELETED', 'FAILED')")
+        if value not in ('IDLE', 'SCHEDULED', 'STARTED', 'DELETED', 'FAILED'):
+            raise ValueError("must be one of enum values ('IDLE', 'SCHEDULED', 'STARTED', 'DELETED', 'FAILED')")
         return value
 
     class Config:

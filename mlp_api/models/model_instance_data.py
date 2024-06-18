@@ -32,12 +32,15 @@ class ModelInstanceData(BaseModel):
     restart_count: StrictInt = Field(default=..., alias="restartCount")
     last_restart_timestamp: Optional[StrictStr] = Field(default=None, alias="lastRestartTimestamp")
     created_timestamp: Optional[StrictStr] = Field(default=None, alias="createdTimestamp")
-    instance_hosting_type: StrictStr = Field(default=..., alias="instanceHostingType")
+    instance_hosting_type: Optional[StrictStr] = Field(default=None, alias="instanceHostingType")
     __properties = ["id", "name", "statusInfo", "restartCount", "lastRestartTimestamp", "createdTimestamp", "instanceHostingType"]
 
     @validator('instance_hosting_type')
     def instance_hosting_type_validate_enum(cls, value):
         """Validates the enum"""
+        if value is None:
+            return value
+
         if value not in ('deployment', 'pod', 'docker', 'external', 'hostingServer'):
             raise ValueError("must be one of enum values ('deployment', 'pod', 'docker', 'external', 'hostingServer')")
         return value
