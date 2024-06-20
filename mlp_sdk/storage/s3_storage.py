@@ -17,6 +17,7 @@ LOGGER = get_logger(__name__)
 
 class S3BytesStream(BytesIO):
     def __init__(self, client, bucket, path):
+        super().__init__()
         self.client = client
         self.bucket = bucket
         self.path = path
@@ -28,6 +29,7 @@ class S3BytesStream(BytesIO):
 
 class S3StringStream(StringIO):
     def __init__(self, client, bucket, path):
+        super().__init__()
         self.client = client
         self.bucket = bucket
         self.path = path
@@ -101,7 +103,7 @@ class S3Storage(AbstractStorage):
                         return BytesIO(object_)
 
                     else:
-                        return StringIO(object_)
+                        return StringIO(object_.decode('utf-8') )
 
                 except ClientError as e:
                     if e.response['Error']['Code'] == '404' or e.response['Error']['Code'] == 'NoSuchKey':
