@@ -103,7 +103,7 @@ class S3Storage(AbstractStorage):
                         return BytesIO(object_)
 
                     else:
-                        return StringIO(object_.decode('utf-8') )
+                        return StringIO(object_.decode('utf-8'))
 
                 except ClientError as e:
                     if e.response['Error']['Code'] == '404' or e.response['Error']['Code'] == 'NoSuchKey':
