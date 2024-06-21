@@ -634,7 +634,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate-internal/cache', 'DELETE',
+            '/api/mlpgate-internal/clear-cache', 'POST',
             _path_params,
             _query_params,
             _header_params,

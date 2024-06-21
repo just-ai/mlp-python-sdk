@@ -3450,6 +3450,21 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate-internal/clear-cache:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: clearAllCaches
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpgate-internal/accounts/deactivate:
     post:
       tags:
@@ -6908,6 +6923,37 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/account/{account}/application/{application}/health:
+    get:
+      tags:
+      - application-endpoint
+      operationId: checkAppIsAlive
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpgate/account/{account}/application/{application}/auth:
     get:
       tags:
@@ -7468,21 +7514,6 @@ paths:
       tags:
       - internal-endpoint
       operationId: deleteMarkedInstances
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-  /api/mlpgate-internal/cache:
-    delete:
-      tags:
-      - internal-endpoint
-      operationId: clearAllCaches
       parameters:
       - name: MLP-API-KEY
         in: header
