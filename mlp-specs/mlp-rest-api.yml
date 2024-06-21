@@ -10278,5 +10278,6 @@ components:
           - IDLE
           - SCHEDULED
           - STARTED
+          - REMOVING
           - DELETED
           - FAILED

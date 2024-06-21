@@ -62,8 +62,8 @@ class ModelInstance(BaseModel):
     @validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('IDLE', 'SCHEDULED', 'STARTED', 'DELETED', 'FAILED'):
-            raise ValueError("must be one of enum values ('IDLE', 'SCHEDULED', 'STARTED', 'DELETED', 'FAILED')")
+        if value not in ('IDLE', 'SCHEDULED', 'STARTED', 'REMOVING', 'DELETED', 'FAILED'):
+            raise ValueError("must be one of enum values ('IDLE', 'SCHEDULED', 'STARTED', 'REMOVING', 'DELETED', 'FAILED')")
         return value
 
     class Config:
