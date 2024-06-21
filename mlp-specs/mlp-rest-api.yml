@@ -7636,9 +7636,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8156,9 +8156,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -9737,10 +9737,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -9753,11 +9753,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -9781,9 +9781,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -10243,7 +10243,6 @@ components:
       - created
       - id
       - isEvictable
-      - kubeType
       - lastHeartBeat
       - status
       - type
