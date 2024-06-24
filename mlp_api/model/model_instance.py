@@ -40,7 +40,6 @@ class ModelInstance(
             "connectionToken",
             "id",
             "type",
-            "kubeType",
             "isEvictable",
             "status",
         }
@@ -89,6 +88,38 @@ class ModelInstance(
                 @schemas.classproperty
                 def PREDICT(cls):
                     return cls("predict")
+            isEvictable = schemas.BoolSchema
+            
+            
+            class status(
+                schemas.EnumBase,
+                schemas.StrSchema
+            ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "IDLE": "IDLE",
+                        "STARTED": "STARTED",
+                        "DELETED": "DELETED",
+                        "FAILED": "FAILED",
+                    }
+                
+                @schemas.classproperty
+                def IDLE(cls):
+                    return cls("IDLE")
+                
+                @schemas.classproperty
+                def STARTED(cls):
+                    return cls("STARTED")
+                
+                @schemas.classproperty
+                def DELETED(cls):
+                    return cls("DELETED")
+                
+                @schemas.classproperty
+                def FAILED(cls):
+                    return cls("FAILED")
             
             
             class kubeType(
@@ -125,38 +156,6 @@ class ModelInstance(
                 @schemas.classproperty
                 def HOSTING_SERVER(cls):
                     return cls("hostingServer")
-            isEvictable = schemas.BoolSchema
-            
-            
-            class status(
-                schemas.EnumBase,
-                schemas.StrSchema
-            ):
-            
-            
-                class MetaOapg:
-                    enum_value_to_name = {
-                        "IDLE": "IDLE",
-                        "STARTED": "STARTED",
-                        "DELETED": "DELETED",
-                        "FAILED": "FAILED",
-                    }
-                
-                @schemas.classproperty
-                def IDLE(cls):
-                    return cls("IDLE")
-                
-                @schemas.classproperty
-                def STARTED(cls):
-                    return cls("STARTED")
-                
-                @schemas.classproperty
-                def DELETED(cls):
-                    return cls("DELETED")
-                
-                @schemas.classproperty
-                def FAILED(cls):
-                    return cls("FAILED")
             resourceName = schemas.StrSchema
             alias = schemas.StrSchema
             customData = schemas.StrSchema
@@ -169,9 +168,9 @@ class ModelInstance(
                 "created": created,
                 "lastHeartBeat": lastHeartBeat,
                 "type": type,
-                "kubeType": kubeType,
                 "isEvictable": isEvictable,
                 "status": status,
+                "kubeType": kubeType,
                 "resourceName": resourceName,
                 "alias": alias,
                 "customData": customData,
@@ -185,7 +184,6 @@ class ModelInstance(
     connectionToken: MetaOapg.properties.connectionToken
     id: 'ModelInstancePK'
     type: MetaOapg.properties.type
-    kubeType: MetaOapg.properties.kubeType
     isEvictable: MetaOapg.properties.isEvictable
     status: MetaOapg.properties.status
     
@@ -205,13 +203,13 @@ class ModelInstance(
     def __getitem__(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["kubeType"]) -> MetaOapg.properties.kubeType: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["isEvictable"]) -> MetaOapg.properties.isEvictable: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["kubeType"]) -> MetaOapg.properties.kubeType: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["resourceName"]) -> MetaOapg.properties.resourceName: ...
@@ -234,7 +232,7 @@ class ModelInstance(
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "isEvictable", "status", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "created", "lastHeartBeat", "type", "isEvictable", "status", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -255,13 +253,13 @@ class ModelInstance(
     def get_item_oapg(self, name: typing_extensions.Literal["type"]) -> MetaOapg.properties.type: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["kubeType"]) -> MetaOapg.properties.kubeType: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["isEvictable"]) -> MetaOapg.properties.isEvictable: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["status"]) -> MetaOapg.properties.status: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["kubeType"]) -> typing.Union[MetaOapg.properties.kubeType, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["resourceName"]) -> typing.Union[MetaOapg.properties.resourceName, schemas.Unset]: ...
@@ -284,7 +282,7 @@ class ModelInstance(
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "isEvictable", "status", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "connectionToken", "created", "lastHeartBeat", "type", "isEvictable", "status", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "hostingServerId", "serverId", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -296,9 +294,9 @@ class ModelInstance(
         connectionToken: typing.Union[MetaOapg.properties.connectionToken, str, ],
         id: 'ModelInstancePK',
         type: typing.Union[MetaOapg.properties.type, str, ],
-        kubeType: typing.Union[MetaOapg.properties.kubeType, str, ],
         isEvictable: typing.Union[MetaOapg.properties.isEvictable, bool, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
+        kubeType: typing.Union[MetaOapg.properties.kubeType, str, schemas.Unset] = schemas.unset,
         resourceName: typing.Union[MetaOapg.properties.resourceName, str, schemas.Unset] = schemas.unset,
         alias: typing.Union[MetaOapg.properties.alias, str, schemas.Unset] = schemas.unset,
         customData: typing.Union[MetaOapg.properties.customData, str, schemas.Unset] = schemas.unset,
@@ -316,9 +314,9 @@ class ModelInstance(
             connectionToken=connectionToken,
             id=id,
             type=type,
-            kubeType=kubeType,
             isEvictable=isEvictable,
             status=status,
+            kubeType=kubeType,
             resourceName=resourceName,
             alias=alias,
             customData=customData,
