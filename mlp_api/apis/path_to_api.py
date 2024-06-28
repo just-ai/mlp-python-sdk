@@ -1,7 +1,6 @@
 import typing_extensions
 
 from mlp_api.paths import PathValues
-from mlp_api.apis.paths.api_mlpgate_account_account_request_request_id_mark_mark import ApiMlpgateAccountAccountRequestRequestIdMarkMark
 from mlp_api.apis.paths.p_account_field_model_field import PAccountFieldModelField
 from mlp_api.apis.paths.api_mlpgate_task_task_id_stop import ApiMlpgateTaskTaskIdStop
 from mlp_api.apis.paths.api_mlpgate_server_heartbeat import ApiMlpgateServerHeartbeat
@@ -62,6 +61,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_dataset_raw import ApiMlpgat
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_empty import ApiMlpgateAccountAccountDatasetEmpty
 from mlp_api.apis.paths.api_mlpgate_account_account_data_image import ApiMlpgateAccountAccountDataImage
 from mlp_api.apis.paths.api_mlpgate_account_account_data_image_image_id import ApiMlpgateAccountAccountDataImageImageId
+from mlp_api.apis.paths.api_mlpgate_internal_clear_cache import ApiMlpgateInternalClearCache
 from mlp_api.apis.paths.api_mlpgate_internal_accounts_deactivate import ApiMlpgateInternalAccountsDeactivate
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_update_limits import ApiMlpgateInternalAccountAccountUpdateLimits
 from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_group_name_test_server import ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer
@@ -152,6 +152,7 @@ from mlp_api.apis.paths.api_mlpgate_account_account_deployable_resource_groups i
 from mlp_api.apis.paths.api_mlpgate_account_account_dataset_original_dataset_id_paraphrase import ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_token import ApiMlpgateAccountAccountApplicationApplicationToken
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_set_cookie import ApiMlpgateAccountAccountApplicationApplicationSetCookie
+from mlp_api.apis.paths.api_mlpgate_account_account_application_application_health import ApiMlpgateAccountAccountApplicationApplicationHealth
 from mlp_api.apis.paths.api_mlpgate_account_account_application_application_auth import ApiMlpgateAccountAccountApplicationApplicationAuth
 from mlp_api.apis.paths.api_mlpgate_internal_test_mail import ApiMlpgateInternalTestMail
 from mlp_api.apis.paths.api_mlpgate_internal_tasks_mock import ApiMlpgateInternalTasksMock
@@ -180,7 +181,6 @@ from mlp_api.apis.paths.api_mlpgate_internal_account_account_resource_groups_gro
 PathToApi = typing_extensions.TypedDict(
     'PathToApi',
     {
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
@@ -241,6 +241,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY: ApiMlpgateAccountAccountDatasetEmpty,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE: ApiMlpgateAccountAccountDataImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
+        PathValues.API_MLPGATEINTERNAL_CLEARCACHE: ApiMlpgateInternalClearCache,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_UPDATELIMITS: ApiMlpgateInternalAccountAccountUpdateLimits,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_TESTSERVER: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer,
@@ -331,6 +332,7 @@ PathToApi = typing_extensions.TypedDict(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_HEALTH: ApiMlpgateAccountAccountApplicationApplicationHealth,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_TASKS_MOCK: ApiMlpgateInternalTasksMock,
@@ -360,7 +362,6 @@ PathToApi = typing_extensions.TypedDict(
 
 path_to_api = PathToApi(
     {
-        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK: ApiMlpgateAccountAccountRequestRequestIdMarkMark,
         PathValues.P_ACCOUNT_FIELD_MODEL_FIELD: PAccountFieldModelField,
         PathValues.API_MLPGATE_TASK_TASK_ID_STOP: ApiMlpgateTaskTaskIdStop,
         PathValues.API_MLPGATE_SERVERHEARTBEAT: ApiMlpgateServerHeartbeat,
@@ -421,6 +422,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY: ApiMlpgateAccountAccountDatasetEmpty,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE: ApiMlpgateAccountAccountDataImage,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID: ApiMlpgateAccountAccountDataImageImageId,
+        PathValues.API_MLPGATEINTERNAL_CLEARCACHE: ApiMlpgateInternalClearCache,
         PathValues.API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE: ApiMlpgateInternalAccountsDeactivate,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_UPDATELIMITS: ApiMlpgateInternalAccountAccountUpdateLimits,
         PathValues.API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_TESTSERVER: ApiMlpgateInternalAccountAccountResourceGroupsGroupNameTestServer,
@@ -511,6 +513,7 @@ path_to_api = PathToApi(
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE: ApiMlpgateAccountAccountDatasetOriginalDatasetIdParaphrase,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN: ApiMlpgateAccountAccountApplicationApplicationToken,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE: ApiMlpgateAccountAccountApplicationApplicationSetCookie,
+        PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_HEALTH: ApiMlpgateAccountAccountApplicationApplicationHealth,
         PathValues.API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH: ApiMlpgateAccountAccountApplicationApplicationAuth,
         PathValues.API_MLPGATEINTERNAL_TESTMAIL: ApiMlpgateInternalTestMail,
         PathValues.API_MLPGATEINTERNAL_TASKS_MOCK: ApiMlpgateInternalTasksMock,

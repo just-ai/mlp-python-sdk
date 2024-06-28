@@ -6,7 +6,6 @@ import enum
 
 
 class PathValues(str, enum.Enum):
-    API_MLPGATE_ACCOUNT_ACCOUNT_REQUEST_REQUEST_ID_MARK_MARK = "/api/mlpgate/account/{account}/request/{requestId}/mark/{mark}"
     P_ACCOUNT_FIELD_MODEL_FIELD = "/p/{accountField}/{modelField}"
     API_MLPGATE_TASK_TASK_ID_STOP = "/api/mlpgate/task/{taskId}/stop"
     API_MLPGATE_SERVERHEARTBEAT = "/api/mlpgate/server-heartbeat"
@@ -67,6 +66,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_EMPTY = "/api/mlpgate/account/{account}/dataset/empty"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE = "/api/mlpgate/account/{account}/data-image"
     API_MLPGATE_ACCOUNT_ACCOUNT_DATAIMAGE_IMAGE_ID = "/api/mlpgate/account/{account}/data-image/{imageId}"
+    API_MLPGATEINTERNAL_CLEARCACHE = "/api/mlpgate-internal/clear-cache"
     API_MLPGATEINTERNAL_ACCOUNTS_DEACTIVATE = "/api/mlpgate-internal/accounts/deactivate"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_UPDATELIMITS = "/api/mlpgate-internal/account/{account}/update-limits"
     API_MLPGATEINTERNAL_ACCOUNT_ACCOUNT_RESOURCEGROUPS_GROUP_NAME_TESTSERVER = "/api/mlpgate-internal/account/{account}/resource-groups/{groupName}/test-server"
@@ -157,6 +157,7 @@ class PathValues(str, enum.Enum):
     API_MLPGATE_ACCOUNT_ACCOUNT_DATASET_ORIGINAL_DATASET_ID_PARAPHRASE = "/api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_TOKEN = "/api/mlpgate/account/{account}/application/{application}/token"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_SETCOOKIE = "/api/mlpgate/account/{account}/application/{application}/set-cookie"
+    API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_HEALTH = "/api/mlpgate/account/{account}/application/{application}/health"
     API_MLPGATE_ACCOUNT_ACCOUNT_APPLICATION_APPLICATION_AUTH = "/api/mlpgate/account/{account}/application/{application}/auth"
     API_MLPGATEINTERNAL_TESTMAIL = "/api/mlpgate-internal/test-mail"
     API_MLPGATEINTERNAL_TASKS_MOCK = "/api/mlpgate-internal/tasks/mock"

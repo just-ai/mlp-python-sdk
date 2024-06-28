@@ -10,12 +10,14 @@
 """
 
 from mlp_api.paths.api_mlpgate_account_account_application_application_auth.get import Auth
+from mlp_api.paths.api_mlpgate_account_account_application_application_health.get import CheckAppIsAlive
 from mlp_api.paths.api_mlpgate_account_account_application_application_token.get import EnsureApplicationToken
 from mlp_api.paths.api_mlpgate_account_account_application_application_set_cookie.get import SetApplicationCookies
 
 
 class ApplicationEndpointApi(
     Auth,
+    CheckAppIsAlive,
     EnsureApplicationToken,
     SetApplicationCookies,
 ):

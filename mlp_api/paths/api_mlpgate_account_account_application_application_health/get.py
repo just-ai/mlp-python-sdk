@@ -54,14 +54,12 @@ request_header_mlp_api_key = api_client.HeaderParameter(
 )
 # Path params
 AccountSchema = schemas.StrSchema
-RequestIdSchema = schemas.Int64Schema
-MarkSchema = schemas.StrSchema
+ApplicationSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
         'account': typing.Union[AccountSchema, str, ],
-        'requestId': typing.Union[RequestIdSchema, decimal.Decimal, int, ],
-        'mark': typing.Union[MarkSchema, str, ],
+        'application': typing.Union[ApplicationSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -82,41 +80,46 @@ request_path_account = api_client.PathParameter(
     schema=AccountSchema,
     required=True,
 )
-request_path_request_id = api_client.PathParameter(
-    name="requestId",
+request_path_application = api_client.PathParameter(
+    name="application",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=RequestIdSchema,
+    schema=ApplicationSchema,
     required=True,
 )
-request_path_mark = api_client.PathParameter(
-    name="mark",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=MarkSchema,
-    required=True,
-)
+SchemaFor200ResponseBodyApplicationJson = schemas.DictSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
     response: urllib3.HTTPResponse
-    body: schemas.Unset = schemas.unset
+    body: typing.Union[
+        SchemaFor200ResponseBodyApplicationJson,
+    ]
     headers: schemas.Unset = schemas.unset
 
 
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaFor200ResponseBodyApplicationJson),
+    },
 )
 _status_code_to_response = {
     '200': _response_for_200,
 }
+_all_accept_content_types = (
+    'application/json',
+)
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _delete_mark_oapg(
+    def _check_app_is_alive_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -125,20 +128,22 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _delete_mark_oapg(
+    def _check_app_is_alive_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _delete_mark_oapg(
+    def _check_app_is_alive_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -147,10 +152,11 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _delete_mark_oapg(
+    def _check_app_is_alive_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -167,8 +173,7 @@ class BaseApi(api_client.Api):
         _path_params = {}
         for parameter in (
             request_path_account,
-            request_path_request_id,
-            request_path_mark,
+            request_path_application,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -189,10 +194,13 @@ class BaseApi(api_client.Api):
             serialized_data = parameter.serialize(parameter_data)
             _headers.extend(serialized_data)
         # TODO add cookie handling
+        if accept_content_types:
+            for accept_content_type in accept_content_types:
+                _headers.add('Accept', accept_content_type)
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='delete'.upper(),
+            method='get'.upper(),
             headers=_headers,
             stream=stream,
             timeout=timeout,
@@ -217,14 +225,15 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class DeleteMark(BaseApi):
+class CheckAppIsAlive(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def delete_mark(
+    def check_app_is_alive(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -233,20 +242,22 @@ class DeleteMark(BaseApi):
     ]: ...
 
     @typing.overload
-    def delete_mark(
+    def check_app_is_alive(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def delete_mark(
+    def check_app_is_alive(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -255,31 +266,34 @@ class DeleteMark(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def delete_mark(
+    def check_app_is_alive(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._delete_mark_oapg(
+        return self._check_app_is_alive_oapg(
             header_params=header_params,
             path_params=path_params,
+            accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
         )
 
 
-class ApiFordelete(BaseApi):
+class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     @typing.overload
-    def delete(
+    def get(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -288,20 +302,22 @@ class ApiFordelete(BaseApi):
     ]: ...
 
     @typing.overload
-    def delete(
+    def get(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def delete(
+    def get(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -310,17 +326,19 @@ class ApiFordelete(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def delete(
+    def get(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
         path_params: RequestPathParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._delete_mark_oapg(
+        return self._check_app_is_alive_oapg(
             header_params=header_params,
             path_params=path_params,
+            accept_content_types=accept_content_types,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization

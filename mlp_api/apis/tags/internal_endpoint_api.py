@@ -12,6 +12,7 @@
 from mlp_api.paths.api_mlpgate_internal_account_account_bucket_access.post import AddBucketAccess
 from mlp_api.paths.api_mlpgate_internal_account_account_resource_groups_group_name_test_server.post import AddTestServer
 from mlp_api.paths.api_mlpgate_internal_clear_account.get import ClearAccount
+from mlp_api.paths.api_mlpgate_internal_clear_cache.post import ClearAllCaches
 from mlp_api.paths.api_mlpgate_internal_clear_instances.get import ClearAllInstances
 from mlp_api.paths.api_mlpgate_internal_clear_public_for_all.get import ClearPublicForAll
 from mlp_api.paths.api_mlpgate_internal_cluster.get import Cluster
@@ -46,6 +47,7 @@ class InternalEndpointApi(
     AddBucketAccess,
     AddTestServer,
     ClearAccount,
+    ClearAllCaches,
     ClearAllInstances,
     ClearPublicForAll,
     Cluster,

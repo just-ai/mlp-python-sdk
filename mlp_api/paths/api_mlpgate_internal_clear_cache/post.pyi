@@ -25,8 +25,6 @@ import frozendict  # noqa: F401
 
 from mlp_api import schemas  # noqa: F401
 
-from . import path
-
 # Header params
 MLPAPIKEYSchema = schemas.StrSchema
 RequestRequiredHeaderParams = typing_extensions.TypedDict(
@@ -52,48 +50,6 @@ request_header_mlp_api_key = api_client.HeaderParameter(
     style=api_client.ParameterStyle.SIMPLE,
     schema=MLPAPIKEYSchema,
 )
-# Path params
-AccountSchema = schemas.StrSchema
-RequestIdSchema = schemas.Int64Schema
-MarkSchema = schemas.StrSchema
-RequestRequiredPathParams = typing_extensions.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'account': typing.Union[AccountSchema, str, ],
-        'requestId': typing.Union[RequestIdSchema, decimal.Decimal, int, ],
-        'mark': typing.Union[MarkSchema, str, ],
-    }
-)
-RequestOptionalPathParams = typing_extensions.TypedDict(
-    'RequestOptionalPathParams',
-    {
-    },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-request_path_account = api_client.PathParameter(
-    name="account",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=AccountSchema,
-    required=True,
-)
-request_path_request_id = api_client.PathParameter(
-    name="requestId",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=RequestIdSchema,
-    required=True,
-)
-request_path_mark = api_client.PathParameter(
-    name="mark",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=MarkSchema,
-    required=True,
-)
 
 
 @dataclass
@@ -106,17 +62,13 @@ class ApiResponseFor200(api_client.ApiResponse):
 _response_for_200 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor200,
 )
-_status_code_to_response = {
-    '200': _response_for_200,
-}
 
 
 class BaseApi(api_client.Api):
     @typing.overload
-    def _save_mark_oapg(
+    def _clear_all_caches_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -125,20 +77,18 @@ class BaseApi(api_client.Api):
     ]: ...
 
     @typing.overload
-    def _save_mark_oapg(
+    def _clear_all_caches_oapg(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def _save_mark_oapg(
+    def _clear_all_caches_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -147,10 +97,9 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def _save_mark_oapg(
+    def _clear_all_caches_oapg(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
@@ -161,23 +110,7 @@ class BaseApi(api_client.Api):
             class instances
         """
         self._verify_typed_dict_inputs_oapg(RequestHeaderParams, header_params)
-        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
-
-        _path_params = {}
-        for parameter in (
-            request_path_account,
-            request_path_request_id,
-            request_path_mark,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
 
         _headers = HTTPHeaderDict()
         for parameter in (
@@ -192,7 +125,7 @@ class BaseApi(api_client.Api):
 
         response = self.api_client.call_api(
             resource_path=used_path,
-            method='put'.upper(),
+            method='post'.upper(),
             headers=_headers,
             stream=stream,
             timeout=timeout,
@@ -217,14 +150,13 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class SaveMark(BaseApi):
+class ClearAllCaches(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     @typing.overload
-    def save_mark(
+    def clear_all_caches(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -233,20 +165,18 @@ class SaveMark(BaseApi):
     ]: ...
 
     @typing.overload
-    def save_mark(
+    def clear_all_caches(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def save_mark(
+    def clear_all_caches(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -255,31 +185,28 @@ class SaveMark(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def save_mark(
+    def clear_all_caches(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._save_mark_oapg(
+        return self._clear_all_caches_oapg(
             header_params=header_params,
-            path_params=path_params,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization
         )
 
 
-class ApiForput(BaseApi):
+class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     @typing.overload
-    def put(
+    def post(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: typing_extensions.Literal[False] = ...,
@@ -288,20 +215,18 @@ class ApiForput(BaseApi):
     ]: ...
 
     @typing.overload
-    def put(
+    def post(
         self,
         skip_deserialization: typing_extensions.Literal[True],
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
     ) -> api_client.ApiResponseWithoutDeserialization: ...
 
     @typing.overload
-    def put(
+    def post(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = ...,
@@ -310,17 +235,15 @@ class ApiForput(BaseApi):
         api_client.ApiResponseWithoutDeserialization,
     ]: ...
 
-    def put(
+    def post(
         self,
         header_params: RequestHeaderParams = frozendict.frozendict(),
-        path_params: RequestPathParams = frozendict.frozendict(),
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
     ):
-        return self._save_mark_oapg(
+        return self._clear_all_caches_oapg(
             header_params=header_params,
-            path_params=path_params,
             stream=stream,
             timeout=timeout,
             skip_deserialization=skip_deserialization

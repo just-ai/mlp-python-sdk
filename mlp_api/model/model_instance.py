@@ -100,7 +100,9 @@ class ModelInstance(
                 class MetaOapg:
                     enum_value_to_name = {
                         "IDLE": "IDLE",
+                        "SCHEDULED": "SCHEDULED",
                         "STARTED": "STARTED",
+                        "REMOVING": "REMOVING",
                         "DELETED": "DELETED",
                         "FAILED": "FAILED",
                     }
@@ -110,8 +112,16 @@ class ModelInstance(
                     return cls("IDLE")
                 
                 @schemas.classproperty
+                def SCHEDULED(cls):
+                    return cls("SCHEDULED")
+                
+                @schemas.classproperty
                 def STARTED(cls):
                     return cls("STARTED")
+                
+                @schemas.classproperty
+                def REMOVING(cls):
+                    return cls("REMOVING")
                 
                 @schemas.classproperty
                 def DELETED(cls):
