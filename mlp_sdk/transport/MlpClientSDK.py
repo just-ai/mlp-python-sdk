@@ -7,7 +7,6 @@ import grpc
 import yaml
 
 from mlp_api import ApiClient, Configuration
-from mlp_api.api import dataset_endpoint_api, model_endpoint_api, process_endpoint_api
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
@@ -165,6 +164,14 @@ class MlpClientSDK:
         self.channel.close()
 
     def __connect(self):
+        channel_options = [
+            ('grpc.keepalive_time_ms', self.config["grpc"]["keepalive_time_ms"]),
+            ('grpc.keepalive_timeout_ms', self.config["grpc"]["keepalive_timeout_ms"]),
+            ('grpc.keepalive_permit_without_calls', self.config["grpc"]["keepalive_permit_without_calls"]),
+            ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
+            ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
+        ]
+
         if self.grpc_secure:
             if hasattr(os.environ, "GRPC_SSL_CA_FILE_PATH"):
                 with open(os.environ["GRPC_SSL_CA_FILE_PATH"], 'rb') as f:
@@ -172,15 +179,10 @@ class MlpClientSDK:
             else:
                 creds = grpc.ssl_channel_credentials()
 
-            new_channel = grpc.secure_channel(self.urls[0], creds, options=[
-                ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
-                ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
-            ])
+            new_channel = grpc.secure_channel(self.urls[0], creds, options=channel_options)
         else:
-            new_channel = grpc.insecure_channel(self.urls[0], options=[
-                ('grpc.max_send_message_length', self.config["grpc"]["max_send_message_length"]),
-                ('grpc.max_receive_message_length', self.config["grpc"]["max_receive_message_length"])
-            ])
+            new_channel = grpc.insecure_channel(self.urls[0], options=channel_options)
+
         self.stub = mlp_grpc_pb2_grpc.GateStub(new_channel)
 
         previous_channel = self.channel
