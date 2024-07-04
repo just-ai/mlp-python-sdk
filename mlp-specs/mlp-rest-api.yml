@@ -2542,6 +2542,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AliasData'
+  /api/mlpgate/account/{account}/model-list:
+    post:
+      tags:
+      - model-endpoint
+      operationId: getModelList
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelListRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelInfoData'
   /api/mlpgate/account/{account}/model-group:
     get:
       tags:
@@ -6865,6 +6898,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
+  /api/mlpgate/account/{account}/catalog-category:
+    get:
+      tags:
+      - model-endpoint
+      operationId: getCatalogCategories
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogCategoryData'
   /api/mlpgate/account/{account}/application/{application}/token:
     get:
       tags:
@@ -9178,6 +9236,25 @@ components:
           format: int64
         name:
           type: string
+    ModelListRequest:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelStringId'
+    ModelStringId:
+      required:
+      - account
+      - model
+      type: object
+      properties:
+        account:
+          type: string
+        model:
+          type: string
     ModelGroupData:
       required:
       - name
@@ -10219,6 +10296,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataImageInfoData'
+    CatalogCategoryData:
+      required:
+      - categories
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskTypeToModelsCount'
+    TaskTypeToModelsCount:
+      required:
+      - modelsCount
+      - taskTypeName
+      type: object
+      properties:
+        taskTypeName:
+          type: string
+        modelsCount:
+          type: integer
+          format: int32
     ModelInstance:
       required:
       - connectionToken
