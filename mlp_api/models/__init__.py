@@ -22,9 +22,9 @@ from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.alias_data import AliasData
 from mlp_api.models.audio_format_options import AudioFormatOptions
-from mlp_api.models.captcha_data import CaptchaData
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.check_result import CheckResult
+from mlp_api.models.click_history_data import ClickHistoryData
 from mlp_api.models.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.models.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData

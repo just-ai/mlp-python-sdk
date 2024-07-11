@@ -182,7 +182,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/account/{account}', 'GET',
+            '/api/mlpcore/admin/account/{account}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -328,7 +328,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/system-config/account/{account}/config', 'GET',
+            '/api/mlpcore/admin/system-config/account/{account}/config', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -474,7 +474,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/system-config/account/{account}/data', 'GET',
+            '/api/mlpcore/admin/system-config/account/{account}/data', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -620,7 +620,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/account/{account}/features', 'GET',
+            '/api/mlpcore/admin/account/{account}/features', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -766,7 +766,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/accounts', 'GET',
+            '/api/mlpcore/admin/accounts', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -904,7 +904,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/resource-groups', 'GET',
+            '/api/mlpcore/admin/resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1073,7 +1073,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/system-config/account/{account}/config', 'POST',
+            '/api/mlpcore/admin/system-config/account/{account}/config', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1242,7 +1242,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/system-config/account/{account}/data', 'POST',
+            '/api/mlpcore/admin/system-config/account/{account}/data', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1397,7 +1397,7 @@ class AdminEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/account/{account}/features', 'POST',
+            '/api/mlpcore/admin/account/{account}/features', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1558,7 +1558,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/account/{account}/limits', 'POST',
+            '/api/mlpcore/admin/account/{account}/limits', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1711,7 +1711,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/admin/resource-groups', 'PATCH',
+            '/api/mlpcore/admin/resource-groups', 'PATCH',
             _path_params,
             _query_params,
             _header_params,

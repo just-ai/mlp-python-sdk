@@ -1045,7 +1045,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/predict', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/predict', 'POST',
             _path_params,
             _query_params,
             _header_params,

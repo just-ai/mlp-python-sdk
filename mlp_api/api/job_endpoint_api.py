@@ -183,7 +183,7 @@ class JobEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/job/{jobId}', 'GET',
+            '/api/mlpcore/account/{account}/job/{jobId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -329,7 +329,7 @@ class JobEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/job', 'GET',
+            '/api/mlpcore/account/{account}/job', 'GET',
             _path_params,
             _query_params,
             _header_params,
