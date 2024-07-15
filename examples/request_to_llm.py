@@ -2,7 +2,6 @@ import ast
 from pprint import pprint
 
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
-from mlp_api.models.chat_role import ChatRole
 from mlp_api.models.predict_request_data import PredictRequestData
 from mlp_sdk.transport.MlpClientSDK import MlpRestClient
 
@@ -15,7 +14,7 @@ if __name__ == "__main__":
 
     request = {
         "model": "gpt-3.5-turbo",
-        "messages": [{"role": ChatRole.USER, "content": "hello"}],
+        "messages": [{"role": "user", "content": "hello"}],
     }
     response = model.predict_with_config(
         account_id,
