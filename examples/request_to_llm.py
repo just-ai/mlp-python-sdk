@@ -10,14 +10,14 @@ if __name__ == "__main__":
     mlp_api_key = ""
     account_id = "just-ai"
     model_name = "openai-proxy"
-    mlp_rest_client = MlpRestClient(url="https://caila.io", token=mlp_api_key)
-    mlp_prediction_client = ProcessEndpointApi(mlp_rest_client)
+    rest_client = MlpRestClient(url="https://caila.io", token=mlp_api_key)
+    model = ProcessEndpointApi(rest_client)
 
     request = {
         "model": "gpt-3.5-turbo",
         "messages": [{"role": ChatRole.USER, "content": "hello"}],
     }
-    response = mlp_prediction_client.predict_with_config(
+    response = model.predict_with_config(
         account_id,
         model_name,
         predict_request_data=PredictRequestData(data=request),
