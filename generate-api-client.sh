@@ -15,5 +15,4 @@ docker run --rm -v ${PWD}:/app openapitools/openapi-generator-cli:v7.6.0 generat
 sudo chown $USER:$USER -R openapi-generator-output
 sudo rm -Rf mlp_api
 mv openapi-generator-output/mlp_api .
-
 rm -Rf openapi-generator-output
