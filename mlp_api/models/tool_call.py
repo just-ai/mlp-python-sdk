@@ -19,16 +19,18 @@ import json
 
 
 
-from pydantic import Field, StrictStr
-from mlp_api.gpt.models.content_part import ContentPart
-from mlp_api.gpt.models.content_part_type import ContentPartType
+from pydantic import BaseModel, Field, StrictStr
+from mlp_api.models.function_call import FunctionCall
+from mlp_api.models.tool_type import ToolType
 
-class TextContentPart(ContentPart):
+class ToolCall(BaseModel):
     """
-    TextContentPart
+    ToolCall
     """
-    text: StrictStr = Field(...)
-    __properties = ["type", "text"]
+    id: StrictStr = Field(...)
+    type: ToolType = Field(...)
+    function: FunctionCall = Field(...)
+    __properties = ["id", "type", "function"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +46,8 @@ class TextContentPart(ContentPart):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> TextContentPart:
-        """Create an instance of TextContentPart from a JSON string"""
+    def from_json(cls, json_str: str) -> ToolCall:
+        """Create an instance of ToolCall from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,20 +56,24 @@ class TextContentPart(ContentPart):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of function
+        if self.function:
+            _dict['function'] = self.function.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> TextContentPart:
-        """Create an instance of TextContentPart from a dict"""
+    def from_dict(cls, obj: dict) -> ToolCall:
+        """Create an instance of ToolCall from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return TextContentPart.parse_obj(obj)
+            return ToolCall.parse_obj(obj)
 
-        _obj = TextContentPart.parse_obj({
+        _obj = ToolCall.parse_obj({
+            "id": obj.get("id"),
             "type": obj.get("type"),
-            "text": obj.get("text")
+            "function": FunctionCall.from_dict(obj.get("function")) if obj.get("function") is not None else None
         })
         return _obj
 

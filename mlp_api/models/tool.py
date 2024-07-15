@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import StrictStr
-from mlp_api.gpt.models.chat_message import ChatMessage
-from mlp_api.gpt.models.chat_role import ChatRole
-from mlp_api.gpt.models.tool_call import ToolCall
 
-class TextChatMessage(ChatMessage):
+from pydantic import BaseModel, Field
+from mlp_api.models.function import Function
+from mlp_api.models.tool_type import ToolType
+
+class Tool(BaseModel):
     """
-    TextChatMessage
+    Tool
     """
-    content: Optional[StrictStr] = None
-    __properties = ["role", "content", "tool_call_id", "name", "tool_calls"]
+    type: ToolType = Field(...)
+    function: Function = Field(...)
+    __properties = ["type", "function"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class TextChatMessage(ChatMessage):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> TextChatMessage:
-        """Create an instance of TextChatMessage from a JSON string"""
+    def from_json(cls, json_str: str) -> Tool:
+        """Create an instance of Tool from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -55,30 +55,23 @@ class TextChatMessage(ChatMessage):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each item in tool_calls (list)
-        _items = []
-        if self.tool_calls:
-            for _item in self.tool_calls:
-                if _item:
-                    _items.append(_item.to_dict())
-            _dict['tool_calls'] = _items
+        # override the default output from pydantic by calling `to_dict()` of function
+        if self.function:
+            _dict['function'] = self.function.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> TextChatMessage:
-        """Create an instance of TextChatMessage from a dict"""
+    def from_dict(cls, obj: dict) -> Tool:
+        """Create an instance of Tool from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return TextChatMessage.parse_obj(obj)
+            return Tool.parse_obj(obj)
 
-        _obj = TextChatMessage.parse_obj({
-            "role": obj.get("role"),
-            "content": obj.get("content"),
-            "tool_call_id": obj.get("tool_call_id"),
-            "name": obj.get("name"),
-            "tool_calls": [ToolCall.from_dict(_item) for _item in obj.get("tool_calls")] if obj.get("tool_calls") is not None else None
+        _obj = Tool.parse_obj({
+            "type": obj.get("type"),
+            "function": Function.from_dict(obj.get("function")) if obj.get("function") is not None else None
         })
         return _obj
 

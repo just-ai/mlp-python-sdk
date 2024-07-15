@@ -20,10 +20,10 @@ import json
 
 from typing import List, Optional
 from pydantic import conlist
-from mlp_api.gpt.models.chat_message import ChatMessage
-from mlp_api.gpt.models.chat_role import ChatRole
-from mlp_api.gpt.models.content_part import ContentPart
-from mlp_api.gpt.models.tool_call import ToolCall
+from mlp_api.models.chat_message import ChatMessage
+from mlp_api.models.chat_role import ChatRole
+from mlp_api.models.content_part import ContentPart
+from mlp_api.models.tool_call import ToolCall
 
 class PartsChatMessage(ChatMessage):
     """

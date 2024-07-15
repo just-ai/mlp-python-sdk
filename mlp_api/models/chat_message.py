@@ -20,8 +20,8 @@ import re  # noqa: F401
 
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
-from mlp_api.gpt.models.parts_chat_message import PartsChatMessage
-from mlp_api.gpt.models.text_chat_message import TextChatMessage
+from mlp_api.models.parts_chat_message import PartsChatMessage
+from mlp_api.models.text_chat_message import TextChatMessage
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 

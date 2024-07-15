@@ -20,8 +20,8 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, conlist
-from mlp_api.gpt.models.chat_completion_choice import ChatCompletionChoice
-from mlp_api.gpt.models.usage import Usage
+from mlp_api.models.chat_completion_choice import ChatCompletionChoice
+from mlp_api.models.usage import Usage
 
 class ChatCompletionResult(BaseModel):
     """

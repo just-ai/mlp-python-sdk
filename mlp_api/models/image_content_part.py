@@ -18,19 +18,18 @@ import re  # noqa: F401
 import json
 
 
+from typing import Optional
 
-from pydantic import BaseModel, Field, StrictStr
-from mlp_api.gpt.models.function_call import FunctionCall
-from mlp_api.gpt.models.tool_type import ToolType
+from mlp_api.models.content_part import ContentPart
+from mlp_api.models.content_part_type import ContentPartType
+from mlp_api.models.image_content_part_image_url import ImageContentPartImageUrl
 
-class ToolCall(BaseModel):
+class ImageContentPart(ContentPart):
     """
-    ToolCall
+    ImageContentPart
     """
-    id: StrictStr = Field(...)
-    type: ToolType = Field(...)
-    function: FunctionCall = Field(...)
-    __properties = ["id", "type", "function"]
+    image_url: Optional[ImageContentPartImageUrl] = None
+    __properties = ["type", "image_url"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +45,8 @@ class ToolCall(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ToolCall:
-        """Create an instance of ToolCall from a JSON string"""
+    def from_json(cls, json_str: str) -> ImageContentPart:
+        """Create an instance of ImageContentPart from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,24 +55,23 @@ class ToolCall(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of function
-        if self.function:
-            _dict['function'] = self.function.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of image_url
+        if self.image_url:
+            _dict['image_url'] = self.image_url.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ToolCall:
-        """Create an instance of ToolCall from a dict"""
+    def from_dict(cls, obj: dict) -> ImageContentPart:
+        """Create an instance of ImageContentPart from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ToolCall.parse_obj(obj)
+            return ImageContentPart.parse_obj(obj)
 
-        _obj = ToolCall.parse_obj({
-            "id": obj.get("id"),
+        _obj = ImageContentPart.parse_obj({
             "type": obj.get("type"),
-            "function": FunctionCall.from_dict(obj.get("function")) if obj.get("function") is not None else None
+            "image_url": ImageContentPartImageUrl.from_dict(obj.get("image_url")) if obj.get("image_url") is not None else None
         })
         return _obj
 

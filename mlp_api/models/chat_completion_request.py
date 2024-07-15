@@ -20,9 +20,9 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
-from mlp_api.gpt.models.chat_message import ChatMessage
-from mlp_api.gpt.models.tool import Tool
-from mlp_api.gpt.models.tool_choice import ToolChoice
+from mlp_api.models.chat_message import ChatMessage
+from mlp_api.models.tool import Tool
+from mlp_api.models.tool_choice import ToolChoice
 
 class ChatCompletionRequest(BaseModel):
     """
