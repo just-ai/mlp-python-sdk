@@ -20,8 +20,8 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
-from mlp_api.models.chat_message import ChatMessage
-from mlp_api.models.logprobs import Logprobs
+from mlp_api.gpt.models.chat_message import ChatMessage
+from mlp_api.gpt.models.logprobs import Logprobs
 
 class ChatCompletionChoice(BaseModel):
     """

@@ -18,18 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import StrictStr
-from mlp_api.models.chat_message import ChatMessage
-from mlp_api.models.chat_role import ChatRole
-from mlp_api.models.tool_call import ToolCall
+from typing import List, Optional
+from pydantic import BaseModel, conlist
+from mlp_api.gpt.models.logprob_content_item import LogprobContentItem
 
-class TextChatMessage(ChatMessage):
+class Logprobs(BaseModel):
     """
-    TextChatMessage
+    Logprobs
     """
-    content: Optional[StrictStr] = None
-    __properties = ["role", "content", "tool_call_id", "name", "tool_calls"]
+    content: Optional[conlist(LogprobContentItem)] = None
+    __properties = ["content"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +43,8 @@ class TextChatMessage(ChatMessage):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> TextChatMessage:
-        """Create an instance of TextChatMessage from a JSON string"""
+    def from_json(cls, json_str: str) -> Logprobs:
+        """Create an instance of Logprobs from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -55,30 +53,26 @@ class TextChatMessage(ChatMessage):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each item in tool_calls (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in content (list)
         _items = []
-        if self.tool_calls:
-            for _item in self.tool_calls:
+        if self.content:
+            for _item in self.content:
                 if _item:
                     _items.append(_item.to_dict())
-            _dict['tool_calls'] = _items
+            _dict['content'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> TextChatMessage:
-        """Create an instance of TextChatMessage from a dict"""
+    def from_dict(cls, obj: dict) -> Logprobs:
+        """Create an instance of Logprobs from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return TextChatMessage.parse_obj(obj)
+            return Logprobs.parse_obj(obj)
 
-        _obj = TextChatMessage.parse_obj({
-            "role": obj.get("role"),
-            "content": obj.get("content"),
-            "tool_call_id": obj.get("tool_call_id"),
-            "name": obj.get("name"),
-            "tool_calls": [ToolCall.from_dict(_item) for _item in obj.get("tool_calls")] if obj.get("tool_calls") is not None else None
+        _obj = Logprobs.parse_obj({
+            "content": [LogprobContentItem.from_dict(_item) for _item in obj.get("content")] if obj.get("content") is not None else None
         })
         return _obj
 

@@ -20,13 +20,13 @@ import json
 
 from typing import Union
 from pydantic import BaseModel, Field
-from mlp_api.models.content_part_type import ContentPartType
+from mlp_api.gpt.models.content_part_type import ContentPartType
 
 from typing import TYPE_CHECKING
 from importlib import import_module
 if TYPE_CHECKING:
-    from mlp_api.models.image_content_part import ImageContentPart
-    from mlp_api.models.text_content_part import TextContentPart
+    from mlp_api.gpt.models.image_content_part import ImageContentPart
+    from mlp_api.gpt.models.text_content_part import TextContentPart
 
 class ContentPart(BaseModel):
     """
@@ -85,9 +85,9 @@ class ContentPart(BaseModel):
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
         if object_type ==  'ImageContentPart':
-            return import_module("mlp_api.models.image_content_part").ImageContentPart.from_dict(obj)
+            return import_module("mlp_api.gpt.models.image_content_part").ImageContentPart.from_dict(obj)
         if object_type ==  'TextContentPart':
-            return import_module("mlp_api.models.text_content_part").TextContentPart.from_dict(obj)
+            return import_module("mlp_api.gpt.models.text_content_part").TextContentPart.from_dict(obj)
         raise ValueError("ContentPart failed to lookup discriminator value from " +
                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))

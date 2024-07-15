@@ -18,16 +18,19 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
-from pydantic import BaseModel, conlist
-from mlp_api.models.logprob_content_item import LogprobContentItem
+from typing import List, Optional, Union
+from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr, conlist
+from mlp_api.gpt.models.top_logprobs_item import TopLogprobsItem
 
-class Logprobs(BaseModel):
+class LogprobContentItem(BaseModel):
     """
-    Logprobs
+    LogprobContentItem
     """
-    content: Optional[conlist(LogprobContentItem)] = None
-    __properties = ["content"]
+    token: Optional[StrictStr] = None
+    logprob: Optional[Union[StrictFloat, StrictInt]] = None
+    bytes: Optional[conlist(StrictInt)] = None
+    top_logprobs: Optional[conlist(TopLogprobsItem)] = None
+    __properties = ["token", "logprob", "bytes", "top_logprobs"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +46,8 @@ class Logprobs(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Logprobs:
-        """Create an instance of Logprobs from a JSON string"""
+    def from_json(cls, json_str: str) -> LogprobContentItem:
+        """Create an instance of LogprobContentItem from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -53,26 +56,29 @@ class Logprobs(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each item in content (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in top_logprobs (list)
         _items = []
-        if self.content:
-            for _item in self.content:
+        if self.top_logprobs:
+            for _item in self.top_logprobs:
                 if _item:
                     _items.append(_item.to_dict())
-            _dict['content'] = _items
+            _dict['top_logprobs'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Logprobs:
-        """Create an instance of Logprobs from a dict"""
+    def from_dict(cls, obj: dict) -> LogprobContentItem:
+        """Create an instance of LogprobContentItem from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Logprobs.parse_obj(obj)
+            return LogprobContentItem.parse_obj(obj)
 
-        _obj = Logprobs.parse_obj({
-            "content": [LogprobContentItem.from_dict(_item) for _item in obj.get("content")] if obj.get("content") is not None else None
+        _obj = LogprobContentItem.parse_obj({
+            "token": obj.get("token"),
+            "logprob": obj.get("logprob"),
+            "bytes": obj.get("bytes"),
+            "top_logprobs": [TopLogprobsItem.from_dict(_item) for _item in obj.get("top_logprobs")] if obj.get("top_logprobs") is not None else None
         })
         return _obj
 
