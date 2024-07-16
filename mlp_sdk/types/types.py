@@ -1,5 +1,6 @@
 import enum
-from typing import List, Optional, Dict
+from decimal import Decimal
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field, Extra
 
@@ -8,7 +9,7 @@ PACKAGE_NAME = "types"
 
 # ENUMERATIONS
 
-class TokenPosTag(enum.Enum):
+class TokenPosTag(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     NOUN = 'NOUN'
     ADJECTIVE_FULL = 'ADJECTIVE_FULL'
@@ -30,14 +31,14 @@ class TokenPosTag(enum.Enum):
     PUNCTUATION = 'PUNCTUATION'
 
 
-class TenseType(enum.Enum):
+class TenseType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     PAST = 'PAST'
     PRESENT = 'PRESENT'
     FUTURE = 'FUTURE'
 
 
-class CaseType(enum.Enum):
+class CaseType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     NOMINATIVE = 'NOMINATIVE'
     GENITIVE = 'GENITIVE'
@@ -51,21 +52,21 @@ class CaseType(enum.Enum):
     PREPOSITIONAL_2 = 'PREPOSITIONAL_2'
 
 
-class GenderType(enum.Enum):
+class GenderType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     MASCULINE = 'MASCULINE'
     FEMININE = 'FEMININE'
     NEUTER = 'NEUTER'
 
 
-class NumberType(enum.Enum):
+class NumberType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     SINGULAR = 'SINGULAR'
     PLURAL = 'PLURAL'
 
 
 # This type is not in use in tasks right now, consider to use it in the future
-class LanguageType(enum.Enum):
+class LanguageType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     AFAR = 'AFAR'
     ABKHAZIAN = 'ABKHAZIAN'
@@ -250,7 +251,7 @@ class LanguageType(enum.Enum):
     ZULU = 'ZULU'
 
 
-class EntityType(enum.Enum):
+class EntityType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     PERSON = 'PERSON'
     TOPONYM = 'TOPONYM'
@@ -289,7 +290,7 @@ class EntityType(enum.Enum):
     WORK_OF_ART = 'WORK_OF_ART'
 
 
-class SourceType(enum.Enum):
+class SourceType(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
     DUCKLING = 'DUCKLING'
     MYSTEM = 'MYSTEM'
@@ -616,7 +617,7 @@ class DialogCollection(BaseModel):
     dialogs: List[Dialog]
 
 
-class AudioEncoding(enum.Enum):
+class AudioEncoding(str, enum.Enum):
     LINEAR16_PCM = 'LINEAR16_PCM'
 
 
@@ -654,13 +655,14 @@ class TtsDictionary(BaseModel):
 
 # OpenAI API TYPES
 
-class ChatCompletionRole(enum.Enum):
+class ChatCompletionRole(str, enum.Enum):
     SYSTEM = 'system'
     USER = 'user'
     ASSISTANT = 'assistant'
+    TOOL = 'tool'
 
 
-class ChatCompletionChoiceFinishReason(enum.Enum):
+class ChatCompletionChoiceFinishReason(str, enum.Enum):
     stop = 'stop'
     length = 'length'
     function_call = 'function_call'
@@ -672,9 +674,64 @@ class Usage(BaseModel):
     total_tokens: int
 
 
+class ToolType(str, enum.Enum):
+    function = 'function'
+
+
+class FunctionCall(BaseModel):
+    name: str
+    arguments: str
+
+
+class ToolCall(BaseModel):
+    id: str
+    type: ToolType = ToolType.function
+    function: FunctionCall
+
+
+class ContentPartType(str, enum.Enum):
+    text = 'text'
+    image_url = 'image_url'
+
+
+class TextContentPart(BaseModel):
+    type: ContentPartType
+    text: str
+
+
+class ImageUrl(BaseModel):
+    url: str
+    detail: Optional[str] = Field(None)
+
+
+class ImageContentPart(BaseModel):
+    type: ContentPartType
+    image_url: ImageUrl
+
+
 class ChatMessage(BaseModel):
     role: ChatCompletionRole
-    content: str
+    content: Optional[Union[str, List[Union[TextContentPart, ImageContentPart]]]] = Field(None)
+    tool_call_id: Optional[str] = Field(None)
+    name: Optional[str] = Field(None)
+    tool_calls: Optional[List[ToolCall]] = Field(None)
+
+
+class TopLogprobsItem(BaseModel):
+    token: Optional[str] = Field(None)
+    logprob: Optional[Decimal] = Field(None)
+    bytes: Optional[List[int]] = Field(None)
+
+
+class LogprobContentItem(BaseModel):
+    token: Optional[str] = Field(None)
+    logprob: Optional[Decimal] = Field(None)
+    bytes: Optional[List[int]] = Field(None)
+    top_logprobs: Optional[List[TopLogprobsItem]] = Field(None)
+
+
+class Logprobs(BaseModel):
+    content: List[LogprobContentItem]
 
 
 class ChatCompletionChoice(BaseModel):
@@ -682,6 +739,7 @@ class ChatCompletionChoice(BaseModel):
     message: Optional[ChatMessage]
     delta: Optional[ChatMessage]
     finish_reason: Optional[ChatCompletionChoiceFinishReason] = Field(None)
+    logprobs: Optional[Logprobs] = Field(None)
 
 
 class ChatCompletionResult(BaseModel):
@@ -697,8 +755,39 @@ class ChatCompletionConfig(BaseModel, extra=Extra.allow):
     system_prompt: str = Field(None)
     # presence_penalty:
     # frequency_penalty:
-    
+
+
+class ToolChoiceEnum(str, enum.Enum):
+    none = 'none'
+    auto = 'auto'
+    required = 'required'
+
+
+class NamedToolChoiceFunction(BaseModel):
+    name: str
+
+
+class NamedToolChoice(BaseModel):
+    type: ToolType
+    function: NamedToolChoiceFunction
+
+
+class Function(BaseModel):
+    name: str
+    description: Optional[str] = Field(None)
+    parameters: Optional[dict] = Field(None)
+
+
+class Tool(BaseModel):
+    type: ToolType = ToolType.function
+    function: Function
+
+
 class ChatCompletionRequest(BaseModel):
     messages: List[ChatMessage]
     model: Optional[str] = Field(None)
     stream: Optional[bool] = Field(None)
+    tools: Optional[List[Tool]] = Field(None)
+    tool_choice: Optional[Union[ToolChoiceEnum, NamedToolChoice]] = Field(None)
+    logprobs: Optional[bool] = Field(None)
+    top_logprobs: Optional[int] = Field(None)

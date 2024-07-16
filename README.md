@@ -46,7 +46,7 @@ import enum
 from pydantic import BaseModel
 
 
-class TokenPosTag(enum.Enum):
+class TokenPosTag(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
 
 
@@ -78,7 +78,7 @@ from typing import List
 from pydantic import BaseModel
 
 
-class TokenPosTag(enum.Enum):
+class TokenPosTag(str, enum.Enum):
     UNKNOWN = 'UNKNOWN'
 
 
