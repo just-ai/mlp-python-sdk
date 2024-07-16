@@ -21,6 +21,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     mlp_api_key = args.mlp_api_key
+    account_id = "just-ai"
+    model_name = "openai-proxy"
+
     payload = json.dumps(
         {
             "model": "gpt-3.5-turbo",
@@ -29,8 +32,8 @@ if __name__ == "__main__":
         }
     )
     request = ClientRequestProto(
-        account="just-ai",
-        model="openai-proxy",
+        account=account_id,
+        model=model_name,
         predict=PredictRequestProto(
             data=PayloadProto(
                 dataType="https://caila.io/specs/mlp-data-gpt.yml#/ChatCompletionRequest",
