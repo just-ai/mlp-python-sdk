@@ -7,7 +7,6 @@ cd $ROOT
 #TODO create container with userid to avoid sudo usage
 
 sudo rm -Rf ./openapi-generator-output
-
 docker run --rm -v ${PWD}:/app openapitools/openapi-generator-cli:v7.6.0 generate  \
     -i /app/mlp-specs/mlp-rest-api.yml  -g python-pydantic-v1   -o /app/openapi-generator-output \
     --additional-properties=packageName=mlp_api
