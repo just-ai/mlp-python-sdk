@@ -4374,6 +4374,25 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpcore/system-config/captcha:
+    get:
+      tags:
+      - system-config-endpoint
+      operationId: getCaptchaConfig
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpcore/specs/{api-file}:
     get:
       tags:
@@ -9697,6 +9716,16 @@ components:
           type: boolean
         isExtendedLanding:
           type: boolean
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        siteKey:
+          type: string
     PagedModelInfoData:
       required:
       - paging
