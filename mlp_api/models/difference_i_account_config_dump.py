@@ -26,9 +26,9 @@ class DifferenceIAccountConfigDump(BaseModel):
     """
     DifferenceIAccountConfigDump
     """
-    before: Optional[AccountConfigDump] = None
     after: Optional[AccountConfigDump] = None
-    __properties = ["before", "after"]
+    before: Optional[AccountConfigDump] = None
+    __properties = ["after", "before"]
 
     class Config:
         """Pydantic configuration"""
@@ -54,12 +54,12 @@ class DifferenceIAccountConfigDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of before
-        if self.before:
-            _dict['before'] = self.before.to_dict()
         # override the default output from pydantic by calling `to_dict()` of after
         if self.after:
             _dict['after'] = self.after.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of before
+        if self.before:
+            _dict['before'] = self.before.to_dict()
         return _dict
 
     @classmethod
@@ -72,8 +72,8 @@ class DifferenceIAccountConfigDump(BaseModel):
             return DifferenceIAccountConfigDump.parse_obj(obj)
 
         _obj = DifferenceIAccountConfigDump.parse_obj({
-            "before": AccountConfigDump.from_dict(obj.get("before")) if obj.get("before") is not None else None,
-            "after": AccountConfigDump.from_dict(obj.get("after")) if obj.get("after") is not None else None
+            "after": AccountConfigDump.from_dict(obj.get("after")) if obj.get("after") is not None else None,
+            "before": AccountConfigDump.from_dict(obj.get("before")) if obj.get("before") is not None else None
         })
         return _obj
 
