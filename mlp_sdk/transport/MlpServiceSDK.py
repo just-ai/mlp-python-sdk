@@ -660,7 +660,7 @@ class MlpException(Exception):
         return f'MlpException {self.message} has been raised'
 
 
-class CommonErrorCode(MlpErrorCode, Enum):
+class CommonErrorCode:
     INTERNAL_ERROR = MlpErrorCode(
         "mlp-action.common.internal-error",
         "Internal error. Message: {message}",
