@@ -6,6 +6,7 @@ import threading
 import time
 import typing
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from enum import Enum
 from inspect import signature
 from typing import Optional
@@ -631,15 +632,11 @@ class MlpServiceSDK:
         return res
 
 
+@dataclass
 class MlpErrorCode:
     code: str
     message: str
     status: SimpleStatusProto
-
-    def __init__(self, code: str, message: str, status: SimpleStatusProto):
-        self.code = code
-        self.message = message
-        self.status = status
 
 
 class MlpException(Exception):
