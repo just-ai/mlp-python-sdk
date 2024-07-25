@@ -4584,6 +4584,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckHistoryResult'
+  /api/mlpcore/catalog-category:
+    get:
+      tags:
+      - model-endpoint
+      operationId: getCatalogCategories
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogCategoryData'
   /api/mlpcore/admin/accounts:
     get:
       tags:
@@ -6946,31 +6965,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
-  /api/mlpcore/account/{account}/catalog-category:
-    get:
-      tags:
-      - model-endpoint
-      operationId: getCatalogCategories
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CatalogCategoryData'
   /api/mlpcore/account/{account}/application/{application}/token:
     get:
       tags:
@@ -9824,6 +9818,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CheckResult'
+    CatalogCategoryData:
+      required:
+      - categories
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskTypeToModelsCount'
+    TaskTypeToModelsCount:
+      required:
+      - modelsCount
+      - taskTypeName
+      type: object
+      properties:
+        taskTypeName:
+          type: string
+        modelsCount:
+          type: integer
+          format: int32
     StatLogData:
       required:
       - accountId
@@ -10407,26 +10421,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataImageInfoData'
-    CatalogCategoryData:
-      required:
-      - categories
-      type: object
-      properties:
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskTypeToModelsCount'
-    TaskTypeToModelsCount:
-      required:
-      - modelsCount
-      - taskTypeName
-      type: object
-      properties:
-        taskTypeName:
-          type: string
-        modelsCount:
-          type: integer
-          format: int32
     ModelInstance:
       required:
       - connectionToken

@@ -1325,17 +1325,15 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_catalog_categories(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> CatalogCategoryData:  # noqa: E501
+    def get_catalog_categories(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> CatalogCategoryData:  # noqa: E501
         """get_catalog_categories  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_catalog_categories(account, mlp_api_key, async_req=True)
+        >>> thread = api.get_catalog_categories(mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1353,20 +1351,18 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_catalog_categories_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_catalog_categories_with_http_info(account, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_catalog_categories_with_http_info(mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_catalog_categories_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_catalog_categories_with_http_info(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_catalog_categories  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_catalog_categories_with_http_info(account, mlp_api_key, async_req=True)
+        >>> thread = api.get_catalog_categories_with_http_info(mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1397,7 +1393,6 @@ class ModelEndpointApi:
         _params = locals()
 
         _all_params = [
-            'account',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1426,9 +1421,6 @@ class ModelEndpointApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['account'] is not None:
-            _path_params['account'] = _params['account']
-
 
         # process the query parameters
         _query_params = []
@@ -1454,7 +1446,7 @@ class ModelEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/catalog-category', 'GET',
+            '/api/mlpcore/catalog-category', 'GET',
             _path_params,
             _query_params,
             _header_params,
