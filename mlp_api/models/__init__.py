@@ -23,6 +23,7 @@ from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.alias_data import AliasData
 from mlp_api.models.audio_format_options import AudioFormatOptions
 from mlp_api.models.captcha_data import CaptchaData
+from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.check_result import CheckResult
 from mlp_api.models.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
@@ -92,11 +93,13 @@ from mlp_api.models.model_instance_data import ModelInstanceData
 from mlp_api.models.model_instance_list_data import ModelInstanceListData
 from mlp_api.models.model_instance_pk import ModelInstancePK
 from mlp_api.models.model_limits_data import ModelLimitsData
+from mlp_api.models.model_list_request import ModelListRequest
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
 from mlp_api.models.model_short_status_data import ModelShortStatusData
 from mlp_api.models.model_start_time_data import ModelStartTimeData
+from mlp_api.models.model_string_id import ModelStringId
 from mlp_api.models.model_timeouts_data import ModelTimeoutsData
 from mlp_api.models.page_stat_log_data import PageStatLogData
 from mlp_api.models.pageable_object import PageableObject
@@ -138,5 +141,6 @@ from mlp_api.models.status import Status
 from mlp_api.models.status_info import StatusInfo
 from mlp_api.models.task_suite_status import TaskSuiteStatus
 from mlp_api.models.task_type_data import TaskTypeData
+from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
