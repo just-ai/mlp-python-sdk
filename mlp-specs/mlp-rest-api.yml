@@ -4614,6 +4614,12 @@ paths:
         required: false
         schema:
           type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -8646,6 +8652,8 @@ components:
         cooldownPeriodMinutes:
           type: integer
           format: int32
+        reserveResourceGroupName:
+          type: string
     ResourceGroupEssentialData:
       required:
       - access

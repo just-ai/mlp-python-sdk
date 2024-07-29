@@ -31,7 +31,8 @@ class ResourceGroupAutoScalingConfiguration(BaseModel):
     min_servers_count: StrictInt = Field(default=..., alias="minServersCount")
     max_servers_count: Optional[StrictInt] = Field(default=None, alias="maxServersCount")
     cooldown_period_minutes: Optional[StrictInt] = Field(default=None, alias="cooldownPeriodMinutes")
-    __properties = ["serverId", "serverConfiguration", "fallbackServersIds", "minServersCount", "maxServersCount", "cooldownPeriodMinutes"]
+    reserve_resource_group_name: Optional[StrictStr] = Field(default=None, alias="reserveResourceGroupName")
+    __properties = ["serverId", "serverConfiguration", "fallbackServersIds", "minServersCount", "maxServersCount", "cooldownPeriodMinutes", "reserveResourceGroupName"]
 
     class Config:
         """Pydantic configuration"""
@@ -74,7 +75,8 @@ class ResourceGroupAutoScalingConfiguration(BaseModel):
             "fallback_servers_ids": obj.get("fallbackServersIds"),
             "min_servers_count": obj.get("minServersCount"),
             "max_servers_count": obj.get("maxServersCount"),
-            "cooldown_period_minutes": obj.get("cooldownPeriodMinutes")
+            "cooldown_period_minutes": obj.get("cooldownPeriodMinutes"),
+            "reserve_resource_group_name": obj.get("reserveResourceGroupName")
         })
         return _obj
 
