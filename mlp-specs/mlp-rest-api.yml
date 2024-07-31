@@ -121,6 +121,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpgate/sendContactRequest:
+    post:
+      tags:
+      - manual-management-endpoint
+      operationId: sendEmail
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpgate/admin/system-config/account/{account}/data:
     get:
       tags:
@@ -7616,6 +7637,15 @@ paths:
           description: OK
 components:
   schemas:
+    ManagementRequestData:
+      required:
+      - contacts
+      type: object
+      properties:
+        contacts:
+          type: string
+        comment:
+          type: string
     AccountDataDump:
       type: object
       properties:
@@ -9276,15 +9306,6 @@ components:
         groupId:
           type: integer
           format: int64
-    ManagementRequestData:
-      required:
-      - contacts
-      type: object
-      properties:
-        contacts:
-          type: string
-        comment:
-          type: string
     DeprecatedDatasetInfoWithContentData:
       required:
       - name
@@ -9817,10 +9838,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -9833,11 +9854,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
