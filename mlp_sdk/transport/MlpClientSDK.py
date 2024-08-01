@@ -1,18 +1,17 @@
 import os
-import pathlib
 import time
-from typing import Dict, Optional, List
+from pathlib import Path
+from typing import Dict, List, Optional
 
 import grpc
 import yaml
-from mlp_api.apis.tags import model_endpoint_api, process_endpoint_api, dataset_endpoint_api
 
-from mlp_api import Configuration, ApiClient
-from mlp_sdk.grpc import mlp_grpc_pb2_grpc, mlp_grpc_pb2
+from mlp_api import ApiClient, Configuration
+from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 
-__default_config = pathlib.Path(__file__).parent / "config.yml"
+__default_config = Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
 RECONNECT_ERROR_CODES = ["mlp.gate.gate_is_shut_down"]
@@ -192,23 +191,21 @@ class MlpClientSDK:
         if previous_channel is not None:
             previous_channel.close()
 
-class MlpRestClient:
 
-    def __init__(self, url: Optional[str] = None, token=None, config=CONFIG):
+class MlpRestClient(ApiClient):
+
+    def __init__(self, url: Optional[str] = None, token: Optional[str] = None, config=CONFIG):
         self.config = config
         self.log = get_logger('MlpRestClient')
         self.account_id = os.environ.get('MLP_ACCOUNT_ID')
         self.model_id = os.environ.get('MLP_MODEL_ID')
-        self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if not url else url
-        self.client_token = os.environ['MLP_CLIENT_TOKEN'] if not token else token
+        self.rest_url = os.environ.get('MLP_REST_URL', "https://app.caila.io") if url is None else url
+        self.client_token = os.environ['MLP_CLIENT_TOKEN'] if token is None else token
         self.log.debug("Creating mpl client with url " + self.rest_url)
 
         configuration = Configuration(host=self.rest_url)
-        self.api_client = ApiClient(configuration, "MLP-API-KEY", self.client_token)
+        super().__init__(configuration, "MLP-API-KEY", self.client_token)
 
-        self.modelApi = model_endpoint_api.ModelEndpointApi(self.api_client)
-        self.processApi = process_endpoint_api.ProcessEndpointApi(self.api_client)
-        self.datasetApi = dataset_endpoint_api.DatasetEndpointApi(self.api_client)
         
 class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
