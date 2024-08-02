@@ -16,7 +16,7 @@ check last version [here](https://nexus.just-ai.com/service/rest/repository/brow
 2. `cd mlp-python-sdk`
 3. `export mlp_sdk_home=$PWD`
 4. Run `pip install -e .`
-5. Run tests
+5. Run tests 
 6. Library is ready to work with
 
 ``` python
