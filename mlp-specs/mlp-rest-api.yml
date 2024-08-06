@@ -7707,9 +7707,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -7909,6 +7909,8 @@ components:
         composite:
           type: boolean
         prototype:
+          type: boolean
+        rejectRequestsIfInactive:
           type: boolean
         fittable:
           type: boolean
@@ -8232,9 +8234,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -8683,6 +8685,8 @@ components:
           type: boolean
         prototype:
           type: boolean
+        rejectRequestsIfInactive:
+          type: boolean
         config:
           type: string
         env:
@@ -8931,6 +8935,8 @@ components:
         composite:
           type: boolean
         prototype:
+          type: boolean
+        rejectRequestsIfInactive:
           type: boolean
         taskType:
           type: string
@@ -9891,11 +9897,11 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
           type: boolean
         unsorted:
+          type: boolean
+        sorted:
           type: boolean
     ResourceGroupCapacity:
       required:

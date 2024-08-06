@@ -50,6 +50,7 @@ class ModelCreateUpdateData(BaseModel):
     fit_template_model_id: Optional[StrictInt] = Field(default=None, alias="fitTemplateModelId")
     composite: Optional[StrictBool] = None
     prototype: Optional[StrictBool] = None
+    reject_requests_if_inactive: Optional[StrictBool] = Field(default=None, alias="rejectRequestsIfInactive")
     config: Optional[StrictStr] = None
     env: Optional[StrictStr] = None
     additional_flags: Optional[conlist(StrictStr)] = Field(default=None, alias="additionalFlags")
@@ -72,7 +73,7 @@ class ModelCreateUpdateData(BaseModel):
     http_settings: Optional[ModelHttpSettingsData] = Field(default=None, alias="httpSettings")
     archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
     aliases: Optional[conlist(StrictStr)] = None
-    __properties = ["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases"]
+    __properties = ["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -185,6 +186,7 @@ class ModelCreateUpdateData(BaseModel):
             "fit_template_model_id": obj.get("fitTemplateModelId"),
             "composite": obj.get("composite"),
             "prototype": obj.get("prototype"),
+            "reject_requests_if_inactive": obj.get("rejectRequestsIfInactive"),
             "config": obj.get("config"),
             "env": obj.get("env"),
             "additional_flags": obj.get("additionalFlags"),
