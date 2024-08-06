@@ -59,6 +59,7 @@ class ModelInfoData(BaseModel):
     training_fit_config: Optional[FitConfigData] = Field(default=None, alias="trainingFitConfig")
     fit_template_model_id: Optional[StrictInt] = Field(default=None, alias="fitTemplateModelId")
     composite: StrictBool = Field(...)
+    prototype: Optional[StrictBool] = None
     task_type: Optional[StrictStr] = Field(default=None, alias="taskType")
     training_model_account_id: Optional[StrictInt] = Field(default=None, alias="trainingModelAccountId")
     training_model_id: Optional[StrictInt] = Field(default=None, alias="trainingModelId")
@@ -90,7 +91,7 @@ class ModelInfoData(BaseModel):
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
-    __properties = ["id", "modelAccountName", "modelAccountDisplayName", "modelName", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state"]
+    __properties = ["id", "modelAccountName", "modelAccountDisplayName", "modelName", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -231,6 +232,7 @@ class ModelInfoData(BaseModel):
             "training_fit_config": FitConfigData.from_dict(obj.get("trainingFitConfig")) if obj.get("trainingFitConfig") is not None else None,
             "fit_template_model_id": obj.get("fitTemplateModelId"),
             "composite": obj.get("composite"),
+            "prototype": obj.get("prototype"),
             "task_type": obj.get("taskType"),
             "training_model_account_id": obj.get("trainingModelAccountId"),
             "training_model_id": obj.get("trainingModelId"),

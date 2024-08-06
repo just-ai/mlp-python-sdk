@@ -7707,9 +7707,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -7768,6 +7768,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
+      - active
       - minInstanceCount
       type: object
       properties:
@@ -7798,6 +7799,8 @@ components:
         scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
+        active:
+          type: boolean
     ModelBatchesData:
       required:
       - batchSize
@@ -7904,6 +7907,8 @@ components:
         fitTemplateModelName:
           type: string
         composite:
+          type: boolean
+        prototype:
           type: boolean
         fittable:
           type: boolean
@@ -8227,9 +8232,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     AccountInfoData:
       required:
@@ -8676,6 +8681,8 @@ components:
           format: int64
         composite:
           type: boolean
+        prototype:
+          type: boolean
         config:
           type: string
         env:
@@ -8922,6 +8929,8 @@ components:
           type: integer
           format: int64
         composite:
+          type: boolean
+        prototype:
           type: boolean
         taskType:
           type: string
