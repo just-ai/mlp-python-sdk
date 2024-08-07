@@ -57,8 +57,6 @@ class ModelDump(BaseModel):
     training_dataset_type: Optional[StrictStr] = Field(default=None, alias="trainingDatasetType")
     fit_template_model_name: Optional[StrictStr] = Field(default=None, alias="fitTemplateModelName")
     composite: Optional[StrictBool] = None
-    prototype: Optional[StrictBool] = None
-    reject_requests_if_inactive: Optional[StrictBool] = Field(default=None, alias="rejectRequestsIfInactive")
     fittable: Optional[StrictBool] = None
     training_type: Optional[StrictStr] = Field(default=None, alias="trainingType")
     hosting_type: Optional[StrictStr] = Field(default=None, alias="hostingType")
@@ -97,7 +95,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -243,8 +241,6 @@ class ModelDump(BaseModel):
             "training_dataset_type": obj.get("trainingDatasetType"),
             "fit_template_model_name": obj.get("fitTemplateModelName"),
             "composite": obj.get("composite"),
-            "prototype": obj.get("prototype"),
-            "reject_requests_if_inactive": obj.get("rejectRequestsIfInactive"),
             "fittable": obj.get("fittable"),
             "training_type": obj.get("trainingType"),
             "hosting_type": obj.get("hostingType"),

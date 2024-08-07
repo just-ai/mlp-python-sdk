@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
+from pydantic import BaseModel, Field, StrictInt
 
 class ModelAutoScalingConfiguration(BaseModel):
     """
@@ -34,8 +34,7 @@ class ModelAutoScalingConfiguration(BaseModel):
     scale_down_latency_threshold_ms: Optional[StrictInt] = Field(default=None, alias="scaleDownLatencyThresholdMs")
     scale_up_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleUpCpuThresholdMilliCores")
     scale_down_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleDownCpuThresholdMilliCores")
-    active: StrictBool = Field(...)
-    __properties = ["minInstanceCount", "maxInstanceCount", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", "active"]
+    __properties = ["minInstanceCount", "maxInstanceCount", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores"]
 
     class Config:
         """Pydantic configuration"""
@@ -81,8 +80,7 @@ class ModelAutoScalingConfiguration(BaseModel):
             "scale_up_latency_threshold_ms": obj.get("scaleUpLatencyThresholdMs"),
             "scale_down_latency_threshold_ms": obj.get("scaleDownLatencyThresholdMs"),
             "scale_up_cpu_threshold_milli_cores": obj.get("scaleUpCpuThresholdMilliCores"),
-            "scale_down_cpu_threshold_milli_cores": obj.get("scaleDownCpuThresholdMilliCores"),
-            "active": obj.get("active")
+            "scale_down_cpu_threshold_milli_cores": obj.get("scaleDownCpuThresholdMilliCores")
         })
         return _obj
 
