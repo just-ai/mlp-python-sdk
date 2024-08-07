@@ -262,6 +262,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DifferenceIAccountConfigDump'
+  /api/mlpgate/admin/minio/delete-empty-users:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: deleteEmptyMinioUsers
+      parameters:
+      - name: count
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: dryRun
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyUsersResponse'
   /api/mlpgate/admin/account/{account}/limits:
     post:
       tags:
@@ -7707,9 +7737,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8227,10 +8257,24 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
           $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
+    EmptyUsersResponse:
+      required:
+      - empty
+      - withContent
+      type: object
+      properties:
+        empty:
+          type: array
+          items:
+            type: string
+        withContent:
+          type: array
+          items:
+            type: string
     AccountInfoData:
       required:
       - accountId

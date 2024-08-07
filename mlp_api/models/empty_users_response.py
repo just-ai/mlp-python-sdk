@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel
-from mlp_api.models.account_config_dump import AccountConfigDump
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
 
-class DifferenceIAccountConfigDump(BaseModel):
+class EmptyUsersResponse(BaseModel):
     """
-    DifferenceIAccountConfigDump
+    EmptyUsersResponse
     """
-    before: Optional[AccountConfigDump] = None
-    after: Optional[AccountConfigDump] = None
-    __properties = ["before", "after"]
+    empty: conlist(StrictStr) = Field(...)
+    with_content: conlist(StrictStr) = Field(default=..., alias="withContent")
+    __properties = ["empty", "withContent"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class DifferenceIAccountConfigDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DifferenceIAccountConfigDump:
-        """Create an instance of DifferenceIAccountConfigDump from a JSON string"""
+    def from_json(cls, json_str: str) -> EmptyUsersResponse:
+        """Create an instance of EmptyUsersResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,26 +53,20 @@ class DifferenceIAccountConfigDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of before
-        if self.before:
-            _dict['before'] = self.before.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of after
-        if self.after:
-            _dict['after'] = self.after.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DifferenceIAccountConfigDump:
-        """Create an instance of DifferenceIAccountConfigDump from a dict"""
+    def from_dict(cls, obj: dict) -> EmptyUsersResponse:
+        """Create an instance of EmptyUsersResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DifferenceIAccountConfigDump.parse_obj(obj)
+            return EmptyUsersResponse.parse_obj(obj)
 
-        _obj = DifferenceIAccountConfigDump.parse_obj({
-            "before": AccountConfigDump.from_dict(obj.get("before")) if obj.get("before") is not None else None,
-            "after": AccountConfigDump.from_dict(obj.get("after")) if obj.get("after") is not None else None
+        _obj = EmptyUsersResponse.parse_obj({
+            "empty": obj.get("empty"),
+            "with_content": obj.get("withContent")
         })
         return _obj
 
