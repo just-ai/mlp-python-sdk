@@ -8003,6 +8003,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
+      - active
       - minInstanceCount
       type: object
       properties:
@@ -8033,6 +8034,8 @@ components:
         scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
+        active:
+          type: boolean
     ModelBatchesData:
       required:
       - batchSize
@@ -8139,6 +8142,10 @@ components:
         fitTemplateModelName:
           type: string
         composite:
+          type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
           type: boolean
         fittable:
           type: boolean
@@ -8913,6 +8920,10 @@ components:
           format: int64
         composite:
           type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
+          type: boolean
         config:
           type: string
         env:
@@ -9159,6 +9170,10 @@ components:
           type: integer
           format: int64
         composite:
+          type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
           type: boolean
         taskType:
           type: string
