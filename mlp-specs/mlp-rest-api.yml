@@ -549,6 +549,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/sendContactRequest:
+    post:
+      tags:
+      - manual-management-endpoint
+      operationId: sendEmail
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManagementRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/system-config/account/{account}/data:
     get:
       tags:
@@ -669,6 +690,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DifferenceIAccountConfigDump'
+  /api/mlpcore/admin/minio/delete-empty-users:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: deleteEmptyMinioUsers
+      parameters:
+      - name: count
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: dryRun
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyUsersResponse'
   /api/mlpcore/admin/account/{account}/limits:
     post:
       tags:
@@ -7881,6 +7932,15 @@ components:
         minIntentSizeToDivide:
           type: integer
           format: int32
+    ManagementRequestData:
+      required:
+      - contacts
+      type: object
+      properties:
+        contacts:
+          type: string
+        comment:
+          type: string
     AccountDataDump:
       type: object
       properties:
@@ -8473,6 +8533,20 @@ components:
           $ref: '#/components/schemas/AccountConfigDump'
         after:
           $ref: '#/components/schemas/AccountConfigDump'
+    EmptyUsersResponse:
+      required:
+      - empty
+      - withContent
+      type: object
+      properties:
+        empty:
+          type: array
+          items:
+            type: string
+        withContent:
+          type: array
+          items:
+            type: string
     AccountInfoData:
       required:
       - accountId
@@ -9459,15 +9533,6 @@ components:
         groupId:
           type: integer
           format: int64
-    ManagementRequestData:
-      required:
-      - contacts
-      type: object
-      properties:
-        contacts:
-          type: string
-        comment:
-          type: string
     DeprecatedDatasetInfoWithContentData:
       required:
       - name
