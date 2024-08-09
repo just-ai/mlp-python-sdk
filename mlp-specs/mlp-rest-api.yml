@@ -69,78 +69,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgateway/account/{account}/model/{model}/predict:
-    post:
-      tags:
-      - process-endpoint
-      operationId: predict
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: configId
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-  /api/mlpgate/clicks:
-    post:
-      tags:
-      - click-history-endpoint
-      operationId: saveClick
-      parameters:
-      - name: visitorId
-        in: cookie
-        required: false
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/ClickHistoryData'
-        required: true
-      responses:
-        "200":
-          description: OK
-  /api/mlpgate/account/{account}/model/{model}/tts:
+  /api/mlpgateway/account/{account}/model/{model}/tts:
     get:
       tags:
       - process-endpoint
@@ -238,7 +167,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
       deprecated: true
-  /api/mlpgate/account/{account}/model/{model}/predict-with-config:
+  /api/mlpgateway/account/{account}/model/{model}/predict:
+    post:
+      tags:
+      - process-endpoint
+      operationId: predict
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: configId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpgateway/account/{account}/model/{model}/predict-with-config:
     post:
       tags:
       - process-endpoint
@@ -275,7 +247,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{account}/model/{model}/predict-with-config-v2:
+  /api/mlpgateway/account/{account}/model/{model}/predict-with-config-v2:
     post:
       tags:
       - process-endpoint
@@ -312,7 +284,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{account}/model/{model}/predict-with-config-v2-stream:
+  /api/mlpgateway/account/{account}/model/{model}/predict-with-config-v2-stream:
     post:
       tags:
       - process-endpoint
@@ -349,81 +321,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseBodyEmitter'
-  /api/mlpgate/account/{account}/model/{model}/fit:
-    post:
-      tags:
-      - process-endpoint
-      operationId: fit
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FitRequestData'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{account}/model/{model}/fit-v2:
-    post:
-      tags:
-      - process-endpoint
-      operationId: fit_v2
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Fit2RequestData'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/JobStatusData'
-  /api/mlpgate/account/{account}/model/{model}/ext:
+  /api/mlpgateway/account/{account}/model/{model}/ext:
     post:
       tags:
       - process-endpoint
@@ -460,22 +358,15 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/account/{account}/model/{model}/cross-validation:
+  /api/mlpgate/clicks:
     post:
       tags:
-      - process-endpoint
-      operationId: crossValidation
+      - click-history-endpoint
+      operationId: saveClick
       parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
+      - name: visitorId
+        in: cookie
+        required: false
         schema:
           type: string
       - name: MLP-API-KEY
@@ -488,15 +379,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrossValidationRequestData'
+              type: array
+              items:
+                $ref: '#/components/schemas/ClickHistoryData'
         required: true
       responses:
         "200":
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/JobStatusData'
   /api/mlpcore/task/{taskId}/stop:
     post:
       tags:
@@ -2197,6 +2086,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelHttpSettingsData'
+  /api/mlpcore/account/{account}/model/{model}/fit:
+    post:
+      tags:
+      - process-endpoint
+      operationId: fit
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FitRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
+  /api/mlpcore/account/{account}/model/{model}/fit-v2:
+    post:
+      tags:
+      - process-endpoint
+      operationId: fit_v2
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fit2RequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
   /api/mlpcore/account/{account}/model/{model}/fit-config:
     get:
       tags:
@@ -2514,6 +2477,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
+  /api/mlpcore/account/{account}/model/{model}/cross-validation:
+    post:
+      tags:
+      - process-endpoint
+      operationId: crossValidation
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrossValidationRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusData'
   /api/mlpcore/account/{account}/model/{model}/clone:
     post:
       tags:
@@ -7752,32 +7752,6 @@ paths:
           description: OK
 components:
   schemas:
-    ClickHistoryData:
-      required:
-      - eventType
-      - pageUrl
-      type: object
-      properties:
-        creationTime:
-          type: integer
-          format: int64
-        accountId:
-          type: integer
-          format: int64
-        entityId:
-          type: integer
-          format: int64
-        entityType:
-          type: string
-        pageUrl:
-          type: string
-        description:
-          type: string
-        eventType:
-          type: string
-        elementId:
-          type: integer
-          format: int64
     AudioFormatOptions:
       type: object
       properties:
@@ -7828,61 +7802,6 @@ components:
           type: string
         data:
           type: string
-    FitRequestData:
-      required:
-      - datasetId
-      type: object
-      properties:
-        config:
-          $ref: '#/components/schemas/JsonNode'
-        configId:
-          type: integer
-          format: int64
-        datasetId:
-          type: integer
-          format: int64
-        billingToken:
-          type: string
-    JsonNode:
-      type: object
-    JobStatusData:
-      required:
-      - accountId
-      - done
-      - jobId
-      - jobType
-      - state
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        jobId:
-          type: integer
-          format: int64
-        jobType:
-          type: string
-        state:
-          type: string
-        done:
-          type: boolean
-        error:
-          type: boolean
-        errorMessage:
-          type: string
-    Fit2RequestData:
-      required:
-      - datasetId
-      type: object
-      properties:
-        config:
-          type: string
-        configId:
-          type: integer
-          format: int64
-        datasetId:
-          type: integer
-          format: int64
     ExtendedRequestData:
       required:
       - methodName
@@ -7895,43 +7814,32 @@ components:
           type: object
           additionalProperties:
             type: string
-    CrossValidationRequestData:
+    ClickHistoryData:
       required:
-      - datasetId
-      - minIntentSizeToDivide
-      - parts
+      - eventType
+      - pageUrl
       type: object
       properties:
-        baseModelAccountId:
+        creationTime:
           type: integer
           format: int64
-        baseModelId:
+        accountId:
           type: integer
           format: int64
-        targetModelAccountId:
+        entityId:
           type: integer
           format: int64
-        targetModelName:
+        entityType:
           type: string
-        fitConfig:
-          $ref: '#/components/schemas/JsonNode'
-        fitConfigId:
+        pageUrl:
+          type: string
+        description:
+          type: string
+        eventType:
+          type: string
+        elementId:
           type: integer
           format: int64
-        datasetId:
-          type: integer
-          format: int64
-        predictConfig:
-          $ref: '#/components/schemas/JsonNode'
-        predictConfigId:
-          type: integer
-          format: int64
-        parts:
-          type: integer
-          format: int32
-        minIntentSizeToDivide:
-          type: integer
-          format: int32
     ManagementRequestData:
       required:
       - contacts
@@ -9447,6 +9355,61 @@ components:
         configId:
           type: integer
           format: int64
+    FitRequestData:
+      required:
+      - datasetId
+      type: object
+      properties:
+        config:
+          $ref: '#/components/schemas/JsonNode'
+        configId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+        billingToken:
+          type: string
+    JsonNode:
+      type: object
+    JobStatusData:
+      required:
+      - accountId
+      - done
+      - jobId
+      - jobType
+      - state
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        jobId:
+          type: integer
+          format: int64
+        jobType:
+          type: string
+        state:
+          type: string
+        done:
+          type: boolean
+        error:
+          type: boolean
+        errorMessage:
+          type: string
+    Fit2RequestData:
+      required:
+      - datasetId
+      type: object
+      properties:
+        config:
+          type: string
+        configId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
     ExternalConnectionInfoData:
       required:
       - connected
@@ -9482,6 +9445,43 @@ components:
         instanceId:
           type: integer
           format: int64
+    CrossValidationRequestData:
+      required:
+      - datasetId
+      - minIntentSizeToDivide
+      - parts
+      type: object
+      properties:
+        baseModelAccountId:
+          type: integer
+          format: int64
+        baseModelId:
+          type: integer
+          format: int64
+        targetModelAccountId:
+          type: integer
+          format: int64
+        targetModelName:
+          type: string
+        fitConfig:
+          $ref: '#/components/schemas/JsonNode'
+        fitConfigId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+        predictConfig:
+          $ref: '#/components/schemas/JsonNode'
+        predictConfigId:
+          type: integer
+          format: int64
+        parts:
+          type: integer
+          format: int32
+        minIntentSizeToDivide:
+          type: integer
+          format: int32
     AliasData:
       required:
       - id

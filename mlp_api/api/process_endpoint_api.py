@@ -207,7 +207,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/cross-validation', 'POST',
+            '/api/mlpcore/account/{account}/model/{model}/cross-validation', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -376,7 +376,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/ext', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/ext', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -545,7 +545,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/fit', 'POST',
+            '/api/mlpcore/account/{account}/model/{model}/fit', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -714,7 +714,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/fit-v2', 'POST',
+            '/api/mlpcore/account/{account}/model/{model}/fit-v2', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1214,7 +1214,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/predict-with-config', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/predict-with-config', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1383,7 +1383,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/predict-with-config-v2', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/predict-with-config-v2', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1552,7 +1552,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/predict-with-config-v2-stream', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/predict-with-config-v2-stream', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1831,7 +1831,7 @@ class ProcessEndpointApi:
         :rtype: tuple(ResponseBodyEmitter, status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("GET /api/mlpgate/account/{account}/model/{model}/tts is deprecated.", DeprecationWarning)
+        warnings.warn("GET /api/mlpgateway/account/{account}/model/{model}/tts is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -1917,7 +1917,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/tts', 'GET',
+            '/api/mlpgateway/account/{account}/model/{model}/tts', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2011,7 +2011,7 @@ class ProcessEndpointApi:
         :rtype: tuple(ResponseBodyEmitter, status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("POST /api/mlpgate/account/{account}/model/{model}/tts is deprecated.", DeprecationWarning)
+        warnings.warn("POST /api/mlpgateway/account/{account}/model/{model}/tts is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -2088,7 +2088,7 @@ class ProcessEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/model/{model}/tts', 'POST',
+            '/api/mlpgateway/account/{account}/model/{model}/tts', 'POST',
             _path_params,
             _query_params,
             _header_params,
