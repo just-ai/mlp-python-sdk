@@ -358,34 +358,6 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpgate/clicks:
-    post:
-      tags:
-      - click-history-endpoint
-      operationId: saveClick
-      parameters:
-      - name: visitorId
-        in: cookie
-        required: false
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/ClickHistoryData'
-        required: true
-      responses:
-        "200":
-          description: OK
   /api/mlpcore/task/{taskId}/stop:
     post:
       tags:
@@ -455,6 +427,34 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ManagementRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/clicks:
+    post:
+      tags:
+      - click-history-endpoint
+      operationId: saveClick
+      parameters:
+      - name: visitorId
+        in: cookie
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClickHistoryData'
         required: true
       responses:
         "200":
@@ -7814,6 +7814,15 @@ components:
           type: object
           additionalProperties:
             type: string
+    ManagementRequestData:
+      required:
+      - contacts
+      type: object
+      properties:
+        contacts:
+          type: string
+        comment:
+          type: string
     ClickHistoryData:
       required:
       - eventType
@@ -7840,15 +7849,6 @@ components:
         elementId:
           type: integer
           format: int64
-    ManagementRequestData:
-      required:
-      - contacts
-      type: object
-      properties:
-        contacts:
-          type: string
-        comment:
-          type: string
     AccountDataDump:
       type: object
       properties:

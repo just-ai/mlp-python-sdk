@@ -181,7 +181,7 @@ class ClickHistoryEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/clicks', 'POST',
+            '/api/mlpcore/clicks', 'POST',
             _path_params,
             _query_params,
             _header_params,
