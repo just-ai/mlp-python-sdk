@@ -885,13 +885,13 @@ class ProcessEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def predict(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], body : StrictStr, config_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> str:  # noqa: E501
+    def predict(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], body : StrictStr, config_id : Optional[StrictInt] = None, data_type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> str:  # noqa: E501
         """predict  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.predict(account, model, body, config_id, mlp_api_key, async_req=True)
+        >>> thread = api.predict(account, model, body, config_id, data_type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -902,6 +902,8 @@ class ProcessEndpointApi:
         :type body: str
         :param config_id:
         :type config_id: int
+        :param data_type:
+        :type data_type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -919,16 +921,16 @@ class ProcessEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the predict_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.predict_with_http_info(account, model, body, config_id, mlp_api_key, **kwargs)  # noqa: E501
+        return self.predict_with_http_info(account, model, body, config_id, data_type, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def predict_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], body : StrictStr, config_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def predict_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], body : StrictStr, config_id : Optional[StrictInt] = None, data_type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """predict  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.predict_with_http_info(account, model, body, config_id, mlp_api_key, async_req=True)
+        >>> thread = api.predict_with_http_info(account, model, body, config_id, data_type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -939,6 +941,8 @@ class ProcessEndpointApi:
         :type body: str
         :param config_id:
         :type config_id: int
+        :param data_type:
+        :type data_type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -973,6 +977,7 @@ class ProcessEndpointApi:
             'model',
             'body',
             'config_id',
+            'data_type',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1012,6 +1017,9 @@ class ProcessEndpointApi:
         _query_params = []
         if _params.get('config_id') is not None:  # noqa: E501
             _query_params.append(('configId', _params['config_id']))
+
+        if _params.get('data_type') is not None:  # noqa: E501
+            _query_params.append(('dataType', _params['data_type']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))

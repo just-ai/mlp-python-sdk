@@ -27,7 +27,8 @@ class Predict2RequestData(BaseModel):
     """
     config: Optional[StrictStr] = None
     data: StrictStr = Field(...)
-    __properties = ["config", "data"]
+    data_type: Optional[StrictStr] = Field(default=None, alias="dataType")
+    __properties = ["config", "data", "dataType"]
 
     class Config:
         """Pydantic configuration"""
@@ -66,7 +67,8 @@ class Predict2RequestData(BaseModel):
 
         _obj = Predict2RequestData.parse_obj({
             "config": obj.get("config"),
-            "data": obj.get("data")
+            "data": obj.get("data"),
+            "data_type": obj.get("dataType")
         })
         return _obj
 
