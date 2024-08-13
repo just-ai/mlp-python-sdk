@@ -1389,6 +1389,11 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: dataType
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -3936,6 +3941,49 @@ paths:
       tags:
       - chat-gpt-endpoint
       operationId: chat
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Z-requestId
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-BILLING-KEY
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            text/event-stream:
+              schema:
+                type: object
+  /api/adapters/openai-direct/chat/completions:
+    post:
+      tags:
+      - chat-gpt-endpoint
+      operationId: openaiDirect
       parameters:
       - name: Authorization
         in: header
@@ -7737,9 +7785,9 @@ components:
     DifferenceIAccountDataDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -7798,6 +7846,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
+      - active
       - minInstanceCount
       type: object
       properties:
@@ -7828,6 +7877,8 @@ components:
         scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
+        active:
+          type: boolean
     ModelBatchesData:
       required:
       - batchSize
@@ -7934,6 +7985,10 @@ components:
         fitTemplateModelName:
           type: string
         composite:
+          type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
           type: boolean
         fittable:
           type: boolean
@@ -8257,9 +8312,9 @@ components:
     DifferenceIAccountConfigDump:
       type: object
       properties:
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     EmptyUsersResponse:
       required:
@@ -8720,6 +8775,10 @@ components:
           format: int64
         composite:
           type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
+          type: boolean
         config:
           type: string
         env:
@@ -8967,6 +9026,10 @@ components:
           format: int64
         composite:
           type: boolean
+        prototype:
+          type: boolean
+        rejectRequestsIfInactive:
+          type: boolean
         taskType:
           type: string
         trainingModelAccountId:
@@ -9108,6 +9171,8 @@ components:
           type: object
         data:
           type: object
+        dataType:
+          type: string
     Predict2RequestData:
       required:
       - data
@@ -9116,6 +9181,8 @@ components:
         config:
           type: string
         data:
+          type: string
+        dataType:
           type: string
     ConfigCreateUpdateData:
       required:
