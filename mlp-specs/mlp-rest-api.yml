@@ -10562,6 +10562,11 @@ components:
         serverId:
           type: integer
           format: int64
+        hostname:
+          type: string
+        serviceVersion:
+          type: integer
+          format: int64
         status:
           type: string
           enum:
