@@ -1989,6 +1989,45 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/model/{model}/instance/{instanceId}/metadata:
+    post:
+      tags:
+      - model-instance-endpoint
+      operationId: updateInstanceMetadata
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstanceMetadata'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/account/{account}/model/{model}/instance/{instanceId}/heartbeat:
     post:
       tags:
@@ -9355,6 +9394,14 @@ components:
         configId:
           type: integer
           format: int64
+    InstanceMetadata:
+      type: object
+      properties:
+        version:
+          type: integer
+          format: int64
+        hostname:
+          type: string
     FitRequestData:
       required:
       - datasetId
@@ -9429,6 +9476,11 @@ components:
           type: object
           additionalProperties:
             type: string
+        hostname:
+          type: string
+        version:
+          type: integer
+          format: int64
     ModelInstancePK:
       required:
       - accountId

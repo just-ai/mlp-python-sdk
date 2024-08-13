@@ -109,6 +109,7 @@ from mlp_api.models.image_info_pk import ImageInfoPK
 from mlp_api.models.instance_environment_data import InstanceEnvironmentData
 from mlp_api.models.instance_event_data import InstanceEventData
 from mlp_api.models.instance_last_state import InstanceLastState
+from mlp_api.models.instance_metadata import InstanceMetadata
 from mlp_api.models.instance_state_running import InstanceStateRunning
 from mlp_api.models.instance_state_terminated import InstanceStateTerminated
 from mlp_api.models.instance_state_waiting import InstanceStateWaiting
