@@ -494,6 +494,11 @@ paths:
         required: true
         schema:
           type: boolean
+      - name: noErrors
+        in: query
+        required: true
+        schema:
+          type: boolean
       - name: account
         in: path
         description: Account id or account name
@@ -8252,12 +8257,12 @@ components:
           type: boolean
         archiveEncryptionPublicKey:
           type: string
-        asHttpSettingsData:
-          $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
         asBillingSettingsData:
           $ref: '#/components/schemas/ModelBillingSettingsData'
+        asHttpSettingsData:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
         asArchiveSettingsData:
           $ref: '#/components/schemas/ModelArchiveSettingsData'
     ModelGroupDump:
