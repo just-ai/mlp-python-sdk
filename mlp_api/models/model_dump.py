@@ -93,11 +93,11 @@ class ModelDump(BaseModel):
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     archive_encryption_enabled: StrictBool = Field(default=..., alias="archiveEncryptionEnabled")
     archive_encryption_public_key: Optional[StrictStr] = Field(default=None, alias="archiveEncryptionPublicKey")
+    as_http_settings_data: ModelHttpSettingsData = Field(default=..., alias="asHttpSettingsData")
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
-    as_http_settings_data: ModelHttpSettingsData = Field(default=..., alias="asHttpSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asPublicSettingsData", "asBillingSettingsData", "asHttpSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -202,15 +202,15 @@ class ModelDump(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['fitConfigs'] = _items
+        # override the default output from pydantic by calling `to_dict()` of as_http_settings_data
+        if self.as_http_settings_data:
+            _dict['asHttpSettingsData'] = self.as_http_settings_data.to_dict()
         # override the default output from pydantic by calling `to_dict()` of as_public_settings_data
         if self.as_public_settings_data:
             _dict['asPublicSettingsData'] = self.as_public_settings_data.to_dict()
         # override the default output from pydantic by calling `to_dict()` of as_billing_settings_data
         if self.as_billing_settings_data:
             _dict['asBillingSettingsData'] = self.as_billing_settings_data.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of as_http_settings_data
-        if self.as_http_settings_data:
-            _dict['asHttpSettingsData'] = self.as_http_settings_data.to_dict()
         # override the default output from pydantic by calling `to_dict()` of as_archive_settings_data
         if self.as_archive_settings_data:
             _dict['asArchiveSettingsData'] = self.as_archive_settings_data.to_dict()
@@ -279,9 +279,9 @@ class ModelDump(BaseModel):
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "archive_encryption_enabled": obj.get("archiveEncryptionEnabled"),
             "archive_encryption_public_key": obj.get("archiveEncryptionPublicKey"),
+            "as_http_settings_data": ModelHttpSettingsData.from_dict(obj.get("asHttpSettingsData")) if obj.get("asHttpSettingsData") is not None else None,
             "as_public_settings_data": ModelPublicSettingsData.from_dict(obj.get("asPublicSettingsData")) if obj.get("asPublicSettingsData") is not None else None,
             "as_billing_settings_data": ModelBillingSettingsData.from_dict(obj.get("asBillingSettingsData")) if obj.get("asBillingSettingsData") is not None else None,
-            "as_http_settings_data": ModelHttpSettingsData.from_dict(obj.get("asHttpSettingsData")) if obj.get("asHttpSettingsData") is not None else None,
             "as_archive_settings_data": ModelArchiveSettingsData.from_dict(obj.get("asArchiveSettingsData")) if obj.get("asArchiveSettingsData") is not None else None
         })
         return _obj
