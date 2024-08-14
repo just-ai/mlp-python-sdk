@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, StrictStr
 
 class PredictRequestData(BaseModel):
     """
@@ -27,7 +27,8 @@ class PredictRequestData(BaseModel):
     """
     config: Optional[Dict[str, Any]] = None
     data: Dict[str, Any] = Field(...)
-    __properties = ["config", "data"]
+    data_type: Optional[StrictStr] = Field(default=None, alias="dataType")
+    __properties = ["config", "data", "dataType"]
 
     class Config:
         """Pydantic configuration"""
@@ -66,7 +67,8 @@ class PredictRequestData(BaseModel):
 
         _obj = PredictRequestData.parse_obj({
             "config": obj.get("config"),
-            "data": obj.get("data")
+            "data": obj.get("data"),
+            "data_type": obj.get("dataType")
         })
         return _obj
 

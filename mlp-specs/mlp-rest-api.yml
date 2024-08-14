@@ -7837,6 +7837,8 @@ components:
           type: object
         data:
           type: object
+        dataType:
+          type: string
     Predict2RequestData:
       required:
       - data
@@ -7845,6 +7847,8 @@ components:
         config:
           type: string
         data:
+          type: string
+        dataType:
           type: string
     ExtendedRequestData:
       required:
