@@ -1,10 +1,10 @@
-fastapi==0.70.0
+fastapi==0.109.1
 graypy==2.1.0
-pydantic==1.10.8
+pydantic==1.10.13
 pytest==6.2.5
 uvicorn==0.15.0
 boto3>=1.20.13
-grpcio==1.42.0
+grpcio==1.64.1
 pyyaml>=6.0
 protobuf>=3.18.0,<4.0dev
 frozendict>=2.3.4

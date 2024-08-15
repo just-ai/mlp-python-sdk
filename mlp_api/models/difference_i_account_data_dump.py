@@ -18,17 +18,19 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel
+from typing import List, Optional
+from pydantic import BaseModel, Field, conlist
 from mlp_api.models.account_data_dump import AccountDataDump
+from mlp_api.models.difference_i_account_data_dump_errors_inner import DifferenceIAccountDataDumpErrorsInner
 
 class DifferenceIAccountDataDump(BaseModel):
     """
     DifferenceIAccountDataDump
     """
+    errors: conlist(DifferenceIAccountDataDumpErrorsInner) = Field(...)
     before: Optional[AccountDataDump] = None
     after: Optional[AccountDataDump] = None
-    __properties = ["before", "after"]
+    __properties = ["errors", "before", "after"]
 
     class Config:
         """Pydantic configuration"""
@@ -54,6 +56,13 @@ class DifferenceIAccountDataDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in errors (list)
+        _items = []
+        if self.errors:
+            for _item in self.errors:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['errors'] = _items
         # override the default output from pydantic by calling `to_dict()` of before
         if self.before:
             _dict['before'] = self.before.to_dict()
@@ -72,6 +81,7 @@ class DifferenceIAccountDataDump(BaseModel):
             return DifferenceIAccountDataDump.parse_obj(obj)
 
         _obj = DifferenceIAccountDataDump.parse_obj({
+            "errors": [DifferenceIAccountDataDumpErrorsInner.from_dict(_item) for _item in obj.get("errors")] if obj.get("errors") is not None else None,
             "before": AccountDataDump.from_dict(obj.get("before")) if obj.get("before") is not None else None,
             "after": AccountDataDump.from_dict(obj.get("after")) if obj.get("after") is not None else None
         })

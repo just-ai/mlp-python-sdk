@@ -107,6 +107,9 @@ message StartServingProto {
   string connectionToken = 1;
 
   ServiceDescriptorProto serviceDescriptor = 3;
+
+  optional string hostname = 4;
+  optional int64 version = 5;
 }
 
 message StopServingProto {

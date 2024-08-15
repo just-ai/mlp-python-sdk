@@ -183,7 +183,7 @@ class AccessTokenEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/token/{token}', 'GET',
+            '/api/mlpcore/account/{account}/token/{token}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -337,7 +337,7 @@ class AccessTokenEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/token', 'POST',
+            '/api/mlpcore/account/{account}/token', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -485,7 +485,7 @@ class AccessTokenEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/token/{token}', 'DELETE',
+            '/api/mlpcore/account/{account}/token/{token}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -631,7 +631,7 @@ class AccessTokenEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/token', 'GET',
+            '/api/mlpcore/account/{account}/token', 'GET',
             _path_params,
             _query_params,
             _header_params,

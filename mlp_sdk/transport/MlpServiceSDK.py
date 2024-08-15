@@ -6,6 +6,7 @@ import threading
 import time
 import typing
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from enum import Enum
 from inspect import signature
 from typing import Optional
@@ -14,8 +15,10 @@ import grpc
 import yaml
 from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
+from pydantic import ValidationError
 
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
+from mlp_sdk.grpc.mlp_grpc_pb2 import SimpleStatusProto
 from mlp_sdk.log.setup_logging import get_logger
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
@@ -379,8 +382,9 @@ class MlpServiceSDK:
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code=e.code if e.code is not None else 'mlp-action.common.internal-error',
-                    message=f'Internal error. Message: {e.message}',
-                    status=mlp_grpc_pb2.INTERNAL_SERVER_ERROR
+                    message=e.message,
+                    status=e.status,
+                    args=e.source_error_data
                 )
             )
         except Exception as e:
@@ -549,14 +553,18 @@ class MlpServiceSDK:
         if name != payload_type:
             self.log.error("Types don't match. Type in ServiceDescriptor: " + payload_type
                            + ", type in implementation: " + name)
-
-        if is_json:
-            if hasattr(class_, 'parse_raw'):
-                converted = class_.parse_raw(payload.json)
+        try:
+            if is_json:
+                if hasattr(class_, 'parse_raw'):
+                    converted = class_.parse_raw(payload.json)
+                else:
+                    converted = json_format.Parse(payload.json, class_())
             else:
-                converted = json_format.Parse(payload.json, class_())
-        else:
-            converted = class_.parse_raw(json_format.MessageToJson(payload))
+                converted = class_.parse_raw(json_format.MessageToJson(payload))
+        except ValidationError as ex:
+            args = {"message": str(ex)}
+            raise MlpException.create(CommonErrorCode.BAD_REQUEST, args)
+
         return converted
 
     def __validate_batch_method_params(self, predict_data_type, predict_config_type):
@@ -624,13 +632,65 @@ class MlpServiceSDK:
         return res
 
 
+@dataclass
+class MlpErrorCode:
+    code: str
+    message: str
+    status: SimpleStatusProto
+
+
 class MlpException(Exception):
-    def __init__(self, message: str, code: Optional[str] = None):
+    def __init__(
+            self,
+            message: str,
+            code: Optional[str] = None,
+            status: SimpleStatusProto = SimpleStatusProto.INTERNAL_SERVER_ERROR,
+            source_error_data: typing.Dict[str, str] = None
+    ):
         self.message = message
         self.code = code
+        self.status = status
+        self.source_error_data = source_error_data
+
+    @staticmethod
+    def create(mlp_error_code: MlpErrorCode, args: typing.Dict[str, str] = None):
+        return MlpException(mlp_error_code.message, mlp_error_code.code, mlp_error_code.status, args)
 
     def __str__(self):
         return f'MlpException {self.message} has been raised'
+
+
+class CommonErrorCode:
+    INTERNAL_ERROR = MlpErrorCode(
+        "mlp-action.common.internal-error",
+        "Internal error. Message: {message}",
+        SimpleStatusProto.INTERNAL_SERVER_ERROR
+    )
+
+    BAD_REQUEST = MlpErrorCode("mlp-action.common.bad-request", "Bad request", SimpleStatusProto.BAD_REQUEST)
+
+    PROCESSING_EXCEPTION = MlpErrorCode(
+        "mlp-action.common.processing-exception",
+        "Something went wrong during processing the request",
+        SimpleStatusProto.INTERNAL_SERVER_ERROR
+    )
+
+    REQUEST_TYPE_NOT_SUPPORTED = MlpErrorCode(
+        "mlp-action.common.method-not-supported",
+        "{type} requests are not supported by this action",
+        SimpleStatusProto.BAD_REQUEST
+
+    )
+    PARTIAL_RESPONSE_NOT_SUPPORTED_IN_BATCH = MlpErrorCode(
+        "mlp-action.common.no-partial-in-batch",
+        "Partial response can not be used in batch",
+        SimpleStatusProto.BAD_REQUEST
+    )
+    RAW_PAYLOAD_NOT_SUPPORTED_IN_BATCH = MlpErrorCode(
+        "mlp-action.common.no-raw-payload-in-batch",
+        "Raw payload can not be used in batch",
+        SimpleStatusProto.BAD_REQUEST
+    )
 
 
 class State(Enum):
