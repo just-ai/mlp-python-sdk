@@ -185,7 +185,7 @@ class ModelGroupEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/model-group/{groupId}', 'PATCH',
+            '/api/mlpgate/account/{account}/model/{model}/model-group/{groupId}', 'PATCH',
             _path_params,
             _query_params,
             _header_params,
@@ -346,7 +346,7 @@ class ModelGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model-group', 'POST',
+            '/api/mlpgate/account/{account}/model-group', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -494,7 +494,7 @@ class ModelGroupEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model-group/{groupId}', 'DELETE',
+            '/api/mlpgate/account/{account}/model-group/{groupId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -640,7 +640,7 @@ class ModelGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model-group', 'GET',
+            '/api/mlpgate/account/{account}/model-group', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -788,7 +788,7 @@ class ModelGroupEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/model-group', 'DELETE',
+            '/api/mlpgate/account/{account}/model/{model}/model-group', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -949,7 +949,7 @@ class ModelGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model-group', 'PATCH',
+            '/api/mlpgate/account/{account}/model-group', 'PATCH',
             _path_params,
             _query_params,
             _header_params,

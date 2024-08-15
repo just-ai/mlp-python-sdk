@@ -191,7 +191,7 @@ class DataImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/data-image', 'POST',
+            '/api/mlpgate/account/{account}/data-image', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -339,7 +339,7 @@ class DataImageEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/data-image/{imageId}', 'DELETE',
+            '/api/mlpgate/account/{account}/data-image/{imageId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -493,7 +493,7 @@ class DataImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/data-image/{imageId}', 'GET',
+            '/api/mlpgate/account/{account}/data-image/{imageId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -679,7 +679,7 @@ class DataImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/data-image', 'GET',
+            '/api/mlpgate/account/{account}/data-image', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -848,7 +848,7 @@ class DataImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/data-image/{imageId}', 'POST',
+            '/api/mlpgate/account/{account}/data-image/{imageId}', 'POST',
             _path_params,
             _query_params,
             _header_params,

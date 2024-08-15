@@ -199,7 +199,7 @@ class PredictConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/predict-config', 'POST',
+            '/api/mlpgate/account/{account}/model/{model}/predict-config', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -355,7 +355,7 @@ class PredictConfigEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/predict-config/{configId}', 'DELETE',
+            '/api/mlpgate/account/{account}/model/{model}/predict-config/{configId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -517,7 +517,7 @@ class PredictConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/predict-config/{configId}', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/predict-config/{configId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -671,7 +671,7 @@ class PredictConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/predict-config', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/predict-config', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -848,7 +848,7 @@ class PredictConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/predict-config/{configId}', 'POST',
+            '/api/mlpgate/account/{account}/model/{model}/predict-config/{configId}', 'POST',
             _path_params,
             _query_params,
             _header_params,

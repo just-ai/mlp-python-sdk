@@ -168,7 +168,7 @@ class SystemEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/health', 'GET',
+            '/api/mlpgate/health', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -306,7 +306,7 @@ class SystemEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/health/test', 'GET',
+            '/api/mlpgate/health/test', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -444,7 +444,7 @@ class SystemEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/health/history', 'GET',
+            '/api/mlpgate/health/history', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -590,7 +590,7 @@ class SystemEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/specs/{api-file}', 'GET',
+            '/api/mlpgate/specs/{api-file}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -728,7 +728,7 @@ class SystemEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/version', 'GET',
+            '/api/mlpgate/version', 'GET',
             _path_params,
             _query_params,
             _header_params,

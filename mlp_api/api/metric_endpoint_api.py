@@ -185,7 +185,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/metric', 'GET',
+            '/api/mlpgate/account/{account}/metric', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -356,7 +356,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/metric-range', 'GET',
+            '/api/mlpgate/account/{account}/metric-range', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -510,7 +510,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/metric/start-time', 'GET',
+            '/api/mlpgate/account/{account}/metric/start-time', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -680,7 +680,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/instance/{instanceId}/metric/start-time', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric/start-time', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -842,7 +842,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/metric/start-time', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/metric/start-time', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1012,7 +1012,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/metric/start-time', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/metric/start-time', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1183,7 +1183,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/instance/{instanceId}/metric', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1370,7 +1370,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/instance/{instanceId}/metric-range', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/instance/{instanceId}/metric-range', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1541,7 +1541,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/metric', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/metric', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1720,7 +1720,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/metric-range', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/metric-range', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1818,7 +1818,7 @@ class MetricEndpointApi:
         :rtype: tuple(Dict[str, Dict[str, float]], status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("GET /api/mlpcore/account/{account}/models/metric is deprecated.", DeprecationWarning)
+        warnings.warn("GET /api/mlpgate/account/{account}/models/metric is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -1894,7 +1894,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/models/metric', 'GET',
+            '/api/mlpgate/account/{account}/models/metric', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2066,7 +2066,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/models/metrics', 'GET',
+            '/api/mlpgate/account/{account}/models/metrics', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2245,7 +2245,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/metric', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/metric', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2339,7 +2339,7 @@ class MetricEndpointApi:
         :rtype: tuple(List[str], status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("GET /api/mlpcore/account/{account}/resource-groups/{groupName}/services is deprecated.", DeprecationWarning)
+        warnings.warn("GET /api/mlpgate/account/{account}/resource-groups/{groupName}/services is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -2409,7 +2409,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/services', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/services', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2571,7 +2571,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/services-info', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/services-info', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2758,7 +2758,7 @@ class MetricEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/metric-range', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/metric-range', 'GET',
             _path_params,
             _query_params,
             _header_params,

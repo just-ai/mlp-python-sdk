@@ -39,10 +39,8 @@ class ModelInstance(BaseModel):
     is_evictable: StrictBool = Field(default=..., alias="isEvictable")
     hosting_server_id: Optional[StrictStr] = Field(default=None, alias="hostingServerId")
     server_id: Optional[StrictInt] = Field(default=None, alias="serverId")
-    hostname: Optional[StrictStr] = None
-    service_version: Optional[StrictInt] = Field(default=None, alias="serviceVersion")
     status: StrictStr = Field(...)
-    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "status"]
+    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "status"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -120,8 +118,6 @@ class ModelInstance(BaseModel):
             "is_evictable": obj.get("isEvictable"),
             "hosting_server_id": obj.get("hostingServerId"),
             "server_id": obj.get("serverId"),
-            "hostname": obj.get("hostname"),
-            "service_version": obj.get("serviceVersion"),
             "status": obj.get("status")
         })
         return _obj

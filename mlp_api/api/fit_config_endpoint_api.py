@@ -199,7 +199,7 @@ class FitConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/fit-config', 'POST',
+            '/api/mlpgate/account/{account}/model/{model}/fit-config', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -355,7 +355,7 @@ class FitConfigEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/fit-config/{configId}', 'DELETE',
+            '/api/mlpgate/account/{account}/model/{model}/fit-config/{configId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -517,7 +517,7 @@ class FitConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/fit-config/{configId}', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/fit-config/{configId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -671,7 +671,7 @@ class FitConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/available-fit-config', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/available-fit-config', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -825,7 +825,7 @@ class FitConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/fit-config', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/fit-config', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1002,7 +1002,7 @@ class FitConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/fit-config/{configId}', 'POST',
+            '/api/mlpgate/account/{account}/model/{model}/fit-config/{configId}', 'POST',
             _path_params,
             _query_params,
             _header_params,

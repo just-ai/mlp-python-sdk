@@ -192,7 +192,7 @@ class ModelAliasEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/alias', 'POST',
+            '/api/mlpgate/account/{account}/model/{model}/alias', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -348,7 +348,7 @@ class ModelAliasEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/alias/{aliasId}', 'DELETE',
+            '/api/mlpgate/account/{account}/model/{model}/alias/{aliasId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -502,7 +502,7 @@ class ModelAliasEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/alias', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/alias', 'GET',
             _path_params,
             _query_params,
             _header_params,

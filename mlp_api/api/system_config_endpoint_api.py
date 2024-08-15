@@ -171,7 +171,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/captcha', 'GET',
+            '/api/mlpgate/system-config/captcha', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -309,7 +309,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/dataset-data-type', 'GET',
+            '/api/mlpgate/system-config/dataset-data-type', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -447,7 +447,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/frontend-settings', 'GET',
+            '/api/mlpgate/system-config/frontend-settings', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -585,7 +585,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/model-defaults', 'GET',
+            '/api/mlpgate/system-config/model-defaults', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -723,7 +723,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/resource-groups', 'GET',
+            '/api/mlpgate/system-config/resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -861,7 +861,7 @@ class SystemConfigEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/system-config/task-types', 'GET',
+            '/api/mlpgate/system-config/task-types', 'GET',
             _path_params,
             _query_params,
             _header_params,

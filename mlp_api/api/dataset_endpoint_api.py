@@ -225,7 +225,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/raw', 'POST',
+            '/api/mlpgate/account/{account}/dataset/raw', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -386,7 +386,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/empty', 'POST',
+            '/api/mlpgate/account/{account}/dataset/empty', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -534,7 +534,7 @@ class DatasetEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}', 'DELETE',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -624,7 +624,7 @@ class DatasetEndpointApi:
         :rtype: tuple(DatasetInfoData, status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("POST /api/mlpcore/account/{account}/dataset is deprecated.", DeprecationWarning)
+        warnings.warn("POST /api/mlpgate/account/{account}/dataset is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -697,7 +697,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset', 'POST',
+            '/api/mlpgate/account/{account}/dataset', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -791,7 +791,7 @@ class DatasetEndpointApi:
         :rtype: tuple(DatasetInfoData, status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("POST /api/mlpcore/account/{account}/dataset/{datasetId} is deprecated.", DeprecationWarning)
+        warnings.warn("POST /api/mlpgate/account/{account}/dataset/{datasetId} is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -868,7 +868,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}', 'POST',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1029,7 +1029,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}/content', 'GET',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}/content', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1183,7 +1183,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/dataset/allowed-types', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/dataset/allowed-types', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1337,7 +1337,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/model/{model}/dataset/allowed', 'GET',
+            '/api/mlpgate/account/{account}/model/{model}/dataset/allowed', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1491,7 +1491,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}', 'GET',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1645,7 +1645,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{originalDatasetId}/paraphrase', 'GET',
+            '/api/mlpgate/account/{account}/dataset/{originalDatasetId}/paraphrase', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1791,7 +1791,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset', 'GET',
+            '/api/mlpgate/account/{account}/dataset', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1945,7 +1945,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}/paraphrase', 'POST',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}/paraphrase', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -2114,7 +2114,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}/raw', 'POST',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}/raw', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -2283,7 +2283,7 @@ class DatasetEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/dataset/{datasetId}/content', 'POST',
+            '/api/mlpgate/account/{account}/dataset/{datasetId}/content', 'POST',
             _path_params,
             _query_params,
             _header_params,

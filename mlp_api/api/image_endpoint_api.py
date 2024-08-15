@@ -192,7 +192,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image', 'POST',
+            '/api/mlpgate/account/{account}/image', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -340,7 +340,7 @@ class ImageEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image/{imageId}', 'DELETE',
+            '/api/mlpgate/account/{account}/image/{imageId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -494,7 +494,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image/{imageId}', 'GET',
+            '/api/mlpgate/account/{account}/image/{imageId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -648,7 +648,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image/{imageId}/logs', 'GET',
+            '/api/mlpgate/account/{account}/image/{imageId}/logs', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -754,7 +754,7 @@ class ImageEndpointApi:
         :rtype: tuple(PagedImageInfoData, status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("GET /api/mlpcore/account/{account}/image is deprecated.", DeprecationWarning)
+        warnings.warn("GET /api/mlpgate/account/{account}/image is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -836,7 +836,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image', 'GET',
+            '/api/mlpgate/account/{account}/image', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1022,7 +1022,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image-v2', 'GET',
+            '/api/mlpgate/account/{account}/image-v2', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1191,7 +1191,7 @@ class ImageEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/image/{imageId}', 'POST',
+            '/api/mlpgate/account/{account}/image/{imageId}', 'POST',
             _path_params,
             _query_params,
             _header_params,

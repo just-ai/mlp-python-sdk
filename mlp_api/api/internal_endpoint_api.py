@@ -26,7 +26,6 @@ from typing import Any, Dict, List, Optional
 from mlp_api.models.account_feature_data import AccountFeatureData
 from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_limits_data import AccountLimitsData
-from mlp_api.models.click_history_data import ClickHistoryData
 from mlp_api.models.create_resource_group_data import CreateResourceGroupData
 from mlp_api.models.create_resource_group_server import CreateResourceGroupServer
 from mlp_api.models.model_instance import ModelInstance
@@ -196,7 +195,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/bucket/access', 'POST',
+            '/api/mlpgate-internal/account/{account}/bucket/access', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -365,7 +364,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/resource-groups/{groupName}/test-server', 'POST',
+            '/api/mlpgate-internal/account/{account}/resource-groups/{groupName}/test-server', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -503,7 +502,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/clear-account', 'GET',
+            '/api/mlpgate-internal/clear-account', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -635,7 +634,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/clear-cache', 'POST',
+            '/api/mlpgate-internal/clear-cache', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -773,7 +772,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/clear-instances', 'GET',
+            '/api/mlpgate-internal/clear-instances', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -911,7 +910,145 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/clear-public-for-all', 'GET',
+            '/api/mlpgate-internal/clear-public-for-all', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def cluster(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[str]:  # noqa: E501
+        """cluster  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.cluster(mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[str]
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the cluster_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.cluster_with_http_info(mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def cluster_with_http_info(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """cluster  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.cluster_with_http_info(mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(List[str], status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method cluster" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "List[str]",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpgate-internal/cluster', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1057,7 +1194,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account', 'GET',
+            '/api/mlpgate-internal/account', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1218,7 +1355,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/resource-groups/test', 'POST',
+            '/api/mlpgate-internal/account/{account}/resource-groups/test', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1350,7 +1487,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/accounts/deactivate', 'POST',
+            '/api/mlpgate-internal/accounts/deactivate', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1498,7 +1635,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/model/{model}/instance/deactivate', 'POST',
+            '/api/mlpgate-internal/account/{account}/model/{model}/instance/deactivate', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -1630,7 +1767,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/instances/deleteByTimestamp', 'DELETE',
+            '/api/mlpgate-internal/instances/deleteByTimestamp', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -1786,7 +1923,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/resource-groups/{groupName}/server/{serverId}', 'DELETE',
+            '/api/mlpgate-internal/account/{account}/resource-groups/{groupName}/server/{serverId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -1926,7 +2063,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/namespace/ensure', 'POST',
+            '/api/mlpgate-internal/account/{account}/namespace/ensure', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -2072,7 +2209,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/features', 'GET',
+            '/api/mlpgate-internal/account/{account}/features', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2226,153 +2363,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/model/{model}/instances', 'GET',
-            _path_params,
-            _query_params,
-            _header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            response_types_map=_response_types_map,
-            auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
-            collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
-
-    @validate_arguments
-    def get_clicks_by_account_id(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ClickHistoryData]:  # noqa: E501
-        """get_clicks_by_account_id  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_clicks_by_account_id(account, mlp_api_key, async_req=True)
-        >>> result = thread.get()
-
-        :param account: Account id or account name (required)
-        :type account: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: List[ClickHistoryData]
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the get_clicks_by_account_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.get_clicks_by_account_id_with_http_info(account, mlp_api_key, **kwargs)  # noqa: E501
-
-    @validate_arguments
-    def get_clicks_by_account_id_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """get_clicks_by_account_id  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_clicks_by_account_id_with_http_info(account, mlp_api_key, async_req=True)
-        >>> result = thread.get()
-
-        :param account: Account id or account name (required)
-        :type account: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(List[ClickHistoryData], status_code(int), headers(HTTPHeaderDict))
-        """
-
-        _params = locals()
-
-        _all_params = [
-            'account',
-            'mlp_api_key'
-        ]
-        _all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
-
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_clicks_by_account_id" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats = {}
-
-        # process the path parameters
-        _path_params = {}
-        if _params['account'] is not None:
-            _path_params['account'] = _params['account']
-
-
-        # process the query parameters
-        _query_params = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        if _params['mlp_api_key'] is not None:
-            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
-
-        # process the form parameters
-        _form_params = []
-        _files = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # authentication setting
-        _auth_settings = []  # noqa: E501
-
-        _response_types_map = {
-            '200': "List[ClickHistoryData]",
-        }
-
-        return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/clicks', 'GET',
+            '/api/mlpgate-internal/account/{account}/model/{model}/instances', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2510,7 +2501,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/tasks/mock', 'GET',
+            '/api/mlpgate-internal/tasks/mock', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2648,7 +2639,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/resource-groups', 'GET',
+            '/api/mlpgate-internal/resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2786,7 +2777,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/actions', 'GET',
+            '/api/mlpgate-internal/actions', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2940,7 +2931,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/model/{model}/actions', 'GET',
+            '/api/mlpgate-internal/account/{account}/model/{model}/actions', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3078,7 +3069,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/services', 'GET',
+            '/api/mlpgate-internal/services', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3224,7 +3215,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/pg-test/{account}', 'GET',
+            '/api/mlpgate-internal/pg-test/{account}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3356,7 +3347,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/empty-test', 'GET',
+            '/api/mlpgate-internal/empty-test', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3504,7 +3495,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/notify/{account}/user/{userId}', 'GET',
+            '/api/mlpgate-internal/notify/{account}/user/{userId}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3660,7 +3651,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/bucket/deny', 'POST',
+            '/api/mlpgate-internal/account/{account}/bucket/deny', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -3792,7 +3783,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/test-mail', 'GET',
+            '/api/mlpgate-internal/test-mail', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -3930,7 +3921,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/set-public-for-all', 'GET',
+            '/api/mlpgate-internal/set-public-for-all', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -4068,7 +4059,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/start-one-instance', 'GET',
+            '/api/mlpgate-internal/start-one-instance', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -4223,7 +4214,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/features', 'POST',
+            '/api/mlpgate-internal/account/{account}/features', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -4378,7 +4369,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/update-limits', 'POST',
+            '/api/mlpgate-internal/account/{account}/update-limits', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -4541,7 +4532,7 @@ class InternalEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/account/{account}/model/{model}/path', 'POST',
+            '/api/mlpgate-internal/account/{account}/model/{model}/path', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -4694,7 +4685,7 @@ class InternalEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore-internal/resource-groups', 'PATCH',
+            '/api/mlpgate-internal/resource-groups', 'PATCH',
             _path_params,
             _query_params,
             _header_params,

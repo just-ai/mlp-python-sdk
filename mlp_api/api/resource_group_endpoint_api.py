@@ -198,7 +198,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups', 'POST',
+            '/api/mlpgate/account/{account}/resource-groups', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -346,7 +346,7 @@ class ResourceGroupEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}', 'DELETE',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -432,7 +432,7 @@ class ResourceGroupEndpointApi:
         :rtype: tuple(List[ResourceGroupData], status_code(int), headers(HTTPHeaderDict))
         """
 
-        warnings.warn("GET /api/mlpcore/account/{account}/resource-groups is deprecated.", DeprecationWarning)
+        warnings.warn("GET /api/mlpgate/account/{account}/resource-groups is deprecated.", DeprecationWarning)
 
         _params = locals()
 
@@ -494,7 +494,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -640,7 +640,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/deployable-resource-groups', 'GET',
+            '/api/mlpgate/account/{account}/deployable-resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -794,7 +794,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/logs', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/logs', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -956,7 +956,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/capacity/logs', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1102,7 +1102,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/owned-resource-groups', 'GET',
+            '/api/mlpgate/account/{account}/owned-resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1248,7 +1248,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/owned-resource-groups/short-status', 'GET',
+            '/api/mlpgate/account/{account}/owned-resource-groups/short-status', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1434,7 +1434,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/logs/page', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/logs/page', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1628,7 +1628,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/capacity/logs/page', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity/logs/page', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1782,7 +1782,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/active-services', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/active-services', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1936,7 +1936,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/capacity', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/capacity', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2090,7 +2090,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2236,7 +2236,7 @@ class ResourceGroupEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-group-types', 'GET',
+            '/api/mlpgate/account/{account}/resource-group-types', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2399,7 +2399,7 @@ class ResourceGroupEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}', 'POST',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}', 'POST',
             _path_params,
             _query_params,
             _header_params,

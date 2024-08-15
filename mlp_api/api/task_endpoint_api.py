@@ -216,7 +216,7 @@ class TaskEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/task/user', 'GET',
+            '/api/mlpgate/task/user', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -402,7 +402,7 @@ class TaskEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/task', 'GET',
+            '/api/mlpgate/task', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -540,7 +540,7 @@ class TaskEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/task/short', 'GET',
+            '/api/mlpgate/task/short', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -680,7 +680,7 @@ class TaskEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/task/{taskId}/stop', 'POST',
+            '/api/mlpgate/task/{taskId}/stop', 'POST',
             _path_params,
             _query_params,
             _header_params,

@@ -199,7 +199,7 @@ class ResourceGroupQuotaEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/quota', 'POST',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/quota', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -361,7 +361,7 @@ class ResourceGroupQuotaEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/quota/{quotaId}', 'DELETE',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/quota/{quotaId}', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -515,7 +515,7 @@ class ResourceGroupQuotaEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups/{groupName}/quota', 'GET',
+            '/api/mlpgate/account/{account}/resource-groups/{groupName}/quota', 'GET',
             _path_params,
             _query_params,
             _header_params,
