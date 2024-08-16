@@ -5,7 +5,7 @@ from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
-from mlp_api.api.chat_gpt_endpoint_api import ChatGptEndpointApi
+from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
@@ -28,5 +28,4 @@ from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
-from mlp_api.api.tts_endpoint_api import TtsEndpointApi
 

@@ -21,7 +21,7 @@ from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
-from mlp_api.api.chat_gpt_endpoint_api import ChatGptEndpointApi
+from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
@@ -44,7 +44,6 @@ from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
-from mlp_api.api.tts_endpoint_api import TtsEndpointApi
 
 # import ApiClient
 from mlp_api.api_response import ApiResponse
@@ -69,6 +68,7 @@ from mlp_api.models.audio_format_options import AudioFormatOptions
 from mlp_api.models.captcha_data import CaptchaData
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.check_result import CheckResult
+from mlp_api.models.click_history_data import ClickHistoryData
 from mlp_api.models.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.models.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
@@ -87,6 +87,9 @@ from mlp_api.models.dataset_pk import DatasetPK
 from mlp_api.models.deprecated_dataset_info_with_content_data import DeprecatedDatasetInfoWithContentData
 from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountConfigDump
 from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump
+from mlp_api.models.difference_i_account_data_dump_errors_inner import DifferenceIAccountDataDumpErrorsInner
+from mlp_api.models.difference_i_account_data_dump_errors_inner_cause import DifferenceIAccountDataDumpErrorsInnerCause
+from mlp_api.models.difference_i_account_data_dump_errors_inner_cause_stack_trace_inner import DifferenceIAccountDataDumpErrorsInnerCauseStackTraceInner
 from mlp_api.models.document_dump import DocumentDump
 from mlp_api.models.empty_users_response import EmptyUsersResponse
 from mlp_api.models.event_data import EventData
@@ -109,6 +112,7 @@ from mlp_api.models.image_info_pk import ImageInfoPK
 from mlp_api.models.instance_environment_data import InstanceEnvironmentData
 from mlp_api.models.instance_event_data import InstanceEventData
 from mlp_api.models.instance_last_state import InstanceLastState
+from mlp_api.models.instance_metadata import InstanceMetadata
 from mlp_api.models.instance_state_running import InstanceStateRunning
 from mlp_api.models.instance_state_terminated import InstanceStateTerminated
 from mlp_api.models.instance_state_waiting import InstanceStateWaiting

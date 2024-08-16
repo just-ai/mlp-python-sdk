@@ -182,7 +182,7 @@ class ApplicationEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/application/{application}/auth', 'GET',
+            '/api/mlpcore/account/{account}/application/{application}/auth', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -336,7 +336,7 @@ class ApplicationEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/application/{application}/health', 'GET',
+            '/api/mlpcore/account/{account}/application/{application}/health', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -490,7 +490,7 @@ class ApplicationEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/application/{application}/token', 'GET',
+            '/api/mlpcore/account/{account}/application/{application}/token', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -638,7 +638,7 @@ class ApplicationEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/application/{application}/set-cookie', 'GET',
+            '/api/mlpcore/account/{account}/application/{application}/set-cookie', 'GET',
             _path_params,
             _query_params,
             _header_params,

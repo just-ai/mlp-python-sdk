@@ -19,7 +19,7 @@ import json
 
 
 from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 from mlp_api.models.model_instance_pk import ModelInstancePK
 
 class ExternalConnectionInfoData(BaseModel):
@@ -31,7 +31,9 @@ class ExternalConnectionInfoData(BaseModel):
     docker_run_command: Optional[StrictStr] = Field(default=None, alias="dockerRunCommand")
     docker_compose_content: Optional[StrictStr] = Field(default=None, alias="dockerComposeContent")
     env_variables: Dict[str, StrictStr] = Field(default=..., alias="envVariables")
-    __properties = ["id", "connected", "dockerRunCommand", "dockerComposeContent", "envVariables"]
+    hostname: Optional[StrictStr] = None
+    version: Optional[StrictInt] = None
+    __properties = ["id", "connected", "dockerRunCommand", "dockerComposeContent", "envVariables", "hostname", "version"]
 
     class Config:
         """Pydantic configuration"""
@@ -76,7 +78,9 @@ class ExternalConnectionInfoData(BaseModel):
             "connected": obj.get("connected"),
             "docker_run_command": obj.get("dockerRunCommand"),
             "docker_compose_content": obj.get("dockerComposeContent"),
-            "env_variables": obj.get("envVariables")
+            "env_variables": obj.get("envVariables"),
+            "hostname": obj.get("hostname"),
+            "version": obj.get("version")
         })
         return _obj
 

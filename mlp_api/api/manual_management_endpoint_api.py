@@ -192,7 +192,7 @@ class ManualManagementEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/account/{account}/management/{featureName}', 'POST',
+            '/api/mlpcore/account/{account}/management/{featureName}', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -339,7 +339,7 @@ class ManualManagementEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpgate/sendContactRequest', 'POST',
+            '/api/mlpcore/sendContactRequest', 'POST',
             _path_params,
             _query_params,
             _header_params,
