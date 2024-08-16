@@ -614,6 +614,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyUsersResponse'
+  /api/mlpcore/admin/instances/rolling-update:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: rollingUpdateAllInstances
+      parameters:
+      - name: onlyK8s
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpcore/admin/account/{account}/limits:
     post:
       tags:
