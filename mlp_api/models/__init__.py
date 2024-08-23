@@ -63,6 +63,8 @@ from mlp_api.models.frontend_settings import FrontendSettings
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval
+from mlp_api.models.hz_cluster_info import HzClusterInfo
+from mlp_api.models.hz_member_info import HzMemberInfo
 from mlp_api.models.image_dump import ImageDump
 from mlp_api.models.image_info_data import ImageInfoData
 from mlp_api.models.image_info_pk import ImageInfoPK

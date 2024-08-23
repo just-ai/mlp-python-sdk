@@ -4652,6 +4652,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInfoData'
+  /api/mlpcore/hz:
+    get:
+      tags:
+      - system-endpoint
+      operationId: hzInfo
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HzClusterInfo'
   /api/mlpcore/health:
     get:
       tags:
@@ -10055,6 +10074,40 @@ components:
         pageSize:
           type: integer
           format: int32
+    HzClusterInfo:
+      required:
+      - members
+      - size
+      - state
+      - version
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int32
+        version:
+          type: string
+        state:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/HzMemberInfo'
+    HzMemberInfo:
+      required:
+      - address
+      - isLocal
+      - version
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        version:
+          type: string
+        isLocal:
+          type: boolean
     CheckResult:
       required:
       - critical
