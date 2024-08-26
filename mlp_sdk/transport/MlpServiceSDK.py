@@ -494,6 +494,7 @@ class MlpServiceSDK:
 
         if len(list(req.params)) > 0:
             first_key = list(req.params)[0]
+            self.log.debug("first_key: " + first_key)
             is_json = req.params[first_key].WhichOneof('body') == 'json'
 
             for key in desc.input.keys():
