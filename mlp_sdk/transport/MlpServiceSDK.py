@@ -491,6 +491,7 @@ class MlpServiceSDK:
         converted_requests = {}
         is_json = True
         desc = self.descriptor.methods['ext.' + req.methodName]
+        self.log.debug("req.params: " + str(req.params))
 
         if len(list(req.params)) > 0:
             first_key = list(req.params)[0]
