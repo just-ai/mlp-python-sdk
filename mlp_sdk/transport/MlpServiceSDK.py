@@ -488,22 +488,13 @@ class MlpServiceSDK:
         return mlp_grpc_pb2.FitResponseProto()
 
     def __handle_ext(self, req):
-        converted_requests = {}
         is_json = True
-        desc = self.descriptor.methods['ext.' + req.methodName]
-
-        if len(list(req.params)) > 0:
-            first_key = list(req.params)[0]
-            is_json = req.params[first_key].WhichOneof('body') == 'json'
-
-            for key in desc.input.keys():
-                converted_requests[key] = self.__convert_from_proto(
-                    req.params[key], desc.input[key].type, is_json, self.impl, "ext", key)
+        desc = self.descriptor.methods['ext']
 
         if not hasattr(self.impl, 'ext'):
             raise NotImplementedError('Ext requests are not supported by this action')
 
-        response = self.impl.ext(req.methodName, converted_requests)
+        response = self.impl.ext(req.methodName, req.params)
         converted_response = self.__convert_to_proto(response, desc.output.type, is_json)
         return mlp_grpc_pb2.ExtendedResponseProto(data=converted_response)
 
