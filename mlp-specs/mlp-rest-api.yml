@@ -8189,7 +8189,7 @@ components:
           type: string
           enum:
           - calls
-          - bytes
+          - direct
           - custom
         billingUnitPriceInNanoToken:
           type: integer
@@ -8344,7 +8344,7 @@ components:
           type: string
           enum:
           - calls
-          - bytes
+          - direct
           - custom
         billingUnitPriceInNanoToken:
           type: integer
