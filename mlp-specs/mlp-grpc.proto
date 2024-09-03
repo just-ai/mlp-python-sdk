@@ -110,6 +110,7 @@ message StartServingProto {
 
   optional string hostname = 4;
   optional int64 version = 5;
+  optional string image = 6;
 }
 
 message StopServingProto {
