@@ -24,6 +24,7 @@ from mlp_sdk.log.setup_logging import get_logger
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
+SDK_VERSION = 1
 
 MlpResponseHeaders = threading.local()
 
@@ -124,7 +125,10 @@ class MlpServiceConnector:
         self.action_to_gate_queue.put_nowait(mlp_grpc_pb2.ServiceToGateProto(
             startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
-                serviceDescriptor=self.sdk.descriptor
+                serviceDescriptor=self.sdk.descriptor,
+                hostname=os.environ.get('HOSTNAME', '')
+                version=SDK_VERSION
+                image=os.environ.get('IMAGE_NAME', '')
             )
         ))
 
