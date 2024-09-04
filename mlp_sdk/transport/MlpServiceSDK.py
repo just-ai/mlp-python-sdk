@@ -126,8 +126,8 @@ class MlpServiceConnector:
             startServing=mlp_grpc_pb2.StartServingProto(
                 connectionToken=self.sdk.connection_token,
                 serviceDescriptor=self.sdk.descriptor,
-                hostname=os.environ.get('HOSTNAME', '')
-                version=SDK_VERSION
+                hostname=os.environ.get('HOSTNAME', ''),
+                version=SDK_VERSION,
                 image=os.environ.get('IMAGE_NAME', '')
             )
         ))
