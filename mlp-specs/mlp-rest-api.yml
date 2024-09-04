@@ -9584,6 +9584,8 @@ components:
           format: int64
         hostname:
           type: string
+        builtInImageName:
+          type: string
     FitRequestData:
       required:
       - datasetId
@@ -9663,6 +9665,8 @@ components:
         version:
           type: integer
           format: int64
+        imageName:
+          type: string
     ModelInstancePK:
       required:
       - accountId
@@ -10333,10 +10337,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -10835,6 +10839,8 @@ components:
         serviceVersion:
           type: integer
           format: int64
+        builtInImageName:
+          type: string
         status:
           type: string
           enum:

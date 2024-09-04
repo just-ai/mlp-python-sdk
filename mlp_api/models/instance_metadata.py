@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class InstanceMetadata(BaseModel):
     """
@@ -27,7 +27,8 @@ class InstanceMetadata(BaseModel):
     """
     version: Optional[StrictInt] = None
     hostname: Optional[StrictStr] = None
-    __properties = ["version", "hostname"]
+    built_in_image_name: Optional[StrictStr] = Field(default=None, alias="builtInImageName")
+    __properties = ["version", "hostname", "builtInImageName"]
 
     class Config:
         """Pydantic configuration"""
@@ -66,7 +67,8 @@ class InstanceMetadata(BaseModel):
 
         _obj = InstanceMetadata.parse_obj({
             "version": obj.get("version"),
-            "hostname": obj.get("hostname")
+            "hostname": obj.get("hostname"),
+            "built_in_image_name": obj.get("builtInImageName")
         })
         return _obj
 

@@ -41,8 +41,9 @@ class ModelInstance(BaseModel):
     server_id: Optional[StrictInt] = Field(default=None, alias="serverId")
     hostname: Optional[StrictStr] = None
     service_version: Optional[StrictInt] = Field(default=None, alias="serviceVersion")
+    built_in_image_name: Optional[StrictStr] = Field(default=None, alias="builtInImageName")
     status: StrictStr = Field(...)
-    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "status"]
+    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "builtInImageName", "status"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -122,6 +123,7 @@ class ModelInstance(BaseModel):
             "server_id": obj.get("serverId"),
             "hostname": obj.get("hostname"),
             "service_version": obj.get("serviceVersion"),
+            "built_in_image_name": obj.get("builtInImageName"),
             "status": obj.get("status")
         })
         return _obj

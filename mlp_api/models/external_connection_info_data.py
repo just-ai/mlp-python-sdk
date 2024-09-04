@@ -33,7 +33,8 @@ class ExternalConnectionInfoData(BaseModel):
     env_variables: Dict[str, StrictStr] = Field(default=..., alias="envVariables")
     hostname: Optional[StrictStr] = None
     version: Optional[StrictInt] = None
-    __properties = ["id", "connected", "dockerRunCommand", "dockerComposeContent", "envVariables", "hostname", "version"]
+    image_name: Optional[StrictStr] = Field(default=None, alias="imageName")
+    __properties = ["id", "connected", "dockerRunCommand", "dockerComposeContent", "envVariables", "hostname", "version", "imageName"]
 
     class Config:
         """Pydantic configuration"""
@@ -80,7 +81,8 @@ class ExternalConnectionInfoData(BaseModel):
             "docker_compose_content": obj.get("dockerComposeContent"),
             "env_variables": obj.get("envVariables"),
             "hostname": obj.get("hostname"),
-            "version": obj.get("version")
+            "version": obj.get("version"),
+            "image_name": obj.get("imageName")
         })
         return _obj
 
