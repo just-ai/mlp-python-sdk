@@ -1267,6 +1267,87 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SharedPoolQuota'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
+    post:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: updateResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceGroupQuota'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
+    delete:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: deleteResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpcore/account/{account}/model:
     get:
       tags:
@@ -7626,44 +7707,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClickHistoryData'
-  /api/mlpcore/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
-    delete:
-      tags:
-      - resource-group-quota-endpoint
-      operationId: deleteResourceGroupQuota
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupName
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: quotaId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpcore/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -9074,6 +9117,31 @@ components:
           - SHARED_RESOURCE_QUOTA
         accessPolicy:
           $ref: '#/components/schemas/QuotaAccessPolicy'
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
+    UpdateResourceGroupQuota:
+      required:
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - memoryLimit
+      type: object
+      properties:
         cpuLimit:
           type: string
         memoryLimit:

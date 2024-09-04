@@ -152,3 +152,4 @@ from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
+from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
