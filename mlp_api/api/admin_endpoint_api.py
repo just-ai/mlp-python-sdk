@@ -792,19 +792,21 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_accounts(self, name : Optional[StrictStr] = None, limit : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[AccountInfoData]:  # noqa: E501
+    def get_accounts(self, name : Optional[StrictStr] = None, limit : Optional[StrictInt] = None, skip : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[AccountInfoData]:  # noqa: E501
         """get_accounts  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_accounts(name, limit, mlp_api_key, async_req=True)
+        >>> thread = api.get_accounts(name, limit, skip, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param name:
         :type name: str
         :param limit:
         :type limit: int
+        :param skip:
+        :type skip: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -822,22 +824,24 @@ class AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_accounts_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_accounts_with_http_info(name, limit, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_accounts_with_http_info(name, limit, skip, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_accounts_with_http_info(self, name : Optional[StrictStr] = None, limit : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_accounts_with_http_info(self, name : Optional[StrictStr] = None, limit : Optional[StrictInt] = None, skip : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_accounts  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_accounts_with_http_info(name, limit, mlp_api_key, async_req=True)
+        >>> thread = api.get_accounts_with_http_info(name, limit, skip, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param name:
         :type name: str
         :param limit:
         :type limit: int
+        :param skip:
+        :type skip: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -870,6 +874,7 @@ class AdminEndpointApi:
         _all_params = [
             'name',
             'limit',
+            'skip',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -906,6 +911,9 @@ class AdminEndpointApi:
 
         if _params.get('limit') is not None:  # noqa: E501
             _query_params.append(('limit', _params['limit']))
+
+        if _params.get('skip') is not None:  # noqa: E501
+            _query_params.append(('skip', _params['skip']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))

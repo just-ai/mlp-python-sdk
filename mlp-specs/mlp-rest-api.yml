@@ -4764,6 +4764,12 @@ paths:
         schema:
           type: integer
           format: int32
+      - name: skip
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
