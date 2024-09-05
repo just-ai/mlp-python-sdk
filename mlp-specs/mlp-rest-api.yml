@@ -501,7 +501,7 @@ paths:
           type: boolean
       - name: noErrors
         in: query
-        required: false
+        required: true
         schema:
           type: boolean
       - name: account
