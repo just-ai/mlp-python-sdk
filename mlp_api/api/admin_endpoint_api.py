@@ -1253,23 +1253,23 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def restore_account_data_dump(self, dry_run : StrictBool, no_errors : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DifferenceIAccountDataDump:  # noqa: E501
+    def restore_account_data_dump(self, dry_run : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, no_errors : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DifferenceIAccountDataDump:  # noqa: E501
         """restore_account_data_dump  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.restore_account_data_dump(dry_run, no_errors, account, body, mlp_api_key, async_req=True)
+        >>> thread = api.restore_account_data_dump(dry_run, account, body, no_errors, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param dry_run: (required)
         :type dry_run: bool
-        :param no_errors: (required)
-        :type no_errors: bool
         :param account: Account id or account name (required)
         :type account: str
         :param body: (required)
         :type body: str
+        :param no_errors:
+        :type no_errors: bool
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1287,26 +1287,26 @@ class AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the restore_account_data_dump_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.restore_account_data_dump_with_http_info(dry_run, no_errors, account, body, mlp_api_key, **kwargs)  # noqa: E501
+        return self.restore_account_data_dump_with_http_info(dry_run, account, body, no_errors, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def restore_account_data_dump_with_http_info(self, dry_run : StrictBool, no_errors : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def restore_account_data_dump_with_http_info(self, dry_run : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, no_errors : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """restore_account_data_dump  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.restore_account_data_dump_with_http_info(dry_run, no_errors, account, body, mlp_api_key, async_req=True)
+        >>> thread = api.restore_account_data_dump_with_http_info(dry_run, account, body, no_errors, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param dry_run: (required)
         :type dry_run: bool
-        :param no_errors: (required)
-        :type no_errors: bool
         :param account: Account id or account name (required)
         :type account: str
         :param body: (required)
         :type body: str
+        :param no_errors:
+        :type no_errors: bool
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1338,9 +1338,9 @@ class AdminEndpointApi:
 
         _all_params = [
             'dry_run',
-            'no_errors',
             'account',
             'body',
+            'no_errors',
             'mlp_api_key'
         ]
         _all_params.extend(
