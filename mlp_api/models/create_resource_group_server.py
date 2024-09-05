@@ -29,7 +29,8 @@ class CreateResourceGroupServer(BaseModel):
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["serverName", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod"]
+    max_server_lifetime_seconds: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeSeconds")
+    __properties = ["serverName", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod", "maxServerLifetimeSeconds"]
 
     @validator('tariffication_period')
     def tariffication_period_validate_enum(cls, value):
@@ -80,7 +81,8 @@ class CreateResourceGroupServer(BaseModel):
             "server_name": obj.get("serverName"),
             "raw_configuration": obj.get("rawConfiguration"),
             "tariffication_price": obj.get("tarifficationPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "max_server_lifetime_seconds": obj.get("maxServerLifetimeSeconds")
         })
         return _obj
 

@@ -4845,6 +4845,12 @@ paths:
         schema:
           type: integer
           format: int32
+      - name: skip
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5679,6 +5685,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageStatLogData'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/all-services:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupServices_1
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServicesData'
   /api/mlpcore/account/{account}/resource-groups/{groupName}/active-services:
     get:
       tags:
@@ -5708,7 +5744,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServicesData'
+                $ref: '#/components/schemas/ResourceGroupServicesShortData'
   /api/mlpcore/account/{account}/resource-group-types:
     get:
       tags:
@@ -8431,6 +8467,8 @@ components:
           format: int32
         mainPageEndpoint:
           type: string
+        httpInterfaceOnly:
+          type: boolean
         archiveEnabled:
           type: boolean
         numberOfArchivedRequests:
@@ -8467,6 +8505,8 @@ components:
           format: int32
         mainPageEndpoint:
           type: string
+        httpInterfaceOnly:
+          type: boolean
     ModelLimitsData:
       required:
       - cpuRequest
@@ -9009,6 +9049,9 @@ components:
           - DAY
           - MONTH
           - YEAR
+        maxServerLifetimeSeconds:
+          type: integer
+          format: int64
     ResourceGroupServerData:
       required:
       - id
@@ -10537,6 +10580,40 @@ components:
           items:
             $ref: '#/components/schemas/ServiceData'
     ServiceData:
+      required:
+      - active
+      - id
+      - requested
+      - state
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInfoPK'
+        name:
+          type: string
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
+          - SLEEPING
+        active:
+          type: integer
+          format: int32
+        requested:
+          type: integer
+          format: int32
+    ResourceGroupServicesShortData:
+      required:
+      - services
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceShortData'
+    ServiceShortData:
       required:
       - id
       - name
