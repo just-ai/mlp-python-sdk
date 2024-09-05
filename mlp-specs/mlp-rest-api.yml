@@ -9049,7 +9049,7 @@ components:
           - DAY
           - MONTH
           - YEAR
-        maxServerLifetimeSeconds:
+        maxServerLifetimeMinutes:
           type: integer
           format: int64
     ResourceGroupServerData:
