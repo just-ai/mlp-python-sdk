@@ -363,6 +363,30 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/update-heartbeats:
+    post:
+      tags:
+      - model-instance-endpoint
+      operationId: updateLastHeartBeats
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/task/{taskId}/stop:
     post:
       tags:
