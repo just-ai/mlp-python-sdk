@@ -3,32 +3,38 @@ import os
 import pickle
 import shutil
 import tempfile
-
 from pathlib import Path
 
 from mlp_sdk.storage import S3Storage
-TEMP_DATA_PATH = Path(__file__).parent / 'test_data'
+
+TEMP_DATA_PATH = Path(__file__).parent / "test_data"
 
 
 def test_s3_storage():
+    if "S3_STORAGE_CONFIG" not in os.environ:
+        raise RuntimeError("Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable")
 
-    if 'S3_STORAGE_CONFIG' not in os.environ:
-        raise RuntimeError('Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable')
+    test_filename = "test.pkl"
 
-    test_filename = 'test.pkl'
+    config = eval(os.environ["S3_STORAGE_CONFIG"])
 
-    config = eval(os.environ['S3_STORAGE_CONFIG'])
-
-    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
-                        config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
+    storage = S3Storage(
+        config["mlp_bucket"],
+        config["service_name"],
+        config["region"],
+        config["access_key"],
+        config["secret_key"],
+        config["endpoint"],
+        config["data_dir"],
+    )
 
     test_object = [1, 2, [3, [4]]]
     test_object_copy = copy.deepcopy(test_object)
 
-    with storage.open(test_filename, 'wb') as fout:
+    with storage.open(test_filename, "wb") as fout:
         pickle.dump(test_object, fout)
 
-    with storage.open(test_filename, 'rb') as fin:
+    with storage.open(test_filename, "rb") as fin:
         test_object_loaded = pickle.loads(fin.read())
 
     test_object[2] = []
@@ -38,22 +44,28 @@ def test_s3_storage():
     storage.remove(test_filename)
 
     try:
-        storage.open(test_filename, 'rb')
+        storage.open(test_filename, "rb")
     except KeyError:
         pass
     else:
-        assert False, 'Error: there should be KeyError after removing file'
+        assert False, "Error: there should be KeyError after removing file"
 
 
 def test_download_upload_dir():
+    if "S3_STORAGE_CONFIG" not in os.environ:
+        raise RuntimeError("Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable")
 
-    if 'S3_STORAGE_CONFIG' not in os.environ:
-        raise RuntimeError('Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable')
+    config = eval(os.environ["S3_STORAGE_CONFIG"])
 
-    config = eval(os.environ['S3_STORAGE_CONFIG'])
-
-    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
-                        config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
+    storage = S3Storage(
+        config["mlp_bucket"],
+        config["service_name"],
+        config["region"],
+        config["access_key"],
+        config["secret_key"],
+        config["endpoint"],
+        config["data_dir"],
+    )
 
     remote_path = "huggingface/models/cointegrated/rubert-tiny2/default"
 
@@ -74,7 +86,8 @@ def test_download_upload_dir():
             objects_count = 0
 
             for _ in storage.resource.Bucket(storage.bucket).objects.filter(
-                    Prefix=os.path.join(config['data_dir'], remote_path_to_be_uploaded)):
+                Prefix=os.path.join(config["data_dir"], remote_path_to_be_uploaded)
+            ):
                 objects_count += 1
 
             assert objects_count == REAL_FILES_NUMBER, "Something goes wrong w/ uploading"
@@ -87,21 +100,27 @@ def test_download_upload_dir():
 
 
 def test_s3_download_upload_large_files():
+    if "S3_STORAGE_CONFIG" not in os.environ:
+        raise RuntimeError("Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable")
 
-    if 'S3_STORAGE_CONFIG' not in os.environ:
-        raise RuntimeError('Unable to run s3 storage test without json config in S3_STORAGE_CONFIG variable')
+    config = eval(os.environ["S3_STORAGE_CONFIG"])
 
-    config = eval(os.environ['S3_STORAGE_CONFIG'])
+    storage = S3Storage(
+        config["mlp_bucket"],
+        config["service_name"],
+        config["region"],
+        config["access_key"],
+        config["secret_key"],
+        config["endpoint"],
+        config["data_dir"],
+    )
 
-    storage = S3Storage(config['mlp_bucket'], config['service_name'], config['region'],
-                        config['access_key'], config['secret_key'], config['endpoint'], config['data_dir'])
-
-    s3_path = 'caila/generative/models/dialog_ru/v2/default/model.ckpt'
+    s3_path = "caila/generative/models/dialog_ru/v2/default/model.ckpt"
 
     uploaded_file_s3_path = "temp/test_s3_download_upload_large_file.ckpt"
 
     try:
-        downloaded_file_name = 'test_s3_download_upload_large_file.ckpt'
+        downloaded_file_name = "test_s3_download_upload_large_file.ckpt"
         storage.download(s3_path, str(TEMP_DATA_PATH / downloaded_file_name))
 
         try:
@@ -112,7 +131,7 @@ def test_s3_download_upload_large_files():
 
         storage.upload(str(TEMP_DATA_PATH / downloaded_file_name), uploaded_file_s3_path)
 
-        again_downloaded_file_name = 'test_s3_download_upload_large_file_again.ckpt'
+        again_downloaded_file_name = "test_s3_download_upload_large_file_again.ckpt"
 
         storage.download(uploaded_file_s3_path, str(TEMP_DATA_PATH / again_downloaded_file_name))
 

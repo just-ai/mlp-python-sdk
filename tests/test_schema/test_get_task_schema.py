@@ -1,11 +1,12 @@
+from pathlib import Path
+from typing import List
+
 import yaml
 from pydantic import BaseModel
-from typing import List
-from pathlib import Path
 
 from mlp_sdk.abstract.task import Task
-from mlp_sdk.abstract.task_mixin import LearnableMixin, BatchPredictableMixin, UpdatableMixin
-from mlp_sdk.types import TextsCollection, ScoredItemsCollection, ItemsCollection, ServiceInfo, DatasetInfo
+from mlp_sdk.abstract.task_mixin import BatchPredictableMixin, LearnableMixin, UpdatableMixin
+from mlp_sdk.types import DatasetInfo, ItemsCollection, ScoredItemsCollection, ServiceInfo, TextsCollection
 
 
 class InitConfigSchema(BaseModel):
@@ -31,9 +32,9 @@ class MyTask(Task):
         pass
 
     def predict(
-            self,
-            data: TextsCollection,
-            config: PredictConfigSchema,
+        self,
+        data: TextsCollection,
+        config: PredictConfigSchema,
     ) -> ScoredItemsCollection:
         return ScoredItemsCollection(items_list=[])
 
@@ -45,18 +46,18 @@ class MyTaskLearnableMixin(LearnableMixin):
     def _load_state(self) -> None:
         pass
 
-    def prune_state(self, model_dir: str = '') -> None:
+    def prune_state(self, model_dir: str = "") -> None:
         pass
 
     def fit(
-            self,
-            train_data: TextsCollection,
-            targets: ItemsCollection,
-            config: FitConfigSchema,
-            target_service_info: ServiceInfo,
-            dataset_info: DatasetInfo,
-            model_dir: str = '',
-            previous_model_dir: str = '',
+        self,
+        train_data: TextsCollection,
+        targets: ItemsCollection,
+        config: FitConfigSchema,
+        target_service_info: ServiceInfo,
+        dataset_info: DatasetInfo,
+        model_dir: str = "",
+        previous_model_dir: str = "",
     ) -> None:
         pass
 
@@ -66,10 +67,7 @@ class MyTaskLearnableMixin(LearnableMixin):
 
 
 class MyTaskWithBatchPredictableMixin(BatchPredictableMixin):
-    def predict_batch(
-            self, data: List[TextsCollection],
-            config: PredictConfigSchema
-    ) -> List[ScoredItemsCollection]:
+    def predict_batch(self, data: List[TextsCollection], config: PredictConfigSchema) -> List[ScoredItemsCollection]:
         pass
 
 
@@ -87,29 +85,31 @@ def prettify(s):
 
 
 def test_task_schema():
-    with open(Path(__file__).parent.absolute() / 'test_data' / 'task_schema.yml') as fin:
+    with open(Path(__file__).parent.absolute() / "test_data" / "task_schema.yml") as fin:
         assert fin.read().strip() == prettify(MyTask.get_schema())
 
 
 def test_fit_schema():
-    with open(Path(__file__).parent.absolute() / 'test_data' / 'fit_schema.yml') as fin:
+    with open(Path(__file__).parent.absolute() / "test_data" / "fit_schema.yml") as fin:
         assert fin.read().strip() == prettify(MyTaskLearnableMixin.get_schema())
 
 
 def test_batch_schema():
-    with open(Path(__file__).parent.absolute() / 'test_data' / 'batch_schema.yml') as fin:
+    with open(Path(__file__).parent.absolute() / "test_data" / "batch_schema.yml") as fin:
         assert fin.read().strip() == prettify(MyTaskWithBatchPredictableMixin.get_schema())
 
 
 def test_update_schema():
-    with open(Path(__file__).parent.absolute() / 'test_data' / 'update_schema.yml') as fin:
+    with open(Path(__file__).parent.absolute() / "test_data" / "update_schema.yml") as fin:
         assert fin.read().strip() == prettify(MyTaskWithUpdatableMixin.get_schema())
 
 
 def test_overall_schema():
-    assert prettify({
-        **MyTask.get_schema(),
-        **MyTaskLearnableMixin.get_schema(),
-        **MyTaskWithUpdatableMixin.get_schema(),
-        **MyTaskWithBatchPredictableMixin.get_schema(),
-    }) == prettify(MySuperTask.get_schema())
+    assert prettify(
+        {
+            **MyTask.get_schema(),
+            **MyTaskLearnableMixin.get_schema(),
+            **MyTaskWithUpdatableMixin.get_schema(),
+            **MyTaskWithBatchPredictableMixin.get_schema(),
+        }
+    ) == prettify(MySuperTask.get_schema())

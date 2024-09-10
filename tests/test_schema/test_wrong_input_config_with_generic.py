@@ -1,7 +1,7 @@
 from typing import List, Type
-from pydantic import BaseModel, ValidationError
 
 import pytest
+from pydantic import BaseModel, ValidationError
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.types import InflectorConformerTextsCollectionTest, InflectorTextsCollection
@@ -36,17 +36,15 @@ class WrongSchema(BaseModel):
 
 
 class MyCustomTask(Task):
-
     @property
     def init_config_schema(self) -> Type[BaseModel]:
         return BaseModel
 
     def predict(
-            self,
-            data: InflectorConformerTextsCollectionTest,
-            config: NerPredictConfigSchema,
+        self,
+        data: InflectorConformerTextsCollectionTest,
+        config: NerPredictConfigSchema,
     ) -> InflectorTextsCollection:
-
         result = InflectorTextsCollection()
         result.texts.append("Done")
         return result
@@ -61,10 +59,10 @@ def test_simple_config():
 
     # CorrectSchema but empty: pydantic raises
     with pytest.raises(ValidationError):
-        task.predict(InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[]),
-                     config=NerPredictConfigSchema())
+        task.predict(
+            InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[]), config=NerPredictConfigSchema()
+        )
 
     # Wrong schema
     with pytest.raises(RuntimeError):
-        task.predict(InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[]),
-                     config=WrongSchema(param=10))
+        task.predict(InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[]), config=WrongSchema(param=10))

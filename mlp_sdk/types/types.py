@@ -2,306 +2,308 @@ import enum
 from decimal import Decimal
 from typing import List, Optional, Union
 
-from pydantic import BaseModel, Field, Extra
+from pydantic import BaseModel, Extra, Field
 
 PACKAGE_NAME = "types"
 
 
 # ENUMERATIONS
 
+
 class TokenPosTag(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    NOUN = 'NOUN'
-    ADJECTIVE_FULL = 'ADJECTIVE_FULL'
-    ADJECTIVE_SHORT = 'ADJECTIVE_SHORT'
-    COMPARATIVE = 'COMPARATIVE'
-    VERB = 'VERB'
-    INFINITIVE = 'INFINITIVE'
-    PARTICLE_FULL = 'PARTICLE_FULL'
-    PARTICLE_SHORT = 'PARTICLE_SHORT'
-    GERUND = 'GERUND'
-    NUMERICAL = 'NUMERICAL'
-    ADVERB = 'ADVERB'
-    NOUN_PRONOUN = 'NOUN_PRONOUN'
-    PREDICATIVE = 'PREDICATIVE'
-    PREPOSITION = 'PREPOSITION'
-    CONJUNCTION = 'CONJUNCTION'
-    PARTICLE = 'PARTICLE'
-    INTERJECTION = 'INTERJECTION'
-    PUNCTUATION = 'PUNCTUATION'
+    UNKNOWN = "UNKNOWN"
+    NOUN = "NOUN"
+    ADJECTIVE_FULL = "ADJECTIVE_FULL"
+    ADJECTIVE_SHORT = "ADJECTIVE_SHORT"
+    COMPARATIVE = "COMPARATIVE"
+    VERB = "VERB"
+    INFINITIVE = "INFINITIVE"
+    PARTICLE_FULL = "PARTICLE_FULL"
+    PARTICLE_SHORT = "PARTICLE_SHORT"
+    GERUND = "GERUND"
+    NUMERICAL = "NUMERICAL"
+    ADVERB = "ADVERB"
+    NOUN_PRONOUN = "NOUN_PRONOUN"
+    PREDICATIVE = "PREDICATIVE"
+    PREPOSITION = "PREPOSITION"
+    CONJUNCTION = "CONJUNCTION"
+    PARTICLE = "PARTICLE"
+    INTERJECTION = "INTERJECTION"
+    PUNCTUATION = "PUNCTUATION"
 
 
 class TenseType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    PAST = 'PAST'
-    PRESENT = 'PRESENT'
-    FUTURE = 'FUTURE'
+    UNKNOWN = "UNKNOWN"
+    PAST = "PAST"
+    PRESENT = "PRESENT"
+    FUTURE = "FUTURE"
 
 
 class CaseType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    NOMINATIVE = 'NOMINATIVE'
-    GENITIVE = 'GENITIVE'
-    DATIVE = 'DATIVE'
-    ACCUSATIVE = 'ACCUSATIVE'
-    INSTRUMENTAL = 'INSTRUMENTAL'
-    PREPOSITIONAL = 'PREPOSITIONAL'
-    VOCATION = 'VOCATION'
-    GENITIVE_2 = 'GENITIVE_2'
-    ACCUSATIVE_2 = 'ACCUSATIVE_2'
-    PREPOSITIONAL_2 = 'PREPOSITIONAL_2'
+    UNKNOWN = "UNKNOWN"
+    NOMINATIVE = "NOMINATIVE"
+    GENITIVE = "GENITIVE"
+    DATIVE = "DATIVE"
+    ACCUSATIVE = "ACCUSATIVE"
+    INSTRUMENTAL = "INSTRUMENTAL"
+    PREPOSITIONAL = "PREPOSITIONAL"
+    VOCATION = "VOCATION"
+    GENITIVE_2 = "GENITIVE_2"
+    ACCUSATIVE_2 = "ACCUSATIVE_2"
+    PREPOSITIONAL_2 = "PREPOSITIONAL_2"
 
 
 class GenderType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    MASCULINE = 'MASCULINE'
-    FEMININE = 'FEMININE'
-    NEUTER = 'NEUTER'
+    UNKNOWN = "UNKNOWN"
+    MASCULINE = "MASCULINE"
+    FEMININE = "FEMININE"
+    NEUTER = "NEUTER"
 
 
 class NumberType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    SINGULAR = 'SINGULAR'
-    PLURAL = 'PLURAL'
+    UNKNOWN = "UNKNOWN"
+    SINGULAR = "SINGULAR"
+    PLURAL = "PLURAL"
 
 
 # This type is not in use in tasks right now, consider to use it in the future
 class LanguageType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    AFAR = 'AFAR'
-    ABKHAZIAN = 'ABKHAZIAN'
-    AVESTAN = 'AVESTAN'
-    AFRIKAANS = 'AFRIKAANS'
-    AKAN = 'AKAN'
-    AMHARIC = 'AMHARIC'
-    ARAGONESE = 'ARAGONESE'
-    ARABIC = 'ARABIC'
-    ASSAMESE = 'ASSAMESE'
-    AVARIC = 'AVARIC'
-    AYMARA = 'AYMARA'
-    AZERBAIJANI = 'AZERBAIJANI'
-    BASHKIR = 'BASHKIR'
-    BELARUSIAN = 'BELARUSIAN'
-    BULGARIAN = 'BULGARIAN'
-    BIHARI_LANGUAGES = 'BIHARI_LANGUAGES'
-    BISLAMA = 'BISLAMA'
-    BAMBARA = 'BAMBARA'
-    BENGALI = 'BENGALI'
-    TIBETAN = 'TIBETAN'
-    BRETON = 'BRETON'
-    BOSNIAN = 'BOSNIAN'
-    CATALAN = 'CATALAN'
-    CHECHEN = 'CHECHEN'
-    CHAMORRO = 'CHAMORRO'
-    CORSICAN = 'CORSICAN'
-    CREE = 'CREE'
-    CZECH = 'CZECH'
-    CHURCH_SLAVIC = 'CHURCH_SLAVIC'
-    CHUVASH = 'CHUVASH'
-    WELSH = 'WELSH'
-    DANISH = 'DANISH'
-    GERMAN = 'GERMAN'
-    DIVEHI = 'DIVEHI'
-    DZONGKHA = 'DZONGKHA'
-    EWE = 'EWE'
-    GREEK_MODERN = 'GREEK_MODERN'
-    ENGLISH = 'ENGLISH'
-    ESPERANTO = 'ESPERANTO'
-    SPANISH = 'SPANISH'
-    ESTONIAN = 'ESTONIAN'
-    BASQUE = 'BASQUE'
-    PERSIAN = 'PERSIAN'
-    FULAH = 'FULAH'
-    FINNISH = 'FINNISH'
-    FIJIAN = 'FIJIAN'
-    FAROESE = 'FAROESE'
-    FRENCH = 'FRENCH'
-    WESTERN_FRISIAN = 'WESTERN_FRISIAN'
-    IRISH = 'IRISH'
-    GAELIC = 'GAELIC'
-    GALICIAN = 'GALICIAN'
-    GUARANI = 'GUARANI'
-    GUJARATI = 'GUJARATI'
-    MANX = 'MANX'
-    HAUSA = 'HAUSA'
-    HEBREW = 'HEBREW'
-    HINDI = 'HINDI'
-    HIRI_MOTU = 'HIRI_MOTU'
-    CROATIAN = 'CROATIAN'
-    HAITIAN = 'HAITIAN'
-    HUNGARIAN = 'HUNGARIAN'
-    ARMENIAN = 'ARMENIAN'
-    HERERO = 'HERERO'
-    INDONESIAN = 'INDONESIAN'
-    INTERLINGUE = 'INTERLINGUE'
-    IGBO = 'IGBO'
-    SICHUAN_YI = 'SICHUAN_YI'
-    INUPIAQ = 'INUPIAQ'
-    IDO = 'IDO'
-    ICELANDIC = 'ICELANDIC'
-    ITALIAN = 'ITALIAN'
-    INUKTITUT = 'INUKTITUT'
-    JAPANESE = 'JAPANESE'
-    JAVANESE = 'JAVANESE'
-    GEORGIAN = 'GEORGIAN'
-    KONGO = 'KONGO'
-    KIKUYU = 'KIKUYU'
-    KUANYAMA = 'KUANYAMA'
-    KAZAKH = 'KAZAKH'
-    KALAALLISUT = 'KALAALLISUT'
-    CENTRAL_KHMER = 'CENTRAL_KHMER'
-    KANNADA = 'KANNADA'
-    KOREAN = 'KOREAN'
-    KANURI = 'KANURI'
-    KASHMIRI = 'KASHMIRI'
-    KURDISH = 'KURDISH'
-    KOMI = 'KOMI'
-    CORNISH = 'CORNISH'
-    KIRGHIZ = 'KIRGHIZ'
-    LATIN = 'LATIN'
-    LUXEMBOURGISH = 'LUXEMBOURGISH'
-    GANDA = 'GANDA'
-    LIMBURGAN = 'LIMBURGAN'
-    LINGALA = 'LINGALA'
-    LAO = 'LAO'
-    LITHUANIAN = 'LITHUANIAN'
-    LUBA_KATANGA = 'LUBA_KATANGA'
-    LATVIAN = 'LATVIAN'
-    MALAGASY = 'MALAGASY'
-    MARSHALLESE = 'MARSHALLESE'
-    MAORI = 'MAORI'
-    MACEDONIAN = 'MACEDONIAN'
-    MALAYALAM = 'MALAYALAM'
-    MONGOLIAN = 'MONGOLIAN'
-    MARATHI = 'MARATHI'
-    MALAY = 'MALAY'
-    MALTESE = 'MALTESE'
-    BURMESE = 'BURMESE'
-    NAURU = 'NAURU'
-    NDEBELE_NORTH = 'NDEBELE_NORTH'
-    NEPALI = 'NEPALI'
-    NDONGA = 'NDONGA'
-    DUTCH = 'DUTCH'
-    NORWEGIAN_NYNORSK = 'NORWEGIAN_NYNORSK'
-    NORWEGIAN = 'NORWEGIAN'
-    NDEBELE_SOUTH = 'NDEBELE_SOUTH'
-    NAVAJO = 'NAVAJO'
-    CHICHEWA = 'CHICHEWA'
-    OCCITAN = 'OCCITAN'
-    OJIBWA = 'OJIBWA'
-    OROMO = 'OROMO'
-    ORIYA = 'ORIYA'
-    OSSETIAN = 'OSSETIAN'
-    PANJABI = 'PANJABI'
-    PALI = 'PALI'
-    POLISH = 'POLISH'
-    PUSHTO = 'PUSHTO'
-    PORTUGUESE = 'PORTUGUESE'
-    QUECHUA = 'QUECHUA'
-    ROMANSH = 'ROMANSH'
-    RUNDI = 'RUNDI'
-    ROMANIAN = 'ROMANIAN'
-    RUSSIAN = 'RUSSIAN'
-    KINYARWANDA = 'KINYARWANDA'
-    SANSKRIT = 'SANSKRIT'
-    SARDINIAN = 'SARDINIAN'
-    SINDHI = 'SINDHI'
-    NORTHERN_SAMI = 'NORTHERN_SAMI'
-    SANGO = 'SANGO'
-    SINHALA = 'SINHALA'
-    SLOVAK = 'SLOVAK'
-    SLOVENIAN = 'SLOVENIAN'
-    SAMOAN = 'SAMOAN'
-    SHONA = 'SHONA'
-    SOMALI = 'SOMALI'
-    ALBANIAN = 'ALBANIAN'
-    SERBIAN = 'SERBIAN'
-    SWATI = 'SWATI'
-    SOTHO_SOUTHERN = 'SOTHO_SOUTHERN'
-    SUNDANESE = 'SUNDANESE'
-    SWEDISH = 'SWEDISH'
-    SWAHILI = 'SWAHILI'
-    TAMIL = 'TAMIL'
-    TELUGU = 'TELUGU'
-    TAJIK = 'TAJIK'
-    THAI = 'THAI'
-    TIGRINYA = 'TIGRINYA'
-    TURKMEN = 'TURKMEN'
-    TAGALOG = 'TAGALOG'
-    TSWANA = 'TSWANA'
-    TONGA = 'TONGA'
-    TURKISH = 'TURKISH'
-    TSONGA = 'TSONGA'
-    TATAR = 'TATAR'
-    TWI = 'TWI'
-    TAHITIAN = 'TAHITIAN'
-    UIGHUR = 'UIGHUR'
-    UKRAINIAN = 'UKRAINIAN'
-    URDU = 'URDU'
-    UZBEK = 'UZBEK'
-    VENDA = 'VENDA'
-    VIETNAMESE = 'VIETNAMESE'
-    WALLOON = 'WALLOON'
-    WOLOF = 'WOLOF'
-    XHOSA = 'XHOSA'
-    YIDDISH = 'YIDDISH'
-    YORUBA = 'YORUBA'
-    ZHUANG = 'ZHUANG'
-    CHINESE = 'CHINESE'
-    ZULU = 'ZULU'
+    UNKNOWN = "UNKNOWN"
+    AFAR = "AFAR"
+    ABKHAZIAN = "ABKHAZIAN"
+    AVESTAN = "AVESTAN"
+    AFRIKAANS = "AFRIKAANS"
+    AKAN = "AKAN"
+    AMHARIC = "AMHARIC"
+    ARAGONESE = "ARAGONESE"
+    ARABIC = "ARABIC"
+    ASSAMESE = "ASSAMESE"
+    AVARIC = "AVARIC"
+    AYMARA = "AYMARA"
+    AZERBAIJANI = "AZERBAIJANI"
+    BASHKIR = "BASHKIR"
+    BELARUSIAN = "BELARUSIAN"
+    BULGARIAN = "BULGARIAN"
+    BIHARI_LANGUAGES = "BIHARI_LANGUAGES"
+    BISLAMA = "BISLAMA"
+    BAMBARA = "BAMBARA"
+    BENGALI = "BENGALI"
+    TIBETAN = "TIBETAN"
+    BRETON = "BRETON"
+    BOSNIAN = "BOSNIAN"
+    CATALAN = "CATALAN"
+    CHECHEN = "CHECHEN"
+    CHAMORRO = "CHAMORRO"
+    CORSICAN = "CORSICAN"
+    CREE = "CREE"
+    CZECH = "CZECH"
+    CHURCH_SLAVIC = "CHURCH_SLAVIC"
+    CHUVASH = "CHUVASH"
+    WELSH = "WELSH"
+    DANISH = "DANISH"
+    GERMAN = "GERMAN"
+    DIVEHI = "DIVEHI"
+    DZONGKHA = "DZONGKHA"
+    EWE = "EWE"
+    GREEK_MODERN = "GREEK_MODERN"
+    ENGLISH = "ENGLISH"
+    ESPERANTO = "ESPERANTO"
+    SPANISH = "SPANISH"
+    ESTONIAN = "ESTONIAN"
+    BASQUE = "BASQUE"
+    PERSIAN = "PERSIAN"
+    FULAH = "FULAH"
+    FINNISH = "FINNISH"
+    FIJIAN = "FIJIAN"
+    FAROESE = "FAROESE"
+    FRENCH = "FRENCH"
+    WESTERN_FRISIAN = "WESTERN_FRISIAN"
+    IRISH = "IRISH"
+    GAELIC = "GAELIC"
+    GALICIAN = "GALICIAN"
+    GUARANI = "GUARANI"
+    GUJARATI = "GUJARATI"
+    MANX = "MANX"
+    HAUSA = "HAUSA"
+    HEBREW = "HEBREW"
+    HINDI = "HINDI"
+    HIRI_MOTU = "HIRI_MOTU"
+    CROATIAN = "CROATIAN"
+    HAITIAN = "HAITIAN"
+    HUNGARIAN = "HUNGARIAN"
+    ARMENIAN = "ARMENIAN"
+    HERERO = "HERERO"
+    INDONESIAN = "INDONESIAN"
+    INTERLINGUE = "INTERLINGUE"
+    IGBO = "IGBO"
+    SICHUAN_YI = "SICHUAN_YI"
+    INUPIAQ = "INUPIAQ"
+    IDO = "IDO"
+    ICELANDIC = "ICELANDIC"
+    ITALIAN = "ITALIAN"
+    INUKTITUT = "INUKTITUT"
+    JAPANESE = "JAPANESE"
+    JAVANESE = "JAVANESE"
+    GEORGIAN = "GEORGIAN"
+    KONGO = "KONGO"
+    KIKUYU = "KIKUYU"
+    KUANYAMA = "KUANYAMA"
+    KAZAKH = "KAZAKH"
+    KALAALLISUT = "KALAALLISUT"
+    CENTRAL_KHMER = "CENTRAL_KHMER"
+    KANNADA = "KANNADA"
+    KOREAN = "KOREAN"
+    KANURI = "KANURI"
+    KASHMIRI = "KASHMIRI"
+    KURDISH = "KURDISH"
+    KOMI = "KOMI"
+    CORNISH = "CORNISH"
+    KIRGHIZ = "KIRGHIZ"
+    LATIN = "LATIN"
+    LUXEMBOURGISH = "LUXEMBOURGISH"
+    GANDA = "GANDA"
+    LIMBURGAN = "LIMBURGAN"
+    LINGALA = "LINGALA"
+    LAO = "LAO"
+    LITHUANIAN = "LITHUANIAN"
+    LUBA_KATANGA = "LUBA_KATANGA"
+    LATVIAN = "LATVIAN"
+    MALAGASY = "MALAGASY"
+    MARSHALLESE = "MARSHALLESE"
+    MAORI = "MAORI"
+    MACEDONIAN = "MACEDONIAN"
+    MALAYALAM = "MALAYALAM"
+    MONGOLIAN = "MONGOLIAN"
+    MARATHI = "MARATHI"
+    MALAY = "MALAY"
+    MALTESE = "MALTESE"
+    BURMESE = "BURMESE"
+    NAURU = "NAURU"
+    NDEBELE_NORTH = "NDEBELE_NORTH"
+    NEPALI = "NEPALI"
+    NDONGA = "NDONGA"
+    DUTCH = "DUTCH"
+    NORWEGIAN_NYNORSK = "NORWEGIAN_NYNORSK"
+    NORWEGIAN = "NORWEGIAN"
+    NDEBELE_SOUTH = "NDEBELE_SOUTH"
+    NAVAJO = "NAVAJO"
+    CHICHEWA = "CHICHEWA"
+    OCCITAN = "OCCITAN"
+    OJIBWA = "OJIBWA"
+    OROMO = "OROMO"
+    ORIYA = "ORIYA"
+    OSSETIAN = "OSSETIAN"
+    PANJABI = "PANJABI"
+    PALI = "PALI"
+    POLISH = "POLISH"
+    PUSHTO = "PUSHTO"
+    PORTUGUESE = "PORTUGUESE"
+    QUECHUA = "QUECHUA"
+    ROMANSH = "ROMANSH"
+    RUNDI = "RUNDI"
+    ROMANIAN = "ROMANIAN"
+    RUSSIAN = "RUSSIAN"
+    KINYARWANDA = "KINYARWANDA"
+    SANSKRIT = "SANSKRIT"
+    SARDINIAN = "SARDINIAN"
+    SINDHI = "SINDHI"
+    NORTHERN_SAMI = "NORTHERN_SAMI"
+    SANGO = "SANGO"
+    SINHALA = "SINHALA"
+    SLOVAK = "SLOVAK"
+    SLOVENIAN = "SLOVENIAN"
+    SAMOAN = "SAMOAN"
+    SHONA = "SHONA"
+    SOMALI = "SOMALI"
+    ALBANIAN = "ALBANIAN"
+    SERBIAN = "SERBIAN"
+    SWATI = "SWATI"
+    SOTHO_SOUTHERN = "SOTHO_SOUTHERN"
+    SUNDANESE = "SUNDANESE"
+    SWEDISH = "SWEDISH"
+    SWAHILI = "SWAHILI"
+    TAMIL = "TAMIL"
+    TELUGU = "TELUGU"
+    TAJIK = "TAJIK"
+    THAI = "THAI"
+    TIGRINYA = "TIGRINYA"
+    TURKMEN = "TURKMEN"
+    TAGALOG = "TAGALOG"
+    TSWANA = "TSWANA"
+    TONGA = "TONGA"
+    TURKISH = "TURKISH"
+    TSONGA = "TSONGA"
+    TATAR = "TATAR"
+    TWI = "TWI"
+    TAHITIAN = "TAHITIAN"
+    UIGHUR = "UIGHUR"
+    UKRAINIAN = "UKRAINIAN"
+    URDU = "URDU"
+    UZBEK = "UZBEK"
+    VENDA = "VENDA"
+    VIETNAMESE = "VIETNAMESE"
+    WALLOON = "WALLOON"
+    WOLOF = "WOLOF"
+    XHOSA = "XHOSA"
+    YIDDISH = "YIDDISH"
+    YORUBA = "YORUBA"
+    ZHUANG = "ZHUANG"
+    CHINESE = "CHINESE"
+    ZULU = "ZULU"
 
 
 class EntityType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    PERSON = 'PERSON'
-    TOPONYM = 'TOPONYM'
-    LOCATION = 'LOCATION'
-    ORGANIZATION = 'ORGANIZATION'
-    SURNAME = 'SURNAME'
-    FIRST_NAME = 'FIRST_NAME'
-    PATRNAME = 'PATRNAME'
-    OBSCENE = 'OBSCENE'
-    LATIN_CHARS = 'LATIN_CHARS'
-    INTEGER_NUMBER = 'INTEGER_NUMBER'
-    ORDINAL_NUMBER = 'ORDINAL_NUMBER'
-    ROMNUMBER = 'ROMNUMBER'
-    CARDINAL_NUMBER = 'CARDINAL_NUMBER'
-    AMOUNT_OF_MONEY = 'AMOUNT_OF_MONEY'
-    QUANTITY = 'QUANTITY'
-    ABBREVIATION = 'ABBREVIATION'
-    DISTANCE = 'DISTANCE'
-    TEMPERATURE = 'TEMPERATURE'
-    VOLUME = 'VOLUME'
-    TIME = 'TIME'
-    DATE = 'DATE'
-    DATETIME = 'DATETIME'
-    TIME_DURATION = 'TIME_DURATION'
-    TIME_INTERVAL = 'TIME_INTERVAL'
-    PHONE_NUMBER = 'PHONE_NUMBER'
-    EMAIL = 'EMAIL'
-    URL = 'URL'
-    EVENT = 'EVENT'
-    BUILDING = 'BUILDING'
-    LANGUAGE = 'LANGUAGE'
-    LAW = 'LAW'
-    COMMUNITY = 'COMMUNITY'
-    PERCENT = 'PERCENT'
-    PRODUCT = 'PRODUCT'
-    WORK_OF_ART = 'WORK_OF_ART'
+    UNKNOWN = "UNKNOWN"
+    PERSON = "PERSON"
+    TOPONYM = "TOPONYM"
+    LOCATION = "LOCATION"
+    ORGANIZATION = "ORGANIZATION"
+    SURNAME = "SURNAME"
+    FIRST_NAME = "FIRST_NAME"
+    PATRNAME = "PATRNAME"
+    OBSCENE = "OBSCENE"
+    LATIN_CHARS = "LATIN_CHARS"
+    INTEGER_NUMBER = "INTEGER_NUMBER"
+    ORDINAL_NUMBER = "ORDINAL_NUMBER"
+    ROMNUMBER = "ROMNUMBER"
+    CARDINAL_NUMBER = "CARDINAL_NUMBER"
+    AMOUNT_OF_MONEY = "AMOUNT_OF_MONEY"
+    QUANTITY = "QUANTITY"
+    ABBREVIATION = "ABBREVIATION"
+    DISTANCE = "DISTANCE"
+    TEMPERATURE = "TEMPERATURE"
+    VOLUME = "VOLUME"
+    TIME = "TIME"
+    DATE = "DATE"
+    DATETIME = "DATETIME"
+    TIME_DURATION = "TIME_DURATION"
+    TIME_INTERVAL = "TIME_INTERVAL"
+    PHONE_NUMBER = "PHONE_NUMBER"
+    EMAIL = "EMAIL"
+    URL = "URL"
+    EVENT = "EVENT"
+    BUILDING = "BUILDING"
+    LANGUAGE = "LANGUAGE"
+    LAW = "LAW"
+    COMMUNITY = "COMMUNITY"
+    PERCENT = "PERCENT"
+    PRODUCT = "PRODUCT"
+    WORK_OF_ART = "WORK_OF_ART"
 
 
 class SourceType(str, enum.Enum):
-    UNKNOWN = 'UNKNOWN'
-    DUCKLING = 'DUCKLING'
-    MYSTEM = 'MYSTEM'
-    PYMORPHY = 'PYMORPHY'
-    MLPS = 'MLPS'
-    SPACY = 'SPACY'
-    SLOVNET = 'SLOVNET'
-    DEEPPAVLOV = 'DEEPPAVLOV'
+    UNKNOWN = "UNKNOWN"
+    DUCKLING = "DUCKLING"
+    MYSTEM = "MYSTEM"
+    PYMORPHY = "PYMORPHY"
+    MLPS = "MLPS"
+    SPACY = "SPACY"
+    SLOVNET = "SLOVNET"
+    DEEPPAVLOV = "DEEPPAVLOV"
 
 
 # COMPONENTS
+
 
 class Span(BaseModel):
     start_index: int
@@ -450,6 +452,7 @@ class Dialog(BaseModel):
 
 # COLLECTIONS
 
+
 class BytesCollection(BaseModel):
     data: List[bytes]
 
@@ -533,6 +536,7 @@ class ScoredSeq2SeqTextsListCollection(BaseModel):
 
 # TEST COMPONENTS
 
+
 class SpanTest(Span):
     middle_index: int
 
@@ -597,16 +601,17 @@ class DatasetInfo(BaseModel):
 
 # TEST COLLECTIONS
 
+
 class InflectorConformerTextsCollectionTest(ConformerTextsCollection, InflectorTextsCollection):
-    dummy: str = ''
-    dummy_base: ScoredItems = ''
+    dummy: str = ""
+    dummy_base: ScoredItems = ""
 
 
 class TokenizedTextsCollectionTest(TokenizedTextsCollection):
     tokens_list: List[TokensTest]
     some_nested_field: List[TokensTest]
     some_complex_field: Tokens
-    some_simple_field: str = ''
+    some_simple_field: str = ""
 
 
 class TokenizedTextsCollectionWithErrorTest(TokenizedTextsCollection):
@@ -618,25 +623,25 @@ class DialogCollection(BaseModel):
 
 
 class AudioEncoding(str, enum.Enum):
-    LINEAR16_PCM = 'LINEAR16_PCM'
+    LINEAR16_PCM = "LINEAR16_PCM"
 
 
 class AudioFormatOptions(BaseModel):
-    audio_encoding: Optional[AudioEncoding] = Field(alias='audioEncoding')
-    sample_rate_hertz: Optional[int] = Field(alias='sampleRateHertz')
-    chunk_size_kb: Optional[int] = Field(alias='chunkSizeKb')
+    audio_encoding: Optional[AudioEncoding] = Field(alias="audioEncoding")
+    sample_rate_hertz: Optional[int] = Field(alias="sampleRateHertz")
+    chunk_size_kb: Optional[int] = Field(alias="chunkSizeKb")
 
 
 class TtsRequest(BaseModel):
     text: str
     voice: Optional[str]
-    output_audio_spec: Optional[AudioFormatOptions] = Field(alias='outputAudioSpec')
+    output_audio_spec: Optional[AudioFormatOptions] = Field(alias="outputAudioSpec")
 
 
 class TtsConfig(BaseModel):
     voice: Optional[str]
-    output_audio_spec: Optional[AudioFormatOptions] = Field(alias='outputAudioSpec')
-    encode_base64: Optional[bool] = Field(True, alias='encodeBase64')
+    output_audio_spec: Optional[AudioFormatOptions] = Field(alias="outputAudioSpec")
+    encode_base64: Optional[bool] = Field(True, alias="encodeBase64")
 
 
 class TtsResponse(BaseModel):
@@ -655,17 +660,18 @@ class TtsDictionary(BaseModel):
 
 # OpenAI API TYPES
 
+
 class ChatCompletionRole(str, enum.Enum):
-    SYSTEM = 'system'
-    USER = 'user'
-    ASSISTANT = 'assistant'
-    TOOL = 'tool'
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    TOOL = "tool"
 
 
 class ChatCompletionChoiceFinishReason(str, enum.Enum):
-    stop = 'stop'
-    length = 'length'
-    function_call = 'function_call'
+    stop = "stop"
+    length = "length"
+    function_call = "function_call"
 
 
 class Usage(BaseModel):
@@ -675,7 +681,7 @@ class Usage(BaseModel):
 
 
 class ToolType(str, enum.Enum):
-    function = 'function'
+    function = "function"
 
 
 class FunctionCall(BaseModel):
@@ -690,8 +696,8 @@ class ToolCall(BaseModel):
 
 
 class ContentPartType(str, enum.Enum):
-    text = 'text'
-    image_url = 'image_url'
+    text = "text"
+    image_url = "image_url"
 
 
 class TextContentPart(BaseModel):
@@ -758,9 +764,9 @@ class ChatCompletionConfig(BaseModel, extra=Extra.allow):
 
 
 class ToolChoiceEnum(str, enum.Enum):
-    none = 'none'
-    auto = 'auto'
-    required = 'required'
+    none = "none"
+    auto = "auto"
+    required = "required"
 
 
 class NamedToolChoiceFunction(BaseModel):

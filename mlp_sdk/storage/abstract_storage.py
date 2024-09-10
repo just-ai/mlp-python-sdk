@@ -3,9 +3,8 @@ from typing import IO
 
 
 class AbstractStorage(ABC):
-
     @abstractmethod
-    def open(self, path: str, mode: str = 'r') -> IO:
+    def open(self, path: str, mode: str = "r") -> IO:
         pass
 
     @abstractmethod
