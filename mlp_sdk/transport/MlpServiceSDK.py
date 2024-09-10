@@ -24,6 +24,7 @@ from mlp_sdk.log.setup_logging import get_logger
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
+SDK_VERSION = 1
 
 MlpResponseHeaders = threading.local()
 
