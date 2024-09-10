@@ -121,6 +121,7 @@ from mlp_api.models.instance_state_waiting import InstanceStateWaiting
 from mlp_api.models.instances_status_data import InstancesStatusData
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
+from mlp_api.models.last_activity_pk import LastActivityPk
 from mlp_api.models.management_request_data import ManagementRequestData
 from mlp_api.models.measurement import Measurement
 from mlp_api.models.method_descriptor_data import MethodDescriptorData
