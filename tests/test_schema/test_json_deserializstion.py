@@ -38,7 +38,7 @@ def test_deserialize_simple_chatgpt_request():
     try:
         chat_completion_request = ChatCompletionRequest.parse_raw(body)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     for message in chat_completion_request.messages:
         assert isinstance(message.content, str)
@@ -108,7 +108,7 @@ def test_deserialize_function_chatgpt_request():
     try:
         chat_completion_request = ChatCompletionRequest.parse_raw(body)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     assert chat_completion_request.tool_choice == ToolChoiceEnum.auto
 
@@ -185,7 +185,7 @@ def test_deserialize_image_chatgpt_request():
     try:
         chat_completion_request = ChatCompletionRequest.parse_raw(body)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     message = chat_completion_request.messages[0]
     message_content = message.content
@@ -229,7 +229,7 @@ def test_deserialize_image_chatgpt_response():
     try:
         chat_completion_response = ChatCompletionResult.parse_raw(response)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     message_content = chat_completion_response.choices[0].message.content
     assert message_content == "\n\nThis image shows a wooden boardwalk extending through a lush green marshland."
@@ -253,7 +253,7 @@ def test_deserialize_logprobs_chatgpt_request_and_response():
     try:
         chat_completion_request = ChatCompletionRequest.parse_raw(body)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     assert chat_completion_request.messages[0] == ChatMessage(role=ChatCompletionRole.USER, content="Hello!")
     assert chat_completion_request.logprobs
@@ -448,7 +448,7 @@ def test_deserialize_logprobs_chatgpt_request_and_response():
     try:
         chat_completion_response = ChatCompletionResult.parse_raw(response)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     choice = chat_completion_response.choices[0]
     message_content = choice.message.content
@@ -509,7 +509,7 @@ def test_deserialize_named_function_call_chatgpt_request():
     try:
         chat_completion_request = ChatCompletionRequest.parse_raw(body)
     except Exception as e:
-        raise AssertionError(e)
+        raise AssertionError(e)  # noqa: B904
 
     assert chat_completion_request.tool_choice == NamedToolChoice(
         type=ToolType.function, function=NamedToolChoiceFunction(name="get_current_weather")

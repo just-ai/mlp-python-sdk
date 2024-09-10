@@ -145,7 +145,7 @@ class MlpClientSDK:
                     self.__connect()
                 else:
                     self.log.error(f"Error from grpc channel. Error \n{rpc_error.details()}")
-                    raise MlpClientException(f"{rpc_error.code()}", f"{rpc_error.details()}", {})
+                    raise MlpClientException(f"{rpc_error.code()}", f"{rpc_error.details()}", {})  # noqa: B904
 
         if response is None:
             raise MlpClientException("UNAVAILABLE", f"Cannot connect after {request_retry_timeout_seconds} seconds", {})

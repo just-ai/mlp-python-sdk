@@ -57,7 +57,7 @@ class TaskMeta(ABCMeta):
                             if hasattr(param_value.annotation, "schema"):
                                 schema[pretty_method_name][param_name] = param_value.annotation.schema()
 
-                            elif param_value.annotation == str:
+                            elif param_value.annotation == str:  # noqa: E721
                                 schema[pretty_method_name][param_name] = {
                                     "title": param_value.annotation.__name__,
                                     "type": BASE_FIELD_TYPES[param_value.annotation],
@@ -147,7 +147,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
             outer_value = gold_schema._name
             inner_value = get_args(gold_schema)[0].schema()["title"]
 
-            if type(config) == eval(outer_value.lower()):
+            if type(config) == eval(outer_value.lower()):  # noqa: E721
                 for config_el in config:
                     if config_el.schema()["title"] != inner_value:
                         raise RuntimeError("Schemas don't match.")
@@ -182,7 +182,7 @@ class ABCTask(ABC, metaclass=TaskMeta):
 
         return ServiceDescriptorProto(
             name=cls.__name__,
-            fittable=any([getattr(cls, attr_name) for attr_name in dir(cls) if attr_name.endswith("__IS_LEARNABLE")]),
+            fittable=any([getattr(cls, attr_name) for attr_name in dir(cls) if attr_name.endswith("__IS_LEARNABLE")]),  # noqa: C419
             methods={
                 method_name: MethodDescriptorProto(
                     input={

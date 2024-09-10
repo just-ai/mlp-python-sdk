@@ -67,7 +67,7 @@ def test_local_storage():
             assert not os.path.exists(Path(directory) / "new_uploaded_dir"), "Not removed"
 
         except Exception as e:
-            assert False, str(e)
+            assert False, str(e)  # noqa: B011
 
         finally:
             shutil.rmtree(TEMP_DATA_PATH)

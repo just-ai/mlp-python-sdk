@@ -132,7 +132,7 @@ class BatchPredictableMixin(ABCTask):
         data_annotation_type = signature(type(self).predict_batch).parameters["data"].annotation
         inner_value = get_args(data_annotation_type)[0]
 
-        if not type(data) == list:
+        if not type(data) == list:  # noqa: E721
             raise RuntimeError("Expected data annotation is List[BaseModel].")
 
         else:

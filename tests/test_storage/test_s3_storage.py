@@ -48,7 +48,7 @@ def test_s3_storage():
     except KeyError:
         pass
     else:
-        assert False, "Error: there should be KeyError after removing file"
+        assert False, "Error: there should be KeyError after removing file"  # noqa: B011
 
 
 def test_download_upload_dir():
@@ -93,7 +93,7 @@ def test_download_upload_dir():
             assert objects_count == REAL_FILES_NUMBER, "Something goes wrong w/ uploading"
 
         except Exception as exc:
-            assert False, str(exc)
+            assert False, str(exc)  # noqa: B011
 
         finally:
             storage.remove(remote_path_to_be_uploaded)
@@ -125,9 +125,9 @@ def test_s3_download_upload_large_files():
 
         try:
             if os.path.getsize(TEMP_DATA_PATH / downloaded_file_name) / 1024 / 1024 / 1024 < 4:
-                assert False, "It's not large file. It should be more than 4Gb"
+                assert False, "It's not large file. It should be more than 4Gb"  # noqa: B011
         except OSError as e:
-            assert False, f"There should be file. It's not downloaded. Exception: {str(e)}"
+            assert False, f"There should be file. It's not downloaded. Exception: {str(e)}"  # noqa: B011
 
         storage.upload(str(TEMP_DATA_PATH / downloaded_file_name), uploaded_file_s3_path)
 
@@ -137,12 +137,12 @@ def test_s3_download_upload_large_files():
 
         try:
             if os.path.getsize(TEMP_DATA_PATH / again_downloaded_file_name) / 1024 / 1024 / 1024 < 4:
-                assert False, "It's not large file. It should be more than 4Gb"
+                assert False, "It's not large file. It should be more than 4Gb"  # noqa: B011
         except OSError as e:
-            assert False, f"There should be file. It's not downloaded. Exception: {str(e)}"
+            assert False, f"There should be file. It's not downloaded. Exception: {str(e)}"  # noqa: B011
 
     except Exception as e:
-        assert False, str(e)
+        assert False, str(e)  # noqa: B011
 
     finally:
         shutil.rmtree(TEMP_DATA_PATH)

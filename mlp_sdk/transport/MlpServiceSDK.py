@@ -241,7 +241,7 @@ class MlpServiceSDK:
         self.state = State.idle
         self.gate_urls: str = ""
         self.grpc_secure: bool = True
-        self.connectors = list()
+        self.connectors = list()  # noqa: C408
         self.client_api_url: str = ""
         self.client_api_token: str = ""
         self.connectors_lock = threading.Lock()
@@ -312,7 +312,7 @@ class MlpServiceSDK:
     def update_connectors(self, servers):
         with self.connectors_lock:
             # 1. compare with what we know
-            current_urls = set(map(lambda x: x.url, self.connectors))
+            current_urls = set(map(lambda x: x.url, self.connectors))  # noqa: C417
             new_urls = set(servers)
             if current_urls == new_urls:
                 return
@@ -567,7 +567,7 @@ class MlpServiceSDK:
                 converted = class_.parse_raw(json_format.MessageToJson(payload))
         except ValidationError as ex:
             args = {"message": str(ex)}
-            raise MlpException.create(CommonErrorCode.BAD_REQUEST, args)
+            raise MlpException.create(CommonErrorCode.BAD_REQUEST, args)  # noqa: B904
 
         return converted
 

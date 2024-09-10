@@ -110,13 +110,13 @@ class S3Storage(AbstractStorage):
 
                 except ClientError as e:
                     if e.response["Error"]["Code"] == "404" or e.response["Error"]["Code"] == "NoSuchKey":
-                        raise KeyError(f"No such key in s3 storage: {path}")
+                        raise KeyError(f"No such key in s3 storage: {path}")  # noqa: B904
 
                     elif e.response["Error"]["Code"] == "403" or e.response["Error"]["Code"] == "Forbidden":
-                        raise PermissionError("Access denied (probably invalid credentials are given)")
+                        raise PermissionError("Access denied (probably invalid credentials are given)")  # noqa: B904
 
                     else:
-                        raise RuntimeError(f"Unknown error: {str(e)}")
+                        raise RuntimeError(f"Unknown error: {str(e)}")  # noqa: B904
 
             elif "w" in mode:
                 if "b" in mode:

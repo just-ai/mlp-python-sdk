@@ -40,7 +40,7 @@ class LocalStorage(AbstractStorage):
 
             return open(full_path, mode)
         except FileNotFoundError:
-            raise KeyError(f"No such key in local storage: {full_path}")
+            raise KeyError(f"No such key in local storage: {full_path}")  # noqa: B904
 
     def remove(self, path: str) -> None:
         full_path = self.path / path
