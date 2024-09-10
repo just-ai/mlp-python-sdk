@@ -23,7 +23,7 @@ pipeline {
                     echo "${env.gitlabBranch}"
                 }
 
-                updateGitlabCommitStatus name: "build", state: "running"
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
                         branch: "${RESULT_BRANCH}",
@@ -34,6 +34,8 @@ pipeline {
         stage('Update spec') {
             steps {
                 script {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
+
                     sh("./mlp-specs/update.sh")
 
                     def hasChanges = !sh(returnStdout: true, script: 'git status -s mlp-specs').trim().isEmpty()
@@ -48,6 +50,7 @@ pipeline {
                 expression { env.NEED_REBUILD == 'true' || params.NEED_REBUILD }
             }
             steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 sh "./generate-protobuf.sh"
                 sh "./generate-api-client.sh"
 
@@ -59,6 +62,7 @@ pipeline {
         }
         stage('Lint') {
             steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 withPythonEnv('/opt/python3.10-virtualenv/bin/python') {
                     sh "pip install ruff==0.2.1"
                     sh "ruff check --config pyproject.toml ."
@@ -85,6 +89,7 @@ pipeline {
             }
             steps {
                 script {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                     sh "sh ./run_mlp_tests.sh"
                 }
             }
