@@ -18,12 +18,11 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                     RESULT_BRANCH = env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH
                     manager.addShortText("${RESULT_BRANCH}")
                     echo "${env.gitlabBranch}"
                 }
-
-                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
                         branch: "${RESULT_BRANCH}",
