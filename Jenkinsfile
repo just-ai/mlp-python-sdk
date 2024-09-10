@@ -64,7 +64,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 withPythonEnv('/opt/ansible-venv-python3/bin/python') {
-                    sh "pip install ruff==0.2.1"
+                    sh "pip install ruff==0.6.4"
                     sh "ruff check --config pyproject.toml ."
                 }
             }
