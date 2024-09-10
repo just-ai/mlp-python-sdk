@@ -10333,6 +10333,10 @@ components:
           - STOPPED
           - UNAVAILABLE
           - DELETING
+        serverIp:
+          type: string
+        jumpHostIp:
+          type: string
         resources:
           $ref: '#/components/schemas/ServerCapacityData'
         description:
