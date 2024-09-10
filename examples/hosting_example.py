@@ -1,9 +1,10 @@
 from typing import List, Type
+
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.task import Task
-from mlp_sdk.types import InflectorTextsCollection, TextsCollection
 from mlp_sdk.hosting.host import host
+from mlp_sdk.types import InflectorTextsCollection, TextsCollection
 
 
 class DucklingContext(BaseModel):
@@ -31,7 +32,6 @@ class NerPredictConfigSchema(BaseModel):
 
 
 class MyCustomTask(Task):
-
     @property
     def init_config_schema(self) -> Type[BaseModel]:
         return BaseModel

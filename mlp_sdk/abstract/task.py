@@ -4,15 +4,15 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
 from mlp_sdk.abstract.abc_task import ABCTask
 from mlp_sdk.abstract.task_utils import is_allowed_input_type
+from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
 
 
 class Task(ABCTask):
     __METHODS = [
-        '__init__',
-        'predict',
+        "__init__",
+        "predict",
     ]
     __IS_LEARNABLE = False
 
@@ -21,7 +21,7 @@ class Task(ABCTask):
 
     @classmethod
     def get_init_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "__init__")).parameters["config"].annotation
+        return signature(cls.__init__).parameters["config"].annotation
 
     def _check_predict_input_type(self, data: BaseModel) -> None:
         if not is_allowed_input_type(type(self), "predict", "data", type(data)):
@@ -37,4 +37,4 @@ class Task(ABCTask):
 
     @classmethod
     def get_predict_config_schema(cls) -> Type[BaseModel]:
-        return signature(getattr(cls, "predict")).parameters["config"].annotation
+        return signature(cls.predict).parameters["config"].annotation

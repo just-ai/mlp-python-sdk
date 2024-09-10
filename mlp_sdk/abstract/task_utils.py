@@ -4,9 +4,8 @@ from inspect import signature
 
 import pydantic
 
-from mlp_sdk.utilities.schemes_handling import get_parent_classes
-
 from mlp_sdk.allowed_types import BASE_FIELD_TYPES
+from mlp_sdk.utilities.schemes_handling import get_parent_classes
 
 
 def can_type_be_replaced(reference_type: type, candidate_type: type) -> bool:
@@ -17,8 +16,8 @@ def can_type_be_replaced(reference_type: type, candidate_type: type) -> bool:
     if reference_type not in parents:
         return False
 
-    candidate_type_fields = candidate_type.__dict__['__fields__']
-    reference_type_fields = reference_type.__dict__['__fields__']
+    candidate_type_fields = candidate_type.__dict__["__fields__"]
+    reference_type_fields = reference_type.__dict__["__fields__"]
 
     for field_name, field in candidate_type_fields.items():
         candidate_field_type = field.outer_type_
@@ -41,14 +40,14 @@ def can_type_be_replaced(reference_type: type, candidate_type: type) -> bool:
             if not issubclass(type(reference_field_type), typing._GenericAlias):
                 return False
 
-            candidate_generic_type = candidate_field_type.__dict__['__origin__']
-            reference_generic_type = reference_field_type.__dict__['__origin__']
+            candidate_generic_type = candidate_field_type.__dict__["__origin__"]
+            reference_generic_type = reference_field_type.__dict__["__origin__"]
 
             if reference_generic_type is not candidate_generic_type:
                 return False
 
-            candidate_inner_type = candidate_field_type.__dict__['__args__'][0]
-            reference_inner_type = reference_field_type.__dict__['__args__'][0]
+            candidate_inner_type = candidate_field_type.__dict__["__args__"][0]
+            reference_inner_type = reference_field_type.__dict__["__args__"][0]
 
             if candidate_inner_type in BASE_FIELD_TYPES or issubclass(type(candidate_inner_type), enum.EnumMeta):
                 if candidate_inner_type is not reference_inner_type:

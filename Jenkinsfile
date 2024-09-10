@@ -23,7 +23,7 @@ pipeline {
                     echo "${env.gitlabBranch}"
                 }
 
-                updateGitlabCommitStatus name: "build", state: "running"
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
 
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
                         branch: "${RESULT_BRANCH}",
@@ -34,6 +34,8 @@ pipeline {
         stage('Update spec') {
             steps {
                 script {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
+
                     sh("./mlp-specs/update.sh")
 
                     def hasChanges = !sh(returnStdout: true, script: 'git status -s mlp-specs').trim().isEmpty()
@@ -48,6 +50,7 @@ pipeline {
                 expression { env.NEED_REBUILD == 'true' || params.NEED_REBUILD }
             }
             steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 sh "./generate-protobuf.sh"
                 sh "./generate-api-client.sh"
 
@@ -55,6 +58,15 @@ pipeline {
                 sh "git add mlp_api"
                 sh "git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc"
                 sh "git push"
+            }
+        }
+        stage('Lint') {
+            steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
+                withPythonEnv('/opt/python3.10-virtualenv/bin/python') {
+                    sh "pip install ruff==0.2.1"
+                    sh "ruff check --config pyproject.toml ."
+                }
             }
         }
         stage('Tests') {
@@ -77,6 +89,7 @@ pipeline {
             }
             steps {
                 script {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                     sh "sh ./run_mlp_tests.sh"
                 }
             }
@@ -102,14 +115,36 @@ pipeline {
     }
     post {
         failure {
-            updateGitlabCommitStatus name: "build", state: "failed"
+            updateGitlabCommitStatus name: "Prepare", state: "failed"
+            updateGitlabCommitStatus name: "Update spec", state: "failed"
+            updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
+            updateGitlabCommitStatus name: "Lint", state: "failed"
+            updateGitlabCommitStatus name: "Tests", state: "failed"
+            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
         }
         success {
-            updateGitlabCommitStatus name: "build", state: "success"
+            updateGitlabCommitStatus name: "Prepare", state: "success"
+            updateGitlabCommitStatus name: "Update spec", state: "success"
+            updateGitlabCommitStatus name: "Rebuild client stubs", state: "success"
+            updateGitlabCommitStatus name: "Lint", state: "success"
+            updateGitlabCommitStatus name: "Tests", state: "success"
+            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "success"
         }
         unstable {
-            updateGitlabCommitStatus name: "build", state: "failed"
+            updateGitlabCommitStatus name: "Prepare", state: "failed"
+            updateGitlabCommitStatus name: "Update spec", state: "failed"
+            updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
+            updateGitlabCommitStatus name: "Lint", state: "failed"
+            updateGitlabCommitStatus name: "Tests", state: "failed"
+            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
+        }
+        aborted {
+            updateGitlabCommitStatus name: "Prepare", state: "canceled"
+            updateGitlabCommitStatus name: "Update spec", state: "canceled"
+            updateGitlabCommitStatus name: "Rebuild client stubs", state: "canceled"
+            updateGitlabCommitStatus name: "Lint", state: "canceled"
+            updateGitlabCommitStatus name: "Tests", state: "canceled"
+            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "canceled"
         }
     }
 }
-
