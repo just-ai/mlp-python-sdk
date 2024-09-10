@@ -15,7 +15,7 @@ import grpc
 import yaml
 from google.protobuf import json_format
 from grpc._channel import _MultiThreadedRendezvous, _InactiveRpcError
-from pydantic import ValidationError
+from pydantic.error_wrappers import ValidationError
 
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.grpc.mlp_grpc_pb2 import SimpleStatusProto
