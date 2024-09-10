@@ -492,7 +492,7 @@ paths:
     post:
       tags:
       - admin-endpoint
-      operationId: updateLastHeartBeats_1
+      operationId: updateLastActivities
       parameters:
       - name: MLP-API-KEY
         in: header
@@ -8987,6 +8987,10 @@ components:
           format: int64
         name:
           type: string
+        serverIp:
+          type: string
+        jumpHostIp:
+          type: string
         description:
           type: string
         isAutoCreated:
@@ -10369,10 +10373,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -10582,13 +10586,16 @@ components:
           format: int64
         name:
           type: string
+        serverId:
+          type: integer
+          format: int64
+        serverName:
+          type: string
         statusInfo:
           $ref: '#/components/schemas/StatusInfo'
         restartCount:
           type: integer
           format: int32
-        lastRestartTimestamp:
-          type: string
         createdTimestamp:
           type: string
         instanceHostingType:
@@ -10599,6 +10606,8 @@ components:
           - docker
           - external
           - hostingServer
+        lastRestartTimestamp:
+          type: string
     ModelInstanceListData:
       required:
       - instances

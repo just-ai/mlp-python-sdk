@@ -1740,13 +1740,13 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def update_last_heart_beats1(self, last_activity_pk : conlist(LastActivityPk), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
-        """update_last_heart_beats1  # noqa: E501
+    def update_last_activities(self, last_activity_pk : conlist(LastActivityPk), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+        """update_last_activities  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_last_heart_beats1(last_activity_pk, mlp_api_key, async_req=True)
+        >>> thread = api.update_last_activities(last_activity_pk, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param last_activity_pk: (required)
@@ -1766,18 +1766,18 @@ class AdminEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the update_last_heart_beats1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the update_last_activities_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.update_last_heart_beats1_with_http_info(last_activity_pk, mlp_api_key, **kwargs)  # noqa: E501
+        return self.update_last_activities_with_http_info(last_activity_pk, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_last_heart_beats1_with_http_info(self, last_activity_pk : conlist(LastActivityPk), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """update_last_heart_beats1  # noqa: E501
+    def update_last_activities_with_http_info(self, last_activity_pk : conlist(LastActivityPk), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """update_last_activities  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_last_heart_beats1_with_http_info(last_activity_pk, mlp_api_key, async_req=True)
+        >>> thread = api.update_last_activities_with_http_info(last_activity_pk, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param last_activity_pk: (required)
@@ -1832,7 +1832,7 @@ class AdminEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_last_heart_beats1" % _key
+                    " to method update_last_activities" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
