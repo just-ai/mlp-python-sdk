@@ -63,10 +63,8 @@ pipeline {
         stage('Lint') {
             steps {
                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
-                withPythonEnv('/opt/python3.10-virtualenv/bin/python') {
-                    sh "pip install ruff==0.2.1"
-                    sh "ruff check --config pyproject.toml ."
-                }
+                sh "pip install ruff==0.2.1"
+                sh "ruff check --config pyproject.toml ."
             }
         }
         stage('Tests') {
