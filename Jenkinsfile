@@ -18,7 +18,6 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                     RESULT_BRANCH = env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH
                     manager.addShortText("${RESULT_BRANCH}")
                     echo "${env.gitlabBranch}"
