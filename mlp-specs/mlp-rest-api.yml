@@ -11042,6 +11042,9 @@ components:
           format: int64
         builtInImageName:
           type: string
+        externalDockerHttpPort:
+          type: integer
+          format: int32
         status:
           type: string
           enum:
