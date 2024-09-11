@@ -25,9 +25,7 @@ class SharedPoolQuota(BaseModel):
     """
     SharedPoolQuota
     """
-    id: StrictInt = Field(...)
     owner_id: StrictInt = Field(default=..., alias="ownerId")
-    owner_name: StrictStr = Field(default=..., alias="ownerName")
     group_name: StrictStr = Field(default=..., alias="groupName")
     group_type: StrictStr = Field(default=..., alias="groupType")
     access_policy: Dict[str, Any] = Field(default=..., alias="accessPolicy")
@@ -37,7 +35,7 @@ class SharedPoolQuota(BaseModel):
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
-    __properties = ["id", "ownerId", "ownerName", "groupName", "groupType", "accessPolicy", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
+    __properties = ["ownerId", "groupName", "groupType", "accessPolicy", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
 
     @validator('group_type')
     def group_type_validate_enum(cls, value):
@@ -82,9 +80,7 @@ class SharedPoolQuota(BaseModel):
             return SharedPoolQuota.parse_obj(obj)
 
         _obj = SharedPoolQuota.parse_obj({
-            "id": obj.get("id"),
             "owner_id": obj.get("ownerId"),
-            "owner_name": obj.get("ownerName"),
             "group_name": obj.get("groupName"),
             "group_type": obj.get("groupType"),
             "access_policy": obj.get("accessPolicy"),
