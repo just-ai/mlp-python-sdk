@@ -15,6 +15,7 @@ def get_requirements():
     with (_THIS_DIR / "requirements.txt").open() as fp:
         return fp.read().splitlines()
 
+
 setup(
     name="mlp_sdk",
     version="1.0.0",
@@ -24,4 +25,3 @@ setup(
     include_package_data=True,
     packages=find_packages(exclude=["tests", "examples", "specs"]),
 )
-

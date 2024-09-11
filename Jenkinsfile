@@ -58,15 +58,15 @@ pipeline {
                 sh "git push"
             }
         }
-//         stage('Lint') {
-//             steps {
-//                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
-//                 withPythonEnv('/opt/ansible-venv-python3/bin/python') {
-//                     sh "pip install ruff==0.6.4"
-//                     sh "ruff check --config pyproject.toml ."
-//                 }
-//             }
-//         }
+        stage('Lint') {
+            steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
+                withPythonEnv('/opt/ansible-venv-python3/bin/python') {
+                    sh "pip install ruff==0.6.4"
+                    sh "ruff check --config pyproject.toml ."
+                }
+            }
+        }
         stage('Tests') {
             when {
                 expression { params.RUN_TESTS ?: false || env.NEED_REBUILD == 'true' }
@@ -98,9 +98,9 @@ pipeline {
             }
             steps {
                 parallel (
-                    "build mlp-aimyvoice-base-service" : {
-                        build job: "mlp-aimyvoice-base-service-build/${RESULT_BRANCH}", wait: false
-                    },
+//                     "build mlp-aimyvoice-base-service" : {
+//                         build job: "mlp-aimyvoice-base-service-build/${RESULT_BRANCH}", wait: false
+//                     },
                     "build mlp_task_zoo" : {
                         build job: "mlp_task_zoo-build/${RESULT_BRANCH}", wait: false
                     },
