@@ -1,22 +1,20 @@
 import os
 import shutil
-
 from distutils.dir_util import copy_tree
 from pathlib import Path
 from typing import IO
 
-from mlp_sdk.storage.abstract_storage import AbstractStorage
 from mlp_sdk.log import get_logger
+from mlp_sdk.storage.abstract_storage import AbstractStorage
 
 LOGGER = get_logger(__name__)
 
 
 class LocalStorage(AbstractStorage):
-
     def __init__(self, path: Path):
         self.path = path
 
-        LOGGER.info(f'Try to setup local storage as path: {self.path}')
+        LOGGER.info(f"Try to setup local storage as path: {self.path}")
 
         if self.path.exists():
             LOGGER.info(f"'{self.path}' already exists")
@@ -25,29 +23,29 @@ class LocalStorage(AbstractStorage):
                 pass
 
             else:
-                error_msg = f'Unable to create/use directory {self.path}: file with such name already exists'
+                error_msg = f"Unable to create/use directory {self.path}: file with such name already exists"
                 LOGGER.error(error_msg)
                 raise NotADirectoryError(error_msg)
 
         else:
             self.path.mkdir(parents=True, exist_ok=True)
 
-    def open(self, path: str, mode: str = 'r') -> IO:
+    def open(self, path: str, mode: str = "r") -> IO:
         full_path = self.path / path
 
         try:
-            LOGGER.debug(f'Try to open path {full_path}')
-            if 'w' in mode and len(full_path.parents) and not full_path.parents[0].exists():
+            LOGGER.debug(f"Try to open path {full_path}")
+            if "w" in mode and len(full_path.parents) and not full_path.parents[0].exists():
                 Path(full_path.parents[0]).mkdir(parents=True, exist_ok=True)
 
             return open(full_path, mode)
         except FileNotFoundError:
-            raise KeyError(f'No such key in local storage: {full_path}')
+            raise KeyError(f"No such key in local storage: {full_path}")  # noqa: B904
 
     def remove(self, path: str) -> None:
         full_path = self.path / path
 
-        LOGGER.debug(f'Try to remove path {full_path}')
+        LOGGER.debug(f"Try to remove path {full_path}")
         if full_path.exists():
             if full_path.is_dir():
                 LOGGER.debug(f"'{full_path}' is directory")
@@ -59,11 +57,11 @@ class LocalStorage(AbstractStorage):
 
     @staticmethod
     def name() -> str:
-        return 'local'
+        return "local"
 
     def download(self, remote_path: str, local_path: str) -> None:
         is_directory = not os.path.isfile(remote_path)
-        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {is_directory}')
+        LOGGER.debug(f"Try to download from {remote_path} to {local_path}, is directory: {is_directory}")
 
         if is_directory:
             Path(local_path).mkdir(parents=True, exist_ok=True)

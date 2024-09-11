@@ -1,14 +1,12 @@
 import os.path
-import yaml
-
 from pathlib import Path
-from typing import Dict, Union, Optional
+from typing import Dict, Optional, Union
+
+import yaml
 
 
 def parse_config(config_path: Path) -> Dict:
-
     with open(config_path, "r") as cfg_file:
-
         return yaml.load(cfg_file, Loader=yaml.SafeLoader)
 
 
@@ -41,7 +39,7 @@ def os_path_join_corrected(path_a: Union[str, Path], path_b: Union[str, Path]) -
     if isinstance(path_b, Path):
         path_b = str(path_b)
 
-    if path_b[0] == '/':
+    if path_b[0] == "/":
         path_b = path_b[1:]
 
     return os.path.join(path_a, path_b)

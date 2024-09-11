@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 from mlp_sdk.abstract import Task
 from mlp_sdk.hosting.host import host_mlp_cloud
-from mlp_sdk.types import Items, Item, TextsCollection
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
+from mlp_sdk.types import Item, Items, TextsCollection
 
 
 class MyCustomPredictSchema(BaseModel):
@@ -26,5 +26,5 @@ class MyCustomTask(Task):
         return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     host_mlp_cloud(task=MyCustomTask, params=BaseModel())

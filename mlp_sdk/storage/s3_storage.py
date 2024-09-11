@@ -1,11 +1,9 @@
 import os.path
-
-import boto3
-
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import IO, Optional
 
+import boto3
 from botocore.exceptions import ClientError
 
 from mlp_sdk.log import get_logger
@@ -40,31 +38,36 @@ class S3StringStream(StringIO):
 
 
 class S3Storage(AbstractStorage):
-    def __init__(self,
-                 bucket: str,
-                 service_name: str,
-                 region: str,
-                 access_key: str,
-                 secret_key: str,
-                 endpoint: str,
-                 data_dir: Optional[str] = None):
-
+    def __init__(
+        self,
+        bucket: str,
+        service_name: str,
+        region: str,
+        access_key: str,
+        secret_key: str,
+        endpoint: str,
+        data_dir: Optional[str] = None,
+    ):
         self.bucket = bucket
         self.data_dir = data_dir
 
         try:
-            LOGGER.info('Try to setup S3 storage')
-            self.client = boto3.client(service_name=service_name,
-                                       region_name=region,
-                                       aws_access_key_id=access_key,
-                                       aws_secret_access_key=secret_key,
-                                       endpoint_url=endpoint)
+            LOGGER.info("Try to setup S3 storage")
+            self.client = boto3.client(
+                service_name=service_name,
+                region_name=region,
+                aws_access_key_id=access_key,
+                aws_secret_access_key=secret_key,
+                endpoint_url=endpoint,
+            )
 
-            self.resource = boto3.resource(service_name=service_name,
-                                           region_name=region,
-                                           aws_access_key_id=access_key,
-                                           aws_secret_access_key=secret_key,
-                                           endpoint_url=endpoint)
+            self.resource = boto3.resource(
+                service_name=service_name,
+                region_name=region,
+                aws_access_key_id=access_key,
+                aws_secret_access_key=secret_key,
+                endpoint_url=endpoint,
+            )
         except Exception as exc:
             LOGGER.error(str(exc))
             raise
@@ -86,37 +89,37 @@ class S3Storage(AbstractStorage):
                 LOGGER.error(str(exc_2))
                 raise
 
-    def open(self, path: str, mode: str = 'r') -> IO:
+    def open(self, path: str, mode: str = "r") -> IO:
         modes = list(mode)
 
         if self.data_dir is not None:
             path = os_path_join_corrected(self.data_dir, path)
 
-        LOGGER.debug(f'Try to open path {path}')
+        LOGGER.debug(f"Try to open path {path}")
 
-        if ('r' in modes or 'w' in modes) and (len(modes) == 1 or (len(modes) == 2 and 'b' in modes)):
-            if 'r' in mode:
+        if ("r" in modes or "w" in modes) and (len(modes) == 1 or (len(modes) == 2 and "b" in modes)):
+            if "r" in mode:
                 try:
-                    object_ = self.client.get_object(Bucket=self.bucket, Key=path)['Body'].read()
+                    object_ = self.client.get_object(Bucket=self.bucket, Key=path)["Body"].read()
 
-                    if 'b' in mode:
+                    if "b" in mode:
                         return BytesIO(object_)
 
                     else:
-                        return StringIO(object_.decode('utf-8'))
+                        return StringIO(object_.decode("utf-8"))
 
                 except ClientError as e:
-                    if e.response['Error']['Code'] == '404' or e.response['Error']['Code'] == 'NoSuchKey':
-                        raise KeyError(f'No such key in s3 storage: {path}')
+                    if e.response["Error"]["Code"] == "404" or e.response["Error"]["Code"] == "NoSuchKey":
+                        raise KeyError(f"No such key in s3 storage: {path}")  # noqa: B904
 
-                    elif e.response['Error']['Code'] == '403' or e.response['Error']['Code'] == 'Forbidden':
-                        raise PermissionError('Access denied (probably invalid credentials are given)')
+                    elif e.response["Error"]["Code"] == "403" or e.response["Error"]["Code"] == "Forbidden":
+                        raise PermissionError("Access denied (probably invalid credentials are given)")  # noqa: B904
 
                     else:
-                        raise RuntimeError(f'Unknown error: {str(e)}')
+                        raise RuntimeError(f"Unknown error: {str(e)}")  # noqa: B904
 
-            elif 'w' in mode:
-                if 'b' in mode:
+            elif "w" in mode:
+                if "b" in mode:
                     return S3BytesStream(self.client, self.bucket, path)
                 else:
                     return S3StringStream(self.client, self.bucket, path)
@@ -135,7 +138,7 @@ class S3Storage(AbstractStorage):
             error_msg = f"File or directory doesn't exist: '{path}'"
             LOGGER.warning(error_msg)
 
-        LOGGER.debug(f'Try to remove path {path}')
+        LOGGER.debug(f"Try to remove path {path}")
         if objects_count > 1:
             for obj in self.resource.Bucket(self.bucket).objects.filter(Prefix=path):
                 self.client.delete_object(Bucket=self.bucket, Key=obj.key)
@@ -157,7 +160,7 @@ class S3Storage(AbstractStorage):
         for _ in self.resource.Bucket(self.bucket).objects.filter(Prefix=remote_path):
             objects_count += 1
 
-        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {objects_count > 1}')
+        LOGGER.debug(f"Try to download from {remote_path} to {local_path}, is directory: {objects_count > 1}")
         if objects_count > 1:
             Path(local_path).mkdir(parents=True, exist_ok=True)
             self._download_directory(remote_path, local_path)
@@ -197,19 +200,21 @@ class S3Storage(AbstractStorage):
         if self.data_dir is not None:
             remote_path = os_path_join_corrected(self.data_dir, remote_path)
 
-        LOGGER.debug(f'Try to download from {remote_path} to {local_path}, is directory: {os.path.isdir(local_path)}')
+        LOGGER.debug(f"Try to download from {remote_path} to {local_path}, is directory: {os.path.isdir(local_path)}")
         if os.path.isdir(local_path):
             self._upload_directory(local_path, remote_path)
         else:
             self.client.upload_file(local_path, self.bucket, remote_path)
 
         # check uploaded
-        if 'Contents' in self.client.list_objects(Bucket=self.bucket, Prefix=remote_path):
-            LOGGER.info('Successfully uploaded.')
+        if "Contents" in self.client.list_objects(Bucket=self.bucket, Prefix=remote_path):
+            LOGGER.info("Successfully uploaded.")
         else:
-            raise ClientError(error_response={"Error": {'Code': 400, 'Message': 'Something goes wrong'}},
-                              operation_name='data uploading')
+            raise ClientError(
+                error_response={"Error": {"Code": 400, "Message": "Something goes wrong"}},
+                operation_name="data uploading",
+            )
 
     @staticmethod
     def name() -> str:
-        return 's3'
+        return "s3"

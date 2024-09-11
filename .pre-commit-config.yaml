@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: ^mlp_api/
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: trailing-whitespace
+        exclude: ^mlp_api/
+      - id: check-toml
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format

@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from typing import List
+
+from pydantic import BaseModel
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.types import InflectorConformerTextsCollectionTest, InflectorTextsCollection
@@ -30,13 +31,11 @@ class NerPredictConfigSchema(BaseModel):
 
 
 class MyCustomTask(Task):
-
     def predict(
-            self,
-            data: InflectorConformerTextsCollectionTest,
-            config: NerPredictConfigSchema,
+        self,
+        data: InflectorConformerTextsCollectionTest,
+        config: NerPredictConfigSchema,
     ) -> InflectorTextsCollection:
-
         result = InflectorTextsCollection(texts=[], tags=[])
         result.texts.append("Done")
         return result
@@ -47,13 +46,8 @@ def test_simple_config():
     predict_schema = NerPredictConfigSchema(
         lang="zh",
         engines=["duckling", "chn"],
-        systemEntities=SystemEntities(
-            entities=[Entity(name="duckling.number", version="v2")]
-        ),
-        params=ParamsType(
-            duckling_context=DucklingContext(locale="zh_ZH")
-        )
-
+        systemEntities=SystemEntities(entities=[Entity(name="duckling.number", version="v2")]),
+        params=ParamsType(duckling_context=DucklingContext(locale="zh_ZH")),
     )
     task.predict(InflectorConformerTextsCollectionTest(texts=[], tags=[], numbers=[]), config=predict_schema)
 

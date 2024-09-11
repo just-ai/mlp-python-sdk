@@ -28,12 +28,14 @@ class ModelInstanceData(BaseModel):
     """
     id: StrictInt = Field(...)
     name: Optional[StrictStr] = None
+    server_id: Optional[StrictInt] = Field(default=None, alias="serverId")
+    server_name: Optional[StrictStr] = Field(default=None, alias="serverName")
     status_info: StatusInfo = Field(default=..., alias="statusInfo")
     restart_count: StrictInt = Field(default=..., alias="restartCount")
-    last_restart_timestamp: Optional[StrictStr] = Field(default=None, alias="lastRestartTimestamp")
     created_timestamp: Optional[StrictStr] = Field(default=None, alias="createdTimestamp")
     instance_hosting_type: Optional[StrictStr] = Field(default=None, alias="instanceHostingType")
-    __properties = ["id", "name", "statusInfo", "restartCount", "lastRestartTimestamp", "createdTimestamp", "instanceHostingType"]
+    last_restart_timestamp: Optional[StrictStr] = Field(default=None, alias="lastRestartTimestamp")
+    __properties = ["id", "name", "serverId", "serverName", "statusInfo", "restartCount", "createdTimestamp", "instanceHostingType", "lastRestartTimestamp"]
 
     @validator('instance_hosting_type')
     def instance_hosting_type_validate_enum(cls, value):
@@ -86,11 +88,13 @@ class ModelInstanceData(BaseModel):
         _obj = ModelInstanceData.parse_obj({
             "id": obj.get("id"),
             "name": obj.get("name"),
+            "server_id": obj.get("serverId"),
+            "server_name": obj.get("serverName"),
             "status_info": StatusInfo.from_dict(obj.get("statusInfo")) if obj.get("statusInfo") is not None else None,
             "restart_count": obj.get("restartCount"),
-            "last_restart_timestamp": obj.get("lastRestartTimestamp"),
             "created_timestamp": obj.get("createdTimestamp"),
-            "instance_hosting_type": obj.get("instanceHostingType")
+            "instance_hosting_type": obj.get("instanceHostingType"),
+            "last_restart_timestamp": obj.get("lastRestartTimestamp")
         })
         return _obj
 
