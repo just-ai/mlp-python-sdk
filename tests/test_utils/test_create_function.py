@@ -2,8 +2,8 @@ import inspect
 
 from pydantic.main import BaseModel
 
-from mlp_sdk.abstract.abc_task import TaskMeta
 from mlp_sdk.abstract import Task
+from mlp_sdk.abstract.abc_task import TaskMeta
 
 
 class TaskWithPreOnly(Task):
@@ -12,7 +12,7 @@ class TaskWithPreOnly(Task):
     def pre_main(self, config: BaseModel, str_arg: str, int_arg: int):
         print(f"Pre function with str_arg: {str_arg} and int_arg: {int_arg}")
 
-    def main(self, config: BaseModel, str_arg: str = 'a', int_arg: int = 0):
+    def main(self, config: BaseModel, str_arg: str = "a", int_arg: int = 0):
         print(f"Main function with str_arg: {str_arg} and int_arg: {int_arg}")
 
     def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
@@ -25,7 +25,7 @@ class TaskWithPostOnly(Task):
     def post_main(self, config: BaseModel, str_arg: str, int_arg: int):
         print(f"Post function with str_arg: {str_arg} and int_arg: {int_arg}")
 
-    def main(self, config: BaseModel, str_arg: str = 'a', int_arg: int = 0):
+    def main(self, config: BaseModel, str_arg: str = "a", int_arg: int = 0):
         print(f"Main function with str_arg: {str_arg} and int_arg: {int_arg}")
 
     def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
@@ -41,7 +41,7 @@ class TaskWithPreAndPost(Task):
     def post_main(self, config: BaseModel, str_arg: str, int_arg: int):
         print(f"Post function with str_arg: {str_arg} and int_arg: {int_arg}")
 
-    def main(self, config: BaseModel, str_arg: str = 'a', int_arg: int = 0):
+    def main(self, config: BaseModel, str_arg: str = "a", int_arg: int = 0):
         print(f"Main function with str_arg: {str_arg} and int_arg: {int_arg}")
 
     def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
@@ -51,7 +51,7 @@ class TaskWithPreAndPost(Task):
 class TaskWithoutPreAndPost(Task):
     __METHODS = ["main"]
 
-    def main(self, config: BaseModel, str_arg: str = 'a', int_arg: int = 0):
+    def main(self, config: BaseModel, str_arg: str = "a", int_arg: int = 0):
         print(f"Main function with str_arg: {str_arg} and int_arg: {int_arg}")
 
     def predict(self, data: BaseModel, config: BaseModel) -> BaseModel:
@@ -66,7 +66,7 @@ def pre_function(config: BaseModel, str_arg: str, int_arg: int):
     print("Pre function")
 
 
-def main_function(config: BaseModel, str_arg: str = '', int_arg: int = 0):
+def main_function(config: BaseModel, str_arg: str = "", int_arg: int = 0):
     print("Main function")
 
 

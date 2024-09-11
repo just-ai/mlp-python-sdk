@@ -1,15 +1,15 @@
-from pathlib import Path
-from typing import Callable, Optional, Dict
 from logging import Logger
+from pathlib import Path
+from typing import Callable, Dict, Optional
 
 
 def check_and_download_dl_model(
-        storage_creator: Callable,
-        logger: Logger,
-        source_model_path: Path,
-        target_model_path: Path,
-        source_backbone_model_path: Optional[Path] = None,
-        target_backbone_model_path: Optional[Path] = None,
+    storage_creator: Callable,
+    logger: Logger,
+    source_model_path: Path,
+    target_model_path: Path,
+    source_backbone_model_path: Optional[Path] = None,
+    target_backbone_model_path: Optional[Path] = None,
 ):
     logger.info(f'Model file {target_model_path} does{" " if target_model_path.exists() else " NOT"} exist')
 
@@ -24,11 +24,13 @@ def check_and_download_dl_model(
             logger.error(str(e))
             raise
 
-        logger.info(f'Successfully downloaded model {target_model_path} from storage.')
+        logger.info(f"Successfully downloaded model {target_model_path} from storage.")
 
     if target_backbone_model_path is not None and source_backbone_model_path is not None:
-        logger.info(f'Backbone model archive path {target_backbone_model_path}'
-                    f'does{" " if target_backbone_model_path.exists() else " NOT"} exist')
+        logger.info(
+            f'Backbone model archive path {target_backbone_model_path}'
+            f'does{" " if target_backbone_model_path.exists() else " NOT"} exist'
+        )
 
         if not target_backbone_model_path.exists():
             logger.debug("Downloading backbone model from storage")
@@ -41,7 +43,7 @@ def check_and_download_dl_model(
                 logger.error(str(e))
                 raise
 
-            logger.info(f'Successfully downloaded backbone model {target_backbone_model_path} from storage.')
+            logger.info(f"Successfully downloaded backbone model {target_backbone_model_path} from storage.")
 
 
 def check_and_download_dl_model_artifacts(
@@ -50,7 +52,6 @@ def check_and_download_dl_model_artifacts(
     artifact_name_to_source_path: Dict,
     resources_path: Path,
 ) -> Dict:
-
     artifact_name_to_target_path = {}
     storage = None
 

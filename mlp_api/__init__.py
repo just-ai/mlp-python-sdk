@@ -174,6 +174,7 @@ from mlp_api.models.resource_group_essential_data import ResourceGroupEssentialD
 from mlp_api.models.resource_group_server_data import ResourceGroupServerData
 from mlp_api.models.resource_group_server_data_with_status import ResourceGroupServerDataWithStatus
 from mlp_api.models.resource_group_services_data import ResourceGroupServicesData
+from mlp_api.models.resource_group_services_short_data import ResourceGroupServicesShortData
 from mlp_api.models.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.models.resource_groups_data import ResourceGroupsData
 from mlp_api.models.response_body_emitter import ResponseBodyEmitter
@@ -185,6 +186,7 @@ from mlp_api.models.server_template_dump import ServerTemplateDump
 from mlp_api.models.service_data import ServiceData
 from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
+from mlp_api.models.service_short_data import ServiceShortData
 from mlp_api.models.shared_pool_quota import SharedPoolQuota
 from mlp_api.models.short_job_view import ShortJobView
 from mlp_api.models.sort_object import SortObject
@@ -196,3 +198,4 @@ from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
+from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota

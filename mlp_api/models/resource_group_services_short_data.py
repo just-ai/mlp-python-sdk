@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List
+from pydantic import BaseModel, Field, conlist
+from mlp_api.models.service_short_data import ServiceShortData
 
-class SortObject(BaseModel):
+class ResourceGroupServicesShortData(BaseModel):
     """
-    SortObject
+    ResourceGroupServicesShortData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    services: conlist(ServiceShortData) = Field(...)
+    __properties = ["services"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ResourceGroupServicesShortData:
+        """Create an instance of ResourceGroupServicesShortData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +53,26 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in services (list)
+        _items = []
+        if self.services:
+            for _item in self.services:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['services'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> ResourceGroupServicesShortData:
+        """Create an instance of ResourceGroupServicesShortData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return ResourceGroupServicesShortData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = ResourceGroupServicesShortData.parse_obj({
+            "services": [ServiceShortData.from_dict(_item) for _item in obj.get("services")] if obj.get("services") is not None else None
         })
         return _obj
 

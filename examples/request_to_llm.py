@@ -1,5 +1,5 @@
-from argparse import ArgumentParser
 import ast
+from argparse import ArgumentParser
 from pprint import pprint
 
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
@@ -15,7 +15,7 @@ if __name__ == "__main__":
         help="Токен доступа, можно получить во вкладе API Токены в Caila.",
     )
     args = parser.parse_args()
-    
+
     mlp_api_key = args.mlp_api_key
     account_id = "just-ai"
     model_name = "openai-proxy"

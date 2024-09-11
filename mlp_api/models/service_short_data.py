@@ -18,27 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+
+from pydantic import BaseModel, Field, StrictStr
 from mlp_api.models.model_info_pk import ModelInfoPK
 
-class ServiceData(BaseModel):
+class ServiceShortData(BaseModel):
     """
-    ServiceData
+    ServiceShortData
     """
     id: ModelInfoPK = Field(...)
-    name: Optional[StrictStr] = None
-    state: StrictStr = Field(...)
-    active: StrictInt = Field(...)
-    requested: StrictInt = Field(...)
-    __properties = ["id", "name", "state", "active", "requested"]
-
-    @validator('state')
-    def state_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING'):
-            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING')")
-        return value
+    name: StrictStr = Field(...)
+    __properties = ["id", "name"]
 
     class Config:
         """Pydantic configuration"""
@@ -54,8 +44,8 @@ class ServiceData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ServiceData:
-        """Create an instance of ServiceData from a JSON string"""
+    def from_json(cls, json_str: str) -> ServiceShortData:
+        """Create an instance of ServiceShortData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -70,20 +60,17 @@ class ServiceData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ServiceData:
-        """Create an instance of ServiceData from a dict"""
+    def from_dict(cls, obj: dict) -> ServiceShortData:
+        """Create an instance of ServiceShortData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ServiceData.parse_obj(obj)
+            return ServiceShortData.parse_obj(obj)
 
-        _obj = ServiceData.parse_obj({
+        _obj = ServiceShortData.parse_obj({
             "id": ModelInfoPK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
-            "name": obj.get("name"),
-            "state": obj.get("state"),
-            "active": obj.get("active"),
-            "requested": obj.get("requested")
+            "name": obj.get("name")
         })
         return _obj
 

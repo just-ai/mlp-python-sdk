@@ -1,7 +1,7 @@
 from typing import Union
 
 from .task import Task
-from .task_mixin import LearnableMixin, UpdatableMixin, BatchPredictableMixin
+from .task_mixin import BatchPredictableMixin, LearnableMixin, UpdatableMixin
 
 TASK_TYPE = Union[
     Task,

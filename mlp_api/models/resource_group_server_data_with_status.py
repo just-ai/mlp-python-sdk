@@ -29,15 +29,13 @@ class ResourceGroupServerDataWithStatus(BaseModel):
     id: StrictInt = Field(...)
     name: StrictStr = Field(...)
     status: StrictStr = Field(...)
-    server_ip: Optional[StrictStr] = Field(default=None, alias="serverIp")
-    jump_host_ip: Optional[StrictStr] = Field(default=None, alias="jumpHostIp")
     resources: ServerCapacityData = Field(...)
     description: Optional[StrictStr] = None
     is_auto_created: StrictBool = Field(default=..., alias="isAutoCreated")
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["id", "name", "status", "serverIp", "jumpHostIp", "resources", "description", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod"]
+    __properties = ["id", "name", "status", "resources", "description", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -98,8 +96,6 @@ class ResourceGroupServerDataWithStatus(BaseModel):
             "id": obj.get("id"),
             "name": obj.get("name"),
             "status": obj.get("status"),
-            "server_ip": obj.get("serverIp"),
-            "jump_host_ip": obj.get("jumpHostIp"),
             "resources": ServerCapacityData.from_dict(obj.get("resources")) if obj.get("resources") is not None else None,
             "description": obj.get("description"),
             "is_auto_created": obj.get("isAutoCreated"),

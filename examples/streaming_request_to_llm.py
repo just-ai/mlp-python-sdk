@@ -43,9 +43,7 @@ if __name__ == "__main__":
         authToken=mlp_api_key,
     )
 
-    with grpc.secure_channel(
-        "gate.caila.io:443", credentials=grpc.ssl_channel_credentials()
-    ) as channel:
+    with grpc.secure_channel("gate.caila.io:443", credentials=grpc.ssl_channel_credentials()) as channel:
         stub = GateStub(channel)
         for response in stub.processResponseStream(request):
             print(response.partialPredict)
