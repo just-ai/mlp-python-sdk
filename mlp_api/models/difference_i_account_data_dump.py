@@ -69,6 +69,9 @@ class DifferenceIAccountDataDump(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of after
         if self.after:
             _dict['after'] = self.after.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of before
+        if self.before:
+            _dict['before'] = self.before.to_dict()
         return _dict
 
     @classmethod

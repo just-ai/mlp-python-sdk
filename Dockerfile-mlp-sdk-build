@@ -1,0 +1,8 @@
+FROM python:3.8
+
+COPY requirements.txt .
+
+RUN pip install --no-cache -U -r requirements.txt
+
+VOLUME /mlp_python_sdk
+WORKDIR /mlp_python_sdk
