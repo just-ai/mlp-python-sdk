@@ -9186,6 +9186,8 @@ components:
           - SHARED_RESOURCE_QUOTA
         accessPolicy:
           $ref: '#/components/schemas/QuotaAccessPolicy'
+        grantedAccountName:
+          type: string
         cpuLimit:
           type: string
         memoryLimit:
