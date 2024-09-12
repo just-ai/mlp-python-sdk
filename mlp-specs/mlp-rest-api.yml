@@ -9092,6 +9092,10 @@ components:
           format: int64
         name:
           type: string
+        serverIp:
+          type: string
+        jumpHostIp:
+          type: string
         description:
           type: string
         isAutoCreated:
@@ -10468,6 +10472,10 @@ components:
           - STOPPED
           - UNAVAILABLE
           - DELETING
+        serverIp:
+          type: string
+        jumpHostIp:
+          type: string
         resources:
           $ref: '#/components/schemas/ServerCapacityData'
         description:
@@ -10755,13 +10763,16 @@ components:
           format: int64
         name:
           type: string
+        serverId:
+          type: integer
+          format: int64
+        serverName:
+          type: string
         statusInfo:
           $ref: '#/components/schemas/StatusInfo'
         restartCount:
           type: integer
           format: int32
-        lastRestartTimestamp:
-          type: string
         createdTimestamp:
           type: string
         instanceHostingType:
@@ -10772,6 +10783,8 @@ components:
           - docker
           - external
           - hostingServer
+        lastRestartTimestamp:
+          type: string
     ModelInstanceListData:
       required:
       - instances

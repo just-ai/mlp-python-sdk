@@ -28,13 +28,15 @@ class ResourceGroupServerData(BaseModel):
     """
     id: StrictInt = Field(...)
     name: StrictStr = Field(...)
+    server_ip: Optional[StrictStr] = Field(default=None, alias="serverIp")
+    jump_host_ip: Optional[StrictStr] = Field(default=None, alias="jumpHostIp")
     description: Optional[StrictStr] = None
     is_auto_created: StrictBool = Field(default=..., alias="isAutoCreated")
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     template_capacity: Optional[ServerCapacityData] = Field(default=None, alias="templateCapacity")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["id", "name", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod"]
+    __properties = ["id", "name", "serverIp", "jumpHostIp", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod"]
 
     @validator('tariffication_period')
     def tariffication_period_validate_enum(cls, value):
@@ -87,6 +89,8 @@ class ResourceGroupServerData(BaseModel):
         _obj = ResourceGroupServerData.parse_obj({
             "id": obj.get("id"),
             "name": obj.get("name"),
+            "server_ip": obj.get("serverIp"),
+            "jump_host_ip": obj.get("jumpHostIp"),
             "description": obj.get("description"),
             "is_auto_created": obj.get("isAutoCreated"),
             "raw_configuration": obj.get("rawConfiguration"),
