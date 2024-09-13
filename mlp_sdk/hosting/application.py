@@ -29,6 +29,7 @@ def prepare_app(task_type: Type[TASK_TYPE], initialization_params: BaseModel) ->
                     endpoint=result,
                     methods=["POST"],
                     name=method_name,
+                    response_model=None,
                 )
 
     def health_check():
