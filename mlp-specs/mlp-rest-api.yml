@@ -1314,6 +1314,87 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SharedPoolQuota'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
+    post:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: updateResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceGroupQuota'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
+    delete:
+      tags:
+      - resource-group-quota-endpoint
+      operationId: deleteResourceGroupQuota
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quotaId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpcore/account/{account}/model:
     get:
       tags:
@@ -5618,6 +5699,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageStatLogData'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/all-services:
+    get:
+      tags:
+      - resource-group-endpoint
+      operationId: getResourceGroupServices_1
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServicesData'
   /api/mlpcore/account/{account}/resource-groups/{groupName}/active-services:
     get:
       tags:
@@ -5647,7 +5758,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceGroupServicesData'
+                $ref: '#/components/schemas/ResourceGroupServicesShortData'
   /api/mlpcore/account/{account}/resource-group-types:
     get:
       tags:
@@ -5680,6 +5791,31 @@ paths:
                   - KUBERNETES
                   - HOSTING_SERVER
                   - SHARED_RESOURCE_QUOTA
+  /api/mlpcore/account/{account}/publicName:
+    get:
+      tags:
+      - account-endpoint
+      operationId: getAccountPublicName
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /api/mlpcore/account/{account}/owned-resource-groups:
     get:
       tags:
@@ -7621,44 +7757,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClickHistoryData'
-  /api/mlpcore/account/{account}/resource-groups/{groupName}/quota/{quotaId}:
-    delete:
-      tags:
-      - resource-group-quota-endpoint
-      operationId: deleteResourceGroupQuota
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupName
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: quotaId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SharedPoolQuota'
   /api/mlpcore/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -8221,7 +8319,7 @@ components:
           type: string
           enum:
           - calls
-          - bytes
+          - direct
           - custom
         billingUnitPriceInNanoToken:
           type: integer
@@ -8376,7 +8474,7 @@ components:
           type: string
           enum:
           - calls
-          - bytes
+          - direct
           - custom
         billingUnitPriceInNanoToken:
           type: integer
@@ -8395,6 +8493,8 @@ components:
           format: int32
         mainPageEndpoint:
           type: string
+        httpInterfaceOnly:
+          type: boolean
         archiveEnabled:
           type: boolean
         numberOfArchivedRequests:
@@ -8431,6 +8531,8 @@ components:
           format: int32
         mainPageEndpoint:
           type: string
+        httpInterfaceOnly:
+          type: boolean
     ModelLimitsData:
       required:
       - cpuRequest
@@ -8973,6 +9075,9 @@ components:
           - DAY
           - MONTH
           - YEAR
+        maxServerLifetimeMinutes:
+          type: integer
+          format: int64
     ResourceGroupServerData:
       required:
       - id
@@ -9060,13 +9165,20 @@ components:
       - gpuInstancesLimit
       - groupName
       - groupType
+      - id
       - memoryLimit
       - ownerId
+      - ownerName
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         ownerId:
           type: integer
           format: int64
+        ownerName:
+          type: string
         groupName:
           type: string
         groupType:
@@ -9078,6 +9190,33 @@ components:
           - SHARED_RESOURCE_QUOTA
         accessPolicy:
           $ref: '#/components/schemas/QuotaAccessPolicy'
+        grantedAccountName:
+          type: string
+        cpuLimit:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuInstancesLimit:
+          type: integer
+          format: int32
+        baseInstancesLimit:
+          type: integer
+          format: int32
+        derivedInstancesLimit:
+          type: integer
+          format: int32
+    UpdateResourceGroupQuota:
+      required:
+      - baseInstancesLimit
+      - cpuLimit
+      - derivedInstancesLimit
+      - ephemeralDiskLimit
+      - gpuInstancesLimit
+      - memoryLimit
+      type: object
+      properties:
         cpuLimit:
           type: string
         memoryLimit:
@@ -10377,8 +10516,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
         size:
@@ -10396,6 +10533,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -10403,17 +10542,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -10421,9 +10560,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -10477,6 +10616,40 @@ components:
           items:
             $ref: '#/components/schemas/ServiceData'
     ServiceData:
+      required:
+      - active
+      - id
+      - requested
+      - state
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInfoPK'
+        name:
+          type: string
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
+          - SLEEPING
+        active:
+          type: integer
+          format: int32
+        requested:
+          type: integer
+          format: int32
+    ResourceGroupServicesShortData:
+      required:
+      - services
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceShortData'
+    ServiceShortData:
       required:
       - id
       - name
@@ -10886,6 +11059,9 @@ components:
           format: int64
         builtInImageName:
           type: string
+        externalDockerHttpPort:
+          type: integer
+          format: int32
         status:
           type: string
           enum:
