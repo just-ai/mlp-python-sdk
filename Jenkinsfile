@@ -110,6 +110,40 @@ pipeline {
                 )
             }
         }
+        stage('Merge release to stable') {
+            when {
+                expression {
+                    params.BRANCH == 'release'
+                }
+            }
+            steps {
+                sshagent(credentials: ['bitbucket_key']) {
+                    sh "git config user.email 'jenkins@just-ai.com'"
+                    sh "git  config user.name 'Jenkins'"
+                    sh """git checkout stable --force"""
+                    sh """git pull"""
+                    sh """git merge origin/release -m 'Automatic merge from release to stable'"""
+                    sh """git push"""
+                }
+            }
+        }
+        stage('Merge stable to dev') {
+            when {
+                expression {
+                    params.BRANCH == 'stable'
+                }
+            }
+            steps {
+                sshagent(credentials: ['bitbucket_key']) {
+                    sh "git config user.email 'jenkins@just-ai.com'"
+                    sh "git  config user.name 'Jenkins'"
+                    sh """git checkout dev --force"""
+                    sh """git pull"""
+                    sh """git merge origin/stable -m 'Automatic merge from stable to dev'"""
+                    sh """git push"""
+                }
+            }
+        }
     }
     post {
         failure {
