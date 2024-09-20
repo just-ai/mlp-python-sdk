@@ -8101,9 +8101,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8690,9 +8690,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     EmptyUsersResponse:
       required:
