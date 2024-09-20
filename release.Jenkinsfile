@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        sed -i "s/version=.*/version='${params.NEW_VERSION}',/" setup.py
+                        sed -i "s/version=.*/version=\"${params.NEW_VERSION}\",/" setup.py
                     """
                 }
             }
