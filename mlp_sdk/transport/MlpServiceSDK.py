@@ -131,7 +131,11 @@ class MlpServiceConnector:
         self.action_to_gate_queue.put_nowait(
             mlp_grpc_pb2.ServiceToGateProto(
                 startServing=mlp_grpc_pb2.StartServingProto(
-                    connectionToken=self.sdk.connection_token, serviceDescriptor=self.sdk.descriptor
+                    connectionToken=self.sdk.connection_token,
+                    serviceDescriptor=self.sdk.descriptor,
+                    hostname=os.environ.get("HOSTNAME", ""),
+                    version=SDK_VERSION,
+                    image=os.environ.get("IMAGE_NAME", ""),
                 )
             )
         )
