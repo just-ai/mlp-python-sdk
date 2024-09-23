@@ -122,7 +122,9 @@ pipeline {
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout stable --force"""
                     sh """git pull origin stable"""
-                    sh """git merge origin/release -m 'Automatic merge from release to stable'"""
+                    sh """git merge --no-commit --no-ff origin/release"""
+                    sh """git reset -- mlp_api"""
+                    sh """git commit -m 'Automatic merge from release to stable'"""
                     sh """git push"""
                 }
             }
@@ -139,7 +141,9 @@ pipeline {
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout dev --force"""
                     sh """git pull origin dev"""
-                    sh """git merge origin/stable -m 'Automatic merge from stable to dev'"""
+                    sh """git merge --no-commit --no-ff origin/stable"""
+                    sh """git reset -- mlp_api"""
+                    sh """git commit -m 'Automatic merge from stable to dev'"""
                     sh """git push"""
                 }
             }
