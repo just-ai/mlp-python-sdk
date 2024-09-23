@@ -141,7 +141,7 @@ pipeline {
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout dev --force"""
                     sh """git pull origin dev"""
-                    sh """git merge --no-commit --no-ff origin/stable"""
+                    sh """git merge --no-commit --no-ff origin/stable || true"""
                     sh """git reset -- mlp_api"""
                     sh """git commit -m 'Automatic merge from stable to dev'"""
                     sh """git push"""
