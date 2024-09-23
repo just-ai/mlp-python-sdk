@@ -124,7 +124,6 @@ pipeline {
                     sh """git pull origin stable"""
                     sh """git merge --no-commit --no-ff origin/release || true"""
                     sh """git reset -- mlp_api"""
-                    sh """git add ."""
                     sh """git commit -m 'Automatic merge from release to stable'"""
                     sh """git push"""
                 }
@@ -144,7 +143,6 @@ pipeline {
                     sh """git pull origin dev"""
                     sh """git merge --no-commit --no-ff origin/stable || true"""
                     sh """git reset -- mlp_api"""
-                    sh """git add ."""
                     sh """git commit -m 'Automatic merge from stable to dev'"""
                     sh """git push"""
                 }
