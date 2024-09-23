@@ -18,7 +18,7 @@ def get_requirements():
 
 setup(
     name="mlp_sdk",
-    version='1.0.1',
+    version="1.0.1",
     install_requires=get_requirements(),
     package_dir={"mlp_sdk": "mlp_sdk"},
     package_data={"": ["*.yml"]},
