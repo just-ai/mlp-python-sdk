@@ -121,7 +121,7 @@ pipeline {
                     sh "git config user.email 'jenkins@just-ai.com'"
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout stable --force"""
-                    sh """git pull"""
+                    sh """git pull origin stable"""
                     sh """git merge origin/release -m 'Automatic merge from release to stable'"""
                     sh """git push"""
                 }
@@ -138,7 +138,7 @@ pipeline {
                     sh "git config user.email 'jenkins@just-ai.com'"
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout dev --force"""
-                    sh """git pull"""
+                    sh """git pull origin dev"""
                     sh """git merge origin/stable -m 'Automatic merge from stable to dev'"""
                     sh """git push"""
                 }
