@@ -113,7 +113,7 @@ pipeline {
         stage('Merge release to stable') {
             when {
                 expression {
-                    params.BRANCH == 'release'
+                    RESULT_BRANCH == 'release'
                 }
             }
             steps {
@@ -130,7 +130,7 @@ pipeline {
         stage('Merge stable to dev') {
             when {
                 expression {
-                    params.BRANCH == 'stable'
+                    RESULT_BRANCH == 'stable'
                 }
             }
             steps {
