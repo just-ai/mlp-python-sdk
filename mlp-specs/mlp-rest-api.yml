@@ -636,6 +636,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DifferenceIAccountConfigDump'
+  /api/mlpcore/admin/request-metrics/save:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: saveMetrics
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestMetricsData'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/models/resource-group/migrate:
     post:
       tags:
@@ -4849,6 +4872,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CatalogCategoryData'
+  /api/mlpcore/admin/request-metrics:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getMetrics
+      parameters:
+      - name: account
+        in: query
+        description: Account id or account name
+        required: false
+        schema:
+          type: string
+      - name: fromDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverallMetricsData'
   /api/mlpcore/admin/accounts:
     get:
       tags:
@@ -8803,6 +8857,44 @@ components:
           $ref: '#/components/schemas/AccountConfigDump'
         after:
           $ref: '#/components/schemas/AccountConfigDump'
+    RequestDetailsData:
+      required:
+      - callerAccountId
+      - date
+      - modelAccountId
+      - modelId
+      type: object
+      properties:
+        modelAccountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        callerAccountId:
+          type: string
+        date:
+          type: string
+    RequestMetricsData:
+      required:
+      - count
+      - isSuccess
+      - requestDetailsData
+      - requestTypeData
+      type: object
+      properties:
+        requestDetailsData:
+          $ref: '#/components/schemas/RequestDetailsData'
+        requestTypeData:
+          type: string
+          enum:
+          - FIT
+          - PREDICT
+        isSuccess:
+          type: boolean
+        count:
+          type: integer
+          format: int32
     EmptyUsersResponse:
       required:
       - empty
@@ -10380,6 +10472,47 @@ components:
         modelsCount:
           type: integer
           format: int32
+    ModelMetricsData:
+      required:
+      - failPercentage
+      - modelId
+      - totalFail
+      - totalSuccess
+      type: object
+      properties:
+        modelId:
+          type: integer
+          format: int64
+        totalSuccess:
+          type: integer
+          format: int32
+        totalFail:
+          type: integer
+          format: int32
+        failPercentage:
+          type: number
+          format: double
+    OverallMetricsData:
+      required:
+      - modelMetrics
+      - totalFailCount
+      - totalFailPercentage
+      - totalSuccessCount
+      type: object
+      properties:
+        totalSuccessCount:
+          type: integer
+          format: int32
+        totalFailCount:
+          type: integer
+          format: int32
+        totalFailPercentage:
+          type: number
+          format: double
+        modelMetrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelMetricsData'
     StatLogData:
       required:
       - accountId
