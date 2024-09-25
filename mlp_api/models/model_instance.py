@@ -43,8 +43,9 @@ class ModelInstance(BaseModel):
     service_version: Optional[StrictInt] = Field(default=None, alias="serviceVersion")
     built_in_image_name: Optional[StrictStr] = Field(default=None, alias="builtInImageName")
     external_docker_http_port: Optional[StrictInt] = Field(default=None, alias="externalDockerHttpPort")
+    external_docker_http_host: Optional[StrictStr] = Field(default=None, alias="externalDockerHttpHost")
     status: StrictStr = Field(...)
-    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "builtInImageName", "externalDockerHttpPort", "status"]
+    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "builtInImageName", "externalDockerHttpPort", "externalDockerHttpHost", "status"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -126,6 +127,7 @@ class ModelInstance(BaseModel):
             "service_version": obj.get("serviceVersion"),
             "built_in_image_name": obj.get("builtInImageName"),
             "external_docker_http_port": obj.get("externalDockerHttpPort"),
+            "external_docker_http_host": obj.get("externalDockerHttpHost"),
             "status": obj.get("status")
         })
         return _obj
