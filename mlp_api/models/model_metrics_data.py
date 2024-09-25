@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
+from typing import Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt
 
-class ModelHttpSettingsData(BaseModel):
+class ModelMetricsData(BaseModel):
     """
-    ModelHttpSettingsData
+    ModelMetricsData
     """
-    is_http_enabled: StrictBool = Field(default=..., alias="isHttpEnabled")
-    http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
-    main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
-    http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
-    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly"]
+    model_id: StrictInt = Field(default=..., alias="modelId")
+    total_success: StrictInt = Field(default=..., alias="totalSuccess")
+    total_fail: StrictInt = Field(default=..., alias="totalFail")
+    fail_percentage: Union[StrictFloat, StrictInt] = Field(default=..., alias="failPercentage")
+    __properties = ["modelId", "totalSuccess", "totalFail", "failPercentage"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class ModelHttpSettingsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelHttpSettingsData:
-        """Create an instance of ModelHttpSettingsData from a JSON string"""
+    def from_json(cls, json_str: str) -> ModelMetricsData:
+        """Create an instance of ModelMetricsData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +58,19 @@ class ModelHttpSettingsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelHttpSettingsData:
-        """Create an instance of ModelHttpSettingsData from a dict"""
+    def from_dict(cls, obj: dict) -> ModelMetricsData:
+        """Create an instance of ModelMetricsData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelHttpSettingsData.parse_obj(obj)
+            return ModelMetricsData.parse_obj(obj)
 
-        _obj = ModelHttpSettingsData.parse_obj({
-            "is_http_enabled": obj.get("isHttpEnabled"),
-            "http_port": obj.get("httpPort"),
-            "main_page_endpoint": obj.get("mainPageEndpoint"),
-            "http_interface_only": obj.get("httpInterfaceOnly")
+        _obj = ModelMetricsData.parse_obj({
+            "model_id": obj.get("modelId"),
+            "total_success": obj.get("totalSuccess"),
+            "total_fail": obj.get("totalFail"),
+            "fail_percentage": obj.get("failPercentage")
         })
         return _obj
 

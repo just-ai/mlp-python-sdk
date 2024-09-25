@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
-class ModelHttpSettingsData(BaseModel):
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+
+class RequestDetailsData(BaseModel):
     """
-    ModelHttpSettingsData
+    RequestDetailsData
     """
-    is_http_enabled: StrictBool = Field(default=..., alias="isHttpEnabled")
-    http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
-    main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
-    http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
-    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly"]
+    model_account_id: StrictInt = Field(default=..., alias="modelAccountId")
+    model_id: StrictInt = Field(default=..., alias="modelId")
+    caller_account_id: StrictStr = Field(default=..., alias="callerAccountId")
+    var_date: StrictStr = Field(default=..., alias="date")
+    __properties = ["modelAccountId", "modelId", "callerAccountId", "date"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class ModelHttpSettingsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelHttpSettingsData:
-        """Create an instance of ModelHttpSettingsData from a JSON string"""
+    def from_json(cls, json_str: str) -> RequestDetailsData:
+        """Create an instance of RequestDetailsData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +58,19 @@ class ModelHttpSettingsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelHttpSettingsData:
-        """Create an instance of ModelHttpSettingsData from a dict"""
+    def from_dict(cls, obj: dict) -> RequestDetailsData:
+        """Create an instance of RequestDetailsData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelHttpSettingsData.parse_obj(obj)
+            return RequestDetailsData.parse_obj(obj)
 
-        _obj = ModelHttpSettingsData.parse_obj({
-            "is_http_enabled": obj.get("isHttpEnabled"),
-            "http_port": obj.get("httpPort"),
-            "main_page_endpoint": obj.get("mainPageEndpoint"),
-            "http_interface_only": obj.get("httpInterfaceOnly")
+        _obj = RequestDetailsData.parse_obj({
+            "model_account_id": obj.get("modelAccountId"),
+            "model_id": obj.get("modelId"),
+            "caller_account_id": obj.get("callerAccountId"),
+            "var_date": obj.get("date")
         })
         return _obj
 

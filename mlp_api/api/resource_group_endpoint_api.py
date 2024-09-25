@@ -26,9 +26,9 @@ from typing import List, Optional
 from mlp_api.models.create_resource_group_data import CreateResourceGroupData
 from mlp_api.models.page_stat_log_data import PageStatLogData
 from mlp_api.models.resource_group_capacity import ResourceGroupCapacity
-from mlp_api.models.resource_group_data import ResourceGroupData
 from mlp_api.models.resource_group_essential_data import ResourceGroupEssentialData
 from mlp_api.models.resource_group_services_data import ResourceGroupServicesData
+from mlp_api.models.resource_group_services_short_data import ResourceGroupServicesShortData
 from mlp_api.models.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.models.stat_log_data import StatLogData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
@@ -347,154 +347,6 @@ class ResourceGroupEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/account/{account}/resource-groups/{groupName}', 'DELETE',
-            _path_params,
-            _query_params,
-            _header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            response_types_map=_response_types_map,
-            auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
-            collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
-
-    @validate_arguments
-    def get_available_resource_groups(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ResourceGroupData]:  # noqa: E501
-        """(Deprecated) get_available_resource_groups  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_available_resource_groups(account, mlp_api_key, async_req=True)
-        >>> result = thread.get()
-
-        :param account: Account id or account name (required)
-        :type account: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: List[ResourceGroupData]
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the get_available_resource_groups_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.get_available_resource_groups_with_http_info(account, mlp_api_key, **kwargs)  # noqa: E501
-
-    @validate_arguments
-    def get_available_resource_groups_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """(Deprecated) get_available_resource_groups  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_available_resource_groups_with_http_info(account, mlp_api_key, async_req=True)
-        >>> result = thread.get()
-
-        :param account: Account id or account name (required)
-        :type account: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(List[ResourceGroupData], status_code(int), headers(HTTPHeaderDict))
-        """
-
-        warnings.warn("GET /api/mlpcore/account/{account}/resource-groups is deprecated.", DeprecationWarning)
-
-        _params = locals()
-
-        _all_params = [
-            'account',
-            'mlp_api_key'
-        ]
-        _all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
-
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_available_resource_groups" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats = {}
-
-        # process the path parameters
-        _path_params = {}
-        if _params['account'] is not None:
-            _path_params['account'] = _params['account']
-
-
-        # process the query parameters
-        _query_params = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        if _params['mlp_api_key'] is not None:
-            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
-
-        # process the form parameters
-        _form_params = []
-        _files = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # authentication setting
-        _auth_settings = []  # noqa: E501
-
-        _response_types_map = {
-            '200': "List[ResourceGroupData]",
-        }
-
-        return self.api_client.call_api(
-            '/api/mlpcore/account/{account}/resource-groups', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1645,7 +1497,7 @@ class ResourceGroupEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_resource_group_active_services(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ResourceGroupServicesData:  # noqa: E501
+    def get_resource_group_active_services(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ResourceGroupServicesShortData:  # noqa: E501
         """get_resource_group_active_services  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1669,7 +1521,7 @@ class ResourceGroupEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ResourceGroupServicesData
+        :rtype: ResourceGroupServicesShortData
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -1715,7 +1567,7 @@ class ResourceGroupEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ResourceGroupServicesData, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(ResourceGroupServicesShortData, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -1778,7 +1630,7 @@ class ResourceGroupEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "ResourceGroupServicesData",
+            '200': "ResourceGroupServicesShortData",
         }
 
         return self.api_client.call_api(
@@ -2091,6 +1943,160 @@ class ResourceGroupEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/account/{account}/resource-groups/{groupName}', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def get_resource_group_services1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ResourceGroupServicesData:  # noqa: E501
+        """get_resource_group_services1  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_resource_group_services1(account, group_name, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param group_name: (required)
+        :type group_name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ResourceGroupServicesData
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_resource_group_services1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_resource_group_services1_with_http_info(account, group_name, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_resource_group_services1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_resource_group_services1  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_resource_group_services1_with_http_info(account, group_name, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param group_name: (required)
+        :type group_name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(ResourceGroupServicesData, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'account',
+            'group_name',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_resource_group_services1" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
+        if _params['group_name'] is not None:
+            _path_params['groupName'] = _params['group_name']
+
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "ResourceGroupServicesData",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/account/{account}/resource-groups/{groupName}/all-services', 'GET',
             _path_params,
             _query_params,
             _header_params,
