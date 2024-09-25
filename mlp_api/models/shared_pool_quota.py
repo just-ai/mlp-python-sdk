@@ -18,27 +18,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
 class SharedPoolQuota(BaseModel):
     """
     SharedPoolQuota
     """
-    id: StrictInt = Field(...)
     owner_id: StrictInt = Field(default=..., alias="ownerId")
-    owner_name: StrictStr = Field(default=..., alias="ownerName")
     group_name: StrictStr = Field(default=..., alias="groupName")
     group_type: StrictStr = Field(default=..., alias="groupType")
     access_policy: Dict[str, Any] = Field(default=..., alias="accessPolicy")
-    granted_account_name: Optional[StrictStr] = Field(default=None, alias="grantedAccountName")
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
-    __properties = ["id", "ownerId", "ownerName", "groupName", "groupType", "accessPolicy", "grantedAccountName", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
+    __properties = ["ownerId", "groupName", "groupType", "accessPolicy", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
 
     @validator('group_type')
     def group_type_validate_enum(cls, value):
@@ -83,13 +80,10 @@ class SharedPoolQuota(BaseModel):
             return SharedPoolQuota.parse_obj(obj)
 
         _obj = SharedPoolQuota.parse_obj({
-            "id": obj.get("id"),
             "owner_id": obj.get("ownerId"),
-            "owner_name": obj.get("ownerName"),
             "group_name": obj.get("groupName"),
             "group_type": obj.get("groupType"),
             "access_policy": obj.get("accessPolicy"),
-            "granted_account_name": obj.get("grantedAccountName"),
             "cpu_limit": obj.get("cpuLimit"),
             "memory_limit": obj.get("memoryLimit"),
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),

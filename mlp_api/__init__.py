@@ -146,7 +146,6 @@ from mlp_api.models.model_instance_list_data import ModelInstanceListData
 from mlp_api.models.model_instance_pk import ModelInstancePK
 from mlp_api.models.model_limits_data import ModelLimitsData
 from mlp_api.models.model_list_request import ModelListRequest
-from mlp_api.models.model_metrics_data import ModelMetricsData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
@@ -154,7 +153,6 @@ from mlp_api.models.model_short_status_data import ModelShortStatusData
 from mlp_api.models.model_start_time_data import ModelStartTimeData
 from mlp_api.models.model_string_id import ModelStringId
 from mlp_api.models.model_timeouts_data import ModelTimeoutsData
-from mlp_api.models.overall_metrics_data import OverallMetricsData
 from mlp_api.models.page_stat_log_data import PageStatLogData
 from mlp_api.models.pageable_object import PageableObject
 from mlp_api.models.paged_data_image_info_data import PagedDataImageInfoData
@@ -169,8 +167,6 @@ from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
-from mlp_api.models.request_details_data import RequestDetailsData
-from mlp_api.models.request_metrics_data import RequestMetricsData
 from mlp_api.models.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
 from mlp_api.models.resource_group_capacity import ResourceGroupCapacity
 from mlp_api.models.resource_group_data import ResourceGroupData
@@ -178,7 +174,6 @@ from mlp_api.models.resource_group_essential_data import ResourceGroupEssentialD
 from mlp_api.models.resource_group_server_data import ResourceGroupServerData
 from mlp_api.models.resource_group_server_data_with_status import ResourceGroupServerDataWithStatus
 from mlp_api.models.resource_group_services_data import ResourceGroupServicesData
-from mlp_api.models.resource_group_services_short_data import ResourceGroupServicesShortData
 from mlp_api.models.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.models.resource_groups_data import ResourceGroupsData
 from mlp_api.models.response_body_emitter import ResponseBodyEmitter
@@ -190,7 +185,6 @@ from mlp_api.models.server_template_dump import ServerTemplateDump
 from mlp_api.models.service_data import ServiceData
 from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
-from mlp_api.models.service_short_data import ServiceShortData
 from mlp_api.models.shared_pool_quota import SharedPoolQuota
 from mlp_api.models.short_job_view import ShortJobView
 from mlp_api.models.sort_object import SortObject
@@ -202,4 +196,3 @@ from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
-from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
