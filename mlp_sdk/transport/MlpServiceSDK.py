@@ -267,7 +267,7 @@ class MlpServiceSDK:
     def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None, api_token=None):
         self.log.info("Starting ...")
 
-        self.gate_urls = os.environ["MLP_GRPC_HOST"].split(",") if not url else url
+        self.gate_urls = os.environ.get("MLP_GRPC_HOSTS", os.environ["MLP_GRPC_HOST"]).split(",") if not url else url
         self.connection_token = os.environ["MLP_SERVICE_TOKEN"] if not connection_token else connection_token
         self.client_api_url = os.environ.get("MLP_REST_URL", None) if not api_url else api_url
         self.client_api_token = os.environ.get("MLP_CLIENT_TOKEN", None) if not api_token else api_token
