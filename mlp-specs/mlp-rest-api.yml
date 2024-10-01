@@ -2646,6 +2646,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExternalConnectionInfoData'
+  /api/mlpcore/account/{account}/model/{model}/external-application:
+    post:
+      tags:
+      - model-endpoint
+      operationId: createExternalApplicationConnection
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalConnectionInfoData'
   /api/mlpcore/account/{account}/model/{model}/derived:
     post:
       tags:
@@ -8396,7 +8427,7 @@ components:
         billingUnitPriceInNanoToken:
           type: integer
           format: int64
-        billingUnitPriceInRubles:
+        billingUnitPriceInCurrency:
           type: number
           format: double
         freeUnitQuota:
@@ -10307,10 +10338,13 @@ components:
           type: string
     FrontendSettings:
       required:
+      - currencyType
+      - englishOnly
       - isArchiveEnabled
       - isBillingEnabled
       - isExtendedLanding
       - isSystemAccount
+      - refillByManager
       type: object
       properties:
         isSystemAccount:
@@ -10320,6 +10354,15 @@ components:
         isArchiveEnabled:
           type: boolean
         isExtendedLanding:
+          type: boolean
+        currencyType:
+          type: string
+          enum:
+          - RUBLE
+          - TOKEN
+        englishOnly:
+          type: boolean
+        refillByManager:
           type: boolean
     CaptchaData:
       required:
@@ -10681,11 +10724,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:

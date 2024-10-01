@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictBool
+from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
 
 class FrontendSettings(BaseModel):
     """
@@ -29,7 +29,17 @@ class FrontendSettings(BaseModel):
     is_billing_enabled: StrictBool = Field(default=..., alias="isBillingEnabled")
     is_archive_enabled: StrictBool = Field(default=..., alias="isArchiveEnabled")
     is_extended_landing: StrictBool = Field(default=..., alias="isExtendedLanding")
-    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding"]
+    currency_type: StrictStr = Field(default=..., alias="currencyType")
+    english_only: StrictBool = Field(default=..., alias="englishOnly")
+    refill_by_manager: StrictBool = Field(default=..., alias="refillByManager")
+    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager"]
+
+    @validator('currency_type')
+    def currency_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('RUBLE', 'TOKEN'):
+            raise ValueError("must be one of enum values ('RUBLE', 'TOKEN')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +80,10 @@ class FrontendSettings(BaseModel):
             "is_system_account": obj.get("isSystemAccount"),
             "is_billing_enabled": obj.get("isBillingEnabled"),
             "is_archive_enabled": obj.get("isArchiveEnabled"),
-            "is_extended_landing": obj.get("isExtendedLanding")
+            "is_extended_landing": obj.get("isExtendedLanding"),
+            "currency_type": obj.get("currencyType"),
+            "english_only": obj.get("englishOnly"),
+            "refill_by_manager": obj.get("refillByManager")
         })
         return _obj
 
