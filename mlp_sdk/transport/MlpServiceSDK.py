@@ -98,11 +98,11 @@ class MlpServiceConnector:
                 self.state = State.connected
                 break
             except _InactiveRpcError:
-#                 self.log.warning("Cannot connect to " + self.url + " retry in 3 sec")
+                self.log.debug("Cannot connect to " + self.url + " retry in 3 sec")
 
             except Exception as e:
-#                 self.log.error("Cannot connect to " + self.url + " " + type(e).__name__)
-#                 self.log.error(e, exc_info=True)
+                self.log.debug("Cannot connect to " + self.url + " " + type(e).__name__)
+                self.log.debug(e, exc_info=True)
 
             self.shutdown_event.wait(self.config["sdk"]["shutdown_event_timeout_seconds"])
 
