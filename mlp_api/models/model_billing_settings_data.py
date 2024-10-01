@@ -28,9 +28,9 @@ class ModelBillingSettingsData(BaseModel):
     is_billing_enabled: StrictBool = Field(default=..., alias="isBillingEnabled")
     billing_unit: Optional[StrictStr] = Field(default=None, alias="billingUnit")
     billing_unit_price_in_nano_token: Optional[StrictInt] = Field(default=None, alias="billingUnitPriceInNanoToken")
-    billing_unit_price_in_rubles: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="billingUnitPriceInRubles")
+    billing_unit_price_in_currency: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="billingUnitPriceInCurrency")
     free_unit_quota: Optional[StrictInt] = Field(default=None, alias="freeUnitQuota")
-    __properties = ["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInRubles", "freeUnitQuota"]
+    __properties = ["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInCurrency", "freeUnitQuota"]
 
     @validator('billing_unit')
     def billing_unit_validate_enum(cls, value):
@@ -81,7 +81,7 @@ class ModelBillingSettingsData(BaseModel):
             "is_billing_enabled": obj.get("isBillingEnabled"),
             "billing_unit": obj.get("billingUnit"),
             "billing_unit_price_in_nano_token": obj.get("billingUnitPriceInNanoToken"),
-            "billing_unit_price_in_rubles": obj.get("billingUnitPriceInRubles"),
+            "billing_unit_price_in_currency": obj.get("billingUnitPriceInCurrency"),
             "free_unit_quota": obj.get("freeUnitQuota")
         })
         return _obj
