@@ -18,15 +18,16 @@ import re  # noqa: F401
 import json
 
 
-
-from pydantic import BaseModel, Field, StrictStr
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class CopyResourceGroupServer(BaseModel):
     """
     CopyResourceGroupServer
     """
     server_name: StrictStr = Field(default=..., alias="serverName")
-    __properties = ["serverName"]
+    max_server_lifetime_minutes: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeMinutes")
+    __properties = ["serverName", "maxServerLifetimeMinutes"]
 
     class Config:
         """Pydantic configuration"""
@@ -64,7 +65,8 @@ class CopyResourceGroupServer(BaseModel):
             return CopyResourceGroupServer.parse_obj(obj)
 
         _obj = CopyResourceGroupServer.parse_obj({
-            "server_name": obj.get("serverName")
+            "server_name": obj.get("serverName"),
+            "max_server_lifetime_minutes": obj.get("maxServerLifetimeMinutes")
         })
         return _obj
 

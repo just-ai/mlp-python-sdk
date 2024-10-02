@@ -9252,6 +9252,9 @@ components:
       properties:
         serverName:
           type: string
+        maxServerLifetimeMinutes:
+          type: integer
+          format: int64
     CreateResourceGroupQuota:
       required:
       - accessibleForEveryone
