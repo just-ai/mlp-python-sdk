@@ -2622,6 +2622,17 @@ paths:
         required: true
         schema:
           type: string
+      - name: httpHost
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: httpPort
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -11248,6 +11259,8 @@ components:
         externalDockerHttpPort:
           type: integer
           format: int32
+        externalDockerHttpHost:
+          type: string
         status:
           type: string
           enum:
