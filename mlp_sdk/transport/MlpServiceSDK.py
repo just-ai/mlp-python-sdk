@@ -47,6 +47,7 @@ class MlpServiceConnector:
         self.stub = None
         self.shutdown_event = threading.Event()
         self.startup_thread = threading.Thread(target=self.__connect_to_gate)
+        self.gatewayPermanentlyUnavailable = True
 
     def start(self):
         self.log.info("Starting ...")
@@ -96,9 +97,13 @@ class MlpServiceConnector:
                 self.stub.healthCheck(mlp_grpc_pb2.HeartBeatProto())
 
                 self.state = State.connected
+                self.gatewayPermanentlyUnavailable = False
                 break
             except _InactiveRpcError:
-                self.log.debug("Cannot connect to " + self.url + " retry in 3 sec")
+                seconds = self.config["sdk"]["shutdown_event_timeout_seconds"]
+                if self.gatewayPermanentlyUnavailable:
+                    self.log.debug("Cannot connect to " + self.url + " retry in " + seconds + " sec")
+                self.gatewayPermanentlyUnavailable = True
 
             except Exception as e:
                 self.log.debug("Cannot connect to " + self.url + " " + type(e).__name__)
