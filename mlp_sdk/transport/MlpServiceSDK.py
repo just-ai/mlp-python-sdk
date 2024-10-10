@@ -24,7 +24,7 @@ from mlp_sdk.log.setup_logging import get_logger
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
-SDK_VERSION = 1
+SDK_VERSION = 2
 
 MlpResponseHeaders = threading.local()
 
@@ -132,7 +132,7 @@ class MlpServiceConnector:
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
-        self.log.debug(" ... start serving")
+        self.log.debug(f" ... start serving. version={SDK_VERSION}")
         self.action_to_gate_queue.put_nowait(
             mlp_grpc_pb2.ServiceToGateProto(
                 startServing=mlp_grpc_pb2.StartServingProto(
@@ -270,8 +270,6 @@ class MlpServiceSDK:
         # TODO: assert that descriptor is ServiceDescriptorProto type
 
     def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None, api_token=None):
-        self.log.info("Starting ...")
-
         self.gate_urls = os.environ.get("MLP_GRPC_HOSTS", os.environ["MLP_GRPC_HOST"]).split(",") if not url else url
         self.connection_token = os.environ["MLP_SERVICE_TOKEN"] if not connection_token else connection_token
         self.client_api_url = os.environ.get("MLP_REST_URL", None) if not api_url else api_url
@@ -279,6 +277,8 @@ class MlpServiceSDK:
         self.grpc_secure = (
             os.environ.get("MLP_GRPC_SECURE", "true").lower() == "true" if not grpc_secure else grpc_secure
         )
+
+        self.log.info(f"Starting with gate urls {self.gate_urls}...")
 
         with self.connectors_lock:
             for url in self.gate_urls:
