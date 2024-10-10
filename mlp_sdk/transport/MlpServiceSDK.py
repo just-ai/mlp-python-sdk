@@ -101,7 +101,7 @@ class MlpServiceConnector:
                 break
             except _InactiveRpcError:
                 seconds = self.config["sdk"]["shutdown_event_timeout_seconds"]
-                if self.gateway_permanently_unavailable:
+                if not self.gateway_permanently_unavailable:
                     self.log.debug(f"Cannot connect to {self.url} retry in {seconds} sec")
                 self.gateway_permanently_unavailable = True
 
