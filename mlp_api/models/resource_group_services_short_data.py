@@ -18,16 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import List
+from pydantic import BaseModel, Field, conlist
+from mlp_api.models.service_short_data import ServiceShortData
 
-class CopyResourceGroupServer(BaseModel):
+class ResourceGroupServicesShortData(BaseModel):
     """
-    CopyResourceGroupServer
+    ResourceGroupServicesShortData
     """
-    server_name: StrictStr = Field(default=..., alias="serverName")
-    max_server_lifetime_minutes: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeMinutes")
-    __properties = ["serverName", "maxServerLifetimeMinutes"]
+    services: conlist(ServiceShortData) = Field(...)
+    __properties = ["services"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +43,8 @@ class CopyResourceGroupServer(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a JSON string"""
+    def from_json(cls, json_str: str) -> ResourceGroupServicesShortData:
+        """Create an instance of ResourceGroupServicesShortData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -53,20 +53,26 @@ class CopyResourceGroupServer(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in services (list)
+        _items = []
+        if self.services:
+            for _item in self.services:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['services'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a dict"""
+    def from_dict(cls, obj: dict) -> ResourceGroupServicesShortData:
+        """Create an instance of ResourceGroupServicesShortData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CopyResourceGroupServer.parse_obj(obj)
+            return ResourceGroupServicesShortData.parse_obj(obj)
 
-        _obj = CopyResourceGroupServer.parse_obj({
-            "server_name": obj.get("serverName"),
-            "max_server_lifetime_minutes": obj.get("maxServerLifetimeMinutes")
+        _obj = ResourceGroupServicesShortData.parse_obj({
+            "services": [ServiceShortData.from_dict(_item) for _item in obj.get("services")] if obj.get("services") is not None else None
         })
         return _obj
 

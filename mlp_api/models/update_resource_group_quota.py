@@ -18,34 +18,20 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
-class SharedPoolQuota(BaseModel):
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+
+class UpdateResourceGroupQuota(BaseModel):
     """
-    SharedPoolQuota
+    UpdateResourceGroupQuota
     """
-    id: StrictInt = Field(...)
-    owner_id: StrictInt = Field(default=..., alias="ownerId")
-    owner_name: StrictStr = Field(default=..., alias="ownerName")
-    group_name: StrictStr = Field(default=..., alias="groupName")
-    group_type: StrictStr = Field(default=..., alias="groupType")
-    access_policy: Dict[str, Any] = Field(default=..., alias="accessPolicy")
-    granted_account_name: Optional[StrictStr] = Field(default=None, alias="grantedAccountName")
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
-    __properties = ["id", "ownerId", "ownerName", "groupName", "groupType", "accessPolicy", "grantedAccountName", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
-
-    @validator('group_type')
-    def group_type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
-            raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
-        return value
+    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
 
     class Config:
         """Pydantic configuration"""
@@ -61,8 +47,8 @@ class SharedPoolQuota(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SharedPoolQuota:
-        """Create an instance of SharedPoolQuota from a JSON string"""
+    def from_json(cls, json_str: str) -> UpdateResourceGroupQuota:
+        """Create an instance of UpdateResourceGroupQuota from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -74,22 +60,15 @@ class SharedPoolQuota(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SharedPoolQuota:
-        """Create an instance of SharedPoolQuota from a dict"""
+    def from_dict(cls, obj: dict) -> UpdateResourceGroupQuota:
+        """Create an instance of UpdateResourceGroupQuota from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SharedPoolQuota.parse_obj(obj)
+            return UpdateResourceGroupQuota.parse_obj(obj)
 
-        _obj = SharedPoolQuota.parse_obj({
-            "id": obj.get("id"),
-            "owner_id": obj.get("ownerId"),
-            "owner_name": obj.get("ownerName"),
-            "group_name": obj.get("groupName"),
-            "group_type": obj.get("groupType"),
-            "access_policy": obj.get("accessPolicy"),
-            "granted_account_name": obj.get("grantedAccountName"),
+        _obj = UpdateResourceGroupQuota.parse_obj({
             "cpu_limit": obj.get("cpuLimit"),
             "memory_limit": obj.get("memoryLimit"),
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),

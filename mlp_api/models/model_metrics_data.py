@@ -18,16 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt
 
-class CopyResourceGroupServer(BaseModel):
+class ModelMetricsData(BaseModel):
     """
-    CopyResourceGroupServer
+    ModelMetricsData
     """
-    server_name: StrictStr = Field(default=..., alias="serverName")
-    max_server_lifetime_minutes: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeMinutes")
-    __properties = ["serverName", "maxServerLifetimeMinutes"]
+    model_id: StrictInt = Field(default=..., alias="modelId")
+    total_success: StrictInt = Field(default=..., alias="totalSuccess")
+    total_fail: StrictInt = Field(default=..., alias="totalFail")
+    fail_percentage: Union[StrictFloat, StrictInt] = Field(default=..., alias="failPercentage")
+    __properties = ["modelId", "totalSuccess", "totalFail", "failPercentage"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +45,8 @@ class CopyResourceGroupServer(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a JSON string"""
+    def from_json(cls, json_str: str) -> ModelMetricsData:
+        """Create an instance of ModelMetricsData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +58,19 @@ class CopyResourceGroupServer(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a dict"""
+    def from_dict(cls, obj: dict) -> ModelMetricsData:
+        """Create an instance of ModelMetricsData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CopyResourceGroupServer.parse_obj(obj)
+            return ModelMetricsData.parse_obj(obj)
 
-        _obj = CopyResourceGroupServer.parse_obj({
-            "server_name": obj.get("serverName"),
-            "max_server_lifetime_minutes": obj.get("maxServerLifetimeMinutes")
+        _obj = ModelMetricsData.parse_obj({
+            "model_id": obj.get("modelId"),
+            "total_success": obj.get("totalSuccess"),
+            "total_fail": obj.get("totalFail"),
+            "fail_percentage": obj.get("failPercentage")
         })
         return _obj
 

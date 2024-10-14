@@ -18,16 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class CopyResourceGroupServer(BaseModel):
+from pydantic import BaseModel, Field, StrictStr
+from mlp_api.models.model_info_pk import ModelInfoPK
+
+class ServiceShortData(BaseModel):
     """
-    CopyResourceGroupServer
+    ServiceShortData
     """
-    server_name: StrictStr = Field(default=..., alias="serverName")
-    max_server_lifetime_minutes: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeMinutes")
-    __properties = ["serverName", "maxServerLifetimeMinutes"]
+    id: ModelInfoPK = Field(...)
+    name: StrictStr = Field(...)
+    __properties = ["id", "name"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +44,8 @@ class CopyResourceGroupServer(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a JSON string"""
+    def from_json(cls, json_str: str) -> ServiceShortData:
+        """Create an instance of ServiceShortData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -53,20 +54,23 @@ class CopyResourceGroupServer(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict['id'] = self.id.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a dict"""
+    def from_dict(cls, obj: dict) -> ServiceShortData:
+        """Create an instance of ServiceShortData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CopyResourceGroupServer.parse_obj(obj)
+            return ServiceShortData.parse_obj(obj)
 
-        _obj = CopyResourceGroupServer.parse_obj({
-            "server_name": obj.get("serverName"),
-            "max_server_lifetime_minutes": obj.get("maxServerLifetimeMinutes")
+        _obj = ServiceShortData.parse_obj({
+            "id": ModelInfoPK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
+            "name": obj.get("name")
         })
         return _obj
 

@@ -18,16 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class CopyResourceGroupServer(BaseModel):
+class RequestDetailsData(BaseModel):
     """
-    CopyResourceGroupServer
+    RequestDetailsData
     """
-    server_name: StrictStr = Field(default=..., alias="serverName")
-    max_server_lifetime_minutes: Optional[StrictInt] = Field(default=None, alias="maxServerLifetimeMinutes")
-    __properties = ["serverName", "maxServerLifetimeMinutes"]
+    model_account_id: StrictInt = Field(default=..., alias="modelAccountId")
+    model_id: StrictInt = Field(default=..., alias="modelId")
+    caller_account_id: StrictStr = Field(default=..., alias="callerAccountId")
+    var_date: StrictStr = Field(default=..., alias="date")
+    __properties = ["modelAccountId", "modelId", "callerAccountId", "date"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +45,8 @@ class CopyResourceGroupServer(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a JSON string"""
+    def from_json(cls, json_str: str) -> RequestDetailsData:
+        """Create an instance of RequestDetailsData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +58,19 @@ class CopyResourceGroupServer(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CopyResourceGroupServer:
-        """Create an instance of CopyResourceGroupServer from a dict"""
+    def from_dict(cls, obj: dict) -> RequestDetailsData:
+        """Create an instance of RequestDetailsData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CopyResourceGroupServer.parse_obj(obj)
+            return RequestDetailsData.parse_obj(obj)
 
-        _obj = CopyResourceGroupServer.parse_obj({
-            "server_name": obj.get("serverName"),
-            "max_server_lifetime_minutes": obj.get("maxServerLifetimeMinutes")
+        _obj = RequestDetailsData.parse_obj({
+            "model_account_id": obj.get("modelAccountId"),
+            "model_id": obj.get("modelId"),
+            "caller_account_id": obj.get("callerAccountId"),
+            "var_date": obj.get("date")
         })
         return _obj
 

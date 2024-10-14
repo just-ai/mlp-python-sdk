@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-
-from pydantic import BaseModel, Field, StrictStr
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from mlp_api.models.model_info_pk import ModelInfoPK
 
 class ServiceData(BaseModel):
@@ -27,8 +27,18 @@ class ServiceData(BaseModel):
     ServiceData
     """
     id: ModelInfoPK = Field(...)
-    name: StrictStr = Field(...)
-    __properties = ["id", "name"]
+    name: Optional[StrictStr] = None
+    state: StrictStr = Field(...)
+    active: StrictInt = Field(...)
+    requested: StrictInt = Field(...)
+    __properties = ["id", "name", "state", "active", "requested"]
+
+    @validator('state')
+    def state_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING'):
+            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +80,10 @@ class ServiceData(BaseModel):
 
         _obj = ServiceData.parse_obj({
             "id": ModelInfoPK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
-            "name": obj.get("name")
+            "name": obj.get("name"),
+            "state": obj.get("state"),
+            "active": obj.get("active"),
+            "requested": obj.get("requested")
         })
         return _obj
 

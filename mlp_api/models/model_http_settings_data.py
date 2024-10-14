@@ -28,7 +28,8 @@ class ModelHttpSettingsData(BaseModel):
     is_http_enabled: StrictBool = Field(default=..., alias="isHttpEnabled")
     http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
     main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
-    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint"]
+    http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
+    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly"]
 
     class Config:
         """Pydantic configuration"""
@@ -68,7 +69,8 @@ class ModelHttpSettingsData(BaseModel):
         _obj = ModelHttpSettingsData.parse_obj({
             "is_http_enabled": obj.get("isHttpEnabled"),
             "http_port": obj.get("httpPort"),
-            "main_page_endpoint": obj.get("mainPageEndpoint")
+            "main_page_endpoint": obj.get("mainPageEndpoint"),
+            "http_interface_only": obj.get("httpInterfaceOnly")
         })
         return _obj
 
