@@ -10715,6 +10715,8 @@ components:
           format: int32
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
