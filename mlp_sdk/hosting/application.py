@@ -17,7 +17,7 @@ def prepare_app(task_type: Type[TASK_TYPE], initialization_params: BaseModel) ->
             continue
 
         endpoint = getattr(task, method_name)
-        response_model = signature(getattr(task, method_name)).return_annotation
+        response_model = signature(endpoint).return_annotation
 
         if response_model != _empty:
             app.add_api_route(
