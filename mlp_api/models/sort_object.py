@@ -25,10 +25,10 @@ class SortObject(BaseModel):
     """
     SortObject
     """
-    empty: Optional[StrictBool] = None
     sorted: Optional[StrictBool] = None
+    empty: Optional[StrictBool] = None
     unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    __properties = ["sorted", "empty", "unsorted"]
 
     class Config:
         """Pydantic configuration"""
@@ -66,8 +66,8 @@ class SortObject(BaseModel):
             return SortObject.parse_obj(obj)
 
         _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
             "sorted": obj.get("sorted"),
+            "empty": obj.get("empty"),
             "unsorted": obj.get("unsorted")
         })
         return _obj
