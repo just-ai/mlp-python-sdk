@@ -1,11 +1,11 @@
 import http
+from inspect import _empty, signature
 from typing import Type
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 from mlp_sdk.abstract import TASK_TYPE
-from mlp_sdk.hosting.views.views import get_method_view
 
 
 def prepare_app(task_type: Type[TASK_TYPE], initialization_params: BaseModel) -> FastAPI:
@@ -16,21 +16,25 @@ def prepare_app(task_type: Type[TASK_TYPE], initialization_params: BaseModel) ->
         if method_name == "init":
             continue
 
-        result = get_method_view(task, method_name)
+        endpoint = getattr(task, method_name)
+        response_model = signature(getattr(task, method_name)).return_annotation
 
-        if result is not None:
-            if isinstance(result, tuple) and len(result) == 2:
-                app.add_api_route(
-                    f"/{method_name}", endpoint=result[0], methods=["POST"], name=method_name, response_model=result[1]
-                )
-            else:
-                app.add_api_route(
-                    f"/{method_name}",
-                    endpoint=result,
-                    methods=["POST"],
-                    name=method_name,
-                    response_model=None,
-                )
+        if response_model != _empty:
+            app.add_api_route(
+                f"/{method_name}",
+                endpoint=endpoint,
+                methods=["POST"],
+                name=method_name,
+                response_model=response_model,
+            )
+        else:
+            app.add_api_route(
+                f"/{method_name}",
+                endpoint=endpoint,
+                methods=["POST"],
+                name=method_name,
+                response_model=None,
+            )
 
     def health_check():
         return http.HTTPStatus.OK.phrase
