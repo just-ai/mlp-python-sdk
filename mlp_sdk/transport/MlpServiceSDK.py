@@ -305,7 +305,9 @@ class MlpServiceSDK:
             while self.state == State.serving:
                 time.sleep(1)
 
-                self.connectors = [c for c in self.connectors if c.state not in (State.stopped, State.error)]
+                stopped_connectors = [c for c in self.connectors if c.state in (State.stopped, State.error)]
+                for stopped_connector in stopped_connectors:
+                    self.restart(stopped_connector)
 
                 if any(c.state == State.connected or c.state == State.serving for c in self.connectors):
                     last_active_time = time.time()
