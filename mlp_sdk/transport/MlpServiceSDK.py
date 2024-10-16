@@ -305,7 +305,7 @@ class MlpServiceSDK:
             while self.state == State.serving:
                 time.sleep(1)
 
-                stopped_connectors = (c in self.connectors if c.state in (State.stopped, State.error))
+                stopped_connectors = [c for c in self.connectors if c.state in (State.stopped, State.error)]
                 for stopped_connector in stopped_connectors:
                     self.restart(stopped_connector)
 
