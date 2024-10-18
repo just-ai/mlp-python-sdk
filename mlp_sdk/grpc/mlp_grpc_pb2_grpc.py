@@ -34,10 +34,20 @@ class GateStub(object):
                 request_serializer=mlp__grpc__pb2.ClientRequestProto.SerializeToString,
                 response_deserializer=mlp__grpc__pb2.ClientResponseProto.FromString,
                 )
+        self.processStream = channel.stream_stream(
+                '/com.mlp.gate.Gate/processStream',
+                request_serializer=mlp__grpc__pb2.ClientRequestProto.SerializeToString,
+                response_deserializer=mlp__grpc__pb2.ClientResponseProto.FromString,
+                )
         self.processSynthesis = channel.unary_stream(
                 '/com.mlp.gate.Gate/processSynthesis',
                 request_serializer=mlp__grpc__pb2.ClientTtsRequestProto.SerializeToString,
                 response_deserializer=mlp__grpc__pb2.ClientTtsResponseProto.FromString,
+                )
+        self.processRecognition = channel.stream_stream(
+                '/com.mlp.gate.Gate/processRecognition',
+                request_serializer=mlp__grpc__pb2.ClientAsrRequestProto.SerializeToString,
+                response_deserializer=mlp__grpc__pb2.ClientAsrResponseProto.FromString,
                 )
 
 
@@ -68,7 +78,19 @@ class GateServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def processStream(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def processSynthesis(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def processRecognition(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -97,10 +119,20 @@ def add_GateServicer_to_server(servicer, server):
                     request_deserializer=mlp__grpc__pb2.ClientRequestProto.FromString,
                     response_serializer=mlp__grpc__pb2.ClientResponseProto.SerializeToString,
             ),
+            'processStream': grpc.stream_stream_rpc_method_handler(
+                    servicer.processStream,
+                    request_deserializer=mlp__grpc__pb2.ClientRequestProto.FromString,
+                    response_serializer=mlp__grpc__pb2.ClientResponseProto.SerializeToString,
+            ),
             'processSynthesis': grpc.unary_stream_rpc_method_handler(
                     servicer.processSynthesis,
                     request_deserializer=mlp__grpc__pb2.ClientTtsRequestProto.FromString,
                     response_serializer=mlp__grpc__pb2.ClientTtsResponseProto.SerializeToString,
+            ),
+            'processRecognition': grpc.stream_stream_rpc_method_handler(
+                    servicer.processRecognition,
+                    request_deserializer=mlp__grpc__pb2.ClientAsrRequestProto.FromString,
+                    response_serializer=mlp__grpc__pb2.ClientAsrResponseProto.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -181,6 +213,23 @@ class Gate(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def processStream(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/com.mlp.gate.Gate/processStream',
+            mlp__grpc__pb2.ClientRequestProto.SerializeToString,
+            mlp__grpc__pb2.ClientResponseProto.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def processSynthesis(request,
             target,
             options=(),
@@ -194,5 +243,22 @@ class Gate(object):
         return grpc.experimental.unary_stream(request, target, '/com.mlp.gate.Gate/processSynthesis',
             mlp__grpc__pb2.ClientTtsRequestProto.SerializeToString,
             mlp__grpc__pb2.ClientTtsResponseProto.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def processRecognition(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/com.mlp.gate.Gate/processRecognition',
+            mlp__grpc__pb2.ClientAsrRequestProto.SerializeToString,
+            mlp__grpc__pb2.ClientAsrResponseProto.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
