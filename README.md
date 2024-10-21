@@ -6,7 +6,7 @@ sh build.sh <NEXUS_USERNAME> <NEXUS_PASSWORD> <BUILD_NUMBER> <BRANCH_NAME> <SEND
 
 - `<NEXUS_USERNAME>` and `<NEXUS_PASSWORD>` is your IPA credentials.
 - `<BUILD_NUMBER>` for development version you can use any value, but if you want to push your package to nexsus please 
-check last version [here](https://nexus.just-ai.com/service/rest/repository/browse/pypi-hosted/mlp-sdk/)
+check last version [here](https://nexus.just-ai.com/service/rest/repository/browse/pypi-hosted/mlp-sdk/) 
 - `<BRANCH_NAME>` your development branch name
 - `<SEND_TO_NEXUS>` by default set this value to 0. If you want to push your package set this to 1.
 

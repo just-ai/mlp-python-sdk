@@ -62,7 +62,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 withPythonEnv('/opt/ansible-venv-python3/bin/python') {
-                    sh "pip install ruff==0.6.4"
+                    sh "/opt/ansible-venv-python3/bin/pip install ruff==0.6.4"
                     sh "ruff check --config pyproject.toml ."
                 }
             }
@@ -113,7 +113,7 @@ pipeline {
         stage('Merge release to stable') {
             when {
                 expression {
-                    params.BRANCH == 'release'
+                    RESULT_BRANCH == 'release'
                 }
             }
             steps {
@@ -121,8 +121,10 @@ pipeline {
                     sh "git config user.email 'jenkins@just-ai.com'"
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout stable --force"""
-                    sh """git pull"""
-                    sh """git merge origin/release -m 'Automatic merge from release to stable'"""
+                    sh """git pull origin stable"""
+                    sh """git merge --no-commit --no-ff origin/release || true"""
+                    sh """git reset -- mlp_api"""
+                    sh """git commit -m 'Automatic merge from release to stable' || true"""
                     sh """git push"""
                 }
             }
@@ -130,7 +132,7 @@ pipeline {
         stage('Merge stable to dev') {
             when {
                 expression {
-                    params.BRANCH == 'stable'
+                    RESULT_BRANCH == 'stable'
                 }
             }
             steps {
@@ -138,8 +140,10 @@ pipeline {
                     sh "git config user.email 'jenkins@just-ai.com'"
                     sh "git  config user.name 'Jenkins'"
                     sh """git checkout dev --force"""
-                    sh """git pull"""
-                    sh """git merge origin/stable -m 'Automatic merge from stable to dev'"""
+                    sh """git pull origin dev"""
+                    sh """git merge --no-commit --no-ff origin/stable || true"""
+                    sh """git reset -- mlp_api"""
+                    sh """git commit -m 'Automatic merge from stable to dev' || true"""
                     sh """git push"""
                 }
             }

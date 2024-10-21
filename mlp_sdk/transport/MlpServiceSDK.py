@@ -24,7 +24,7 @@ from mlp_sdk.log.setup_logging import get_logger
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
 CONFIG = yaml.safe_load(open(os.environ.get("MLP_CONFIG_FILE", __default_config)))
-SDK_VERSION = 1
+SDK_VERSION = 2
 
 MlpResponseHeaders = threading.local()
 
@@ -47,6 +47,7 @@ class MlpServiceConnector:
         self.stub = None
         self.shutdown_event = threading.Event()
         self.startup_thread = threading.Thread(target=self.__connect_to_gate)
+        self.gateway_permanently_unavailable = True
 
     def start(self):
         self.log.info("Starting ...")
@@ -96,13 +97,17 @@ class MlpServiceConnector:
                 self.stub.healthCheck(mlp_grpc_pb2.HeartBeatProto())
 
                 self.state = State.connected
+                self.gateway_permanently_unavailable = False
                 break
             except _InactiveRpcError:
-                self.log.warning("Cannot connect to " + self.url + " retry in 3 sec")
+                seconds = self.config["sdk"]["shutdown_event_timeout_seconds"]
+                if not self.gateway_permanently_unavailable:
+                    self.log.debug(f"Cannot connect to {self.url} retry in {seconds} sec")
+                self.gateway_permanently_unavailable = True
 
             except Exception as e:
-                self.log.error("Cannot connect to " + self.url + " " + type(e).__name__)
-                self.log.error(e, exc_info=True)
+                self.log.debug("Cannot connect to " + self.url + " " + type(e).__name__)
+                self.log.debug(e, exc_info=True)
 
             self.shutdown_event.wait(self.config["sdk"]["shutdown_event_timeout_seconds"])
 
@@ -127,7 +132,7 @@ class MlpServiceConnector:
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
-        self.log.debug(" ... start serving")
+        self.log.debug(f" ... start serving. version={SDK_VERSION}")
         self.action_to_gate_queue.put_nowait(
             mlp_grpc_pb2.ServiceToGateProto(
                 startServing=mlp_grpc_pb2.StartServingProto(
@@ -265,15 +270,15 @@ class MlpServiceSDK:
         # TODO: assert that descriptor is ServiceDescriptorProto type
 
     def start(self, url=None, connection_token=None, api_url=None, grpc_secure: Optional[bool] = None, api_token=None):
-        self.log.info("Starting ...")
-
-        self.gate_urls = os.environ["MLP_GRPC_HOST"].split(",") if not url else url
+        self.gate_urls = os.environ.get("MLP_GRPC_HOSTS", os.environ["MLP_GRPC_HOST"]).split(",") if not url else url
         self.connection_token = os.environ["MLP_SERVICE_TOKEN"] if not connection_token else connection_token
         self.client_api_url = os.environ.get("MLP_REST_URL", None) if not api_url else api_url
         self.client_api_token = os.environ.get("MLP_CLIENT_TOKEN", None) if not api_token else api_token
         self.grpc_secure = (
             os.environ.get("MLP_GRPC_SECURE", "true").lower() == "true" if not grpc_secure else grpc_secure
         )
+
+        self.log.info(f"Starting with gate urls {self.gate_urls}...")
 
         with self.connectors_lock:
             for url in self.gate_urls:
@@ -300,7 +305,9 @@ class MlpServiceSDK:
             while self.state == State.serving:
                 time.sleep(1)
 
-                self.connectors = [c for c in self.connectors if c.state not in (State.stopped, State.error)]
+                stopped_connectors = [c for c in self.connectors if c.state in (State.stopped, State.error)]
+                for stopped_connector in stopped_connectors:
+                    self.restart(stopped_connector)
 
                 if any(c.state == State.connected or c.state == State.serving for c in self.connectors):
                     last_active_time = time.time()
