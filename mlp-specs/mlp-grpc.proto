@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package com.mlp.gate;
 
+import "google/protobuf/duration.proto";
+
 option java_multiple_files = true;
 
 service Gate {
@@ -13,7 +15,11 @@ service Gate {
 
   rpc processResponseStream(ClientRequestProto) returns (stream ClientResponseProto) {}
 
+  rpc processStream(stream ClientRequestProto) returns (stream ClientResponseProto) {}
+
   rpc processSynthesis(ClientTtsRequestProto) returns (stream ClientTtsResponseProto) {}
+
+  rpc processRecognition(stream ClientAsrRequestProto) returns (stream ClientAsrResponseProto) {}
 }
 
 message ServiceDescriptorProto {
@@ -244,6 +250,7 @@ message ClientRequestProto {
   oneof body {
     PredictRequestProto predict = 101;
     ExtendedRequestProto ext = 103;
+    PartialPredictRequestProto partialPredict = 104;
   }
 
   map<string, string> headers = 1000;
@@ -317,5 +324,86 @@ message TtsResponseProto {
 
   optional bool first = 10;
   optional bool last = 12;
+}
+
+message ClientAsrRequestProto {
+  string account = 1;
+  string model = 2;
+  string authToken = 3;
+
+  AsrRequestProto asr = 101;
+}
+
+message AsrRequestProto {
+  oneof streaming_request {
+    RecognitionConfig config = 1;
+    bytes audio_content = 2;
+  }
+}
+
+message RecognitionConfig {
+  enum AudioEncoding {
+    AUDIO_ENCODING_UNSPECIFIED = 0;
+    LINEAR16_PCM = 1;
+    OGG_OPUS = 2;
+    MP3 = 3;
+    MULAW = 4;
+    ALAW = 5;
+    FLAC = 6;
+  }
+
+  AudioEncoding audio_encoding = 1;
+  int64 sample_rate_hertz = 2;
+  // code in BCP-47
+  string language_code = 3;
+  bool enable_profanity_filter = 4;
+  string model = 5;
+  // If set true, tentative hypotheses may be returned as they become available (final=false flag)
+  // If false or omitted, only final=true result(s) are returned.
+  // Makes sense only for StreamingRecognize requests.
+  bool enable_partial_results = 7;
+  bool enable_single_utterance = 8;
+  // Used only for long running recognize.
+  int64 audio_channel_count = 9;
+  // This mark allows disable normalization text
+  bool enable_raw_results = 10;
+  // Rewrite text in literature style (default: false)
+  bool enable_literature_text = 11;
+  bool enable_automatic_punctuation = 12;
+  string provider_specific = 13;
+}
+
+message ClientAsrResponseProto {
+  oneof body {
+    AsrResponseProto asr = 101;
+    ApiErrorProto error = 201;
+  }
+}
+
+message AsrResponseProto {
+  repeated SpeechRecognitionChunk chunks = 1;
+  optional bool final = 2;
+  string provider_specific = 3;
+}
+
+message SpeechRecognitionChunk {
+  repeated SpeechRecognitionAlternative alternatives = 1;
+  // This flag shows that the received chunk contains a part of the recognized text that won't be changed.
+  bool final = 2;
+  // This flag shows that the received chunk is the end of an utterance.
+  bool end_of_utterance = 3;
+}
+
+message SpeechRecognitionAlternative {
+  string text = 1;
+  float confidence = 2;
+  repeated WordInfo words = 3;
+}
+
+message WordInfo {
+  google.protobuf.Duration start_time = 1;
+  google.protobuf.Duration end_time = 2;
+  string word = 3;
+  float confidence = 4;
 }
 
