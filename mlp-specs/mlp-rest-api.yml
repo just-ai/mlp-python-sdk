@@ -10713,8 +10713,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -10727,11 +10725,13 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
