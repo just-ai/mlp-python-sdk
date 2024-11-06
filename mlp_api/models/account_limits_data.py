@@ -31,9 +31,10 @@ class AccountLimitsData(BaseModel):
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
+    storage_limit: StrictStr = Field(default=..., alias="storageLimit")
     predict_per_sec: StrictInt = Field(default=..., alias="predictPerSec")
     fit_per_minute: StrictInt = Field(default=..., alias="fitPerMinute")
-    __properties = ["baseModelInstanceLimit", "derivedModelInstanceLimit", "gpuModelInstanceLimit", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "predictPerSec", "fitPerMinute"]
+    __properties = ["baseModelInstanceLimit", "derivedModelInstanceLimit", "gpuModelInstanceLimit", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "storageLimit", "predictPerSec", "fitPerMinute"]
 
     class Config:
         """Pydantic configuration"""
@@ -77,6 +78,7 @@ class AccountLimitsData(BaseModel):
             "cpu_limit": obj.get("cpuLimit"),
             "memory_limit": obj.get("memoryLimit"),
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),
+            "storage_limit": obj.get("storageLimit"),
             "predict_per_sec": obj.get("predictPerSec"),
             "fit_per_minute": obj.get("fitPerMinute")
         })
