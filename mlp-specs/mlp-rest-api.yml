@@ -8745,6 +8745,7 @@ components:
     ServerTemplateDump:
       required:
       - configuration
+      - costPrice
       - description
       - name
       - tarifficationPrice
@@ -8767,6 +8768,8 @@ components:
         configuration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -9016,6 +9019,7 @@ components:
           type: string
     CreateUpdateServerTemplateData:
       required:
+      - costPrice
       - description
       - name
       - rawConfiguration
@@ -9039,6 +9043,8 @@ components:
         rawConfiguration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -9209,6 +9215,8 @@ components:
         rawConfiguration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -10733,10 +10741,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
