@@ -9057,6 +9057,7 @@ components:
           - YEAR
     ServerTemplateData:
       required:
+      - costPrice
       - description
       - id
       - name
@@ -9084,6 +9085,8 @@ components:
         rawConfiguration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
