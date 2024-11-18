@@ -8810,7 +8810,6 @@ components:
       - gpuModelInstanceLimit
       - memoryLimit
       - predictPerSec
-      - storageLimit
       type: object
       properties:
         baseModelInstanceLimit:
@@ -8828,14 +8827,14 @@ components:
           type: string
         ephemeralDiskLimit:
           type: string
-        storageLimit:
-          type: string
         predictPerSec:
           type: integer
           format: int32
         fitPerMinute:
           type: integer
           format: int32
+        storageLimit:
+          type: string
     DifferenceIAccountConfigDump:
       required:
       - errors
