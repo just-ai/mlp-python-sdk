@@ -4945,6 +4945,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OverallMetricsData'
+  /api/mlpcore/admin/caller/info:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getCallerInfoByToken
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
   /api/mlpcore/admin/accounts:
     get:
       tags:
