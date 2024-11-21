@@ -10,6 +10,7 @@ from mlp_api import ApiClient, Configuration
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
+from mlp_sdk.transport.config_enricher import enrich_config
 
 __default_config = Path(__file__).parent / "config.yml"
 
@@ -19,7 +20,7 @@ RECONNECT_ERROR_CODES = ["mlp.gate.gate_is_shut_down"]
 
 class MlpClientSDK:
     def __init__(self, config=CONFIG):
-        self.config = config
+        self.config = enrich_config(config)
         self.account_id = os.environ.get("MLP_ACCOUNT_ID")
         self.model_id = os.environ.get("MLP_MODEL_ID")
         self.urls = None
@@ -186,7 +187,7 @@ class MlpClientSDK:
 
 class MlpRestClient(ApiClient):
     def __init__(self, url: Optional[str] = None, token: Optional[str] = None, config=CONFIG):
-        self.config = config
+        self.config = enrich_config(config)
         self.log = get_logger("MlpRestClient")
         self.account_id = os.environ.get("MLP_ACCOUNT_ID")
         self.model_id = os.environ.get("MLP_MODEL_ID")

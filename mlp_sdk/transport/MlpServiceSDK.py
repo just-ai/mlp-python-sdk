@@ -20,6 +20,7 @@ from pydantic import ValidationError
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.grpc.mlp_grpc_pb2 import SimpleStatusProto
 from mlp_sdk.log.setup_logging import get_logger
+from mlp_sdk.transport.config_enricher import enrich_config
 
 __default_config = pathlib.Path(__file__).parent / "config.yml"
 
@@ -33,7 +34,7 @@ class MlpServiceConnector:
     def __init__(self, url, sdk, grpc_secure=True, config=CONFIG):
         self.url = url
         self.sdk = sdk
-        self.config = config
+        self.config = enrich_config(config)
         self.grpc_secure = grpc_secure
         self.state = State.idle
         self.log = get_logger(f"MlpServiceConnector-{url}")
@@ -246,7 +247,7 @@ class MlpServiceConnector:
 
 class MlpServiceSDK:
     def __init__(self, config=CONFIG):
-        self.config = config
+        self.config = enrich_config(config)
         self.log = get_logger("MlpServiceSDK")
         self.state = State.idle
         self.gate_urls: str = ""
