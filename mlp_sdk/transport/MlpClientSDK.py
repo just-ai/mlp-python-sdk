@@ -9,8 +9,8 @@ import yaml
 from mlp_api import ApiClient, Configuration
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
-from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 from mlp_sdk.transport.config_enricher import enrich_config
+from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
 
 __default_config = Path(__file__).parent / "config.yml"
 
