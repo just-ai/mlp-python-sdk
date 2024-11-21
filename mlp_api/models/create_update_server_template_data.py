@@ -32,9 +32,8 @@ class CreateUpdateServerTemplateData(BaseModel):
     description: StrictStr = Field(...)
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod"]
+    __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -98,7 +97,6 @@ class CreateUpdateServerTemplateData(BaseModel):
             "description": obj.get("description"),
             "raw_configuration": obj.get("rawConfiguration"),
             "tariffication_price": obj.get("tarifficationPrice"),
-            "cost_price": obj.get("costPrice"),
             "tariffication_period": obj.get("tarifficationPeriod")
         })
         return _obj
