@@ -18,9 +18,9 @@ def test_enrich_config():
 
     os.environ.setdefault("MLP_SDK_SHUTDOWN_EVENT_TIMEOUT_SECONDS", "1")
     enrich_config(updated_config)
-    assert updated_config['sdk']['shutdown_event_timeout_seconds'] == 1
+    assert updated_config["sdk"]["shutdown_event_timeout_seconds"] == 1
 
     retry_error_codes = ["custom.error.code", "mlp-action.common.channel-closed-error"]
     os.environ.setdefault("MLP_SDK_REQUEST_RETRY_ERROR_CODES", json.dumps(retry_error_codes))
     enrich_config(updated_config)
-    assert updated_config['sdk']['request_retry_error_codes'] == retry_error_codes
+    assert updated_config["sdk"]["request_retry_error_codes"] == retry_error_codes
