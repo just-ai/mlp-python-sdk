@@ -33,16 +33,16 @@ def enrich_config(config: dict) -> dict:
 
 def __set_nested_value(config: dict, key: str, value: str):
     keys = key.split(".")
-    current_config = config
+    target_key = keys[-1]
+    target_config_by_key = config
     for sub_key in keys[:-1]:
-        if sub_key not in current_config:
-            current_config[sub_key] = {}
-        current_config = current_config[sub_key]
-    old_value = current_config.get(keys[-1])
+        target_config_by_key.setdefault(sub_key, {})
+        target_config_by_key = target_config_by_key[sub_key]
+    old_value = target_config_by_key.get(target_key)
     if old_value is not None:
-        if isinstance(old_value, (list, dict)):
-            value = json.loads(value)
-        current_config[keys[-1]] = type(old_value)(value)
+        target_config_by_key[target_key] = (
+            json.loads(value) if isinstance(old_value, (list, dict)) else type(old_value)(value)
+        )
     else:
-        current_config[keys[-1]] = value
+        target_config_by_key[target_key] = value
     return config
