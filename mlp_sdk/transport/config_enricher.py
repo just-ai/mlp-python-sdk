@@ -38,7 +38,7 @@ def __set_nested_value(config: dict, key: str, value: str):
         if sub_key not in current_config:
             current_config[sub_key] = {}
         current_config = current_config[sub_key]
-    old_value = current_config[keys[-1]]
+    old_value = current_config.get(keys[-1])
     if old_value is not None:
         if isinstance(old_value, (list, dict)):
             value = json.loads(value)
