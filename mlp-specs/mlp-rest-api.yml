@@ -9335,7 +9335,13 @@ components:
         accessibleForEveryone:
           type: boolean
     QuotaAccessPolicy:
+      required:
+      - priority
       type: object
+      properties:
+        priority:
+          type: integer
+          format: int64
     SharedPoolQuota:
       required:
       - accessPolicy
