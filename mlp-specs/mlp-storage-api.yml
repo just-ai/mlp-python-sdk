@@ -1,0 +1,365 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:10640
+  description: Generated server url
+paths:
+  /api/mlpstorage/files/{id}/register:
+    post:
+      tags:
+      - files-endpoint
+      operationId: registerFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relativePath
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileOptions'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileData'
+  /api/mlpstorage/files/upload:
+    post:
+      tags:
+      - files-endpoint
+      operationId: uploadFile
+      parameters:
+      - name: key
+        in: query
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadFile'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileData'
+  /api/mlpstorage/files/register:
+    post:
+      tags:
+      - files-endpoint
+      operationId: registerFile_1
+      parameters:
+      - name: relativePath
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileOptions'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileData'
+  /api/mlpstorage/files/multipart:
+    post:
+      tags:
+      - files-endpoint
+      operationId: uploadMultipartFile
+      parameters:
+      - name: key
+        in: query
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                options:
+                  $ref: '#/components/schemas/FileOptions'
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileData'
+  /api/mlpstorage/version:
+    get:
+      tags:
+      - system-endpoint
+      operationId: version
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpstorage/health:
+    get:
+      tags:
+      - system-endpoint
+      operationId: health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpstorage/files:
+    get:
+      tags:
+      - files-endpoint
+      operationId: listFiles
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileData'
+  /api/mlpstorage/files/{id}:
+    get:
+      tags:
+      - files-endpoint
+      operationId: getFileData
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileData'
+    delete:
+      tags:
+      - files-endpoint
+      operationId: deleteAllFileVersions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpstorage/files/{id}/path:
+    get:
+      tags:
+      - files-endpoint
+      operationId: getFilePath
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: backend
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpstorage/files/{id}/content:
+    get:
+      tags:
+      - files-endpoint
+      operationId: getFileContent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        default:
+          description: default response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /api/mlpstorage/files/{id}/version/{version}:
+    delete:
+      tags:
+      - files-endpoint
+      operationId: deleteFileVersion
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    FileOptions:
+      type: object
+      properties:
+        fileName:
+          type: string
+        fileType:
+          type: string
+        evictable:
+          type: boolean
+        ttlSinceCreationSeconds:
+          type: integer
+          format: int64
+        ttlAfterLastAccessSeconds:
+          type: integer
+          format: int64
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - EVERY_ONE
+          - EVERY_ONE_AUTHORIZED
+          - RESTRICTED
+        accessedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
+        replicasCount:
+          type: integer
+          format: int32
+        replicateToAllBackends:
+          type: boolean
+    FileData:
+      required:
+      - access
+      - creationTimeMs
+      - fileName
+      - key
+      - ownerId
+      - sizeBytes
+      - version
+      type: object
+      properties:
+        key:
+          type: string
+        version:
+          type: integer
+          format: int32
+        fileName:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        ttl:
+          $ref: '#/components/schemas/TtlDetailsData'
+        remainTtlMs:
+          type: integer
+          format: int64
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - EVERY_ONE
+          - EVERY_ONE_AUTHORIZED
+          - RESTRICTED
+        accessedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
+        sizeBytes:
+          type: integer
+          format: int64
+        creationTimeMs:
+          type: integer
+          format: int64
+    TtlDetailsData:
+      required:
+      - evictable
+      type: object
+      properties:
+        evictable:
+          type: boolean
+        ttlSinceCreationSeconds:
+          type: integer
+          format: int64
+        ttlAfterLastAccessSeconds:
+          type: integer
+          format: int64
+    UploadFile:
+      required:
+      - content
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/FileOptions'
+        content:
+          type: string
