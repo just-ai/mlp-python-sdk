@@ -27,6 +27,7 @@ exclude = [
     ".pyenv-opt-venv-3.8-3.8.6-bin-python",
     ".pyenv-opt-python3.10-virtualenv-bin-python",
     "mlp_api",
+    "storage_api",
     "mlp_sdk/grpc",
 ]
 
