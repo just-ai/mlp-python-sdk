@@ -8584,8 +8584,6 @@ components:
           type: array
           items:
             type: string
-        availableInJaicp:
-          type: boolean
         featured:
           type: boolean
         featuredListOrder:
@@ -8691,8 +8689,6 @@ components:
       type: object
       properties:
         isPublic:
-          type: boolean
-        availableInJaicp:
           type: boolean
         featured:
           type: boolean
