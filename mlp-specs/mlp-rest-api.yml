@@ -6181,7 +6181,7 @@ paths:
     get:
       tags:
       - resource-group-servers-endpoint
-      operationId: getModelTemplates
+      operationId: getPrototypeTemplates
       parameters:
       - name: account
         in: path
