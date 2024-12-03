@@ -2778,6 +2778,17 @@ paths:
         required: true
         schema:
           type: string
+      - name: autoStart
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: templateId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5139,6 +5150,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpcore/account/{account}/server/template/{templateId}/availability:
+    get:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: getTemplateAvailability
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
   /api/mlpcore/account/{account}/s3:
     get:
       tags:
@@ -8529,6 +8571,10 @@ components:
           type: boolean
         prototype:
           type: boolean
+        supportedServers:
+          type: array
+          items:
+            type: string
         rejectRequestsIfInactive:
           type: boolean
         fittable:
@@ -9483,6 +9529,10 @@ components:
           type: boolean
         prototype:
           type: boolean
+        supportedServers:
+          type: array
+          items:
+            type: string
         rejectRequestsIfInactive:
           type: boolean
         config:
@@ -9734,6 +9784,10 @@ components:
           type: boolean
         prototype:
           type: boolean
+        supportedServers:
+          type: array
+          items:
+            type: string
         rejectRequestsIfInactive:
           type: boolean
         taskType:
