@@ -8610,10 +8610,11 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedServers:
+        supportedTemplates:
           type: array
           items:
-            type: string
+            type: integer
+            format: int64
         rejectRequestsIfInactive:
           type: boolean
         fittable:
@@ -9570,10 +9571,11 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedServers:
+        supportedTemplates:
           type: array
           items:
-            type: string
+            type: integer
+            format: int64
         rejectRequestsIfInactive:
           type: boolean
         config:
@@ -9825,10 +9827,11 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedServers:
+        supportedTemplates:
           type: array
           items:
-            type: string
+            type: integer
+            format: int64
         rejectRequestsIfInactive:
           type: boolean
         taskType:
