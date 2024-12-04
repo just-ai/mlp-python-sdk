@@ -19,20 +19,16 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
-from mlp_api.models.sort_object import SortObject
+from pydantic import BaseModel, Field, StrictStr
+from storage_api.models.file_options import FileOptions
 
-class PageableObject(BaseModel):
+class UploadFile(BaseModel):
     """
-    PageableObject
+    UploadFile
     """
-    page_number: Optional[StrictInt] = Field(default=None, alias="pageNumber")
-    page_size: Optional[StrictInt] = Field(default=None, alias="pageSize")
-    offset: Optional[StrictInt] = None
-    sort: Optional[SortObject] = None
-    paged: Optional[StrictBool] = None
-    unpaged: Optional[StrictBool] = None
-    __properties = ["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged"]
+    options: Optional[FileOptions] = None
+    content: StrictStr = Field(...)
+    __properties = ["options", "content"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,8 +44,8 @@ class PageableObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PageableObject:
-        """Create an instance of PageableObject from a JSON string"""
+    def from_json(cls, json_str: str) -> UploadFile:
+        """Create an instance of UploadFile from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,27 +54,23 @@ class PageableObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of sort
-        if self.sort:
-            _dict['sort'] = self.sort.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of options
+        if self.options:
+            _dict['options'] = self.options.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PageableObject:
-        """Create an instance of PageableObject from a dict"""
+    def from_dict(cls, obj: dict) -> UploadFile:
+        """Create an instance of UploadFile from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PageableObject.parse_obj(obj)
+            return UploadFile.parse_obj(obj)
 
-        _obj = PageableObject.parse_obj({
-            "page_number": obj.get("pageNumber"),
-            "page_size": obj.get("pageSize"),
-            "offset": obj.get("offset"),
-            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
-            "paged": obj.get("paged"),
-            "unpaged": obj.get("unpaged")
+        _obj = UploadFile.parse_obj({
+            "options": FileOptions.from_dict(obj.get("options")) if obj.get("options") is not None else None,
+            "content": obj.get("content")
         })
         return _obj
 

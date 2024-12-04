@@ -4945,6 +4945,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OverallMetricsData'
+  /api/mlpcore/admin/caller/info:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getCallerInfoByToken
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoData'
   /api/mlpcore/admin/accounts:
     get:
       tags:
@@ -8302,9 +8326,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -8745,6 +8769,7 @@ components:
     ServerTemplateDump:
       required:
       - configuration
+      - costPrice
       - description
       - name
       - tarifficationPrice
@@ -8767,6 +8792,8 @@ components:
         configuration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -8830,6 +8857,8 @@ components:
         fitPerMinute:
           type: integer
           format: int32
+        storageLimit:
+          type: string
     DifferenceIAccountConfigDump:
       required:
       - errors
@@ -8895,9 +8924,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
@@ -9013,6 +9042,7 @@ components:
           type: string
     CreateUpdateServerTemplateData:
       required:
+      - costPrice
       - description
       - name
       - rawConfiguration
@@ -9037,6 +9067,8 @@ components:
           type: string
         tarifficationPrice:
           type: number
+        costPrice:
+          type: number
         tarifficationPeriod:
           type: string
           enum:
@@ -9048,6 +9080,7 @@ components:
           - YEAR
     ServerTemplateData:
       required:
+      - costPrice
       - description
       - id
       - name
@@ -9075,6 +9108,8 @@ components:
         rawConfiguration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -9206,6 +9241,8 @@ components:
         rawConfiguration:
           type: string
         tarifficationPrice:
+          type: number
+        costPrice:
           type: number
         tarifficationPeriod:
           type: string
@@ -10713,6 +10750,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -10725,10 +10766,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -10739,17 +10776,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -10757,9 +10794,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
