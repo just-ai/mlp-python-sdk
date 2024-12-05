@@ -9161,7 +9161,6 @@ components:
           type: string
     CreateUpdateServerTemplateData:
       required:
-      - costPrice
       - description
       - name
       - rawConfiguration
