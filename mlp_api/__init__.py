@@ -169,7 +169,6 @@ from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
-from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 from mlp_api.models.request_details_data import RequestDetailsData
 from mlp_api.models.request_metrics_data import RequestMetricsData
 from mlp_api.models.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration

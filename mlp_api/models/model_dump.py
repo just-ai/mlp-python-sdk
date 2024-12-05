@@ -58,7 +58,6 @@ class ModelDump(BaseModel):
     fit_template_model_name: Optional[StrictStr] = Field(default=None, alias="fitTemplateModelName")
     composite: Optional[StrictBool] = None
     prototype: Optional[StrictBool] = None
-    supported_templates: Optional[conlist(StrictInt)] = Field(default=None, alias="supportedTemplates")
     reject_requests_if_inactive: Optional[StrictBool] = Field(default=None, alias="rejectRequestsIfInactive")
     fittable: Optional[StrictBool] = None
     training_type: Optional[StrictStr] = Field(default=None, alias="trainingType")
@@ -77,6 +76,7 @@ class ModelDump(BaseModel):
     resource_group: Optional[StrictStr] = Field(default=None, alias="resourceGroup")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
     languages: Optional[conlist(StrictStr, unique_items=True)] = None
+    available_in_jaicp: Optional[StrictBool] = Field(default=None, alias="availableInJaicp")
     featured: Optional[StrictBool] = None
     featured_list_order: Optional[StrictInt] = Field(default=None, alias="featuredListOrder")
     hidden: Optional[StrictBool] = None
@@ -98,7 +98,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "availableInJaicp", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -245,7 +245,6 @@ class ModelDump(BaseModel):
             "fit_template_model_name": obj.get("fitTemplateModelName"),
             "composite": obj.get("composite"),
             "prototype": obj.get("prototype"),
-            "supported_templates": obj.get("supportedTemplates"),
             "reject_requests_if_inactive": obj.get("rejectRequestsIfInactive"),
             "fittable": obj.get("fittable"),
             "training_type": obj.get("trainingType"),
@@ -264,6 +263,7 @@ class ModelDump(BaseModel):
             "resource_group": obj.get("resourceGroup"),
             "short_description": obj.get("shortDescription"),
             "languages": obj.get("languages"),
+            "available_in_jaicp": obj.get("availableInJaicp"),
             "featured": obj.get("featured"),
             "featured_list_order": obj.get("featuredListOrder"),
             "hidden": obj.get("hidden"),

@@ -214,13 +214,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_cloned_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
+    def create_cloned_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
         """create_cloned_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_cloned_model(account, model, name, auto_start, template_id, mlp_api_key, async_req=True)
+        >>> thread = api.create_cloned_model(account, model, name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -229,10 +229,6 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
-        :param auto_start:
-        :type auto_start: bool
-        :param template_id:
-        :type template_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -250,16 +246,16 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_cloned_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_cloned_model_with_http_info(account, model, name, auto_start, template_id, mlp_api_key, **kwargs)  # noqa: E501
+        return self.create_cloned_model_with_http_info(account, model, name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_cloned_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def create_cloned_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """create_cloned_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_cloned_model_with_http_info(account, model, name, auto_start, template_id, mlp_api_key, async_req=True)
+        >>> thread = api.create_cloned_model_with_http_info(account, model, name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -268,10 +264,6 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
-        :param auto_start:
-        :type auto_start: bool
-        :param template_id:
-        :type template_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -305,8 +297,6 @@ class ModelEndpointApi:
             'account',
             'model',
             'name',
-            'auto_start',
-            'template_id',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -346,12 +336,6 @@ class ModelEndpointApi:
         _query_params = []
         if _params.get('name') is not None:  # noqa: E501
             _query_params.append(('name', _params['name']))
-
-        if _params.get('auto_start') is not None:  # noqa: E501
-            _query_params.append(('autoStart', _params['auto_start']))
-
-        if _params.get('template_id') is not None:  # noqa: E501
-            _query_params.append(('templateId', _params['template_id']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
