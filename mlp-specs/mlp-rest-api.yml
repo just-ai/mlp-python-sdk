@@ -8266,10 +8266,6 @@ components:
       - errors
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         errors:
           type: array
           items:
@@ -8330,6 +8326,10 @@ components:
                 type: string
               localizedMessage:
                 type: string
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
       - content
@@ -8864,10 +8864,6 @@ components:
       - errors
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         errors:
           type: array
           items:
@@ -8928,6 +8924,10 @@ components:
                 type: string
               localizedMessage:
                 type: string
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
       - callerAccountId
