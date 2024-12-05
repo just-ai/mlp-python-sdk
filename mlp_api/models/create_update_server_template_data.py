@@ -32,7 +32,7 @@ class CreateUpdateServerTemplateData(BaseModel):
     description: StrictStr = Field(...)
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
+    cost_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod"]
 
