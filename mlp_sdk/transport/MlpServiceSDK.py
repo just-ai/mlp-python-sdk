@@ -620,8 +620,11 @@ class MlpServiceSDK:
             return None
 
         method = "_predict_batch" if hasattr(self.impl, "_predict_batch") else "predict_batch"
-
-        args = typing.get_args(signature(getattr(self.impl, method)).parameters[arg].annotation)
+        annotation = signature(getattr(self.impl, method)).parameters[arg].annotation
+        if arg == "config":
+            args = (annotation,)
+        else:
+            args = typing.get_args(annotation)
         class_ = args[0] if len(args) > 0 else None
         if class_ is None or class_.__name__ == "NoneType":
             return None
