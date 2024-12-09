@@ -18,19 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
 
-class ModelPublicSettingsData(BaseModel):
+from pydantic import BaseModel, Field, StrictInt
+
+class QuotaAccessPolicy(BaseModel):
     """
-    ModelPublicSettingsData
+    QuotaAccessPolicy
     """
-    is_public: Optional[StrictBool] = Field(default=None, alias="isPublic")
-    featured: Optional[StrictBool] = None
-    featured_list_order: Optional[StrictInt] = Field(default=None, alias="featuredListOrder")
-    hidden: Optional[StrictBool] = None
-    public_testing_allowed: Optional[StrictBool] = Field(default=None, alias="publicTestingAllowed")
-    __properties = ["isPublic", "featured", "featuredListOrder", "hidden", "publicTestingAllowed"]
+    priority: StrictInt = Field(...)
+    __properties = ["priority"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +42,8 @@ class ModelPublicSettingsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelPublicSettingsData:
-        """Create an instance of ModelPublicSettingsData from a JSON string"""
+    def from_json(cls, json_str: str) -> QuotaAccessPolicy:
+        """Create an instance of QuotaAccessPolicy from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -59,20 +55,16 @@ class ModelPublicSettingsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelPublicSettingsData:
-        """Create an instance of ModelPublicSettingsData from a dict"""
+    def from_dict(cls, obj: dict) -> QuotaAccessPolicy:
+        """Create an instance of QuotaAccessPolicy from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelPublicSettingsData.parse_obj(obj)
+            return QuotaAccessPolicy.parse_obj(obj)
 
-        _obj = ModelPublicSettingsData.parse_obj({
-            "is_public": obj.get("isPublic"),
-            "featured": obj.get("featured"),
-            "featured_list_order": obj.get("featuredListOrder"),
-            "hidden": obj.get("hidden"),
-            "public_testing_allowed": obj.get("publicTestingAllowed")
+        _obj = QuotaAccessPolicy.parse_obj({
+            "priority": obj.get("priority")
         })
         return _obj
 

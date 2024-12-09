@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
 from mlp_api.models.server_capacity_data import ServerCapacityData
 
 class ServerTemplateData(BaseModel):
@@ -35,7 +35,9 @@ class ServerTemplateData(BaseModel):
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["id", "name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod"]
+    is_available: Optional[StrictBool] = Field(default=None, alias="isAvailable")
+    availability: Optional[StrictStr] = None
+    __properties = ["id", "name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "isAvailable", "availability"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -52,6 +54,16 @@ class ServerTemplateData(BaseModel):
 
         if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
             raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
+        return value
+
+    @validator('availability')
+    def availability_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('AVAILABLE', 'UNAVAILABLE', 'UNKNOWN'):
+            raise ValueError("must be one of enum values ('AVAILABLE', 'UNAVAILABLE', 'UNKNOWN')")
         return value
 
     class Config:
@@ -101,7 +113,9 @@ class ServerTemplateData(BaseModel):
             "raw_configuration": obj.get("rawConfiguration"),
             "tariffication_price": obj.get("tarifficationPrice"),
             "cost_price": obj.get("costPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "is_available": obj.get("isAvailable"),
+            "availability": obj.get("availability")
         })
         return _obj
 
