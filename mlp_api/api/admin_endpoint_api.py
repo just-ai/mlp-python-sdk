@@ -1400,13 +1400,13 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def migrate_all_services_to_resource_group(self, source_group : StrictStr, target_group : Optional[StrictStr] = None, target_group_regex : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> str:  # noqa: E501
+    def migrate_all_services_to_resource_group(self, source_group : StrictStr, target_group : Optional[StrictStr] = None, target_group_regex : Optional[StrictStr] = None, accounts_limit : Optional[conlist(StrictInt)] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> str:  # noqa: E501
         """migrate_all_services_to_resource_group  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.migrate_all_services_to_resource_group(source_group, target_group, target_group_regex, mlp_api_key, async_req=True)
+        >>> thread = api.migrate_all_services_to_resource_group(source_group, target_group, target_group_regex, accounts_limit, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param source_group: (required)
@@ -1415,6 +1415,8 @@ class AdminEndpointApi:
         :type target_group: str
         :param target_group_regex:
         :type target_group_regex: str
+        :param accounts_limit:
+        :type accounts_limit: List[int]
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1432,16 +1434,16 @@ class AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the migrate_all_services_to_resource_group_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.migrate_all_services_to_resource_group_with_http_info(source_group, target_group, target_group_regex, mlp_api_key, **kwargs)  # noqa: E501
+        return self.migrate_all_services_to_resource_group_with_http_info(source_group, target_group, target_group_regex, accounts_limit, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def migrate_all_services_to_resource_group_with_http_info(self, source_group : StrictStr, target_group : Optional[StrictStr] = None, target_group_regex : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def migrate_all_services_to_resource_group_with_http_info(self, source_group : StrictStr, target_group : Optional[StrictStr] = None, target_group_regex : Optional[StrictStr] = None, accounts_limit : Optional[conlist(StrictInt)] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """migrate_all_services_to_resource_group  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.migrate_all_services_to_resource_group_with_http_info(source_group, target_group, target_group_regex, mlp_api_key, async_req=True)
+        >>> thread = api.migrate_all_services_to_resource_group_with_http_info(source_group, target_group, target_group_regex, accounts_limit, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param source_group: (required)
@@ -1450,6 +1452,8 @@ class AdminEndpointApi:
         :type target_group: str
         :param target_group_regex:
         :type target_group_regex: str
+        :param accounts_limit:
+        :type accounts_limit: List[int]
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1483,6 +1487,7 @@ class AdminEndpointApi:
             'source_group',
             'target_group',
             'target_group_regex',
+            'accounts_limit',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1522,6 +1527,10 @@ class AdminEndpointApi:
 
         if _params.get('target_group_regex') is not None:  # noqa: E501
             _query_params.append(('targetGroupRegex', _params['target_group_regex']))
+
+        if _params.get('accounts_limit') is not None:  # noqa: E501
+            _query_params.append(('accountsLimit', _params['accounts_limit']))
+            _collection_formats['accountsLimit'] = 'multi'
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
