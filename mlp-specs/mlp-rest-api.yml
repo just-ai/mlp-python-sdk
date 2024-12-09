@@ -2778,17 +2778,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: autoStart
-        in: query
-        required: false
-        schema:
-          type: boolean
-      - name: templateId
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5150,74 +5139,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
-  /api/mlpcore/account/{account}/server/template/{templateId}/availability:
-    get:
-      tags:
-      - resource-group-servers-endpoint
-      operationId: getTemplateAvailability
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: templateId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: boolean
-  /api/mlpcore/account/{account}/server/template/public:
-    get:
-      tags:
-      - resource-group-servers-endpoint
-      operationId: getPublicTemplates
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: groupType
-        in: query
-        required: true
-        schema:
-          type: string
-          enum:
-          - DOCKER
-          - KUBERNETES
-          - HOSTING_SERVER
-          - SHARED_RESOURCE_QUOTA
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ServerTemplateData'
   /api/mlpcore/account/{account}/s3:
     get:
       tags:
@@ -6214,45 +6135,6 @@ paths:
                     type: number
                     format: double
       deprecated: true
-  /api/mlpcore/account/{account}/model/{model}/templates:
-    get:
-      tags:
-      - resource-group-servers-endpoint
-      operationId: getPrototypeTemplates
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: model
-        in: path
-        description: Model id or model name
-        required: true
-        schema:
-          type: string
-      - name: count
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int32
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ServerTemplateData'
   /api/mlpcore/account/{account}/model/{model}/status:
     get:
       tags:
@@ -8647,11 +8529,6 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
         rejectRequestsIfInactive:
           type: boolean
         fittable:
@@ -8707,6 +8584,8 @@ components:
           type: array
           items:
             type: string
+        availableInJaicp:
+          type: boolean
         featured:
           type: boolean
         featuredListOrder:
@@ -8812,6 +8691,8 @@ components:
       type: object
       properties:
         isPublic:
+          type: boolean
+        availableInJaicp:
           type: boolean
         featured:
           type: boolean
@@ -9238,14 +9119,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-        isAvailable:
-          type: boolean
-        availability:
-          type: string
-          enum:
-          - AVAILABLE
-          - UNAVAILABLE
-          - UNKNOWN
     CreateResourceGroupData:
       required:
       - name
@@ -9461,13 +9334,7 @@ components:
         accessibleForEveryone:
           type: boolean
     QuotaAccessPolicy:
-      required:
-      - priority
       type: object
-      properties:
-        priority:
-          type: integer
-          format: int64
     SharedPoolQuota:
       required:
       - accessPolicy
@@ -9613,11 +9480,6 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
         rejectRequestsIfInactive:
           type: boolean
         config:
@@ -9869,11 +9731,6 @@ components:
           type: boolean
         prototype:
           type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
         rejectRequestsIfInactive:
           type: boolean
         taskType:

@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
-from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 
 class SharedPoolQuota(BaseModel):
     """
@@ -31,7 +30,7 @@ class SharedPoolQuota(BaseModel):
     owner_name: StrictStr = Field(default=..., alias="ownerName")
     group_name: StrictStr = Field(default=..., alias="groupName")
     group_type: StrictStr = Field(default=..., alias="groupType")
-    access_policy: QuotaAccessPolicy = Field(default=..., alias="accessPolicy")
+    access_policy: Dict[str, Any] = Field(default=..., alias="accessPolicy")
     granted_account_name: Optional[StrictStr] = Field(default=None, alias="grantedAccountName")
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
@@ -72,9 +71,6 @@ class SharedPoolQuota(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of access_policy
-        if self.access_policy:
-            _dict['accessPolicy'] = self.access_policy.to_dict()
         return _dict
 
     @classmethod
@@ -92,7 +88,7 @@ class SharedPoolQuota(BaseModel):
             "owner_name": obj.get("ownerName"),
             "group_name": obj.get("groupName"),
             "group_type": obj.get("groupType"),
-            "access_policy": QuotaAccessPolicy.from_dict(obj.get("accessPolicy")) if obj.get("accessPolicy") is not None else None,
+            "access_policy": obj.get("accessPolicy"),
             "granted_account_name": obj.get("grantedAccountName"),
             "cpu_limit": obj.get("cpuLimit"),
             "memory_limit": obj.get("memoryLimit"),
