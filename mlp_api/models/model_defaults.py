@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
 from mlp_api.models.model_batches_data import ModelBatchesData
 from mlp_api.models.model_limits_data import ModelLimitsData
@@ -33,7 +33,7 @@ class ModelDefaults(BaseModel):
     retries: ModelRetriesData = Field(...)
     batches: ModelBatchesData = Field(...)
     limits: ModelLimitsData = Field(...)
-    resource_group: StrictStr = Field(default=..., alias="resourceGroup")
+    resource_group: Optional[StrictStr] = Field(default=None, alias="resourceGroup")
     __properties = ["timeouts", "retries", "batches", "limits", "resourceGroup"]
 
     class Config:
