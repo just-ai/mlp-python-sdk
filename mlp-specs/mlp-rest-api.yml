@@ -10511,7 +10511,6 @@ components:
       required:
       - batches
       - limits
-      - resourceGroup
       - retries
       - timeouts
       type: object
