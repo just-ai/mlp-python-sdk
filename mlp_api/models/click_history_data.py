@@ -32,7 +32,7 @@ class ClickHistoryData(BaseModel):
     page_url: StrictStr = Field(default=..., alias="pageUrl")
     description: Optional[StrictStr] = None
     event_type: StrictStr = Field(default=..., alias="eventType")
-    element_id: Optional[StrictInt] = Field(default=None, alias="elementId")
+    element_id: Optional[StrictStr] = Field(default=None, alias="elementId")
     __properties = ["creationTime", "accountId", "entityId", "entityType", "pageUrl", "description", "eventType", "elementId"]
 
     class Config:

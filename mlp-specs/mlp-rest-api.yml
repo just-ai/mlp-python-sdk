@@ -8315,8 +8315,7 @@ components:
         eventType:
           type: string
         elementId:
-          type: integer
-          format: int64
+          type: string
     LastActivityPk:
       required:
       - accountId
@@ -10534,6 +10533,7 @@ components:
       - isExtendedLanding
       - isSystemAccount
       - refillByManager
+      - saveClicksEnabled
       type: object
       properties:
         isSystemAccount:
@@ -10552,6 +10552,8 @@ components:
         englishOnly:
           type: boolean
         refillByManager:
+          type: boolean
+        saveClicksEnabled:
           type: boolean
     CaptchaData:
       required:
