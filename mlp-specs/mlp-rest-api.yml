@@ -8315,7 +8315,8 @@ components:
         eventType:
           type: string
         elementId:
-          type: string
+          type: integer
+          format: int64
     LastActivityPk:
       required:
       - accountId
@@ -10533,7 +10534,6 @@ components:
       - isExtendedLanding
       - isSystemAccount
       - refillByManager
-      - saveClicksEnabled
       type: object
       properties:
         isSystemAccount:
@@ -10552,8 +10552,6 @@ components:
         englishOnly:
           type: boolean
         refillByManager:
-          type: boolean
-        saveClicksEnabled:
           type: boolean
     CaptchaData:
       required:
@@ -10901,8 +10899,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         size:
           type: integer
           format: int32
@@ -10915,11 +10911,13 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
