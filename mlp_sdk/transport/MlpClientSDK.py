@@ -203,7 +203,8 @@ class MlpClientException(Exception):
     def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
         self.error_code: str = error_code
         self.error_message: str = error_message
-        self.args: Dict[str, str] = args
+        self.error_args: Dict[str, str] = args
+        super().__init__()
 
     def __str__(self):
-        return f"MlpClientException({self.error_code}, {self.error_message}, {self.args})"
+        return f"MlpClientException({self.error_code}, {self.error_message}, {self.error_args})"
