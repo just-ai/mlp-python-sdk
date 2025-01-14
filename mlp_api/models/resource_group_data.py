@@ -29,8 +29,8 @@ class ResourceGroupData(BaseModel):
     name: StrictStr = Field(...)
     account_id: Optional[StrictInt] = Field(default=None, alias="accountId")
     account_name: Optional[StrictStr] = Field(default=None, alias="accountName")
-    tolerations: Dict[str, Any] = Field(...)
-    affinity: Dict[str, Any] = Field(...)
+    tolerations: Optional[Dict[str, Any]] = None
+    affinity: Optional[Dict[str, Any]] = None
     owner_id: Optional[StrictInt] = Field(default=None, alias="ownerId")
     is_default: Optional[StrictBool] = Field(default=None, alias="isDefault")
     enabled_auto_scaling: Optional[StrictBool] = Field(default=None, alias="enabledAutoScaling")

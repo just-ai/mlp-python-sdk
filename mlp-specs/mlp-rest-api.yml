@@ -10345,9 +10345,7 @@ components:
           format: int64
     ResourceGroupData:
       required:
-      - affinity
       - name
-      - tolerations
       type: object
       properties:
         name:
