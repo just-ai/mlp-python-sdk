@@ -1,5 +1,6 @@
 import logging
 import os
+from queue import Queue
 
 from mlp_sdk.log.graylog_handler import GrayLogHandler
 
@@ -9,8 +10,7 @@ def str2bool(v):
 
 
 def get_logger(name: str) -> logging.Logger:
-    level = os.environ.get("MLP_LOG_LEVEL", "WARN")
-    logging_level = logging.getLevelName(level)
+    logging_level = os.environ.get("MLP_LOG_LEVEL", "WARN")
     logger = logging.getLogger(name)
     logger.setLevel(logging_level)
 
@@ -35,10 +35,18 @@ def get_logger(name: str) -> logging.Logger:
         logger.addHandler(ch)
 
     if not str2bool(os.environ.get("MLP_LOG_NO_GELF", "false")):
-        if os.environ.get("MLP_GRAYLOG_SERVER") and os.environ.get("MLP_GRAYLOG_PORT"):
-            graylog_handler = GrayLogHandler(
-                os.environ.get("MLP_GRAYLOG_SERVER"), int(os.environ.get("MLP_GRAYLOG_PORT")), extra_fields=True
-            )
-            logger.addHandler(graylog_handler)
+        graylog_server = os.environ.get("MLP_GRAYLOG_SERVER")
+        graylog_port = os.environ.get("MLP_GRAYLOG_PORT")
+        if graylog_server is not None and graylog_port is not None:
+            graylog_handler = GrayLogHandler(graylog_server, int(graylog_port), extra_fields=True)
+            _add_handlers_in_separate_thread(logger, graylog_handler)
 
     return logger
+
+
+def _add_handlers_in_separate_thread(logger: logging.Logger, *handlers) -> None:
+    log_queue = Queue(-1)
+    queue_handler = logging.handlers.QueueHandler(log_queue)
+    logger.addHandler(queue_handler)
+    queue_listener = logging.handlers.QueueListener(log_queue, *handlers)
+    queue_listener.start()
