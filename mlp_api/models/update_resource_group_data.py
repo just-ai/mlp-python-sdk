@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from typing import Optional, Union
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
 from mlp_api.models.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
 
 class UpdateResourceGroupData(BaseModel):
@@ -32,7 +32,9 @@ class UpdateResourceGroupData(BaseModel):
     enabled_auto_scaling: Optional[StrictBool] = Field(default=None, alias="enabledAutoScaling")
     access: Optional[StrictStr] = None
     auto_scaling_configuration: Optional[ResourceGroupAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
-    __properties = ["name", "isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration"]
+    cost_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="costPrice")
+    tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
+    __properties = ["name", "isDefault", "enabledEviction", "enabledAutoScaling", "access", "autoScalingConfiguration", "costPrice", "tarifficationPeriod"]
 
     @validator('access')
     def access_validate_enum(cls, value):
@@ -42,6 +44,16 @@ class UpdateResourceGroupData(BaseModel):
 
         if value not in ('PRIVATE', 'PUBLIC', 'SHARED_POOL'):
             raise ValueError("must be one of enum values ('PRIVATE', 'PUBLIC', 'SHARED_POOL')")
+        return value
+
+    @validator('tariffication_period')
+    def tariffication_period_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
+            raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
         return value
 
     class Config:
@@ -88,7 +100,9 @@ class UpdateResourceGroupData(BaseModel):
             "enabled_eviction": obj.get("enabledEviction"),
             "enabled_auto_scaling": obj.get("enabledAutoScaling"),
             "access": obj.get("access"),
-            "auto_scaling_configuration": ResourceGroupAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None
+            "auto_scaling_configuration": ResourceGroupAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
+            "cost_price": obj.get("costPrice"),
+            "tariffication_period": obj.get("tarifficationPeriod")
         })
         return _obj
 
