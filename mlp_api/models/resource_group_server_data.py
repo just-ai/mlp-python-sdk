@@ -36,8 +36,7 @@ class ResourceGroupServerData(BaseModel):
     template_capacity: Optional[ServerCapacityData] = Field(default=None, alias="templateCapacity")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    lifetime_left_seconds: Optional[StrictInt] = Field(default=None, alias="lifetimeLeftSeconds")
-    __properties = ["id", "name", "serverIp", "jumpHostIp", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod", "lifetimeLeftSeconds"]
+    __properties = ["id", "name", "serverIp", "jumpHostIp", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod"]
 
     @validator('tariffication_period')
     def tariffication_period_validate_enum(cls, value):
@@ -97,8 +96,7 @@ class ResourceGroupServerData(BaseModel):
             "raw_configuration": obj.get("rawConfiguration"),
             "template_capacity": ServerCapacityData.from_dict(obj.get("templateCapacity")) if obj.get("templateCapacity") is not None else None,
             "tariffication_price": obj.get("tarifficationPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod"),
-            "lifetime_left_seconds": obj.get("lifetimeLeftSeconds")
+            "tariffication_period": obj.get("tarifficationPeriod")
         })
         return _obj
 
