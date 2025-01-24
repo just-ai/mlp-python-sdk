@@ -126,6 +126,7 @@ from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
+from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 from mlp_api.models.request_details_data import RequestDetailsData
 from mlp_api.models.request_metrics_data import RequestMetricsData
