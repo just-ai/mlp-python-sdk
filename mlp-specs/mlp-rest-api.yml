@@ -1241,6 +1241,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/server/{serverId}/prolong:
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: prolongServerLifetime
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProlongResourceGroupServerRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
   /api/mlpcore/account/{account}/resource-groups/{groupName}/server/{serverId}/copy:
     post:
       tags:
@@ -8315,8 +8357,7 @@ components:
         eventType:
           type: string
         elementId:
-          type: integer
-          format: int64
+          type: string
     LastActivityPk:
       required:
       - accountId
@@ -8452,9 +8493,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -9051,9 +9092,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
@@ -9427,6 +9468,17 @@ components:
           - DAY
           - MONTH
           - YEAR
+        lifetimeLeftSeconds:
+          type: integer
+          format: int64
+    ProlongResourceGroupServerRequest:
+      required:
+      - additionalServerLifetimeMinutes
+      type: object
+      properties:
+        additionalServerLifetimeMinutes:
+          type: integer
+          format: int64
     CopyResourceGroupServer:
       required:
       - serverName
@@ -10532,6 +10584,7 @@ components:
       - isExtendedLanding
       - isSystemAccount
       - refillByManager
+      - saveClicksEnabled
       type: object
       properties:
         isSystemAccount:
@@ -10550,6 +10603,8 @@ components:
         englishOnly:
           type: boolean
         refillByManager:
+          type: boolean
+        saveClicksEnabled:
           type: boolean
     CaptchaData:
       required:
