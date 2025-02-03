@@ -7914,27 +7914,6 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpcore-internal/actions:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: listAllConnectedActions
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
   /api/mlpcore-internal/account:
     get:
       tags:
@@ -10538,9 +10517,8 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - REPLACED
-          - REVERTED
           - FAILED
+          - REVERTED
         startTime:
           type: integer
           format: int64
@@ -10613,9 +10591,8 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - REPLACED
-          - REVERTED
           - FAILED
+          - REVERTED
         currentStep:
           type: string
     TaskTypeData:
