@@ -1241,6 +1241,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupServerData'
+  /api/mlpcore/account/{account}/resource-groups/{groupName}/server/{serverId}/prolong:
+    post:
+      tags:
+      - resource-group-servers-endpoint
+      operationId: prolongServerLifetime
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProlongResourceGroupServerRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGroupServerData'
   /api/mlpcore/account/{account}/resource-groups/{groupName}/server/{serverId}/copy:
     post:
       tags:
@@ -8315,8 +8357,7 @@ components:
         eventType:
           type: string
         elementId:
-          type: integer
-          format: int64
+          type: string
     LastActivityPk:
       required:
       - accountId
@@ -9427,6 +9468,17 @@ components:
           - DAY
           - MONTH
           - YEAR
+        lifetimeLeftSeconds:
+          type: integer
+          format: int64
+    ProlongResourceGroupServerRequest:
+      required:
+      - additionalServerLifetimeMinutes
+      type: object
+      properties:
+        additionalServerLifetimeMinutes:
+          type: integer
+          format: int64
     CopyResourceGroupServer:
       required:
       - serverName
@@ -10413,8 +10465,9 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - FAILED
+          - REPLACED
           - REVERTED
+          - FAILED
         startTime:
           type: integer
           format: int64
@@ -10487,8 +10540,9 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - FAILED
+          - REPLACED
           - REVERTED
+          - FAILED
         currentStep:
           type: string
     TaskTypeData:
@@ -10532,6 +10586,7 @@ components:
       - isExtendedLanding
       - isSystemAccount
       - refillByManager
+      - saveClicksEnabled
       type: object
       properties:
         isSystemAccount:
@@ -10550,6 +10605,8 @@ components:
         englishOnly:
           type: boolean
         refillByManager:
+          type: boolean
+        saveClicksEnabled:
           type: boolean
     CaptchaData:
       required:
@@ -10897,10 +10954,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -10913,6 +10966,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -10923,27 +10980,27 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
         paged:
+          type: boolean
+        unpaged:
           type: boolean
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean

@@ -36,8 +36,8 @@ class ShortJobView(BaseModel):
     @validator('view_status')
     def view_status_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'FAILED', 'REVERTED'):
-            raise ValueError("must be one of enum values ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'FAILED', 'REVERTED')")
+        if value not in ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'REPLACED', 'REVERTED', 'FAILED'):
+            raise ValueError("must be one of enum values ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'REPLACED', 'REVERTED', 'FAILED')")
         return value
 
     class Config:
