@@ -10538,8 +10538,9 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - FAILED
+          - REPLACED
           - REVERTED
+          - FAILED
         startTime:
           type: integer
           format: int64
@@ -10612,8 +10613,9 @@ components:
           - RUN
           - REVERTING
           - COMPLETED
-          - FAILED
+          - REPLACED
           - REVERTED
+          - FAILED
         currentStep:
           type: string
     TaskTypeData:
