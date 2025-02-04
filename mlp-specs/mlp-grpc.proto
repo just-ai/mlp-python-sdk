@@ -95,7 +95,6 @@ message GateToServiceProto {
     BatchRequestProto batch = 106;
 
     PartialPredictRequestProto partialPredict = 107;
-    CancelRequestProto cancel = 108;
 
     ApiErrorProto error = 201;
   }
@@ -210,10 +209,6 @@ message StatusRequestProto {
 message StatusResponseProto {
   repeated string connectedGates = 1;
   bool connectedToAllGates = 2;
-}
-
-message CancelRequestProto {
-  int64 requestIdToCancel = 101;
 }
 
 message PayloadProto {
