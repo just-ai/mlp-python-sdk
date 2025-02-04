@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
+from typing import Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
 class CreateResourceGroupQuota(BaseModel):
     """
@@ -33,19 +33,7 @@ class CreateResourceGroupQuota(BaseModel):
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
     accessible_only_for_user: Optional[StrictInt] = Field(default=None, alias="accessibleOnlyForUser")
     accessible_for_everyone: StrictBool = Field(default=..., alias="accessibleForEveryone")
-    tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "accessibleOnlyForUser", "accessibleForEveryone", "tarifficationPrice", "tarifficationPeriod"]
-
-    @validator('tariffication_period')
-    def tariffication_period_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
-            raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
-        return value
+    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "accessibleOnlyForUser", "accessibleForEveryone"]
 
     class Config:
         """Pydantic configuration"""
@@ -90,9 +78,7 @@ class CreateResourceGroupQuota(BaseModel):
             "base_instances_limit": obj.get("baseInstancesLimit"),
             "derived_instances_limit": obj.get("derivedInstancesLimit"),
             "accessible_only_for_user": obj.get("accessibleOnlyForUser"),
-            "accessible_for_everyone": obj.get("accessibleForEveryone"),
-            "tariffication_price": obj.get("tarifficationPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "accessible_for_everyone": obj.get("accessibleForEveryone")
         })
         return _obj
 

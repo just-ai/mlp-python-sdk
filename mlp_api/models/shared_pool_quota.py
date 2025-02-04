@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 
 class SharedPoolQuota(BaseModel):
@@ -39,25 +39,13 @@ class SharedPoolQuota(BaseModel):
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
-    tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["id", "ownerId", "ownerName", "groupName", "groupType", "accessPolicy", "grantedAccountName", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "tarifficationPrice", "tarifficationPeriod"]
+    __properties = ["id", "ownerId", "ownerName", "groupName", "groupType", "accessPolicy", "grantedAccountName", "cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
 
     @validator('group_type')
     def group_type_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
             raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
-        return value
-
-    @validator('tariffication_period')
-    def tariffication_period_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
-            raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
         return value
 
     class Config:
@@ -111,9 +99,7 @@ class SharedPoolQuota(BaseModel):
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),
             "gpu_instances_limit": obj.get("gpuInstancesLimit"),
             "base_instances_limit": obj.get("baseInstancesLimit"),
-            "derived_instances_limit": obj.get("derivedInstancesLimit"),
-            "tariffication_price": obj.get("tarifficationPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "derived_instances_limit": obj.get("derivedInstancesLimit")
         })
         return _obj
 

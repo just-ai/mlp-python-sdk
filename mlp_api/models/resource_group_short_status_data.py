@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
+from typing import Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
 from mlp_api.models.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
 
 class ResourceGroupShortStatusData(BaseModel):
@@ -36,11 +36,7 @@ class ResourceGroupShortStatusData(BaseModel):
     servers_count: StrictInt = Field(default=..., alias="serversCount")
     services_count: StrictInt = Field(default=..., alias="servicesCount")
     auto_scaling_configuration: Optional[ResourceGroupAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
-    tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
-    paid_off: Union[StrictFloat, StrictInt] = Field(default=..., alias="paidOff")
-    tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "paidOff", "tarifficationPeriod"]
+    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration"]
 
     @validator('resource_group_type')
     def resource_group_type_validate_enum(cls, value):
@@ -54,16 +50,6 @@ class ResourceGroupShortStatusData(BaseModel):
         """Validates the enum"""
         if value not in ('PRIVATE', 'PUBLIC', 'SHARED_POOL'):
             raise ValueError("must be one of enum values ('PRIVATE', 'PUBLIC', 'SHARED_POOL')")
-        return value
-
-    @validator('tariffication_period')
-    def tariffication_period_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
-            raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
         return value
 
     class Config:
@@ -114,11 +100,7 @@ class ResourceGroupShortStatusData(BaseModel):
             "access": obj.get("access"),
             "servers_count": obj.get("serversCount"),
             "services_count": obj.get("servicesCount"),
-            "auto_scaling_configuration": ResourceGroupAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
-            "tariffication_price": obj.get("tarifficationPrice"),
-            "cost_price": obj.get("costPrice"),
-            "paid_off": obj.get("paidOff"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "auto_scaling_configuration": ResourceGroupAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None
         })
         return _obj
 
