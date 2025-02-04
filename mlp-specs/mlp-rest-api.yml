@@ -7914,27 +7914,6 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpcore-internal/actions:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: listAllConnectedActions
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
   /api/mlpcore-internal/account:
     get:
       tags:
@@ -9323,6 +9302,17 @@ components:
           type: boolean
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+        costPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     ResourceGroupAutoScalingConfiguration:
       required:
       - minServersCount
@@ -9352,12 +9342,14 @@ components:
     ResourceGroupEssentialData:
       required:
       - access
+      - costPrice
       - enabledAutoScaling
       - enabledEviction
       - isDefault
       - name
       - ownerId
       - resourceGroupType
+      - tarifficationPrice
       type: object
       properties:
         name:
@@ -9386,6 +9378,19 @@ components:
           type: boolean
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+        tarifficationPrice:
+          type: number
+        costPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     UpdateResourceGroupData:
       type: object
       properties:
@@ -9405,6 +9410,17 @@ components:
           - SHARED_POOL
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+        costPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     CreateResourceGroupServer:
       required:
       - rawConfiguration
@@ -9498,6 +9514,7 @@ components:
       - ephemeralDiskLimit
       - gpuInstancesLimit
       - memoryLimit
+      - tarifficationPrice
       type: object
       properties:
         cpuLimit:
@@ -9520,6 +9537,17 @@ components:
           format: int64
         accessibleForEveryone:
           type: boolean
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     QuotaAccessPolicy:
       required:
       - priority
@@ -9542,6 +9570,7 @@ components:
       - memoryLimit
       - ownerId
       - ownerName
+      - tarifficationPrice
       type: object
       properties:
         id:
@@ -9580,6 +9609,17 @@ components:
         derivedInstancesLimit:
           type: integer
           format: int32
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     UpdateResourceGroupQuota:
       required:
       - baseInstancesLimit
@@ -9588,6 +9628,7 @@ components:
       - ephemeralDiskLimit
       - gpuInstancesLimit
       - memoryLimit
+      - tarifficationPrice
       type: object
       properties:
         cpuLimit:
@@ -9605,6 +9646,17 @@ components:
         derivedInstancesLimit:
           type: integer
           format: int32
+        tarifficationPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -11100,13 +11152,16 @@ components:
     ResourceGroupShortStatusData:
       required:
       - access
+      - costPrice
       - enabledAutoScaling
       - enabledEviction
       - isDefault
       - name
+      - paidOff
       - resourceGroupType
       - serversCount
       - servicesCount
+      - tarifficationPrice
       type: object
       properties:
         name:
@@ -11141,6 +11196,21 @@ components:
           format: int32
         autoScalingConfiguration:
           $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+        tarifficationPrice:
+          type: number
+        costPrice:
+          type: number
+        paidOff:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     InstancesStatusData:
       required:
       - externalRequested
