@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import Optional, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 
 class UpdateResourceGroupQuota(BaseModel):
     """
@@ -31,7 +31,19 @@ class UpdateResourceGroupQuota(BaseModel):
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
-    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit"]
+    tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
+    tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
+    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "tarifficationPrice", "tarifficationPeriod"]
+
+    @validator('tariffication_period')
+    def tariffication_period_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
+            raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -74,7 +86,9 @@ class UpdateResourceGroupQuota(BaseModel):
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),
             "gpu_instances_limit": obj.get("gpuInstancesLimit"),
             "base_instances_limit": obj.get("baseInstancesLimit"),
-            "derived_instances_limit": obj.get("derivedInstancesLimit")
+            "derived_instances_limit": obj.get("derivedInstancesLimit"),
+            "tariffication_price": obj.get("tarifficationPrice"),
+            "tariffication_period": obj.get("tarifficationPeriod")
         })
         return _obj
 
