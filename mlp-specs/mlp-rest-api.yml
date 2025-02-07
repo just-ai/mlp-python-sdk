@@ -11043,9 +11043,9 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/SortObject'
-        paged:
-          type: boolean
         unpaged:
+          type: boolean
+        paged:
           type: boolean
     SortObject:
       type: object
