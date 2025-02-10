@@ -631,17 +631,26 @@ class AudioFormatOptions(BaseModel):
     sample_rate_hertz: Optional[int] = Field(alias="sampleRateHertz")
     chunk_size_kb: Optional[int] = Field(alias="chunkSizeKb")
 
+    class Config:
+        allow_population_by_field_name = True
+
 
 class TtsRequest(BaseModel):
     text: str
     voice: Optional[str]
     output_audio_spec: Optional[AudioFormatOptions] = Field(alias="outputAudioSpec")
 
+    class Config:
+        allow_population_by_field_name = True
+
 
 class TtsConfig(BaseModel):
     voice: Optional[str]
     output_audio_spec: Optional[AudioFormatOptions] = Field(alias="outputAudioSpec")
     encode_base64: Optional[bool] = Field(True, alias="encodeBase64")
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 class TtsResponse(BaseModel):
