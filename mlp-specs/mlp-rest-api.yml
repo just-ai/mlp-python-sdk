@@ -4626,6 +4626,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ShortJobView'
+  /api/mlpcore/task/list:
+    get:
+      tags:
+      - task-endpoint
+      operationId: shortJobsView
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortView'
   /api/mlpcore/system-config/task-types:
     get:
       tags:
@@ -10597,6 +10618,65 @@ components:
           - FAILED
         currentStep:
           type: string
+    ShortView:
+      required:
+      - children
+      - entityActionId
+      - entityType
+      - interrupted
+      - isInterruptible
+      - jobId
+      - percentage
+      - status
+      - step
+      - title
+      type: object
+      properties:
+        jobId:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - REPLACED
+          - REVERTED
+          - FAILED
+        waitFor:
+          type: array
+          items:
+            type: string
+        step:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortView'
+        percentage:
+          type: number
+          format: double
+        entityId:
+          type: object
+        entityType:
+          type: string
+        entityActionId:
+          type: string
+        runAt:
+          type: integer
+          format: int64
+        endTime:
+          type: integer
+          format: int64
+        interrupted:
+          type: boolean
+        interruptMessage:
+          type: string
+        isInterruptible:
+          type: boolean
     TaskTypeData:
       required:
       - displayName
