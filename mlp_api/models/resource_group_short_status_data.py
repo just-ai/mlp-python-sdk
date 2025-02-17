@@ -40,7 +40,8 @@ class ResourceGroupShortStatusData(BaseModel):
     cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     paid_off: Union[StrictFloat, StrictInt] = Field(default=..., alias="paidOff")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "paidOff", "tarifficationPeriod"]
+    blocked: StrictBool = Field(...)
+    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "paidOff", "tarifficationPeriod", "blocked"]
 
     @validator('resource_group_type')
     def resource_group_type_validate_enum(cls, value):
@@ -118,7 +119,8 @@ class ResourceGroupShortStatusData(BaseModel):
             "tariffication_price": obj.get("tarifficationPrice"),
             "cost_price": obj.get("costPrice"),
             "paid_off": obj.get("paidOff"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "blocked": obj.get("blocked")
         })
         return _obj
 

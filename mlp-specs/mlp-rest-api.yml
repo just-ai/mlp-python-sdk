@@ -11258,6 +11258,7 @@ components:
     ResourceGroupShortStatusData:
       required:
       - access
+      - blocked
       - costPrice
       - enabledAutoScaling
       - enabledEviction
@@ -11317,6 +11318,8 @@ components:
           - DAY
           - MONTH
           - YEAR
+        blocked:
+          type: boolean
     InstancesStatusData:
       required:
       - externalRequested
