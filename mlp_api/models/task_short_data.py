@@ -18,35 +18,43 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional, Union
+from typing import List, Optional, Union
 from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist, validator
+from mlp_api.models.pipeline_entity import PipelineEntity
 
-class ShortView(BaseModel):
+class TaskShortData(BaseModel):
     """
-    ShortView
+    TaskShortData
     """
     job_id: StrictStr = Field(default=..., alias="jobId")
     title: StrictStr = Field(...)
-    status: StrictStr = Field(...)
+    persistent_job_status: StrictStr = Field(default=..., alias="persistentJobStatus")
     wait_for: Optional[conlist(StrictStr)] = Field(default=None, alias="waitFor")
     step: StrictStr = Field(...)
-    children: conlist(ShortView) = Field(...)
+    children: conlist(TaskShortData) = Field(...)
     percentage: Union[StrictFloat, StrictInt] = Field(...)
-    entity_id: Optional[Dict[str, Any]] = Field(default=None, alias="entityId")
-    entity_type: StrictStr = Field(default=..., alias="entityType")
-    entity_action_id: StrictStr = Field(default=..., alias="entityActionId")
+    operation: StrictStr = Field(...)
+    operated_entity: PipelineEntity = Field(default=..., alias="operatedEntity")
+    operated_entity_name: Optional[StrictStr] = Field(default=None, alias="operatedEntityName")
     run_at: Optional[StrictInt] = Field(default=None, alias="runAt")
     end_time: Optional[StrictInt] = Field(default=None, alias="endTime")
     interrupted: StrictBool = Field(...)
     interrupt_message: Optional[StrictStr] = Field(default=None, alias="interruptMessage")
     is_interruptible: StrictBool = Field(default=..., alias="isInterruptible")
-    __properties = ["jobId", "title", "status", "waitFor", "step", "children", "percentage", "entityId", "entityType", "entityActionId", "runAt", "endTime", "interrupted", "interruptMessage", "isInterruptible"]
+    __properties = ["jobId", "title", "persistentJobStatus", "waitFor", "step", "children", "percentage", "operation", "operatedEntity", "operatedEntityName", "runAt", "endTime", "interrupted", "interruptMessage", "isInterruptible"]
 
-    @validator('status')
-    def status_validate_enum(cls, value):
+    @validator('persistent_job_status')
+    def persistent_job_status_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'REPLACED', 'REVERTED', 'FAILED'):
             raise ValueError("must be one of enum values ('IDLE', 'RUN', 'REVERTING', 'COMPLETED', 'REPLACED', 'REVERTED', 'FAILED')")
+        return value
+
+    @validator('operation')
+    def operation_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP'):
+            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP')")
         return value
 
     class Config:
@@ -63,8 +71,8 @@ class ShortView(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ShortView:
-        """Create an instance of ShortView from a JSON string"""
+    def from_json(cls, json_str: str) -> TaskShortData:
+        """Create an instance of TaskShortData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -80,28 +88,31 @@ class ShortView(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['children'] = _items
+        # override the default output from pydantic by calling `to_dict()` of operated_entity
+        if self.operated_entity:
+            _dict['operatedEntity'] = self.operated_entity.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ShortView:
-        """Create an instance of ShortView from a dict"""
+    def from_dict(cls, obj: dict) -> TaskShortData:
+        """Create an instance of TaskShortData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ShortView.parse_obj(obj)
+            return TaskShortData.parse_obj(obj)
 
-        _obj = ShortView.parse_obj({
+        _obj = TaskShortData.parse_obj({
             "job_id": obj.get("jobId"),
             "title": obj.get("title"),
-            "status": obj.get("status"),
+            "persistent_job_status": obj.get("persistentJobStatus"),
             "wait_for": obj.get("waitFor"),
             "step": obj.get("step"),
-            "children": [ShortView.from_dict(_item) for _item in obj.get("children")] if obj.get("children") is not None else None,
+            "children": [TaskShortData.from_dict(_item) for _item in obj.get("children")] if obj.get("children") is not None else None,
             "percentage": obj.get("percentage"),
-            "entity_id": obj.get("entityId"),
-            "entity_type": obj.get("entityType"),
-            "entity_action_id": obj.get("entityActionId"),
+            "operation": obj.get("operation"),
+            "operated_entity": PipelineEntity.from_dict(obj.get("operatedEntity")) if obj.get("operatedEntity") is not None else None,
+            "operated_entity_name": obj.get("operatedEntityName"),
             "run_at": obj.get("runAt"),
             "end_time": obj.get("endTime"),
             "interrupted": obj.get("interrupted"),
@@ -110,5 +121,5 @@ class ShortView(BaseModel):
         })
         return _obj
 
-ShortView.update_forward_refs()
+TaskShortData.update_forward_refs()
 

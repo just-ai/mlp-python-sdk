@@ -4646,7 +4646,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ShortView'
+                  $ref: '#/components/schemas/TaskShortData'
   /api/mlpcore/system-config/task-types:
     get:
       tags:
@@ -10618,16 +10618,28 @@ components:
           - FAILED
         currentStep:
           type: string
-    ShortView:
+    MlpEntityKey:
+      type: object
+    PipelineEntity:
+      required:
+      - key
+      - name
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/MlpEntityKey'
+        name:
+          type: string
+    TaskShortData:
       required:
       - children
-      - entityActionId
-      - entityType
       - interrupted
       - isInterruptible
       - jobId
+      - operatedEntity
+      - operation
       - percentage
-      - status
+      - persistentJobStatus
       - step
       - title
       type: object
@@ -10636,7 +10648,7 @@ components:
           type: string
         title:
           type: string
-        status:
+        persistentJobStatus:
           type: string
           enum:
           - IDLE
@@ -10655,15 +10667,29 @@ components:
         children:
           type: array
           items:
-            $ref: '#/components/schemas/ShortView'
+            $ref: '#/components/schemas/TaskShortData'
         percentage:
           type: number
           format: double
-        entityId:
-          type: object
-        entityType:
+        operation:
           type: string
-        entityActionId:
+          enum:
+          - RUN
+          - FIT
+          - BLOCK
+          - UNBLOCK
+          - GRANT
+          - CREATE
+          - REMOVE
+          - WAKE_UP
+          - RENAME
+          - PREPARE
+          - RELOAD
+          - TRANSFER
+          - SET_CORRECT_GROUP
+        operatedEntity:
+          $ref: '#/components/schemas/PipelineEntity'
+        operatedEntityName:
           type: string
         runAt:
           type: integer

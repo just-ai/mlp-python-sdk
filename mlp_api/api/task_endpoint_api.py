@@ -25,7 +25,7 @@ from typing import List, Optional
 
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.short_job_view import ShortJobView
-from mlp_api.models.short_view import ShortView
+from mlp_api.models.task_short_data import TaskShortData
 
 from mlp_api.api_client import ApiClient
 from mlp_api.api_response import ApiResponse
@@ -420,7 +420,7 @@ class TaskEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def short_jobs_view(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ShortView]:  # noqa: E501
+    def short_jobs_view(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[TaskShortData]:  # noqa: E501
         """short_jobs_view  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -440,7 +440,7 @@ class TaskEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[ShortView]
+        :rtype: List[TaskShortData]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -482,7 +482,7 @@ class TaskEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[ShortView], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[TaskShortData], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -537,7 +537,7 @@ class TaskEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "List[ShortView]",
+            '200': "List[TaskShortData]",
         }
 
         return self.api_client.call_api(
