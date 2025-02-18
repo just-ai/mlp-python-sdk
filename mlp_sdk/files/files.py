@@ -83,7 +83,7 @@ class FilesAccessor:
         response = requests.get(url, headers=headers, params=params, timeout=request_timeout, stream=True)
         response.raise_for_status()
 
-        return response.raw
+        return response.raw.read()
 
     def _write_by_api(
         self,
