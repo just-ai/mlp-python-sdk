@@ -38,10 +38,11 @@ class TaskShortData(BaseModel):
     operated_entity_name: Optional[StrictStr] = Field(default=None, alias="operatedEntityName")
     run_at: Optional[StrictInt] = Field(default=None, alias="runAt")
     end_time: Optional[StrictInt] = Field(default=None, alias="endTime")
+    unread_status: Optional[StrictBool] = Field(default=None, alias="unreadStatus")
     interrupted: StrictBool = Field(...)
     interrupt_message: Optional[StrictStr] = Field(default=None, alias="interruptMessage")
     is_interruptible: StrictBool = Field(default=..., alias="isInterruptible")
-    __properties = ["jobId", "title", "persistentJobStatus", "waitFor", "step", "children", "percentage", "operation", "operatedEntity", "operatedEntityName", "runAt", "endTime", "interrupted", "interruptMessage", "isInterruptible"]
+    __properties = ["jobId", "title", "persistentJobStatus", "waitFor", "step", "children", "percentage", "operation", "operatedEntity", "operatedEntityName", "runAt", "endTime", "unreadStatus", "interrupted", "interruptMessage", "isInterruptible"]
 
     @validator('persistent_job_status')
     def persistent_job_status_validate_enum(cls, value):
@@ -115,6 +116,7 @@ class TaskShortData(BaseModel):
             "operated_entity_name": obj.get("operatedEntityName"),
             "run_at": obj.get("runAt"),
             "end_time": obj.get("endTime"),
+            "unread_status": obj.get("unreadStatus"),
             "interrupted": obj.get("interrupted"),
             "interrupt_message": obj.get("interruptMessage"),
             "is_interruptible": obj.get("isInterruptible")

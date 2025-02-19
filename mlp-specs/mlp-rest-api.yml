@@ -10719,6 +10719,8 @@ components:
         endTime:
           type: integer
           format: int64
+        unreadStatus:
+          type: boolean
         interrupted:
           type: boolean
         interruptMessage:
