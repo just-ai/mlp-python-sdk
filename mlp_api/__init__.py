@@ -189,7 +189,6 @@ from mlp_api.models.s3_credentials_data import S3CredentialsData
 from mlp_api.models.schema_file_data import SchemaFileData
 from mlp_api.models.server_capacity_data import ServerCapacityData
 from mlp_api.models.server_template_data import ServerTemplateData
-from mlp_api.models.server_template_dump import ServerTemplateDump
 from mlp_api.models.service_data import ServiceData
 from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime

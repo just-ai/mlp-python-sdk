@@ -8468,10 +8468,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ModelDump'
-        serverTemplates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServerTemplateDump'
     DataImageDump:
       required:
       - dataPath
@@ -8991,62 +8987,6 @@ components:
           type: string
         isDefault:
           type: boolean
-    ServerCapacityData:
-      required:
-      - cpu
-      - disk
-      - gpuModels
-      - memory
-      type: object
-      properties:
-        cpu:
-          type: string
-        memory:
-          type: string
-        disk:
-          type: string
-        gpuModels:
-          type: array
-          items:
-            type: string
-    ServerTemplateDump:
-      required:
-      - configuration
-      - costPrice
-      - description
-      - name
-      - tarifficationPrice
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DOCKER
-          - KUBERNETES
-          - HOSTING_SERVER
-          - SHARED_RESOURCE_QUOTA
-        capacity:
-          $ref: '#/components/schemas/ServerCapacityData'
-        description:
-          type: string
-        configuration:
-          type: string
-        tarifficationPrice:
-          type: number
-        costPrice:
-          type: number
-        tarifficationPeriod:
-          type: string
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
     AccountConfigDump:
       required:
       - accountName
@@ -9320,6 +9260,24 @@ components:
           - DAY
           - MONTH
           - YEAR
+    ServerCapacityData:
+      required:
+      - cpu
+      - disk
+      - gpuModels
+      - memory
+      type: object
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+        disk:
+          type: string
+        gpuModels:
+          type: array
+          items:
+            type: string
     ServerTemplateData:
       required:
       - costPrice
