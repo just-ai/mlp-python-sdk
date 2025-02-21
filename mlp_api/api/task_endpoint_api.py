@@ -700,7 +700,7 @@ class TaskEndpointApi:
 
     @validate_arguments
     def short_tasks_view(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ShortJobView]:  # noqa: E501
-        """short_tasks_view  # noqa: E501
+        """(Deprecated) short_tasks_view  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -729,7 +729,7 @@ class TaskEndpointApi:
 
     @validate_arguments
     def short_tasks_view_with_http_info(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """short_tasks_view  # noqa: E501
+        """(Deprecated) short_tasks_view  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -763,6 +763,8 @@ class TaskEndpointApi:
                  returns the request thread.
         :rtype: tuple(List[ShortJobView], status_code(int), headers(HTTPHeaderDict))
         """
+
+        warnings.warn("GET /api/mlpcore/task/short is deprecated.", DeprecationWarning)
 
         _params = locals()
 
