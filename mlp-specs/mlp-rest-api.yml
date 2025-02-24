@@ -11043,9 +11043,9 @@ components:
         pageSize:
           type: integer
           format: int32
-        unpaged:
-          type: boolean
         paged:
+          type: boolean
+        unpaged:
           type: boolean
     SortObject:
       type: object
