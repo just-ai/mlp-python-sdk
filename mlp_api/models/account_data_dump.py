@@ -24,6 +24,7 @@ from mlp_api.models.data_image_dump import DataImageDump
 from mlp_api.models.image_dump import ImageDump
 from mlp_api.models.model_dump import ModelDump
 from mlp_api.models.model_group_dump import ModelGroupDump
+from mlp_api.models.server_template_dump import ServerTemplateDump
 
 class AccountDataDump(BaseModel):
     """
@@ -34,7 +35,8 @@ class AccountDataDump(BaseModel):
     images: Optional[conlist(ImageDump)] = None
     data_images: Optional[conlist(DataImageDump)] = Field(default=None, alias="dataImages")
     models: Optional[conlist(ModelDump)] = None
-    __properties = ["apiTokens", "modelGroups", "images", "dataImages", "models"]
+    server_templates: Optional[conlist(ServerTemplateDump)] = Field(default=None, alias="serverTemplates")
+    __properties = ["apiTokens", "modelGroups", "images", "dataImages", "models", "serverTemplates"]
 
     class Config:
         """Pydantic configuration"""
@@ -88,6 +90,13 @@ class AccountDataDump(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['models'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in server_templates (list)
+        _items = []
+        if self.server_templates:
+            for _item in self.server_templates:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['serverTemplates'] = _items
         return _dict
 
     @classmethod
@@ -104,7 +113,8 @@ class AccountDataDump(BaseModel):
             "model_groups": [ModelGroupDump.from_dict(_item) for _item in obj.get("modelGroups")] if obj.get("modelGroups") is not None else None,
             "images": [ImageDump.from_dict(_item) for _item in obj.get("images")] if obj.get("images") is not None else None,
             "data_images": [DataImageDump.from_dict(_item) for _item in obj.get("dataImages")] if obj.get("dataImages") is not None else None,
-            "models": [ModelDump.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None
+            "models": [ModelDump.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None,
+            "server_templates": [ServerTemplateDump.from_dict(_item) for _item in obj.get("serverTemplates")] if obj.get("serverTemplates") is not None else None
         })
         return _obj
 
