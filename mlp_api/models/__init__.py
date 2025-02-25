@@ -121,6 +121,7 @@ from mlp_api.models.pagination import Pagination
 from mlp_api.models.param_type_data import ParamTypeData
 from mlp_api.models.paraphrasing_status import ParaphrasingStatus
 from mlp_api.models.persistent_volume_data import PersistentVolumeData
+from mlp_api.models.pipeline_entity import PipelineEntity
 from mlp_api.models.predict2_request_data import Predict2RequestData
 from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
@@ -145,7 +146,6 @@ from mlp_api.models.s3_credentials_data import S3CredentialsData
 from mlp_api.models.schema_file_data import SchemaFileData
 from mlp_api.models.server_capacity_data import ServerCapacityData
 from mlp_api.models.server_template_data import ServerTemplateData
-from mlp_api.models.server_template_dump import ServerTemplateDump
 from mlp_api.models.service_data import ServiceData
 from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
@@ -156,6 +156,7 @@ from mlp_api.models.sort_object import SortObject
 from mlp_api.models.stat_log_data import StatLogData
 from mlp_api.models.status import Status
 from mlp_api.models.status_info import StatusInfo
+from mlp_api.models.task_short_data import TaskShortData
 from mlp_api.models.task_suite_status import TaskSuiteStatus
 from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount

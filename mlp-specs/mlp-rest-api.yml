@@ -407,6 +407,28 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/task/read:
+    post:
+      tags:
+      - task-endpoint
+      operationId: markRead
+      parameters:
+      - name: jobId
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/server-heartbeat:
     post:
       tags:
@@ -4626,6 +4648,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ShortJobView'
+      deprecated: true
+  /api/mlpcore/task/list:
+    get:
+      tags:
+      - task-endpoint
+      operationId: shortJobsView
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskShortData'
   /api/mlpcore/system-config/task-types:
     get:
       tags:
@@ -7134,6 +7178,49 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpcore/account/{account}/model/{model}/clicks:
+    get:
+      tags:
+      - click-history-endpoint
+      operationId: getClicksByModelId
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClickHistoryData'
   /api/mlpcore/account/{account}/model/{model}/available-fit-config:
     get:
       tags:
@@ -7566,6 +7653,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParaphrasingStatus'
+  /api/mlpcore/account/{account}/clicks:
+    get:
+      tags:
+      - click-history-endpoint
+      operationId: getClicksByAccountId
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClickHistoryData'
   /api/mlpcore/account/{account}/application/{application}/token:
     get:
       tags:
@@ -8004,33 +8128,6 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/mlpcore-internal/account/{account}/clicks:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: getClicksByAccountId
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ClickHistoryData'
   /api/mlpcore/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -8372,10 +8469,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ModelDump'
-        serverTemplates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServerTemplateDump'
     DataImageDump:
       required:
       - dataPath
@@ -8895,62 +8988,6 @@ components:
           type: string
         isDefault:
           type: boolean
-    ServerCapacityData:
-      required:
-      - cpu
-      - disk
-      - gpuModels
-      - memory
-      type: object
-      properties:
-        cpu:
-          type: string
-        memory:
-          type: string
-        disk:
-          type: string
-        gpuModels:
-          type: array
-          items:
-            type: string
-    ServerTemplateDump:
-      required:
-      - configuration
-      - costPrice
-      - description
-      - name
-      - tarifficationPrice
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - DOCKER
-          - KUBERNETES
-          - HOSTING_SERVER
-          - SHARED_RESOURCE_QUOTA
-        capacity:
-          $ref: '#/components/schemas/ServerCapacityData'
-        description:
-          type: string
-        configuration:
-          type: string
-        tarifficationPrice:
-          type: number
-        costPrice:
-          type: number
-        tarifficationPeriod:
-          type: string
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
     AccountConfigDump:
       required:
       - accountName
@@ -9224,6 +9261,24 @@ components:
           - DAY
           - MONTH
           - YEAR
+    ServerCapacityData:
+      required:
+      - cpu
+      - disk
+      - gpuModels
+      - memory
+      type: object
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+        disk:
+          type: string
+        gpuModels:
+          type: array
+          items:
+            type: string
     ServerTemplateData:
       required:
       - costPrice
@@ -10597,6 +10652,93 @@ components:
           - FAILED
         currentStep:
           type: string
+    MlpEntityKey:
+      type: object
+    PipelineEntity:
+      required:
+      - key
+      - name
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/MlpEntityKey'
+        name:
+          type: string
+    TaskShortData:
+      required:
+      - children
+      - interrupted
+      - isInterruptible
+      - jobId
+      - operatedEntity
+      - operation
+      - percentage
+      - persistentJobStatus
+      - step
+      - title
+      type: object
+      properties:
+        jobId:
+          type: string
+        title:
+          type: string
+        persistentJobStatus:
+          type: string
+          enum:
+          - IDLE
+          - RUN
+          - REVERTING
+          - COMPLETED
+          - REPLACED
+          - REVERTED
+          - FAILED
+        waitFor:
+          type: array
+          items:
+            type: string
+        step:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskShortData'
+        percentage:
+          type: number
+          format: double
+        operation:
+          type: string
+          enum:
+          - RUN
+          - FIT
+          - BLOCK
+          - UNBLOCK
+          - GRANT
+          - CREATE
+          - REMOVE
+          - WAKE_UP
+          - RENAME
+          - PREPARE
+          - RELOAD
+          - TRANSFER
+          - SET_CORRECT_GROUP
+        operatedEntity:
+          $ref: '#/components/schemas/PipelineEntity'
+        operatedEntityName:
+          type: string
+        runAt:
+          type: integer
+          format: int64
+        endTime:
+          type: integer
+          format: int64
+        unreadStatus:
+          type: boolean
+        interrupted:
+          type: boolean
+        interruptMessage:
+          type: string
+        isInterruptible:
+          type: boolean
     TaskTypeData:
       required:
       - displayName
@@ -11006,10 +11148,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -11050,9 +11192,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
