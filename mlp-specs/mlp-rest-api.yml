@@ -10739,8 +10739,6 @@ components:
           type: string
         isInterruptible:
           type: boolean
-        errorMessage:
-          type: string
     TaskTypeData:
       required:
       - displayName
