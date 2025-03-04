@@ -8608,6 +8608,21 @@ components:
           - private
           - public
           - restricted
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
     ModelArchiveSettingsData:
       required:
       - enabled
@@ -8626,7 +8641,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
-      - active
+      - enabled
       - minInstanceCount
       type: object
       properties:
@@ -8636,6 +8651,10 @@ components:
         maxInstanceCount:
           type: integer
           format: int32
+        scheduledInstanceCountSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduledInstanceCountSetting'
         cooldownDurationMinutes:
           type: integer
           format: int32
@@ -8657,7 +8676,7 @@ components:
         scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
-        active:
+        enabled:
           type: boolean
     ModelBatchesData:
       required:
@@ -8988,6 +9007,23 @@ components:
           type: string
         isDefault:
           type: boolean
+    ScheduledInstanceCountSetting:
+      required:
+      - endTime
+      - minInstances
+      - startTime
+      type: object
+      properties:
+        startTime:
+          $ref: '#/components/schemas/LocalTime'
+        endTime:
+          $ref: '#/components/schemas/LocalTime'
+        minInstances:
+          type: integer
+          format: int32
+        maxInstances:
+          type: integer
+          format: int32
     AccountConfigDump:
       required:
       - accountName
@@ -11150,6 +11186,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -11162,10 +11202,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -11176,17 +11212,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -11194,9 +11230,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
