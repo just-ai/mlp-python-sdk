@@ -10167,6 +10167,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
     ModelInfoPK:
       required:
       - accountId
@@ -11304,6 +11305,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
         active:
           type: integer
           format: int32
@@ -11435,6 +11437,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
