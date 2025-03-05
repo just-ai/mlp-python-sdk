@@ -118,8 +118,8 @@ class ModelInfoData(BaseModel):
         if value is None:
             return value
 
-        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING'):
-            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING')")
+        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING', 'REMOVING'):
+            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING', 'REMOVING')")
         return value
 
     class Config:
