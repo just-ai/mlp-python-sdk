@@ -36,8 +36,8 @@ class ServiceData(BaseModel):
     @validator('state')
     def state_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING'):
-            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING')")
+        if value not in ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING', 'REMOVING'):
+            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'INACTIVE', 'SLEEPING', 'REMOVING')")
         return value
 
     class Config:

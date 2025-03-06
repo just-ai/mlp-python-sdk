@@ -79,6 +79,7 @@ from mlp_api.models.instances_status_data import InstancesStatusData
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.last_activity_pk import LastActivityPk
+from mlp_api.models.local_time import LocalTime
 from mlp_api.models.management_request_data import ManagementRequestData
 from mlp_api.models.measurement import Measurement
 from mlp_api.models.method_descriptor_data import MethodDescriptorData
@@ -143,6 +144,7 @@ from mlp_api.models.resource_group_short_status_data import ResourceGroupShortSt
 from mlp_api.models.resource_groups_data import ResourceGroupsData
 from mlp_api.models.response_body_emitter import ResponseBodyEmitter
 from mlp_api.models.s3_credentials_data import S3CredentialsData
+from mlp_api.models.scheduled_instance_count_setting import ScheduledInstanceCountSetting
 from mlp_api.models.schema_file_data import SchemaFileData
 from mlp_api.models.server_capacity_data import ServerCapacityData
 from mlp_api.models.server_template_data import ServerTemplateData
