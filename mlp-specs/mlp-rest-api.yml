@@ -658,6 +658,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DifferenceIAccountConfigDump'
+  /api/mlpcore/admin/server/price/sync:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: synchronizeAllServersPrices
+      parameters:
+      - name: providers
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/request-metrics/save:
     post:
       tags:
