@@ -3399,6 +3399,33 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/image/{imageId}/models-restart:
+    post:
+      tags:
+      - image-endpoint
+      operationId: restartModelsByImage
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/account/{account}/dump:
     get:
       tags:
