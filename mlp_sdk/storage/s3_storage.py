@@ -46,6 +46,7 @@ class S3Storage(AbstractStorage):
         access_key: str,
         secret_key: str,
         endpoint: str,
+        ssl_verify: bool = True,
         data_dir: Optional[str] = None,
     ):
         self.bucket = bucket
@@ -59,6 +60,7 @@ class S3Storage(AbstractStorage):
                 aws_access_key_id=access_key,
                 aws_secret_access_key=secret_key,
                 endpoint_url=endpoint,
+                verify=ssl_verify,
             )
 
             self.resource = boto3.resource(
@@ -67,6 +69,7 @@ class S3Storage(AbstractStorage):
                 aws_access_key_id=access_key,
                 aws_secret_access_key=secret_key,
                 endpoint_url=endpoint,
+                verify=ssl_verify,
             )
         except Exception as exc:
             LOGGER.error(str(exc))
