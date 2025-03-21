@@ -1105,19 +1105,23 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_metrics(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, from_date : Optional[date] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
+    def get_metrics(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_metrics(account, from_date, mlp_api_key, async_req=True)
+        >>> thread = api.get_metrics(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name
         :type account: str
-        :param from_date:
-        :type from_date: date
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1135,22 +1139,26 @@ class AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_metrics_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_metrics_with_http_info(account, from_date, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_metrics_with_http_info(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, from_date : Optional[date] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_metrics_with_http_info(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_metrics_with_http_info(account, from_date, mlp_api_key, async_req=True)
+        >>> thread = api.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name
         :type account: str
-        :param from_date:
-        :type from_date: date
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1182,7 +1190,9 @@ class AdminEndpointApi:
 
         _all_params = [
             'account',
-            'from_date',
+            'start_date',
+            'end_date',
+            'type',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1217,11 +1227,20 @@ class AdminEndpointApi:
         if _params.get('account') is not None:  # noqa: E501
             _query_params.append(('account', _params['account']))
 
-        if _params.get('from_date') is not None:  # noqa: E501
-            if isinstance(_params['from_date'], date):
-                _query_params.append(('fromDate', _params['from_date'].strftime(self.api_client.configuration.date_format)))
+        if _params.get('start_date') is not None:  # noqa: E501
+            if isinstance(_params['start_date'], date):
+                _query_params.append(('startDate', _params['start_date'].strftime(self.api_client.configuration.date_format)))
             else:
-                _query_params.append(('fromDate', _params['from_date']))
+                _query_params.append(('startDate', _params['start_date']))
+
+        if _params.get('end_date') is not None:  # noqa: E501
+            if isinstance(_params['end_date'], date):
+                _query_params.append(('endDate', _params['end_date'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('endDate', _params['end_date']))
+
+        if _params.get('type') is not None:  # noqa: E501
+            _query_params.append(('type', _params['type']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))

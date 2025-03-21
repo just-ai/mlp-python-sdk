@@ -55,8 +55,8 @@ class TaskShortData(BaseModel):
     @validator('operation')
     def operation_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP'):
-            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP')")
+        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP'):
+            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP')")
         return value
 
     class Config:
