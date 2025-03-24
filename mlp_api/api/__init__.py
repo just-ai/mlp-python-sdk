@@ -28,4 +28,5 @@ from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
+from mlp_api.api.ui_notification_endpoint_api import UiNotificationEndpointApi
 

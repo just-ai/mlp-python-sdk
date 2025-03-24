@@ -22,6 +22,7 @@ from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.alias_data import AliasData
 from mlp_api.models.audio_format_options import AudioFormatOptions
+from mlp_api.models.broadcast_ui_notification_request import BroadcastUINotificationRequest
 from mlp_api.models.captcha_data import CaptchaData
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.check_result import CheckResult
@@ -130,6 +131,7 @@ from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
 from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
+from mlp_api.models.read_ui_notification_request import ReadUINotificationRequest
 from mlp_api.models.request_details_data import RequestDetailsData
 from mlp_api.models.request_metrics_data import RequestMetricsData
 from mlp_api.models.resource_group_auto_scaling_configuration import ResourceGroupAutoScalingConfiguration
@@ -163,5 +165,6 @@ from mlp_api.models.task_suite_status import TaskSuiteStatus
 from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.tts_request_data import TtsRequestData
+from mlp_api.models.ui_notification_data import UINotificationData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
