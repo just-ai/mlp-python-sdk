@@ -9008,6 +9008,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FitConfigDump'
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeDump'
         resourceGroup:
           type: string
         shortDescription:
@@ -9164,6 +9168,15 @@ components:
         fitTimeoutSec:
           type: integer
           format: int64
+    PersistentVolumeDump:
+      required:
+      - mountPath
+      type: object
+      properties:
+        mountPath:
+          type: string
+        claimName:
+          type: string
     PredictConfigDump:
       required:
       - config
@@ -10058,7 +10071,6 @@ components:
     PersistentVolumeData:
       required:
       - mountPath
-      - sizeInGb
       - storageClass
       type: object
       properties:
@@ -10066,6 +10078,8 @@ components:
           type: integer
           format: int64
         mountPath:
+          type: string
+        claimName:
           type: string
         sizeInGb:
           type: integer

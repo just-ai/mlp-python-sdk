@@ -19,18 +19,15 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictStr
 
-class PersistentVolumeData(BaseModel):
+class PersistentVolumeDump(BaseModel):
     """
-    PersistentVolumeData
+    PersistentVolumeDump
     """
-    pv_id: Optional[StrictInt] = Field(default=None, alias="pvId")
     mount_path: StrictStr = Field(default=..., alias="mountPath")
     claim_name: Optional[StrictStr] = Field(default=None, alias="claimName")
-    size_in_gb: Optional[StrictInt] = Field(default=None, alias="sizeInGb")
-    storage_class: StrictStr = Field(default=..., alias="storageClass")
-    __properties = ["pvId", "mountPath", "claimName", "sizeInGb", "storageClass"]
+    __properties = ["mountPath", "claimName"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +43,8 @@ class PersistentVolumeData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PersistentVolumeData:
-        """Create an instance of PersistentVolumeData from a JSON string"""
+    def from_json(cls, json_str: str) -> PersistentVolumeDump:
+        """Create an instance of PersistentVolumeDump from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -59,20 +56,17 @@ class PersistentVolumeData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PersistentVolumeData:
-        """Create an instance of PersistentVolumeData from a dict"""
+    def from_dict(cls, obj: dict) -> PersistentVolumeDump:
+        """Create an instance of PersistentVolumeDump from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PersistentVolumeData.parse_obj(obj)
+            return PersistentVolumeDump.parse_obj(obj)
 
-        _obj = PersistentVolumeData.parse_obj({
-            "pv_id": obj.get("pvId"),
+        _obj = PersistentVolumeDump.parse_obj({
             "mount_path": obj.get("mountPath"),
-            "claim_name": obj.get("claimName"),
-            "size_in_gb": obj.get("sizeInGb"),
-            "storage_class": obj.get("storageClass")
+            "claim_name": obj.get("claimName")
         })
         return _obj
 
