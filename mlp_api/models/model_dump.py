@@ -34,6 +34,7 @@ from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
 from mlp_api.models.model_timeouts_data import ModelTimeoutsData
+from mlp_api.models.persistent_volume_dump import PersistentVolumeDump
 from mlp_api.models.predict_config_dump import PredictConfigDump
 
 class ModelDump(BaseModel):
@@ -74,6 +75,7 @@ class ModelDump(BaseModel):
     docs: conlist(DocumentDump) = Field(...)
     predict_configs: conlist(PredictConfigDump) = Field(default=..., alias="predictConfigs")
     fit_configs: conlist(FitConfigDump) = Field(default=..., alias="fitConfigs")
+    persistent_volumes: Optional[conlist(PersistentVolumeDump)] = Field(default=None, alias="persistentVolumes")
     resource_group: Optional[StrictStr] = Field(default=None, alias="resourceGroup")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
     languages: Optional[conlist(StrictStr, unique_items=True)] = None
@@ -98,7 +100,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -203,6 +205,13 @@ class ModelDump(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['fitConfigs'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in persistent_volumes (list)
+        _items = []
+        if self.persistent_volumes:
+            for _item in self.persistent_volumes:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['persistentVolumes'] = _items
         # override the default output from pydantic by calling `to_dict()` of as_http_settings_data
         if self.as_http_settings_data:
             _dict['asHttpSettingsData'] = self.as_http_settings_data.to_dict()
@@ -261,6 +270,7 @@ class ModelDump(BaseModel):
             "docs": [DocumentDump.from_dict(_item) for _item in obj.get("docs")] if obj.get("docs") is not None else None,
             "predict_configs": [PredictConfigDump.from_dict(_item) for _item in obj.get("predictConfigs")] if obj.get("predictConfigs") is not None else None,
             "fit_configs": [FitConfigDump.from_dict(_item) for _item in obj.get("fitConfigs")] if obj.get("fitConfigs") is not None else None,
+            "persistent_volumes": [PersistentVolumeDump.from_dict(_item) for _item in obj.get("persistentVolumes")] if obj.get("persistentVolumes") is not None else None,
             "resource_group": obj.get("resourceGroup"),
             "short_description": obj.get("shortDescription"),
             "languages": obj.get("languages"),
