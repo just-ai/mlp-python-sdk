@@ -5156,10 +5156,10 @@ paths:
       parameters:
       - name: account
         in: query
-        description: Account id or account name
         required: false
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: startDate
         in: query
         required: false
