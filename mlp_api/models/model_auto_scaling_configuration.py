@@ -36,8 +36,10 @@ class ModelAutoScalingConfiguration(BaseModel):
     scale_down_latency_threshold_ms: Optional[StrictInt] = Field(default=None, alias="scaleDownLatencyThresholdMs")
     scale_up_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleUpCpuThresholdMilliCores")
     scale_down_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleDownCpuThresholdMilliCores")
+    scale_up_active_requests_threshold: Optional[StrictInt] = Field(default=None, alias="scaleUpActiveRequestsThreshold")
+    scale_down_active_requests_threshold: Optional[StrictInt] = Field(default=None, alias="scaleDownActiveRequestsThreshold")
     enabled: StrictBool = Field(...)
-    __properties = ["minInstanceCount", "maxInstanceCount", "scheduledInstanceCountSettings", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", "enabled"]
+    __properties = ["minInstanceCount", "maxInstanceCount", "scheduledInstanceCountSettings", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", "scaleUpActiveRequestsThreshold", "scaleDownActiveRequestsThreshold", "enabled"]
 
     class Config:
         """Pydantic configuration"""
@@ -92,6 +94,8 @@ class ModelAutoScalingConfiguration(BaseModel):
             "scale_down_latency_threshold_ms": obj.get("scaleDownLatencyThresholdMs"),
             "scale_up_cpu_threshold_milli_cores": obj.get("scaleUpCpuThresholdMilliCores"),
             "scale_down_cpu_threshold_milli_cores": obj.get("scaleDownCpuThresholdMilliCores"),
+            "scale_up_active_requests_threshold": obj.get("scaleUpActiveRequestsThreshold"),
+            "scale_down_active_requests_threshold": obj.get("scaleDownActiveRequestsThreshold"),
             "enabled": obj.get("enabled")
         })
         return _obj
