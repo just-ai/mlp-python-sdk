@@ -1105,7 +1105,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_metrics(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
+    def get_metrics(self, account : Optional[StrictInt] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1114,8 +1114,8 @@ class AdminEndpointApi:
         >>> thread = api.get_metrics(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
+        :param account:
+        :type account: int
         :param start_date:
         :type start_date: date
         :param end_date:
@@ -1142,7 +1142,7 @@ class AdminEndpointApi:
         return self.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_metrics_with_http_info(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_metrics_with_http_info(self, account : Optional[StrictInt] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1151,8 +1151,8 @@ class AdminEndpointApi:
         >>> thread = api.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
+        :param account:
+        :type account: int
         :param start_date:
         :type start_date: date
         :param end_date:
