@@ -9506,6 +9506,8 @@ components:
           - DAY
           - MONTH
           - YEAR
+        priceSynchronizationEnabled:
+          type: boolean
     ServerCapacityData:
       required:
       - cpu
@@ -9530,6 +9532,7 @@ components:
       - description
       - id
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - tarifficationPrice
       - type
@@ -9574,6 +9577,8 @@ components:
           - AVAILABLE
           - UNAVAILABLE
           - UNKNOWN
+        priceSynchronizationEnabled:
+          type: boolean
     CreateResourceGroupData:
       required:
       - name
@@ -9752,6 +9757,7 @@ components:
       - id
       - isAutoCreated
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - tarifficationPrice
       type: object
@@ -9787,6 +9793,8 @@ components:
         lifetimeLeftSeconds:
           type: integer
           format: int64
+        priceSynchronizationEnabled:
+          type: boolean
     ProlongResourceGroupServerRequest:
       required:
       - additionalServerLifetimeMinutes
@@ -11339,6 +11347,7 @@ components:
       - id
       - isAutoCreated
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - resources
       - status
@@ -11381,6 +11390,8 @@ components:
           - DAY
           - MONTH
           - YEAR
+        priceSynchronizationEnabled:
+          type: boolean
     Measurement:
       required:
       - ts

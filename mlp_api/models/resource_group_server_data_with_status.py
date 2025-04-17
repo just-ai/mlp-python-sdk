@@ -37,7 +37,8 @@ class ResourceGroupServerDataWithStatus(BaseModel):
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["id", "name", "status", "serverIp", "jumpHostIp", "resources", "description", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod"]
+    price_synchronization_enabled: StrictBool = Field(default=..., alias="priceSynchronizationEnabled")
+    __properties = ["id", "name", "status", "serverIp", "jumpHostIp", "resources", "description", "isAutoCreated", "rawConfiguration", "tarifficationPrice", "tarifficationPeriod", "priceSynchronizationEnabled"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -105,7 +106,8 @@ class ResourceGroupServerDataWithStatus(BaseModel):
             "is_auto_created": obj.get("isAutoCreated"),
             "raw_configuration": obj.get("rawConfiguration"),
             "tariffication_price": obj.get("tarifficationPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "price_synchronization_enabled": obj.get("priceSynchronizationEnabled")
         })
         return _obj
 
