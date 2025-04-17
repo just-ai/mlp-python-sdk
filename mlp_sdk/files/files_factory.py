@@ -1,6 +1,6 @@
 import os
 
-from mlp_sdk.files import FilesAccessor
+from mlp_sdk.files.files import FilesAccessor
 
 
 def get_files():
