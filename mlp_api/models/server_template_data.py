@@ -37,7 +37,8 @@ class ServerTemplateData(BaseModel):
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     is_available: Optional[StrictBool] = Field(default=None, alias="isAvailable")
     availability: Optional[StrictStr] = None
-    __properties = ["id", "name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "isAvailable", "availability"]
+    price_synchronization_enabled: StrictBool = Field(default=..., alias="priceSynchronizationEnabled")
+    __properties = ["id", "name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "isAvailable", "availability", "priceSynchronizationEnabled"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -115,7 +116,8 @@ class ServerTemplateData(BaseModel):
             "cost_price": obj.get("costPrice"),
             "tariffication_period": obj.get("tarifficationPeriod"),
             "is_available": obj.get("isAvailable"),
-            "availability": obj.get("availability")
+            "availability": obj.get("availability"),
+            "price_synchronization_enabled": obj.get("priceSynchronizationEnabled")
         })
         return _obj
 

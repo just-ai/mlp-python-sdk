@@ -37,7 +37,8 @@ class ResourceGroupServerData(BaseModel):
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     lifetime_left_seconds: Optional[StrictInt] = Field(default=None, alias="lifetimeLeftSeconds")
-    __properties = ["id", "name", "serverIp", "jumpHostIp", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod", "lifetimeLeftSeconds"]
+    price_synchronization_enabled: StrictBool = Field(default=..., alias="priceSynchronizationEnabled")
+    __properties = ["id", "name", "serverIp", "jumpHostIp", "description", "isAutoCreated", "rawConfiguration", "templateCapacity", "tarifficationPrice", "tarifficationPeriod", "lifetimeLeftSeconds", "priceSynchronizationEnabled"]
 
     @validator('tariffication_period')
     def tariffication_period_validate_enum(cls, value):
@@ -98,7 +99,8 @@ class ResourceGroupServerData(BaseModel):
             "template_capacity": ServerCapacityData.from_dict(obj.get("templateCapacity")) if obj.get("templateCapacity") is not None else None,
             "tariffication_price": obj.get("tarifficationPrice"),
             "tariffication_period": obj.get("tarifficationPeriod"),
-            "lifetime_left_seconds": obj.get("lifetimeLeftSeconds")
+            "lifetime_left_seconds": obj.get("lifetimeLeftSeconds"),
+            "price_synchronization_enabled": obj.get("priceSynchronizationEnabled")
         })
         return _obj
 
