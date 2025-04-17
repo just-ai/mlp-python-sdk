@@ -1,0 +1,81 @@
+import contextvars
+import logging
+import sys
+
+import graypy  # type: ignore
+
+from mlp_sdk.utils.config import get_config
+
+request_id_var = contextvars.ContextVar("request_id", default=0)
+config = get_config()
+
+
+class GraylogFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord):
+        # Добавляем app_name как дополнительное поле
+        record.app_name = config.logging.app_name
+        record.request_id = request_id_var.get()
+        return super().format(record)
+
+
+if config.logging.graylog.enabled:
+    if config.logging.graylog.udp:
+        graylog_handler = graypy.GELFUDPHandler(config.logging.graylog.host, config.logging.graylog.port)
+    else:
+        graylog_handler = graypy.GELFTCPHandler(config.logging.graylog.host, config.logging.graylog.port)
+
+    graylog_formatter = GraylogFormatter("[%(name)s]: %(message)s")
+    graylog_handler.setFormatter(graylog_formatter)
+else:
+    graylog_handler = None
+
+if config.logging.console.enabled:
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s"))
+else:
+    console_handler = None
+
+logging.getLogger().setLevel(config.logging.root_level)
+for log, level in config.logging.levels.items():
+    logging.getLogger(log).setLevel(level)
+
+
+def get_logger(name: str) -> logging.Logger:
+    logger = logging.getLogger(name)
+
+    logger.propagate = False  # Global logger should not print messages again.
+
+    # Avoiding log duplicates: do not add handlers again to already initialized logger
+    # https://stackoverflow.com/questions/7173033/duplicate-log-output-when-using-python-logging-module
+    if len(logger.handlers) != 0:
+        return logger
+
+    if console_handler:
+        logger.addHandler(console_handler)
+
+    if graylog_handler:
+        logger.addHandler(graylog_handler)
+
+    return logger
+
+
+def get_logger_univorn():
+    logging_config = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "console": {
+                "()": lambda: console_handler,
+            }
+        },
+        "root": {
+            "level": "INFO",
+            "handlers": ["console"],
+        },
+    }
+    if config.logging.graylog.enabled:
+        logging_config["handlers"]["graylog"] = {  # type: ignore
+            "()": lambda: graylog_handler,
+        }
+        logging_config["root"]["handlers"].append("graylog")  # type: ignore
+    return logging_config

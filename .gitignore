@@ -103,3 +103,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+src/mlp_api
+src/storage_api
+src/mlp_sdk/mlp_connector/grpc_

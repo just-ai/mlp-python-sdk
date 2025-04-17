@@ -1,0 +1,131 @@
+import time
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from queue import Queue
+from time import perf_counter
+from typing import Generator, Optional, cast
+
+from mlp_sdk.abstract.services import MlpException, MlpRequestContext
+from mlp_sdk.mlp_connector.grpc_ import mlp_grpc_pb2
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import GateToServiceProto, PartialPredictResponseProto, PayloadProto, PredictResponseProto, ServiceToGateProto
+from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
+from mlp_sdk.mlp_connector.multi_host_connector import MlpGrpcRequestReceiver, MlpGrpcResponseReceiver
+from mlp_sdk.utils.config import get_config
+from mlp_sdk.utils.logger import get_logger
+
+log = get_logger("MlpGrpcServiceAdapter")
+config = get_config()
+
+
+class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
+    def __init__(self, service: MlpGrpcServiceBase):
+        self.response_receiver: MlpGrpcResponseReceiver
+        self.impl = service
+        self.request_streams: dict[int, Queue[GateToServiceProto]] = dict()  # список очередей для стримминговыз запросов
+        self.request_cancellation: deque[int] = deque(maxlen=100)  # список requestId для канселяции
+        self.thread_pool = ThreadPoolExecutor(max_workers=config.sdk.requests_executor_pool_size, thread_name_prefix="worker-")
+
+    def set_response_receiver(self, response_receiver: MlpGrpcResponseReceiver):
+        self.response_receiver = response_receiver
+
+    def message_from_gate(self, context: MlpRequestContext, request: GateToServiceProto):
+        # здесь мы получаем сообщение от GPRC-коннектора
+        # на исходном потоке никакую обработку делать нельзя, потому что он в нашем grpc-коннекторе один
+        # поэтому сразу перекладываем на тред-пул
+        self.thread_pool.submit(self.__process_message_from_gate, context, request)
+
+    def __process_message_from_gate(self, context: MlpRequestContext, message: GateToServiceProto):
+        request_type = message.WhichOneof("body")
+
+        if request_type in ["predict", "ext", "batch", "fit"]:
+            self.__process_simple_request(context, message.predict.data, message.predict.config)
+        if request_type == "partialPredict":
+            # для случая partialRequest заведём специальный дикт с очередями и будем перекладывать сообщение туда.
+            if message.partialPredict.start:
+                self.__process_streaming_request(context, message)
+            elif context.requestId in self.request_streams:
+                self.request_streams[context.requestId].put(message)
+            else:
+                log.error(f"partial request ignored for requestId: {context.requestId}")
+
+        if request_type == "cancel":
+            # для cancel - будем хранить список канселированных requestId
+            self.request_cancellation.append(message.cancel.requestIdToCancel)
+
+    def __process_streaming_request(self, context: MlpRequestContext, message: GateToServiceProto):
+        input_streaming_queue: Queue[GateToServiceProto] = Queue()
+        self.request_streams[context.requestId] = input_streaming_queue
+        input_streaming_queue.put(message)
+
+        def input_stream_generator() -> Generator[PayloadProto, None, None]:
+            finished = False
+            while True:
+                if finished:
+                    break
+                if context.requestId in self.request_cancellation:
+                    break
+                q = self.request_streams[context.requestId]
+                if q:
+                    x = q.get()
+                    if x.partialPredict.finish:
+                        finished = True
+
+                    yield x.partialPredict.data
+                else:
+                    break
+
+        try:
+            self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
+        finally:
+            del self.request_streams[context.requestId]
+
+    def __process_simple_request(self, context: MlpRequestContext, request: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]):
+        # сначала разберём простой предикт
+
+        start_time = perf_counter()  # Z-Server-Time будем выставлять только для простых predict-методов
+        error_response = None
+        try:
+            res = self.impl.predict(context, request, config)  # тут должна быть поддержка и других методов
+
+            if isinstance(res, Generator):
+                first = True
+                previous = None
+                next_item = None
+                while True:
+                    previous = next_item
+                    next_item = next(res, None)
+
+                    if previous is None:
+                        continue
+
+                    msg = ServiceToGateProto(
+                        requestId=context.requestId,
+                        partialPredict=PartialPredictResponseProto(start=first, finish=next_item is None, data=previous),
+                        headers=context.response_headers,
+                    )
+                    self.response_receiver.message_from_service(context, msg)
+                    first = False
+
+                    if next_item is None:
+                        break
+            else:
+                res = cast(PayloadProto, res)
+                processing_time = round((time.perf_counter() - start_time) * 1000)  # to ms and round mathematically
+                context.response_headers["Z-Server-Time"] = str(processing_time)
+
+                msg = ServiceToGateProto(requestId=context.requestId, predict=PredictResponseProto(data=res), headers=context.response_headers)
+
+                self.response_receiver.message_from_service(context, msg)
+        except MlpException as e:
+            log.error(f"Error when processing request {context.requestId}, {str(e)}")
+            error_response = mlp_grpc_pb2.ServiceToGateProto(error=MlpGrpcServiceBase.mlp_exception_to_proto(e))
+        except Exception as e:
+            log.exception(e, extra={"requestId": context.requestId})
+            error_response = mlp_grpc_pb2.ServiceToGateProto(error=MlpGrpcServiceBase.exception_to_proto(e))
+
+        if error_response:
+            processing_time = round((time.perf_counter() - start_time) * 1000)  # to ms and round mathematically
+            error_response.headers["Z-Server-Time"] = str(processing_time)
+            error_response.requestId = context.requestId
+
+            self.response_receiver.message_from_service(context, error_response)

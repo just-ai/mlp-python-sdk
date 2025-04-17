@@ -1,0 +1,47 @@
+FROM python:3.13.2-bookworm
+
+ARG USER=just
+ARG UID=1230
+ARG GID=1230
+
+# Вывод UID и GID для отладки
+RUN echo "UID:GID = ${UID}:${GID}"
+
+# Проверка существования группы и её создание, если её нет
+RUN if ! grep -q ":${GID}:" /etc/group; then \
+        echo "Creating group ${USER} with GID ${GID}" && \
+        groupadd --gid=${GID} ${USER}; \
+    else \
+        echo "Group with GID ${GID} already exists"; \
+    fi;
+
+# Проверка существования пользователя и его создание или изменение
+RUN if ! id -u ${UID} > /dev/null 2>&1; then \
+        echo "Creating user ${USER} with UID ${UID}" && \
+        useradd --create-home -d /home/${USER} --no-log-init --uid=${UID} -g ${GID} ${USER}; \
+    else \
+        echo "User with UID ${UID} already exists, updating username and home directory" && \
+        usermod --login ${USER} --home /home/${USER} --move-home $(id -nu ${UID}); \
+    fi;
+
+RUN mkdir -p /home/${USER} || true
+RUN chown ${UID}:${GID} /home/${USER}
+RUN mkdir /app
+RUN chown ${UID}:${GID} /app
+ENV HOME=/home/${USER}
+ENV PATH=$PATH:$HOME/.local/bin
+
+USER ${UID}:${GID}
+
+RUN pip install uv
+
+WORKDIR /app
+
+COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./
+RUN uv sync
+
+# Запускаем все тулы, чтобы они полностью инициализировались
+RUN uv tool run ruff --version
+RUN uv tool run pyright --version
+RUN uv run pytest --version
+

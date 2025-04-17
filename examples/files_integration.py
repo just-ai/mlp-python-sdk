@@ -4,7 +4,7 @@ from typing import IO, Optional, Type
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.task import Task
-from mlp_sdk.files.files_factory import get_files
+from mlp_sdk.storage.files_factory import get_files
 from mlp_sdk.hosting.host import host_mlp_cloud
 from storage_api import FileOptions
 
