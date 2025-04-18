@@ -12,6 +12,7 @@ docker build . -f build-scripts/Dockerfile-dev \
             -t mlp-python-sdk-tools
 
 rm -f ./src/mlp_sdk/mlp_connector/grpc_ || true
+mkdir ./src/mlp_sdk/mlp_connector/grpc_
 
 docker run -v $(pwd)/src:/app/src -v $(pwd)/api-specs:/app/api-specs mlp-python-sdk-tools \
   .venv/bin/python -m grpc_tools.protoc -I ./api-specs --python_out=./src/mlp_sdk/mlp_connector/grpc_ --pyi_out=./src/mlp_sdk/mlp_connector/grpc_ --grpc_python_out=./src/mlp_sdk/mlp_connector/grpc_ ./api-specs/mlp-grpc.proto
