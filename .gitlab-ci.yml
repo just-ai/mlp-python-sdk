@@ -1,5 +1,12 @@
 stages:
+  - generate
   - build
+
+job_build:
+  stage: generate
+  script:
+    - sh ./build-scripts/generate-rest.sh
+    - sh ./build-scripts/generate-grpc.sh
 
 job_build:
   stage: build
