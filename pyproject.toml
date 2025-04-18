@@ -1,6 +1,6 @@
 [project]
-name = "mlp-python-sdk"
-version = "2.0.0"
+name = "mlp-sdk"
+version = "2.0.0.dev1"
 requires-python = "==3.12.*"
 authors = []
 description = "Python library for creating services for mlp"
@@ -8,7 +8,6 @@ dependencies = [
     "dacite>=1.9.2",
     "graypy>=2.1.0",
     "grpcio==1.71.0",
-    "jsonpath-ng>=1.7.0",
     "more-itertools>=10.6.0",
     "protobuf==5.29.4",
     "pydantic>=2.11.1",
@@ -51,8 +50,8 @@ src = [
 ]
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
-    "src/mlp_api/**",
-    "src/storage_api/**",
+    "src/mlp_sdk/mlp_api/**",
+    "src/mlp_sdk/storage_api/**",
 ]
 include = [
     "src/**/*.py",
@@ -103,8 +102,8 @@ venvPath = "."
 venv = ".venv"
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
-    "src/mlp_api/**",
-    "src/storage_api/**",
+    "src/mlp_sdk/mlp_api/**",
+    "src/mlp_sdk/storage_api/**",
     "src/mlp_sdk/storage/*",
 ]
 include = [
