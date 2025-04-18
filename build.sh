@@ -62,12 +62,16 @@ $UV_CMD \
     uv run python -m build
 
 echo ===============     Upload to nexus     ===============
-$UV_CMD \
-    .venv/bin/twine upload --repository nexus --verbose \
-    /app/dist/*.whl
-
-# в nexus-open не надо пушить dev версии
-$UV_CMD \
-    .venv/bin/twine upload --repository nexus-open --verbose \
-    /app/dist/*.whl
+if grep -q "version.*dev" pyproject.toml;
+then
+  # dev версии пушим в закрытый nexus
+  $UV_CMD \
+      .venv/bin/twine upload --repository nexus --verbose \
+      /app/dist/*.whl
+else
+  # в публичный пушим только release версии
+  $UV_CMD \
+      .venv/bin/twine upload --repository nexus-open --verbose \
+      /app/dist/*.whl
+fi
 
