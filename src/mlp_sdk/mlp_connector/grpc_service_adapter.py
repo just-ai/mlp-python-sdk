@@ -21,7 +21,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
     def __init__(self, service: MlpGrpcServiceBase):
         self.response_receiver: MlpGrpcResponseReceiver
         self.impl = service
-        self.request_streams: dict[int, Queue[GateToServiceProto]] = dict()  # список очередей для стримминговыз запросов
+        self.request_streams: dict[int, Queue[GateToServiceProto]] = {}  # список очередей для стримминговыз запросов
         self.request_cancellation: deque[int] = deque(maxlen=100)  # список requestId для канселяции
         self.thread_pool = ThreadPoolExecutor(max_workers=config.sdk.requests_executor_pool_size, thread_name_prefix="worker-")
 

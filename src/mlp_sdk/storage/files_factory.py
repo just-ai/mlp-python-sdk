@@ -2,7 +2,8 @@ import os
 
 from mlp_sdk.storage.files import FilesAccessor
 
-# TODO: it needs to be checked with version 2 
+# TODO: it needs to be checked with version 2
+
 
 def get_files():
     return FilesAccessor(

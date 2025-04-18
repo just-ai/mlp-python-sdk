@@ -1,7 +1,9 @@
 [project]
 name = "mlp-python-sdk"
-version = "2.0.0-a"
+version = "2.0.0-dev1"
 requires-python = "==3.12.*"
+authors = []
+description = "Python library for creating services for mlp"
 dependencies = [
     "dacite>=1.9.2",
     "graypy>=2.1.0",
@@ -12,6 +14,7 @@ dependencies = [
     "pydantic>=2.11.1",
     "python-box>=7.3.2",
     "pyyaml>=6.0.2",
+    "requests>=2.32.3",
 ]
 
 [dependency-groups]
@@ -25,13 +28,21 @@ dev = [
     "grpc-stubs>=1.53.0.5",
     "numpy>=2.2.4",
     "grpcio-tools==1.71.0",
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 line-length = 160
 target-version = "py313"
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
+    "src/mlp_api/**",
+    "src/storage_api/**",
 ]
 
 [tool.ruff.lint]
@@ -76,6 +87,9 @@ venv = ".venv"
 #typeCheckingMode = "strict"
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
+    "src/mlp_api/**",
+    "src/storage_api/**",
+    "src/mlp_sdk/storage/*",
 ]
 include =  [
     "src"

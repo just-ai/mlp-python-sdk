@@ -29,20 +29,17 @@ pipeline {
             }
         }
 
-//         stage('Lint') {
-//             steps {
-//                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
-//                 withPythonEnv('/opt/ansible-venv-python3/bin/python') {
-//                     sh "/opt/ansible-venv-python3/bin/pip install ruff==0.6.4"
-//                     sh "ruff check --config pyproject.toml ."
-//                 }
-//             }
-//         }
+        stage('Build') {
+            steps {
+                updateGitlabCommitStatus name: STAGE_NAME, state: "running"
+                sh "./build.sh"
+            }
+        }
 //         stage('Tests') {
 //             when {
 //                 expression { params.RUN_TESTS ?: false || env.NEED_REBUILD == 'true' }
 //             }
-// 
+//
 //             environment {
 //                 NEXUS_CREDS = credentials('jenkins-for-pypi')
 //                 S3_SECRET_KEY = credentials('rnd_s3_secret_key')
@@ -67,23 +64,19 @@ pipeline {
     post {
         failure {
             updateGitlabCommitStatus name: "Prepare", state: "failed"
-            updateGitlabCommitStatus name: "Lint", state: "failed"
-            updateGitlabCommitStatus name: "Tests", state: "failed"
+            updateGitlabCommitStatus name: "Build", state: "failed"
         }
         success {
             updateGitlabCommitStatus name: "Prepare", state: "success"
-            updateGitlabCommitStatus name: "Lint", state: "success"
-            updateGitlabCommitStatus name: "Tests", state: "success"
+            updateGitlabCommitStatus name: "Build", state: "success"
         }
         unstable {
             updateGitlabCommitStatus name: "Prepare", state: "failed"
-            updateGitlabCommitStatus name: "Lint", state: "failed"
-            updateGitlabCommitStatus name: "Tests", state: "failed"
+            updateGitlabCommitStatus name: "Build", state: "failed"
         }
         aborted {
             updateGitlabCommitStatus name: "Prepare", state: "canceled"
-            updateGitlabCommitStatus name: "Lint", state: "canceled"
-            updateGitlabCommitStatus name: "Tests", state: "canceled"
+            updateGitlabCommitStatus name: "Build", state: "canceled"
         }
     }
 }

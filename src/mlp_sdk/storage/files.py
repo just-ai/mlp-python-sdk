@@ -9,7 +9,8 @@ import requests
 from storage_api import ApiClient, Configuration, FileData, FileOptions
 from storage_api.api import files_endpoint_api
 
-# TODO: it needs to be checked with version 2 
+# TODO: it needs to be checked with version 2
+
 
 class FilesAccessor:
     def __init__(

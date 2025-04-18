@@ -30,7 +30,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         self.grpc_secure: bool = config.mlp.grpc_secure
         log.info(f"Initializing multi-host-connector with urls: {self.gate_urls}, secure: {self.grpc_secure}")
 
-        self.connectors: List[MlpSingleHostConnector] = list()
+        self.connectors: List[MlpSingleHostConnector] = []
         self.connectors_lock: threading.Lock = threading.Lock()
         if not config.mlp.service_token:
             raise Exception("MLP_SERVICE_TOKEN is required")
@@ -97,7 +97,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
     def update_connectors(self, servers: List[str]) -> None:
         with self.connectors_lock:
             # 1. compare with what we know
-            current_urls: Set[str] = set(map(lambda x: x.host_port, self.connectors))
+            current_urls: Set[str] = {x.host_port for x in self.connectors}
             new_urls: Set[str] = set(servers)
             if current_urls == new_urls:
                 return

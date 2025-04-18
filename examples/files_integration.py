@@ -4,8 +4,8 @@ from typing import IO, Optional, Type
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.task import Task
-from mlp_sdk.storage.files_factory import get_files
 from mlp_sdk.hosting.host import host_mlp_cloud
+from mlp_sdk.storage.files_factory import get_files
 from storage_api import FileOptions
 
 
@@ -37,9 +37,7 @@ class TextReplacementService(Task):
         original_file_name = self.files.get_file_data(config.file_id, config.version).file_name
         replaced_content_bytes = self._replace(content_bytes, data.old, data.new)
 
-        options = FileOptions(
-            file_name=f"replacing-{original_file_name}", ttl_since_creation_seconds=360, replicate_to_all_backends=True
-        )
+        options = FileOptions(file_name=f"replacing-{original_file_name}", ttl_since_creation_seconds=360, replicate_to_all_backends=True)
         file_data = self.files.write(replaced_content_bytes, options=options)
 
         return FileKeySchema(file_id=file_data.key, version=file_data.version)
