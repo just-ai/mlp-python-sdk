@@ -2,11 +2,11 @@ from io import BytesIO
 from typing import IO, Optional, Type
 
 from pydantic import BaseModel
+from storage_api import FileOptions
 
 from mlp_sdk.abstract.task import Task
 from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.storage.files_factory import get_files
-from storage_api import FileOptions
 
 
 class FileKeySchema(BaseModel):

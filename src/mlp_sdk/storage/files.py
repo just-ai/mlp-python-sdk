@@ -6,8 +6,8 @@ from uuid import uuid4
 
 import requests
 
-from storage_api import ApiClient, Configuration, FileData, FileOptions
-from storage_api.api import files_endpoint_api
+from mlp_sdk.storage_api import ApiClient, Configuration, FileData, FileOptions
+from mlp_sdk.storage_api.api import files_endpoint_api
 
 # TODO: it needs to be checked with version 2
 

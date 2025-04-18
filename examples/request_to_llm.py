@@ -4,6 +4,7 @@ from pprint import pprint
 
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
 from mlp_api.models.predict_request_data import PredictRequestData
+
 from mlp_sdk.transport.MlpClientSDK import MlpRestClient
 
 if __name__ == "__main__":
