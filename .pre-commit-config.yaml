@@ -1,4 +1,13 @@
-repos: []
+repos:
+  - repo: local
+    hooks:
+      - id: update-version
+        name: Update version
+        entry: uv run python ./build-scripts/version.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
 #   - repo: https://github.com/pre-commit/pre-commit-hooks
 #     rev: v3.2.0
 #     hooks:

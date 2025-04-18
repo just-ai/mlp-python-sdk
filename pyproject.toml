@@ -1,6 +1,6 @@
 [project]
 name = "mlp-python-sdk"
-version = "2.0.0-dev1"
+version = "2.0.0-dev2"
 requires-python = "==3.12.*"
 authors = []
 description = "Python library for creating services for mlp"
@@ -30,10 +30,16 @@ dev = [
     "grpcio-tools==1.71.0",
     "build>=1.2.2.post1",
     "twine>=6.1.0",
+    "tomli>=2.2.1",
+    "tomli-w>=1.2.0",
+    "pre-commit>=4.2.0",
 ]
 
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+]
 build-backend = "setuptools.build_meta"
 
 [tool.ruff]
@@ -44,7 +50,7 @@ exclude = [
     "src/mlp_api/**",
     "src/storage_api/**",
 ]
-include =  [
+include = [
     "src/**/*.py",
     "tests/**/*.py",
     "examples/**/*.py",
@@ -52,20 +58,18 @@ include =  [
 
 [tool.ruff.lint]
 select = [
-    "E",       # pycodestyle (error)
-    "F",       # pyflakes
-    "W",       # pycodestyle (warning)
-    "B",       # flake8-bugbear
-    "I",       # isort
-    "C4",      # flake8-comprehensions
-    "SIM201", "SIM202",  # simplify comparisons involving not
-    "RET501", "RET502",  # better return None handling,
+    "E",
+    "F",
+    "W",
+    "B",
+    "I",
+    "C4",
+    "SIM201",
+    "SIM202",
+    "RET501",
+    "RET502",
 ]
-ignore = [
-#    "PGH004",  # Unused blanket `noqa` directive
-#    "ISC001",  # implicitly concatenated string
-#    "UP",      # pyupgrade
-]
+ignore = []
 preview = true
 
 [tool.ruff.lint.pydocstyle]
@@ -77,9 +81,13 @@ indent-style = "space"
 line-ending = "auto"
 
 [tool.pytest.ini_options]
-# тесты должны запускаться с текущей папкой в ./tests
-pythonpath = ["./src", "./tests"]
-testpaths = ["tests"]
+pythonpath = [
+    "./src",
+    "./tests",
+]
+testpaths = [
+    "tests",
+]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 log_cli = true
@@ -89,13 +97,12 @@ addopts = "--cov=../src --cov-report=term --cov-report=html:../htmlcov --html=..
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
-#typeCheckingMode = "strict"
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
     "src/mlp_api/**",
     "src/storage_api/**",
     "src/mlp_sdk/storage/*",
 ]
-include =  [
-    "src"
+include = [
+    "src",
 ]
