@@ -44,6 +44,11 @@ exclude = [
     "src/mlp_api/**",
     "src/storage_api/**",
 ]
+include =  [
+    "src/**/*.py",
+    "tests/**/*.py",
+    "examples/**/*.py",
+]
 
 [tool.ruff.lint]
 select = [

@@ -1,7 +1,7 @@
 set -e
 
 echo ===============      ruff format       ===============
-uv run ruff format
+.venv/bin/ruff format
 
 echo ===============       ruff check       ===============
-uv run ruff check --fix
+.venv/bin/ruff check --fix

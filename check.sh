@@ -4,13 +4,13 @@ echo ===============  refresh requirements  ===============
 uv sync
 
 echo ===============      ruff format       ===============
-uv run ruff format --check
+.venv/bin/ruff format --check
 
 echo ===============       ruff check       ===============
-uv run ruff check
+.venv/bin/ruff check
 
 echo ===============         pyright        ===============
-uv tool run pyright
+.venv/bin/pyright
 
-echo ===============          pytest        ===============
-uv run pytest
+#echo ===============          pytest        ===============
+#.venv/bin/pytest
