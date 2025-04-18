@@ -42,9 +42,18 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = [
+    "storage_api",
+    "mlp_sdk",
+    "mlp_api"
+]
+
 [tool.ruff]
 line-length = 160
 target-version = "py313"
+src = ["src", "tests"]
 exclude = [
     "src/mlp_sdk/mlp_connector/grpc_/*.py*",
     "src/mlp_api/**",
