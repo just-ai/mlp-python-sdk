@@ -21,7 +21,14 @@ docker build . -f ./build-scripts/Dockerfile-dev \
 mkdir ./pytest-report | true
 mkdir ./htmlcov | true
 mkdir ./dist | true
-UV_CMD="docker run -i --rm -v $(pwd)/src:/app/src -v $(pwd)/tests:/app/tests  -v $(pwd)/htmlcov:/app/htmlcov  -v $(pwd)/pytest-report:/app/pytest-report -v $(pwd)/dist:/app/dist mlp-python-sdk-tools"
+UV_CMD="docker run -i --rm \
+  -v $HOME/.pypirc:/home/$USER/.pypirc \
+  -v $(pwd)/src:/app/src \
+  -v $(pwd)/tests:/app/tests  \
+  -v $(pwd)/htmlcov:/app/htmlcov  \
+  -v $(pwd)/pytest-report:/app/pytest-report \
+  -v $(pwd)/dist:/app/dist \
+  mlp-python-sdk-tools"
 
 echo ===============      ruff format       ===============
 $UV_CMD \
