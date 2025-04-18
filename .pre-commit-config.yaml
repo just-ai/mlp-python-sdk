@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: update-version
         name: Update version
-        entry: uv run python ./build-scripts/version.py
+        entry: .venv/bin/python ./build-scripts/version.py
         language: system
         pass_filenames: false
         always_run: true
