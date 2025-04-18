@@ -54,8 +54,8 @@ rm -f dist/*
 $UV_CMD \
     uv run python -m build
 
-echo ===============     Upload to nexus     ===============
-$UV_CMD \
-    .venv/bin/twine upload --repository nexus --verbose \
-    /app/dist/*.whl || true  # пропишем здесь true чтобы проигнорировать ошибку, когда мы два раза загружаем одну версию.
-                             # Версию для публикации надо будет менять вручную
+#echo ===============     Upload to nexus     ===============
+#$UV_CMD \
+#    .venv/bin/twine upload --repository nexus --verbose \
+#    /app/dist/*.whl
+#

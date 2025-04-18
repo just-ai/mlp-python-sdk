@@ -1,0 +1,8 @@
+stages:
+  - build
+
+job_build:
+  stage: build
+  script:
+    - sh ./build.sh $CI_COMMIT_REF_NAME
+
