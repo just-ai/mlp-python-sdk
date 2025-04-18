@@ -2,7 +2,7 @@ stages:
   - generate
   - build
 
-job_build:
+generate:
   stage: generate
   script:
     - sh ./build-scripts/generate-rest.sh
