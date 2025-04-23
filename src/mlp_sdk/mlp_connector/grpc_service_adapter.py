@@ -71,7 +71,6 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                 sc = self.request_streams[context.requestId]
                 if sc:
                     if sc.context.cancelled:
-                        self.request_streams[context.requestId].stream.shutdown()
                         break
                     x = sc.stream.get()
                     if x.partialPredict.finish:
