@@ -1,8 +1,6 @@
-from dataclasses import dataclass
-
 import time
-from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from queue import Queue
 from time import perf_counter
 from typing import Generator, Optional, cast
@@ -17,6 +15,7 @@ from mlp_sdk.utils.logger import get_logger
 
 log = get_logger("MlpGrpcServiceAdapter")
 config = get_config()
+
 
 @dataclass
 class ContextAndStream:
@@ -79,6 +78,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                     yield x.partialPredict.data
                 else:
                     break
+
         try:
             self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
         finally:
