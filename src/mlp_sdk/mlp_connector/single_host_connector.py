@@ -79,7 +79,6 @@ class MlpSingleHostConnector:
         self.worker_thread: threading.Thread = threading.Thread(target=self.__worker_loop)
 
     def start(self):
-        self.log.info("Starting ...")
         self.worker_thread.start()
 
     @staticmethod
@@ -105,7 +104,7 @@ class MlpSingleHostConnector:
         gateway_permanently_unavailable = False
         self.__startup_probe()
         self.state = MlpConnectorState.connecting
-        self.log.info(" ... connecting to gate")
+        self.log.info(f"start connection to gate {self.host_port} ... ")
         reconnect_timeout = config.sdk.shutdown_event_timeout_seconds
         while self.state == MlpConnectorState.connecting:
             try:
@@ -116,6 +115,7 @@ class MlpSingleHostConnector:
 
                 self.state = MlpConnectorState.connected
                 gateway_permanently_unavailable = False
+                self.log.info(f" ... {self.host_port} connected")
                 break
             except grpc.RpcError:
                 if not gateway_permanently_unavailable:
@@ -269,9 +269,10 @@ class MlpSingleHostConnector:
             self.__liveness_probe()
 
     def stop_and_wait(self, state: MlpConnectorState = MlpConnectorState.stopping) -> None:
+        if self.state == MlpConnectorState.serving:
+            self.log.info(" ... stop serving")
+            
         self.state = state
-
-        self.log.info(" ... stop serving")
         self.action_to_gate_queue.put_nowait(ServiceToGateProto(stopServing=StopServingProto()))
 
         self.stopping.set()
