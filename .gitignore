@@ -5,13 +5,15 @@
 *.ipr
 
 .venv
+/dummy.py
 
-# build artefacts
+# build and python artefacts
 .coverage
 dist/
 *.egg-info
 htmlcov
 pytest-report
+__pycache__
 
 # generated sources
 src/mlp_sdk/mlp_api
