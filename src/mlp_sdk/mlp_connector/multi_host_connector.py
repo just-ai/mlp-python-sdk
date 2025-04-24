@@ -116,7 +116,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                 log.info("Stopping connections: " + str(urls_to_remove))
             for url in urls_to_remove:
                 connector: MlpSingleHostConnector | None = next(filter(lambda x: x.host_port == url, self.connectors), None)
-                if not connector is None: 
+                if connector is not None:
                     threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
     def restart(self, connector: MlpSingleHostConnector) -> None:
