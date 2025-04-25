@@ -8094,32 +8094,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpcore-internal/notify/{account}/user/{userId}:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: pushNotification
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: userId
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpcore-internal/empty-test:
     get:
       tags:
