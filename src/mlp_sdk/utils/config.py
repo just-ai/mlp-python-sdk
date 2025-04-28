@@ -101,10 +101,10 @@ class ConfigLoader:
     def load_config(self, cls: Type[T] = BaseConfig, required: bool = True) -> T:
         profile = os.environ.get("PROFILE", "dev")
 
-        self.__load_if_exists(f"{_config_path}/config-local.yml")
-        self.__load_if_exists(f"{_config_path}/config-{profile}.yml")
+        self.__load_if_exists(f"{_config_dir}/config-local.yml")
+        self.__load_if_exists(f"{_config_dir}/config-{profile}.yml")
         self.__load_if_exists("./config.yml")
-        self.__load_if_exists(f"{_config_path}/config.yml", required=required)
+        self.__load_if_exists(f"{_config_dir}/config.yml", required=required)
 
         return self.__create_class_from_values(cls, self.__get_value, "")
 
@@ -190,13 +190,13 @@ class ConfigLoader:
         return cls(**kwargs)
 
 
-_config_path: str = os.getenv("CONFIG_PATH", os.curdir)
+_config_dir: str = os.getenv("CONFIG_DIR", os.curdir)
 _base_config: BaseConfig | None = None
 
 
 def set_config_path(path: str):
-    global _config_path
-    _config_path = path
+    global _config_dir
+    _config_dir = path
 
 
 def get_config() -> BaseConfig:
