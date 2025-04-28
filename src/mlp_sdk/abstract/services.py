@@ -11,6 +11,7 @@ class MlpRequestContext:
     gatewayId: str
     request_headers: dict[str, str]
     response_headers: dict[str, str] = field(default_factory=dict)
+    cancelled: bool = False
 
 
 class MlpErrorStatus(Enum):

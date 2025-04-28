@@ -1,6 +1,6 @@
 import time
-from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from queue import Queue
 from time import perf_counter
 from typing import Generator, Optional, cast
@@ -17,12 +17,17 @@ log = get_logger("MlpGrpcServiceAdapter")
 config = get_config()
 
 
+@dataclass
+class ContextAndStream:
+    context: MlpRequestContext
+    stream: Queue[GateToServiceProto]
+
+
 class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
     def __init__(self, service: MlpGrpcServiceBase):
         self.response_receiver: MlpGrpcResponseReceiver
         self.impl = service
-        self.request_streams: dict[int, Queue[GateToServiceProto]] = {}  # список очередей для стримминговыз запросов
-        self.request_cancellation: deque[int] = deque(maxlen=100)  # список requestId для канселяции
+        self.request_streams: dict[int, ContextAndStream] = {}  # список очередей для стримминговыз запросов
         self.thread_pool = ThreadPoolExecutor(max_workers=config.sdk.requests_executor_pool_size, thread_name_prefix="worker-")
 
     def set_response_receiver(self, response_receiver: MlpGrpcResponseReceiver):
@@ -44,17 +49,17 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             if message.partialPredict.start:
                 self.__process_streaming_request(context, message)
             elif context.requestId in self.request_streams:
-                self.request_streams[context.requestId].put(message)
+                self.request_streams[context.requestId].stream.put(message)
             else:
                 log.error(f"partial request ignored for requestId: {context.requestId}")
 
         if request_type == "cancel":
-            # для cancel - будем хранить список канселированных requestId
-            self.request_cancellation.append(message.cancel.requestIdToCancel)
+            # для cancel - выставим флаг cancelled в соответствующем контексте
+            self.request_streams[message.cancel.requestIdToCancel].context.cancelled = True
 
     def __process_streaming_request(self, context: MlpRequestContext, message: GateToServiceProto):
         input_streaming_queue: Queue[GateToServiceProto] = Queue()
-        self.request_streams[context.requestId] = input_streaming_queue
+        self.request_streams[context.requestId] = ContextAndStream(context, input_streaming_queue)
         input_streaming_queue.put(message)
 
         def input_stream_generator() -> Generator[PayloadProto, None, None]:
@@ -62,11 +67,11 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             while True:
                 if finished:
                     break
-                if context.requestId in self.request_cancellation:
-                    break
-                q = self.request_streams[context.requestId]
-                if q:
-                    x = q.get()
+                sc = self.request_streams[context.requestId]
+                if sc:
+                    if sc.context.cancelled:
+                        break
+                    x = sc.stream.get()
                     if x.partialPredict.finish:
                         finished = True
 

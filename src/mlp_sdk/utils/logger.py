@@ -1,6 +1,8 @@
 import contextvars
 import logging
 import sys
+from logging.handlers import QueueHandler, QueueListener
+from queue import Queue
 
 import graypy  # type: ignore
 
@@ -26,14 +28,28 @@ if config.logging.graylog.enabled:
 
     graylog_formatter = GraylogFormatter("[%(name)s]: %(message)s")
     graylog_handler.setFormatter(graylog_formatter)
+
+    graylog_logging_queue = Queue(-1)
+    graylog_async_handler = QueueHandler(graylog_logging_queue)
+
+    graylog_queue_listener = QueueListener(graylog_logging_queue, graylog_handler)
+    graylog_queue_listener.start()
 else:
     graylog_handler = None
+    graylog_async_handler = None
 
 if config.logging.console.enabled:
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s"))
+
+    console_logging_queue = Queue(-1)
+    console_async_handler = QueueHandler(console_logging_queue)
+
+    console_queue_listener = QueueListener(console_logging_queue, console_handler)
+    console_queue_listener.start()
 else:
     console_handler = None
+    console_async_handler = None
 
 logging.getLogger().setLevel(config.logging.root_level)
 for log, level in config.logging.levels.items():
@@ -50,11 +66,11 @@ def get_logger(name: str) -> logging.Logger:
     if len(logger.handlers) != 0:
         return logger
 
-    if console_handler:
-        logger.addHandler(console_handler)
+    if console_async_handler:
+        logger.addHandler(console_async_handler)
 
-    if graylog_handler:
-        logger.addHandler(graylog_handler)
+    if graylog_async_handler:
+        logger.addHandler(graylog_async_handler)
 
     return logger
 

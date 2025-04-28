@@ -6,34 +6,27 @@ from typing import Any, Callable, Dict, List, Type, TypeVar, cast
 
 import yaml  # pyright: ignore[reportMissingModuleSource]
 
-ROOT_PATH: str
-
-
-def set_root_path(path: str):
-    global ROOT_PATH
-    ROOT_PATH = path  # pyright: ignore[reportConstantRedefinition]
-
 
 @dataclass
 class LoggingConfigGraylog:
-    enabled: bool
-    host: str
-    port: int
-    udp: bool
+    enabled: bool = False
+    host: str = "localhost"
+    port: int = 12201
+    udp: bool = False
 
 
 @dataclass
 class LoggingConfigConsole:
-    enabled: bool
+    enabled: bool = True
 
 
 @dataclass
 class LoggingConfig:
-    console: LoggingConfigConsole
-    graylog: LoggingConfigGraylog
-    app_name: str
-    root_level: str
-    levels: dict[str, str]
+    console: LoggingConfigConsole = field(default_factory=LoggingConfigConsole)
+    graylog: LoggingConfigGraylog = field(default_factory=LoggingConfigGraylog)
+    app_name: str = "mlp_sdk"
+    root_level: str = ""
+    levels: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -79,11 +72,13 @@ class MLpSdkConfig:
 
 @dataclass
 class BaseConfig:
-    mlp: MlpConfig
-    grpc: GrpcConfig
-    sdk: MLpSdkConfig
+    mlp: MlpConfig = field(default_factory=MlpConfig)
+    grpc: GrpcConfig = field(default_factory=GrpcConfig)
+    sdk: MLpSdkConfig = field(default_factory=MLpSdkConfig)
 
-    logging: LoggingConfig
+    logging: LoggingConfig = field(default_factory=LoggingConfig)
+
+    service_config: str = "{}"
 
 
 T = TypeVar("T", bound=BaseConfig)
@@ -103,13 +98,13 @@ class ConfigLoader:
             if required:
                 raise Exception(f"Configuration file {filename} does not exists. Check the working folder.")
 
-    def load_config(self, cls: Type[T] = BaseConfig) -> T:
+    def load_config(self, cls: Type[T] = BaseConfig, required: bool = True) -> T:
         profile = os.environ.get("PROFILE", "dev")
 
-        self.__load_if_exists(f"{ROOT_PATH}/config-local.yml")
-        self.__load_if_exists(f"{ROOT_PATH}/config-{profile}.yml")
+        self.__load_if_exists(f"{_config_dir}/config-local.yml")
+        self.__load_if_exists(f"{_config_dir}/config-{profile}.yml")
         self.__load_if_exists("./config.yml")
-        self.__load_if_exists(f"{ROOT_PATH}/config.yml", required=True)
+        self.__load_if_exists(f"{_config_dir}/config.yml", required=required)
 
         return self.__create_class_from_values(cls, self.__get_value, "")
 
@@ -195,18 +190,27 @@ class ConfigLoader:
         return cls(**kwargs)
 
 
+_config_dir: str = os.getenv("CONFIG_DIR", os.curdir)
 _base_config: BaseConfig | None = None
 
 
+def set_config_dir(folder: str):
+    global _config_dir
+    _config_dir = folder
+
+
 def get_config() -> BaseConfig:
+    global _base_config
     if _base_config is None:
-        raise Exception("Configuration is not initialized. It needs to call load_application_config() before accessing get_config().")
+        _base_config = ConfigLoader().load_config(BaseConfig, required=False)
 
     return _base_config
 
 
-def load_application_config(type: Type[T]) -> T:
+def load_application_config(type: Type[T], folder: str | None = None) -> T:
     global _base_config
+    if folder is not None:
+        set_config_dir(folder)
     cfg = ConfigLoader().load_config(type)
     _base_config = cfg
     return cfg

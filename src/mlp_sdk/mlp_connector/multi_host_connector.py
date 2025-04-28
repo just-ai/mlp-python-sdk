@@ -66,7 +66,8 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             connector.stop_and_wait()
         else:
             connector.stop_and_wait(state=state)
-        self.connectors.remove(connector)
+        if connector in self.connectors:
+            self.connectors.remove(connector)
 
     def __keep_connected(self) -> Callable[[], None]:
         def _keep_connected_impl() -> None:
@@ -114,8 +115,9 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             if len(urls_to_remove) > 0:
                 log.info("Stopping connections: " + str(urls_to_remove))
             for url in urls_to_remove:
-                connector: MlpSingleHostConnector = list(filter(lambda x: x.host_port == url, self.connectors))[0]
-                threading.Thread(target=self.__stop_connector, args=(connector,)).start()
+                connector: MlpSingleHostConnector | None = next(filter(lambda x: x.host_port == url, self.connectors), None)
+                if connector is not None:
+                    threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
     def restart(self, connector: MlpSingleHostConnector) -> None:
         with self.connectors_lock:
