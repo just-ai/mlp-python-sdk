@@ -37,14 +37,21 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
         # здесь мы получаем сообщение от GPRC-коннектора
         # на исходном потоке никакую обработку делать нельзя, потому что он в нашем grpc-коннекторе один
         # поэтому сразу перекладываем на тред-пул
-        self.thread_pool.submit(self.__process_message_from_gate, context, request)
+        self.thread_pool.submit(self.__process_message_from_gate_with_log, context, request)
+
+    def __process_message_from_gate_with_log(self, context: MlpRequestContext, message: GateToServiceProto):
+        try:
+            self.__process_message_from_gate(context, message)
+        except BaseException as e:
+            log.error(f"Error in process_message_from_gate: {str(e)}")
 
     def __process_message_from_gate(self, context: MlpRequestContext, message: GateToServiceProto):
         request_type = message.WhichOneof("body")
 
-        if request_type in ["predict", "ext", "batch", "fit"]:
+        if request_type in ["predict"]:
             self.__process_simple_request(context, message.predict.data, message.predict.config)
-        if request_type == "partialPredict":
+        # TODO: support "ext", "batch", "fit"
+        elif request_type == "partialPredict":
             # для случая partialRequest заведём специальный дикт с очередями и будем перекладывать сообщение туда.
             if message.partialPredict.start:
                 self.__process_streaming_request(context, message)
@@ -52,10 +59,11 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                 self.request_streams[context.requestId].stream.put(message)
             else:
                 log.error(f"partial request ignored for requestId: {context.requestId}")
-
-        if request_type == "cancel":
+        elif request_type == "cancel":
             # для cancel - выставим флаг cancelled в соответствующем контексте
             self.request_streams[message.cancel.requestIdToCancel].context.cancelled = True
+        else:
+            log.error(f"Unsupported request type {request_type}")
 
     def __process_streaming_request(self, context: MlpRequestContext, message: GateToServiceProto):
         input_streaming_queue: Queue[GateToServiceProto] = Queue()
