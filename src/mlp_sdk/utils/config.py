@@ -194,9 +194,9 @@ _config_dir: str = os.getenv("CONFIG_DIR", os.curdir)
 _base_config: BaseConfig | None = None
 
 
-def set_config_path(path: str):
+def set_config_dir(folder: str):
     global _config_dir
-    _config_dir = path
+    _config_dir = folder
 
 
 def get_config() -> BaseConfig:
@@ -210,7 +210,7 @@ def get_config() -> BaseConfig:
 def load_application_config(type: Type[T], folder: str | None = None) -> T:
     global _base_config
     if folder is not None:
-        set_config_path(folder)
+        set_config_dir(folder)
     cfg = ConfigLoader().load_config(type)
     _base_config = cfg
     return cfg
