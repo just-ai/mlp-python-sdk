@@ -7,7 +7,15 @@ from typing import Generator, Optional, cast
 
 from mlp_sdk.abstract.services import MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_ import mlp_grpc_pb2
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import GateToServiceProto, PartialPredictResponseProto, PayloadProto, PredictResponseProto, ServiceToGateProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
+    ApiErrorProto,
+    GateToServiceProto,
+    PartialPredictResponseProto,
+    PayloadProto,
+    PredictResponseProto,
+    ServiceToGateProto,
+    SimpleStatusProto,
+)
 from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
 from mlp_sdk.mlp_connector.multi_host_connector import MlpGrpcRequestReceiver, MlpGrpcResponseReceiver
 from mlp_sdk.utils.config import get_config
@@ -44,6 +52,11 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             self.__process_message_from_gate(context, message)
         except BaseException as e:
             log.error(f"Error in process_message_from_gate: {str(e)}")
+            error_response = mlp_grpc_pb2.ServiceToGateProto(
+                error=ApiErrorProto(code="mlp-action.common.internal-error", message=str(e), status=SimpleStatusProto.INTERNAL_SERVER_ERROR),
+                requestId=message.requestId,
+            )
+            self.response_receiver.message_from_service(context, error_response)
 
     def __process_message_from_gate(self, context: MlpRequestContext, message: GateToServiceProto):
         request_type = message.WhichOneof("body")
