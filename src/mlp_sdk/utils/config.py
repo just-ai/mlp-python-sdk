@@ -26,7 +26,7 @@ class LoggingConfig:
     console: LoggingConfigConsole = field(default_factory=LoggingConfigConsole)
     graylog: LoggingConfigGraylog = field(default_factory=LoggingConfigGraylog)
     app_name: str = "mlp_sdk"
-    root_level: str = field(default="INFO", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
+    root_level: str = field(default="INFO", metadata={"alias": ["MLP_LOG_LEVEL"]})
     levels: dict[str, str] = field(default_factory=dict)
 
 
