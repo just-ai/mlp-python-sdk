@@ -53,7 +53,10 @@ class MlpGrpcServiceBase:
 
     @staticmethod
     def mlp_exception_to_proto(e: MlpException):
-        return ApiErrorProto(code=e.code, message=e.message, status=e.status.to_proto(), args=e.named_args)
+        try:
+            return ApiErrorProto(code=e.code, message=e.message, status=e.status.to_proto(), args=e.named_args)
+        except BaseException as be:
+            return MlpGrpcServiceBase.exception_to_proto(be)
 
     @staticmethod
     def exception_to_proto(e: BaseException):
