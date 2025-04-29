@@ -15,7 +15,9 @@ config = get_config()
 class GraylogFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord):
         # Добавляем app_name как дополнительное поле
-        record.app_name = config.logging.app_name
+        record.app = config.logging.app_name
+        record.env = config.logging.app_name
+        record.account_id = config.mlp.account_id
         record.request_id = request_id_var.get()
         return super().format(record)
 

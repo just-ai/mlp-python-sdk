@@ -10,9 +10,10 @@ import yaml  # pyright: ignore[reportMissingModuleSource]
 @dataclass
 class LoggingConfigGraylog:
     enabled: bool = False
-    host: str = "localhost"
-    port: int = 12201
+    host: str = field(default="localhost", metadata={"alias": ["MLP_GRAYLOG_SERVER"]})
+    port: int = field(default=12201, metadata={"alias": ["MLP_GRAYLOG_PORT"]})
     udp: bool = False
+    env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
 
 
 @dataclass
@@ -25,7 +26,7 @@ class LoggingConfig:
     console: LoggingConfigConsole = field(default_factory=LoggingConfigConsole)
     graylog: LoggingConfigGraylog = field(default_factory=LoggingConfigGraylog)
     app_name: str = "mlp_sdk"
-    root_level: str = ""
+    root_level: str = field(default="INFO", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
     levels: dict[str, str] = field(default_factory=dict)
 
 
@@ -170,8 +171,25 @@ class ConfigLoader:
                 kwargs[f.name] = self.__create_class_from_values(f.type, get_value_func, f"{outer_name}{f.name}.")  # type: ignore
             else:
                 # Получаем значение для обычного поля
+
+                # Проверяем наличие алиасов в метаданных поля
+                aliases = []
+                if f.metadata and "alias" in f.metadata:
+                    aliases = f.metadata["alias"]
+
+                # Основное имя поля
                 fname = f"{outer_name}{f.name}"
-                val = get_value_func(fname, cast(type, f.type))
+
+                # Пробуем получить значение сначала по алиасам, затем по основному имени
+                val = None
+                for alias_name in aliases:
+                    val = get_value_func(alias_name, cast(type, f.type))
+                    if val is not None:
+                        break
+
+                # Если значение не найдено по алиасам, пробуем по основному имени
+                if val is None:
+                    val = get_value_func(fname, cast(type, f.type))
                 if val is None:
                     # Проверяем, имеет ли поле значение по умолчанию
                     if f.default is not dataclasses.MISSING:
