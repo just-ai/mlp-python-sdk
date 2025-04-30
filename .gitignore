@@ -19,3 +19,5 @@ __pycache__
 src/mlp_sdk/mlp_api
 src/mlp_sdk/storage_api
 src/mlp_sdk/mlp_connector/grpc_
+.aider*
+.env.aider
