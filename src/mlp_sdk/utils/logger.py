@@ -75,25 +75,3 @@ def get_logger(name: str) -> logging.Logger:
         logger.addHandler(graylog_async_handler)
 
     return logger
-
-
-def get_logger_univorn():
-    logging_config = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "handlers": {
-            "console": {
-                "()": lambda: console_handler,
-            }
-        },
-        "root": {
-            "level": "INFO",
-            "handlers": ["console"],
-        },
-    }
-    if config.logging.graylog.enabled:
-        logging_config["handlers"]["graylog"] = {  # type: ignore
-            "()": lambda: graylog_handler,
-        }
-        logging_config["root"]["handlers"].append("graylog")  # type: ignore
-    return logging_config
