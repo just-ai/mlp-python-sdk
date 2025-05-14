@@ -144,7 +144,7 @@ class ConfigLoader:
 
     def __get_value(self, vname: str, required_type: Type) -> Any:
         env_name = vname.upper().replace(".", "_")
-        if os.getenv(env_name):
+        if os.getenv(env_name) is not None:
             res = os.getenv(env_name)
             return self.__convert_to_type(res, required_type)
 

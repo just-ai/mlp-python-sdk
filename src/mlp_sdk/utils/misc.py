@@ -34,3 +34,31 @@ def get_one_of(*args: Optional[P], error_message: Optional[str] = None) -> P:
         raise Exception(error_message)
     else:
         raise Exception("No value for required field")
+
+
+def remove_null_fields(obj: dict) -> dict:
+    """
+    Recursively removes all fields with None values from dictionaries,
+    including nested dictionaries and lists.
+
+    Args:
+        obj: Dictionary to process
+
+    Returns:
+        Dictionary with all None values removed
+    """
+    if not isinstance(obj, dict):
+        return obj
+
+    result = {}
+    for key, value in obj.items():
+        if value is None:
+            continue
+        elif isinstance(value, dict):
+            result[key] = remove_null_fields(value)
+        elif isinstance(value, list):
+            result[key] = [remove_null_fields(item) if isinstance(item, dict) else item for item in value]
+        else:
+            result[key] = value
+
+    return result
