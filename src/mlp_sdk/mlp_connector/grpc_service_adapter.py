@@ -77,6 +77,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             self.request_streams[message.cancel.requestIdToCancel].context.cancelled = True
         else:
             log.error(f"Unsupported request type {request_type}")
+            raise MlpException(code="mlp-action.common.internal-error", message="Request type is not supported yet")
 
     def __process_streaming_request(self, context: MlpRequestContext, message: GateToServiceProto):
         input_streaming_queue: Queue[GateToServiceProto] = Queue()
