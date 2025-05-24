@@ -79,16 +79,18 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                     c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)
                 ]
                 for stopped_connector in stopped_connectors:
-                    self.restart(stopped_connector)
+                    self.restart_single_connection(stopped_connector)
 
-                if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
-                    last_active_time = time.time()
-                    continue
+                with self.connectors_lock:
+                    if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
+                        last_active_time = time.time()
+                        continue
 
-                if len(self.connectors) == 0 or time.time() > last_active_time + 10:
-                    log.warning("Service is not connected to gate: " + str(self.gate_urls))
-                    self.update_connectors(self.gate_urls)
-                    last_active_time = time.time()
+                    # сюда попадаем только если нет ни одного активного подключения
+                    if time.time() > last_active_time + 5:
+                        log.warning("Reset connection list to the initial: " + str(self.gate_urls))
+                        self.update_connectors(self.gate_urls)
+                        last_active_time = time.time()
 
         return _keep_connected_impl
 
@@ -113,35 +115,18 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             # 3. remove obsolete
             urls_to_remove: Set[str] = current_urls - new_urls
             if len(urls_to_remove) > 0:
-                log.info("Remove active hosts: " + str(urls_to_remove))
+                log.info("remove from active list: " + str(urls_to_remove))
             for url in urls_to_remove:
                 connector: MlpSingleHostConnector | None = next(filter(lambda x: x.host_port == url, self.connectors), None)
                 if connector is not None:
                     threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
-    def restart(self, connector: MlpSingleHostConnector) -> None:
+    def restart_single_connection(self, connector: MlpSingleHostConnector) -> None:
         with self.connectors_lock:
             self.__stop_connector(connector, MlpConnectorState.error)
 
-            has_active_connectors = False
-            for c in self.connectors:
-                if c.state == MlpConnectorState.serving:
-                    has_active_connectors = True
-                    break
-
-            if has_active_connectors:
-                log.info(f"Restart single connection to {connector.host_port} ...")
-                self.__start_connector(connector.host_port)
-            else:
-                log.info("Reset all connections")
-                self.__reset_connections_to_initial_state()
-
-    def __reset_connections_to_initial_state(self):
-        with self.connectors_lock:
-            for c in self.connectors:
-                c.stop_and_wait(state=MlpConnectorState.error)
-            self.connectors.clear()
-        self.start()
+            log.info(f"Restart single connection {connector.host_port} ...")
+            self.__start_connector(connector.host_port)
 
     def stop_and_wait(self) -> None:
         if self.state == MlpConnectorState.stopping:

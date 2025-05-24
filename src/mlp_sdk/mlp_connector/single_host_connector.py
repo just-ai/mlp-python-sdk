@@ -178,8 +178,9 @@ class MlpSingleHostConnector:
                 self.log.error("Channel closed. (Got StatusCode.CANCELLED exception)")
             elif e.code() == grpc.StatusCode.UNAVAILABLE:
                 self.log.error("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
-                if self.state == MlpConnectorState.serving:
-                    self.callback.restart(self)
+                # if self.state == MlpConnectorState.serving:
+                #     self.callback.restart(self)
+                # зачем отдельный рестарт если можно просто умереть?
             else:
                 self.log.error(f"Unknown gRPC exception with code {e.code()}")
                 self.log.error(e, exc_info=True)
