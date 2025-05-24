@@ -133,7 +133,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                 log.info(f"Restart single connection to {connector.host_port} ...")
                 self.__start_connector(connector.host_port)
             else:
-                log.info(f"Reset all connections")
+                log.info("Reset all connections")
                 self.__reset_connections_to_initial_state()
 
     def __reset_connections_to_initial_state(self):
