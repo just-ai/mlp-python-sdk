@@ -46,7 +46,7 @@ class MlpSingleHostConnectorCallback:
     def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"):
         pass
 
-    def restart(self, connector: "MlpSingleHostConnector"):
+    def connection_closed(self, connector: "MlpSingleHostConnector"):
         pass
 
 
