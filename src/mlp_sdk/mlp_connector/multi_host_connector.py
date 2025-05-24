@@ -9,7 +9,7 @@ from mlp_sdk.mlp_connector.single_host_connector import MlpConnectorState, MlpSi
 from mlp_sdk.utils.config import get_config
 from mlp_sdk.utils.logger import get_logger
 
-log = get_logger("MlpGrpcServicer")
+log = get_logger("MlpMultiHostConnector")
 config = get_config()
 
 
@@ -106,14 +106,14 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             # 2. start new
             urls_to_add: Set[str] = new_urls - current_urls
             if len(urls_to_add) > 0:
-                log.info("Starting new connections: " + str(urls_to_add))
+                log.info("Add active hosts: " + str(urls_to_add))
             for url in urls_to_add:
                 self.__start_connector(url)
 
             # 3. remove obsolete
             urls_to_remove: Set[str] = current_urls - new_urls
             if len(urls_to_remove) > 0:
-                log.info("Stopping connections: " + str(urls_to_remove))
+                log.info("Remove active hosts: " + str(urls_to_remove))
             for url in urls_to_remove:
                 connector: MlpSingleHostConnector | None = next(filter(lambda x: x.host_port == url, self.connectors), None)
                 if connector is not None:
@@ -123,8 +123,25 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         with self.connectors_lock:
             self.__stop_connector(connector, MlpConnectorState.error)
 
-            log.info("Restarting ...")
-            self.__start_connector(connector.host_port)
+            has_active_connectors = False
+            for c in self.connectors:
+                if c.state == MlpConnectorState.serving:
+                    has_active_connectors = True
+                    break
+
+            if has_active_connectors:
+                log.info(f"Restart single connection to {connector.host_port} ...")
+                self.__start_connector(connector.host_port)
+            else:
+                log.info(f"Reset all connections")
+                self.__reset_connections_to_initial_state()
+
+    def __reset_connections_to_initial_state(self):
+        with self.connectors_lock:
+            for c in self.connectors:
+                c.stop_and_wait(state=MlpConnectorState.error)
+            self.connectors.clear()
+        self.start()
 
     def stop_and_wait(self) -> None:
         if self.state == MlpConnectorState.stopping:

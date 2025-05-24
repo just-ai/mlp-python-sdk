@@ -25,7 +25,7 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
 from mlp_sdk.utils.config import get_config
 from mlp_sdk.utils.logger import get_logger
 
-log = get_logger("MlpServiceConnector")
+log = get_logger("MlpSingleHostConnector")
 config = get_config()
 
 
@@ -104,7 +104,7 @@ class MlpSingleHostConnector:
         gateway_permanently_unavailable = False
         self.__startup_probe()
         self.state = MlpConnectorState.connecting
-        self.log.info(f"start connection to gate {self.host_port} ... ")
+        self.log.info(f"trying to connect to {self.host_port} ... ")
         reconnect_timeout = config.sdk.shutdown_event_timeout_seconds
         while self.state == MlpConnectorState.connecting:
             try:
