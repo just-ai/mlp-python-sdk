@@ -29,6 +29,8 @@ docker run --rm -v "${PWD}":/app openapi-generator generate  \
 
 find openapi-generator-output -name "*.py" -exec grep -l "allow_population_by_field_name" {} \; | xargs sed -i 's/allow_population_by_field_name/populate_by_name/g'
 
+find openapi-generator-output -name "*.py" -exec grep -l ", unique_items=True" {} \; | xargs sed -i 's/, unique_items=True//g'
+
 mv openapi-generator-output/mlp-rest-api/mlp_sdk/mlp_api src/mlp_sdk/
 mv openapi-generator-output/mlp-storage-api/mlp_sdk/storage_api src/mlp_sdk/
 
