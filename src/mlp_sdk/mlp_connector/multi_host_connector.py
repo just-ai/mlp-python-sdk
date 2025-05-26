@@ -121,9 +121,6 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                 if connector is not None:
                     threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
-    def connection_closed(self, connector: MlpSingleHostConnector) -> None:
-        self.restart_single_connection(connector)
-
     def restart_single_connection(self, connector: MlpSingleHostConnector) -> None:
         with self.connectors_lock:
             self.__stop_connector(connector, MlpConnectorState.error)

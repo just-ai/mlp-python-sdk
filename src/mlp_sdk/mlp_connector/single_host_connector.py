@@ -46,9 +46,6 @@ class MlpSingleHostConnectorCallback:
     def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"):
         pass
 
-    def connection_closed(self, connector: "MlpSingleHostConnector"):
-        pass
-
 
 class MlpSingleHostConnector:
     SDK_VERSION = 2
@@ -165,7 +162,7 @@ class MlpSingleHostConnector:
 
         self.log.info("Service is ready to serve!")
         self.state = MlpConnectorState.serving
-
+        print("before __start_processing_requests")
         self.__start_processing_requests(gate_to_action_generator)
 
         self.log.info("Processing thread stopped")
@@ -176,15 +173,14 @@ class MlpSingleHostConnector:
         try:
             for request in gate_to_action_generator:
                 self.__process_request(request)
+                if self.stopping.is_set():
+                    break
 
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.CANCELLED:
                 self.log.error("Channel closed. (Got StatusCode.CANCELLED exception)")
             elif e.code() == grpc.StatusCode.UNAVAILABLE:
                 self.log.error("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
-                # if self.state == MlpConnectorState.serving:
-                #     self.callback.restart(self)
-                # зачем отдельный рестарт если можно просто умереть?
             else:
                 self.log.error(f"Unknown gRPC exception with code {e.code()}")
                 self.log.error(e, exc_info=True)
@@ -217,7 +213,7 @@ class MlpSingleHostConnector:
             self.callback.cluster_update(request.cluster)
         elif req_type == "stopServing":
             self.log.info("Received stopServing from gate.")
-            self.stop_and_wait()  # подозрительно, что мы делаем стоп из потока-обработчика. Кажется это надо делать с отдельной нитки
+            self.stop_and_wait()
         elif req_type in ["predict", "fit", "ext", "batch"]:
             self.callback.request(request, self)
         else:
