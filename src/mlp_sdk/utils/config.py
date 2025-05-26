@@ -14,11 +14,13 @@ class LoggingConfigGraylog:
     port: int = field(default=12201, metadata={"alias": ["MLP_GRAYLOG_PORT"]})
     udp: bool = False
     env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
+    async_: bool = True
 
 
 @dataclass
 class LoggingConfigConsole:
     enabled: bool = True
+    async_: bool = True
 
 
 @dataclass

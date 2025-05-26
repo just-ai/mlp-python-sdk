@@ -108,8 +108,7 @@ class MlpSingleHostConnector:
         reconnect_timeout = config.sdk.shutdown_event_timeout_seconds
         while self.state == MlpConnectorState.connecting:
             try:
-                self.channel = MlpGrpcClient.open_grpc_channel(self.host_port, self.grpc_secure)
-                self.stub = GateStub(self.channel)
+                self.channel, self.stub = self._create_channel_and_stub()
 
                 self.stub.healthCheck(HeartBeatProto())  # type: ignore
 
@@ -127,6 +126,11 @@ class MlpSingleHostConnector:
                 self.log.debug(e, exc_info=True)
 
             self.stopping.wait(reconnect_timeout)
+
+    def _create_channel_and_stub(self) -> tuple[grpc.Channel, GateStub]:
+        channel = MlpGrpcClient.open_grpc_channel(self.host_port, self.grpc_secure)
+        stub = GateStub(channel)
+        return channel, stub
 
     def __start_processing(self):
         self.log.debug(" ... init processing")
@@ -165,7 +169,7 @@ class MlpSingleHostConnector:
         self.__start_processing_requests(gate_to_action_generator)
 
         self.log.info("Processing thread stopped")
-        if self.state == MlpConnectorState.serving:
+        if self.state != MlpConnectorState.error:  # если была ошибка, то оставляем ошибочный статус
             self.state = MlpConnectorState.stopped
 
     def __start_processing_requests(self, gate_to_action_generator: Any):
