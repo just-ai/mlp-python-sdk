@@ -1,6 +1,6 @@
 import pytest
 
-from mlp_sdk.utils.misc import get_one_of, parse_grpc_url, required, remove_null_fields
+from mlp_sdk.utils.misc import get_one_of, parse_grpc_url, remove_null_fields, required
 
 
 class TestParseGrpcUrl:
@@ -102,46 +102,15 @@ class TestRemoveNullFields:
 
     def test_remove_null_fields_nested_dict(self):
         # Тестирование с вложенным словарем
-        input_dict = {
-            "a": 1,
-            "b": None,
-            "c": {
-                "d": "test",
-                "e": None,
-                "f": 42
-            }
-        }
-        expected = {
-            "a": 1,
-            "c": {
-                "d": "test",
-                "f": 42
-            }
-        }
+        input_dict = {"a": 1, "b": None, "c": {"d": "test", "e": None, "f": 42}}
+        expected = {"a": 1, "c": {"d": "test", "f": 42}}
         result = remove_null_fields(input_dict)
         assert result == expected
 
     def test_remove_null_fields_with_list(self):
         # Тестирование со списком
-        input_dict = {
-            "a": 1,
-            "b": None,
-            "c": [
-                {"d": "test", "e": None},
-                {"f": None, "g": 42},
-                None,
-                "string"
-            ]
-        }
-        expected = {
-            "a": 1,
-            "c": [
-                {"d": "test"},
-                {"g": 42},
-                None,
-                "string"
-            ]
-        }
+        input_dict = {"a": 1, "b": None, "c": [{"d": "test", "e": None}, {"f": None, "g": 42}, None, "string"]}
+        expected = {"a": 1, "c": [{"d": "test"}, {"g": 42}, None, "string"]}
         result = remove_null_fields(input_dict)
         assert result == expected
 

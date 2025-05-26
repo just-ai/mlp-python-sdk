@@ -87,6 +87,11 @@ class BaseConfig:
 T = TypeVar("T", bound=BaseConfig)
 
 
+class ConfigException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class ConfigLoader:
     def __init__(self) -> None:
         self.configs: List[Dict[str, Any]] = []
@@ -99,7 +104,7 @@ class ConfigLoader:
                     self.configs.append(yy)
         else:
             if required:
-                raise Exception(f"Configuration file {filename} does not exists. Check the working folder.")
+                raise ConfigException(f"Configuration file {filename} does not exists. Check the working folder.")
 
     def load_config(self, cls: Type[T] = BaseConfig, required: bool = True) -> T:
         profile = os.environ.get("PROFILE", "dev")
@@ -137,9 +142,9 @@ class ConfigLoader:
                 return str(value)
             else:
                 return value
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             # If conversion fails, return the original value
-            raise Exception(f"Cannot convert value {value} to a required type {required_type}")
+            raise ConfigException(f"Cannot convert value {value} to a required type {required_type}") from e
 
     def __get_value(self, vname: str, required_type: Type) -> Any:
         env_name = vname.upper().replace(".", "_")
@@ -199,8 +204,7 @@ class ConfigLoader:
                         kwargs[f.name] = f.default_factory()
                     else:
                         # Поле не имеет значения по умолчанию, выбрасываем исключение
-                        msg = f"Field {fname} is not specified"
-                        raise Exception(msg)
+                        raise ConfigException(f"Field {fname} is not specified")
                 else:
                     kwargs[f.name] = val
 

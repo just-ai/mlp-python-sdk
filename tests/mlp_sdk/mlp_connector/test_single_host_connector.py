@@ -1,27 +1,20 @@
-import threading
-
 import queue
-
+import threading
+import time
 from unittest.mock import Mock
 
 import grpc
-import pytest
-import time
 
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ServiceDescriptorProto, GateToServiceProto, HeartBeatProto, \
-    StopServingProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import GateToServiceProto, ServiceDescriptorProto, StopServingProto
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
-from mlp_sdk.mlp_connector.single_host_connector import MlpSingleHostConnector, MlpConnectorState
+from mlp_sdk.mlp_connector.single_host_connector import MlpConnectorState, MlpSingleHostConnector
 
 
 class TestMlpSingleHostConnector:
-
     def setup_method(self):
         self.service_descriptor = ServiceDescriptorProto()
         self.callback = Mock()
-        self.connector = MlpSingleHostConnector(
-            "host:9999", True, "connection_token", self.service_descriptor, self.callback
-        )
+        self.connector = MlpSingleHostConnector("host:9999", True, "connection_token", self.service_descriptor, self.callback)
         self.channel_mock = Mock()
         self.stub_mock = Mock()
 
@@ -42,7 +35,7 @@ class TestMlpSingleHostConnector:
 
     def teardown_method(self):
         self.gate_to_service.put_nowait(None)
-        if hasattr(self, 'service_to_gate_thread'):
+        if hasattr(self, "service_to_gate_thread"):
             self.service_to_gate_thread.join()
 
     def __setup_process_async_mock(self):

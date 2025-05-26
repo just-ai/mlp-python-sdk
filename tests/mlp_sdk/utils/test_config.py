@@ -1,14 +1,11 @@
-import shutil
-
 import os
+import shutil
 import tempfile
 from dataclasses import dataclass, field
-from typing import Dict, Any
 
 import pytest
-import yaml
 
-from mlp_sdk.utils.config import ConfigLoader, set_config_dir, load_application_config, get_config
+from mlp_sdk.utils.config import ConfigException, ConfigLoader, get_config, load_application_config, set_config_dir
 
 
 @dataclass
@@ -36,12 +33,6 @@ class Config4:
 
 
 class TestConfigLoader:
-    """
-    Tests for the ConfigLoader class and config.py module.
-    This class is designed to test loading configs from yaml files and environment variables.
-    Each test should have the form: dataclass + yaml + envs -> call load function (with necessary wrappers) -> check result - compare dataclass fields with targets.
-    """
-
     def setup_method(self):
         self.config_dir = os.path.join(tempfile.gettempdir(), "test-config-loader")
         shutil.rmtree(self.config_dir, ignore_errors=True)
@@ -52,7 +43,7 @@ class TestConfigLoader:
         # Clean content:
         # - remove empty lines
         # - remove common whitespace prefix from other lines
-        lines = [line for line in content.split('\n') if line.strip()]
+        lines = [line for line in content.split("\n") if line.strip()]
         if not lines:
             return
 
@@ -63,7 +54,7 @@ class TestConfigLoader:
         min_spaces = min(get_leading_spaces(line) for line in lines if line.strip())
 
         # Remove common prefix
-        cleaned_content = '\n'.join(line[min_spaces:] if len(line) >= min_spaces else line for line in lines)
+        cleaned_content = "\n".join(line[min_spaces:] if len(line) >= min_spaces else line for line in lines)
 
         with open(os.path.join(self.config_dir, "config.yml"), "w", encoding="utf-8") as f:
             f.write(cleaned_content.strip())
@@ -81,7 +72,7 @@ class TestConfigLoader:
         assert config.field2 == "hello"
 
     def test_no_config(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ConfigException):
             ConfigLoader().load_config(Config1)
 
     def test_bool_from_text(self):
@@ -101,7 +92,7 @@ class TestConfigLoader:
         field1: yes
         """)
 
-        with pytest.raises(Exception):
+        with pytest.raises(ConfigException):
             ConfigLoader().load_config(Config2)
 
     def test_conversions(self):
@@ -121,8 +112,8 @@ class TestConfigLoader:
         field2: yes
         """)
 
-        with pytest.raises(Exception):
-            config = ConfigLoader().load_config(Config1)
+        with pytest.raises(ConfigException):
+            ConfigLoader().load_config(Config1)
 
     def test_float(self):
         self.config_yml("""
@@ -208,6 +199,7 @@ class TestConfigLoader:
 
     def test_get_config(self):
         import mlp_sdk.utils.config as cc
+
         cc._base_config = None
         c = get_config()
         assert c.logging.app_name == "mlp_sdk"
