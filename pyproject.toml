@@ -1,6 +1,6 @@
 [project]
 name = "mlp-sdk"
-version = "2.0.4.dev1"
+version = "2.0.4.dev2"
 requires-python = "==3.12.*"
 authors = []
 description = "Python library for creating services for mlp"
@@ -33,14 +33,14 @@ dev = [
     "tomli>=2.2.1",
     "tomli-w>=1.2.0",
     "pre-commit>=4.2.0",
+    "mlp-apps-ci-utils>=0.0.1.dev8",
 ]
 
-[build-system]
-requires = [
-    "setuptools>=61.0",
-    "wheel",
+[tool.uv]
+index = [
+    { name = "nexus-open", url = "https://nexus-open.just-ai.com/repository/pypi-hosted/simple" },
+    { name = "nexus-private", url = "https://nexus.just-ai.com/repository/pypi-hosted/simple" },
 ]
-build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 line-length = 160
@@ -98,7 +98,6 @@ log_cli = true
 log_cli_level = "DEBUG"
 addopts = "--cov=../src --cov-report=term --cov-report=html:../htmlcov --html=../pytest-report/index.html"
 
-
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
@@ -111,3 +110,10 @@ exclude = [
 include = [
     "src",
 ]
+
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"

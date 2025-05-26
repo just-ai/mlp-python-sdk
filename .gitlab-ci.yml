@@ -5,7 +5,4 @@ stages:
 job_build:
   stage: build
   script:
-    - sh ./build-scripts/generate-rest.sh
-    - sh ./build-scripts/generate-grpc.sh
-    - sh ./build.sh $CI_COMMIT_REF_NAME
-
+    - make test build deploy

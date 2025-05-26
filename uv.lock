@@ -388,8 +388,22 @@ wheels = [
 ]
 
 [[package]]
+name = "mlp-apps-ci-utils"
+version = "0.0.1.dev8"
+source = { registry = "https://nexus.just-ai.com/repository/pypi-hosted/simple" }
+dependencies = [
+    { name = "mlp-sdk" },
+    { name = "python-dateutil" },
+    { name = "tomli" },
+    { name = "tomli-w" },
+]
+wheels = [
+    { url = "https://nexus.just-ai.com/repository/pypi-hosted/packages/mlp-apps-ci-utils/0.0.1.dev8/mlp_apps_ci_utils-0.0.1.dev8-py3-none-any.whl", hash = "md5:714ba58a2af7cae7446a04e185ab37f1" },
+]
+
+[[package]]
 name = "mlp-sdk"
-version = "2.0.4.dev1"
+version = "2.0.4.dev2"
 source = { editable = "." }
 dependencies = [
     { name = "dacite" },
@@ -409,6 +423,7 @@ dev = [
     { name = "build" },
     { name = "grpc-stubs" },
     { name = "grpcio-tools" },
+    { name = "mlp-apps-ci-utils" },
     { name = "numpy" },
     { name = "pre-commit" },
     { name = "pyright" },
@@ -441,6 +456,7 @@ dev = [
     { name = "build", specifier = ">=1.2.2.post1" },
     { name = "grpc-stubs", specifier = ">=1.53.0.5" },
     { name = "grpcio-tools", specifier = "==1.71.0" },
+    { name = "mlp-apps-ci-utils", specifier = ">=0.0.1.dev8" },
     { name = "numpy", specifier = ">=2.2.4" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pyright", specifier = ">=1.1.397" },

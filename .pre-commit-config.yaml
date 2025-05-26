@@ -1,27 +1,25 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
   - repo: local
     hooks:
-      - id: update-version
-        name: Update version
-        entry: .venv/bin/python ./build-scripts/version.py
+      - id: format
+        name: Ruff format and fix
         language: system
         pass_filenames: false
         always_run: true
+        entry: make check
 
-#   - repo: https://github.com/pre-commit/pre-commit-hooks
-#     rev: v3.2.0
-#     hooks:
-#       - id: end-of-file-fixer
-#         exclude: ^mlp_api/
-#       - id: check-yaml
-#       - id: check-added-large-files
-#       - id: trailing-whitespace
-#         exclude: ^mlp_api/
-#       - id: check-toml
-#   - repo: https://github.com/astral-sh/ruff-pre-commit
-#     rev: v0.6.4
-#     hooks:
-#       - id: ruff
-#         args: [--fix]
-#       - id: ruff-format
-
+  - repo: local
+    hooks:
+      - id: bump-version
+        name: Update version
+        language: system
+        pass_filenames: false
+        always_run: true
+        entry: make bump_version
