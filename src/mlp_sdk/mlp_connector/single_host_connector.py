@@ -162,7 +162,6 @@ class MlpSingleHostConnector:
 
         self.log.info("Service is ready to serve!")
         self.state = MlpConnectorState.serving
-        print("before __start_processing_requests")
         self.__start_processing_requests(gate_to_action_generator)
 
         self.log.info("Processing thread stopped")

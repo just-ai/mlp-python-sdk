@@ -42,21 +42,27 @@ class TestMlpSingleHostConnector:
 
     def teardown_method(self):
         self.gate_to_service.put_nowait(None)
-        self.service_to_gate_thread.join()
+        if hasattr(self, 'service_to_gate_thread'):
+            self.service_to_gate_thread.join()
 
     def __setup_process_async_mock(self):
         def read_generator(generator):
             for request in generator:
                 self.service_to_gate.append(request)
+                if request.WhichOneof("body") == "stopServing":
+                    # симулируем поведение, при котором gateway закрывает соединение когда получает stopServing
+                    self.gate_to_service.put_nowait(None)
+                    # pass
 
         def process_async_mock(generator):
             # Consume the generator to get the requests
-            self.service_to_gate_thread = threading.Thread(target=read_generator, args=generator)
+            self.service_to_gate_thread = threading.Thread(target=read_generator, args=(generator,))
             self.service_to_gate_thread.start()
 
             # Return our predefined responses
             while True:
                 m = self.gate_to_service.get()
+                self.gate_to_service.task_done()
                 if m is not None:
                     yield m
                 else:

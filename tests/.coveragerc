@@ -1,0 +1,2 @@
+[run]
+omit = ../src/mlp_sdk/mlp_connector/grpc_/*

@@ -1,6 +1,8 @@
 import dataclasses
 import json
-from datetime import datetime
+import os
+import tempfile
+from datetime import date, datetime, time
 from typing import Optional
 
 import numpy as np
@@ -35,6 +37,20 @@ def test_datetime_serialization() -> None:
     dt = datetime(2023, 1, 15, 12, 30, 45)
     result = json.dumps(dt, cls=MyJsonEncoder)
     assert result == '"2023-01-15T12:30:45.000"'
+
+
+def test_date_serialization() -> None:
+    """Тест сериализации объектов date."""
+    d = date(2023, 1, 15)
+    result = json.dumps(d, cls=MyJsonEncoder)
+    assert result == '"2023-01-15"'
+
+
+def test_time_serialization() -> None:
+    """Тест сериализации объектов time."""
+    t = time(12, 30, 45, 123456)
+    result = json.dumps(t, cls=MyJsonEncoder)
+    assert result == '"12:30:45.123"'
 
 
 def test_dataclass_serialization() -> None:
@@ -173,3 +189,30 @@ def test_parse_unknown_class() -> None:
 def test_stringify_base_type() -> None:
     res = JSON.stringify("str", pretty=False)
     assert res == '"str"'
+
+
+def test_save() -> None:
+    """Тест метода save."""
+    data = {
+        "name": "test", 
+    }
+    
+    # Создаем временный файл для теста
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp_file:
+        temp_filename = temp_file.name
+    
+    try:
+        # Сохраняем данные в файл
+        JSON.save(temp_filename, data)
+        
+        # Читаем содержимое файла
+        with open(temp_filename, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # Проверяем содержимое
+        parsed = json.loads(content)
+        assert parsed["name"] == "test"
+    finally:
+        # Удаляем временный файл
+        if os.path.exists(temp_filename):
+            os.unlink(temp_filename)
