@@ -43,7 +43,7 @@ class MlpConfig:
     service_token: str | None = None
 
     def get_grpc_hosts(self) -> list[str]:
-        return self.grpc_hosts.split(",") if self.grpc_hosts else [self.grpc_host]
+        return self.grpc_hosts.split(",") if self.grpc_hosts else [self.grpc_host]  # pragma: no cover
 
 
 @dataclass
@@ -122,9 +122,6 @@ class ConfigLoader:
 
     def __convert_to_type(self, value: Any, required_type: Type) -> Any:
         """Convert a value to the required type."""
-        if value is None:
-            return None
-
         # If the value is already of the required type, return it
         if isinstance(required_type, types.GenericAlias) or isinstance(value, required_type):
             return value
@@ -142,7 +139,7 @@ class ConfigLoader:
                 return value
         except (ValueError, TypeError):
             # If conversion fails, return the original value
-            return value
+            raise Exception(f"Cannot convert value {value} to a required type {required_type}")
 
     def __get_value(self, vname: str, required_type: Type) -> Any:
         env_name = vname.upper().replace(".", "_")

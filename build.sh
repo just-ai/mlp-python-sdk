@@ -42,9 +42,9 @@ echo ===============         pyright        ===============
 $UV_CMD \
     .venv/bin/pyright src/
 
-#echo ===============          pytest        ===============
-#$UV_CMD \
-#    .venv/bin/pytest tests/
+echo ===============          pytest        ===============
+$UV_CMD \
+    .venv/bin/pytest tests/
 
 #echo ===============      check coverage    ===============
 #total_cov=$($UV_CMD uv run tests/check_pycov.py | tr -d '\r')
