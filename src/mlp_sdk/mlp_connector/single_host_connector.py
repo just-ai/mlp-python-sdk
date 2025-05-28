@@ -165,7 +165,7 @@ class MlpSingleHostConnector:
         self.__start_processing_requests(gate_to_action_generator)
 
         self.log.info("Processing thread stopped")
-        if self.state == MlpConnectorState.serving:
+        if self.state != MlpConnectorState.error:
             self.state = MlpConnectorState.stopped
 
     def __start_processing_requests(self, gate_to_action_generator: Any):
