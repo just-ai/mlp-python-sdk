@@ -8,14 +8,14 @@ from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
 from mlp_sdk.mlp_connector.multi_host_connector import MlpGrpcResponseReceiver
 
 
-class TestImplSimple(MlpGrpcServiceBase):
+class ImplSimple(MlpGrpcServiceBase):
     def predict(
         self, context: MlpRequestContext, req: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]
     ) -> PayloadProto | Generator[PayloadProto, None, None]:
         return PayloadProto(json='"test"')
 
 
-class TestImplStream(MlpGrpcServiceBase):
+class ImplStream(MlpGrpcServiceBase):
     def predict(
         self, context: MlpRequestContext, req: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]
     ) -> PayloadProto | Generator[PayloadProto, None, None]:
@@ -23,7 +23,7 @@ class TestImplStream(MlpGrpcServiceBase):
         return (y for y in data)
 
 
-class TestImplExt(MlpGrpcServiceBase):
+class ImplExt(MlpGrpcServiceBase):
     def ext(self, context: MlpRequestContext, method_name: str, params: dict[str, PayloadProto]) -> PayloadProto:
         return PayloadProto(json='"ext"')
 
@@ -51,13 +51,13 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         return condition()
 
     def test_thread_pool(self):
-        self.init(TestImplSimple())
+        self.init(ImplSimple())
         self.adapter.message_from_gate(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
         self.wait_for(lambda: len(self.response) == 1)
 
     def test_predict_simple(self):
-        self.init(TestImplSimple())
+        self.init(ImplSimple())
         self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
         assert len(self.response) == 1

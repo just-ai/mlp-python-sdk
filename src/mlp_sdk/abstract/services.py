@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Iterable, Optional, Type, TypeVar
+from typing import Generator, Optional, Type, TypeVar
 
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import SimpleStatusProto
 
@@ -59,7 +59,7 @@ class MlpPredictServiceBase[T, C, R]:
         self.clazz_c = clazz_c
         self.clazz_r = clazz_r
 
-    def predict(self, context: MlpRequestContext, req: T | Iterable[T], config: Optional[C]) -> R | Iterable[R]:
+    def predict(self, context: MlpRequestContext, req: T | Generator[T, None, None], config: Optional[C]) -> R | Generator[R, None, None]:
         """
         Эта функция предназначена для обработки predict'а во всех режимах со стриммингом и без.
         В дочерних классах могут быть переопределны отдельные упрощённые функции, например predict_simple.
@@ -72,7 +72,7 @@ class MlpPredictServiceBase[T, C, R]:
         # Если метод переопределен в наследнике (не равен методу базового класса)
         if callable(child_predict_simple) and child_predict_simple is not base_predict_simple:
             # Проверяем, является ли req одиночным объектом или коллекцией
-            if isinstance(req, Iterable):
+            if isinstance(req, Generator):
                 raise Exception("Streaming request is not allowed for predict_simmple")
             else:
                 # Если одиночный объект, просто вызываем predict_simple
