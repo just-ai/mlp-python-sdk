@@ -23,6 +23,7 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
 )
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
 from mlp_sdk.utils.config import get_config
+from mlp_sdk.utils.json_ import JSON
 from mlp_sdk.utils.logger import get_logger
 
 log = get_logger("MlpSingleHostConnector")
@@ -41,10 +42,10 @@ class MlpConnectorState(Enum):
 
 class MlpSingleHostConnectorCallback:
     def cluster_update(self, message: ClusterUpdateProto):
-        pass
+        pass  # pragma: no cover
 
     def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"):
-        pass
+        pass  # pragma: no cover
 
 
 class MlpSingleHostConnector:
@@ -73,7 +74,7 @@ class MlpSingleHostConnector:
         self.stopping_event: Optional[threading.Event] = None
         self.stopping: threading.Event = threading.Event()
 
-        self.worker_thread: threading.Thread = threading.Thread(target=self.__worker_loop)
+        self.worker_thread: threading.Thread = threading.Thread(target=self.__worker_proc)
 
     def start(self):
         self.worker_thread.start()
@@ -88,14 +89,14 @@ class MlpSingleHostConnector:
         with open("/tmp/liveness-probe", "w") as f:
             f.write(str(int(time.time())))
 
-    def __worker_loop(self):
-        self.__connect_to_gate()
+    def __worker_proc(self):
+        try:
+            self.__connect_to_gate()
 
-        if self.state == MlpConnectorState.connected:
-            try:
+            if self.state == MlpConnectorState.connected:
                 self.__start_processing()
-            except Exception as e:
-                self.log.error("Exception in streaming procedure " + type(e).__name__, exc_info=True)
+        except Exception as e:  # pragma: no cover
+            self.log.error("Exception in __worker_proc " + type(e).__name__, exc_info=True)  # pragma: no cover
 
     def __connect_to_gate(self):
         gateway_permanently_unavailable = False
@@ -124,7 +125,8 @@ class MlpSingleHostConnector:
 
             self.stopping.wait(reconnect_timeout)
 
-    def _create_channel_and_stub(self) -> tuple[grpc.Channel, GateStub]:
+    def _create_channel_and_stub(self) -> tuple[grpc.Channel, GateStub]:  # pragma: no cover
+        # Этот метод переопределяется в юнит-тестах, потому он помечен как no cover
         channel = MlpGrpcClient.open_grpc_channel(self.host_port, self.grpc_secure)
         stub = GateStub(channel)
         return channel, stub
@@ -139,11 +141,6 @@ class MlpSingleHostConnector:
                 yield msg
                 if msg.WhichOneof("body") == "stopServing":
                     return
-
-        if self.stub is None:
-            self.log.error("gRPC stub is not initialized")
-            self.state = MlpConnectorState.error
-            return
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())  # type: ignore
 
@@ -194,10 +191,9 @@ class MlpSingleHostConnector:
             self.__log_request(request)
 
         if req_type is None:
-            self.log.error("Request with empty body", extra={"requestId": request.requestId})
+            self.log.error("Request with empty body", extra={"requestId": request.requestId})  # pragma: no cover
         elif req_type == "serviceInfo":
-            # Тут достаточно того, что serviceInfo вывелся в логи
-            pass
+            self.log.info(f"ServiceInfo: {JSON.stringify(request, pretty=False)}")
         elif req_type == "heartBeat":
             self.last_heartbeat_from_gate = time.time()
 
