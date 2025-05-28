@@ -28,7 +28,7 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             converted_req = self.convert_from_payload(req, self.impl.clazz_t)
         else:
 
-            def convert_req() -> Generator[Any]:
+            def convert_req() -> Generator[Any, None, None]:
                 for x in req:
                     yield self.convert_from_payload(x, self.impl.clazz_t)
 
@@ -45,7 +45,7 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
         else:
 
             def convert_res() -> Generator[PayloadProto, None, None]:
-                for x in cast(Generator[Any], typed_res):
+                for x in cast(Generator[Any, None, None], typed_res):
                     yield self.convert_to_payload(x)
 
             converted_res = convert_res()
@@ -108,7 +108,7 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             elif isinstance(data_type, dict):
                 return cast(T, json.loads(payload.json))
             else:
-                raise Exception("Unsupported type")
+                return json.loads(payload.json)
         elif payload.protobuf:
             if issubclass(data_type, Message):
                 msg = data_type()
