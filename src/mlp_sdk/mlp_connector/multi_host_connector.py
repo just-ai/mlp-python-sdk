@@ -31,7 +31,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         log.info(f"Initializing multi-host-connector with urls: {self.gate_urls}, secure: {self.grpc_secure}")
 
         self.connectors: List[MlpSingleHostConnector] = []
-        self.connectors_lock: threading.Lock = threading.Lock()
+        self.connectors_lock: threading.RLock = threading.RLock()
         if not config.mlp.service_token:
             raise Exception("MLP_SERVICE_TOKEN is required")
         self.connection_token: str = config.mlp.service_token
@@ -73,24 +73,27 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         def _keep_connected_impl() -> None:
             last_active_time = time.time()
             while self.state == MlpConnectorState.serving:
-                time.sleep(1)
+                try:
+                    time.sleep(1)
 
-                stopped_connectors: List[MlpSingleHostConnector] = [
-                    c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)
-                ]
-                for stopped_connector in stopped_connectors:
-                    self.restart_single_connection(stopped_connector)
+                    stopped_connectors: List[MlpSingleHostConnector] = [
+                        c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)
+                    ]
+                    for stopped_connector in stopped_connectors:
+                        self.restart_single_connection(stopped_connector)
 
-                with self.connectors_lock:
-                    if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
-                        last_active_time = time.time()
-                        continue
+                    with self.connectors_lock:
+                        if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
+                            last_active_time = time.time()
+                            continue
 
-                    # сюда попадаем только если нет ни одного активного подключения
-                    if time.time() > last_active_time + 5:
-                        log.warning("Reset connection list to the initial: " + str(self.gate_urls))
-                        self.update_connectors(self.gate_urls)
-                        last_active_time = time.time()
+                        # сюда попадаем только если нет ни одного активного подключения
+                        if time.time() > last_active_time + 5:
+                            log.warning("Reset connection list to the initial: " + str(self.gate_urls))
+                            self.update_connectors(self.gate_urls)
+                            last_active_time = time.time()
+                except BaseException:
+                    log.error("Error in keep_connected loop", exc_info=True)
 
         return _keep_connected_impl
 
