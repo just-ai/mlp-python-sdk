@@ -149,8 +149,9 @@ class MlpSingleHostConnector:
                     connectionToken=self.connection_token,
                     serviceDescriptor=self.service_descriptor,
                     hostname=os.environ.get("HOSTNAME", ""),
-                    version=self.SDK_VERSION,
+                    sdkVersion=self.SDK_VERSION,
                     image=os.environ.get("IMAGE_NAME", ""),
+                    imageVersionJson=self.__get_version_info(),
                 )
             )
         )
@@ -162,6 +163,12 @@ class MlpSingleHostConnector:
         self.log.info("Processing thread stopped")
         if self.state != MlpConnectorState.error:  # если была ошибка, то оставляем ошибочный статус
             self.state = MlpConnectorState.stopped
+
+    def __get_version_info(self) -> str:
+        if os.path.exists("./version-info.json"):
+            with open("./version-info.json") as f:
+                return f.read()
+        return ""
 
     def __start_processing_requests(self, gate_to_action_generator: Any):
         try:
