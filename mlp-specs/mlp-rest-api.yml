@@ -5493,6 +5493,7 @@ paths:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -6287,6 +6288,7 @@ paths:
                   type: string
                   enum:
                   - DOCKER
+                  - VAST_AI
                   - KUBERNETES
                   - HOSTING_SERVER
                   - SHARED_RESOURCE_QUOTA
@@ -7327,6 +7329,7 @@ paths:
                 type: string
                 enum:
                 - DOCKER
+                - VAST_AI
                 - KUBERNETES
                 - HOSTING_SERVER
                 - SHARED_RESOURCE_QUOTA
@@ -9517,6 +9520,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9580,6 +9584,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9633,6 +9638,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9709,6 +9715,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9928,6 +9935,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -10821,6 +10829,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -11395,11 +11404,11 @@ components:
         status:
           type: string
           enum:
-          - RUNNING
           - STARTING
-          - STOPPED
+          - RUNNING
           - UNAVAILABLE
           - DELETING
+          - STOPPED
         serverIp:
           type: string
         jumpHostIp:
@@ -11621,6 +11630,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -11793,9 +11803,10 @@ components:
         instanceHostingType:
           type: string
           enum:
-          - deployment
           - pod
+          - vastAi
           - docker
+          - deployment
           - external
           - hostingServer
         lastRestartTimestamp:
@@ -12046,9 +12057,10 @@ components:
         kubeType:
           type: string
           enum:
-          - deployment
           - pod
+          - vastAi
           - docker
+          - deployment
           - external
           - hostingServer
         resourceName:

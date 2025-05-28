@@ -40,8 +40,8 @@ class CreateUpdateServerTemplateData(BaseModel):
     @validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
-            raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
+        if value not in ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
+            raise ValueError("must be one of enum values ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
         return value
 
     @validator('tariffication_period')
