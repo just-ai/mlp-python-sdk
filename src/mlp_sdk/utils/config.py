@@ -107,11 +107,7 @@ class ConfigLoader:
                 raise ConfigException(f"Configuration file {filename} does not exists. Check the working folder.")
 
     def load_config(self, cls: Type[T] = BaseConfig, required: bool = True) -> T:
-        profile = os.environ.get("PROFILE", "dev")
-
         self.__load_if_exists(f"{_config_dir}/config-local.yml")
-        self.__load_if_exists(f"{_config_dir}/config-{profile}.yml")
-        self.__load_if_exists("./config.yml")
         self.__load_if_exists(f"{_config_dir}/config.yml", required=required)
 
         return self.__create_class_from_values(cls, self.__get_value, "")
@@ -184,16 +180,16 @@ class ConfigLoader:
                 # Основное имя поля
                 fname = f"{outer_name}{f.name}"
 
-                # Пробуем получить значение сначала по алиасам, затем по основному имени
-                val = None
-                for alias_name in aliases:
-                    val = get_value_func(alias_name, cast(type, f.type))
-                    if val is not None:
-                        break
+                # Пробуем получить значение сначала по основному имени, затем по алиасам
+                val = get_value_func(fname, cast(type, f.type))
 
-                # Если значение не найдено по алиасам, пробуем по основному имени
+                # Если значение не найдено по основному имени, то ищем по алиасам
                 if val is None:
-                    val = get_value_func(fname, cast(type, f.type))
+                    for alias_name in aliases:
+                        val = get_value_func(alias_name, cast(type, f.type))
+                        if val is not None:
+                            break
+
                 if val is None:
                     # Проверяем, имеет ли поле значение по умолчанию
                     if f.default is not dataclasses.MISSING:
