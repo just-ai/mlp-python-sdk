@@ -13,14 +13,13 @@ class LoggingConfigGraylog:
     host: str = field(default="localhost", metadata={"alias": ["MLP_GRAYLOG_SERVER"]})
     port: int = field(default=12201, metadata={"alias": ["MLP_GRAYLOG_PORT"]})
     udp: bool = False
-    env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
-    async_: bool = True
+    async_: bool = field(default=True, metadata={"alias": ["async"]})
 
 
 @dataclass
 class LoggingConfigConsole:
     enabled: bool = True
-    async_: bool = True
+    async_: bool = field(default=True, metadata={"alias": ["async"]})
 
 
 @dataclass
@@ -28,6 +27,7 @@ class LoggingConfig:
     console: LoggingConfigConsole = field(default_factory=LoggingConfigConsole)
     graylog: LoggingConfigGraylog = field(default_factory=LoggingConfigGraylog)
     app_name: str = "mlp_sdk"
+    env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
     root_level: str = field(default="INFO", metadata={"alias": ["MLP_LOG_LEVEL"]})
     levels: dict[str, str] = field(default_factory=dict)
 
