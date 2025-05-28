@@ -145,3 +145,7 @@ class TestMlpSingleHostConnector:
         self.gate_to_service.put(GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
         self.wait_for(lambda: self.callback.request.call_count > 0)
+
+    def test_no_heartbeat_from_gate(self): ...
+
+    def test_connection_closed(self): ...

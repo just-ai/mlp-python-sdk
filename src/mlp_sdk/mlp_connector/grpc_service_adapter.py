@@ -46,9 +46,9 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
         # здесь мы получаем сообщение от GPRC-коннектора
         # на исходном потоке никакую обработку делать нельзя, потому что он в нашем grpc-коннекторе один
         # поэтому сразу перекладываем на тред-пул
-        self.thread_pool.submit(self.__process_message_from_gate_with_log, context, request)
+        self.thread_pool.submit(self._process_message_from_gate_with_log, context, request)
 
-    def __process_message_from_gate_with_log(self, context: MlpRequestContext, message: GateToServiceProto):
+    def _process_message_from_gate_with_log(self, context: MlpRequestContext, message: GateToServiceProto):
         start_time = perf_counter()
         error_response = None
         try:
