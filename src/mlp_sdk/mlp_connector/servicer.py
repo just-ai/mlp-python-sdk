@@ -27,3 +27,4 @@ class MlpGrpcServicer:
 
     def stop(self):
         self.connector.stop_and_wait()
+        self.grpc_adapter.shutdown()
