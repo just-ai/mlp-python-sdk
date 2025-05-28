@@ -143,6 +143,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             connector.stop_and_wait()
 
     def message_from_service(self, context: MlpRequestContext, response: ServiceToGateProto) -> None:
+        response.requestId = context.requestId
         connector: Optional[MlpSingleHostConnector] = next(
             (x for x in self.connectors if x.host_port == context.gatewayId and x.state == MlpConnectorState.serving), None
         )
