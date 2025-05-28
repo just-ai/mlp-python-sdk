@@ -13,7 +13,7 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
 
 class MlpGrpcServiceBase:
     def get_descriptor(self) -> ServiceDescriptorProto:  # pragma: no cover
-        # TODO: implement it
+        # TODO: implement it sometime
         return ServiceDescriptorProto(name=self.__class__.__name__, fittable=False, methods={}, schemaFiles={})
 
     def predict(

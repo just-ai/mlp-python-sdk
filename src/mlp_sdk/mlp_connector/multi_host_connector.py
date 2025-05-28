@@ -151,6 +151,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             raise Exception(f"Gateway {context.gatewayId} went offline")
 
         connector.action_to_gate_queue.put(response)
+        log.debug(f"Response for a request: {context.requestId}", extra={"requestId": context.requestId})
 
     def request(self, request: GateToServiceProto, connector: MlpSingleHostConnector) -> None:
         context: MlpRequestContext = MlpRequestContext(requestId=request.requestId, gatewayId=connector.host_port, request_headers=dict(request.headers))

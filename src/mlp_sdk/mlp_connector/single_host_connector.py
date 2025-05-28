@@ -3,21 +3,19 @@ import queue
 import threading
 import time
 from enum import Enum
-from typing import Any, Generator, Optional, Union
+from typing import Any, Generator, Optional
 
 import grpc
 from google.protobuf.json_format import MessageToJson
 
-from mlp_sdk.abstract.services import MlpRequestContext
+from mlp_sdk.abstract.services import MlpException
 from mlp_sdk.mlp_connector.client import MlpGrpcClient
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
-    ApiErrorProto,
     ClusterUpdateProto,
     GateToServiceProto,
     HeartBeatProto,
     ServiceDescriptorProto,
     ServiceToGateProto,
-    SimpleStatusProto,
     StartServingProto,
     StopServingProto,
 )
@@ -211,22 +209,8 @@ class MlpSingleHostConnector:
             self.stop_and_wait()
         elif req_type in ["predict", "fit", "ext", "batch"]:
             self.callback.request(request, self)
-        else:
-            self.__handle_unknown_request(req_type, request)
-
-    def __handle_unknown_request(self, req_type: str, request: GateToServiceProto) -> None:
-        self.log.error("Unknown request type " + req_type, extra={"requestId": request.requestId})
-        self.log.error(str(request), extra={"requestId": request.requestId})
-        response = ServiceToGateProto(
-            error=ApiErrorProto(
-                code="mlp-action.common.internal-error",
-                message=f"Unknown request type: {req_type}",
-                status=SimpleStatusProto.INTERNAL_SERVER_ERROR,
-            )
-        )
-        response.requestId = request.requestId
-        self.__log_response(request, response)
-        self.action_to_gate_queue.put_nowait(response)
+        else:  # pragma: no cover
+            raise MlpException(code="mlp-action.common.internal-error", message="Unknown request type. Probably there is a client-server version missmatch")
 
     def __log_request(self, request: GateToServiceProto) -> None:
         stringified_request = MessageToJson(request, ensure_ascii=False)
@@ -235,17 +219,6 @@ class MlpSingleHostConnector:
             self.log.debug("Request: " + stringified_request, extra={"requestId": requestId})
         else:
             self.log.debug("Request with large body. Id=" + str(request.requestId), extra={"requestId": requestId})
-
-    def __log_response(self, context: Union[MlpRequestContext, GateToServiceProto], response: ServiceToGateProto) -> None:
-        stringified_response = MessageToJson(response, ensure_ascii=False)
-        if isinstance(context, MlpRequestContext):
-            requestId = context.request_headers.get("Z-requestId", context.requestId)
-        else:
-            requestId = context.headers.get("Z-requestId", context.requestId) if hasattr(context, "headers") else context.requestId
-        if len(stringified_response) < config.sdk.large_body_length:
-            self.log.debug("Response: " + stringified_response, extra={"requestId": requestId})
-        else:
-            self.log.debug("Response with large body. Id=" + str(requestId), extra={"requestId": requestId})
 
     def __heartbeat_proc(self) -> None:
         while self.state == MlpConnectorState.connected or self.state == MlpConnectorState.serving:
@@ -258,8 +231,8 @@ class MlpSingleHostConnector:
                     self.heartbeat_thread_interval_from_gate_ms / 1000 * 3 + 1
                 ):
                     self.log.error("No heartbeats from gate")
-            else:
-                # Default interval if not set
+            else:  # pragma: no cover
+                # теоретически невозможная ситуация
                 self.stopping.wait(5.0)
 
             self.__liveness_probe()
