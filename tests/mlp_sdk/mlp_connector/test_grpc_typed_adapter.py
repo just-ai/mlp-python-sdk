@@ -119,6 +119,15 @@ class ImplExt(MlpPredictServiceBase[InputModel, None, OutputModel]):
     def ext_models(self, context: MlpRequestContext, param1: str, param2: int) -> OutputModel:
         return OutputModel(result=param1 * param2)
 
+    def ext_no_context(self, param1: str, param2: int) -> OutputModel:
+        return OutputModel(result=param1 * param2)
+
+    def ext_payload(self, context: MlpRequestContext, param1) -> str:
+        return param1.json
+
+    def ext_wrong_first_param(self, wrong_param: str, param2: int) -> OutputModel:
+        return OutputModel(result=wrong_param * param2)
+
 
 class TestMlpGrpcTypedAdapter:
     def init(self, impl):
@@ -319,3 +328,64 @@ class TestMlpGrpcTypedAdapter:
         assert result.json
         result_data = JSON.parse_(result.json)
         assert "error" in result_data
+
+    def test_ext_payload_method(self):
+        # Initialize with the implementation that has ext_payload method
+        self.init(ImplExt())
+
+        # Create a JSON payload
+        json_data = {"test": "value"}
+        json_payload = PayloadProto(json=JSON.stringify(json_data))
+        params = {"param1": json_payload}
+
+        # Call the ext_payload method
+        result = self.adapter.ext(self.context, "payload", params)
+
+        # Verify the result is the JSON string from the payload
+        assert isinstance(result, PayloadProto)
+        assert result.json
+        assert JSON.parse_(result.json) == JSON.stringify(json_data)
+
+    def test_ext_wrong_first_param(self):
+        # Initialize with the implementation that has a method with wrong first parameter
+        self.init(ImplExt())
+
+        params = {"wrong_param": payload("test"), "param2": payload(3)}
+
+        # Call the method with wrong first parameter
+        with pytest.raises(MlpException) as excinfo:
+            self.adapter.ext(self.context, "wrong_first_param", params)
+
+        # Verify the exception details
+        assert excinfo.value.code == "mlp-action.common.internal-error"
+        assert "First parameter of ext_wrong_first_param must be 'context'" in excinfo.value.message
+
+    def test_ext_param_count_mismatch(self):
+        # Initialize with the implementation
+        self.init(ImplExt())
+
+        # Create parameters with wrong count (missing param2)
+        params = {"param1": payload("test")}
+
+        # Call the ext method with wrong parameter count
+        with pytest.raises(MlpException) as excinfo:
+            self.adapter.ext(self.context, "models", params)
+
+        # Verify the exception details
+        assert excinfo.value.code == "mlp-action.common.internal-error"
+        assert "Method ext_models expects 2 parameters" in excinfo.value.message
+
+    def test_ext_param_name_mismatch(self):
+        # Initialize with the implementation
+        self.init(ImplExt())
+
+        # Create parameters with wrong name
+        params = {"wrong_name": payload("test"), "param2": payload(3)}
+
+        # Call the ext method with wrong parameter name
+        with pytest.raises(MlpException) as excinfo:
+            self.adapter.ext(self.context, "models", params)
+
+        # Verify the exception details
+        assert excinfo.value.code == "mlp-action.common.internal-error"
+        assert "Parameter param1 not found in request" in excinfo.value.message

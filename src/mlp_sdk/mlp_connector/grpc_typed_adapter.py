@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from mlp_sdk.abstract.services import MlpException, MlpPredictServiceBase, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import PayloadProto
 from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
+from mlp_sdk.utils.json_ import JSON
 
 T = TypeVar("T")
 C = TypeVar("C")
@@ -105,19 +106,17 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             elif is_dataclass(data_type):
                 dd = json.loads(payload.json)
                 return from_dict(data_class=data_type, data=dd)
-            elif isinstance(data_type, dict):
-                return cast(T, json.loads(payload.json))
             else:
-                return json.loads(payload.json)
+                return JSON.parse_(payload.json)
         elif payload.protobuf:
             if issubclass(data_type, Message):
                 msg = data_type()
                 msg.ParseFromString(payload.protobuf)
                 return msg
             else:
-                raise Exception("It must be protobuf type to use with payload.protobuf")
+                raise Exception("It must be protobuf type to use with payload.protobuf")  # pragma: no cover
 
-        raise Exception("Empty payload")
+        raise Exception("Empty payload")  # pragma: no cover
 
     @staticmethod
     def convert_to_payload(data: Any) -> PayloadProto:
@@ -129,5 +128,5 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             return PayloadProto(json=json.dumps(dataclasses.asdict(data)))  # type: ignore
         elif isinstance(data, Message):
             return PayloadProto(protobuf=data.SerializeToString())
-
-        raise Exception("Unsupported response type")
+        else:
+            return PayloadProto(json=JSON.stringify(data))
