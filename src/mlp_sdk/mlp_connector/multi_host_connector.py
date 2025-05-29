@@ -67,12 +67,10 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         return MlpSingleHostConnector(host_port, self.grpc_secure, self.connection_token, self.descriptor, self)
 
     def __stop_connector(self, connector: MlpSingleHostConnector, state: Optional[MlpConnectorState] = None) -> None:
-        if not state:
-            connector.stop_and_wait()
-        else:
-            connector.stop_and_wait(state=state)
-        if connector in self.connectors:
-            self.connectors.remove(connector)
+        connector.stop_and_wait(state=state)
+        with self.connectors_lock:
+            if connector in self.connectors:
+                self.connectors.remove(connector)
 
     def _check_connected(self):
         stopped_connectors: List[MlpSingleHostConnector] = [c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)]
@@ -93,9 +91,9 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
     def __keep_connected(self):
         while self.state == MlpConnectorState.serving:
             try:
-                time.sleep(1)
-
                 self._check_connected()
+
+                time.sleep(1)
             except BaseException:  # pragma: no cover
                 log.error("Error in keep_connected loop", exc_info=True)
 
@@ -124,14 +122,16 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             for url in urls_to_remove:
                 connector: MlpSingleHostConnector | None = next(filter(lambda x: x.host_port == url, self.connectors), None)
                 if connector is not None:
+                    self.connectors.remove(connector)
                     threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
     def restart_single_connection(self, connector: MlpSingleHostConnector) -> None:
         with self.connectors_lock:
             self.__stop_connector(connector, MlpConnectorState.error)
 
-            log.info(f"Restart single connection {connector.host_port} ...")
-            self.__start_connector(connector.host_port)
+            if self.state == MlpConnectorState.serving:
+                log.info(f"Restart single connection {connector.host_port} ...")
+                self.__start_connector(connector.host_port)
 
     def stop_and_wait(self) -> None:
         if self.state == MlpConnectorState.stopping:  # pragma: no cover

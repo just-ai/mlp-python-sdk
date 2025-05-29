@@ -214,7 +214,9 @@ class MlpSingleHostConnector:
             self.callback.cluster_update(request.cluster)
         elif req_type == "stopServing":
             self.log.info("Received stopServing from gate.")
-            self.stop_and_wait()
+            self.state = MlpConnectorState.stopped
+            self.stopping.set()
+            # self.stop_and_wait()
         elif req_type in ["predict", "fit", "ext", "batch"]:
             self.callback.request(request, self)
         else:  # pragma: no cover
@@ -246,7 +248,10 @@ class MlpSingleHostConnector:
 
             self.__liveness_probe()
 
-    def stop_and_wait(self, state: MlpConnectorState = MlpConnectorState.stopping) -> None:
+    def stop_and_wait(self, state: MlpConnectorState | None = None) -> None:
+        if state is None:
+            state = MlpConnectorState.stopping
+
         if self.state == MlpConnectorState.serving:
             self.log.info(" ... stop serving")
 
