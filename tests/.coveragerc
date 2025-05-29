@@ -1,0 +1,5 @@
+[run]
+omit = ../src/mlp_sdk/mlp_connector/grpc_/*
+    ../src/mlp_sdk/mlp_connector/client.py
+    ../src/mlp_sdk/utils/logger.py
+    ../src/mlp_sdk/utils/shutdown.py

@@ -13,12 +13,13 @@ class LoggingConfigGraylog:
     host: str = field(default="localhost", metadata={"alias": ["MLP_GRAYLOG_SERVER"]})
     port: int = field(default=12201, metadata={"alias": ["MLP_GRAYLOG_PORT"]})
     udp: bool = False
-    env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
+    async_: bool = field(default=True, metadata={"alias": ["async"]})
 
 
 @dataclass
 class LoggingConfigConsole:
     enabled: bool = True
+    async_: bool = field(default=True, metadata={"alias": ["async"]})
 
 
 @dataclass
@@ -26,6 +27,7 @@ class LoggingConfig:
     console: LoggingConfigConsole = field(default_factory=LoggingConfigConsole)
     graylog: LoggingConfigGraylog = field(default_factory=LoggingConfigGraylog)
     app_name: str = "mlp_sdk"
+    env_name: str = field(default="default", metadata={"alias": ["MLP_GRAYLOG_ENV"]})
     root_level: str = field(default="INFO", metadata={"alias": ["MLP_LOG_LEVEL"]})
     levels: dict[str, str] = field(default_factory=dict)
 
@@ -41,7 +43,7 @@ class MlpConfig:
     service_token: str | None = None
 
     def get_grpc_hosts(self) -> list[str]:
-        return self.grpc_hosts.split(",") if self.grpc_hosts else [self.grpc_host]
+        return self.grpc_hosts.split(",") if self.grpc_hosts else [self.grpc_host]  # pragma: no cover
 
 
 @dataclass
@@ -85,6 +87,11 @@ class BaseConfig:
 T = TypeVar("T", bound=BaseConfig)
 
 
+class ConfigException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class ConfigLoader:
     def __init__(self) -> None:
         self.configs: List[Dict[str, Any]] = []
@@ -97,14 +104,10 @@ class ConfigLoader:
                     self.configs.append(yy)
         else:
             if required:
-                raise Exception(f"Configuration file {filename} does not exists. Check the working folder.")
+                raise ConfigException(f"Configuration file {filename} does not exists. Check the working folder.")
 
     def load_config(self, cls: Type[T] = BaseConfig, required: bool = True) -> T:
-        profile = os.environ.get("PROFILE", "dev")
-
         self.__load_if_exists(f"{_config_dir}/config-local.yml")
-        self.__load_if_exists(f"{_config_dir}/config-{profile}.yml")
-        self.__load_if_exists("./config.yml")
         self.__load_if_exists(f"{_config_dir}/config.yml", required=required)
 
         return self.__create_class_from_values(cls, self.__get_value, "")
@@ -120,9 +123,6 @@ class ConfigLoader:
 
     def __convert_to_type(self, value: Any, required_type: Type) -> Any:
         """Convert a value to the required type."""
-        if value is None:
-            return None
-
         # If the value is already of the required type, return it
         if isinstance(required_type, types.GenericAlias) or isinstance(value, required_type):
             return value
@@ -138,9 +138,9 @@ class ConfigLoader:
                 return str(value)
             else:
                 return value
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             # If conversion fails, return the original value
-            return value
+            raise ConfigException(f"Cannot convert value {value} to a required type {required_type}") from e
 
     def __get_value(self, vname: str, required_type: Type) -> Any:
         env_name = vname.upper().replace(".", "_")
@@ -180,16 +180,16 @@ class ConfigLoader:
                 # Основное имя поля
                 fname = f"{outer_name}{f.name}"
 
-                # Пробуем получить значение сначала по алиасам, затем по основному имени
-                val = None
-                for alias_name in aliases:
-                    val = get_value_func(alias_name, cast(type, f.type))
-                    if val is not None:
-                        break
+                # Пробуем получить значение сначала по основному имени, затем по алиасам
+                val = get_value_func(fname, cast(type, f.type))
 
-                # Если значение не найдено по алиасам, пробуем по основному имени
+                # Если значение не найдено по основному имени, то ищем по алиасам
                 if val is None:
-                    val = get_value_func(fname, cast(type, f.type))
+                    for alias_name in aliases:
+                        val = get_value_func(alias_name, cast(type, f.type))
+                        if val is not None:
+                            break
+
                 if val is None:
                     # Проверяем, имеет ли поле значение по умолчанию
                     if f.default is not dataclasses.MISSING:
@@ -200,8 +200,7 @@ class ConfigLoader:
                         kwargs[f.name] = f.default_factory()
                     else:
                         # Поле не имеет значения по умолчанию, выбрасываем исключение
-                        msg = f"Field {fname} is not specified"
-                        raise Exception(msg)
+                        raise ConfigException(f"Field {fname} is not specified")
                 else:
                     kwargs[f.name] = val
 

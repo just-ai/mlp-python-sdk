@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Iterable, Optional, Type, TypeVar
+from typing import Generator, Optional, Type, TypeVar
 
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import SimpleStatusProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ApiErrorProto, SimpleStatusProto
 
 
 @dataclass
@@ -28,7 +28,7 @@ class MlpErrorStatus(Enum):
         for v in SimpleStatusProto.DESCRIPTOR.values:
             if v.number == val:
                 return getattr(MlpErrorStatus, v.name)
-        raise Exception(f"Unknown SimpleStatusProto value {val}")
+        raise Exception(f"Unknown SimpleStatusProto value {val}")  # pragma: no cover
 
 
 @dataclass
@@ -41,6 +41,15 @@ class MlpException(Exception):
 
     def __str__(self) -> str:
         return f"{self.code}: {self.message}"
+
+    @staticmethod
+    def exception_to_proto(e: BaseException):
+        if isinstance(e, MlpException):
+            try:
+                return ApiErrorProto(code=e.code, message=e.message, status=e.status.to_proto(), args=e.named_args)
+            except:  # noqa: E722
+                pass
+        return ApiErrorProto(code="mlp-action.common.internal-error", message=str(e), status=SimpleStatusProto.INTERNAL_SERVER_ERROR, args={})
 
 
 T = TypeVar("T")
@@ -59,7 +68,7 @@ class MlpPredictServiceBase[T, C, R]:
         self.clazz_c = clazz_c
         self.clazz_r = clazz_r
 
-    def predict(self, context: MlpRequestContext, req: T | Iterable[T], config: Optional[C]) -> R | Iterable[R]:
+    def predict(self, context: MlpRequestContext, req: T | Generator[T, None, None], config: Optional[C]) -> R | Generator[R, None, None]:
         """
         Эта функция предназначена для обработки predict'а во всех режимах со стриммингом и без.
         В дочерних классах могут быть переопределны отдельные упрощённые функции, например predict_simple.
@@ -72,14 +81,14 @@ class MlpPredictServiceBase[T, C, R]:
         # Если метод переопределен в наследнике (не равен методу базового класса)
         if callable(child_predict_simple) and child_predict_simple is not base_predict_simple:
             # Проверяем, является ли req одиночным объектом или коллекцией
-            if isinstance(req, Iterable):
-                raise Exception("Streaming request is not allowed for predict_simmple")
+            if isinstance(req, Generator):
+                raise Exception("Streaming request is not allowed for predict_simple")  # pragma: no cover
             else:
                 # Если одиночный объект, просто вызываем predict_simple
                 return self.predict_simple(context, req, config)
         else:
             # Если predict_simple не переопределен, выбрасываем исключение
-            raise NotImplementedError("Method predict is not immplemented")
+            raise NotImplementedError("Method predict is not implemented")  # pragma: no cover
 
     def predict_simple(self, context: MlpRequestContext, req: T, config: Optional[C]) -> R:
-        raise NotImplementedError()
+        raise NotImplementedError()  # pragma: no cover

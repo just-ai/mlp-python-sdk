@@ -8,12 +8,12 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     PayloadProto,
     PredictResponseProto,
     ServiceDescriptorProto,
-    SimpleStatusProto,
 )
 
 
 class MlpGrpcServiceBase:
-    def get_descriptor(self) -> ServiceDescriptorProto:
+    def get_descriptor(self) -> ServiceDescriptorProto:  # pragma: no cover
+        # TODO: implement it sometime
         return ServiceDescriptorProto(name=self.__class__.__name__, fittable=False, methods={}, schemaFiles={})
 
     def predict(
@@ -22,10 +22,10 @@ class MlpGrpcServiceBase:
         req: PayloadProto | Generator[PayloadProto, None, None],
         config: Optional[PayloadProto],
     ) -> PayloadProto | Generator[PayloadProto, None, None]:
-        raise NotImplementedError()
+        raise NotImplementedError()  # pragma: no cover
 
     def ext(self, context: MlpRequestContext, method_name: str, params: dict[str, PayloadProto]) -> PayloadProto:
-        raise MlpException(code="mlp-action.common.method-not-supported", message="Method not implemented.")
+        raise MlpException(code="mlp-action.common.method-not-supported", message="Method not implemented.")  # pragma: no cover
 
     def predict_batch(self, context: MlpRequestContext, req: List[BatchPayloadProto], config: Optional[PayloadProto]) -> List[BatchPayloadResponseProto]:
         result: List[BatchPayloadResponseProto] = []
@@ -36,12 +36,10 @@ class MlpGrpcServiceBase:
             try:
                 rr = self.predict(context=context_per_request, req=x.data, config=config)
                 if not isinstance(rr, PayloadProto):
-                    raise Exception("Predict must not return streaming result to use in batch mode")
+                    raise Exception("Predict must not return streaming result to use in batch mode")  # pragma: no cover
                 res = rr
-            except MlpException as e:
-                error = self.mlp_exception_to_proto(e)
             except BaseException as e:
-                error = self.exception_to_proto(e)
+                error = MlpException.exception_to_proto(e)
 
             result.append(
                 BatchPayloadResponseProto(
@@ -50,14 +48,3 @@ class MlpGrpcServiceBase:
             )
 
         return result
-
-    @staticmethod
-    def mlp_exception_to_proto(e: MlpException):
-        try:
-            return ApiErrorProto(code=e.code, message=e.message, status=e.status.to_proto(), args=e.named_args)
-        except BaseException as be:
-            return MlpGrpcServiceBase.exception_to_proto(be)
-
-    @staticmethod
-    def exception_to_proto(e: BaseException):
-        return ApiErrorProto(code="mlp-action.common.internal-error", message=str(e), status=SimpleStatusProto.INTERNAL_SERVER_ERROR, args={})

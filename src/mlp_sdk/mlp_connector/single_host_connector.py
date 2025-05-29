@@ -3,26 +3,25 @@ import queue
 import threading
 import time
 from enum import Enum
-from typing import Any, Generator, Optional, Union
+from typing import Any, Generator, Optional
 
 import grpc
 from google.protobuf.json_format import MessageToJson
 
-from mlp_sdk.abstract.services import MlpRequestContext
+from mlp_sdk.abstract.services import MlpException
 from mlp_sdk.mlp_connector.client import MlpGrpcClient
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
-    ApiErrorProto,
     ClusterUpdateProto,
     GateToServiceProto,
     HeartBeatProto,
     ServiceDescriptorProto,
     ServiceToGateProto,
-    SimpleStatusProto,
     StartServingProto,
     StopServingProto,
 )
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
 from mlp_sdk.utils.config import get_config
+from mlp_sdk.utils.json_ import JSON
 from mlp_sdk.utils.logger import get_logger
 
 log = get_logger("MlpSingleHostConnector")
@@ -40,14 +39,9 @@ class MlpConnectorState(Enum):
 
 
 class MlpSingleHostConnectorCallback:
-    def cluster_update(self, message: ClusterUpdateProto):
-        pass
+    def cluster_update(self, message: ClusterUpdateProto): ...
 
-    def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"):
-        pass
-
-    def connection_closed(self, connector: "MlpSingleHostConnector"):
-        pass
+    def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"): ...
 
 
 class MlpSingleHostConnector:
@@ -76,7 +70,7 @@ class MlpSingleHostConnector:
         self.stopping_event: Optional[threading.Event] = None
         self.stopping: threading.Event = threading.Event()
 
-        self.worker_thread: threading.Thread = threading.Thread(target=self.__worker_loop)
+        self.worker_thread: threading.Thread = threading.Thread(target=self.__worker_proc)
 
     def start(self):
         self.worker_thread.start()
@@ -91,14 +85,14 @@ class MlpSingleHostConnector:
         with open("/tmp/liveness-probe", "w") as f:
             f.write(str(int(time.time())))
 
-    def __worker_loop(self):
-        self.__connect_to_gate()
+    def __worker_proc(self):
+        try:
+            self.__connect_to_gate()
 
-        if self.state == MlpConnectorState.connected:
-            try:
+            if self.state == MlpConnectorState.connected:
                 self.__start_processing()
-            except Exception as e:
-                self.log.error("Exception in streaming procedure " + type(e).__name__, exc_info=True)
+        except Exception as e:  # pragma: no cover
+            self.log.error("Exception in __worker_proc " + type(e).__name__, exc_info=True)  # pragma: no cover
 
     def __connect_to_gate(self):
         gateway_permanently_unavailable = False
@@ -108,8 +102,7 @@ class MlpSingleHostConnector:
         reconnect_timeout = config.sdk.shutdown_event_timeout_seconds
         while self.state == MlpConnectorState.connecting:
             try:
-                self.channel = MlpGrpcClient.open_grpc_channel(self.host_port, self.grpc_secure)
-                self.stub = GateStub(self.channel)
+                self.channel, self.stub = self._create_channel_and_stub()
 
                 self.stub.healthCheck(HeartBeatProto())  # type: ignore
 
@@ -128,6 +121,12 @@ class MlpSingleHostConnector:
 
             self.stopping.wait(reconnect_timeout)
 
+    def _create_channel_and_stub(self) -> tuple[grpc.Channel, GateStub]:  # pragma: no cover
+        # Этот метод переопределяется в юнит-тестах, потому он помечен как no cover
+        channel = MlpGrpcClient.open_grpc_channel(self.host_port, self.grpc_secure)
+        stub = GateStub(channel)
+        return channel, stub
+
     def __start_processing(self):
         self.log.debug(" ... init processing")
 
@@ -139,55 +138,58 @@ class MlpSingleHostConnector:
                 if msg.WhichOneof("body") == "stopServing":
                     return
 
-        if self.stub is None:
-            self.log.error("gRPC stub is not initialized")
-            self.state = MlpConnectorState.error
-            return
-
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())  # type: ignore
 
-        self.log.debug(f" ... start serving. version={self.SDK_VERSION}")
+        self.log.debug(" ... start serving.")
         self.action_to_gate_queue.put_nowait(
             ServiceToGateProto(
                 startServing=StartServingProto(
                     connectionToken=self.connection_token,
                     serviceDescriptor=self.service_descriptor,
                     hostname=os.environ.get("HOSTNAME", ""),
-                    version=self.SDK_VERSION,
+                    sdkVersion=self.SDK_VERSION,
                     image=os.environ.get("IMAGE_NAME", ""),
+                    imageVersionJson=self.__get_version_info(),
                 )
             )
         )
 
         self.log.info("Service is ready to serve!")
         self.state = MlpConnectorState.serving
-
-        self.__start_processing_requests(gate_to_action_generator)
+        self.__request_processing(gate_to_action_generator)
 
         self.log.info("Processing thread stopped")
-        if self.state != MlpConnectorState.error:
+        if self.state != MlpConnectorState.error:  # если была ошибка, то оставляем ошибочный статус
             self.state = MlpConnectorState.stopped
 
-    def __start_processing_requests(self, gate_to_action_generator: Any):
+    def __get_version_info(self) -> str:
+        if os.path.exists("./version-info.json"):
+            with open("./version-info.json") as f:
+                return f.read()
+        return ""  # pragma: no cover
+
+    def __request_processing(self, gate_to_action_generator: Any):
         try:
             for request in gate_to_action_generator:
-                self.__process_request(request)
+                try:
+                    self.__process_request(request)
+                except BaseException:
+                    self.log.error("Exception in __process_request", exc_info=True)
+
+                if self.stopping.is_set():
+                    break
 
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.CANCELLED:
                 self.log.error("Channel closed. (Got StatusCode.CANCELLED exception)")
-            elif e.code() == grpc.StatusCode.UNAVAILABLE:
+            elif e.code() == grpc.StatusCode.UNAVAILABLE:  # pragma: no cover
                 self.log.error("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
-                # if self.state == MlpConnectorState.serving:
-                #     self.callback.restart(self)
-                # зачем отдельный рестарт если можно просто умереть?
-            else:
-                self.log.error(f"Unknown gRPC exception with code {e.code()}")
-                self.log.error(e, exc_info=True)
-
-        except BaseException as e:
-            self.log.error("Exception in action_to_gate_generator loop")
-            self.log.error(e, exc_info=True)
+            else:  # pragma: no cover
+                self.log.error(f"Unknown gRPC exception with code {e.code()}", exc_info=True)
+            self.state = MlpConnectorState.error
+        except BaseException:  # pragma: no cover
+            self.log.error("Exception in action_to_gate_generator loop", exc_info=True)
+            self.state = MlpConnectorState.error
 
     def __process_request(self, request: GateToServiceProto):
         req_type = request.WhichOneof("body")
@@ -195,17 +197,16 @@ class MlpSingleHostConnector:
             self.__log_request(request)
 
         if req_type is None:
-            self.log.error("Request with empty body", extra={"requestId": request.requestId})
+            self.log.error("Request with empty body", extra={"requestId": request.requestId})  # pragma: no cover
         elif req_type == "serviceInfo":
-            # Тут достаточно того, что serviceInfo вывелся в логи
-            pass
+            self.log.info(f"ServiceInfo: {JSON.stringify(request, pretty=False)}")
         elif req_type == "heartBeat":
             self.last_heartbeat_from_gate = time.time()
 
             if self.heartbeat_thread is None:
                 self.log.debug(" ... starting heartbeats", extra={"requestId": request.requestId})
                 self.heartbeat_thread_interval_from_gate_ms = request.heartBeat.interval
-                self.heartbeat_thread = threading.Thread(target=self.__heartbeat_proc)
+                self.heartbeat_thread = threading.Thread(target=self._heartbeat_proc)
                 self.heartbeat_thread.start()
 
         elif req_type == "cluster":
@@ -213,25 +214,11 @@ class MlpSingleHostConnector:
             self.callback.cluster_update(request.cluster)
         elif req_type == "stopServing":
             self.log.info("Received stopServing from gate.")
-            self.stop_and_wait()  # подозрительно, что мы делаем стоп из потока-обработчика. Кажется это надо делать с отдельной нитки
+            self.stop_and_wait()
         elif req_type in ["predict", "fit", "ext", "batch"]:
             self.callback.request(request, self)
-        else:
-            self.__handle_unknown_request(req_type, request)
-
-    def __handle_unknown_request(self, req_type: str, request: GateToServiceProto) -> None:
-        self.log.error("Unknown request type " + req_type, extra={"requestId": request.requestId})
-        self.log.error(str(request), extra={"requestId": request.requestId})
-        response = ServiceToGateProto(
-            error=ApiErrorProto(
-                code="mlp-action.common.internal-error",
-                message=f"Unknown request type: {req_type}",
-                status=SimpleStatusProto.INTERNAL_SERVER_ERROR,
-            )
-        )
-        response.requestId = request.requestId
-        self.__log_response(request, response)
-        self.action_to_gate_queue.put_nowait(response)
+        else:  # pragma: no cover
+            raise MlpException(code="mlp-action.common.internal-error", message="Unknown request type. Probably there is a client-server version missmatch")
 
     def __log_request(self, request: GateToServiceProto) -> None:
         stringified_request = MessageToJson(request, ensure_ascii=False)
@@ -241,18 +228,7 @@ class MlpSingleHostConnector:
         else:
             self.log.debug("Request with large body. Id=" + str(request.requestId), extra={"requestId": requestId})
 
-    def __log_response(self, context: Union[MlpRequestContext, GateToServiceProto], response: ServiceToGateProto) -> None:
-        stringified_response = MessageToJson(response, ensure_ascii=False)
-        if isinstance(context, MlpRequestContext):
-            requestId = context.request_headers.get("Z-requestId", context.requestId)
-        else:
-            requestId = context.headers.get("Z-requestId", context.requestId) if hasattr(context, "headers") else context.requestId
-        if len(stringified_response) < config.sdk.large_body_length:
-            self.log.debug("Response: " + stringified_response, extra={"requestId": requestId})
-        else:
-            self.log.debug("Response with large body. Id=" + str(requestId), extra={"requestId": requestId})
-
-    def __heartbeat_proc(self) -> None:
+    def _heartbeat_proc(self) -> None:
         while self.state == MlpConnectorState.connected or self.state == MlpConnectorState.serving:
             self.action_to_gate_queue.put_nowait(ServiceToGateProto(heartBeat=HeartBeatProto()))
 
@@ -263,8 +239,9 @@ class MlpSingleHostConnector:
                     self.heartbeat_thread_interval_from_gate_ms / 1000 * 3 + 1
                 ):
                     self.log.error("No heartbeats from gate")
-            else:
-                # Default interval if not set
+                    self.state = MlpConnectorState.error
+            else:  # pragma: no cover
+                # теоретически невозможная ситуация
                 self.stopping.wait(5.0)
 
             self.__liveness_probe()
@@ -272,6 +249,15 @@ class MlpSingleHostConnector:
     def stop_and_wait(self, state: MlpConnectorState = MlpConnectorState.stopping) -> None:
         if self.state == MlpConnectorState.serving:
             self.log.info(" ... stop serving")
+
+        if self.state in [MlpConnectorState.stopping]:  # pragma: no cover
+            self.log.error(" ... stopping in another thread")
+            return
+
+        if self.state in [MlpConnectorState.stopped, MlpConnectorState.error]:
+            self.state = MlpConnectorState.stopped
+            self.log.info(" ... already stopped")
+            return
 
         self.state = state
         self.action_to_gate_queue.put_nowait(ServiceToGateProto(stopServing=StopServingProto()))
@@ -285,3 +271,4 @@ class MlpSingleHostConnector:
 
         if self.channel is not None:
             self.channel.close()
+            self.channel = None

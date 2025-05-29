@@ -1,0 +1,11 @@
+logging:
+    graylog:
+      enabled: false
+    console:
+      enabled: true
+      async_: false
+    root_level: DEBUG
+    levels:
+      httpx: WARN
+      openai: WARN
+      uvicorn.access: WARN

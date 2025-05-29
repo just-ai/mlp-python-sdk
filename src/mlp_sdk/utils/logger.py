@@ -16,7 +16,7 @@ class GraylogFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord):
         # Добавляем app_name как дополнительное поле
         record.app = config.logging.app_name
-        record.env = config.logging.app_name
+        record.env = config.logging.env_name
         record.account_id = config.mlp.account_id
         record.request_id = request_id_var.get()
         return super().format(record)
@@ -31,11 +31,13 @@ if config.logging.graylog.enabled:
     graylog_formatter = GraylogFormatter("[%(name)s]: %(message)s")
     graylog_handler.setFormatter(graylog_formatter)
 
-    graylog_logging_queue = Queue(-1)
-    graylog_async_handler = QueueHandler(graylog_logging_queue)
-
-    graylog_queue_listener = QueueListener(graylog_logging_queue, graylog_handler)
-    graylog_queue_listener.start()
+    if config.logging.graylog.async_:
+        graylog_logging_queue = Queue(-1)
+        graylog_async_handler = QueueHandler(graylog_logging_queue)
+        graylog_queue_listener = QueueListener(graylog_logging_queue, graylog_handler)
+        graylog_queue_listener.start()
+    else:
+        graylog_async_handler = graylog_handler
 else:
     graylog_handler = None
     graylog_async_handler = None
@@ -44,11 +46,13 @@ if config.logging.console.enabled:
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s"))
 
-    console_logging_queue = Queue(-1)
-    console_async_handler = QueueHandler(console_logging_queue)
-
-    console_queue_listener = QueueListener(console_logging_queue, console_handler)
-    console_queue_listener.start()
+    if config.logging.console.async_:
+        console_logging_queue = Queue(-1)
+        console_async_handler = QueueHandler(console_logging_queue)
+        console_queue_listener = QueueListener(console_logging_queue, console_handler)
+        console_queue_listener.start()
+    else:
+        console_async_handler = console_handler
 else:
     console_handler = None
     console_async_handler = None

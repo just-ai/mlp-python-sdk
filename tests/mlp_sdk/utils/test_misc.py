@@ -1,6 +1,6 @@
 import pytest
 
-from mlp_sdk.utils.misc import get_one_of, parse_grpc_url, required
+from mlp_sdk.utils.misc import get_one_of, parse_grpc_url, remove_null_fields, required
 
 
 class TestParseGrpcUrl:
@@ -90,3 +90,54 @@ class TestGetOneOf:
 
         result = get_one_of(None, None, [1, 2, 3])
         assert result == [1, 2, 3]
+
+
+class TestRemoveNullFields:
+    def test_remove_null_fields_simple_dict(self):
+        # Тестирование с простым словарем
+        input_dict = {"a": 1, "b": None, "c": "test"}
+        expected = {"a": 1, "c": "test"}
+        result = remove_null_fields(input_dict)
+        assert result == expected
+
+    def test_remove_null_fields_nested_dict(self):
+        # Тестирование с вложенным словарем
+        input_dict = {"a": 1, "b": None, "c": {"d": "test", "e": None, "f": 42}}
+        expected = {"a": 1, "c": {"d": "test", "f": 42}}
+        result = remove_null_fields(input_dict)
+        assert result == expected
+
+    def test_remove_null_fields_with_list(self):
+        # Тестирование со списком
+        input_dict = {"a": 1, "b": None, "c": [{"d": "test", "e": None}, {"f": None, "g": 42}, None, "string"]}
+        expected = {"a": 1, "c": [{"d": "test"}, {"g": 42}, None, "string"]}
+        result = remove_null_fields(input_dict)
+        assert result == expected
+
+    def test_remove_null_fields_empty_dict(self):
+        # Тестирование с пустым словарем
+        input_dict = {}
+        expected = {}
+        result = remove_null_fields(input_dict)
+        assert result == expected
+
+    def test_remove_null_fields_all_none(self):
+        # Тестирование со словарем, где все значения None
+        input_dict = {"a": None, "b": None, "c": None}
+        expected = {}
+        result = remove_null_fields(input_dict)
+        assert result == expected
+
+    def test_remove_null_fields_non_dict(self):
+        # Тестирование с не-словарем
+        input_value = "not a dict"
+        result = remove_null_fields(input_value)
+        assert result == input_value
+
+        input_value = 42
+        result = remove_null_fields(input_value)
+        assert result == input_value
+
+        input_value = None
+        result = remove_null_fields(input_value)
+        assert result == input_value
