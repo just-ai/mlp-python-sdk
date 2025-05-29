@@ -13,7 +13,7 @@ check: format
 	@echo +pyright
 	@uv tool run pyright
 
-test: check
+test: generate check
 	uv run --directory ./tests pytest
 
 	@total_cov=$$(uv run python -m mlp_apps_ci_utils.check_coverage | tr -d '\r'); \

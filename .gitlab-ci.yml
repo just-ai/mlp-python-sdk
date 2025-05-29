@@ -1,8 +1,17 @@
 stages:
   - build
+  - deploy
 
 
-job_build:
+build:
   stage: build
   script:
-    - make test build deploy
+    - make test
+
+deploy:
+  stage: deploy
+  script:
+    - make build deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "v2"
+      when: always
