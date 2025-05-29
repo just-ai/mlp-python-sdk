@@ -27,6 +27,7 @@ test: check
 clean:
 	@rm -Rf dist htmlcov pytest-report
 	@find . -name .coverage -delete
+	@find . -name '*.pyc' -delete
 
 venv:
 	uv sync
