@@ -1,13 +1,13 @@
 import logging
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generator, List, MutableMapping, Optional, Type, TypeVar, Union
+from typing import Any, Dict, Generator, List, MutableMapping, Optional, Type, TypeVar, Union, cast
 
 import grpc
 
 from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_ import mlp_grpc_pb2
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClientRequestProto, ClientResponseProto, PredictRequestProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClientRequestProto, ClientResponseProto, ExtendedRequestProto, PayloadProto, PredictRequestProto
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
 from mlp_sdk.mlp_connector.grpc_typed_adapter import MlpGrpcTypedAdapter
 from mlp_sdk.utils.config import get_config
@@ -274,3 +274,26 @@ class MlpGrpcClient:
             return model_id.split("/")[0], "/".join(model_id.split("/")[1:])
         except Exception:
             raise Exception("model_id must be in a form <owner_name>/<model_name>")  # noqa: B904
+
+    def ext(
+        self,
+        model_id: str,
+        method_name: str,
+        params: dict[str, PayloadProto],
+        response_clazz: Type[R] = PayloadProto,
+        outer_context: Optional[MlpRequestContext] = None,
+    ) -> R:
+        owner_name, model_name = self.parse_model_id(model_id)
+
+        grpc_request = mlp_grpc_pb2.ClientRequestProto(
+            account=owner_name,
+            model=model_name,
+            authToken=self.client_token,
+            ext=ExtendedRequestProto(methodName=method_name, params=params),
+            headers={},
+        )
+        self.__pass_request_headers(grpc_request.headers, outer_context)
+
+        response = cast(ClientResponseProto, self.__process_request_with_retry(grpc_request))
+
+        return self.__process_single_response(response, response_clazz)
