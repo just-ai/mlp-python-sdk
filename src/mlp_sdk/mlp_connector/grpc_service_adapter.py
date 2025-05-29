@@ -5,7 +5,7 @@ from queue import Queue
 from time import perf_counter
 from typing import Generator, List, MutableMapping, Optional, cast
 
-from mlp_sdk.abstract.services import MlpException, MlpRequestContext
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_ import mlp_grpc_pb2
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     BatchPayloadProto,
@@ -75,7 +75,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             self.__process_batch_request(context, list(message.batch.data), message.batch.config)
         elif request_type == "fit":
             # TODO: support fit requests
-            raise MlpException(code="mlp-action.common.internal-error", message="Request type is not supported yet")
+            raise MlpException(code="mlp-action.common.internal-error", message="Request type is not supported yet", status=MlpErrorStatus.BAD_REQUEST)
         elif request_type == "partialPredict":
             # для случая partialRequest заведём специальный дикт с очередями и будем перекладывать сообщение туда.
             if message.partialPredict.start:
@@ -95,7 +95,9 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
             else:
                 log.error(f"cancellation request ignored for requestIdToCancel: {message.cancel.requestIdToCancel}")
         else:
-            raise MlpException(code="mlp-action.common.internal-error", message="Request type is not supported yet")  # pragma: no cover
+            raise MlpException(
+                code="mlp-action.common.internal-error", message="Unknown request type. Probably there is a client-server version missmatch"
+            )  # pragma: no cover
 
     def __process_streaming_request(self, context: MlpRequestContext, message: GateToServiceProto):
         input_streaming_queue: Queue[GateToServiceProto] = Queue()

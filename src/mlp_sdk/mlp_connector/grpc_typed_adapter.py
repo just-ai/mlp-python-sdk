@@ -8,7 +8,7 @@ from dacite import from_dict
 from google.protobuf.message import Message
 from pydantic import BaseModel
 
-from mlp_sdk.abstract.services import MlpException, MlpPredictServiceBase, MlpRequestContext
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpPredictServiceBase, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import PayloadProto
 from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
 from mlp_sdk.utils.json_ import JSON
@@ -57,7 +57,11 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
         # Find the method in the child class with the name ext_method_name
         impl_name = f"ext_{method_name}"
         if not hasattr(self.impl, impl_name):
-            raise MlpException(code="mlp-action.common.method-not-supported", message=f"Ext method {impl_name} not found in {self.impl.__class__.__name__}")
+            raise MlpException(
+                code="mlp-action.common.method-not-supported",
+                message=f"Ext method {impl_name} not found in {self.impl.__class__.__name__}",
+                status=MlpErrorStatus.BAD_REQUEST,
+            )
 
         method = getattr(self.impl, impl_name)
 
@@ -67,7 +71,9 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
 
         # First parameter is always context
         if list(signature.parameters.keys())[0] != "context":
-            raise MlpException(code="mlp-action.common.internal-error", message=f"First parameter of {impl_name} must be 'context'")
+            raise MlpException(
+                code="mlp-action.common.internal-error", message=f"First parameter of {impl_name} must be 'context'", status=MlpErrorStatus.BAD_REQUEST
+            )
 
         # Check if the number of parameters matches (excluding context)
         expected_params = list(signature.parameters.keys())[1:]
@@ -75,12 +81,15 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             raise MlpException(
                 code="mlp-action.common.internal-error",
                 message=f"Method {impl_name} expects {len(expected_params)} parameters, but {len(params)} were provided",
+                status=MlpErrorStatus.BAD_REQUEST,
             )
 
         # Check if parameter names match and convert them
         for param_name in expected_params:
             if param_name not in params:
-                raise MlpException(code="mlp-action.common.internal-error", message=f"Parameter {param_name} not found in request")
+                raise MlpException(
+                    code="mlp-action.common.internal-error", message=f"Parameter {param_name} not found in request", status=MlpErrorStatus.BAD_REQUEST
+                )
 
             param_type = signature.parameters[param_name].annotation
             if param_type is inspect.Parameter.empty:

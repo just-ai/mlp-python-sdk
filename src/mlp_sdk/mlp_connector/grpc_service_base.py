@@ -1,6 +1,6 @@
 from typing import Generator, List, Optional
 
-from mlp_sdk.abstract.services import MlpException, MlpRequestContext
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     ApiErrorProto,
     BatchPayloadProto,
@@ -25,7 +25,9 @@ class MlpGrpcServiceBase:
         raise NotImplementedError()  # pragma: no cover
 
     def ext(self, context: MlpRequestContext, method_name: str, params: dict[str, PayloadProto]) -> PayloadProto:
-        raise MlpException(code="mlp-action.common.method-not-supported", message="Method not implemented.")  # pragma: no cover
+        raise MlpException(
+            code="mlp-action.common.method-not-supported", message="Method not implemented.", status=MlpErrorStatus.BAD_REQUEST
+        )  # pragma: no cover
 
     def predict_batch(self, context: MlpRequestContext, req: List[BatchPayloadProto], config: Optional[PayloadProto]) -> List[BatchPayloadResponseProto]:
         result: List[BatchPayloadResponseProto] = []

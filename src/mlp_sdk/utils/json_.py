@@ -6,6 +6,8 @@ from typing import Any, Final, Type, TypeVar, cast
 import dacite
 from box import Box
 from dacite import from_dict
+from google.protobuf.json_format import MessageToJson
+from google.protobuf.message import Message
 
 try:
     import numpy as np
@@ -42,6 +44,9 @@ class MyJsonEncoder(json.JSONEncoder):
         if BaseModel is not None:
             if isinstance(o, BaseModel):
                 return o.model_dump()
+
+        if isinstance(o, Message):
+            return MessageToJson(o)
 
         raise Exception("Unexpected flow")  # pragma: no cover
         # other possible solution: return super(MyJsonEncoder, self).default(o)
