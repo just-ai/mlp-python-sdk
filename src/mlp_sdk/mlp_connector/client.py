@@ -7,7 +7,14 @@ import grpc
 
 from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_ import mlp_grpc_pb2
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClientRequestProto, ClientResponseProto, ExtendedRequestProto, PayloadProto, PredictRequestProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
+    ClientRequestProto,
+    ClientResponseProto,
+    ExtendedRequestProto,
+    HeartBeatProto,
+    PayloadProto,
+    PredictRequestProto,
+)
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2_grpc import GateStub
 from mlp_sdk.mlp_connector.grpc_typed_adapter import MlpGrpcTypedAdapter
 from mlp_sdk.utils.config import get_config
@@ -79,9 +86,9 @@ class MlpGrpcClient:
 
         self.stub = GateStub(new_channel)
         try:
-            self.stub.healthCheck()
+            self.stub.healthCheck(HeartBeatProto())
         except Exception:
-            log.error(f"healthCheck is failed for url: {self.url}, secure: {self.grpc_secure}")
+            log.error(f"healthCheck is failed for url: {self.url}, secure: {self.grpc_secure}", exc_info=True)
             return
 
         previous_channel: Optional[grpc.Channel] = self.channel
@@ -133,7 +140,10 @@ class MlpGrpcClient:
                 if response_type == "predict":
                     return single_response
 
-                if response_type == "partialPredict":
+                elif response_type == "ext":
+                    return single_response
+
+                elif response_type == "partialPredict":
 
                     def generator(single_response, response_generator):
                         yield single_response
@@ -141,7 +151,7 @@ class MlpGrpcClient:
 
                     return generator(single_response, response_generator)
 
-                if response_type == "error":
+                elif response_type == "error":
                     if single_response.error.code in RECONNECT_ERROR_CODES:
                         self.connect()
                         break
@@ -157,6 +167,10 @@ class MlpGrpcClient:
                     # Если это неопознанная ошибка, то выводим в лог и делаем sleep
                     log.error(f"Error from gate, attempt {request_retry_failures}:\n{single_response.error}")
                     time.sleep(request_retry_backoff_seconds)
+                else:
+                    log.error(f"Unknown response {response_type}")
+                    break
+
             except grpc.RpcError as rpc_error:
                 if rpc_error.code() == grpc.StatusCode.UNAVAILABLE:
                     self.connect()
@@ -226,6 +240,8 @@ class MlpGrpcClient:
         response_type = response.WhichOneof("body")
         if response_type == "predict":
             return MlpGrpcTypedAdapter.convert_from_payload(response.predict.data, response_clazz)
+        if response_type == "ext":
+            return MlpGrpcTypedAdapter.convert_from_payload(response.ext.data, response_clazz)
         elif response_type == "partialPredict":
             return MlpGrpcTypedAdapter.convert_from_payload(response.partialPredict.data, response_clazz)
         elif response_type == "error":
