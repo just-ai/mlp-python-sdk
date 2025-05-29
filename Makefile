@@ -13,13 +13,13 @@ check: format
 	@echo +pyright
 	@uv tool run pyright
 
-test: generate check
+test: check
 	uv run --directory ./tests pytest
 
 	@total_cov=$$(uv run python -m mlp_apps_ci_utils.check_coverage | tr -d '\r'); \
-	if [ "$$total_cov" -lt "50" ]; then \
+	if [ "$$total_cov" -lt "100" ]; then \
 		echo ""; \
-		echo "Тестовое покрытие ниже требуемого порога в 50%: $$total_cov%. "; \
+		echo "Тестовое покрытие ниже требуемого порога в 100%: $$total_cov%. "; \
 		echo ""; \
 		exit 1; \
 	fi
