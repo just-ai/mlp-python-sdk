@@ -39,11 +39,9 @@ class MlpConnectorState(Enum):
 
 
 class MlpSingleHostConnectorCallback:
-    def cluster_update(self, message: ClusterUpdateProto):
-        pass  # pragma: no cover
+    def cluster_update(self, message: ClusterUpdateProto): ...
 
-    def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"):
-        pass  # pragma: no cover
+    def request(self, request: GateToServiceProto, connector: "MlpSingleHostConnector"): ...
 
 
 class MlpSingleHostConnector:

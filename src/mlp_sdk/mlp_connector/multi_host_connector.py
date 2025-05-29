@@ -1,31 +1,31 @@
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
-from typing import Callable, List, Optional, Set
+from typing import List, Optional, Set
 
 from mlp_sdk.abstract.services import MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClusterUpdateProto, GateToServiceProto, ServiceDescriptorProto, ServiceToGateProto
 from mlp_sdk.mlp_connector.single_host_connector import MlpConnectorState, MlpSingleHostConnector, MlpSingleHostConnectorCallback
-from mlp_sdk.utils.config import get_config
+from mlp_sdk.utils.config import BaseConfig, get_config
 from mlp_sdk.utils.logger import get_logger
 
 log = get_logger("MlpMultiHostConnector")
-config = get_config()
+
+_config: BaseConfig = get_config()
 
 
 class MlpGrpcRequestReceiver:
-    def message_from_gate(self, context: MlpRequestContext, request: GateToServiceProto) -> None:
-        pass
+    def message_from_gate(self, context: MlpRequestContext, request: GateToServiceProto) -> None: ...
 
 
 class MlpGrpcResponseReceiver:
-    def message_from_service(self, context: MlpRequestContext, response: ServiceToGateProto) -> None:
-        pass
+    def message_from_service(self, context: MlpRequestContext, response: ServiceToGateProto) -> None: ...
 
 
 class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseReceiver):
-    def __init__(self, service_info: ServiceDescriptorProto):  # mlp_gate_url: str | None = None, mlp_service_token: str | None =None):
+    def __init__(self, service_info: ServiceDescriptorProto, config: BaseConfig = _config):
         self.state: MlpConnectorState = MlpConnectorState.idle
+        self.last_active_time = 0
         self.gate_urls: List[str] = config.mlp.get_grpc_hosts()
         self.grpc_secure: bool = config.mlp.grpc_secure
         log.info(f"Initializing multi-host-connector with urls: {self.gate_urls}, secure: {self.grpc_secure}")
@@ -33,7 +33,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         self.connectors: List[MlpSingleHostConnector] = []
         self.connectors_lock: threading.RLock = threading.RLock()
         if not config.mlp.service_token:
-            raise Exception("MLP_SERVICE_TOKEN is required")
+            raise Exception("MLP_SERVICE_TOKEN is required")  # pragma: no cover
         self.connection_token: str = config.mlp.service_token
 
         self.requests_executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=config.sdk.requests_executor_pool_size)
@@ -41,7 +41,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         self.receiver: Optional[MlpGrpcRequestReceiver] = None
         self.descriptor: ServiceDescriptorProto = service_info
 
-        self.keep_connection_thread: threading.Thread = threading.Thread(target=self.__keep_connected())
+        self.keep_connection_thread: threading.Thread = threading.Thread(target=self.__keep_connected)
 
     def set_receiver(self, receiver: MlpGrpcRequestReceiver) -> None:
         self.receiver = receiver
@@ -54,12 +54,17 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                 self.__start_connector(url)
 
         self.state = MlpConnectorState.serving
+        self.last_active_time = time.time()
         self.keep_connection_thread.start()
 
     def __start_connector(self, host_port: str) -> None:
-        connector = MlpSingleHostConnector(host_port, self.grpc_secure, self.connection_token, self.descriptor, self)
+        connector = self._create_single_connector(host_port)
         self.connectors.append(connector)
         connector.start()
+
+    # Это метод для внедрения тестовых зависимостей, он переопределяется в тестах
+    def _create_single_connector(self, host_port: str):  # pragma: no cover
+        return MlpSingleHostConnector(host_port, self.grpc_secure, self.connection_token, self.descriptor, self)
 
     def __stop_connector(self, connector: MlpSingleHostConnector, state: Optional[MlpConnectorState] = None) -> None:
         if not state:
@@ -69,33 +74,30 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         if connector in self.connectors:
             self.connectors.remove(connector)
 
-    def __keep_connected(self) -> Callable[[], None]:
-        def _keep_connected_impl() -> None:
-            last_active_time = time.time()
-            while self.state == MlpConnectorState.serving:
-                try:
-                    time.sleep(1)
+    def _check_connected(self):
+        stopped_connectors: List[MlpSingleHostConnector] = [c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)]
+        for stopped_connector in stopped_connectors:
+            self.restart_single_connection(stopped_connector)
 
-                    stopped_connectors: List[MlpSingleHostConnector] = [
-                        c for c in self.connectors if c.state in (MlpConnectorState.stopped, MlpConnectorState.error)
-                    ]
-                    for stopped_connector in stopped_connectors:
-                        self.restart_single_connection(stopped_connector)
+        with self.connectors_lock:
+            if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
+                self.last_active_time = time.time()
+                return
 
-                    with self.connectors_lock:
-                        if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
-                            last_active_time = time.time()
-                            continue
+            # сюда попадаем только если нет ни одного активного подключения
+            if time.time() > self.last_active_time + 5:
+                log.warning("Reset connection list to the initial: " + str(self.gate_urls))
+                self.update_connectors(self.gate_urls)
+                self.last_active_time = time.time()
 
-                        # сюда попадаем только если нет ни одного активного подключения
-                        if time.time() > last_active_time + 5:
-                            log.warning("Reset connection list to the initial: " + str(self.gate_urls))
-                            self.update_connectors(self.gate_urls)
-                            last_active_time = time.time()
-                except BaseException:
-                    log.error("Error in keep_connected loop", exc_info=True)
+    def __keep_connected(self):
+        while self.state == MlpConnectorState.serving:
+            try:
+                time.sleep(1)
 
-        return _keep_connected_impl
+                self._check_connected()
+            except BaseException:  # pragma: no cover
+                log.error("Error in keep_connected loop", exc_info=True)
 
     def cluster_update(self, message: ClusterUpdateProto) -> None:
         self.update_connectors(list(message.servers))
@@ -132,7 +134,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             self.__start_connector(connector.host_port)
 
     def stop_and_wait(self) -> None:
-        if self.state == MlpConnectorState.stopping:
+        if self.state == MlpConnectorState.stopping:  # pragma: no cover
             return
 
         log.info("Shutdown")
@@ -148,7 +150,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             (x for x in self.connectors if x.host_port == context.gatewayId and x.state == MlpConnectorState.serving), None
         )
         if not connector:
-            raise Exception(f"Gateway {context.gatewayId} went offline")
+            raise ValueError(f"Gateway {context.gatewayId} went offline")
 
         connector.action_to_gate_queue.put(response)
         log.debug(f"Response for a request: {context.requestId}", extra={"requestId": context.requestId})
@@ -156,6 +158,6 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
     def request(self, request: GateToServiceProto, connector: MlpSingleHostConnector) -> None:
         context: MlpRequestContext = MlpRequestContext(requestId=request.requestId, gatewayId=connector.host_port, request_headers=dict(request.headers))
 
-        if self.receiver is None:
-            raise Exception("receiver must be set")
+        if self.receiver is None:  # pragma: no cover
+            raise ValueError("receiver must be set")
         self.receiver.message_from_gate(context, request)

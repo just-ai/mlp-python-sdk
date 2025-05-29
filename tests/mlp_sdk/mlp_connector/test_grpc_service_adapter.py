@@ -18,6 +18,7 @@ from mlp_sdk.mlp_connector.grpc_service_adapter import MlpGrpcServiceAdapter
 from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
 from mlp_sdk.mlp_connector.multi_host_connector import MlpGrpcResponseReceiver
 from mlp_sdk.utils.json_ import JSON
+from mlp_sdk.utils.utils import wait_for
 
 
 class ImplSimple(MlpGrpcServiceBase):
@@ -81,7 +82,7 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         self.init(ImplSimple())
         self.adapter.message_from_gate(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
-        assert self.wait_for(lambda: len(self.response) == 1)
+        wait_for(lambda: len(self.response) == 1)
 
     def test_predict_simple(self):
         self.init(ImplSimple())
@@ -180,7 +181,7 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         send_partial("message4", finish=True)
 
         # Wait for processing to complete
-        assert self.wait_for(lambda: len(self.response) > 0, timeout=5)
+        wait_for(lambda: len(self.response) > 0, timeout=5)
 
         # Check the result
         assert len(self.response) == 1
@@ -230,7 +231,7 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         self.adapter.message_from_gate(stream_context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
         # Wait for at least one response
-        assert self.wait_for(lambda: len(self.response) >= 1, timeout=2)
+        wait_for(lambda: len(self.response) >= 1, timeout=2)
 
         # Send cancellation request
         self.adapter.message_from_gate(stream_context, GateToServiceProto(cancel=CancelRequestProto(requestIdToCancel=888)))
