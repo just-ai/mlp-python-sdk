@@ -67,8 +67,8 @@ class MLpSdkConfig:
     heartbeat_thread_timeout_seconds: int = 3
     action_shutdown_timeout_seconds: int = 10
 
-    request_retry_timeout_seconds: int = 60
-    request_retry_max_attempts: int = 10
+    request_retry_timeout_seconds: int = 5
+    request_retry_max_attempts: int = 3
     request_retry_backoff_seconds: float = 0.3
     request_retry_error_codes: list[str] = field(default_factory=lambda: ["mlp.gate.pps_limit_exceeded", "mlp-action.common.channel-closed-error"])
 
