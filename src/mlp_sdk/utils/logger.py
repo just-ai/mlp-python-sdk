@@ -22,13 +22,14 @@ class GraylogFormatter(logging.Formatter):
         return super().format(record)
 
 
+_formatter = "%(asctime)s - [%(levelname)s] - [%(pathname)s: %(module)s.%(funcName)s:%(lineno)d]: %(message)s"
 if config.logging.graylog.enabled:
     if config.logging.graylog.udp:
         graylog_handler = graypy.GELFUDPHandler(config.logging.graylog.host, config.logging.graylog.port)
     else:
         graylog_handler = graypy.GELFTCPHandler(config.logging.graylog.host, config.logging.graylog.port)
 
-    graylog_formatter = GraylogFormatter("[%(name)s]: %(message)s")
+    graylog_formatter = GraylogFormatter(_formatter)
     graylog_handler.setFormatter(graylog_formatter)
 
     if config.logging.graylog.async_:
@@ -44,7 +45,7 @@ else:
 
 if config.logging.console.enabled:
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s"))
+    console_handler.setFormatter(logging.Formatter(_formatter))
 
     if config.logging.console.async_:
         console_logging_queue = Queue(-1)
