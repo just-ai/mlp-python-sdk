@@ -61,3 +61,5 @@ deploy:
 		echo "Deploying release version into public nexus..."; \
 		uv run twine upload --repository nexus-open --verbose ./dist/*.whl; \
 	fi
+
+.PHONY: venv build deploy rest grpc bump_version clean test check format all
