@@ -21,21 +21,22 @@ pipeline {
     stages {
         stage('Get webhook data') {
             steps {
+              script {
                 if (isTriggeredByWebhook()) {
                     def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
                     println("Webhook Data:\n" + webhookData)
 
                     MAIN_BRANCH = webhookData.getTargetBranch()
-                    script {
-                        if (env.MAIN_BRANCH == 'v2') {
-                            echo "Branch is 'v2', exiting pipeline..."
-                            currentBuild.result = 'SUCCESS'
-                            return
-                        }
+
+                    if (env.MAIN_BRANCH == 'v2') {
+                        echo "Branch is 'v2', exiting pipeline..."
+                        currentBuild.result = 'SUCCESS'
+                        return
                     }
                 } else {
                     Utils.markStageSkippedForConditional('Get webhook data')
                 }
+              }
             }
         }
         stage('Prepare') {
