@@ -1,3 +1,7 @@
+def isTriggeredByWebhook() {
+    return currentBuild.getBuildCauses()[0]._class.equals("com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause")
+}
+
 pipeline {
     options {
         gitLabConnection("gitlab just-ai")
@@ -15,6 +19,24 @@ pipeline {
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
     stages {
+        stage('Get webhook data') {
+            if (isTriggeredByWebhook()) {
+                def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
+                println("Webhook Data:\n" + webhookData)
+
+                REPOSITORY_SSH = webhookData.getSourceRepoSshUrl()
+                MAIN_BRANCH = webhookData.getTargetBranch()
+                script {
+                    if (env.MAIN_BRANCH == 'v2') {
+                        echo "Branch is 'v2', exiting pipeline..."
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                }
+            } else {
+                Utils.markStageSkippedForConditional('Get webhook data')
+            }
+        }
         stage('Prepare') {
             steps {
                 script {
