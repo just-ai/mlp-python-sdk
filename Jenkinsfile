@@ -28,10 +28,12 @@ pipeline {
 
                     MAIN_BRANCH = webhookData.getTargetBranch()
 
+                    echo
+
                     if (MAIN_BRANCH == 'v2') {
                         echo "Branch is 'v2', exiting pipeline..."
                         currentBuild.result = 'SUCCESS'
-                        return
+                        error("Pipeline intentionally skipped for branch 'v2'")
                     }
                 } else {
                     Utils.markStageSkippedForConditional('Get webhook data')
