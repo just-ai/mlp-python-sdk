@@ -26,11 +26,11 @@ pipeline {
                     def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
                     println("Webhook Data:\n" + webhookData)
 
-                    MAIN_BRANCH = webhookData.getTargetBranch()
+                    TARGET_BRANCH = webhookData.getTargetBranch()
 
                     echo
 
-                    if (MAIN_BRANCH == 'v2') {
+                    if (TARGET_BRANCH == 'v2') {
                         echo "Branch is 'v2', exiting pipeline..."
                         currentBuild.result = 'SUCCESS'
                         error("Pipeline intentionally skipped for branch 'v2'")
@@ -177,12 +177,16 @@ pipeline {
     }
     post {
         failure {
-            updateGitlabCommitStatus name: "Prepare", state: "failed"
-            updateGitlabCommitStatus name: "Update spec", state: "failed"
-            updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
-            updateGitlabCommitStatus name: "Lint", state: "failed"
-            updateGitlabCommitStatus name: "Tests", state: "failed"
-            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
+            script {
+                if (TARGET_BRANCH != 'v2') {
+                    updateGitlabCommitStatus name: "Prepare", state: "failed"
+                    updateGitlabCommitStatus name: "Update spec", state: "failed"
+                    updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
+                    updateGitlabCommitStatus name: "Lint", state: "failed"
+                    updateGitlabCommitStatus name: "Tests", state: "failed"
+                    updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
+                }
+            }
         }
         success {
             updateGitlabCommitStatus name: "Prepare", state: "success"
