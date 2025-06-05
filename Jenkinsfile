@@ -20,21 +20,22 @@ pipeline {
     }
     stages {
         stage('Get webhook data') {
-            if (isTriggeredByWebhook()) {
-                def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
-                println("Webhook Data:\n" + webhookData)
+            steps {
+                if (isTriggeredByWebhook()) {
+                    def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
+                    println("Webhook Data:\n" + webhookData)
 
-                REPOSITORY_SSH = webhookData.getSourceRepoSshUrl()
-                MAIN_BRANCH = webhookData.getTargetBranch()
-                script {
-                    if (env.MAIN_BRANCH == 'v2') {
-                        echo "Branch is 'v2', exiting pipeline..."
-                        currentBuild.result = 'SUCCESS'
-                        return
+                    MAIN_BRANCH = webhookData.getTargetBranch()
+                    script {
+                        if (env.MAIN_BRANCH == 'v2') {
+                            echo "Branch is 'v2', exiting pipeline..."
+                            currentBuild.result = 'SUCCESS'
+                            return
+                        }
                     }
+                } else {
+                    Utils.markStageSkippedForConditional('Get webhook data')
                 }
-            } else {
-                Utils.markStageSkippedForConditional('Get webhook data')
             }
         }
         stage('Prepare') {
