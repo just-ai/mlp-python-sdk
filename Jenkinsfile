@@ -28,8 +28,6 @@ pipeline {
 
                     TARGET_BRANCH = webhookData.getTargetBranch()
 
-                    echo
-
                     if (TARGET_BRANCH == 'v2') {
                         echo "Branch is 'v2', exiting pipeline..."
                         currentBuild.result = 'SUCCESS'
