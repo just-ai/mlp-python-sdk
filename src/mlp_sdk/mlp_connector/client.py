@@ -195,15 +195,8 @@ class MlpGrpcClient:
         if not outer_context:
             return
 
-        # Проверяем наличие request_id и копируем его если есть
-        request_id = outer_context.request_headers.get("Z-requestId")
-        if request_id is not None:
-            inner_request_headers["Z-requestId"] = str(request_id)
-
-        # Проверяем наличие billing_key и копируем его если есть
-        billing_key = outer_context.request_headers.get("MLP-BILLING-KEY")
-        if billing_key is not None:
-            inner_request_headers["MLP-BILLING-KEY"] = str(billing_key)
+        for key, value in outer_context.request_headers.items():
+            inner_request_headers[key] = value
 
     def __process_response(
         self, response: ClientResponseProto | Generator[ClientResponseProto, None, None], response_clazz: Type[R]
@@ -306,9 +299,8 @@ class MlpGrpcClient:
             model=model_name,
             authToken=self.client_token,
             ext=ExtendedRequestProto(methodName=method_name, params=params),
-            headers={},
+            headers=outer_context.request_headers or {} if outer_context is not None else {},
         )
-        self.__pass_request_headers(grpc_request.headers, outer_context)
 
         response = cast(ClientResponseProto, self.__process_request_with_retry(grpc_request))
 
