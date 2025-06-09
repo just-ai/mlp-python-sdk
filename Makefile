@@ -4,12 +4,16 @@ BRANCH_NAME := $${CI_COMMIT_REF_NAME:-$$(git rev-parse --abbrev-ref HEAD)}
 all: check build
 
 format:
-	@echo +ruff check --fix
-	@uv run ruff check --fix
+	@pip install pre-commit
+	@pre-commit install
 	@echo +ruff format
 	@uv run ruff format
+	@echo +ruff check --fix
+	@uv run ruff check --fix
 
-check: format
+check:
+	@echo +ruff check
+	@uv run ruff check
 	@echo +pyright
 	@uv tool run pyright
 
