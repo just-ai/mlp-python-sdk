@@ -1,3 +1,5 @@
+import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
+
 def isTriggeredByWebhook() {
     return currentBuild.getBuildCauses()[0]._class.equals("com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause")
 }
