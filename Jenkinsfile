@@ -213,5 +213,8 @@ pipeline {
             updateGitlabCommitStatus name: "Tests", state: "canceled"
             updateGitlabCommitStatus name: "Rebuild MLP Services", state: "canceled"
         }
+        cleanup {
+            cleanWs()
+        }
     }
 }
