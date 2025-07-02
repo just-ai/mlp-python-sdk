@@ -21,9 +21,8 @@ from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
-from mlp_api.models.captcha_data import CaptchaData
 from mlp_api.models.frontend_settings import FrontendSettings
 from mlp_api.models.model_defaults import ModelDefaults
 from mlp_api.models.resource_group_data import ResourceGroupData
@@ -50,7 +49,7 @@ class SystemConfigEndpointApi:
         self.api_client = api_client
 
     @validate_arguments
-    def get_captcha_config(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> CaptchaData:  # noqa: E501
+    def get_captcha_config(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> object:  # noqa: E501
         """get_captcha_config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -70,7 +69,7 @@ class SystemConfigEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: CaptchaData
+        :rtype: object
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -112,7 +111,7 @@ class SystemConfigEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(CaptchaData, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -167,7 +166,7 @@ class SystemConfigEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "CaptchaData",
+            '200': "object",
         }
 
         return self.api_client.call_api(

@@ -23,6 +23,7 @@ from mlp_api.api.process_endpoint_api import ProcessEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
+from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
