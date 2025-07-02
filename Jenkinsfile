@@ -24,6 +24,7 @@ pipeline {
         stage('Get webhook data') {
             steps {
               script {
+                TARGET_BRANCH = ''
                 if (isTriggeredByWebhook()) {
                     def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
                     println("Webhook Data:\n" + webhookData)
