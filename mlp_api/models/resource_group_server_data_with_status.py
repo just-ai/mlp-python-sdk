@@ -43,8 +43,8 @@ class ResourceGroupServerDataWithStatus(BaseModel):
     @validator('status')
     def status_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('RUNNING', 'STARTING', 'STOPPED', 'UNAVAILABLE', 'DELETING'):
-            raise ValueError("must be one of enum values ('RUNNING', 'STARTING', 'STOPPED', 'UNAVAILABLE', 'DELETING')")
+        if value not in ('STARTING', 'RUNNING', 'UNAVAILABLE', 'DELETING', 'STOPPED'):
+            raise ValueError("must be one of enum values ('STARTING', 'RUNNING', 'UNAVAILABLE', 'DELETING', 'STOPPED')")
         return value
 
     @validator('tariffication_period')

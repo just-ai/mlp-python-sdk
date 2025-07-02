@@ -32,7 +32,7 @@ class CreateUpdateServerTemplateData(BaseModel):
     description: StrictStr = Field(...)
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="costPrice")
+    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     price_synchronization_enabled: Optional[StrictBool] = Field(default=None, alias="priceSynchronizationEnabled")
     __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "priceSynchronizationEnabled"]
@@ -40,8 +40,8 @@ class CreateUpdateServerTemplateData(BaseModel):
     @validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
-            raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
+        if value not in ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
+            raise ValueError("must be one of enum values ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
         return value
 
     @validator('tariffication_period')

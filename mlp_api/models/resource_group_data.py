@@ -46,8 +46,8 @@ class ResourceGroupData(BaseModel):
         if value is None:
             return value
 
-        if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
-            raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
+        if value not in ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
+            raise ValueError("must be one of enum values ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
         return value
 
     @validator('access')

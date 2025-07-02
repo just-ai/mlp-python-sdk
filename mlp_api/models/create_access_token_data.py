@@ -18,16 +18,15 @@ import re  # noqa: F401
 import json
 
 
+from typing import List, Optional
+from pydantic import BaseModel, StrictStr, conlist
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-
-class CaptchaData(BaseModel):
+class CreateAccessTokenData(BaseModel):
     """
-    CaptchaData
+    CreateAccessTokenData
     """
-    enabled: StrictBool = Field(...)
-    site_key: StrictStr = Field(default=..., alias="siteKey")
-    __properties = ["enabled", "siteKey"]
+    permissions: Optional[conlist(StrictStr, unique_items=True)] = None
+    __properties = ["permissions"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +42,8 @@ class CaptchaData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CaptchaData:
-        """Create an instance of CaptchaData from a JSON string"""
+    def from_json(cls, json_str: str) -> CreateAccessTokenData:
+        """Create an instance of CreateAccessTokenData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +55,16 @@ class CaptchaData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CaptchaData:
-        """Create an instance of CaptchaData from a dict"""
+    def from_dict(cls, obj: dict) -> CreateAccessTokenData:
+        """Create an instance of CreateAccessTokenData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CaptchaData.parse_obj(obj)
+            return CreateAccessTokenData.parse_obj(obj)
 
-        _obj = CaptchaData.parse_obj({
-            "enabled": obj.get("enabled"),
-            "site_key": obj.get("siteKey")
+        _obj = CreateAccessTokenData.parse_obj({
+            "permissions": obj.get("permissions")
         })
         return _obj
 

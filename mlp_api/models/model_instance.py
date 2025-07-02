@@ -60,8 +60,8 @@ class ModelInstance(BaseModel):
         if value is None:
             return value
 
-        if value not in ('deployment', 'pod', 'docker', 'external', 'hostingServer'):
-            raise ValueError("must be one of enum values ('deployment', 'pod', 'docker', 'external', 'hostingServer')")
+        if value not in ('pod', 'vastAi', 'docker', 'deployment', 'external', 'hostingServer'):
+            raise ValueError("must be one of enum values ('pod', 'vastAi', 'docker', 'deployment', 'external', 'hostingServer')")
         return value
 
     @validator('status')
