@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
 from mlp_api.models.server_capacity_data import ServerCapacityData
 
 class CreateUpdateServerTemplateData(BaseModel):
@@ -32,15 +32,16 @@ class CreateUpdateServerTemplateData(BaseModel):
     description: StrictStr = Field(...)
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="costPrice")
+    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod"]
+    price_synchronization_enabled: Optional[StrictBool] = Field(default=None, alias="priceSynchronizationEnabled")
+    __properties = ["name", "type", "capacity", "description", "rawConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "priceSynchronizationEnabled"]
 
     @validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
-            raise ValueError("must be one of enum values ('DOCKER', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
+        if value not in ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA'):
+            raise ValueError("must be one of enum values ('DOCKER', 'VAST_AI', 'KUBERNETES', 'HOSTING_SERVER', 'SHARED_RESOURCE_QUOTA')")
         return value
 
     @validator('tariffication_period')
@@ -99,7 +100,8 @@ class CreateUpdateServerTemplateData(BaseModel):
             "raw_configuration": obj.get("rawConfiguration"),
             "tariffication_price": obj.get("tarifficationPrice"),
             "cost_price": obj.get("costPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "price_synchronization_enabled": obj.get("priceSynchronizationEnabled")
         })
         return _obj
 

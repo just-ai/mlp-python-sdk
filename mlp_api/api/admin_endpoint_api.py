@@ -34,6 +34,7 @@ from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountCo
 from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump
 from mlp_api.models.empty_users_response import EmptyUsersResponse
 from mlp_api.models.last_activity_pk import LastActivityPk
+from mlp_api.models.model_metrics_data import ModelMetricsData
 from mlp_api.models.overall_metrics_data import OverallMetricsData
 from mlp_api.models.request_metrics_data import RequestMetricsData
 from mlp_api.models.resource_groups_data import ResourceGroupsData
@@ -1105,19 +1106,23 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_metrics(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, from_date : Optional[date] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
+    def get_metrics(self, account : Optional[StrictInt] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> OverallMetricsData:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_metrics(account, from_date, mlp_api_key, async_req=True)
+        >>> thread = api.get_metrics(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
-        :param from_date:
-        :type from_date: date
+        :param account:
+        :type account: int
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1135,22 +1140,26 @@ class AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_metrics_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_metrics_with_http_info(account, from_date, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_metrics_with_http_info(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, from_date : Optional[date] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_metrics_with_http_info(self, account : Optional[StrictInt] = None, start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_metrics  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_metrics_with_http_info(account, from_date, mlp_api_key, async_req=True)
+        >>> thread = api.get_metrics_with_http_info(account, start_date, end_date, type, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
-        :param from_date:
-        :type from_date: date
+        :param account:
+        :type account: int
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1182,7 +1191,9 @@ class AdminEndpointApi:
 
         _all_params = [
             'account',
-            'from_date',
+            'start_date',
+            'end_date',
+            'type',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1217,11 +1228,20 @@ class AdminEndpointApi:
         if _params.get('account') is not None:  # noqa: E501
             _query_params.append(('account', _params['account']))
 
-        if _params.get('from_date') is not None:  # noqa: E501
-            if isinstance(_params['from_date'], date):
-                _query_params.append(('fromDate', _params['from_date'].strftime(self.api_client.configuration.date_format)))
+        if _params.get('start_date') is not None:  # noqa: E501
+            if isinstance(_params['start_date'], date):
+                _query_params.append(('startDate', _params['start_date'].strftime(self.api_client.configuration.date_format)))
             else:
-                _query_params.append(('fromDate', _params['from_date']))
+                _query_params.append(('startDate', _params['start_date']))
+
+        if _params.get('end_date') is not None:  # noqa: E501
+            if isinstance(_params['end_date'], date):
+                _query_params.append(('endDate', _params['end_date'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('endDate', _params['end_date']))
+
+        if _params.get('type') is not None:  # noqa: E501
+            _query_params.append(('type', _params['type']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
@@ -1246,6 +1266,190 @@ class AdminEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/admin/request-metrics', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def get_model_metrics(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelMetricsData:  # noqa: E501
+        """get_model_metrics  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_model_metrics(account, model, start_date, end_date, type, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param model: Model id or model name (required)
+        :type model: str
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ModelMetricsData
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_model_metrics_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_model_metrics_with_http_info(account, model, start_date, end_date, type, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_model_metrics_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], start_date : Optional[date] = None, end_date : Optional[date] = None, type : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_model_metrics  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_model_metrics_with_http_info(account, model, start_date, end_date, type, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param model: Model id or model name (required)
+        :type model: str
+        :param start_date:
+        :type start_date: date
+        :param end_date:
+        :type end_date: date
+        :param type:
+        :type type: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(ModelMetricsData, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'account',
+            'model',
+            'start_date',
+            'end_date',
+            'type',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_model_metrics" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
+        if _params['model'] is not None:
+            _path_params['model'] = _params['model']
+
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('start_date') is not None:  # noqa: E501
+            if isinstance(_params['start_date'], date):
+                _query_params.append(('startDate', _params['start_date'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('startDate', _params['start_date']))
+
+        if _params.get('end_date') is not None:  # noqa: E501
+            if isinstance(_params['end_date'], date):
+                _query_params.append(('endDate', _params['end_date'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('endDate', _params['end_date']))
+
+        if _params.get('type') is not None:  # noqa: E501
+            _query_params.append(('type', _params['type']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "ModelMetricsData",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/admin/request-metrics/account/{account}/model/{model}', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2194,6 +2398,147 @@ class AdminEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/admin/request-metrics/save', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def synchronize_all_servers_prices(self, providers : Optional[conlist(StrictStr)] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+        """synchronize_all_servers_prices  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.synchronize_all_servers_prices(providers, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param providers:
+        :type providers: List[str]
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the synchronize_all_servers_prices_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.synchronize_all_servers_prices_with_http_info(providers, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def synchronize_all_servers_prices_with_http_info(self, providers : Optional[conlist(StrictStr)] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """synchronize_all_servers_prices  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.synchronize_all_servers_prices_with_http_info(providers, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param providers:
+        :type providers: List[str]
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'providers',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method synchronize_all_servers_prices" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('providers') is not None:  # noqa: E501
+            _query_params.append(('providers', _params['providers']))
+            _collection_formats['providers'] = 'multi'
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {}
+
+        return self.api_client.call_api(
+            '/api/mlpcore/admin/server/price/sync', 'POST',
             _path_params,
             _query_params,
             _header_params,

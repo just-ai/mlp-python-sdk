@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from typing import Optional
+from pydantic import BaseModel, StrictInt
 
-class AccessTokenData(BaseModel):
+class LocalTime(BaseModel):
     """
-    AccessTokenData
+    LocalTime
     """
-    token: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    permissions: conlist(StrictStr) = Field(...)
-    creation_date: StrictStr = Field(default=..., alias="creationDate")
-    __properties = ["token", "name", "permissions", "creationDate"]
+    hour: Optional[StrictInt] = None
+    minute: Optional[StrictInt] = None
+    second: Optional[StrictInt] = None
+    nano: Optional[StrictInt] = None
+    __properties = ["hour", "minute", "second", "nano"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class AccessTokenData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AccessTokenData:
-        """Create an instance of AccessTokenData from a JSON string"""
+    def from_json(cls, json_str: str) -> LocalTime:
+        """Create an instance of LocalTime from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +58,19 @@ class AccessTokenData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AccessTokenData:
-        """Create an instance of AccessTokenData from a dict"""
+    def from_dict(cls, obj: dict) -> LocalTime:
+        """Create an instance of LocalTime from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AccessTokenData.parse_obj(obj)
+            return LocalTime.parse_obj(obj)
 
-        _obj = AccessTokenData.parse_obj({
-            "token": obj.get("token"),
-            "name": obj.get("name"),
-            "permissions": obj.get("permissions"),
-            "creation_date": obj.get("creationDate")
+        _obj = LocalTime.parse_obj({
+            "hour": obj.get("hour"),
+            "minute": obj.get("minute"),
+            "second": obj.get("second"),
+            "nano": obj.get("nano")
         })
         return _obj
 

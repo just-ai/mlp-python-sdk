@@ -42,7 +42,8 @@ class TaskShortData(BaseModel):
     interrupted: StrictBool = Field(...)
     interrupt_message: Optional[StrictStr] = Field(default=None, alias="interruptMessage")
     is_interruptible: StrictBool = Field(default=..., alias="isInterruptible")
-    __properties = ["jobId", "title", "persistentJobStatus", "waitFor", "step", "children", "percentage", "operation", "operatedEntity", "operatedEntityName", "runAt", "endTime", "unreadStatus", "interrupted", "interruptMessage", "isInterruptible"]
+    error_message: Optional[StrictStr] = Field(default=None, alias="errorMessage")
+    __properties = ["jobId", "title", "persistentJobStatus", "waitFor", "step", "children", "percentage", "operation", "operatedEntity", "operatedEntityName", "runAt", "endTime", "unreadStatus", "interrupted", "interruptMessage", "isInterruptible", "errorMessage"]
 
     @validator('persistent_job_status')
     def persistent_job_status_validate_enum(cls, value):
@@ -54,8 +55,8 @@ class TaskShortData(BaseModel):
     @validator('operation')
     def operation_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP'):
-            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SET_CORRECT_GROUP')")
+        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP'):
+            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP')")
         return value
 
     class Config:
@@ -119,7 +120,8 @@ class TaskShortData(BaseModel):
             "unread_status": obj.get("unreadStatus"),
             "interrupted": obj.get("interrupted"),
             "interrupt_message": obj.get("interruptMessage"),
-            "is_interruptible": obj.get("isInterruptible")
+            "is_interruptible": obj.get("isInterruptible"),
+            "error_message": obj.get("errorMessage")
         })
         return _obj
 

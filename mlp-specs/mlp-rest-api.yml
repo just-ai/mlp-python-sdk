@@ -6,6 +6,155 @@ servers:
 - url: https://app.caila.io
   description: Generated server url
 paths:
+  /api/mlpcore/account/{account}/token/{token}:
+    get:
+      tags:
+      - access-token-endpoint
+      operationId: checkAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+    put:
+      tags:
+      - access-token-endpoint
+      operationId: updateAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccessTokenData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+    delete:
+      tags:
+      - access-token-endpoint
+      operationId: deleteAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/account/{account}/notification:
+    get:
+      tags:
+      - ui-notification-endpoint
+      operationId: getNotifications
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UINotificationData'
+    put:
+      tags:
+      - ui-notification-endpoint
+      operationId: readNotifications
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadUINotificationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
   /p/{accountField}/{modelField}:
     get:
       tags:
@@ -482,6 +631,51 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/notification/broadcast:
+    post:
+      tags:
+      - ui-notification-endpoint
+      operationId: broadcastNotification
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BroadcastUINotificationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/model-name-availability:
+    post:
+      tags:
+      - model-endpoint
+      operationId: checkModelNameAvailability
+      parameters:
+      - name: modelName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelNameAvailability'
   /api/mlpcore/clicks:
     post:
       tags:
@@ -658,6 +852,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DifferenceIAccountConfigDump'
+  /api/mlpcore/admin/server/price/sync:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: synchronizeAllServersPrices
+      parameters:
+      - name: providers
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/request-metrics/save:
     post:
       tags:
@@ -952,6 +1168,11 @@ paths:
         required: false
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccessTokenData'
       responses:
         "200":
           description: OK
@@ -1529,6 +1750,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: displayAuthor
+        in: query
+        required: false
+        schema:
+          type: string
       - name: onlyPublic
         in: query
         required: false
@@ -1812,6 +2038,33 @@ paths:
             schema:
               $ref: '#/components/schemas/ServiceDescriptorData'
         required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/account/{account}/model/{model}/rolling-update:
+    post:
+      tags:
+      - model-endpoint
+      operationId: makeRollingUpdate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -2772,6 +3025,16 @@ paths:
         required: true
         schema:
           type: string
+      - name: displayName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: displayAuthor
+        in: query
+        required: false
+        schema:
+          type: string
       - name: hidden
         in: query
         required: false
@@ -2848,6 +3111,16 @@ paths:
       - name: name
         in: query
         required: true
+        schema:
+          type: string
+      - name: displayName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: displayAuthor
+        in: query
+        required: false
         schema:
           type: string
       - name: autoStart
@@ -3377,6 +3650,33 @@ paths:
       tags:
       - image-endpoint
       operationId: deleteImage
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: imageId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/account/{account}/image/{imageId}/models-restart:
+    post:
+      tags:
+      - image-endpoint
+      operationId: restartModelsByImage
       parameters:
       - name: account
         in: path
@@ -4789,7 +5089,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CaptchaData'
+                $ref: '#/components/schemas/Function0CaptchaData'
   /api/mlpcore/specs/{api-file}:
     get:
       tags:
@@ -4814,6 +5114,94 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/provider/{provider}/servers/count:
+    get:
+      tags:
+      - runtime-provider-endpoint
+      operationId: availableServersCountByTemplate
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - VAST_AI_PROVIDER
+      - name: templateId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: templateConfiguration
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/mlpcore/provider/{provider}/gpu/list:
+    get:
+      tags:
+      - runtime-provider-endpoint
+      operationId: listAvailableGpus
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - VAST_AI_PROVIDER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/mlpcore/provider/list:
+    get:
+      tags:
+      - runtime-provider-endpoint
+      operationId: listProviders
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  enum:
+                  - VAST_AI_PROVIDER
   /api/mlpcore/models:
     get:
       tags:
@@ -4836,6 +5224,11 @@ paths:
         schema:
           type: string
       - name: modelField
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: displayAuthor
         in: query
         required: false
         schema:
@@ -4924,6 +5317,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelInfoData'
+  /api/mlpcore/license:
+    get:
+      tags:
+      - system-endpoint
+      operationId: license
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LicenseSettings'
   /api/mlpcore/hz:
     get:
       tags:
@@ -5027,16 +5439,27 @@ paths:
       parameters:
       - name: account
         in: query
-        description: Account id or account name
         required: false
         schema:
-          type: string
-      - name: fromDate
+          type: integer
+          format: int64
+      - name: startDate
         in: query
         required: false
         schema:
           type: string
           format: date
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5050,6 +5473,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OverallMetricsData'
+  /api/mlpcore/admin/request-metrics/account/{account}/model/{model}:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getModelMetrics
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelMetricsData'
   /api/mlpcore/admin/caller/info:
     get:
       tags:
@@ -5162,11 +5633,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpcore/account/{account}/token/{token}:
+  /api/mlpcore/account/{account}/token/{token}/logs:
     get:
       tags:
       - access-token-endpoint
-      operationId: checkAccessToken
+      operationId: getTokenLogs
       parameters:
       - name: account
         in: path
@@ -5191,32 +5662,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessTokenData'
-    delete:
-      tags:
-      - access-token-endpoint
-      operationId: deleteAccessToken
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: token
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatLogData'
   /api/mlpcore/account/{account}/stat-log:
     get:
       tags:
@@ -5294,6 +5742,7 @@ paths:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -6088,6 +6537,7 @@ paths:
                   type: string
                   enum:
                   - DOCKER
+                  - VAST_AI
                   - KUBERNETES
                   - HOSTING_SERVER
                   - SHARED_RESOURCE_QUOTA
@@ -6213,6 +6663,10 @@ paths:
             - MODEL_MIN_REQUEST_TIME
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
+            - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_LATENCY
+            - MODEL_AUTOSCALING_CPU_USAGE
+            - MODEL_AUTOSCALING_ACTIVE_REQUESTS
       - name: modelsIdes
         in: query
         required: true
@@ -6282,6 +6736,10 @@ paths:
             - MODEL_MIN_REQUEST_TIME
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
+            - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_LATENCY
+            - MODEL_AUTOSCALING_CPU_USAGE
+            - MODEL_AUTOSCALING_ACTIVE_REQUESTS
       - name: models
         in: query
         required: true
@@ -6427,6 +6885,10 @@ paths:
             - MODEL_MIN_REQUEST_TIME
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
+            - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_LATENCY
+            - MODEL_AUTOSCALING_CPU_USAGE
+            - MODEL_AUTOSCALING_ACTIVE_REQUESTS
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -6484,6 +6946,10 @@ paths:
           - MODEL_MIN_REQUEST_TIME
           - MODEL_MAX_REQUEST_TIME
           - MODEL_INSTANT_REQUEST_TIME
+          - MODEL_AUTOSCALING_RPM
+          - MODEL_AUTOSCALING_LATENCY
+          - MODEL_AUTOSCALING_CPU_USAGE
+          - MODEL_AUTOSCALING_ACTIVE_REQUESTS
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -6541,6 +7007,10 @@ paths:
             - MODEL_MIN_REQUEST_TIME
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
+            - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_LATENCY
+            - MODEL_AUTOSCALING_CPU_USAGE
+            - MODEL_AUTOSCALING_ACTIVE_REQUESTS
       - name: minutes
         in: query
         required: true
@@ -7108,6 +7578,7 @@ paths:
                 type: string
                 enum:
                 - DOCKER
+                - VAST_AI
                 - KUBERNETES
                 - HOSTING_SERVER
                 - SHARED_RESOURCE_QUOTA
@@ -7934,32 +8405,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpcore-internal/notify/{account}/user/{userId}:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: pushNotification
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: userId
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpcore-internal/empty-test:
     get:
       tags:
@@ -8334,6 +8779,44 @@ paths:
           description: OK
 components:
   schemas:
+    UpdateAccessTokenData:
+      required:
+      - permissions
+      type: object
+      properties:
+        permissions:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    AccessTokenData:
+      required:
+      - creationDate
+      - name
+      - permissions
+      - token
+      type: object
+      properties:
+        token:
+          type: string
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        creationDate:
+          type: string
+    ReadUINotificationRequest:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            format: int64
     AudioFormatOptions:
       type: object
       properties:
@@ -8409,6 +8892,33 @@ components:
           type: string
         comment:
           type: string
+    BroadcastUINotificationRequest:
+      required:
+      - accountIds
+      - severity
+      - textMessage
+      type: object
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        severity:
+          type: string
+          enum:
+          - INFO
+          - WARNING
+          - ERROR
+        textMessage:
+          type: string
+    ModelNameAvailability:
+      required:
+      - available
+      type: object
+      properties:
+        available:
+          type: boolean
     ClickHistoryData:
       required:
       - eventType
@@ -8608,6 +9118,21 @@ components:
           - private
           - public
           - restricted
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
     ModelArchiveSettingsData:
       required:
       - enabled
@@ -8626,7 +9151,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
-      - active
+      - enabled
       - minInstanceCount
       type: object
       properties:
@@ -8636,6 +9161,10 @@ components:
         maxInstanceCount:
           type: integer
           format: int32
+        scheduledInstanceCountSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduledInstanceCountSetting'
         cooldownDurationMinutes:
           type: integer
           format: int32
@@ -8657,7 +9186,13 @@ components:
         scaleDownCpuThresholdMilliCores:
           type: integer
           format: int32
-        active:
+        scaleUpActiveRequestsThreshold:
+          type: integer
+          format: int32
+        scaleDownActiveRequestsThreshold:
+          type: integer
+          format: int32
+        enabled:
           type: boolean
     ModelBatchesData:
       required:
@@ -8731,6 +9266,10 @@ components:
       type: object
       properties:
         name:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
           type: string
         imageAccount:
           type: string
@@ -8819,6 +9358,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FitConfigDump'
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeDump'
         resourceGroup:
           type: string
         shortDescription:
@@ -8975,6 +9518,15 @@ components:
         fitTimeoutSec:
           type: integer
           format: int64
+    PersistentVolumeDump:
+      required:
+      - mountPath
+      type: object
+      properties:
+        mountPath:
+          type: string
+        claimName:
+          type: string
     PredictConfigDump:
       required:
       - config
@@ -8988,6 +9540,23 @@ components:
           type: string
         isDefault:
           type: boolean
+    ScheduledInstanceCountSetting:
+      required:
+      - endTime
+      - minInstances
+      - startTime
+      type: object
+      properties:
+        startTime:
+          $ref: '#/components/schemas/LocalTime'
+        endTime:
+          $ref: '#/components/schemas/LocalTime'
+        minInstances:
+          type: integer
+          format: int32
+        maxInstances:
+          type: integer
+          format: int32
     AccountConfigDump:
       required:
       - accountName
@@ -9211,21 +9780,17 @@ components:
           type: string
         enabled:
           type: boolean
-    AccessTokenData:
-      required:
-      - creationDate
-      - name
-      - token
+    CreateAccessTokenData:
       type: object
       properties:
-        token:
-          type: string
-        name:
-          type: string
-        creationDate:
-          type: string
+        permissions:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     CreateUpdateServerTemplateData:
       required:
+      - costPrice
       - description
       - name
       - rawConfiguration
@@ -9239,6 +9804,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9261,6 +9827,8 @@ components:
           - DAY
           - MONTH
           - YEAR
+        priceSynchronizationEnabled:
+          type: boolean
     ServerCapacityData:
       required:
       - cpu
@@ -9285,6 +9853,7 @@ components:
       - description
       - id
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - tarifficationPrice
       - type
@@ -9299,6 +9868,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9329,6 +9899,8 @@ components:
           - AVAILABLE
           - UNAVAILABLE
           - UNKNOWN
+        priceSynchronizationEnabled:
+          type: boolean
     CreateResourceGroupData:
       required:
       - name
@@ -9350,6 +9922,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9426,6 +9999,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9507,6 +10081,7 @@ components:
       - id
       - isAutoCreated
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - tarifficationPrice
       type: object
@@ -9542,6 +10117,8 @@ components:
         lifetimeLeftSeconds:
           type: integer
           format: int64
+        priceSynchronizationEnabled:
+          type: boolean
     ProlongResourceGroupServerRequest:
       required:
       - additionalServerLifetimeMinutes
@@ -9642,6 +10219,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -9742,6 +10320,10 @@ components:
       type: object
       properties:
         modelName:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
           type: string
         imageAccountId:
           type: integer
@@ -9852,7 +10434,6 @@ components:
     PersistentVolumeData:
       required:
       - mountPath
-      - sizeInGb
       - storageClass
       type: object
       properties:
@@ -9860,6 +10441,8 @@ components:
           type: integer
           format: int64
         mountPath:
+          type: string
+        claimName:
           type: string
         sizeInGb:
           type: integer
@@ -9977,6 +10560,8 @@ components:
       - caching
       - composite
       - dataImageMounts
+      - displayAuthor
+      - displayName
       - favorite
       - fittable
       - hostingType
@@ -10000,6 +10585,10 @@ components:
         modelAccountDisplayName:
           type: string
         modelName:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
           type: string
         imageAccountId:
           type: integer
@@ -10131,6 +10720,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
     ModelInfoPK:
       required:
       - accountId
@@ -10533,6 +11123,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -10715,11 +11306,16 @@ components:
           - GRANT
           - CREATE
           - REMOVE
+          - EVICT
+          - REMOVE_BY_BILLING
           - WAKE_UP
           - RENAME
           - PREPARE
           - RELOAD
           - TRANSFER
+          - SCALE_UP
+          - SCALE_DOWN
+          - NEED_SCALE_UP
           - SET_CORRECT_GROUP
         operatedEntity:
           $ref: '#/components/schemas/PipelineEntity'
@@ -10739,6 +11335,8 @@ components:
           type: string
         isInterruptible:
           type: boolean
+        errorMessage:
+          type: string
     TaskTypeData:
       required:
       - displayName
@@ -10779,6 +11377,7 @@ components:
       - isBillingEnabled
       - isExtendedLanding
       - isSystemAccount
+      - license
       - refillByManager
       - saveClicksEnabled
       type: object
@@ -10802,16 +11401,71 @@ components:
           type: boolean
         saveClicksEnabled:
           type: boolean
-    CaptchaData:
+        license:
+          $ref: '#/components/schemas/LicenseSettings'
+    LicenseSettings:
       required:
-      - enabled
-      - siteKey
+      - grafanaLicenseDashboardUrl
+      - hardLimitsAreExceeded
+      - licenseEnds
+      - licenseExpiredOrInvalid
+      - licenseExpiresSoon
+      - licenseStarts
+      - limits
+      - softLimitsAreExceeded
       type: object
       properties:
-        enabled:
-          type: boolean
-        siteKey:
+        licenseStarts:
           type: string
+          format: date
+        licenseEnds:
+          type: string
+          format: date
+        licenseExpiresSoon:
+          type: boolean
+        licenseExpiredOrInvalid:
+          type: boolean
+        softLimitsAreExceeded:
+          type: boolean
+        daysLeftBeforeHardLimits:
+          type: integer
+          format: int32
+        hardLimitsAreExceeded:
+          type: boolean
+        limits:
+          $ref: '#/components/schemas/MlpLimits'
+        grafanaLicenseDashboardUrl:
+          type: string
+    MlpLimits:
+      required:
+      - allowedServices
+      - allowedToDevelop
+      - allowedToFit
+      - allowedVllmModels
+      - cpuTotalCount
+      - vramTotalGb
+      type: object
+      properties:
+        cpuTotalCount:
+          type: integer
+          format: int32
+        vramTotalGb:
+          type: integer
+          format: int32
+        allowedServices:
+          type: array
+          items:
+            type: string
+        allowedVllmModels:
+          type: array
+          items:
+            type: string
+        allowedToDevelop:
+          type: boolean
+        allowedToFit:
+          type: boolean
+    Function0CaptchaData:
+      type: object
     PagedModelInfoData:
       required:
       - paging
@@ -11085,6 +11739,7 @@ components:
       - id
       - isAutoCreated
       - name
+      - priceSynchronizationEnabled
       - rawConfiguration
       - resources
       - status
@@ -11099,11 +11754,11 @@ components:
         status:
           type: string
           enum:
-          - RUNNING
           - STARTING
-          - STOPPED
+          - RUNNING
           - UNAVAILABLE
           - DELETING
+          - STOPPED
         serverIp:
           type: string
         jumpHostIp:
@@ -11127,6 +11782,8 @@ components:
           - DAY
           - MONTH
           - YEAR
+        priceSynchronizationEnabled:
+          type: boolean
     Measurement:
       required:
       - ts
@@ -11150,6 +11807,8 @@ components:
           format: int32
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -11165,8 +11824,6 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -11174,17 +11831,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -11192,9 +11849,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -11266,6 +11923,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
         active:
           type: integer
           format: int32
@@ -11322,6 +11980,7 @@ components:
           type: string
           enum:
           - DOCKER
+          - VAST_AI
           - KUBERNETES
           - HOSTING_SERVER
           - SHARED_RESOURCE_QUOTA
@@ -11356,6 +12015,73 @@ components:
           - YEAR
         blocked:
           type: boolean
+    UINotificationData:
+      required:
+      - accountId
+      - createdAt
+      - id
+      - severity
+      - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accountId:
+          type: integer
+          format: int64
+        severity:
+          type: string
+          enum:
+          - INFO
+          - WARNING
+          - ERROR
+        type:
+          type: string
+          enum:
+          - NO_ONE_VAST_AI_OFFER
+          - VAST_AI_SERVER_CANNOT_START_INSTANCE
+          - SERVER_EVENTS_ERROR_INDICATOR
+          - MODEL_EVENTS_ERROR_INDICATOR
+          - PIPELINE_OPERATION
+          - BROADCAST
+          - LICENSE_EXPIRES_SOON
+          - LICENSE_NOT_VALID
+          - LICENSE_LIMITS_EXCEEDED
+          - NONE
+        createdAt:
+          type: string
+          format: date-time
+        readAt:
+          type: string
+          format: date-time
+        textMessage:
+          type: string
+        entity:
+          $ref: '#/components/schemas/PipelineEntity'
+        entityDisplayName:
+          type: string
+        operationType:
+          type: string
+          enum:
+          - RUN
+          - FIT
+          - BLOCK
+          - UNBLOCK
+          - GRANT
+          - CREATE
+          - REMOVE
+          - EVICT
+          - REMOVE_BY_BILLING
+          - WAKE_UP
+          - RENAME
+          - PREPARE
+          - RELOAD
+          - TRANSFER
+          - SCALE_UP
+          - SCALE_DOWN
+          - NEED_SCALE_UP
+          - SET_CORRECT_GROUP
     InstancesStatusData:
       required:
       - externalRequested
@@ -11397,6 +12123,7 @@ components:
           - STARTING
           - INACTIVE
           - SLEEPING
+          - REMOVING
         instances:
           $ref: '#/components/schemas/InstancesStatusData'
         lastJob:
@@ -11431,9 +12158,10 @@ components:
         instanceHostingType:
           type: string
           enum:
-          - deployment
           - pod
+          - vastAi
           - docker
+          - deployment
           - external
           - hostingServer
         lastRestartTimestamp:
@@ -11684,9 +12412,10 @@ components:
         kubeType:
           type: string
           enum:
-          - deployment
           - pod
+          - vastAi
           - docker
+          - deployment
           - external
           - hostingServer
         resourceName:

@@ -18,18 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from typing import Optional
+from pydantic import BaseModel, Field, StrictStr
 
-class AccessTokenData(BaseModel):
+class PersistentVolumeDump(BaseModel):
     """
-    AccessTokenData
+    PersistentVolumeDump
     """
-    token: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    permissions: conlist(StrictStr) = Field(...)
-    creation_date: StrictStr = Field(default=..., alias="creationDate")
-    __properties = ["token", "name", "permissions", "creationDate"]
+    mount_path: StrictStr = Field(default=..., alias="mountPath")
+    claim_name: Optional[StrictStr] = Field(default=None, alias="claimName")
+    __properties = ["mountPath", "claimName"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +43,8 @@ class AccessTokenData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AccessTokenData:
-        """Create an instance of AccessTokenData from a JSON string"""
+    def from_json(cls, json_str: str) -> PersistentVolumeDump:
+        """Create an instance of PersistentVolumeDump from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +56,17 @@ class AccessTokenData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AccessTokenData:
-        """Create an instance of AccessTokenData from a dict"""
+    def from_dict(cls, obj: dict) -> PersistentVolumeDump:
+        """Create an instance of PersistentVolumeDump from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AccessTokenData.parse_obj(obj)
+            return PersistentVolumeDump.parse_obj(obj)
 
-        _obj = AccessTokenData.parse_obj({
-            "token": obj.get("token"),
-            "name": obj.get("name"),
-            "permissions": obj.get("permissions"),
-            "creation_date": obj.get("creationDate")
+        _obj = PersistentVolumeDump.parse_obj({
+            "mount_path": obj.get("mountPath"),
+            "claim_name": obj.get("claimName")
         })
         return _obj
 

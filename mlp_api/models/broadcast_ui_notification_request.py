@@ -18,16 +18,24 @@ import re  # noqa: F401
 import json
 
 
+from typing import List
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+class BroadcastUINotificationRequest(BaseModel):
+    """
+    BroadcastUINotificationRequest
+    """
+    account_ids: conlist(StrictInt) = Field(default=..., alias="accountIds")
+    severity: StrictStr = Field(...)
+    text_message: StrictStr = Field(default=..., alias="textMessage")
+    __properties = ["accountIds", "severity", "textMessage"]
 
-class CaptchaData(BaseModel):
-    """
-    CaptchaData
-    """
-    enabled: StrictBool = Field(...)
-    site_key: StrictStr = Field(default=..., alias="siteKey")
-    __properties = ["enabled", "siteKey"]
+    @validator('severity')
+    def severity_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('INFO', 'WARNING', 'ERROR'):
+            raise ValueError("must be one of enum values ('INFO', 'WARNING', 'ERROR')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +51,8 @@ class CaptchaData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CaptchaData:
-        """Create an instance of CaptchaData from a JSON string"""
+    def from_json(cls, json_str: str) -> BroadcastUINotificationRequest:
+        """Create an instance of BroadcastUINotificationRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +64,18 @@ class CaptchaData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CaptchaData:
-        """Create an instance of CaptchaData from a dict"""
+    def from_dict(cls, obj: dict) -> BroadcastUINotificationRequest:
+        """Create an instance of BroadcastUINotificationRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CaptchaData.parse_obj(obj)
+            return BroadcastUINotificationRequest.parse_obj(obj)
 
-        _obj = CaptchaData.parse_obj({
-            "enabled": obj.get("enabled"),
-            "site_key": obj.get("siteKey")
+        _obj = BroadcastUINotificationRequest.parse_obj({
+            "account_ids": obj.get("accountIds"),
+            "severity": obj.get("severity"),
+            "text_message": obj.get("textMessage")
         })
         return _obj
 

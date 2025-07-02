@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, conlist
+from mlp_api.models.scheduled_instance_count_setting import ScheduledInstanceCountSetting
 
 class ModelAutoScalingConfiguration(BaseModel):
     """
@@ -27,6 +28,7 @@ class ModelAutoScalingConfiguration(BaseModel):
     """
     min_instance_count: StrictInt = Field(default=..., alias="minInstanceCount")
     max_instance_count: Optional[StrictInt] = Field(default=None, alias="maxInstanceCount")
+    scheduled_instance_count_settings: Optional[conlist(ScheduledInstanceCountSetting)] = Field(default=None, alias="scheduledInstanceCountSettings")
     cooldown_duration_minutes: Optional[StrictInt] = Field(default=None, alias="cooldownDurationMinutes")
     scale_up_requests_per_minute_threshold: Optional[StrictInt] = Field(default=None, alias="scaleUpRequestsPerMinuteThreshold")
     scale_down_requests_per_minute_threshold: Optional[StrictInt] = Field(default=None, alias="scaleDownRequestsPerMinuteThreshold")
@@ -34,8 +36,10 @@ class ModelAutoScalingConfiguration(BaseModel):
     scale_down_latency_threshold_ms: Optional[StrictInt] = Field(default=None, alias="scaleDownLatencyThresholdMs")
     scale_up_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleUpCpuThresholdMilliCores")
     scale_down_cpu_threshold_milli_cores: Optional[StrictInt] = Field(default=None, alias="scaleDownCpuThresholdMilliCores")
-    active: StrictBool = Field(...)
-    __properties = ["minInstanceCount", "maxInstanceCount", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", "active"]
+    scale_up_active_requests_threshold: Optional[StrictInt] = Field(default=None, alias="scaleUpActiveRequestsThreshold")
+    scale_down_active_requests_threshold: Optional[StrictInt] = Field(default=None, alias="scaleDownActiveRequestsThreshold")
+    enabled: StrictBool = Field(...)
+    __properties = ["minInstanceCount", "maxInstanceCount", "scheduledInstanceCountSettings", "cooldownDurationMinutes", "scaleUpRequestsPerMinuteThreshold", "scaleDownRequestsPerMinuteThreshold", "scaleUpLatencyThresholdMs", "scaleDownLatencyThresholdMs", "scaleUpCpuThresholdMilliCores", "scaleDownCpuThresholdMilliCores", "scaleUpActiveRequestsThreshold", "scaleDownActiveRequestsThreshold", "enabled"]
 
     class Config:
         """Pydantic configuration"""
@@ -61,6 +65,13 @@ class ModelAutoScalingConfiguration(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in scheduled_instance_count_settings (list)
+        _items = []
+        if self.scheduled_instance_count_settings:
+            for _item in self.scheduled_instance_count_settings:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['scheduledInstanceCountSettings'] = _items
         return _dict
 
     @classmethod
@@ -75,6 +86,7 @@ class ModelAutoScalingConfiguration(BaseModel):
         _obj = ModelAutoScalingConfiguration.parse_obj({
             "min_instance_count": obj.get("minInstanceCount"),
             "max_instance_count": obj.get("maxInstanceCount"),
+            "scheduled_instance_count_settings": [ScheduledInstanceCountSetting.from_dict(_item) for _item in obj.get("scheduledInstanceCountSettings")] if obj.get("scheduledInstanceCountSettings") is not None else None,
             "cooldown_duration_minutes": obj.get("cooldownDurationMinutes"),
             "scale_up_requests_per_minute_threshold": obj.get("scaleUpRequestsPerMinuteThreshold"),
             "scale_down_requests_per_minute_threshold": obj.get("scaleDownRequestsPerMinuteThreshold"),
@@ -82,7 +94,9 @@ class ModelAutoScalingConfiguration(BaseModel):
             "scale_down_latency_threshold_ms": obj.get("scaleDownLatencyThresholdMs"),
             "scale_up_cpu_threshold_milli_cores": obj.get("scaleUpCpuThresholdMilliCores"),
             "scale_down_cpu_threshold_milli_cores": obj.get("scaleDownCpuThresholdMilliCores"),
-            "active": obj.get("active")
+            "scale_up_active_requests_threshold": obj.get("scaleUpActiveRequestsThreshold"),
+            "scale_down_active_requests_threshold": obj.get("scaleDownActiveRequestsThreshold"),
+            "enabled": obj.get("enabled")
         })
         return _obj
 

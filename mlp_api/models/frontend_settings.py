@@ -20,6 +20,7 @@ import json
 
 
 from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from mlp_api.models.license_settings import LicenseSettings
 
 class FrontendSettings(BaseModel):
     """
@@ -33,7 +34,8 @@ class FrontendSettings(BaseModel):
     english_only: StrictBool = Field(default=..., alias="englishOnly")
     refill_by_manager: StrictBool = Field(default=..., alias="refillByManager")
     save_clicks_enabled: StrictBool = Field(default=..., alias="saveClicksEnabled")
-    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled"]
+    license: LicenseSettings = Field(...)
+    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license"]
 
     @validator('currency_type')
     def currency_type_validate_enum(cls, value):
@@ -66,6 +68,9 @@ class FrontendSettings(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of license
+        if self.license:
+            _dict['license'] = self.license.to_dict()
         return _dict
 
     @classmethod
@@ -85,7 +90,8 @@ class FrontendSettings(BaseModel):
             "currency_type": obj.get("currencyType"),
             "english_only": obj.get("englishOnly"),
             "refill_by_manager": obj.get("refillByManager"),
-            "save_clicks_enabled": obj.get("saveClicksEnabled")
+            "save_clicks_enabled": obj.get("saveClicksEnabled"),
+            "license": LicenseSettings.from_dict(obj.get("license")) if obj.get("license") is not None else None
         })
         return _obj
 

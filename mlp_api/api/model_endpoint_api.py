@@ -33,6 +33,7 @@ from mlp_api.models.model_create_update_data import ModelCreateUpdateData
 from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.models.model_info_data import ModelInfoData
 from mlp_api.models.model_list_request import ModelListRequest
+from mlp_api.models.model_name_availability import ModelNameAvailability
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_short_status_data import ModelShortStatusData
 from mlp_api.models.paged_model_info_data import PagedModelInfoData
@@ -58,6 +59,152 @@ class ModelEndpointApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+    @validate_arguments
+    def check_model_name_availability(self, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelNameAvailability:  # noqa: E501
+        """check_model_name_availability  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.check_model_name_availability(model_name, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param model_name: (required)
+        :type model_name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ModelNameAvailability
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the check_model_name_availability_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.check_model_name_availability_with_http_info(model_name, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def check_model_name_availability_with_http_info(self, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """check_model_name_availability  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.check_model_name_availability_with_http_info(model_name, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param model_name: (required)
+        :type model_name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(ModelNameAvailability, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'model_name',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method check_model_name_availability" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('model_name') is not None:  # noqa: E501
+            _query_params.append(('modelName', _params['model_name']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "ModelNameAvailability",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/model-name-availability', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
     def clear_custom_data(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> object:  # noqa: E501
@@ -214,13 +361,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_cloned_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
+    def create_cloned_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, display_name : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
         """create_cloned_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_cloned_model(account, model, name, auto_start, template_id, mlp_api_key, async_req=True)
+        >>> thread = api.create_cloned_model(account, model, name, display_name, display_author, auto_start, template_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -229,6 +376,10 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
+        :param display_name:
+        :type display_name: str
+        :param display_author:
+        :type display_author: str
         :param auto_start:
         :type auto_start: bool
         :param template_id:
@@ -250,16 +401,16 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_cloned_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_cloned_model_with_http_info(account, model, name, auto_start, template_id, mlp_api_key, **kwargs)  # noqa: E501
+        return self.create_cloned_model_with_http_info(account, model, name, display_name, display_author, auto_start, template_id, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_cloned_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def create_cloned_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, display_name : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, auto_start : Optional[StrictBool] = None, template_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """create_cloned_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_cloned_model_with_http_info(account, model, name, auto_start, template_id, mlp_api_key, async_req=True)
+        >>> thread = api.create_cloned_model_with_http_info(account, model, name, display_name, display_author, auto_start, template_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -268,6 +419,10 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
+        :param display_name:
+        :type display_name: str
+        :param display_author:
+        :type display_author: str
         :param auto_start:
         :type auto_start: bool
         :param template_id:
@@ -305,6 +460,8 @@ class ModelEndpointApi:
             'account',
             'model',
             'name',
+            'display_name',
+            'display_author',
             'auto_start',
             'template_id',
             'mlp_api_key'
@@ -346,6 +503,12 @@ class ModelEndpointApi:
         _query_params = []
         if _params.get('name') is not None:  # noqa: E501
             _query_params.append(('name', _params['name']))
+
+        if _params.get('display_name') is not None:  # noqa: E501
+            _query_params.append(('displayName', _params['display_name']))
+
+        if _params.get('display_author') is not None:  # noqa: E501
+            _query_params.append(('displayAuthor', _params['display_author']))
 
         if _params.get('auto_start') is not None:  # noqa: E501
             _query_params.append(('autoStart', _params['auto_start']))
@@ -392,13 +555,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_derived_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, hidden : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
+    def create_derived_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, display_name : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, hidden : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
         """create_derived_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_derived_model(account, model, name, hidden, mlp_api_key, async_req=True)
+        >>> thread = api.create_derived_model(account, model, name, display_name, display_author, hidden, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -407,6 +570,10 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
+        :param display_name:
+        :type display_name: str
+        :param display_author:
+        :type display_author: str
         :param hidden:
         :type hidden: bool
         :param mlp_api_key: token to use instead of a session
@@ -426,16 +593,16 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_derived_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_derived_model_with_http_info(account, model, name, hidden, mlp_api_key, **kwargs)  # noqa: E501
+        return self.create_derived_model_with_http_info(account, model, name, display_name, display_author, hidden, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_derived_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, hidden : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def create_derived_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], name : StrictStr, display_name : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, hidden : Optional[StrictBool] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """create_derived_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_derived_model_with_http_info(account, model, name, hidden, mlp_api_key, async_req=True)
+        >>> thread = api.create_derived_model_with_http_info(account, model, name, display_name, display_author, hidden, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -444,6 +611,10 @@ class ModelEndpointApi:
         :type model: str
         :param name: (required)
         :type name: str
+        :param display_name:
+        :type display_name: str
+        :param display_author:
+        :type display_author: str
         :param hidden:
         :type hidden: bool
         :param mlp_api_key: token to use instead of a session
@@ -479,6 +650,8 @@ class ModelEndpointApi:
             'account',
             'model',
             'name',
+            'display_name',
+            'display_author',
             'hidden',
             'mlp_api_key'
         ]
@@ -519,6 +692,12 @@ class ModelEndpointApi:
         _query_params = []
         if _params.get('name') is not None:  # noqa: E501
             _query_params.append(('name', _params['name']))
+
+        if _params.get('display_name') is not None:  # noqa: E501
+            _query_params.append(('displayName', _params['display_name']))
+
+        if _params.get('display_author') is not None:  # noqa: E501
+            _query_params.append(('displayAuthor', _params['display_author']))
 
         if _params.get('hidden') is not None:  # noqa: E501
             _query_params.append(('hidden', _params['hidden']))
@@ -2872,13 +3051,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_paged_models(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> PagedModelInfoData:  # noqa: E501
+    def get_paged_models(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> PagedModelInfoData:  # noqa: E501
         """get_paged_models  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_paged_models(account, only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
+        >>> thread = api.get_paged_models(account, only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2891,6 +3070,8 @@ class ModelEndpointApi:
         :type account_field: str
         :param model_field:
         :type model_field: str
+        :param display_author:
+        :type display_author: str
         :param only_public:
         :type only_public: bool
         :param group_id:
@@ -2926,16 +3107,16 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_paged_models_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_paged_models_with_http_info(account, only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_paged_models_with_http_info(account, only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_paged_models_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_paged_models_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_paged_models  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_paged_models_with_http_info(account, only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
+        >>> thread = api.get_paged_models_with_http_info(account, only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2948,6 +3129,8 @@ class ModelEndpointApi:
         :type account_field: str
         :param model_field:
         :type model_field: str
+        :param display_author:
+        :type display_author: str
         :param only_public:
         :type only_public: bool
         :param group_id:
@@ -3001,6 +3184,7 @@ class ModelEndpointApi:
             'with_favorites',
             'account_field',
             'model_field',
+            'display_author',
             'only_public',
             'group_id',
             'task_type',
@@ -3055,6 +3239,9 @@ class ModelEndpointApi:
 
         if _params.get('model_field') is not None:  # noqa: E501
             _query_params.append(('modelField', _params['model_field']))
+
+        if _params.get('display_author') is not None:  # noqa: E501
+            _query_params.append(('displayAuthor', _params['display_author']))
 
         if _params.get('only_public') is not None:  # noqa: E501
             _query_params.append(('onlyPublic', _params['only_public']))
@@ -3122,13 +3309,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_public_models(self, only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> PagedModelInfoData:  # noqa: E501
+    def get_public_models(self, only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> PagedModelInfoData:  # noqa: E501
         """get_public_models  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_public_models(only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
+        >>> thread = api.get_public_models(only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param only_my:
@@ -3139,6 +3326,8 @@ class ModelEndpointApi:
         :type account_field: str
         :param model_field:
         :type model_field: str
+        :param display_author:
+        :type display_author: str
         :param only_public:
         :type only_public: bool
         :param group_id:
@@ -3174,16 +3363,16 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_public_models_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_public_models_with_http_info(only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_public_models_with_http_info(only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_public_models_with_http_info(self, only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_public_models_with_http_info(self, only_my : Optional[StrictBool] = None, with_favorites : Optional[StrictBool] = None, account_field : Optional[StrictStr] = None, model_field : Optional[StrictStr] = None, display_author : Optional[StrictStr] = None, only_public : Optional[StrictBool] = None, group_id : Optional[StrictInt] = None, task_type : Optional[StrictStr] = None, language : Optional[StrictStr] = None, image_id : Optional[StrictInt] = None, data_image_id : Optional[StrictInt] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, sort : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_public_models  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_public_models_with_http_info(only_my, with_favorites, account_field, model_field, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
+        >>> thread = api.get_public_models_with_http_info(only_my, with_favorites, account_field, model_field, display_author, only_public, group_id, task_type, language, image_id, data_image_id, page, size, sort, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param only_my:
@@ -3194,6 +3383,8 @@ class ModelEndpointApi:
         :type account_field: str
         :param model_field:
         :type model_field: str
+        :param display_author:
+        :type display_author: str
         :param only_public:
         :type only_public: bool
         :param group_id:
@@ -3246,6 +3437,7 @@ class ModelEndpointApi:
             'with_favorites',
             'account_field',
             'model_field',
+            'display_author',
             'only_public',
             'group_id',
             'task_type',
@@ -3297,6 +3489,9 @@ class ModelEndpointApi:
 
         if _params.get('model_field') is not None:  # noqa: E501
             _query_params.append(('modelField', _params['model_field']))
+
+        if _params.get('display_author') is not None:  # noqa: E501
+            _query_params.append(('displayAuthor', _params['display_author']))
 
         if _params.get('only_public') is not None:  # noqa: E501
             _query_params.append(('onlyPublic', _params['only_public']))
@@ -3810,6 +4005,154 @@ class ModelEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/account/{account}/model/{model}/last-job', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def make_rolling_update(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+        """make_rolling_update  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.make_rolling_update(account, model, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param model: Model id or model name (required)
+        :type model: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the make_rolling_update_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.make_rolling_update_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def make_rolling_update_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """make_rolling_update  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.make_rolling_update_with_http_info(account, model, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param model: Model id or model name (required)
+        :type model: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'account',
+            'model',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method make_rolling_update" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
+        if _params['model'] is not None:
+            _path_params['model'] = _params['model']
+
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {}
+
+        return self.api_client.call_api(
+            '/api/mlpcore/account/{account}/model/{model}/rolling-update', 'POST',
             _path_params,
             _query_params,
             _header_params,

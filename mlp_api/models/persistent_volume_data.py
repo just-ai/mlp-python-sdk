@@ -27,9 +27,10 @@ class PersistentVolumeData(BaseModel):
     """
     pv_id: Optional[StrictInt] = Field(default=None, alias="pvId")
     mount_path: StrictStr = Field(default=..., alias="mountPath")
-    size_in_gb: StrictInt = Field(default=..., alias="sizeInGb")
+    claim_name: Optional[StrictStr] = Field(default=None, alias="claimName")
+    size_in_gb: Optional[StrictInt] = Field(default=None, alias="sizeInGb")
     storage_class: StrictStr = Field(default=..., alias="storageClass")
-    __properties = ["pvId", "mountPath", "sizeInGb", "storageClass"]
+    __properties = ["pvId", "mountPath", "claimName", "sizeInGb", "storageClass"]
 
     class Config:
         """Pydantic configuration"""
@@ -69,6 +70,7 @@ class PersistentVolumeData(BaseModel):
         _obj = PersistentVolumeData.parse_obj({
             "pv_id": obj.get("pvId"),
             "mount_path": obj.get("mountPath"),
+            "claim_name": obj.get("claimName"),
             "size_in_gb": obj.get("sizeInGb"),
             "storage_class": obj.get("storageClass")
         })

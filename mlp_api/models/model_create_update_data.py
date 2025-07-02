@@ -37,6 +37,8 @@ class ModelCreateUpdateData(BaseModel):
     ModelCreateUpdateData
     """
     model_name: StrictStr = Field(default=..., alias="modelName")
+    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    display_author: Optional[StrictStr] = Field(default=None, alias="displayAuthor")
     image_account_id: Optional[StrictInt] = Field(default=None, alias="imageAccountId")
     image_id: Optional[StrictInt] = Field(default=None, alias="imageId")
     training_model_account_id: Optional[StrictInt] = Field(default=None, alias="trainingModelAccountId")
@@ -74,7 +76,7 @@ class ModelCreateUpdateData(BaseModel):
     http_settings: Optional[ModelHttpSettingsData] = Field(default=None, alias="httpSettings")
     archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
     aliases: Optional[conlist(StrictStr)] = None
-    __properties = ["modelName", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases"]
+    __properties = ["modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -174,6 +176,8 @@ class ModelCreateUpdateData(BaseModel):
 
         _obj = ModelCreateUpdateData.parse_obj({
             "model_name": obj.get("modelName"),
+            "display_name": obj.get("displayName"),
+            "display_author": obj.get("displayAuthor"),
             "image_account_id": obj.get("imageAccountId"),
             "image_id": obj.get("imageId"),
             "training_model_account_id": obj.get("trainingModelAccountId"),
