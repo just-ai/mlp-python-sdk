@@ -9081,9 +9081,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -9683,9 +9683,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
@@ -11855,9 +11855,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
