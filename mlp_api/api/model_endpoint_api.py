@@ -5129,19 +5129,21 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def start_single_instance(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+    def start_single_instance(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], cause_account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
         """start_single_instance  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.start_single_instance(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.start_single_instance(account, model, cause_account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
         :param model: Model id or model name (required)
         :type model: str
+        :param cause_account_id:
+        :type cause_account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -5159,22 +5161,24 @@ class ModelEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the start_single_instance_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.start_single_instance_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
+        return self.start_single_instance_with_http_info(account, model, cause_account_id, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def start_single_instance_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def start_single_instance_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], cause_account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """start_single_instance  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.start_single_instance_with_http_info(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.start_single_instance_with_http_info(account, model, cause_account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
         :param model: Model id or model name (required)
         :type model: str
+        :param cause_account_id:
+        :type cause_account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -5207,6 +5211,7 @@ class ModelEndpointApi:
         _all_params = [
             'account',
             'model',
+            'cause_account_id',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -5244,6 +5249,9 @@ class ModelEndpointApi:
 
         # process the query parameters
         _query_params = []
+        if _params.get('cause_account_id') is not None:  # noqa: E501
+            _query_params.append(('causeAccountId', _params['cause_account_id']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
