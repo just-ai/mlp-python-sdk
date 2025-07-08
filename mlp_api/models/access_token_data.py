@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from mlp_api.models.token_restrictions_data import TokenRestrictionsData
 
 class AccessTokenData(BaseModel):
     """
@@ -27,9 +28,12 @@ class AccessTokenData(BaseModel):
     """
     token: StrictStr = Field(...)
     name: StrictStr = Field(...)
-    permissions: conlist(StrictStr) = Field(...)
     creation_date: StrictStr = Field(default=..., alias="creationDate")
-    __properties = ["token", "name", "permissions", "creationDate"]
+    ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
+    permissions: conlist(StrictStr) = Field(...)
+    restrictions: Optional[TokenRestrictionsData] = None
+    emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
+    __properties = ["token", "name", "creationDate", "ttlMinutes", "permissions", "restrictions", "emailsForNotifications"]
 
     class Config:
         """Pydantic configuration"""
@@ -55,6 +59,9 @@ class AccessTokenData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of restrictions
+        if self.restrictions:
+            _dict['restrictions'] = self.restrictions.to_dict()
         return _dict
 
     @classmethod
@@ -69,8 +76,11 @@ class AccessTokenData(BaseModel):
         _obj = AccessTokenData.parse_obj({
             "token": obj.get("token"),
             "name": obj.get("name"),
+            "creation_date": obj.get("creationDate"),
+            "ttl_minutes": obj.get("ttlMinutes"),
             "permissions": obj.get("permissions"),
-            "creation_date": obj.get("creationDate")
+            "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
+            "emails_for_notifications": obj.get("emailsForNotifications")
         })
         return _obj
 

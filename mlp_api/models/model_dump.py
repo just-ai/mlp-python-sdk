@@ -98,11 +98,12 @@ class ModelDump(BaseModel):
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     archive_encryption_enabled: StrictBool = Field(default=..., alias="archiveEncryptionEnabled")
     archive_encryption_public_key: Optional[StrictStr] = Field(default=None, alias="archiveEncryptionPublicKey")
+    show_personal_data_disclaimer: StrictBool = Field(default=..., alias="showPersonalDataDisclaimer")
     as_http_settings_data: ModelHttpSettingsData = Field(default=..., alias="asHttpSettingsData")
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -295,6 +296,7 @@ class ModelDump(BaseModel):
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "archive_encryption_enabled": obj.get("archiveEncryptionEnabled"),
             "archive_encryption_public_key": obj.get("archiveEncryptionPublicKey"),
+            "show_personal_data_disclaimer": obj.get("showPersonalDataDisclaimer"),
             "as_http_settings_data": ModelHttpSettingsData.from_dict(obj.get("asHttpSettingsData")) if obj.get("asHttpSettingsData") is not None else None,
             "as_public_settings_data": ModelPublicSettingsData.from_dict(obj.get("asPublicSettingsData")) if obj.get("asPublicSettingsData") is not None else None,
             "as_billing_settings_data": ModelBillingSettingsData.from_dict(obj.get("asBillingSettingsData")) if obj.get("asBillingSettingsData") is not None else None,
