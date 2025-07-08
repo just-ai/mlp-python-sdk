@@ -994,6 +994,35 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/admin/account/{account}/whiteList:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: updateAccountWhiteList
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/account/{account}/limits:
     post:
       tags:
@@ -4339,6 +4368,56 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore-internal/test-mm:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: sendMmNotification
+      parameters:
+      - name: text
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore-internal/test-email:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: sendEmail_1
+      parameters:
+      - name: receiver
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: subject
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: text
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore-internal/clear-cache:
     post:
       tags:
@@ -5614,6 +5693,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
+  /api/mlpcore/admin/account/{account}/access-by-ip:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: isAccessAllowedByIp
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: ipAddress
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IpAccessCheckResult'
   /api/mlpcore/account/{account}:
     get:
       tags:
@@ -8287,21 +8396,6 @@ paths:
             application/json:
               schema:
                 type: object
-  /api/mlpcore-internal/test-mail:
-    get:
-      tags:
-      - internal-endpoint
-      operationId: sendTestEMail
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
   /api/mlpcore-internal/tasks/mock:
     get:
       tags:
@@ -8785,13 +8879,70 @@ paths:
           description: OK
 components:
   schemas:
+    ServiceFilter:
+      required:
+      - accountName
+      type: object
+      properties:
+        accountName:
+          type: string
+        serviceName:
+          type: string
+    SpendingLimit:
+      required:
+      - interval
+      - maxAmount
+      type: object
+      properties:
+        maxAmount:
+          type: integer
+          format: int64
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+    TokenRestrictionsData:
+      type: object
+      properties:
+        maxRequestSizeBytes:
+          type: integer
+          format: int64
+        maxRequestsPerMinute:
+          type: integer
+          format: int64
+        spendingLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpendingLimit'
+        allowedServicesFilter:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceFilter'
+        allowedAdapterModelsFilter:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     UpdateAccessTokenData:
       required:
       - permissions
       type: object
       properties:
+        ttlMinutes:
+          type: integer
+          format: int64
         permissions:
           uniqueItems: true
+          type: array
+          items:
+            type: string
+        restrictions:
+          $ref: '#/components/schemas/TokenRestrictionsData'
+        emailsForNotifications:
           type: array
           items:
             type: string
@@ -8807,12 +8958,21 @@ components:
           type: string
         name:
           type: string
+        creationDate:
+          type: string
+        ttlMinutes:
+          type: integer
+          format: int64
         permissions:
           type: array
           items:
             type: string
-        creationDate:
-          type: string
+        restrictions:
+          $ref: '#/components/schemas/TokenRestrictionsData'
+        emailsForNotifications:
+          type: array
+          items:
+            type: string
     ReadUINotificationRequest:
       required:
       - ids
@@ -9269,6 +9429,7 @@ components:
       - name
       - numberOfArchivedRequests
       - predictConfigs
+      - showPersonalDataDisclaimer
       type: object
       properties:
         name:
@@ -9422,6 +9583,8 @@ components:
           type: boolean
         archiveEncryptionPublicKey:
           type: string
+        showPersonalDataDisclaimer:
+          type: boolean
         asHttpSettingsData:
           $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
@@ -9491,6 +9654,8 @@ components:
         hidden:
           type: boolean
         publicTestingAllowed:
+          type: boolean
+        showPersonalDataDisclaimer:
           type: boolean
     ModelRetriesData:
       required:
@@ -9789,8 +9954,17 @@ components:
     CreateAccessTokenData:
       type: object
       properties:
+        ttlMinutes:
+          type: integer
+          format: int64
         permissions:
           uniqueItems: true
+          type: array
+          items:
+            type: string
+        restrictions:
+          $ref: '#/components/schemas/TokenRestrictionsData'
+        emailsForNotifications:
           type: array
           items:
             type: string
@@ -11665,6 +11839,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ModelMetricsData'
+    IpAccessCheckResult:
+      required:
+      - allowed
+      type: object
+      properties:
+        allowed:
+          type: boolean
     StatLogData:
       required:
       - accountId
@@ -11811,10 +11992,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -12049,6 +12230,7 @@ components:
           - VAST_AI_SERVER_CANNOT_START_INSTANCE
           - SERVER_EVENTS_ERROR_INDICATOR
           - MODEL_EVENTS_ERROR_INDICATOR
+          - TOKEN_EXPIRATION_WARNING
           - PIPELINE_OPERATION
           - BROADCAST
           - LICENSE_EXPIRES_SOON

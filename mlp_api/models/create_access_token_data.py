@@ -19,14 +19,18 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from mlp_api.models.token_restrictions_data import TokenRestrictionsData
 
 class CreateAccessTokenData(BaseModel):
     """
     CreateAccessTokenData
     """
+    ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
     permissions: Optional[conlist(StrictStr, unique_items=True)] = None
-    __properties = ["permissions"]
+    restrictions: Optional[TokenRestrictionsData] = None
+    emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
+    __properties = ["ttlMinutes", "permissions", "restrictions", "emailsForNotifications"]
 
     class Config:
         """Pydantic configuration"""
@@ -52,6 +56,9 @@ class CreateAccessTokenData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of restrictions
+        if self.restrictions:
+            _dict['restrictions'] = self.restrictions.to_dict()
         return _dict
 
     @classmethod
@@ -64,7 +71,10 @@ class CreateAccessTokenData(BaseModel):
             return CreateAccessTokenData.parse_obj(obj)
 
         _obj = CreateAccessTokenData.parse_obj({
-            "permissions": obj.get("permissions")
+            "ttl_minutes": obj.get("ttlMinutes"),
+            "permissions": obj.get("permissions"),
+            "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
+            "emails_for_notifications": obj.get("emailsForNotifications")
         })
         return _obj
 
