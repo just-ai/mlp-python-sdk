@@ -30,7 +30,8 @@ class ModelPublicSettingsData(BaseModel):
     featured_list_order: Optional[StrictInt] = Field(default=None, alias="featuredListOrder")
     hidden: Optional[StrictBool] = None
     public_testing_allowed: Optional[StrictBool] = Field(default=None, alias="publicTestingAllowed")
-    __properties = ["isPublic", "featured", "featuredListOrder", "hidden", "publicTestingAllowed"]
+    show_personal_data_disclaimer: Optional[StrictBool] = Field(default=None, alias="showPersonalDataDisclaimer")
+    __properties = ["isPublic", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "showPersonalDataDisclaimer"]
 
     class Config:
         """Pydantic configuration"""
@@ -72,7 +73,8 @@ class ModelPublicSettingsData(BaseModel):
             "featured": obj.get("featured"),
             "featured_list_order": obj.get("featuredListOrder"),
             "hidden": obj.get("hidden"),
-            "public_testing_allowed": obj.get("publicTestingAllowed")
+            "public_testing_allowed": obj.get("publicTestingAllowed"),
+            "show_personal_data_disclaimer": obj.get("showPersonalDataDisclaimer")
         })
         return _obj
 
