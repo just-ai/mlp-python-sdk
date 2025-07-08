@@ -11553,6 +11553,7 @@ components:
       required:
       - currencyType
       - englishOnly
+      - envName
       - isArchiveEnabled
       - isBillingEnabled
       - isExtendedLanding
@@ -11583,6 +11584,8 @@ components:
           type: boolean
         license:
           $ref: '#/components/schemas/LicenseSettings'
+        envName:
+          type: string
     LicenseSettings:
       required:
       - grafanaLicenseDashboardUrl
@@ -11992,10 +11995,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
