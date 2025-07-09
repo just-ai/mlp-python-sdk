@@ -35,7 +35,8 @@ class FrontendSettings(BaseModel):
     refill_by_manager: StrictBool = Field(default=..., alias="refillByManager")
     save_clicks_enabled: StrictBool = Field(default=..., alias="saveClicksEnabled")
     license: LicenseSettings = Field(...)
-    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license"]
+    env_name: StrictStr = Field(default=..., alias="envName")
+    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license", "envName"]
 
     @validator('currency_type')
     def currency_type_validate_enum(cls, value):
@@ -91,7 +92,8 @@ class FrontendSettings(BaseModel):
             "english_only": obj.get("englishOnly"),
             "refill_by_manager": obj.get("refillByManager"),
             "save_clicks_enabled": obj.get("saveClicksEnabled"),
-            "license": LicenseSettings.from_dict(obj.get("license")) if obj.get("license") is not None else None
+            "license": LicenseSettings.from_dict(obj.get("license")) if obj.get("license") is not None else None,
+            "env_name": obj.get("envName")
         })
         return _obj
 
