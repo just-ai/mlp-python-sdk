@@ -32,9 +32,7 @@ class MlpGrpcServiceBase:
     def predict_batch(self, context: MlpRequestContext, req: List[BatchPayloadProto], config: Optional[PayloadProto]) -> List[BatchPayloadResponseProto]:
         result: List[BatchPayloadResponseProto] = []
         for x in req:
-            context_per_request = MlpRequestContext(requestId=x.requestId, gatewayId=context.gatewayId,
-                                                    request_headers=context.request_headers,
-                                                    content_hidden=context.content_hidden)
+            context_per_request = MlpRequestContext(requestId=x.requestId, gatewayId=context.gatewayId, request_headers=context.request_headers)
             res: PayloadProto | None = None
             error: ApiErrorProto | None = None
             try:

@@ -156,9 +156,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
         log.debug(f"Response for a request: {context.requestId}", extra={"requestId": context.requestId})
 
     def request(self, request: GateToServiceProto, connector: MlpSingleHostConnector) -> None:
-        context: MlpRequestContext = MlpRequestContext(requestId=request.requestId, gatewayId=connector.host_port,
-                                                       request_headers=dict(request.headers),
-                                                       content_hidden=request.headers["Content-Hidden"])
+        context: MlpRequestContext = MlpRequestContext(requestId=request.requestId, gatewayId=connector.host_port, request_headers=dict(request.headers))
 
         if self.receiver is None:  # pragma: no cover
             raise ValueError("receiver must be set")
