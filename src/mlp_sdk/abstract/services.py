@@ -12,6 +12,7 @@ class MlpRequestContext:
     request_headers: dict[str, str]
     response_headers: dict[str, str] = field(default_factory=dict)
     cancelled: bool = False
+    content_hidden: bool = False
 
 
 class MlpErrorStatus(Enum):
