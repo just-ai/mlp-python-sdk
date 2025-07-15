@@ -1,6 +1,5 @@
 from typing import Generator, List, Optional
 
-from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     ApiErrorProto,
     BatchPayloadProto,
@@ -9,6 +8,8 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     PredictResponseProto,
     ServiceDescriptorProto,
 )
+
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 
 
 class MlpGrpcServiceBase:
@@ -32,9 +33,9 @@ class MlpGrpcServiceBase:
     def predict_batch(self, context: MlpRequestContext, req: List[BatchPayloadProto], config: Optional[PayloadProto]) -> List[BatchPayloadResponseProto]:
         result: List[BatchPayloadResponseProto] = []
         for x in req:
-            context_per_request = MlpRequestContext(requestId=x.requestId, gatewayId=context.gatewayId,
-                                                    request_headers=context.request_headers,
-                                                    content_hidden=context.content_hidden)
+            context_per_request = MlpRequestContext(
+                requestId=x.requestId, gatewayId=context.gatewayId, request_headers=context.request_headers, content_hidden=context.content_hidden
+            )
             res: PayloadProto | None = None
             error: ApiErrorProto | None = None
             try:

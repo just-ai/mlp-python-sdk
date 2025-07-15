@@ -3,8 +3,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Set
 
-from mlp_sdk.abstract.services import MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClusterUpdateProto, GateToServiceProto, ServiceDescriptorProto, ServiceToGateProto
+
+from mlp_sdk.abstract.services import MlpRequestContext
 from mlp_sdk.mlp_connector.single_host_connector import MlpConnectorState, MlpSingleHostConnector, MlpSingleHostConnectorCallback
 from mlp_sdk.utils.config import BaseConfig, get_config
 from mlp_sdk.utils.logger import get_logger
@@ -157,9 +158,9 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
 
     def request(self, request: GateToServiceProto, connector: MlpSingleHostConnector) -> None:
         is_hidden = request.headers.get("Content-Hidden", "").lower() == "true"
-        context: MlpRequestContext = MlpRequestContext(requestId=request.requestId, gatewayId=connector.host_port,
-                                                       request_headers=dict(request.headers),
-                                                       content_hidden=is_hidden)
+        context: MlpRequestContext = MlpRequestContext(
+            requestId=request.requestId, gatewayId=connector.host_port, request_headers=dict(request.headers), content_hidden=is_hidden
+        )
 
         if self.receiver is None:  # pragma: no cover
             raise ValueError("receiver must be set")
