@@ -22,7 +22,7 @@ class GraylogFormatter(logging.Formatter):
         return super().format(record)
 
 
-_formatter = "%(asctime)s - [%(levelname)s] - [%(module)s.%(funcName)s:%(lineno)d]: %(message)s"
+_formatter = "%(asctime)s - [%(levelname)s] - [%(filename)s:%(funcName)s:%(lineno)d]: %(message)s"
 if config.logging.graylog.enabled:
     if config.logging.graylog.udp:
         graylog_handler = graypy.GELFUDPHandler(config.logging.graylog.host, config.logging.graylog.port)

@@ -1,5 +1,6 @@
 from typing import Generator, List, Optional
 
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     ApiErrorProto,
     BatchPayloadProto,
@@ -8,8 +9,6 @@ from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     PredictResponseProto,
     ServiceDescriptorProto,
 )
-
-from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 
 
 class MlpGrpcServiceBase:

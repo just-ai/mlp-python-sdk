@@ -3,9 +3,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Set
 
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClusterUpdateProto, GateToServiceProto, ServiceDescriptorProto, ServiceToGateProto
-
 from mlp_sdk.abstract.services import MlpRequestContext
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ClusterUpdateProto, GateToServiceProto, ServiceDescriptorProto, ServiceToGateProto
 from mlp_sdk.mlp_connector.single_host_connector import MlpConnectorState, MlpSingleHostConnector, MlpSingleHostConnectorCallback
 from mlp_sdk.utils.config import BaseConfig, get_config
 from mlp_sdk.utils.logger import get_logger

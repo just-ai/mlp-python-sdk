@@ -6,14 +6,14 @@ all: check build
 format:
 	@pip install pre-commit
 	@pre-commit install
-	@echo +ruff format
-	@uv run ruff format
-	@echo +ruff check --fix
-	@uv run ruff check --fix
+	@echo +ruff format .
+	@uv run ruff format .
+	@echo +ruff check --fix .
+	@uv run ruff check --fix .
 
 check:
-	@echo +ruff check
-	@uv run ruff check
+	@echo +ruff check .
+	@uv run ruff check .
 	@echo +pyright
 	@uv tool run pyright
 

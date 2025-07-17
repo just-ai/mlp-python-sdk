@@ -483,7 +483,7 @@ wheels = [
 
 [[package]]
 name = "mlp-sdk"
-version = "2.0.6.dev1"
+version = "2.0.8"
 source = { editable = "." }
 dependencies = [
     { name = "dacite" },

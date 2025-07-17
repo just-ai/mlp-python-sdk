@@ -59,7 +59,7 @@ class GrpcConfig:
 @dataclass
 class MLpSdkConfig:
     large_body_length: int = 3000
-    requests_executor_pool_size: int = 10
+    requests_executor_pool_size: int = field(default=10, metadata={"alias": ["MLP_SDK_REQUESTS_EXECUTOR_POOL_SIZE"]})
 
     shutdown_event_timeout_seconds: int = 10
     stopping_event_timeout_seconds: int = 3
