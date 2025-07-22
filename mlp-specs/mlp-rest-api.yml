@@ -9241,9 +9241,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -9750,31 +9750,10 @@ components:
           type: string
     AccountLimitsData:
       required:
-      - baseModelInstanceLimit
-      - cpuLimit
-      - derivedModelInstanceLimit
-      - ephemeralDiskLimit
       - fitPerMinute
-      - gpuModelInstanceLimit
-      - memoryLimit
       - predictPerSec
       type: object
       properties:
-        baseModelInstanceLimit:
-          type: integer
-          format: int32
-        derivedModelInstanceLimit:
-          type: integer
-          format: int32
-        gpuModelInstanceLimit:
-          type: integer
-          format: int32
-        cpuLimit:
-          type: string
-        memoryLimit:
-          type: string
-        ephemeralDiskLimit:
-          type: string
         predictPerSec:
           type: integer
           format: int32
@@ -9848,9 +9827,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
