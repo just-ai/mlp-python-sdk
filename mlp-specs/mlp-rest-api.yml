@@ -6779,6 +6779,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -6852,6 +6854,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7001,6 +7005,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7062,6 +7068,8 @@ paths:
           - MODEL_MAX_REQUEST_TIME
           - MODEL_INSTANT_REQUEST_TIME
           - MODEL_AUTOSCALING_RPM
+          - MODEL_AUTOSCALING_SUCCESS_RPM
+          - MODEL_AUTOSCALING_FAILED_RPM
           - MODEL_AUTOSCALING_LATENCY
           - MODEL_AUTOSCALING_CPU_USAGE
           - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7123,6 +7131,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -11974,6 +11984,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -11986,10 +12000,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -12000,17 +12010,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -12018,9 +12028,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
