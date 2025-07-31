@@ -81,6 +81,7 @@ from mlp_api.models.ip_access_check_result import IpAccessCheckResult
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.last_activity_pk import LastActivityPk
+from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
 from mlp_api.models.local_time import LocalTime
 from mlp_api.models.management_request_data import ManagementRequestData

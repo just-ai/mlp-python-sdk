@@ -18,6 +18,7 @@ from mlp_api.api.model_alias_endpoint_api import ModelAliasEndpointApi
 from mlp_api.api.model_endpoint_api import ModelEndpointApi
 from mlp_api.api.model_group_endpoint_api import ModelGroupEndpointApi
 from mlp_api.api.model_instance_endpoint_api import ModelInstanceEndpointApi
+from mlp_api.api.notifications_controller_api import NotificationsControllerApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi

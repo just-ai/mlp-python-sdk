@@ -631,6 +631,21 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/notifications/capacity/send:
+    post:
+      tags:
+      - notifications-controller
+      operationId: sendCapacityNotification
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/notification/broadcast:
     post:
       tags:
@@ -5421,6 +5436,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LicenseSettings'
+  /api/mlpcore/leader:
+    get:
+      tags:
+      - system-endpoint
+      operationId: getLeaderInfo
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderInfo'
   /api/mlpcore/hz:
     get:
       tags:
@@ -11670,6 +11704,16 @@ components:
         pageSize:
           type: integer
           format: int32
+    LeaderInfo:
+      required:
+      - isLeader
+      - leaderName
+      type: object
+      properties:
+        leaderName:
+          type: string
+        isLeader:
+          type: boolean
     HzClusterInfo:
       required:
       - members
@@ -11984,10 +12028,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -12228,6 +12272,8 @@ components:
           - LICENSE_EXPIRES_SOON
           - LICENSE_NOT_VALID
           - LICENSE_LIMITS_EXCEEDED
+          - SERVER_UNAVAILABLE
+          - SERVER_AVAILABLE
           - NONE
         createdAt:
           type: string
