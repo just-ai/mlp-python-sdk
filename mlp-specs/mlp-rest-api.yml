@@ -6779,6 +6779,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -6852,6 +6854,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7001,6 +7005,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7062,6 +7068,8 @@ paths:
           - MODEL_MAX_REQUEST_TIME
           - MODEL_INSTANT_REQUEST_TIME
           - MODEL_AUTOSCALING_RPM
+          - MODEL_AUTOSCALING_SUCCESS_RPM
+          - MODEL_AUTOSCALING_FAILED_RPM
           - MODEL_AUTOSCALING_LATENCY
           - MODEL_AUTOSCALING_CPU_USAGE
           - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -7123,6 +7131,8 @@ paths:
             - MODEL_MAX_REQUEST_TIME
             - MODEL_INSTANT_REQUEST_TIME
             - MODEL_AUTOSCALING_RPM
+            - MODEL_AUTOSCALING_SUCCESS_RPM
+            - MODEL_AUTOSCALING_FAILED_RPM
             - MODEL_AUTOSCALING_LATENCY
             - MODEL_AUTOSCALING_CPU_USAGE
             - MODEL_AUTOSCALING_ACTIVE_REQUESTS
@@ -9241,9 +9251,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -9827,9 +9837,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
