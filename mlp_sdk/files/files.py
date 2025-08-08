@@ -95,13 +95,13 @@ class FilesAccessor:
         url = f"{self._api_base_url}/api/mlpstorage/files/multipart"
         headers = {"MLP-API-KEY": self._auth_token}
 
-        data = {"key": key}
+        params = {"key": key}
         body = self._prepare_file_payload(file)
         if options:
             body["options"] = (None, options.to_json(), "application/json")
 
         request_timeout = timeout if timeout is not None else self._default_timeout
-        response = requests.post(url, headers=headers, files=body, data=data, timeout=request_timeout)
+        response = requests.post(url, headers=headers, files=body, params=params, timeout=request_timeout)
         response.raise_for_status()
 
         return FileData.from_dict(response.json())
