@@ -76,7 +76,8 @@ class ModelCreateUpdateData(BaseModel):
     http_settings: Optional[ModelHttpSettingsData] = Field(default=None, alias="httpSettings")
     archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
     aliases: Optional[conlist(StrictStr)] = None
-    __properties = ["modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases"]
+    deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
+    __properties = ["modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -214,7 +215,8 @@ class ModelCreateUpdateData(BaseModel):
             "start_time_sec": obj.get("startTimeSec"),
             "http_settings": ModelHttpSettingsData.from_dict(obj.get("httpSettings")) if obj.get("httpSettings") is not None else None,
             "archive_settings": ModelArchiveSettingsData.from_dict(obj.get("archiveSettings")) if obj.get("archiveSettings") is not None else None,
-            "aliases": obj.get("aliases")
+            "aliases": obj.get("aliases"),
+            "deployment_patch": obj.get("deploymentPatch")
         })
         return _obj
 
