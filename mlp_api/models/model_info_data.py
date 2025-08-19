@@ -95,7 +95,8 @@ class ModelInfoData(BaseModel):
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
-    __properties = ["id", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state"]
+    deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
+    __properties = ["id", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -271,7 +272,8 @@ class ModelInfoData(BaseModel):
             "restricted_image_access": obj.get("restrictedImageAccess"),
             "last_activity": obj.get("lastActivity"),
             "favorite": obj.get("favorite"),
-            "state": obj.get("state")
+            "state": obj.get("state"),
+            "deployment_patch": obj.get("deploymentPatch")
         })
         return _obj
 
