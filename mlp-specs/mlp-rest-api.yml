@@ -9629,6 +9629,8 @@ components:
           type: string
         showPersonalDataDisclaimer:
           type: boolean
+        deploymentPatch:
+          type: object
         asHttpSettingsData:
           $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
@@ -10634,6 +10636,8 @@ components:
           type: array
           items:
             type: string
+        deploymentPatch:
+          type: string
     PersistentVolumeData:
       required:
       - mountPath
@@ -10924,6 +10928,8 @@ components:
           - INACTIVE
           - SLEEPING
           - REMOVING
+        deploymentPatch:
+          type: string
     ModelInfoPK:
       required:
       - accountId
