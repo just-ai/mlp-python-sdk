@@ -220,7 +220,10 @@ class MlpSingleHostConnector:
         elif req_type in ["predict", "fit", "ext", "batch"]:
             self.callback.request(request, self)
         else:  # pragma: no cover
-            raise MlpException(code="mlp-action.common.internal-error", message="Unknown request type. Probably there is a client-server version missmatch")
+            raise MlpException(
+                code="mlp-action.common.internal-error",
+                message=f"Unknown request type: {req_type}. Probably there is a client-server version missmatch",
+            )
 
     def __log_request(self, request: GateToServiceProto) -> None:
         stringified_request = MessageToJson(request, ensure_ascii=False)

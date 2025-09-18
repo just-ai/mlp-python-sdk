@@ -10,6 +10,8 @@ build:
 
 deploy:
   stage: deploy
+  needs:
+    - build
   script:
     - make build deploy
   rules:
