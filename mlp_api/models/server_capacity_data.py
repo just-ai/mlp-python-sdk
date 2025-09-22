@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
 
 class ServerCapacityData(BaseModel):
     """
@@ -28,8 +28,10 @@ class ServerCapacityData(BaseModel):
     cpu: StrictStr = Field(...)
     memory: StrictStr = Field(...)
     disk: StrictStr = Field(...)
+    v_ram_mb: Optional[StrictInt] = Field(default=None, alias="vRamMb")
     gpu_models: conlist(StrictStr) = Field(default=..., alias="gpuModels")
-    __properties = ["cpu", "memory", "disk", "gpuModels"]
+    vram_mb: Optional[StrictInt] = Field(default=None, alias="vramMb")
+    __properties = ["cpu", "memory", "disk", "vRamMb", "gpuModels", "vramMb"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +72,9 @@ class ServerCapacityData(BaseModel):
             "cpu": obj.get("cpu"),
             "memory": obj.get("memory"),
             "disk": obj.get("disk"),
-            "gpu_models": obj.get("gpuModels")
+            "v_ram_mb": obj.get("vRamMb"),
+            "gpu_models": obj.get("gpuModels"),
+            "vram_mb": obj.get("vramMb")
         })
         return _obj
 

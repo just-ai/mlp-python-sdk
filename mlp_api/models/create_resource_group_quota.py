@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, validator
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conint, validator
 
 class CreateResourceGroupQuota(BaseModel):
     """
@@ -28,6 +28,8 @@ class CreateResourceGroupQuota(BaseModel):
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
+    gpu_memory_limit_mb: StrictInt = Field(default=..., alias="gpuMemoryLimitMb")
+    gpu_usage_limit: conint(strict=True, le=100) = Field(default=..., alias="gpuUsageLimit")
     gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
@@ -35,7 +37,7 @@ class CreateResourceGroupQuota(BaseModel):
     accessible_for_everyone: StrictBool = Field(default=..., alias="accessibleForEveryone")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "accessibleOnlyForUser", "accessibleForEveryone", "tarifficationPrice", "tarifficationPeriod"]
+    __properties = ["cpuLimit", "memoryLimit", "ephemeralDiskLimit", "gpuMemoryLimitMb", "gpuUsageLimit", "gpuInstancesLimit", "baseInstancesLimit", "derivedInstancesLimit", "accessibleOnlyForUser", "accessibleForEveryone", "tarifficationPrice", "tarifficationPeriod"]
 
     @validator('tariffication_period')
     def tariffication_period_validate_enum(cls, value):
@@ -86,6 +88,8 @@ class CreateResourceGroupQuota(BaseModel):
             "cpu_limit": obj.get("cpuLimit"),
             "memory_limit": obj.get("memoryLimit"),
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),
+            "gpu_memory_limit_mb": obj.get("gpuMemoryLimitMb"),
+            "gpu_usage_limit": obj.get("gpuUsageLimit"),
             "gpu_instances_limit": obj.get("gpuInstancesLimit"),
             "base_instances_limit": obj.get("baseInstancesLimit"),
             "derived_instances_limit": obj.get("derivedInstancesLimit"),

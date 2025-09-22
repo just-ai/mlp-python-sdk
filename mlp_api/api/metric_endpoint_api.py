@@ -859,13 +859,13 @@ class MetricEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_earliest_timestamp_of_resource_group_metric(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metric : StrictStr, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> int:  # noqa: E501
+    def get_earliest_timestamp_of_resource_group_metric(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metric : StrictStr, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> int:  # noqa: E501
         """get_earliest_timestamp_of_resource_group_metric  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_earliest_timestamp_of_resource_group_metric(account, group_name, metric, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_earliest_timestamp_of_resource_group_metric(account, group_name, metric, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -876,6 +876,8 @@ class MetricEndpointApi:
         :type metric: str
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -893,16 +895,16 @@ class MetricEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_earliest_timestamp_of_resource_group_metric_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_earliest_timestamp_of_resource_group_metric_with_http_info(account, group_name, metric, node_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_earliest_timestamp_of_resource_group_metric_with_http_info(account, group_name, metric, node_name, gpu_device_uuid, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_earliest_timestamp_of_resource_group_metric_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metric : StrictStr, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_earliest_timestamp_of_resource_group_metric_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metric : StrictStr, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_earliest_timestamp_of_resource_group_metric  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_earliest_timestamp_of_resource_group_metric_with_http_info(account, group_name, metric, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_earliest_timestamp_of_resource_group_metric_with_http_info(account, group_name, metric, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -913,6 +915,8 @@ class MetricEndpointApi:
         :type metric: str
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -947,6 +951,7 @@ class MetricEndpointApi:
             'group_name',
             'metric',
             'node_name',
+            'gpu_device_uuid',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -989,6 +994,9 @@ class MetricEndpointApi:
 
         if _params.get('node_name') is not None:  # noqa: E501
             _query_params.append(('nodeName', _params['node_name']))
+
+        if _params.get('gpu_device_uuid') is not None:  # noqa: E501
+            _query_params.append(('gpuDeviceUuid', _params['gpu_device_uuid']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
@@ -2083,13 +2091,13 @@ class MetricEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_resource_group_metric(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), time : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> Dict[str, float]:  # noqa: E501
+    def get_resource_group_metric(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), time : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> Dict[str, float]:  # noqa: E501
         """get_resource_group_metric  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_resource_group_metric(account, group_name, metrics, time, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_resource_group_metric(account, group_name, metrics, time, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2102,6 +2110,8 @@ class MetricEndpointApi:
         :type time: int
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -2119,16 +2129,16 @@ class MetricEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_resource_group_metric_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_resource_group_metric_with_http_info(account, group_name, metrics, time, node_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_resource_group_metric_with_http_info(account, group_name, metrics, time, node_name, gpu_device_uuid, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_resource_group_metric_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), time : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_resource_group_metric_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), time : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_resource_group_metric  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_resource_group_metric_with_http_info(account, group_name, metrics, time, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_resource_group_metric_with_http_info(account, group_name, metrics, time, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2141,6 +2151,8 @@ class MetricEndpointApi:
         :type time: int
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -2176,6 +2188,7 @@ class MetricEndpointApi:
             'metrics',
             'time',
             'node_name',
+            'gpu_device_uuid',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -2222,6 +2235,9 @@ class MetricEndpointApi:
 
         if _params.get('node_name') is not None:  # noqa: E501
             _query_params.append(('nodeName', _params['node_name']))
+
+        if _params.get('gpu_device_uuid') is not None:  # noqa: E501
+            _query_params.append(('gpuDeviceUuid', _params['gpu_device_uuid']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
@@ -2588,13 +2604,13 @@ class MetricEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_resource_metric_range(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), minutes : StrictInt, step_seconds : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> Dict[str, List[Measurement]]:  # noqa: E501
+    def get_resource_metric_range(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), minutes : StrictInt, step_seconds : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> Dict[str, List[Measurement]]:  # noqa: E501
         """get_resource_metric_range  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_resource_metric_range(account, group_name, metrics, minutes, step_seconds, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_resource_metric_range(account, group_name, metrics, minutes, step_seconds, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2609,6 +2625,8 @@ class MetricEndpointApi:
         :type step_seconds: int
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -2626,16 +2644,16 @@ class MetricEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_resource_metric_range_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_resource_metric_range_with_http_info(account, group_name, metrics, minutes, step_seconds, node_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_resource_metric_range_with_http_info(account, group_name, metrics, minutes, step_seconds, node_name, gpu_device_uuid, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_resource_metric_range_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), minutes : StrictInt, step_seconds : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_resource_metric_range_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], group_name : StrictStr, metrics : conlist(StrictStr), minutes : StrictInt, step_seconds : Optional[StrictInt] = None, node_name : Optional[StrictStr] = None, gpu_device_uuid : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_resource_metric_range  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_resource_metric_range_with_http_info(account, group_name, metrics, minutes, step_seconds, node_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_resource_metric_range_with_http_info(account, group_name, metrics, minutes, step_seconds, node_name, gpu_device_uuid, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -2650,6 +2668,8 @@ class MetricEndpointApi:
         :type step_seconds: int
         :param node_name:
         :type node_name: str
+        :param gpu_device_uuid:
+        :type gpu_device_uuid: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -2686,6 +2706,7 @@ class MetricEndpointApi:
             'minutes',
             'step_seconds',
             'node_name',
+            'gpu_device_uuid',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -2735,6 +2756,9 @@ class MetricEndpointApi:
 
         if _params.get('node_name') is not None:  # noqa: E501
             _query_params.append(('nodeName', _params['node_name']))
+
+        if _params.get('gpu_device_uuid') is not None:  # noqa: E501
+            _query_params.append(('gpuDeviceUuid', _params['gpu_device_uuid']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
