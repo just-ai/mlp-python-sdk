@@ -6233,6 +6233,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: gpuDeviceUuid
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -6291,6 +6296,11 @@ paths:
           - NODE_VRAM_USAGE
           - NODE_VRAM_LIMIT
       - name: nodeName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: gpuDeviceUuid
         in: query
         required: false
         schema:
@@ -6366,6 +6376,11 @@ paths:
           format: int64
           default: 60
       - name: nodeName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: gpuDeviceUuid
         in: query
         required: false
         schema:
@@ -6804,6 +6819,8 @@ paths:
             - MODEL_RECONNECTS_COUNT
             - MODEL_INSTANCES_COUNT
             - MODEL_GPU_REQUESTED
+            - MODEL_VRAM_USAGE
+            - MODEL_VRAM_LIMIT
             - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
@@ -6879,6 +6896,8 @@ paths:
             - MODEL_RECONNECTS_COUNT
             - MODEL_INSTANCES_COUNT
             - MODEL_GPU_REQUESTED
+            - MODEL_VRAM_USAGE
+            - MODEL_VRAM_LIMIT
             - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
@@ -7030,6 +7049,8 @@ paths:
             - MODEL_RECONNECTS_COUNT
             - MODEL_INSTANCES_COUNT
             - MODEL_GPU_REQUESTED
+            - MODEL_VRAM_USAGE
+            - MODEL_VRAM_LIMIT
             - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
@@ -7093,6 +7114,8 @@ paths:
           - MODEL_RECONNECTS_COUNT
           - MODEL_INSTANCES_COUNT
           - MODEL_GPU_REQUESTED
+          - MODEL_VRAM_USAGE
+          - MODEL_VRAM_LIMIT
           - MODEL_EPHEMERAL_DISK_REQUESTED
           - MODEL_SUCCESS_REQUESTS_COUNT
           - MODEL_FAILED_REQUESTS_COUNT
@@ -7156,6 +7179,8 @@ paths:
             - MODEL_RECONNECTS_COUNT
             - MODEL_INSTANCES_COUNT
             - MODEL_GPU_REQUESTED
+            - MODEL_VRAM_USAGE
+            - MODEL_VRAM_LIMIT
             - MODEL_EPHEMERAL_DISK_REQUESTED
             - MODEL_SUCCESS_REQUESTS_COUNT
             - MODEL_FAILED_REQUESTS_COUNT
@@ -7371,6 +7396,8 @@ paths:
             - INSTANCE_RAM_REQUESTED
             - INSTANCE_RAM_LIMIT
             - INSTANCE_RECONNECTS_COUNT
+            - INSTANCE_VRAM_USAGE
+            - INSTANCE_VRAM_LIMIT
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -7424,6 +7451,8 @@ paths:
           - INSTANCE_RAM_REQUESTED
           - INSTANCE_RAM_LIMIT
           - INSTANCE_RECONNECTS_COUNT
+          - INSTANCE_VRAM_USAGE
+          - INSTANCE_VRAM_LIMIT
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -7477,6 +7506,8 @@ paths:
             - INSTANCE_RAM_REQUESTED
             - INSTANCE_RAM_LIMIT
             - INSTANCE_RECONNECTS_COUNT
+            - INSTANCE_VRAM_USAGE
+            - INSTANCE_VRAM_LIMIT
       - name: minutes
         in: query
         required: true
@@ -9664,7 +9695,10 @@ components:
       required:
       - cpuRequest
       - ephemeralDiskLimit
+      - gpuCount
+      - gpuMemoryLimitMb
       - gpuRequested
+      - gpuUsageLimit
       - memoryLimit
       type: object
       properties:
@@ -9676,6 +9710,16 @@ components:
           type: string
         gpuRequested:
           type: boolean
+        gpuMemoryLimitMb:
+          type: integer
+          format: int32
+        gpuUsageLimit:
+          maximum: 100
+          type: integer
+          format: int32
+        gpuCount:
+          type: integer
+          format: int32
     ModelPriorityQueueData:
       required:
       - concurrencyLevel
@@ -10048,10 +10092,17 @@ components:
           type: string
         disk:
           type: string
+        vRamMb:
+          type: integer
+          format: int32
+          writeOnly: true
         gpuModels:
           type: array
           items:
             type: string
+        vramMb:
+          type: integer
+          format: int32
     ServerTemplateData:
       required:
       - costPrice
@@ -10350,6 +10401,8 @@ components:
       - derivedInstancesLimit
       - ephemeralDiskLimit
       - gpuInstancesLimit
+      - gpuMemoryLimitMb
+      - gpuUsageLimit
       - memoryLimit
       - tarifficationPrice
       type: object
@@ -10360,6 +10413,13 @@ components:
           type: string
         ephemeralDiskLimit:
           type: string
+        gpuMemoryLimitMb:
+          type: integer
+          format: int32
+        gpuUsageLimit:
+          maximum: 100
+          type: integer
+          format: int32
         gpuInstancesLimit:
           type: integer
           format: int32
@@ -10465,6 +10525,8 @@ components:
       - derivedInstancesLimit
       - ephemeralDiskLimit
       - gpuInstancesLimit
+      - gpuMemoryLimitMb
+      - gpuUsageLimit
       - memoryLimit
       - tarifficationPrice
       type: object
@@ -10475,6 +10537,13 @@ components:
           type: string
         ephemeralDiskLimit:
           type: string
+        gpuMemoryLimitMb:
+          type: integer
+          format: int32
+        gpuUsageLimit:
+          maximum: 100
+          type: integer
+          format: int32
         gpuInstancesLimit:
           type: integer
           format: int32
@@ -12034,10 +12103,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -12050,6 +12115,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -12060,17 +12129,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -12078,9 +12147,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
