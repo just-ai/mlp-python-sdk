@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conint
 
 class ModelLimitsData(BaseModel):
     """
@@ -29,7 +29,10 @@ class ModelLimitsData(BaseModel):
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
     gpu_requested: StrictBool = Field(default=..., alias="gpuRequested")
-    __properties = ["cpuRequest", "memoryLimit", "ephemeralDiskLimit", "gpuRequested"]
+    gpu_memory_limit_mb: StrictInt = Field(default=..., alias="gpuMemoryLimitMb")
+    gpu_usage_limit: conint(strict=True, le=100) = Field(default=..., alias="gpuUsageLimit")
+    gpu_count: StrictInt = Field(default=..., alias="gpuCount")
+    __properties = ["cpuRequest", "memoryLimit", "ephemeralDiskLimit", "gpuRequested", "gpuMemoryLimitMb", "gpuUsageLimit", "gpuCount"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +73,10 @@ class ModelLimitsData(BaseModel):
             "cpu_request": obj.get("cpuRequest"),
             "memory_limit": obj.get("memoryLimit"),
             "ephemeral_disk_limit": obj.get("ephemeralDiskLimit"),
-            "gpu_requested": obj.get("gpuRequested")
+            "gpu_requested": obj.get("gpuRequested"),
+            "gpu_memory_limit_mb": obj.get("gpuMemoryLimitMb"),
+            "gpu_usage_limit": obj.get("gpuUsageLimit"),
+            "gpu_count": obj.get("gpuCount")
         })
         return _obj
 
