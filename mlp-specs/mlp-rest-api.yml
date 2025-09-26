@@ -9256,6 +9256,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
         errors:
           type: array
           items:
@@ -9316,10 +9320,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
       - content
@@ -9695,10 +9695,7 @@ components:
       required:
       - cpuRequest
       - ephemeralDiskLimit
-      - gpuCount
-      - gpuMemoryLimitMb
       - gpuRequested
-      - gpuUsageLimit
       - memoryLimit
       type: object
       properties:
@@ -9857,6 +9854,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
         errors:
           type: array
           items:
@@ -9917,10 +9918,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
       - callerAccountId
@@ -10400,9 +10397,6 @@ components:
       - cpuLimit
       - derivedInstancesLimit
       - ephemeralDiskLimit
-      - gpuInstancesLimit
-      - gpuMemoryLimitMb
-      - gpuUsageLimit
       - memoryLimit
       - tarifficationPrice
       type: object
@@ -10524,9 +10518,6 @@ components:
       - cpuLimit
       - derivedInstancesLimit
       - ephemeralDiskLimit
-      - gpuInstancesLimit
-      - gpuMemoryLimitMb
-      - gpuUsageLimit
       - memoryLimit
       - tarifficationPrice
       type: object
