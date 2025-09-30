@@ -9521,6 +9521,11 @@ components:
           type: string
         isPublic:
           type: boolean
+        allowedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
         config:
           type: object
         env:
@@ -9733,6 +9738,11 @@ components:
       properties:
         isPublic:
           type: boolean
+        allowedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
         featured:
           type: boolean
         featuredListOrder:
@@ -12110,11 +12120,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
