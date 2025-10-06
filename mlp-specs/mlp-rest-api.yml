@@ -5189,7 +5189,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Function0CaptchaData'
+                type: object
   /api/mlpcore/specs/{api-file}:
     get:
       tags:
@@ -11746,8 +11746,6 @@ components:
           type: boolean
         allowedToFit:
           type: boolean
-    Function0CaptchaData:
-      type: object
     PagedModelInfoData:
       required:
       - paging
