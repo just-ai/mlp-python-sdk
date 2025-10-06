@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conint
 
 class ModelLimitsData(BaseModel):
@@ -29,9 +29,9 @@ class ModelLimitsData(BaseModel):
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
     gpu_requested: StrictBool = Field(default=..., alias="gpuRequested")
-    gpu_memory_limit_mb: StrictInt = Field(default=..., alias="gpuMemoryLimitMb")
-    gpu_usage_limit: conint(strict=True, le=100) = Field(default=..., alias="gpuUsageLimit")
-    gpu_count: StrictInt = Field(default=..., alias="gpuCount")
+    gpu_memory_limit_mb: Optional[StrictInt] = Field(default=None, alias="gpuMemoryLimitMb")
+    gpu_usage_limit: Optional[conint(strict=True, le=100)] = Field(default=None, alias="gpuUsageLimit")
+    gpu_count: Optional[StrictInt] = Field(default=None, alias="gpuCount")
     __properties = ["cpuRequest", "memoryLimit", "ephemeralDiskLimit", "gpuRequested", "gpuMemoryLimitMb", "gpuUsageLimit", "gpuCount"]
 
     class Config:

@@ -18,20 +18,21 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, conlist
 
 class ModelPublicSettingsData(BaseModel):
     """
     ModelPublicSettingsData
     """
     is_public: Optional[StrictBool] = Field(default=None, alias="isPublic")
+    allowed_accounts: Optional[conlist(StrictInt)] = Field(default=None, alias="allowedAccounts")
     featured: Optional[StrictBool] = None
     featured_list_order: Optional[StrictInt] = Field(default=None, alias="featuredListOrder")
     hidden: Optional[StrictBool] = None
     public_testing_allowed: Optional[StrictBool] = Field(default=None, alias="publicTestingAllowed")
     show_personal_data_disclaimer: Optional[StrictBool] = Field(default=None, alias="showPersonalDataDisclaimer")
-    __properties = ["isPublic", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "showPersonalDataDisclaimer"]
+    __properties = ["isPublic", "allowedAccounts", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "showPersonalDataDisclaimer"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,6 +71,7 @@ class ModelPublicSettingsData(BaseModel):
 
         _obj = ModelPublicSettingsData.parse_obj({
             "is_public": obj.get("isPublic"),
+            "allowed_accounts": obj.get("allowedAccounts"),
             "featured": obj.get("featured"),
             "featured_list_order": obj.get("featuredListOrder"),
             "hidden": obj.get("hidden"),
