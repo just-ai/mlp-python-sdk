@@ -36,7 +36,7 @@ class SharedPoolQuota(BaseModel):
     cpu_limit: StrictStr = Field(default=..., alias="cpuLimit")
     memory_limit: StrictStr = Field(default=..., alias="memoryLimit")
     ephemeral_disk_limit: StrictStr = Field(default=..., alias="ephemeralDiskLimit")
-    gpu_instances_limit: StrictInt = Field(default=..., alias="gpuInstancesLimit")
+    gpu_instances_limit: Union[StrictFloat, StrictInt] = Field(default=..., alias="gpuInstancesLimit")
     base_instances_limit: StrictInt = Field(default=..., alias="baseInstancesLimit")
     derived_instances_limit: StrictInt = Field(default=..., alias="derivedInstancesLimit")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
