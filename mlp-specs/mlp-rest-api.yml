@@ -9316,9 +9316,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -9924,9 +9924,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
@@ -10417,14 +10417,10 @@ components:
           type: string
         ephemeralDiskLimit:
           type: string
+        gpuLimit:
+          type: number
+          format: double
         gpuMemoryLimitMb:
-          type: integer
-          format: int32
-        gpuUsageLimit:
-          maximum: 100
-          type: integer
-          format: int32
-        gpuInstancesLimit:
           type: integer
           format: int32
         baseInstancesLimit:
@@ -10503,8 +10499,8 @@ components:
         ephemeralDiskLimit:
           type: string
         gpuInstancesLimit:
-          type: integer
-          format: int32
+          type: number
+          format: double
         baseInstancesLimit:
           type: integer
           format: int32
@@ -10538,14 +10534,10 @@ components:
           type: string
         ephemeralDiskLimit:
           type: string
+        gpuLimit:
+          type: number
+          format: double
         gpuMemoryLimitMb:
-          type: integer
-          format: int32
-        gpuUsageLimit:
-          maximum: 100
-          type: integer
-          format: int32
-        gpuInstancesLimit:
           type: integer
           format: int32
         baseInstancesLimit:
