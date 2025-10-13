@@ -95,6 +95,7 @@ class ModelDump(BaseModel):
     http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
     main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
     http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
+    require_mlp_auth: Optional[StrictBool] = Field(default=None, alias="requireMlpAuth")
     archive_enabled: StrictBool = Field(default=..., alias="archiveEnabled")
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     archive_encryption_enabled: StrictBool = Field(default=..., alias="archiveEncryptionEnabled")
@@ -105,7 +106,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "requireMlpAuth", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -295,6 +296,7 @@ class ModelDump(BaseModel):
             "http_port": obj.get("httpPort"),
             "main_page_endpoint": obj.get("mainPageEndpoint"),
             "http_interface_only": obj.get("httpInterfaceOnly"),
+            "require_mlp_auth": obj.get("requireMlpAuth"),
             "archive_enabled": obj.get("archiveEnabled"),
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "archive_encryption_enabled": obj.get("archiveEncryptionEnabled"),
