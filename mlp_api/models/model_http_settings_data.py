@@ -29,7 +29,8 @@ class ModelHttpSettingsData(BaseModel):
     http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
     main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
     http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
-    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly"]
+    require_mlp_auth: Optional[StrictBool] = Field(default=None, alias="requireMlpAuth")
+    __properties = ["isHttpEnabled", "httpPort", "mainPageEndpoint", "httpInterfaceOnly", "requireMlpAuth"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +71,8 @@ class ModelHttpSettingsData(BaseModel):
             "is_http_enabled": obj.get("isHttpEnabled"),
             "http_port": obj.get("httpPort"),
             "main_page_endpoint": obj.get("mainPageEndpoint"),
-            "http_interface_only": obj.get("httpInterfaceOnly")
+            "http_interface_only": obj.get("httpInterfaceOnly"),
+            "require_mlp_auth": obj.get("requireMlpAuth")
         })
         return _obj
 
