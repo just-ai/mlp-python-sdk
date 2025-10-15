@@ -5189,7 +5189,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpcore/specs/{api-file}:
     get:
       tags:
@@ -11742,6 +11742,16 @@ components:
           type: boolean
         allowedToFit:
           type: boolean
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        siteKey:
+          type: string
     PagedModelInfoData:
       required:
       - paging
@@ -12098,6 +12108,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -12110,10 +12124,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -12124,17 +12134,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -12142,9 +12152,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
