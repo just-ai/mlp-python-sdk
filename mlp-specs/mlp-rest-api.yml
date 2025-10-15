@@ -5189,7 +5189,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/CaptchaData'
   /api/mlpcore/specs/{api-file}:
     get:
       tags:
@@ -11742,6 +11742,16 @@ components:
           type: boolean
         allowedToFit:
           type: boolean
+    CaptchaData:
+      required:
+      - enabled
+      - siteKey
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        siteKey:
+          type: string
     PagedModelInfoData:
       required:
       - paging
