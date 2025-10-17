@@ -26,6 +26,8 @@ build:
 
 deploy:
   stage: deploy
+  tags:
+    - caila-ci
   needs:
     - build
   script:

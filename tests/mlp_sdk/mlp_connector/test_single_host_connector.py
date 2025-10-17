@@ -161,6 +161,8 @@ class TestMlpSingleHostConnector:
     def test_version(self):
         # Check that the first message in the service_to_gate list is a StartServingProto
         # and that it contains the correct version information
+        time.sleep(0.1)
+
         assert len(self.service_to_gate) > 0
         first_message = self.service_to_gate[0]
         assert first_message.WhichOneof("body") == "startServing"
