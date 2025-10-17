@@ -137,6 +137,8 @@ from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
 from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
+from mlp_api.models.quick_start_image_creation_data import QuickStartImageCreationData
+from mlp_api.models.quick_start_model_data import QuickStartModelData
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 from mlp_api.models.read_ui_notification_request import ReadUINotificationRequest
 from mlp_api.models.request_details_data import RequestDetailsData
