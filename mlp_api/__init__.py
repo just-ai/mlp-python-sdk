@@ -37,6 +37,7 @@ from mlp_api.api.model_instance_endpoint_api import ModelInstanceEndpointApi
 from mlp_api.api.notifications_controller_api import NotificationsControllerApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
+from mlp_api.api.quick_start_model_endpoint_api import QuickStartModelEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
@@ -183,6 +184,8 @@ from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
 from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
+from mlp_api.models.quick_start_image_creation_data import QuickStartImageCreationData
+from mlp_api.models.quick_start_model_data import QuickStartModelData
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
 from mlp_api.models.read_ui_notification_request import ReadUINotificationRequest
 from mlp_api.models.request_details_data import RequestDetailsData

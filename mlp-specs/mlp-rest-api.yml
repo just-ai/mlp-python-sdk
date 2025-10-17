@@ -631,6 +631,118 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/quickstart/account/{account}/validate/resourceGroup:
+    post:
+      tags:
+      - quick-start-model-endpoint
+      operationId: validateResourceGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/quickstart/account/{account}/validate/model:
+    post:
+      tags:
+      - quick-start-model-endpoint
+      operationId: validateModel
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelCreateUpdateData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/quickstart/account/{account}/validate/image:
+    post:
+      tags:
+      - quick-start-model-endpoint
+      operationId: validateImage
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuickStartImageCreationData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/quickstart/account/{account}/model:
+    post:
+      tags:
+      - quick-start-model-endpoint
+      operationId: quickStartModel
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuickStartModelData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelInfoData'
   /api/mlpcore/notifications/capacity/send:
     post:
       tags:
@@ -9133,6 +9245,792 @@ components:
           type: string
         comment:
           type: string
+    CreateResourceGroupData:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        isDefault:
+          type: boolean
+        enabledEviction:
+          type: boolean
+        access:
+          type: string
+          enum:
+          - PRIVATE
+          - PUBLIC
+          - SHARED_POOL
+        resourceGroupType:
+          type: string
+          enum:
+          - DOCKER
+          - VAST_AI
+          - KUBERNETES
+          - HOSTING_SERVER
+          - SHARED_RESOURCE_QUOTA
+        enabledAutoScaling:
+          type: boolean
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
+        costPrice:
+          type: number
+        tarifficationPeriod:
+          type: string
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    ResourceGroupAutoScalingConfiguration:
+      required:
+      - minServersCount
+      type: object
+      properties:
+        serverId:
+          type: integer
+          format: int64
+        serverConfiguration:
+          type: string
+        fallbackServersIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        minServersCount:
+          type: integer
+          format: int32
+        maxServersCount:
+          type: integer
+          format: int32
+        cooldownPeriodMinutes:
+          type: integer
+          format: int32
+        reserveResourceGroupName:
+          type: string
+    DataImageMountData:
+      required:
+      - dataImageAccountId
+      - dataImageId
+      - targetPath
+      type: object
+      properties:
+        dmId:
+          type: integer
+          format: int64
+        dataImageAccountId:
+          type: integer
+          format: int64
+        dataImageId:
+          type: integer
+          format: int64
+        dataImage:
+          type: string
+        dataImageName:
+          type: string
+        sourcePath:
+          type: string
+        targetPath:
+          type: string
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    ModelArchiveSettingsData:
+      required:
+      - enabled
+      - encryptionEnabled
+      - numberOfArchivedRequests
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        numberOfArchivedRequests:
+          type: integer
+          format: int64
+        encryptionEnabled:
+          type: boolean
+        rsaPemPublicKey:
+          type: string
+    ModelAutoScalingConfiguration:
+      required:
+      - enabled
+      - minInstanceCount
+      type: object
+      properties:
+        minInstanceCount:
+          type: integer
+          format: int32
+        maxInstanceCount:
+          type: integer
+          format: int32
+        scheduledInstanceCountSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduledInstanceCountSetting'
+        cooldownDurationMinutes:
+          type: integer
+          format: int32
+        scaleUpRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleDownRequestsPerMinuteThreshold:
+          type: integer
+          format: int32
+        scaleUpLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleDownLatencyThresholdMs:
+          type: integer
+          format: int32
+        scaleUpCpuThresholdMilliCores:
+          type: integer
+          format: int32
+        scaleDownCpuThresholdMilliCores:
+          type: integer
+          format: int32
+        scaleUpActiveRequestsThreshold:
+          type: integer
+          format: int32
+        scaleDownActiveRequestsThreshold:
+          type: integer
+          format: int32
+        enabled:
+          type: boolean
+    ModelBatchesData:
+      required:
+      - batchSize
+      - timeWaitMs
+      type: object
+      properties:
+        batchSize:
+          type: integer
+          format: int32
+        timeWaitMs:
+          type: integer
+          format: int64
+        maxLengthToSkip:
+          type: integer
+          format: int64
+    ModelCachingData:
+      required:
+      - collectionName
+      - enabled
+      - mongoUri
+      - recordsLimit
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        mongoUri:
+          type: string
+        collectionName:
+          type: string
+        recordsLimit:
+          type: integer
+          format: int64
+    ModelCreateUpdateData:
+      required:
+      - modelName
+      type: object
+      properties:
+        modelName:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
+          type: string
+        imageAccountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingType:
+          type: string
+          enum:
+          - singleContainer
+          - multipleFit
+        trainingDatasetAccountId:
+          type: integer
+          format: int64
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        taskType:
+          type: string
+        trainingDatasetType:
+          type: string
+        fitTemplateModelId:
+          type: integer
+          format: int64
+        composite:
+          type: boolean
+        prototype:
+          type: boolean
+        supportedTemplates:
+          type: array
+          items:
+            type: integer
+            format: int64
+        rejectRequestsIfInactive:
+          type: boolean
+        config:
+          type: string
+        env:
+          type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
+        fittable:
+          type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
+          - AUTOMATIC
+          - HOSTING_SERVER
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        resourceGroup:
+          type: string
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+        caching:
+          $ref: '#/components/schemas/ModelCachingData'
+        priorityQueue:
+          $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        shortDescription:
+          type: string
+        languages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        minInstancesCount:
+          type: integer
+          format: int32
+        startTimeSec:
+          type: number
+          format: float
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
+        aliases:
+          type: array
+          items:
+            type: string
+        deploymentPatch:
+          type: string
+    ModelHttpSettingsData:
+      required:
+      - isHttpEnabled
+      type: object
+      properties:
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
+          type: string
+        httpInterfaceOnly:
+          type: boolean
+        requireMlpAuth:
+          type: boolean
+    ModelLimitsData:
+      required:
+      - cpuRequest
+      - ephemeralDiskLimit
+      - gpuRequested
+      - memoryLimit
+      type: object
+      properties:
+        cpuRequest:
+          type: string
+        memoryLimit:
+          type: string
+        ephemeralDiskLimit:
+          type: string
+        gpuRequested:
+          type: boolean
+        gpuMemoryLimitMb:
+          type: integer
+          format: int32
+        gpuUsageLimit:
+          maximum: 100
+          type: integer
+          format: int32
+        gpuCount:
+          type: integer
+          format: int32
+    ModelPriorityQueueData:
+      required:
+      - concurrencyLevel
+      - enabled
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        concurrencyLevel:
+          type: integer
+          format: int32
+    ModelRetriesData:
+      required:
+      - maxRetries
+      - timeoutsMs
+      type: object
+      properties:
+        maxRetries:
+          type: integer
+          format: int32
+        timeoutsMs:
+          type: array
+          items:
+            type: integer
+            format: int64
+        maxRetriesPerInstance:
+          type: integer
+          format: int32
+    ModelTimeoutsData:
+      required:
+      - podStartTimeoutSec
+      - predictTimeoutSec
+      type: object
+      properties:
+        podStartTimeoutSec:
+          type: integer
+          format: int64
+        predictTimeoutSec:
+          type: integer
+          format: int64
+        fitTimeoutSec:
+          type: integer
+          format: int64
+    PersistentVolumeData:
+      required:
+      - mountPath
+      - storageClass
+      type: object
+      properties:
+        pvId:
+          type: integer
+          format: int64
+        mountPath:
+          type: string
+        claimName:
+          type: string
+        sizeInGb:
+          type: integer
+          format: int32
+        storageClass:
+          type: string
+    ScheduledInstanceCountSetting:
+      required:
+      - endTime
+      - minInstances
+      - startTime
+      type: object
+      properties:
+        startTime:
+          $ref: '#/components/schemas/LocalTime'
+        endTime:
+          $ref: '#/components/schemas/LocalTime'
+        minInstances:
+          type: integer
+          format: int32
+        maxInstances:
+          type: integer
+          format: int32
+    QuickStartImageCreationData:
+      required:
+      - image
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+    QuickStartModelData:
+      required:
+      - modelCreationData
+      type: object
+      properties:
+        imageCreationData:
+          $ref: '#/components/schemas/QuickStartImageCreationData'
+        modelCreationData:
+          $ref: '#/components/schemas/ModelCreateUpdateData'
+        resourceGroupCreationData:
+          $ref: '#/components/schemas/CreateResourceGroupData'
+    DatasetInfoData:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/DatasetPK'
+        name:
+          type: string
+        datasetAccountName:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+        accessMode:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+        warning:
+          type: string
+    DatasetPK:
+      required:
+      - accountId
+      - datasetId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        datasetId:
+          type: integer
+          format: int64
+    FitConfigData:
+      required:
+      - config
+      - id
+      - isDefault
+      - isManual
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/FitConfigPK'
+        name:
+          type: string
+        isDefault:
+          type: boolean
+        isManual:
+          type: boolean
+        config:
+          type: string
+    FitConfigPK:
+      required:
+      - accountId
+      - configId
+      - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        configId:
+          type: integer
+          format: int64
+    ImageInfoData:
+      required:
+      - image
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ImageInfoPK'
+        name:
+          type: string
+        imageAccountName:
+          type: string
+        image:
+          type: string
+        accessMode:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+    ImageInfoPK:
+      required:
+      - accountId
+      - imageId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+    ModelBillingSettingsData:
+      required:
+      - isBillingEnabled
+      type: object
+      properties:
+        isBillingEnabled:
+          type: boolean
+        billingUnit:
+          type: string
+          enum:
+          - calls
+          - direct
+          - custom
+        billingUnitPriceInNanoToken:
+          type: integer
+          format: int64
+        billingUnitPriceInCurrency:
+          type: number
+          format: double
+        freeUnitQuota:
+          type: integer
+          format: int32
+    ModelInfoData:
+      required:
+      - archiveSettings
+      - autoScalingConfiguration
+      - batchesConfig
+      - billingSettings
+      - caching
+      - composite
+      - dataImageMounts
+      - displayAuthor
+      - displayName
+      - favorite
+      - fittable
+      - hostingType
+      - httpSettings
+      - id
+      - imageAccountId
+      - modelName
+      - persistentVolumes
+      - priorityQueue
+      - publicSettings
+      - resourceLimits
+      - restrictedImageAccess
+      - retriesConfig
+      - timeouts
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ModelInfoPK'
+        modelAccountName:
+          type: string
+        modelAccountDisplayName:
+          type: string
+        modelName:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
+          type: string
+        imageAccountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+        image:
+          $ref: '#/components/schemas/ImageInfoData'
+        modelGroupId:
+          type: integer
+          format: int64
+        modelGroupName:
+          type: string
+        trainingDatasetAccountId:
+          type: integer
+          format: int64
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingDataset:
+          $ref: '#/components/schemas/DatasetInfoData'
+        trainingDatasetType:
+          type: string
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        trainingFitConfig:
+          $ref: '#/components/schemas/FitConfigData'
+        fitTemplateModelId:
+          type: integer
+          format: int64
+        composite:
+          type: boolean
+        prototype:
+          type: boolean
+        supportedTemplates:
+          type: array
+          items:
+            type: integer
+            format: int64
+        rejectRequestsIfInactive:
+          type: boolean
+        taskType:
+          type: string
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingModelName:
+          type: string
+        trainingType:
+          type: string
+          enum:
+          - singleContainer
+          - multipleFit
+        config:
+          type: string
+        env:
+          type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
+        fittable:
+          type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
+          - AUTOMATIC
+          - HOSTING_SERVER
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        resourceGroup:
+          type: string
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+        caching:
+          $ref: '#/components/schemas/ModelCachingData'
+        priorityQueue:
+          $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        shortDescription:
+          type: string
+        languages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        minInstancesCount:
+          type: integer
+          format: int32
+        publicSettings:
+          $ref: '#/components/schemas/ModelPublicSettingsData'
+        billingSettings:
+          $ref: '#/components/schemas/ModelBillingSettingsData'
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
+        restrictedImageAccess:
+          type: boolean
+        lastActivity:
+          type: integer
+          format: int64
+        favorite:
+          type: boolean
+        state:
+          type: string
+          enum:
+          - RUNNING
+          - STARTING
+          - INACTIVE
+          - SLEEPING
+          - REMOVING
+        deploymentPatch:
+          type: string
+    ModelInfoPK:
+      required:
+      - accountId
+      - modelId
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+    ModelPublicSettingsData:
+      type: object
+      properties:
+        isPublic:
+          type: boolean
+        allowedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
+        featured:
+          type: boolean
+        featuredListOrder:
+          type: integer
+          format: int32
+        hidden:
+          type: boolean
+        publicTestingAllowed:
+          type: boolean
+        showPersonalDataDisclaimer:
+          type: boolean
     BroadcastUINotificationRequest:
       required:
       - accountIds
@@ -9359,136 +10257,6 @@ components:
           - private
           - public
           - restricted
-    LocalTime:
-      type: object
-      properties:
-        hour:
-          type: integer
-          format: int32
-        minute:
-          type: integer
-          format: int32
-        second:
-          type: integer
-          format: int32
-        nano:
-          type: integer
-          format: int32
-    ModelArchiveSettingsData:
-      required:
-      - enabled
-      - encryptionEnabled
-      - numberOfArchivedRequests
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        numberOfArchivedRequests:
-          type: integer
-          format: int64
-        encryptionEnabled:
-          type: boolean
-        rsaPemPublicKey:
-          type: string
-    ModelAutoScalingConfiguration:
-      required:
-      - enabled
-      - minInstanceCount
-      type: object
-      properties:
-        minInstanceCount:
-          type: integer
-          format: int32
-        maxInstanceCount:
-          type: integer
-          format: int32
-        scheduledInstanceCountSettings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduledInstanceCountSetting'
-        cooldownDurationMinutes:
-          type: integer
-          format: int32
-        scaleUpRequestsPerMinuteThreshold:
-          type: integer
-          format: int32
-        scaleDownRequestsPerMinuteThreshold:
-          type: integer
-          format: int32
-        scaleUpLatencyThresholdMs:
-          type: integer
-          format: int32
-        scaleDownLatencyThresholdMs:
-          type: integer
-          format: int32
-        scaleUpCpuThresholdMilliCores:
-          type: integer
-          format: int32
-        scaleDownCpuThresholdMilliCores:
-          type: integer
-          format: int32
-        scaleUpActiveRequestsThreshold:
-          type: integer
-          format: int32
-        scaleDownActiveRequestsThreshold:
-          type: integer
-          format: int32
-        enabled:
-          type: boolean
-    ModelBatchesData:
-      required:
-      - batchSize
-      - timeWaitMs
-      type: object
-      properties:
-        batchSize:
-          type: integer
-          format: int32
-        timeWaitMs:
-          type: integer
-          format: int64
-        maxLengthToSkip:
-          type: integer
-          format: int64
-    ModelBillingSettingsData:
-      required:
-      - isBillingEnabled
-      type: object
-      properties:
-        isBillingEnabled:
-          type: boolean
-        billingUnit:
-          type: string
-          enum:
-          - calls
-          - direct
-          - custom
-        billingUnitPriceInNanoToken:
-          type: integer
-          format: int64
-        billingUnitPriceInCurrency:
-          type: number
-          format: double
-        freeUnitQuota:
-          type: integer
-          format: int32
-    ModelCachingData:
-      required:
-      - collectionName
-      - enabled
-      - mongoUri
-      - recordsLimit
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        mongoUri:
-          type: string
-        collectionName:
-          type: string
-        recordsLimit:
-          type: integer
-          format: int64
     ModelDump:
       required:
       - archiveEnabled
@@ -9684,112 +10452,6 @@ components:
       properties:
         name:
           type: string
-    ModelHttpSettingsData:
-      required:
-      - isHttpEnabled
-      type: object
-      properties:
-        isHttpEnabled:
-          type: boolean
-        httpPort:
-          type: integer
-          format: int32
-        mainPageEndpoint:
-          type: string
-        httpInterfaceOnly:
-          type: boolean
-        requireMlpAuth:
-          type: boolean
-    ModelLimitsData:
-      required:
-      - cpuRequest
-      - ephemeralDiskLimit
-      - gpuRequested
-      - memoryLimit
-      type: object
-      properties:
-        cpuRequest:
-          type: string
-        memoryLimit:
-          type: string
-        ephemeralDiskLimit:
-          type: string
-        gpuRequested:
-          type: boolean
-        gpuMemoryLimitMb:
-          type: integer
-          format: int32
-        gpuUsageLimit:
-          maximum: 100
-          type: integer
-          format: int32
-        gpuCount:
-          type: integer
-          format: int32
-    ModelPriorityQueueData:
-      required:
-      - concurrencyLevel
-      - enabled
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        concurrencyLevel:
-          type: integer
-          format: int32
-    ModelPublicSettingsData:
-      type: object
-      properties:
-        isPublic:
-          type: boolean
-        allowedAccounts:
-          type: array
-          items:
-            type: integer
-            format: int64
-        featured:
-          type: boolean
-        featuredListOrder:
-          type: integer
-          format: int32
-        hidden:
-          type: boolean
-        publicTestingAllowed:
-          type: boolean
-        showPersonalDataDisclaimer:
-          type: boolean
-    ModelRetriesData:
-      required:
-      - maxRetries
-      - timeoutsMs
-      type: object
-      properties:
-        maxRetries:
-          type: integer
-          format: int32
-        timeoutsMs:
-          type: array
-          items:
-            type: integer
-            format: int64
-        maxRetriesPerInstance:
-          type: integer
-          format: int32
-    ModelTimeoutsData:
-      required:
-      - podStartTimeoutSec
-      - predictTimeoutSec
-      type: object
-      properties:
-        podStartTimeoutSec:
-          type: integer
-          format: int64
-        predictTimeoutSec:
-          type: integer
-          format: int64
-        fitTimeoutSec:
-          type: integer
-          format: int64
     PersistentVolumeDump:
       required:
       - mountPath
@@ -9812,23 +10474,6 @@ components:
           type: string
         isDefault:
           type: boolean
-    ScheduledInstanceCountSetting:
-      required:
-      - endTime
-      - minInstances
-      - startTime
-      type: object
-      properties:
-        startTime:
-          $ref: '#/components/schemas/LocalTime'
-        endTime:
-          $ref: '#/components/schemas/LocalTime'
-        minInstances:
-          type: integer
-          format: int32
-        maxInstances:
-          type: integer
-          format: int32
     AccountConfigDump:
       required:
       - accountName
@@ -10168,72 +10813,6 @@ components:
           - UNKNOWN
         priceSynchronizationEnabled:
           type: boolean
-    CreateResourceGroupData:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-        isDefault:
-          type: boolean
-        enabledEviction:
-          type: boolean
-        access:
-          type: string
-          enum:
-          - PRIVATE
-          - PUBLIC
-          - SHARED_POOL
-        resourceGroupType:
-          type: string
-          enum:
-          - DOCKER
-          - VAST_AI
-          - KUBERNETES
-          - HOSTING_SERVER
-          - SHARED_RESOURCE_QUOTA
-        enabledAutoScaling:
-          type: boolean
-        autoScalingConfiguration:
-          $ref: '#/components/schemas/ResourceGroupAutoScalingConfiguration'
-        costPrice:
-          type: number
-        tarifficationPeriod:
-          type: string
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-    ResourceGroupAutoScalingConfiguration:
-      required:
-      - minServersCount
-      type: object
-      properties:
-        serverId:
-          type: integer
-          format: int64
-        serverConfiguration:
-          type: string
-        fallbackServersIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-        minServersCount:
-          type: integer
-          format: int32
-        maxServersCount:
-          type: integer
-          format: int32
-        cooldownPeriodMinutes:
-          type: integer
-          format: int32
-        reserveResourceGroupName:
-          type: string
     ResourceGroupEssentialData:
       required:
       - access
@@ -10561,453 +11140,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-    DataImageMountData:
-      required:
-      - dataImageAccountId
-      - dataImageId
-      - targetPath
-      type: object
-      properties:
-        dmId:
-          type: integer
-          format: int64
-        dataImageAccountId:
-          type: integer
-          format: int64
-        dataImageId:
-          type: integer
-          format: int64
-        dataImage:
-          type: string
-        dataImageName:
-          type: string
-        sourcePath:
-          type: string
-        targetPath:
-          type: string
-    ModelCreateUpdateData:
-      required:
-      - modelName
-      type: object
-      properties:
-        modelName:
-          type: string
-        displayName:
-          type: string
-        displayAuthor:
-          type: string
-        imageAccountId:
-          type: integer
-          format: int64
-        imageId:
-          type: integer
-          format: int64
-        trainingModelAccountId:
-          type: integer
-          format: int64
-        trainingModelId:
-          type: integer
-          format: int64
-        trainingType:
-          type: string
-          enum:
-          - singleContainer
-          - multipleFit
-        trainingDatasetAccountId:
-          type: integer
-          format: int64
-        trainingDatasetId:
-          type: integer
-          format: int64
-        trainingFitConfigId:
-          type: integer
-          format: int64
-        taskType:
-          type: string
-        trainingDatasetType:
-          type: string
-        fitTemplateModelId:
-          type: integer
-          format: int64
-        composite:
-          type: boolean
-        prototype:
-          type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
-        rejectRequestsIfInactive:
-          type: boolean
-        config:
-          type: string
-        env:
-          type: string
-        additionalFlags:
-          type: array
-          items:
-            type: string
-        fittable:
-          type: boolean
-        hostingType:
-          type: string
-          enum:
-          - EXTERNAL
-          - INTERNAL
-          - AUTOMATIC
-          - HOSTING_SERVER
-        persistentVolumes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersistentVolumeData'
-        dataImageMounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataImageMountData'
-        resourceGroup:
-          type: string
-        timeouts:
-          $ref: '#/components/schemas/ModelTimeoutsData'
-        resourceLimits:
-          $ref: '#/components/schemas/ModelLimitsData'
-        retriesConfig:
-          $ref: '#/components/schemas/ModelRetriesData'
-        batchesConfig:
-          $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
-        autoScalingConfiguration:
-          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
-        shortDescription:
-          type: string
-        languages:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        minInstancesCount:
-          type: integer
-          format: int32
-        startTimeSec:
-          type: number
-          format: float
-        httpSettings:
-          $ref: '#/components/schemas/ModelHttpSettingsData'
-        archiveSettings:
-          $ref: '#/components/schemas/ModelArchiveSettingsData'
-        aliases:
-          type: array
-          items:
-            type: string
-        deploymentPatch:
-          type: string
-    PersistentVolumeData:
-      required:
-      - mountPath
-      - storageClass
-      type: object
-      properties:
-        pvId:
-          type: integer
-          format: int64
-        mountPath:
-          type: string
-        claimName:
-          type: string
-        sizeInGb:
-          type: integer
-          format: int32
-        storageClass:
-          type: string
-    DatasetInfoData:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/DatasetPK'
-        name:
-          type: string
-        datasetAccountName:
-          type: string
-        description:
-          type: string
-        dataType:
-          type: string
-        accessMode:
-          type: string
-          enum:
-          - private
-          - public
-          - restricted
-        warning:
-          type: string
-    DatasetPK:
-      required:
-      - accountId
-      - datasetId
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        datasetId:
-          type: integer
-          format: int64
-    FitConfigData:
-      required:
-      - config
-      - id
-      - isDefault
-      - isManual
-      - name
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/FitConfigPK'
-        name:
-          type: string
-        isDefault:
-          type: boolean
-        isManual:
-          type: boolean
-        config:
-          type: string
-    FitConfigPK:
-      required:
-      - accountId
-      - configId
-      - modelId
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        modelId:
-          type: integer
-          format: int64
-        configId:
-          type: integer
-          format: int64
-    ImageInfoData:
-      required:
-      - image
-      - name
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/ImageInfoPK'
-        name:
-          type: string
-        imageAccountName:
-          type: string
-        image:
-          type: string
-        accessMode:
-          type: string
-          enum:
-          - private
-          - public
-          - restricted
-    ImageInfoPK:
-      required:
-      - accountId
-      - imageId
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        imageId:
-          type: integer
-          format: int64
-    ModelInfoData:
-      required:
-      - archiveSettings
-      - autoScalingConfiguration
-      - batchesConfig
-      - billingSettings
-      - caching
-      - composite
-      - dataImageMounts
-      - displayAuthor
-      - displayName
-      - favorite
-      - fittable
-      - hostingType
-      - httpSettings
-      - id
-      - imageAccountId
-      - modelName
-      - persistentVolumes
-      - priorityQueue
-      - publicSettings
-      - resourceLimits
-      - restrictedImageAccess
-      - retriesConfig
-      - timeouts
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/ModelInfoPK'
-        modelAccountName:
-          type: string
-        modelAccountDisplayName:
-          type: string
-        modelName:
-          type: string
-        displayName:
-          type: string
-        displayAuthor:
-          type: string
-        imageAccountId:
-          type: integer
-          format: int64
-        imageId:
-          type: integer
-          format: int64
-        image:
-          $ref: '#/components/schemas/ImageInfoData'
-        modelGroupId:
-          type: integer
-          format: int64
-        modelGroupName:
-          type: string
-        trainingDatasetAccountId:
-          type: integer
-          format: int64
-        trainingDatasetId:
-          type: integer
-          format: int64
-        trainingDataset:
-          $ref: '#/components/schemas/DatasetInfoData'
-        trainingDatasetType:
-          type: string
-        trainingFitConfigId:
-          type: integer
-          format: int64
-        trainingFitConfig:
-          $ref: '#/components/schemas/FitConfigData'
-        fitTemplateModelId:
-          type: integer
-          format: int64
-        composite:
-          type: boolean
-        prototype:
-          type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
-        rejectRequestsIfInactive:
-          type: boolean
-        taskType:
-          type: string
-        trainingModelAccountId:
-          type: integer
-          format: int64
-        trainingModelId:
-          type: integer
-          format: int64
-        trainingModelName:
-          type: string
-        trainingType:
-          type: string
-          enum:
-          - singleContainer
-          - multipleFit
-        config:
-          type: string
-        env:
-          type: string
-        additionalFlags:
-          type: array
-          items:
-            type: string
-        fittable:
-          type: boolean
-        hostingType:
-          type: string
-          enum:
-          - EXTERNAL
-          - INTERNAL
-          - AUTOMATIC
-          - HOSTING_SERVER
-        persistentVolumes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersistentVolumeData'
-        dataImageMounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataImageMountData'
-        resourceGroup:
-          type: string
-        timeouts:
-          $ref: '#/components/schemas/ModelTimeoutsData'
-        resourceLimits:
-          $ref: '#/components/schemas/ModelLimitsData'
-        retriesConfig:
-          $ref: '#/components/schemas/ModelRetriesData'
-        batchesConfig:
-          $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
-        autoScalingConfiguration:
-          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
-        shortDescription:
-          type: string
-        languages:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        minInstancesCount:
-          type: integer
-          format: int32
-        publicSettings:
-          $ref: '#/components/schemas/ModelPublicSettingsData'
-        billingSettings:
-          $ref: '#/components/schemas/ModelBillingSettingsData'
-        httpSettings:
-          $ref: '#/components/schemas/ModelHttpSettingsData'
-        archiveSettings:
-          $ref: '#/components/schemas/ModelArchiveSettingsData'
-        restrictedImageAccess:
-          type: boolean
-        lastActivity:
-          type: integer
-          format: int64
-        favorite:
-          type: boolean
-        state:
-          type: string
-          enum:
-          - RUNNING
-          - STARTING
-          - INACTIVE
-          - SLEEPING
-          - REMOVING
-        deploymentPatch:
-          type: string
-    ModelInfoPK:
-      required:
-      - accountId
-      - modelId
-      type: object
-      properties:
-        accountId:
-          type: integer
-          format: int64
-        modelId:
-          type: integer
-          format: int64
     MethodDescriptorData:
       required:
       - fitted
