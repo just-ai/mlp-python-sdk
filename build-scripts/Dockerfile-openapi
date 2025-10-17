@@ -5,7 +5,7 @@ ARG UID=1230
 ARG GID=1230
 
 # Вывод UID и GID для отладки
-RUN echo "UID:GID = ${UID}:${GID}"
+RUN echo "USER UID:GID = ${USER} ${UID}:${GID}"
 
 # Проверка существования группы и её создание, если её нет
 RUN if ! grep -q ":${GID}:" /etc/group; then \
@@ -33,3 +33,5 @@ ENV PATH=$PATH:$HOME/.local/bin
 USER ${UID}:${GID}
 
 WORKDIR /app
+
+COPY . .
