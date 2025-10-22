@@ -9506,6 +9506,10 @@ components:
           type: array
           items:
             type: string
+        containerArgs:
+          type: array
+          items:
+            type: string
         fittable:
           type: boolean
         hostingType:
@@ -9792,6 +9796,11 @@ components:
           - private
           - public
           - restricted
+        imageType:
+          type: string
+          enum:
+          - DOCKER
+          - NPM
     ImageInfoPK:
       required:
       - accountId
@@ -9927,6 +9936,10 @@ components:
         env:
           type: string
         additionalFlags:
+          type: array
+          items:
+            type: string
+        containerArgs:
           type: array
           items:
             type: string
@@ -10257,6 +10270,11 @@ components:
           - private
           - public
           - restricted
+        imageType:
+          type: string
+          enum:
+          - DOCKER
+          - NPM
     ModelDump:
       required:
       - archiveEnabled
@@ -10299,6 +10317,10 @@ components:
         env:
           type: object
         additionalFlags:
+          type: array
+          items:
+            type: string
+        containerArgs:
           type: array
           items:
             type: string
@@ -10418,7 +10440,7 @@ components:
         httpPort:
           type: integer
           format: int32
-        mainPageEndpoint:
+        healthCheckEndpoint:
           type: string
         httpInterfaceOnly:
           type: boolean
