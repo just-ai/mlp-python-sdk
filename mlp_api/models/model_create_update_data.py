@@ -57,6 +57,7 @@ class ModelCreateUpdateData(BaseModel):
     config: Optional[StrictStr] = None
     env: Optional[StrictStr] = None
     additional_flags: Optional[conlist(StrictStr)] = Field(default=None, alias="additionalFlags")
+    container_args: Optional[conlist(StrictStr)] = Field(default=None, alias="containerArgs")
     fittable: Optional[StrictBool] = None
     hosting_type: Optional[StrictStr] = Field(default=None, alias="hostingType")
     persistent_volumes: Optional[conlist(PersistentVolumeData)] = Field(default=None, alias="persistentVolumes")
@@ -77,7 +78,7 @@ class ModelCreateUpdateData(BaseModel):
     archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
     aliases: Optional[conlist(StrictStr)] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch"]
+    __properties = ["modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -197,6 +198,7 @@ class ModelCreateUpdateData(BaseModel):
             "config": obj.get("config"),
             "env": obj.get("env"),
             "additional_flags": obj.get("additionalFlags"),
+            "container_args": obj.get("containerArgs"),
             "fittable": obj.get("fittable"),
             "hosting_type": obj.get("hostingType"),
             "persistent_volumes": [PersistentVolumeData.from_dict(_item) for _item in obj.get("persistentVolumes")] if obj.get("persistentVolumes") is not None else None,
