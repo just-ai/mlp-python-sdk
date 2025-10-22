@@ -28,7 +28,8 @@ class ImageDump(BaseModel):
     name: StrictStr = Field(...)
     image: StrictStr = Field(...)
     access_mode: Optional[StrictStr] = Field(default=None, alias="accessMode")
-    __properties = ["name", "image", "accessMode"]
+    image_type: Optional[StrictStr] = Field(default=None, alias="imageType")
+    __properties = ["name", "image", "accessMode", "imageType"]
 
     @validator('access_mode')
     def access_mode_validate_enum(cls, value):
@@ -38,6 +39,16 @@ class ImageDump(BaseModel):
 
         if value not in ('private', 'public', 'restricted'):
             raise ValueError("must be one of enum values ('private', 'public', 'restricted')")
+        return value
+
+    @validator('image_type')
+    def image_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('DOCKER', 'NPM'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
         return value
 
     class Config:
@@ -78,7 +89,8 @@ class ImageDump(BaseModel):
         _obj = ImageDump.parse_obj({
             "name": obj.get("name"),
             "image": obj.get("image"),
-            "access_mode": obj.get("accessMode")
+            "access_mode": obj.get("accessMode"),
+            "image_type": obj.get("imageType")
         })
         return _obj
 
