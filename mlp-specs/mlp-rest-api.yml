@@ -9129,6 +9129,8 @@ components:
             type: string
         restrictions:
           $ref: '#/components/schemas/TokenRestrictionsData'
+        jayGuardMaskingKey:
+          type: string
         emailsForNotifications:
           type: array
           items:
@@ -9156,6 +9158,8 @@ components:
             type: string
         restrictions:
           $ref: '#/components/schemas/TokenRestrictionsData'
+        jayGuardMaskingKey:
+          type: string
         emailsForNotifications:
           type: array
           items:
@@ -9519,6 +9523,15 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+        protocols:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - TCP
+            - MLP_GRPC
+            - MCP_STDIO
         persistentVolumes:
           type: array
           items:
@@ -9567,8 +9580,6 @@ components:
         deploymentPatch:
           type: string
     ModelHttpSettingsData:
-      required:
-      - isHttpEnabled
       type: object
       properties:
         isHttpEnabled:
@@ -9855,6 +9866,7 @@ components:
       - modelName
       - persistentVolumes
       - priorityQueue
+      - protocols
       - publicSettings
       - resourceLimits
       - restrictedImageAccess
@@ -9952,6 +9964,15 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+        protocols:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - TCP
+            - MLP_GRPC
+            - MCP_STDIO
         persistentVolumes:
           type: array
           items:
@@ -10286,7 +10307,6 @@ components:
       - docs
       - fitConfigs
       - image
-      - isHttpEnabled
       - name
       - numberOfArchivedRequests
       - predictConfigs
@@ -10446,6 +10466,15 @@ components:
           type: boolean
         requireMlpAuth:
           type: boolean
+        protocols:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - TCP
+            - MLP_GRPC
+            - MCP_STDIO
         archiveEnabled:
           type: boolean
         numberOfArchivedRequests:
@@ -10679,6 +10708,8 @@ components:
         lastActivity:
           type: integer
           format: int64
+        jayGuardMaskingKey:
+          type: string
     AccountFeatureData:
       required:
       - features
@@ -10711,6 +10742,8 @@ components:
             type: string
         restrictions:
           $ref: '#/components/schemas/TokenRestrictionsData'
+        jayGuardMaskingKey:
+          type: string
         emailsForNotifications:
           type: array
           items:
@@ -11806,6 +11839,7 @@ components:
       - isArchiveEnabled
       - isBillingEnabled
       - isExtendedLanding
+      - isJayGuardEnabled
       - isSystemAccount
       - license
       - refillByManager
@@ -11817,6 +11851,8 @@ components:
         isBillingEnabled:
           type: boolean
         isArchiveEnabled:
+          type: boolean
+        isJayGuardEnabled:
           type: boolean
         isExtendedLanding:
           type: boolean
