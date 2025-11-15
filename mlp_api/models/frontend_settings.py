@@ -29,6 +29,7 @@ class FrontendSettings(BaseModel):
     is_system_account: StrictBool = Field(default=..., alias="isSystemAccount")
     is_billing_enabled: StrictBool = Field(default=..., alias="isBillingEnabled")
     is_archive_enabled: StrictBool = Field(default=..., alias="isArchiveEnabled")
+    is_jay_guard_enabled: StrictBool = Field(default=..., alias="isJayGuardEnabled")
     is_extended_landing: StrictBool = Field(default=..., alias="isExtendedLanding")
     currency_type: StrictStr = Field(default=..., alias="currencyType")
     english_only: StrictBool = Field(default=..., alias="englishOnly")
@@ -36,7 +37,7 @@ class FrontendSettings(BaseModel):
     save_clicks_enabled: StrictBool = Field(default=..., alias="saveClicksEnabled")
     license: LicenseSettings = Field(...)
     env_name: StrictStr = Field(default=..., alias="envName")
-    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license", "envName"]
+    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isJayGuardEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license", "envName"]
 
     @validator('currency_type')
     def currency_type_validate_enum(cls, value):
@@ -87,6 +88,7 @@ class FrontendSettings(BaseModel):
             "is_system_account": obj.get("isSystemAccount"),
             "is_billing_enabled": obj.get("isBillingEnabled"),
             "is_archive_enabled": obj.get("isArchiveEnabled"),
+            "is_jay_guard_enabled": obj.get("isJayGuardEnabled"),
             "is_extended_landing": obj.get("isExtendedLanding"),
             "currency_type": obj.get("currencyType"),
             "english_only": obj.get("englishOnly"),

@@ -25,7 +25,7 @@ class ModelHttpSettingsData(BaseModel):
     """
     ModelHttpSettingsData
     """
-    is_http_enabled: StrictBool = Field(default=..., alias="isHttpEnabled")
+    is_http_enabled: Optional[StrictBool] = Field(default=None, alias="isHttpEnabled")
     http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
     main_page_endpoint: Optional[StrictStr] = Field(default=None, alias="mainPageEndpoint")
     http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
