@@ -4,6 +4,20 @@ from mlp_sdk.utils.misc import get_one_of, parse_grpc_url, remove_null_fields, r
 
 
 class TestParseGrpcUrl:
+    def test_parse_url_without_protocol(self):
+        # Тестирование URL без указания протокола
+        url = "localhost:50051"
+        host_port, secure = parse_grpc_url(url)
+        assert host_port == "localhost:50051"
+        assert secure
+
+    def test_parse_url_with_invalid_hostname(self):
+        # Тестирование URL, в котором отсутствует хост
+        url = "http://"
+        with pytest.raises(Exception) as excinfo:
+            parse_grpc_url(url)
+        assert "Invalid url" in str(excinfo.value)
+
     def test_parse_http_url_without_port(self):
         # Тестирование HTTP URL без указания порта
         url = "http://example.com"

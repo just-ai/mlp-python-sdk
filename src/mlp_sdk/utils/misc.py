@@ -6,7 +6,13 @@ P = TypeVar("P")
 
 
 def parse_grpc_url(url_str: str) -> Tuple[str, bool]:
+    if "://" not in url_str:
+        url_str = "https://" + url_str
+
     url = urlparse(url_str)
+
+    if not url.hostname:
+        raise Exception("Invalid url")
 
     secure = url.scheme == "https"
     if url.port:
