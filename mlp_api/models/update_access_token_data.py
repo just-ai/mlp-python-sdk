@@ -29,8 +29,9 @@ class UpdateAccessTokenData(BaseModel):
     ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
     permissions: conlist(StrictStr, unique_items=True) = Field(...)
     restrictions: Optional[TokenRestrictionsData] = None
+    jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
-    __properties = ["ttlMinutes", "permissions", "restrictions", "emailsForNotifications"]
+    __properties = ["ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications"]
 
     class Config:
         """Pydantic configuration"""
@@ -74,6 +75,7 @@ class UpdateAccessTokenData(BaseModel):
             "ttl_minutes": obj.get("ttlMinutes"),
             "permissions": obj.get("permissions"),
             "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
+            "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
             "emails_for_notifications": obj.get("emailsForNotifications")
         })
         return _obj

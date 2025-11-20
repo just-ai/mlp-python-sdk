@@ -91,12 +91,14 @@ class ModelDump(BaseModel):
     billing_unit: Optional[StrictStr] = Field(default=None, alias="billingUnit")
     billing_unit_price_in_nano_token: Optional[StrictInt] = Field(default=None, alias="billingUnitPriceInNanoToken")
     free_unit_quota: Optional[StrictInt] = Field(default=None, alias="freeUnitQuota")
+    allow_deferred_billing: Optional[StrictBool] = Field(default=None, alias="allowDeferredBilling")
     aliases: Optional[conlist(StrictStr)] = None
-    is_http_enabled: StrictBool = Field(default=..., alias="isHttpEnabled")
+    is_http_enabled: Optional[StrictBool] = Field(default=None, alias="isHttpEnabled")
     http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
     health_check_endpoint: Optional[StrictStr] = Field(default=None, alias="healthCheckEndpoint")
     http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
     require_mlp_auth: Optional[StrictBool] = Field(default=None, alias="requireMlpAuth")
+    protocols: Optional[conlist(StrictStr, unique_items=True)] = None
     archive_enabled: StrictBool = Field(default=..., alias="archiveEnabled")
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     archive_encryption_enabled: StrictBool = Field(default=..., alias="archiveEncryptionEnabled")
@@ -107,7 +109,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "allowDeferredBilling", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "protocols", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -137,6 +139,17 @@ class ModelDump(BaseModel):
 
         if value not in ('calls', 'direct', 'custom'):
             raise ValueError("must be one of enum values ('calls', 'direct', 'custom')")
+        return value
+
+    @validator('protocols')
+    def protocols_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        for i in value:
+            if i not in ('TCP', 'MLP_GRPC', 'MCP_STDIO'):
+                raise ValueError("each list item must be one of ('TCP', 'MLP_GRPC', 'MCP_STDIO')")
         return value
 
     class Config:
@@ -293,12 +306,14 @@ class ModelDump(BaseModel):
             "billing_unit": obj.get("billingUnit"),
             "billing_unit_price_in_nano_token": obj.get("billingUnitPriceInNanoToken"),
             "free_unit_quota": obj.get("freeUnitQuota"),
+            "allow_deferred_billing": obj.get("allowDeferredBilling"),
             "aliases": obj.get("aliases"),
             "is_http_enabled": obj.get("isHttpEnabled"),
             "http_port": obj.get("httpPort"),
             "health_check_endpoint": obj.get("healthCheckEndpoint"),
             "http_interface_only": obj.get("httpInterfaceOnly"),
             "require_mlp_auth": obj.get("requireMlpAuth"),
+            "protocols": obj.get("protocols"),
             "archive_enabled": obj.get("archiveEnabled"),
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "archive_encryption_enabled": obj.get("archiveEncryptionEnabled"),
