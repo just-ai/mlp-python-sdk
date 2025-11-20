@@ -9064,6 +9064,252 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/application/{application}/auto-start:
+    get:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_3
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_2
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_5
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    options:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_6
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    head:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_1
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    patch:
+      tags:
+      - application-endpoint
+      operationId: autoStartApplication_4
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: application
+        in: path
+        description: Application id or application name
+        required: true
+        schema:
+          type: string
+      - name: isHealthCheck
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     ServiceFilter:
