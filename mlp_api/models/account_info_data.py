@@ -33,7 +33,8 @@ class AccountInfoData(BaseModel):
     tags: Optional[Dict[str, StrictStr]] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
-    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity"]
+    jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
+    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey"]
 
     @validator('language')
     def language_validate_enum(cls, value):
@@ -90,7 +91,8 @@ class AccountInfoData(BaseModel):
             "language": obj.get("language"),
             "tags": obj.get("tags"),
             "display_name": obj.get("displayName"),
-            "last_activity": obj.get("lastActivity")
+            "last_activity": obj.get("lastActivity"),
+            "jay_guard_masking_key": obj.get("jayGuardMaskingKey")
         })
         return _obj
 
