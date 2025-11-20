@@ -30,7 +30,8 @@ class ModelBillingSettingsData(BaseModel):
     billing_unit_price_in_nano_token: Optional[StrictInt] = Field(default=None, alias="billingUnitPriceInNanoToken")
     billing_unit_price_in_currency: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="billingUnitPriceInCurrency")
     free_unit_quota: Optional[StrictInt] = Field(default=None, alias="freeUnitQuota")
-    __properties = ["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInCurrency", "freeUnitQuota"]
+    allow_deferred_billing: Optional[StrictBool] = Field(default=None, alias="allowDeferredBilling")
+    __properties = ["isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "billingUnitPriceInCurrency", "freeUnitQuota", "allowDeferredBilling"]
 
     @validator('billing_unit')
     def billing_unit_validate_enum(cls, value):
@@ -82,7 +83,8 @@ class ModelBillingSettingsData(BaseModel):
             "billing_unit": obj.get("billingUnit"),
             "billing_unit_price_in_nano_token": obj.get("billingUnitPriceInNanoToken"),
             "billing_unit_price_in_currency": obj.get("billingUnitPriceInCurrency"),
-            "free_unit_quota": obj.get("freeUnitQuota")
+            "free_unit_quota": obj.get("freeUnitQuota"),
+            "allow_deferred_billing": obj.get("allowDeferredBilling")
         })
         return _obj
 
