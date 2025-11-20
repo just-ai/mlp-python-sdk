@@ -71,6 +71,8 @@ message ServiceToGateProto {
 
     FitStatusProto fitStatus = 108;
 
+    DeferredBillingChargeRequestProto deferredBillingCharge = 109;
+
     ApiErrorProto error = 201;
   }
 
@@ -127,49 +129,6 @@ message StopServingProto {
 message PredictRequestProto {
   PayloadProto data = 101;
   optional PayloadProto config = 102;
-  PredictRequestMetadataProto metadata = 103;
-}
-
-message PredictRequestMetadataProto {
-  string requestId = 1;
-  optional string originalRequestId = 2;
-
-  bool isPaymentRequired = 3;
-
-  oneof billingAccount {
-    NoBillingAccount noAccount = 4;
-    ApiTokenBillingAccount apiTokenAccount = 5;
-    BillingTokenBillingAccount billingTokenAccount = 6;
-  }
-
-  int64 tokenToCurrencyRate = 7;
-  double maxPricePerCallCurrency = 8;
-
-  PredictRequestMetadataModelProto model = 9;
-}
-
-message NoBillingAccount {
-}
-
-message ApiTokenBillingAccount {
-  int64 accountId = 1;
-  string apiTokenName = 2;
-}
-
-message BillingTokenBillingAccount {
-  int64 accountId = 1;
-  string apiTokenName = 2;
-  int64 billingAccountId = 3;
-  string billingTokenName = 4;
-}
-
-message PredictRequestMetadataModelProto {
-  int64 id = 1;
-  int64 accountId = 2;
-  string name = 3;
-  optional string resourceGroup = 4;
-  string accountShortName = 5;
-  int64 billingUnitPriceInNanoToken = 6;
 }
 
 message PartialPredictRequestProto {
@@ -196,6 +155,11 @@ message PartialPredictResponseProto {
 
 message FitStatusProto {
   int32 percentage = 101;
+}
+
+message DeferredBillingChargeRequestProto {
+  string billingRequestId = 1;
+  int64 amountInUnits = 2;
 }
 
 message BatchResponseProto {

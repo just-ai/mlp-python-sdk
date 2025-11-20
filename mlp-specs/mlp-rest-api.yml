@@ -9846,6 +9846,8 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
+        allowDeferredBilling:
+          type: boolean
     ModelInfoData:
       required:
       - archiveSettings
@@ -10451,6 +10453,8 @@ components:
         freeUnitQuota:
           type: integer
           format: int32
+        allowDeferredBilling:
+          type: boolean
         aliases:
           type: array
           items:
