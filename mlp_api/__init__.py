@@ -42,6 +42,7 @@ from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
 from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
+from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
@@ -125,6 +126,7 @@ from mlp_api.models.instance_state_running import InstanceStateRunning
 from mlp_api.models.instance_state_terminated import InstanceStateTerminated
 from mlp_api.models.instance_state_waiting import InstanceStateWaiting
 from mlp_api.models.instances_status_data import InstancesStatusData
+from mlp_api.models.integration_snippet_data import IntegrationSnippetData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2

@@ -18,17 +18,25 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, StrictStr, validator
+
+class IntegrationSnippetData(BaseModel):
     """
-    SortObject
+    IntegrationSnippetData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    integration_type: StrictStr = Field(default=..., alias="integrationType")
+    language: StrictStr = Field(...)
+    content: StrictStr = Field(...)
+    instructions: StrictStr = Field(...)
+    __properties = ["integrationType", "language", "content", "instructions"]
+
+    @validator('integration_type')
+    def integration_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('CLAUDE_CODE_CLI', 'INTELLIJ_IDEA', 'N8N'):
+            raise ValueError("must be one of enum values ('CLAUDE_CODE_CLI', 'INTELLIJ_IDEA', 'N8N')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +52,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> IntegrationSnippetData:
+        """Create an instance of IntegrationSnippetData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +65,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> IntegrationSnippetData:
+        """Create an instance of IntegrationSnippetData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return IntegrationSnippetData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = IntegrationSnippetData.parse_obj({
+            "integration_type": obj.get("integrationType"),
+            "language": obj.get("language"),
+            "content": obj.get("content"),
+            "instructions": obj.get("instructions")
         })
         return _obj
 

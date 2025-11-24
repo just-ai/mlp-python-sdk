@@ -78,6 +78,7 @@ from mlp_api.models.instance_state_running import InstanceStateRunning
 from mlp_api.models.instance_state_terminated import InstanceStateTerminated
 from mlp_api.models.instance_state_waiting import InstanceStateWaiting
 from mlp_api.models.instances_status_data import InstancesStatusData
+from mlp_api.models.integration_snippet_data import IntegrationSnippetData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
