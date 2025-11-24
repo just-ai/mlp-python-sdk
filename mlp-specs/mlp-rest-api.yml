@@ -7401,6 +7401,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusData'
+  /api/mlpcore/account/{account}/model/{model}/integration-snippets:
+    get:
+      tags:
+      - snippet-endpoint
+      operationId: getIntegrationSnippets
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntegrationSnippetData'
   /api/mlpcore/account/{account}/model/{model}/instance:
     get:
       tags:
@@ -12877,6 +12916,26 @@ components:
         startTimeSeconds:
           type: number
           format: float
+    IntegrationSnippetData:
+      required:
+      - content
+      - instructions
+      - integrationType
+      - language
+      type: object
+      properties:
+        integrationType:
+          type: string
+          enum:
+          - CLAUDE_CODE_CLI
+          - INTELLIJ_IDEA
+          - N8N
+        language:
+          type: string
+        content:
+          type: string
+        instructions:
+          type: string
     ModelInstanceData:
       required:
       - id
