@@ -47,9 +47,6 @@ build:
     - test
   script:
     - make build
-  rules:
-    - if: $CI_COMMIT_BRANCH == "v2"
-      when: always
 
 deploy_open:
   extends: .deploy
@@ -66,7 +63,8 @@ deploy_private:
     NEXUS: nexus
     VERSION: dev
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH == "v2"'
+      changes:
         - "src/**/*"
         - "api-specs/*"
         - "build-scripts/*"
