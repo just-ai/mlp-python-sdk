@@ -19,16 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt
+from pydantic import BaseModel, Field
+from mlp_api.models.existing_image_data import ExistingImageData
+from mlp_api.models.new_image_data import NewImageData
 
-class ModelTimeoutsData(BaseModel):
+class ImageStepData(BaseModel):
     """
-    ModelTimeoutsData
+    ImageStepData
     """
-    pod_start_timeout_sec: StrictInt = Field(default=..., alias="podStartTimeoutSec")
-    predict_timeout_sec: Optional[StrictInt] = Field(default=None, alias="predictTimeoutSec")
-    fit_timeout_sec: Optional[StrictInt] = Field(default=None, alias="fitTimeoutSec")
-    __properties = ["podStartTimeoutSec", "predictTimeoutSec", "fitTimeoutSec"]
+    new_image: Optional[NewImageData] = Field(default=None, alias="newImage")
+    existing_image: Optional[ExistingImageData] = Field(default=None, alias="existingImage")
+    __properties = ["newImage", "existingImage"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class ModelTimeoutsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a JSON string"""
+    def from_json(cls, json_str: str) -> ImageStepData:
+        """Create an instance of ImageStepData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,26 @@ class ModelTimeoutsData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of new_image
+        if self.new_image:
+            _dict['newImage'] = self.new_image.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of existing_image
+        if self.existing_image:
+            _dict['existingImage'] = self.existing_image.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a dict"""
+    def from_dict(cls, obj: dict) -> ImageStepData:
+        """Create an instance of ImageStepData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelTimeoutsData.parse_obj(obj)
+            return ImageStepData.parse_obj(obj)
 
-        _obj = ModelTimeoutsData.parse_obj({
-            "pod_start_timeout_sec": obj.get("podStartTimeoutSec"),
-            "predict_timeout_sec": obj.get("predictTimeoutSec"),
-            "fit_timeout_sec": obj.get("fitTimeoutSec")
+        _obj = ImageStepData.parse_obj({
+            "new_image": NewImageData.from_dict(obj.get("newImage")) if obj.get("newImage") is not None else None,
+            "existing_image": ExistingImageData.from_dict(obj.get("existingImage")) if obj.get("existingImage") is not None else None
         })
         return _obj
 

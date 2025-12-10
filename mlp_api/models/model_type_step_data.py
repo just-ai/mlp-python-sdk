@@ -19,16 +19,22 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt
+from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
 
-class ModelTimeoutsData(BaseModel):
+class ModelTypeStepData(BaseModel):
     """
-    ModelTimeoutsData
+    ModelTypeStepData
     """
-    pod_start_timeout_sec: StrictInt = Field(default=..., alias="podStartTimeoutSec")
-    predict_timeout_sec: Optional[StrictInt] = Field(default=None, alias="predictTimeoutSec")
-    fit_timeout_sec: Optional[StrictInt] = Field(default=None, alias="fitTimeoutSec")
-    __properties = ["podStartTimeoutSec", "predictTimeoutSec", "fitTimeoutSec"]
+    model_type: StrictStr = Field(default=..., alias="modelType")
+    enable_http_interface: Optional[StrictBool] = Field(default=None, alias="enableHttpInterface")
+    __properties = ["modelType", "enableHttpInterface"]
+
+    @validator('model_type')
+    def model_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER'):
+            raise ValueError("must be one of enum values ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +50,8 @@ class ModelTimeoutsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a JSON string"""
+    def from_json(cls, json_str: str) -> ModelTypeStepData:
+        """Create an instance of ModelTypeStepData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +63,17 @@ class ModelTimeoutsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a dict"""
+    def from_dict(cls, obj: dict) -> ModelTypeStepData:
+        """Create an instance of ModelTypeStepData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelTimeoutsData.parse_obj(obj)
+            return ModelTypeStepData.parse_obj(obj)
 
-        _obj = ModelTimeoutsData.parse_obj({
-            "pod_start_timeout_sec": obj.get("podStartTimeoutSec"),
-            "predict_timeout_sec": obj.get("predictTimeoutSec"),
-            "fit_timeout_sec": obj.get("fitTimeoutSec")
+        _obj = ModelTypeStepData.parse_obj({
+            "model_type": obj.get("modelType"),
+            "enable_http_interface": obj.get("enableHttpInterface")
         })
         return _obj
 
