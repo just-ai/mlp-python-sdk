@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+
 from pydantic import BaseModel, Field, StrictInt
 
-class ModelTimeoutsData(BaseModel):
+class ExistingImageData(BaseModel):
     """
-    ModelTimeoutsData
+    ExistingImageData
     """
-    pod_start_timeout_sec: StrictInt = Field(default=..., alias="podStartTimeoutSec")
-    predict_timeout_sec: Optional[StrictInt] = Field(default=None, alias="predictTimeoutSec")
-    fit_timeout_sec: Optional[StrictInt] = Field(default=None, alias="fitTimeoutSec")
-    __properties = ["podStartTimeoutSec", "predictTimeoutSec", "fitTimeoutSec"]
+    image_account_id: StrictInt = Field(default=..., alias="imageAccountId")
+    image_id: StrictInt = Field(default=..., alias="imageId")
+    __properties = ["imageAccountId", "imageId"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class ModelTimeoutsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a JSON string"""
+    def from_json(cls, json_str: str) -> ExistingImageData:
+        """Create an instance of ExistingImageData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class ModelTimeoutsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a dict"""
+    def from_dict(cls, obj: dict) -> ExistingImageData:
+        """Create an instance of ExistingImageData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelTimeoutsData.parse_obj(obj)
+            return ExistingImageData.parse_obj(obj)
 
-        _obj = ModelTimeoutsData.parse_obj({
-            "pod_start_timeout_sec": obj.get("podStartTimeoutSec"),
-            "predict_timeout_sec": obj.get("predictTimeoutSec"),
-            "fit_timeout_sec": obj.get("fitTimeoutSec")
+        _obj = ExistingImageData.parse_obj({
+            "image_account_id": obj.get("imageAccountId"),
+            "image_id": obj.get("imageId")
         })
         return _obj
 

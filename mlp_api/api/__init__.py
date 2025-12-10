@@ -18,14 +18,15 @@ from mlp_api.api.model_alias_endpoint_api import ModelAliasEndpointApi
 from mlp_api.api.model_endpoint_api import ModelEndpointApi
 from mlp_api.api.model_group_endpoint_api import ModelGroupEndpointApi
 from mlp_api.api.model_instance_endpoint_api import ModelInstanceEndpointApi
+from mlp_api.api.model_wizard_endpoint_api import ModelWizardEndpointApi
 from mlp_api.api.notifications_controller_api import NotificationsControllerApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
-from mlp_api.api.quick_start_model_endpoint_api import QuickStartModelEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
 from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
+from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi

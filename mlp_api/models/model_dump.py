@@ -99,6 +99,7 @@ class ModelDump(BaseModel):
     http_interface_only: Optional[StrictBool] = Field(default=None, alias="httpInterfaceOnly")
     require_mlp_auth: Optional[StrictBool] = Field(default=None, alias="requireMlpAuth")
     protocols: Optional[conlist(StrictStr, unique_items=True)] = None
+    model_type: Optional[StrictStr] = Field(default=None, alias="modelType")
     archive_enabled: StrictBool = Field(default=..., alias="archiveEnabled")
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     archive_encryption_enabled: StrictBool = Field(default=..., alias="archiveEncryptionEnabled")
@@ -109,7 +110,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "allowDeferredBilling", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "protocols", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "allowDeferredBilling", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "protocols", "modelType", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -150,6 +151,16 @@ class ModelDump(BaseModel):
         for i in value:
             if i not in ('TCP', 'MLP_GRPC', 'MCP_STDIO'):
                 raise ValueError("each list item must be one of ('TCP', 'MLP_GRPC', 'MCP_STDIO')")
+        return value
+
+    @validator('model_type')
+    def model_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER'):
+            raise ValueError("must be one of enum values ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER')")
         return value
 
     class Config:
@@ -314,6 +325,7 @@ class ModelDump(BaseModel):
             "http_interface_only": obj.get("httpInterfaceOnly"),
             "require_mlp_auth": obj.get("requireMlpAuth"),
             "protocols": obj.get("protocols"),
+            "model_type": obj.get("modelType"),
             "archive_enabled": obj.get("archiveEnabled"),
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "archive_encryption_enabled": obj.get("archiveEncryptionEnabled"),

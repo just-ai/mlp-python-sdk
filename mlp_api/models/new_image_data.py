@@ -18,17 +18,23 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt
 
-class ModelTimeoutsData(BaseModel):
+from pydantic import BaseModel, Field, StrictStr, validator
+
+class NewImageData(BaseModel):
     """
-    ModelTimeoutsData
+    NewImageData
     """
-    pod_start_timeout_sec: StrictInt = Field(default=..., alias="podStartTimeoutSec")
-    predict_timeout_sec: Optional[StrictInt] = Field(default=None, alias="predictTimeoutSec")
-    fit_timeout_sec: Optional[StrictInt] = Field(default=None, alias="fitTimeoutSec")
-    __properties = ["podStartTimeoutSec", "predictTimeoutSec", "fitTimeoutSec"]
+    image_source_type: StrictStr = Field(default=..., alias="imageSourceType")
+    image: StrictStr = Field(...)
+    __properties = ["imageSourceType", "image"]
+
+    @validator('image_source_type')
+    def image_source_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('DOCKER', 'NPM'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +50,8 @@ class ModelTimeoutsData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a JSON string"""
+    def from_json(cls, json_str: str) -> NewImageData:
+        """Create an instance of NewImageData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +63,17 @@ class ModelTimeoutsData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelTimeoutsData:
-        """Create an instance of ModelTimeoutsData from a dict"""
+    def from_dict(cls, obj: dict) -> NewImageData:
+        """Create an instance of NewImageData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelTimeoutsData.parse_obj(obj)
+            return NewImageData.parse_obj(obj)
 
-        _obj = ModelTimeoutsData.parse_obj({
-            "pod_start_timeout_sec": obj.get("podStartTimeoutSec"),
-            "predict_timeout_sec": obj.get("predictTimeoutSec"),
-            "fit_timeout_sec": obj.get("fitTimeoutSec")
+        _obj = NewImageData.parse_obj({
+            "image_source_type": obj.get("imageSourceType"),
+            "image": obj.get("image")
         })
         return _obj
 

@@ -18,41 +18,34 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist, validator
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.data_image_mount_data import DataImageMountData
 from mlp_api.models.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.models.model_auto_scaling_configuration import ModelAutoScalingConfiguration
 from mlp_api.models.model_batches_data import ModelBatchesData
 from mlp_api.models.model_caching_data import ModelCachingData
-from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
-from mlp_api.models.model_limits_data import ModelLimitsData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_retries_data import ModelRetriesData
 from mlp_api.models.model_timeouts_data import ModelTimeoutsData
 from mlp_api.models.persistent_volume_data import PersistentVolumeData
 
-class ModelCreateUpdateData(BaseModel):
+class ServiceConfigurationStepData(BaseModel):
     """
-    ModelCreateUpdateData
+    ServiceConfigurationStepData
     """
-    model_type: Optional[StrictStr] = Field(default=None, alias="modelType")
-    model_name: StrictStr = Field(default=..., alias="modelName")
-    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
-    display_author: Optional[StrictStr] = Field(default=None, alias="displayAuthor")
-    image_account_id: Optional[StrictInt] = Field(default=None, alias="imageAccountId")
-    image_id: Optional[StrictInt] = Field(default=None, alias="imageId")
+    mcp_internal_protocol: Optional[StrictStr] = Field(default=None, alias="mcpInternalProtocol")
+    http_port: Optional[StrictInt] = Field(default=None, alias="httpPort")
+    health_check_endpoint: Optional[StrictStr] = Field(default=None, alias="healthCheckEndpoint")
     training_model_account_id: Optional[StrictInt] = Field(default=None, alias="trainingModelAccountId")
     training_model_id: Optional[StrictInt] = Field(default=None, alias="trainingModelId")
     training_type: Optional[StrictStr] = Field(default=None, alias="trainingType")
     training_dataset_account_id: Optional[StrictInt] = Field(default=None, alias="trainingDatasetAccountId")
     training_dataset_id: Optional[StrictInt] = Field(default=None, alias="trainingDatasetId")
     training_fit_config_id: Optional[StrictInt] = Field(default=None, alias="trainingFitConfigId")
-    task_type: Optional[StrictStr] = Field(default=None, alias="taskType")
     training_dataset_type: Optional[StrictStr] = Field(default=None, alias="trainingDatasetType")
     fit_template_model_id: Optional[StrictInt] = Field(default=None, alias="fitTemplateModelId")
     composite: Optional[StrictBool] = None
-    prototype: Optional[StrictBool] = None
     supported_templates: Optional[conlist(StrictInt)] = Field(default=None, alias="supportedTemplates")
     reject_requests_if_inactive: Optional[StrictBool] = Field(default=None, alias="rejectRequestsIfInactive")
     config: Optional[StrictStr] = None
@@ -61,35 +54,26 @@ class ModelCreateUpdateData(BaseModel):
     container_args: Optional[conlist(StrictStr)] = Field(default=None, alias="containerArgs")
     fittable: Optional[StrictBool] = None
     hosting_type: Optional[StrictStr] = Field(default=None, alias="hostingType")
-    protocols: Optional[conlist(StrictStr, unique_items=True)] = None
     persistent_volumes: Optional[conlist(PersistentVolumeData)] = Field(default=None, alias="persistentVolumes")
     data_image_mounts: Optional[conlist(DataImageMountData)] = Field(default=None, alias="dataImageMounts")
-    resource_group: Optional[StrictStr] = Field(default=None, alias="resourceGroup")
     timeouts: Optional[ModelTimeoutsData] = None
-    resource_limits: Optional[ModelLimitsData] = Field(default=None, alias="resourceLimits")
     retries_config: Optional[ModelRetriesData] = Field(default=None, alias="retriesConfig")
     batches_config: Optional[ModelBatchesData] = Field(default=None, alias="batchesConfig")
     caching: Optional[ModelCachingData] = None
     priority_queue: Optional[ModelPriorityQueueData] = Field(default=None, alias="priorityQueue")
     auto_scaling_configuration: Optional[ModelAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
-    short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
-    languages: Optional[conlist(StrictStr, unique_items=True)] = None
-    min_instances_count: Optional[StrictInt] = Field(default=None, alias="minInstancesCount")
-    start_time_sec: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="startTimeSec")
-    http_settings: Optional[ModelHttpSettingsData] = Field(default=None, alias="httpSettings")
     archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
-    aliases: Optional[conlist(StrictStr)] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["modelType", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch"]
+    __properties = ["mcpInternalProtocol", "httpPort", "healthCheckEndpoint", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "trainingDatasetType", "fitTemplateModelId", "composite", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "persistentVolumes", "dataImageMounts", "timeouts", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "archiveSettings", "deploymentPatch"]
 
-    @validator('model_type')
-    def model_type_validate_enum(cls, value):
+    @validator('mcp_internal_protocol')
+    def mcp_internal_protocol_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
 
-        if value not in ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER'):
-            raise ValueError("must be one of enum values ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER')")
+        if value not in ('SSE', 'STDIO'):
+            raise ValueError("must be one of enum values ('SSE', 'STDIO')")
         return value
 
     @validator('training_type')
@@ -112,17 +96,6 @@ class ModelCreateUpdateData(BaseModel):
             raise ValueError("must be one of enum values ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER')")
         return value
 
-    @validator('protocols')
-    def protocols_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        for i in value:
-            if i not in ('TCP', 'MLP_GRPC', 'MCP_STDIO'):
-                raise ValueError("each list item must be one of ('TCP', 'MLP_GRPC', 'MCP_STDIO')")
-        return value
-
     class Config:
         """Pydantic configuration"""
         allow_population_by_field_name = True
@@ -137,8 +110,8 @@ class ModelCreateUpdateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelCreateUpdateData:
-        """Create an instance of ModelCreateUpdateData from a JSON string"""
+    def from_json(cls, json_str: str) -> ServiceConfigurationStepData:
+        """Create an instance of ServiceConfigurationStepData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -164,9 +137,6 @@ class ModelCreateUpdateData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of timeouts
         if self.timeouts:
             _dict['timeouts'] = self.timeouts.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of resource_limits
-        if self.resource_limits:
-            _dict['resourceLimits'] = self.resource_limits.to_dict()
         # override the default output from pydantic by calling `to_dict()` of retries_config
         if self.retries_config:
             _dict['retriesConfig'] = self.retries_config.to_dict()
@@ -182,41 +152,33 @@ class ModelCreateUpdateData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of auto_scaling_configuration
         if self.auto_scaling_configuration:
             _dict['autoScalingConfiguration'] = self.auto_scaling_configuration.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of http_settings
-        if self.http_settings:
-            _dict['httpSettings'] = self.http_settings.to_dict()
         # override the default output from pydantic by calling `to_dict()` of archive_settings
         if self.archive_settings:
             _dict['archiveSettings'] = self.archive_settings.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelCreateUpdateData:
-        """Create an instance of ModelCreateUpdateData from a dict"""
+    def from_dict(cls, obj: dict) -> ServiceConfigurationStepData:
+        """Create an instance of ServiceConfigurationStepData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelCreateUpdateData.parse_obj(obj)
+            return ServiceConfigurationStepData.parse_obj(obj)
 
-        _obj = ModelCreateUpdateData.parse_obj({
-            "model_type": obj.get("modelType"),
-            "model_name": obj.get("modelName"),
-            "display_name": obj.get("displayName"),
-            "display_author": obj.get("displayAuthor"),
-            "image_account_id": obj.get("imageAccountId"),
-            "image_id": obj.get("imageId"),
+        _obj = ServiceConfigurationStepData.parse_obj({
+            "mcp_internal_protocol": obj.get("mcpInternalProtocol"),
+            "http_port": obj.get("httpPort"),
+            "health_check_endpoint": obj.get("healthCheckEndpoint"),
             "training_model_account_id": obj.get("trainingModelAccountId"),
             "training_model_id": obj.get("trainingModelId"),
             "training_type": obj.get("trainingType"),
             "training_dataset_account_id": obj.get("trainingDatasetAccountId"),
             "training_dataset_id": obj.get("trainingDatasetId"),
             "training_fit_config_id": obj.get("trainingFitConfigId"),
-            "task_type": obj.get("taskType"),
             "training_dataset_type": obj.get("trainingDatasetType"),
             "fit_template_model_id": obj.get("fitTemplateModelId"),
             "composite": obj.get("composite"),
-            "prototype": obj.get("prototype"),
             "supported_templates": obj.get("supportedTemplates"),
             "reject_requests_if_inactive": obj.get("rejectRequestsIfInactive"),
             "config": obj.get("config"),
@@ -225,24 +187,15 @@ class ModelCreateUpdateData(BaseModel):
             "container_args": obj.get("containerArgs"),
             "fittable": obj.get("fittable"),
             "hosting_type": obj.get("hostingType"),
-            "protocols": obj.get("protocols"),
             "persistent_volumes": [PersistentVolumeData.from_dict(_item) for _item in obj.get("persistentVolumes")] if obj.get("persistentVolumes") is not None else None,
             "data_image_mounts": [DataImageMountData.from_dict(_item) for _item in obj.get("dataImageMounts")] if obj.get("dataImageMounts") is not None else None,
-            "resource_group": obj.get("resourceGroup"),
             "timeouts": ModelTimeoutsData.from_dict(obj.get("timeouts")) if obj.get("timeouts") is not None else None,
-            "resource_limits": ModelLimitsData.from_dict(obj.get("resourceLimits")) if obj.get("resourceLimits") is not None else None,
             "retries_config": ModelRetriesData.from_dict(obj.get("retriesConfig")) if obj.get("retriesConfig") is not None else None,
             "batches_config": ModelBatchesData.from_dict(obj.get("batchesConfig")) if obj.get("batchesConfig") is not None else None,
             "caching": ModelCachingData.from_dict(obj.get("caching")) if obj.get("caching") is not None else None,
             "priority_queue": ModelPriorityQueueData.from_dict(obj.get("priorityQueue")) if obj.get("priorityQueue") is not None else None,
             "auto_scaling_configuration": ModelAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
-            "short_description": obj.get("shortDescription"),
-            "languages": obj.get("languages"),
-            "min_instances_count": obj.get("minInstancesCount"),
-            "start_time_sec": obj.get("startTimeSec"),
-            "http_settings": ModelHttpSettingsData.from_dict(obj.get("httpSettings")) if obj.get("httpSettings") is not None else None,
             "archive_settings": ModelArchiveSettingsData.from_dict(obj.get("archiveSettings")) if obj.get("archiveSettings") is not None else None,
-            "aliases": obj.get("aliases"),
             "deployment_patch": obj.get("deploymentPatch")
         })
         return _obj

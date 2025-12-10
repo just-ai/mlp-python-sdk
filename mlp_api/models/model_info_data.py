@@ -43,6 +43,7 @@ class ModelInfoData(BaseModel):
     ModelInfoData
     """
     id: ModelInfoPK = Field(...)
+    model_type: StrictStr = Field(default=..., alias="modelType")
     model_account_name: Optional[StrictStr] = Field(default=None, alias="modelAccountName")
     model_account_display_name: Optional[StrictStr] = Field(default=None, alias="modelAccountDisplayName")
     model_name: StrictStr = Field(default=..., alias="modelName")
@@ -98,7 +99,14 @@ class ModelInfoData(BaseModel):
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["id", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+    __properties = ["id", "modelType", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+
+    @validator('model_type')
+    def model_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER'):
+            raise ValueError("must be one of enum values ('MLP_SERVICE', 'WEB_APPLICATION', 'MCP_SERVER')")
+        return value
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -231,6 +239,7 @@ class ModelInfoData(BaseModel):
 
         _obj = ModelInfoData.parse_obj({
             "id": ModelInfoPK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
+            "model_type": obj.get("modelType"),
             "model_account_name": obj.get("modelAccountName"),
             "model_account_display_name": obj.get("modelAccountDisplayName"),
             "model_name": obj.get("modelName"),

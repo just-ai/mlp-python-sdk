@@ -19,20 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
-from mlp_api.models.sort_object import SortObject
+from pydantic import BaseModel, Field
+from mlp_api.models.existing_image_data import ExistingImageData
+from mlp_api.models.new_image_data import NewImageData
 
-class PageableObject(BaseModel):
+class ImageStepData(BaseModel):
     """
-    PageableObject
+    ImageStepData
     """
-    page_number: Optional[StrictInt] = Field(default=None, alias="pageNumber")
-    page_size: Optional[StrictInt] = Field(default=None, alias="pageSize")
-    offset: Optional[StrictInt] = None
-    sort: Optional[SortObject] = None
-    paged: Optional[StrictBool] = None
-    unpaged: Optional[StrictBool] = None
-    __properties = ["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged"]
+    new_image: Optional[NewImageData] = Field(default=None, alias="newImage")
+    existing_image: Optional[ExistingImageData] = Field(default=None, alias="existingImage")
+    __properties = ["newImage", "existingImage"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,8 +45,8 @@ class PageableObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PageableObject:
-        """Create an instance of PageableObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ImageStepData:
+        """Create an instance of ImageStepData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,27 +55,26 @@ class PageableObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of sort
-        if self.sort:
-            _dict['sort'] = self.sort.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of new_image
+        if self.new_image:
+            _dict['newImage'] = self.new_image.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of existing_image
+        if self.existing_image:
+            _dict['existingImage'] = self.existing_image.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PageableObject:
-        """Create an instance of PageableObject from a dict"""
+    def from_dict(cls, obj: dict) -> ImageStepData:
+        """Create an instance of ImageStepData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PageableObject.parse_obj(obj)
+            return ImageStepData.parse_obj(obj)
 
-        _obj = PageableObject.parse_obj({
-            "page_number": obj.get("pageNumber"),
-            "page_size": obj.get("pageSize"),
-            "offset": obj.get("offset"),
-            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
-            "paged": obj.get("paged"),
-            "unpaged": obj.get("unpaged")
+        _obj = ImageStepData.parse_obj({
+            "new_image": NewImageData.from_dict(obj.get("newImage")) if obj.get("newImage") is not None else None,
+            "existing_image": ExistingImageData.from_dict(obj.get("existingImage")) if obj.get("existingImage") is not None else None
         })
         return _obj
 
