@@ -777,35 +777,6 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpcore/admin/whiteList:
-    post:
-      tags:
-      - admin-endpoint
-      operationId: updateAccountWhiteList
-      parameters:
-      - name: account
-        in: query
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-        required: true
-      responses:
-        "200":
-          description: OK
   /api/mlpcore/admin/update-activities:
     post:
       tags:
@@ -1127,6 +1098,35 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/admin/account/{account}/whiteList:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: updateAccountWhiteList
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/account/{account}/limits:
     post:
       tags:
@@ -1159,6 +1159,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
   /api/mlpcore/admin/account/{account}/features:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getAccountFeatures
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFeatureData'
     post:
       tags:
       - admin-endpoint
@@ -5710,31 +5734,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelMetricsData'
-  /api/mlpcore/admin/features:
-    get:
-      tags:
-      - admin-endpoint
-      operationId: getAccountFeatures
-      parameters:
-      - name: account
-        in: query
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountFeatureData'
   /api/mlpcore/admin/caller/info:
     get:
       tags:
@@ -5822,14 +5821,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpcore/admin/access-by-ip:
+  /api/mlpcore/admin/account/{account}/access-by-ip:
     get:
       tags:
       - admin-endpoint
       operationId: isAccessAllowedByIp
       parameters:
       - name: account
-        in: query
+        in: path
         description: Account id or account name
         required: true
         schema:
