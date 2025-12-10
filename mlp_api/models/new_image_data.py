@@ -21,21 +21,19 @@ import json
 
 from pydantic import BaseModel, Field, StrictStr, validator
 
-class IntegrationSnippetData(BaseModel):
+class NewImageData(BaseModel):
     """
-    IntegrationSnippetData
+    NewImageData
     """
-    integration_type: StrictStr = Field(default=..., alias="integrationType")
-    language: StrictStr = Field(...)
-    content: StrictStr = Field(...)
-    instructions: StrictStr = Field(...)
-    __properties = ["integrationType", "language", "content", "instructions"]
+    image_source_type: StrictStr = Field(default=..., alias="imageSourceType")
+    image: StrictStr = Field(...)
+    __properties = ["imageSourceType", "image"]
 
-    @validator('integration_type')
-    def integration_type_validate_enum(cls, value):
+    @validator('image_source_type')
+    def image_source_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('CLAUDE_CODE_CLI', 'INTELLIJ_IDEA', 'N8N', 'REST_API_CURL', 'PYTHON_SDK', 'JAVA_SDK', 'MLP_REST_API', 'GRPC_CLIENT', 'OPENAI_API'):
-            raise ValueError("must be one of enum values ('CLAUDE_CODE_CLI', 'INTELLIJ_IDEA', 'N8N', 'REST_API_CURL', 'PYTHON_SDK', 'JAVA_SDK', 'MLP_REST_API', 'GRPC_CLIENT', 'OPENAI_API')")
+        if value not in ('DOCKER', 'NPM'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
         return value
 
     class Config:
@@ -52,8 +50,8 @@ class IntegrationSnippetData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> IntegrationSnippetData:
-        """Create an instance of IntegrationSnippetData from a JSON string"""
+    def from_json(cls, json_str: str) -> NewImageData:
+        """Create an instance of NewImageData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -65,19 +63,17 @@ class IntegrationSnippetData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> IntegrationSnippetData:
-        """Create an instance of IntegrationSnippetData from a dict"""
+    def from_dict(cls, obj: dict) -> NewImageData:
+        """Create an instance of NewImageData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return IntegrationSnippetData.parse_obj(obj)
+            return NewImageData.parse_obj(obj)
 
-        _obj = IntegrationSnippetData.parse_obj({
-            "integration_type": obj.get("integrationType"),
-            "language": obj.get("language"),
-            "content": obj.get("content"),
-            "instructions": obj.get("instructions")
+        _obj = NewImageData.parse_obj({
+            "image_source_type": obj.get("imageSourceType"),
+            "image": obj.get("image")
         })
         return _obj
 
