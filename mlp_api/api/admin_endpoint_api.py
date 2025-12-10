@@ -754,12 +754,12 @@ class AdminEndpointApi:
 
         # process the path parameters
         _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
 
         # process the query parameters
         _query_params = []
-        if _params.get('account') is not None:  # noqa: E501
-            _query_params.append(('account', _params['account']))
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
@@ -782,7 +782,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/admin/features', 'GET',
+            '/api/mlpcore/admin/account/{account}/features', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -1711,12 +1711,12 @@ class AdminEndpointApi:
 
         # process the path parameters
         _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
 
         # process the query parameters
         _query_params = []
-        if _params.get('account') is not None:  # noqa: E501
-            _query_params.append(('account', _params['account']))
-
         if _params.get('ip_address') is not None:  # noqa: E501
             _query_params.append(('ipAddress', _params['ip_address']))
 
@@ -1742,7 +1742,7 @@ class AdminEndpointApi:
         }
 
         return self.api_client.call_api(
-            '/api/mlpcore/admin/access-by-ip', 'GET',
+            '/api/mlpcore/admin/account/{account}/access-by-ip', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -2972,12 +2972,12 @@ class AdminEndpointApi:
 
         # process the path parameters
         _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
 
         # process the query parameters
         _query_params = []
-        if _params.get('account') is not None:  # noqa: E501
-            _query_params.append(('account', _params['account']))
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
@@ -3004,7 +3004,7 @@ class AdminEndpointApi:
         _response_types_map = {}
 
         return self.api_client.call_api(
-            '/api/mlpcore/admin/whiteList', 'POST',
+            '/api/mlpcore/admin/account/{account}/whiteList', 'POST',
             _path_params,
             _query_params,
             _header_params,
