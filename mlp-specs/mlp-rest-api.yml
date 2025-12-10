@@ -512,6 +512,64 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/wizard/account/{account}/validate:
+    post:
+      tags:
+      - model-wizard-endpoint
+      operationId: validateWizard
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelWizardData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/wizard/account/{account}/model:
+    post:
+      tags:
+      - model-wizard-endpoint
+      operationId: createModelFromWizard
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelWizardData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WizardModelCreation'
   /api/mlpcore/update-heartbeats:
     post:
       tags:
@@ -631,118 +689,6 @@ paths:
       responses:
         "200":
           description: OK
-  /api/mlpcore/quickstart/account/{account}/validate/resourceGroup:
-    post:
-      tags:
-      - quick-start-model-endpoint
-      operationId: validateResourceGroup
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateResourceGroupData'
-        required: true
-      responses:
-        "200":
-          description: OK
-  /api/mlpcore/quickstart/account/{account}/validate/model:
-    post:
-      tags:
-      - quick-start-model-endpoint
-      operationId: validateModel
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ModelCreateUpdateData'
-        required: true
-      responses:
-        "200":
-          description: OK
-  /api/mlpcore/quickstart/account/{account}/validate/image:
-    post:
-      tags:
-      - quick-start-model-endpoint
-      operationId: validateImage
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuickStartImageCreationData'
-        required: true
-      responses:
-        "200":
-          description: OK
-  /api/mlpcore/quickstart/account/{account}/model:
-    post:
-      tags:
-      - quick-start-model-endpoint
-      operationId: quickStartModel
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuickStartModelData'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ModelInfoData'
   /api/mlpcore/notifications/capacity/send:
     post:
       tags:
@@ -827,6 +773,35 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/ClickHistoryData'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/admin/whiteList:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: updateAccountWhiteList
+      parameters:
+      - name: account
+        in: query
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
         required: true
       responses:
         "200":
@@ -1121,32 +1096,34 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/mlpcore/admin/account/{account}/whiteList:
+  /api/mlpcore/admin/instance/{instanceId}/restart:
     post:
       tags:
       - admin-endpoint
-      operationId: updateAccountWhiteList
+      operationId: restartInstance
       parameters:
-      - name: account
+      - name: instanceId
         in: path
-        description: Account id or account name
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: reason
+        in: query
         required: true
         schema:
           type: string
+      - name: errorLevel
+        in: query
+        required: true
+        schema:
+          type: boolean
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
         required: false
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-        required: true
       responses:
         "200":
           description: OK
@@ -1182,30 +1159,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
   /api/mlpcore/admin/account/{account}/features:
-    get:
-      tags:
-      - admin-endpoint
-      operationId: getAccountFeatures
-      parameters:
-      - name: account
-        in: path
-        description: Account id or account name
-        required: true
-        schema:
-          type: string
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountFeatureData'
     post:
       tags:
       - admin-endpoint
@@ -3296,6 +3249,11 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: environmentVariables
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5752,6 +5710,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelMetricsData'
+  /api/mlpcore/admin/features:
+    get:
+      tags:
+      - admin-endpoint
+      operationId: getAccountFeatures
+      parameters:
+      - name: account
+        in: query
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFeatureData'
   /api/mlpcore/admin/caller/info:
     get:
       tags:
@@ -5839,14 +5822,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
-  /api/mlpcore/admin/account/{account}/access-by-ip:
+  /api/mlpcore/admin/access-by-ip:
     get:
       tags:
       - admin-endpoint
       operationId: isAccessAllowedByIp
       parameters:
       - name: account
-        in: path
+        in: query
         description: Account id or account name
         required: true
         schema:
@@ -7120,6 +7103,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelShortStatusData'
+  /api/mlpcore/account/{account}/model/{model}/simple-doc/v2:
+    get:
+      tags:
+      - model-endpoint
+      operationId: getSimpleDocV2
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleDocInfoData'
   /api/mlpcore/account/{account}/model/{model}/metric:
     get:
       tags:
@@ -9525,15 +9539,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    ManagementRequestData:
-      required:
-      - contacts
-      type: object
-      properties:
-        contacts:
-          type: string
-        comment:
-          type: string
     CreateResourceGroupData:
       required:
       - name
@@ -9574,32 +9579,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-    ResourceGroupAutoScalingConfiguration:
-      required:
-      - minServersCount
-      type: object
-      properties:
-        serverId:
-          type: integer
-          format: int64
-        serverConfiguration:
-          type: string
-        fallbackServersIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-        minServersCount:
-          type: integer
-          format: int32
-        maxServersCount:
-          type: integer
-          format: int32
-        cooldownPeriodMinutes:
-          type: integer
-          format: int32
-        reserveResourceGroupName:
-          type: string
     DataImageMountData:
       required:
       - dataImageAccountId
@@ -9624,6 +9603,34 @@ components:
           type: string
         targetPath:
           type: string
+    ExistingImageData:
+      required:
+      - imageAccountId
+      - imageId
+      type: object
+      properties:
+        imageAccountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+    HostingStepData:
+      type: object
+      properties:
+        existingResourceGroupName:
+          type: string
+        newResourceGroup:
+          $ref: '#/components/schemas/CreateResourceGroupData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+    ImageStepData:
+      type: object
+      properties:
+        newImage:
+          $ref: '#/components/schemas/NewImageData'
+        existingImage:
+          $ref: '#/components/schemas/ExistingImageData'
     LocalTime:
       type: object
       properties:
@@ -9732,152 +9739,6 @@ components:
         recordsLimit:
           type: integer
           format: int64
-    ModelCreateUpdateData:
-      required:
-      - modelName
-      type: object
-      properties:
-        modelName:
-          type: string
-        displayName:
-          type: string
-        displayAuthor:
-          type: string
-        imageAccountId:
-          type: integer
-          format: int64
-        imageId:
-          type: integer
-          format: int64
-        trainingModelAccountId:
-          type: integer
-          format: int64
-        trainingModelId:
-          type: integer
-          format: int64
-        trainingType:
-          type: string
-          enum:
-          - singleContainer
-          - multipleFit
-        trainingDatasetAccountId:
-          type: integer
-          format: int64
-        trainingDatasetId:
-          type: integer
-          format: int64
-        trainingFitConfigId:
-          type: integer
-          format: int64
-        taskType:
-          type: string
-        trainingDatasetType:
-          type: string
-        fitTemplateModelId:
-          type: integer
-          format: int64
-        composite:
-          type: boolean
-        prototype:
-          type: boolean
-        supportedTemplates:
-          type: array
-          items:
-            type: integer
-            format: int64
-        rejectRequestsIfInactive:
-          type: boolean
-        config:
-          type: string
-        env:
-          type: string
-        additionalFlags:
-          type: array
-          items:
-            type: string
-        containerArgs:
-          type: array
-          items:
-            type: string
-        fittable:
-          type: boolean
-        hostingType:
-          type: string
-          enum:
-          - EXTERNAL
-          - INTERNAL
-          - AUTOMATIC
-          - HOSTING_SERVER
-        protocols:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            enum:
-            - TCP
-            - MLP_GRPC
-            - MCP_STDIO
-        persistentVolumes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersistentVolumeData'
-        dataImageMounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataImageMountData'
-        resourceGroup:
-          type: string
-        timeouts:
-          $ref: '#/components/schemas/ModelTimeoutsData'
-        resourceLimits:
-          $ref: '#/components/schemas/ModelLimitsData'
-        retriesConfig:
-          $ref: '#/components/schemas/ModelRetriesData'
-        batchesConfig:
-          $ref: '#/components/schemas/ModelBatchesData'
-        caching:
-          $ref: '#/components/schemas/ModelCachingData'
-        priorityQueue:
-          $ref: '#/components/schemas/ModelPriorityQueueData'
-        autoScalingConfiguration:
-          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
-        shortDescription:
-          type: string
-        languages:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        minInstancesCount:
-          type: integer
-          format: int32
-        startTimeSec:
-          type: number
-          format: float
-        httpSettings:
-          $ref: '#/components/schemas/ModelHttpSettingsData'
-        archiveSettings:
-          $ref: '#/components/schemas/ModelArchiveSettingsData'
-        aliases:
-          type: array
-          items:
-            type: string
-        deploymentPatch:
-          type: string
-    ModelHttpSettingsData:
-      type: object
-      properties:
-        isHttpEnabled:
-          type: boolean
-        httpPort:
-          type: integer
-          format: int32
-        mainPageEndpoint:
-          type: string
-        httpInterfaceOnly:
-          type: boolean
-        requireMlpAuth:
-          type: boolean
     ModelLimitsData:
       required:
       - cpuRequest
@@ -9915,6 +9776,27 @@ components:
         concurrencyLevel:
           type: integer
           format: int32
+    ModelPublicSettingsData:
+      type: object
+      properties:
+        isPublic:
+          type: boolean
+        allowedAccounts:
+          type: array
+          items:
+            type: integer
+            format: int64
+        featured:
+          type: boolean
+        featuredListOrder:
+          type: integer
+          format: int32
+        hidden:
+          type: boolean
+        publicTestingAllowed:
+          type: boolean
+        showPersonalDataDisclaimer:
+          type: boolean
     ModelRetriesData:
       required:
       - maxRetries
@@ -9935,7 +9817,6 @@ components:
     ModelTimeoutsData:
       required:
       - podStartTimeoutSec
-      - predictTimeoutSec
       type: object
       properties:
         podStartTimeoutSec:
@@ -9947,6 +9828,45 @@ components:
         fitTimeoutSec:
           type: integer
           format: int64
+    ModelTypeStepData:
+      required:
+      - modelType
+      type: object
+      properties:
+        modelType:
+          type: string
+          enum:
+          - MLP_SERVICE
+          - WEB_APPLICATION
+          - MCP_SERVER
+        enableHttpInterface:
+          type: boolean
+    ModelWizardData:
+      type: object
+      properties:
+        modelTypeStep:
+          $ref: '#/components/schemas/ModelTypeStepData'
+        serviceDescriptionStep:
+          $ref: '#/components/schemas/ServiceDescriptionStepData'
+        imageStep:
+          $ref: '#/components/schemas/ImageStepData'
+        serviceConfigurationStep:
+          $ref: '#/components/schemas/ServiceConfigurationStepData'
+        hostingStep:
+          $ref: '#/components/schemas/HostingStepData'
+    NewImageData:
+      required:
+      - image
+      - imageSourceType
+      type: object
+      properties:
+        imageSourceType:
+          type: string
+          enum:
+          - DOCKER
+          - NPM
+        image:
+          type: string
     PersistentVolumeData:
       required:
       - mountPath
@@ -9965,6 +9885,32 @@ components:
           format: int32
         storageClass:
           type: string
+    ResourceGroupAutoScalingConfiguration:
+      required:
+      - minServersCount
+      type: object
+      properties:
+        serverId:
+          type: integer
+          format: int64
+        serverConfiguration:
+          type: string
+        fallbackServersIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        minServersCount:
+          type: integer
+          format: int32
+        maxServersCount:
+          type: integer
+          format: int32
+        cooldownPeriodMinutes:
+          type: integer
+          format: int32
+        reserveResourceGroupName:
+          type: string
     ScheduledInstanceCountSetting:
       required:
       - endTime
@@ -9982,26 +9928,126 @@ components:
         maxInstances:
           type: integer
           format: int32
-    QuickStartImageCreationData:
-      required:
-      - image
+    ServiceConfigurationStepData:
       type: object
       properties:
-        name:
+        mcpInternalProtocol:
           type: string
-        image:
+          enum:
+          - SSE
+          - STDIO
+        httpPort:
+          type: integer
+          format: int32
+        healthCheckEndpoint:
           type: string
-    QuickStartModelData:
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingType:
+          type: string
+          enum:
+          - singleContainer
+          - multipleFit
+        trainingDatasetAccountId:
+          type: integer
+          format: int64
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        trainingDatasetType:
+          type: string
+        fitTemplateModelId:
+          type: integer
+          format: int64
+        composite:
+          type: boolean
+        supportedTemplates:
+          type: array
+          items:
+            type: integer
+            format: int64
+        rejectRequestsIfInactive:
+          type: boolean
+        config:
+          type: string
+        env:
+          type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
+        containerArgs:
+          type: array
+          items:
+            type: string
+        fittable:
+          type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
+          - AUTOMATIC
+          - HOSTING_SERVER
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+        caching:
+          $ref: '#/components/schemas/ModelCachingData'
+        priorityQueue:
+          $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
+        deploymentPatch:
+          type: string
+    ServiceDescriptionStepData:
       required:
-      - modelCreationData
+      - languages
+      - modelName
+      - prototype
+      - publicSettingsData
+      - taskType
       type: object
       properties:
-        imageCreationData:
-          $ref: '#/components/schemas/QuickStartImageCreationData'
-        modelCreationData:
-          $ref: '#/components/schemas/ModelCreateUpdateData'
-        resourceGroupCreationData:
-          $ref: '#/components/schemas/CreateResourceGroupData'
+        displayAuthor:
+          type: string
+        displayName:
+          type: string
+        modelName:
+          type: string
+        shortDescription:
+          type: string
+        prototype:
+          type: boolean
+        taskType:
+          type: string
+        languages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        publicSettingsData:
+          $ref: '#/components/schemas/ModelPublicSettingsData'
     DatasetInfoData:
       required:
       - name
@@ -10109,6 +10155,32 @@ components:
         imageId:
           type: integer
           format: int64
+    IntegrationSnippetData:
+      required:
+      - content
+      - instructions
+      - integrationType
+      - language
+      type: object
+      properties:
+        integrationType:
+          type: string
+          enum:
+          - CLAUDE_CODE_CLI
+          - INTELLIJ_IDEA
+          - N8N
+          - REST_API_CURL
+          - PYTHON_SDK
+          - JAVA_SDK
+          - MLP_REST_API
+          - GRPC_CLIENT
+          - OPENAI_API
+        language:
+          type: string
+        content:
+          type: string
+        instructions:
+          type: string
     ModelBillingSettingsData:
       required:
       - isBillingEnabled
@@ -10133,6 +10205,20 @@ components:
           format: int32
         allowDeferredBilling:
           type: boolean
+    ModelHttpSettingsData:
+      type: object
+      properties:
+        isHttpEnabled:
+          type: boolean
+        httpPort:
+          type: integer
+          format: int32
+        mainPageEndpoint:
+          type: string
+        httpInterfaceOnly:
+          type: boolean
+        requireMlpAuth:
+          type: boolean
     ModelInfoData:
       required:
       - archiveSettings
@@ -10151,6 +10237,7 @@ components:
       - id
       - imageAccountId
       - modelName
+      - modelType
       - persistentVolumes
       - priorityQueue
       - protocols
@@ -10163,6 +10250,12 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/ModelInfoPK'
+        modelType:
+          type: string
+          enum:
+          - MLP_SERVICE
+          - WEB_APPLICATION
+          - MCP_SERVER
         modelAccountName:
           type: string
         modelAccountDisplayName:
@@ -10331,27 +10424,27 @@ components:
         modelId:
           type: integer
           format: int64
-    ModelPublicSettingsData:
+    WizardModelCreation:
+      required:
+      - modelInfo
+      - snippets
       type: object
       properties:
-        isPublic:
-          type: boolean
-        allowedAccounts:
+        modelInfo:
+          $ref: '#/components/schemas/ModelInfoData'
+        snippets:
           type: array
           items:
-            type: integer
-            format: int64
-        featured:
-          type: boolean
-        featuredListOrder:
-          type: integer
-          format: int32
-        hidden:
-          type: boolean
-        publicTestingAllowed:
-          type: boolean
-        showPersonalDataDisclaimer:
-          type: boolean
+            $ref: '#/components/schemas/IntegrationSnippetData'
+    ManagementRequestData:
+      required:
+      - contacts
+      type: object
+      properties:
+        contacts:
+          type: string
+        comment:
+          type: string
     BroadcastUINotificationRequest:
       required:
       - accountIds
@@ -10764,6 +10857,12 @@ components:
             - TCP
             - MLP_GRPC
             - MCP_STDIO
+        modelType:
+          type: string
+          enum:
+          - MLP_SERVICE
+          - WEB_APPLICATION
+          - MCP_SERVER
         archiveEnabled:
           type: boolean
         numberOfArchivedRequests:
@@ -11270,6 +11369,7 @@ components:
       required:
       - id
       - isAutoCreated
+      - isCopyable
       - name
       - priceSynchronizationEnabled
       - rawConfiguration
@@ -11307,6 +11407,8 @@ components:
         lifetimeLeftSeconds:
           type: integer
           format: int64
+        isCopyable:
+          type: boolean
         priceSynchronizationEnabled:
           type: boolean
     ProlongResourceGroupServerRequest:
@@ -11484,6 +11586,144 @@ components:
           - DAY
           - MONTH
           - YEAR
+    ModelCreateUpdateData:
+      required:
+      - modelName
+      type: object
+      properties:
+        modelType:
+          type: string
+          enum:
+          - MLP_SERVICE
+          - WEB_APPLICATION
+          - MCP_SERVER
+        modelName:
+          type: string
+        displayName:
+          type: string
+        displayAuthor:
+          type: string
+        imageAccountId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+        trainingModelAccountId:
+          type: integer
+          format: int64
+        trainingModelId:
+          type: integer
+          format: int64
+        trainingType:
+          type: string
+          enum:
+          - singleContainer
+          - multipleFit
+        trainingDatasetAccountId:
+          type: integer
+          format: int64
+        trainingDatasetId:
+          type: integer
+          format: int64
+        trainingFitConfigId:
+          type: integer
+          format: int64
+        taskType:
+          type: string
+        trainingDatasetType:
+          type: string
+        fitTemplateModelId:
+          type: integer
+          format: int64
+        composite:
+          type: boolean
+        prototype:
+          type: boolean
+        supportedTemplates:
+          type: array
+          items:
+            type: integer
+            format: int64
+        rejectRequestsIfInactive:
+          type: boolean
+        config:
+          type: string
+        env:
+          type: string
+        additionalFlags:
+          type: array
+          items:
+            type: string
+        containerArgs:
+          type: array
+          items:
+            type: string
+        fittable:
+          type: boolean
+        hostingType:
+          type: string
+          enum:
+          - EXTERNAL
+          - INTERNAL
+          - AUTOMATIC
+          - HOSTING_SERVER
+        protocols:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - TCP
+            - MLP_GRPC
+            - MCP_STDIO
+        persistentVolumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersistentVolumeData'
+        dataImageMounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataImageMountData'
+        resourceGroup:
+          type: string
+        timeouts:
+          $ref: '#/components/schemas/ModelTimeoutsData'
+        resourceLimits:
+          $ref: '#/components/schemas/ModelLimitsData'
+        retriesConfig:
+          $ref: '#/components/schemas/ModelRetriesData'
+        batchesConfig:
+          $ref: '#/components/schemas/ModelBatchesData'
+        caching:
+          $ref: '#/components/schemas/ModelCachingData'
+        priorityQueue:
+          $ref: '#/components/schemas/ModelPriorityQueueData'
+        autoScalingConfiguration:
+          $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        shortDescription:
+          type: string
+        languages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        minInstancesCount:
+          type: integer
+          format: int32
+        startTimeSec:
+          type: number
+          format: float
+        httpSettings:
+          $ref: '#/components/schemas/ModelHttpSettingsData'
+        archiveSettings:
+          $ref: '#/components/schemas/ModelArchiveSettingsData'
+        aliases:
+          type: array
+          items:
+            type: string
+        deploymentPatch:
+          type: string
     MethodDescriptorData:
       required:
       - fitted
@@ -12916,25 +13156,22 @@ components:
         startTimeSeconds:
           type: number
           format: float
-    IntegrationSnippetData:
+    SimpleDocInfoData:
       required:
       - content
-      - instructions
-      - integrationType
-      - language
+      - isAutogenerated
       type: object
       properties:
-        integrationType:
-          type: string
-          enum:
-          - CLAUDE_CODE_CLI
-          - INTELLIJ_IDEA
-          - N8N
-        language:
-          type: string
         content:
           type: string
-        instructions:
+        isAutogenerated:
+          type: boolean
+        llmEnhancementStatus:
+          type: string
+        llmEnhancedAt:
+          type: string
+          format: date-time
+        llmErrorMessage:
           type: string
     ModelInstanceData:
       required:
