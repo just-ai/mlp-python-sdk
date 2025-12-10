@@ -10654,6 +10654,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
         errors:
           type: array
           items:
@@ -10714,10 +10718,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
       - content
@@ -11038,6 +11038,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
         errors:
           type: array
           items:
@@ -11098,10 +11102,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
       - callerAccountId
@@ -12929,11 +12929,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        last:
-          type: boolean
         numberOfElements:
           type: integer
           format: int32
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -12950,9 +12950,9 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
         paged:
+          type: boolean
+        unpaged:
           type: boolean
     SortObject:
       type: object
