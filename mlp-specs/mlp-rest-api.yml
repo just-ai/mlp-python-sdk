@@ -785,10 +785,10 @@ paths:
       parameters:
       - name: account
         in: query
-        description: Account id or account name
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5773,10 +5773,10 @@ paths:
       parameters:
       - name: account
         in: query
-        description: Account id or account name
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -5916,10 +5916,10 @@ paths:
       parameters:
       - name: account
         in: query
-        description: Account id or account name
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: ipAddress
         in: query
         required: true
@@ -12929,11 +12929,11 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -12950,9 +12950,9 @@ components:
           format: int64
         sort:
           $ref: '#/components/schemas/SortObject'
-        paged:
-          type: boolean
         unpaged:
+          type: boolean
+        paged:
           type: boolean
     SortObject:
       type: object
