@@ -801,7 +801,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_account_features_v2(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> AccountFeatureData:  # noqa: E501
+    def get_account_features_v2(self, account : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> AccountFeatureData:  # noqa: E501
         """get_account_features_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -810,8 +810,8 @@ class AdminEndpointApi:
         >>> thread = api.get_account_features_v2(account, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -832,7 +832,7 @@ class AdminEndpointApi:
         return self.get_account_features_v2_with_http_info(account, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_account_features_v2_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_account_features_v2_with_http_info(self, account : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_account_features_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -841,8 +841,8 @@ class AdminEndpointApi:
         >>> thread = api.get_account_features_v2_with_http_info(account, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1909,7 +1909,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def is_access_allowed_by_ip_v2(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], ip_address : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> IpAccessCheckResult:  # noqa: E501
+    def is_access_allowed_by_ip_v2(self, account : StrictInt, ip_address : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> IpAccessCheckResult:  # noqa: E501
         """is_access_allowed_by_ip_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1918,8 +1918,8 @@ class AdminEndpointApi:
         >>> thread = api.is_access_allowed_by_ip_v2(account, ip_address, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param ip_address: (required)
         :type ip_address: str
         :param mlp_api_key: token to use instead of a session
@@ -1942,7 +1942,7 @@ class AdminEndpointApi:
         return self.is_access_allowed_by_ip_v2_with_http_info(account, ip_address, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def is_access_allowed_by_ip_v2_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], ip_address : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def is_access_allowed_by_ip_v2_with_http_info(self, account : StrictInt, ip_address : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """is_access_allowed_by_ip_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1951,8 +1951,8 @@ class AdminEndpointApi:
         >>> thread = api.is_access_allowed_by_ip_v2_with_http_info(account, ip_address, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param ip_address: (required)
         :type ip_address: str
         :param mlp_api_key: token to use instead of a session
@@ -3327,7 +3327,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def update_account_white_list_v2(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], request_body : conlist(StrictStr), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+    def update_account_white_list_v2(self, account : StrictInt, request_body : conlist(StrictStr), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
         """update_account_white_list_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -3336,8 +3336,8 @@ class AdminEndpointApi:
         >>> thread = api.update_account_white_list_v2(account, request_body, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param request_body: (required)
         :type request_body: List[str]
         :param mlp_api_key: token to use instead of a session
@@ -3360,7 +3360,7 @@ class AdminEndpointApi:
         return self.update_account_white_list_v2_with_http_info(account, request_body, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_account_white_list_v2_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], request_body : conlist(StrictStr), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def update_account_white_list_v2_with_http_info(self, account : StrictInt, request_body : conlist(StrictStr), mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """update_account_white_list_v2  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -3369,8 +3369,8 @@ class AdminEndpointApi:
         >>> thread = api.update_account_white_list_v2_with_http_info(account, request_body, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param account: (required)
+        :type account: int
         :param request_body: (required)
         :type request_body: List[str]
         :param mlp_api_key: token to use instead of a session
