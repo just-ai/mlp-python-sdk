@@ -9520,9 +9520,12 @@ components:
           type: array
           items:
             type: string
+        keepAvailableOnLimitChange:
+          type: boolean
     AccessTokenData:
       required:
       - creationDate
+      - keepAvailableOnLimitChange
       - name
       - permissions
       - token
@@ -9549,6 +9552,8 @@ components:
           type: array
           items:
             type: string
+        keepAvailableOnLimitChange:
+          type: boolean
     ReadUINotificationRequest:
       required:
       - ids
@@ -11222,6 +11227,8 @@ components:
           type: array
           items:
             type: string
+        keepAvailableOnLimitChange:
+          type: boolean
     CreateUpdateServerTemplateData:
       required:
       - costPrice

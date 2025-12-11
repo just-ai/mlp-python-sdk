@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
 from mlp_api.models.token_restrictions_data import TokenRestrictionsData
 
 class CreateAccessTokenData(BaseModel):
@@ -31,7 +31,8 @@ class CreateAccessTokenData(BaseModel):
     restrictions: Optional[TokenRestrictionsData] = None
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
-    __properties = ["ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications"]
+    keep_available_on_limit_change: Optional[StrictBool] = Field(default=None, alias="keepAvailableOnLimitChange")
+    __properties = ["ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange"]
 
     class Config:
         """Pydantic configuration"""
@@ -76,7 +77,8 @@ class CreateAccessTokenData(BaseModel):
             "permissions": obj.get("permissions"),
             "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
-            "emails_for_notifications": obj.get("emailsForNotifications")
+            "emails_for_notifications": obj.get("emailsForNotifications"),
+            "keep_available_on_limit_change": obj.get("keepAvailableOnLimitChange")
         })
         return _obj
 
