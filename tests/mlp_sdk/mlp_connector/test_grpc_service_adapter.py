@@ -1,7 +1,7 @@
 import time
 from typing import Generator, Optional
 
-from mlp_sdk.abstract.services import MlpException, MlpRequestContext
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpRequestContext
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import (
     BatchPayloadProto,
     BatchRequestProto,
@@ -247,3 +247,80 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
 
         # Create a context with a unique request ID for this test
         self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(cancel=CancelRequestProto(requestIdToCancel=99)))
+
+    def test_streaming_generator_raises_mlp_exception(self):
+        class ImplWithMlpException(MlpGrpcServiceBase):
+            def predict(self, context, req, config):
+                def generator():
+                    raise MlpException(
+                        code="mlp.model.invalid-id", message="asdqwen/qwen-2.5-72b-instruct is not a valid model ID", status=MlpErrorStatus.BAD_REQUEST
+                    )
+                    yield PayloadProto(json='"should not reach"')
+
+                return generator()
+
+        self.init(ImplWithMlpException())
+
+        self.adapter._MlpGrpcServiceAdapter__process_simple_request(self.context, PayloadProto(json="{}"), None)
+
+        assert len(self.response) == 1
+        res = self.response[0]
+        assert res.WhichOneof("body") == "error"
+        assert res.error.code == "mlp.model.invalid-id"
+        assert res.error.message == "asdqwen/qwen-2.5-72b-instruct is not a valid model ID"
+        assert res.error.status == MlpErrorStatus.BAD_REQUEST.to_proto()
+
+    def test_streaming_generator_raises_generic_exception(self):
+        class ImplWithGenericException(MlpGrpcServiceBase):
+            def predict(self, context, req, config):
+                def generator():
+                    raise ValueError("some bad input")
+                    yield PayloadProto(json='"should not reach"')
+
+                return generator()
+
+        self.init(ImplWithGenericException())
+
+        self.adapter._MlpGrpcServiceAdapter__process_simple_request(self.context, PayloadProto(json="{}"), None)
+
+        assert len(self.response) == 1
+        res = self.response[0]
+        assert res.WhichOneof("body") == "error"
+        assert res.error.code == "mlp-action.common.bad-request"
+        assert res.error.message == "some bad input"
+        assert res.error.status == MlpErrorStatus.BAD_REQUEST.to_proto()
+
+    def test_streaming_request_predict_raises_mlp_exception(self):
+        class ImplWithMlpException(MlpGrpcServiceBase):
+            def predict(self, context, req, config):
+                raise MlpException(code="mlp.test.error", message="streaming predict failed", status=MlpErrorStatus.BAD_REQUEST)
+
+        self.init(ImplWithMlpException())
+
+        message = GateToServiceProto(partialPredict=PartialPredictRequestProto(data=PayloadProto(json='"some input"'), start=True, finish=True))
+
+        self.adapter._MlpGrpcServiceAdapter__process_streaming_request(self.context, message)
+
+        assert len(self.response) == 1
+        res = self.response[0]
+        assert res.WhichOneof("body") == "error"
+        assert res.error.code == "mlp.test.error"
+        assert res.error.message == "streaming predict failed"
+        assert res.error.status == MlpErrorStatus.BAD_REQUEST.to_proto()
+
+    def test_streaming_request_predict_raises_generic_exception(self):
+        class ImplWithGenericException(MlpGrpcServiceBase):
+            def predict(self, context, req, config):
+                raise ValueError("unexpected error in streaming")
+
+        self.init(ImplWithGenericException())
+
+        message = GateToServiceProto(partialPredict=PartialPredictRequestProto(data=PayloadProto(json='"some input"'), start=True, finish=True))
+
+        self.adapter._MlpGrpcServiceAdapter__process_streaming_request(self.context, message)
+
+        assert len(self.response) == 1
+        res = self.response[0]
+        assert res.WhichOneof("body") == "error"
+        assert res.error.code == "mlp-action.common.bad-request"
+        assert "unexpected error" in res.error.message
