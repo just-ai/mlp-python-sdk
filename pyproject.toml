@@ -1,15 +1,15 @@
 [project]
 name = "mlp-sdk"
-version = "2.0.10"
+version = "2.0.12"
 requires-python = ">=3.12"
 authors = []
 description = "Python library for creating services for mlp"
 dependencies = [
     "dacite>=1.9.2",
     "graypy>=2.1.0",
-    "grpcio==1.71.0",
+    "grpcio>=1.71.0",
     "more-itertools>=10.6.0",
-    "protobuf==5.29.4",
+    "protobuf>=5.29.4",
     "pydantic>=2.11.1",
     "python-box>=7.3.2",
     "python-dateutil>=2.9.0.post0",
@@ -27,7 +27,7 @@ dev = [
     "pytest-html>=4.1.1",
     "grpc-stubs>=1.53.0.5",
     "numpy>=2.2.4",
-    "grpcio-tools==1.71.0",
+    "grpcio-tools>=1.71.0",
     "build>=1.2.2.post1",
     "twine>=6.1.0",
     "tomli>=2.2.1",
