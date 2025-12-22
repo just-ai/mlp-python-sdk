@@ -65,7 +65,9 @@ deploy_private:
   rules:
     - if: '$CI_COMMIT_BRANCH == "v2"'
       changes:
-        - "src/**/*"
-        - "api-specs/*"
-        - "build-scripts/*"
+        - src/**/*
+        - api-specs/*
+        - build-scripts/*
+        - pyproject.toml
+        - uv.lock
       when: always
