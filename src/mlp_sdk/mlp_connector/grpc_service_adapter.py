@@ -122,11 +122,6 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
 
         try:
             self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
-        except BaseException as e:
-            if not isinstance(e, MlpException):
-                e = MlpException(code="mlp-action.common.bad-request", message=str(e), status=MlpErrorStatus.BAD_REQUEST)
-            error_response = ServiceToGateProto(error=MlpException.exception_to_proto(e))
-            self.response_receiver.message_from_service(context, error_response)
         finally:
             del self.request_streams[context.requestId]
 
@@ -144,28 +139,20 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                 previous = None
                 next_item = None
                 while True:
-                    try:
-                        previous = next_item
-                        next_item = next(res, None)
+                    previous = next_item
+                    next_item = next(res, None)
 
-                        if previous is None:
-                            continue
+                    if previous is None:
+                        continue
 
-                        msg = ServiceToGateProto(
-                            partialPredict=PartialPredictResponseProto(start=first, finish=next_item is None, data=previous),
-                            headers=context.response_headers,
-                        )
-                        self.response_receiver.message_from_service(context, msg)
-                        first = False
+                    msg = ServiceToGateProto(
+                        partialPredict=PartialPredictResponseProto(start=first, finish=next_item is None, data=previous),
+                        headers=context.response_headers,
+                    )
+                    self.response_receiver.message_from_service(context, msg)
+                    first = False
 
-                        if next_item is None:
-                            break
-                    except BaseException as e:
-                        if not isinstance(e, MlpException):
-                            e = MlpException(code="mlp-action.common.bad-request", message=str(e), status=MlpErrorStatus.BAD_REQUEST)
-
-                        error_response = ServiceToGateProto(error=MlpException.exception_to_proto(e))
-                        self.response_receiver.message_from_service(context, error_response)
+                    if next_item is None:
                         break
             finally:
                 if context.requestId in self.request_streams:
