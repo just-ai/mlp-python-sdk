@@ -971,17 +971,19 @@ class ResourceGroupEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_owned_resource_groups_short_status(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ResourceGroupShortStatusData]:  # noqa: E501
+    def get_owned_resource_groups_short_status(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ResourceGroupShortStatusData]:  # noqa: E501
         """get_owned_resource_groups_short_status  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_owned_resource_groups_short_status(account, mlp_api_key, async_req=True)
+        >>> thread = api.get_owned_resource_groups_short_status(account, name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
+        :param name:
+        :type name: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -999,20 +1001,22 @@ class ResourceGroupEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_owned_resource_groups_short_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_owned_resource_groups_short_status_with_http_info(account, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_owned_resource_groups_short_status_with_http_info(account, name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_owned_resource_groups_short_status_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_owned_resource_groups_short_status_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_owned_resource_groups_short_status  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_owned_resource_groups_short_status_with_http_info(account, mlp_api_key, async_req=True)
+        >>> thread = api.get_owned_resource_groups_short_status_with_http_info(account, name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
+        :param name:
+        :type name: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1044,6 +1048,7 @@ class ResourceGroupEndpointApi:
 
         _all_params = [
             'account',
+            'name',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1078,6 +1083,9 @@ class ResourceGroupEndpointApi:
 
         # process the query parameters
         _query_params = []
+        if _params.get('name') is not None:  # noqa: E501
+            _query_params.append(('name', _params['name']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
