@@ -6950,6 +6950,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
