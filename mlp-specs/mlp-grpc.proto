@@ -145,12 +145,18 @@ message BatchRequestProto {
 
 message PredictResponseProto {
   PayloadProto data = 101;
+
+  map<string, string> headers = 102;
+  optional int32 statusCode = 103;
 }
 
 message PartialPredictResponseProto {
   PayloadProto data = 101;
   optional bool start = 103;
   optional bool finish = 104;
+
+  map<string, string> headers = 105;
+  optional int32 statusCode = 106;
 }
 
 message FitStatusProto {
@@ -193,11 +199,17 @@ message ExtendedRequestProto {
 
 message ExtendedResponseProto {
   PayloadProto data = 1;
+
+  map<string, string> headers = 102;
+  optional int32 statusCode = 103;
 }
 
 message BatchPayloadProto {
   int64 requestId = 1;
   PayloadProto data = 101;
+
+  map<string, string> headers = 102;
+  optional int32 statusCode = 103;
 }
 
 message BatchPayloadResponseProto {
@@ -308,7 +320,7 @@ enum SimpleStatusProto {
 message ApiErrorProto {
   string code = 1;
   string message = 2;
-  SimpleStatusProto status = 3;
+  optional SimpleStatusProto status = 3;
   map<string, string> args = 4;
   optional int32 statusCode = 5;  // произвольный HTTP-статус код (приоритетнее status)
 }
@@ -484,4 +496,5 @@ message WordInfo {
   string word = 3;
   float confidence = 4;
 }
+
 
