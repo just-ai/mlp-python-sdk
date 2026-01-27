@@ -9961,6 +9961,7 @@ components:
           enum:
           - DOCKER
           - NPM
+          - GIT
         image:
           type: string
     PersistentVolumeData:
@@ -10239,6 +10240,13 @@ components:
           enum:
           - DOCKER
           - NPM
+          - GIT
+        gitRef:
+          type: string
+        buildCmd:
+          type: string
+        runCmd:
+          type: string
     ImageInfoPK:
       required:
       - accountId
@@ -10772,6 +10780,7 @@ components:
           enum:
           - DOCKER
           - NPM
+          - GIT
     ModelDump:
       required:
       - archiveEnabled
@@ -12497,6 +12506,8 @@ components:
         license:
           $ref: '#/components/schemas/LicenseSettings'
         envName:
+          type: string
+        docsUrl:
           type: string
     LicenseSettings:
       required:
