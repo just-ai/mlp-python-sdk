@@ -32,8 +32,8 @@ class NewImageData(BaseModel):
     @validator('image_source_type')
     def image_source_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('DOCKER', 'NPM'):
-            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
+        if value not in ('DOCKER', 'NPM', 'GIT'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM', 'GIT')")
         return value
 
     class Config:

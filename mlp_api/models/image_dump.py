@@ -47,8 +47,8 @@ class ImageDump(BaseModel):
         if value is None:
             return value
 
-        if value not in ('DOCKER', 'NPM'):
-            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
+        if value not in ('DOCKER', 'NPM', 'GIT'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM', 'GIT')")
         return value
 
     class Config:

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Optional
 from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
 from mlp_api.models.license_settings import LicenseSettings
 
@@ -37,7 +37,8 @@ class FrontendSettings(BaseModel):
     save_clicks_enabled: StrictBool = Field(default=..., alias="saveClicksEnabled")
     license: LicenseSettings = Field(...)
     env_name: StrictStr = Field(default=..., alias="envName")
-    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isJayGuardEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license", "envName"]
+    docs_url: Optional[StrictStr] = Field(default=None, alias="docsUrl")
+    __properties = ["isSystemAccount", "isBillingEnabled", "isArchiveEnabled", "isJayGuardEnabled", "isExtendedLanding", "currencyType", "englishOnly", "refillByManager", "saveClicksEnabled", "license", "envName", "docsUrl"]
 
     @validator('currency_type')
     def currency_type_validate_enum(cls, value):
@@ -95,7 +96,8 @@ class FrontendSettings(BaseModel):
             "refill_by_manager": obj.get("refillByManager"),
             "save_clicks_enabled": obj.get("saveClicksEnabled"),
             "license": LicenseSettings.from_dict(obj.get("license")) if obj.get("license") is not None else None,
-            "env_name": obj.get("envName")
+            "env_name": obj.get("envName"),
+            "docs_url": obj.get("docsUrl")
         })
         return _obj
 
