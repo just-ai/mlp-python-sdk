@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - update_sdk_version
   - deploy
 
 .deploy:
@@ -71,3 +72,36 @@ deploy_private:
         - pyproject.toml
         - uv.lock
       when: always
+
+update_sdk_version:
+  stage: update_sdk_version
+  tags:
+    - caila-ci
+  needs:
+    - test
+    - build
+  script:
+    - git remote set-url origin https://gitlab-ci-token:${CI_TOKEN}@gitlab.just-ai.com/${CI_PROJECT_PATH}.git
+    - python3.11 -m pip install -U uv==0.7.11
+    - echo "Описание коммита - $CI_COMMIT_MESSAGE"
+    # README: https://docs.astral.sh/uv/reference/cli/#uv-version--bump
+    - |
+      if [[ "$CI_COMMIT_MESSAGE" == *"major"* ]]; then
+        uv version --bump major
+      elif [[ "$CI_COMMIT_MESSAGE" == *"minor"* ]]; then
+        uv version --bump minor
+      elif [[ "$CI_COMMIT_MESSAGE" == *"patch"* ]]; then
+        uv version --bump patch
+      else
+        echo "No version bump specified. Skipping version update."
+        exit 0
+      fi
+
+    - git add pyproject.toml uv.lock
+    - export UV_VERSION=$(uv version)
+    - git commit -m "New version - '$UV_VERSION'"
+    - git push origin HEAD:$CI_COMMIT_BRANCH
+  rules:
+    # запускать стейдж только, если коммит начинается с перечисленных ниже слов с двоеточием 
+    # например, `patch: fix params`
+    - if: '$CI_COMMIT_MESSAGE =~ "\b(major|minor|patch):"'
