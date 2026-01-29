@@ -77,9 +77,6 @@ update_sdk_version:
   stage: update_sdk_version
   tags:
     - caila-ci
-  needs:
-    - test
-    - build
   script:
     - git remote set-url origin https://gitlab-ci-token:${CI_TOKEN}@gitlab.just-ai.com/${CI_PROJECT_PATH}.git
     - python3.11 -m pip install -U uv==0.7.11
@@ -102,6 +99,4 @@ update_sdk_version:
     - git commit -m "New version - '$UV_VERSION'"
     - git push origin HEAD:$CI_COMMIT_BRANCH
   rules:
-    # запускать стейдж только, если коммит начинается с перечисленных ниже слов с двоеточием 
-    # например, `patch: fix params`
-    - if: '$CI_COMMIT_MESSAGE =~ "\b(major|minor|patch):"'
+    - if: $CI_COMMIT_TAG == null
