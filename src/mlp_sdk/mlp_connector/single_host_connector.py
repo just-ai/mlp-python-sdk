@@ -217,7 +217,7 @@ class MlpSingleHostConnector:
             self.state = MlpConnectorState.stopped
             self.stopping.set()
             # self.stop_and_wait()
-        elif req_type in ["predict", "fit", "ext", "batch"]:
+        elif req_type in ["predict", "fit", "ext", "batch", "partialPredict"]:
             self.callback.request(request, self)
         else:  # pragma: no cover
             raise MlpException(
