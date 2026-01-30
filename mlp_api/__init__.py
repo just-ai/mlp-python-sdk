@@ -232,6 +232,8 @@ from mlp_api.models.task_suite_status import TaskSuiteStatus
 from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.token_restrictions_data import TokenRestrictionsData
+from mlp_api.models.token_spending_metric_data import TokenSpendingMetricData
+from mlp_api.models.token_spending_metric_range_data import TokenSpendingMetricRangeData
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.ui_notification_data import UINotificationData
 from mlp_api.models.update_access_token_data import UpdateAccessTokenData

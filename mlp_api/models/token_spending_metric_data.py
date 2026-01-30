@@ -18,17 +18,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 
-class SortObject(BaseModel):
+class TokenSpendingMetricData(BaseModel):
     """
-    SortObject
+    TokenSpendingMetricData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    interval: StrictStr = Field(...)
+    available: Union[StrictFloat, StrictInt] = Field(...)
+    limit: Union[StrictFloat, StrictInt] = Field(...)
+    __properties = ["interval", "available", "limit"]
+
+    @validator('interval')
+    def interval_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('MINUTE', 'HOUR', 'DAY', 'MONTH'):
+            raise ValueError("must be one of enum values ('MINUTE', 'HOUR', 'DAY', 'MONTH')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +51,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> TokenSpendingMetricData:
+        """Create an instance of TokenSpendingMetricData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +64,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> TokenSpendingMetricData:
+        """Create an instance of TokenSpendingMetricData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return TokenSpendingMetricData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = TokenSpendingMetricData.parse_obj({
+            "interval": obj.get("interval"),
+            "available": obj.get("available"),
+            "limit": obj.get("limit")
         })
         return _obj
 
