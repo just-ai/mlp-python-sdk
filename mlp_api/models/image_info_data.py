@@ -32,7 +32,10 @@ class ImageInfoData(BaseModel):
     image: StrictStr = Field(...)
     access_mode: Optional[StrictStr] = Field(default=None, alias="accessMode")
     image_type: Optional[StrictStr] = Field(default=None, alias="imageType")
-    __properties = ["id", "name", "imageAccountName", "image", "accessMode", "imageType"]
+    git_ref: Optional[StrictStr] = Field(default=None, alias="gitRef")
+    build_cmd: Optional[StrictStr] = Field(default=None, alias="buildCmd")
+    run_cmd: Optional[StrictStr] = Field(default=None, alias="runCmd")
+    __properties = ["id", "name", "imageAccountName", "image", "accessMode", "imageType", "gitRef", "buildCmd", "runCmd"]
 
     @validator('access_mode')
     def access_mode_validate_enum(cls, value):
@@ -50,8 +53,8 @@ class ImageInfoData(BaseModel):
         if value is None:
             return value
 
-        if value not in ('DOCKER', 'NPM'):
-            raise ValueError("must be one of enum values ('DOCKER', 'NPM')")
+        if value not in ('DOCKER', 'NPM', 'GIT'):
+            raise ValueError("must be one of enum values ('DOCKER', 'NPM', 'GIT')")
         return value
 
     class Config:
@@ -98,7 +101,10 @@ class ImageInfoData(BaseModel):
             "image_account_name": obj.get("imageAccountName"),
             "image": obj.get("image"),
             "access_mode": obj.get("accessMode"),
-            "image_type": obj.get("imageType")
+            "image_type": obj.get("imageType"),
+            "git_ref": obj.get("gitRef"),
+            "build_cmd": obj.get("buildCmd"),
+            "run_cmd": obj.get("runCmd")
         })
         return _obj
 

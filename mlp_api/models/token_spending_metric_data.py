@@ -18,22 +18,23 @@ import re  # noqa: F401
 import json
 
 
+from typing import Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 
-from pydantic import BaseModel, Field, StrictStr, validator
-
-class NewImageData(BaseModel):
+class TokenSpendingMetricData(BaseModel):
     """
-    NewImageData
+    TokenSpendingMetricData
     """
-    image_source_type: StrictStr = Field(default=..., alias="imageSourceType")
-    image: StrictStr = Field(...)
-    __properties = ["imageSourceType", "image"]
+    interval: StrictStr = Field(...)
+    available: Union[StrictFloat, StrictInt] = Field(...)
+    limit: Union[StrictFloat, StrictInt] = Field(...)
+    __properties = ["interval", "available", "limit"]
 
-    @validator('image_source_type')
-    def image_source_type_validate_enum(cls, value):
+    @validator('interval')
+    def interval_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('DOCKER', 'NPM', 'GIT'):
-            raise ValueError("must be one of enum values ('DOCKER', 'NPM', 'GIT')")
+        if value not in ('MINUTE', 'HOUR', 'DAY', 'MONTH'):
+            raise ValueError("must be one of enum values ('MINUTE', 'HOUR', 'DAY', 'MONTH')")
         return value
 
     class Config:
@@ -50,8 +51,8 @@ class NewImageData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NewImageData:
-        """Create an instance of NewImageData from a JSON string"""
+    def from_json(cls, json_str: str) -> TokenSpendingMetricData:
+        """Create an instance of TokenSpendingMetricData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -63,17 +64,18 @@ class NewImageData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NewImageData:
-        """Create an instance of NewImageData from a dict"""
+    def from_dict(cls, obj: dict) -> TokenSpendingMetricData:
+        """Create an instance of TokenSpendingMetricData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NewImageData.parse_obj(obj)
+            return TokenSpendingMetricData.parse_obj(obj)
 
-        _obj = NewImageData.parse_obj({
-            "image_source_type": obj.get("imageSourceType"),
-            "image": obj.get("image")
+        _obj = TokenSpendingMetricData.parse_obj({
+            "interval": obj.get("interval"),
+            "available": obj.get("available"),
+            "limit": obj.get("limit")
         })
         return _obj
 
