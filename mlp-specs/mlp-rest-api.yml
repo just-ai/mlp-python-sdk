@@ -5995,6 +5995,97 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StatLogData'
+  /api/mlpcore/account/{account}/token/{tokenId}/spending/metric:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getTokenSpendingMetric
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenSpendingMetricData'
+  /api/mlpcore/account/{account}/token/{tokenId}/spending/metric-range:
+    get:
+      tags:
+      - metric-endpoint
+      operationId: getTokenSpendingMetricRange
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: time
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: minutes
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: stepSeconds
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 60
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenSpendingMetricRangeData'
   /api/mlpcore/account/{account}/stat-log:
     get:
       tags:
@@ -9530,12 +9621,16 @@ components:
     AccessTokenData:
       required:
       - creationDate
+      - id
       - keepAvailableOnLimitChange
       - name
       - permissions
       - token
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         token:
           type: string
         name:
@@ -12836,6 +12931,60 @@ components:
           type: object
         message:
           type: string
+    TokenSpendingMetricData:
+      required:
+      - available
+      - interval
+      - limit
+      type: object
+      properties:
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+        available:
+          type: number
+          format: double
+        limit:
+          type: number
+          format: double
+    Measurement:
+      required:
+      - ts
+      - v
+      type: object
+      properties:
+        ts:
+          type: integer
+          format: int64
+        v:
+          type: number
+          format: double
+    TokenSpendingMetricRangeData:
+      required:
+      - available
+      - interval
+      - limit
+      type: object
+      properties:
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+        available:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
+        limit:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
     S3CredentialsData:
       required:
       - accessKey
@@ -12915,18 +13064,6 @@ components:
           - YEAR
         priceSynchronizationEnabled:
           type: boolean
-    Measurement:
-      required:
-      - ts
-      - v
-      type: object
-      properties:
-        ts:
-          type: integer
-          format: int64
-        v:
-          type: number
-          format: double
     PageStatLogData:
       type: object
       properties:
@@ -12936,10 +13073,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -12952,6 +13085,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -12962,17 +13099,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -12980,9 +13117,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
