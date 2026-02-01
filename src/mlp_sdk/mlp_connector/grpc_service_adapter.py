@@ -106,28 +106,21 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
 
         def input_stream_generator() -> Generator[PayloadProto, None, None]:
             finished = False
-            while True:
-                if finished:
-                    break
+            while not finished:
                 sc = self.request_streams[context.requestId]
                 if sc:
                     x = sc.stream.get()  # pyright: ignore[reportOptionalMemberAccess]
                     if x.partialPredict.finish:
                         finished = True
-
                     yield x.partialPredict.data
-                else:
-                    # теоретически не возможная ситуация
-                    break  # pragma: no cover
 
-        try:
-            self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
-        finally:
-            del self.request_streams[context.requestId]
+        self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
 
-    def __process_simple_request(self, context: MlpRequestContext, request: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]):
-        # сначала разберём простой предикт
-
+    def __process_simple_request(
+            self, context: MlpRequestContext,
+            request: PayloadProto | Generator[PayloadProto, None, None],
+            config: Optional[PayloadProto],
+        ):
         start_time = perf_counter()  # Z-Server-Time будем выставлять только для простых predict-методов
         res = self.impl.predict(context, request, config)  # тут должна быть поддержка и других методов
 
