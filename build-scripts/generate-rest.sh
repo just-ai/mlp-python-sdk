@@ -18,6 +18,7 @@ mkdir openapi-generator-output
 rm -Rf src/mlp_sdk/mlp_api
 rm -Rf src/mlp_sdk/storage_api
 
+docker rm openapi-container || echo "Уже удален"
 docker run --name openapi-container openapi-generator generate  \
     -i api-specs/mlp-rest-api.yml  -g python-pydantic-v1   -o openapi-generator-output/mlp-rest-api \
     --additional-properties=packageName=mlp_sdk.mlp_api
