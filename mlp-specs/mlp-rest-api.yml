@@ -10342,6 +10342,8 @@ components:
           type: string
         runCmd:
           type: string
+        sourcePath:
+          type: string
     ImageInfoPK:
       required:
       - accountId
