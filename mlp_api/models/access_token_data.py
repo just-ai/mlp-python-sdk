@@ -26,6 +26,7 @@ class AccessTokenData(BaseModel):
     """
     AccessTokenData
     """
+    id: StrictInt = Field(...)
     token: StrictStr = Field(...)
     name: StrictStr = Field(...)
     creation_date: StrictStr = Field(default=..., alias="creationDate")
@@ -35,7 +36,7 @@ class AccessTokenData(BaseModel):
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
     keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
-    __properties = ["token", "name", "creationDate", "ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange"]
+    __properties = ["id", "token", "name", "creationDate", "ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange"]
 
     class Config:
         """Pydantic configuration"""
@@ -76,6 +77,7 @@ class AccessTokenData(BaseModel):
             return AccessTokenData.parse_obj(obj)
 
         _obj = AccessTokenData.parse_obj({
+            "id": obj.get("id"),
             "token": obj.get("token"),
             "name": obj.get("name"),
             "creation_date": obj.get("creationDate"),

@@ -24,10 +24,13 @@ from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
+from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
+from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
+from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
 from mlp_api.api.manual_management_endpoint_api import ManualManagementEndpointApi
 from mlp_api.api.metric_endpoint_api import MetricEndpointApi
 from mlp_api.api.model_alias_endpoint_api import ModelAliasEndpointApi
@@ -101,6 +104,7 @@ from mlp_api.models.document_dump import DocumentDump
 from mlp_api.models.empty_users_response import EmptyUsersResponse
 from mlp_api.models.event_data import EventData
 from mlp_api.models.event_source import EventSource
+from mlp_api.models.exchange_rate_data import ExchangeRateData
 from mlp_api.models.existing_image_data import ExistingImageData
 from mlp_api.models.extended_request_data import ExtendedRequestData
 from mlp_api.models.external_connection_info_data import ExternalConnectionInfoData
@@ -121,6 +125,7 @@ from mlp_api.models.image_dump import ImageDump
 from mlp_api.models.image_info_data import ImageInfoData
 from mlp_api.models.image_info_pk import ImageInfoPK
 from mlp_api.models.image_step_data import ImageStepData
+from mlp_api.models.image_tier_pricing_data import ImageTierPricingData
 from mlp_api.models.instance_environment_data import InstanceEnvironmentData
 from mlp_api.models.instance_event_data import InstanceEventData
 from mlp_api.models.instance_last_state import InstanceLastState
@@ -136,6 +141,7 @@ from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.last_activity_pk import LastActivityPk
 from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
+from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
 from mlp_api.models.local_time import LocalTime
 from mlp_api.models.management_request_data import ManagementRequestData
 from mlp_api.models.measurement import Measurement
@@ -164,6 +170,7 @@ from mlp_api.models.model_limits_data import ModelLimitsData
 from mlp_api.models.model_list_request import ModelListRequest
 from mlp_api.models.model_metrics_data import ModelMetricsData
 from mlp_api.models.model_name_availability import ModelNameAvailability
+from mlp_api.models.model_pricing_data import ModelPricingData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
@@ -232,9 +239,15 @@ from mlp_api.models.task_suite_status import TaskSuiteStatus
 from mlp_api.models.task_type_data import TaskTypeData
 from mlp_api.models.task_type_to_models_count import TaskTypeToModelsCount
 from mlp_api.models.token_restrictions_data import TokenRestrictionsData
+from mlp_api.models.token_spending_metric_data import TokenSpendingMetricData
+from mlp_api.models.token_spending_metric_range_data import TokenSpendingMetricRangeData
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.ui_notification_data import UINotificationData
+from mlp_api.models.unit_pricing_data import UnitPricingData
+from mlp_api.models.units_range_data import UnitsRangeData
 from mlp_api.models.update_access_token_data import UpdateAccessTokenData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
+from mlp_api.models.video_resolution_pricing_data import VideoResolutionPricingData
+from mlp_api.models.volume_pricing_data import VolumePricingData
 from mlp_api.models.wizard_model_creation import WizardModelCreation

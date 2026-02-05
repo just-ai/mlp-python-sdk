@@ -25,6 +25,8 @@ from typing import Dict, List, Optional, Union
 
 from mlp_api.models.measurement import Measurement
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
+from mlp_api.models.token_spending_metric_data import TokenSpendingMetricData
+from mlp_api.models.token_spending_metric_range_data import TokenSpendingMetricRangeData
 
 from mlp_api.api_client import ApiClient
 from mlp_api.api_response import ApiResponse
@@ -2783,6 +2785,346 @@ class MetricEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/account/{account}/resource-groups/{groupName}/metric-range', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def get_token_spending_metric(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], token_id : StrictInt, time : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[TokenSpendingMetricData]:  # noqa: E501
+        """get_token_spending_metric  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_token_spending_metric(account, token_id, time, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param token_id: (required)
+        :type token_id: int
+        :param time:
+        :type time: int
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[TokenSpendingMetricData]
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_token_spending_metric_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_token_spending_metric_with_http_info(account, token_id, time, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_token_spending_metric_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], token_id : StrictInt, time : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_token_spending_metric  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_token_spending_metric_with_http_info(account, token_id, time, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param token_id: (required)
+        :type token_id: int
+        :param time:
+        :type time: int
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(List[TokenSpendingMetricData], status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'account',
+            'token_id',
+            'time',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_token_spending_metric" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
+        if _params['token_id'] is not None:
+            _path_params['tokenId'] = _params['token_id']
+
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('time') is not None:  # noqa: E501
+            _query_params.append(('time', _params['time']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "List[TokenSpendingMetricData]",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/account/{account}/token/{tokenId}/spending/metric', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def get_token_spending_metric_range(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], token_id : StrictInt, minutes : StrictInt, time : Optional[StrictInt] = None, step_seconds : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[TokenSpendingMetricRangeData]:  # noqa: E501
+        """get_token_spending_metric_range  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_token_spending_metric_range(account, token_id, minutes, time, step_seconds, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param token_id: (required)
+        :type token_id: int
+        :param minutes: (required)
+        :type minutes: int
+        :param time:
+        :type time: int
+        :param step_seconds:
+        :type step_seconds: int
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[TokenSpendingMetricRangeData]
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_token_spending_metric_range_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_token_spending_metric_range_with_http_info(account, token_id, minutes, time, step_seconds, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_token_spending_metric_range_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], token_id : StrictInt, minutes : StrictInt, time : Optional[StrictInt] = None, step_seconds : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_token_spending_metric_range  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_token_spending_metric_range_with_http_info(account, token_id, minutes, time, step_seconds, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param account: Account id or account name (required)
+        :type account: str
+        :param token_id: (required)
+        :type token_id: int
+        :param minutes: (required)
+        :type minutes: int
+        :param time:
+        :type time: int
+        :param step_seconds:
+        :type step_seconds: int
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(List[TokenSpendingMetricRangeData], status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'account',
+            'token_id',
+            'minutes',
+            'time',
+            'step_seconds',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_token_spending_metric_range" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['account'] is not None:
+            _path_params['account'] = _params['account']
+
+        if _params['token_id'] is not None:
+            _path_params['tokenId'] = _params['token_id']
+
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('time') is not None:  # noqa: E501
+            _query_params.append(('time', _params['time']))
+
+        if _params.get('minutes') is not None:  # noqa: E501
+            _query_params.append(('minutes', _params['minutes']))
+
+        if _params.get('step_seconds') is not None:  # noqa: E501
+            _query_params.append(('stepSeconds', _params['step_seconds']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "List[TokenSpendingMetricRangeData]",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/account/{account}/token/{tokenId}/spending/metric-range', 'GET',
             _path_params,
             _query_params,
             _header_params,
