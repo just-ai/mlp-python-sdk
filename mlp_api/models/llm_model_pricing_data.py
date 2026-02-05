@@ -19,16 +19,20 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+from mlp_api.models.model_pricing_data import ModelPricingData
 
-class SortObject(BaseModel):
+class LlmModelPricingData(BaseModel):
     """
-    SortObject
+    LlmModelPricingData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    id: Optional[StrictInt] = None
+    model: StrictStr = Field(...)
+    vendor: StrictStr = Field(...)
+    currency: StrictStr = Field(...)
+    pricing: ModelPricingData = Field(...)
+    client_id: Optional[StrictInt] = Field(default=None, alias="clientId")
+    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +48,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmModelPricingData:
+        """Create an instance of LlmModelPricingData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +58,27 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of pricing
+        if self.pricing:
+            _dict['pricing'] = self.pricing.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> LlmModelPricingData:
+        """Create an instance of LlmModelPricingData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return LlmModelPricingData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = LlmModelPricingData.parse_obj({
+            "id": obj.get("id"),
+            "model": obj.get("model"),
+            "vendor": obj.get("vendor"),
+            "currency": obj.get("currency"),
+            "pricing": ModelPricingData.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
+            "client_id": obj.get("clientId")
         })
         return _obj
 

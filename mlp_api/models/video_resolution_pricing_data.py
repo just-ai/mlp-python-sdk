@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Dict, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class VideoResolutionPricingData(BaseModel):
     """
-    SortObject
+    VideoResolutionPricingData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    prices: Dict[str, Union[StrictFloat, StrictInt]] = Field(...)
+    resolution: StrictStr = Field(...)
+    __properties = ["prices", "resolution"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> VideoResolutionPricingData:
+        """Create an instance of VideoResolutionPricingData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> VideoResolutionPricingData:
+        """Create an instance of VideoResolutionPricingData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return VideoResolutionPricingData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = VideoResolutionPricingData.parse_obj({
+            "prices": obj.get("prices"),
+            "resolution": obj.get("resolution")
         })
         return _obj
 

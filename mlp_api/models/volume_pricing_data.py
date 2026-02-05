@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Dict, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt
+from mlp_api.models.units_range_data import UnitsRangeData
 
-class SortObject(BaseModel):
+class VolumePricingData(BaseModel):
     """
-    SortObject
+    VolumePricingData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    prices: Dict[str, Union[StrictFloat, StrictInt]] = Field(...)
+    units_range: UnitsRangeData = Field(default=..., alias="unitsRange")
+    __properties = ["prices", "unitsRange"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> VolumePricingData:
+        """Create an instance of VolumePricingData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +54,23 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of units_range
+        if self.units_range:
+            _dict['unitsRange'] = self.units_range.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> VolumePricingData:
+        """Create an instance of VolumePricingData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return VolumePricingData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = VolumePricingData.parse_obj({
+            "prices": obj.get("prices"),
+            "units_range": UnitsRangeData.from_dict(obj.get("unitsRange")) if obj.get("unitsRange") is not None else None
         })
         return _obj
 

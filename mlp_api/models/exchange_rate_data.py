@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Optional, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class ExchangeRateData(BaseModel):
     """
-    SortObject
+    ExchangeRateData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    id: Optional[StrictInt] = None
+    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
+    to_currency: StrictStr = Field(default=..., alias="toCurrency")
+    rate: Union[StrictFloat, StrictInt] = Field(...)
+    __properties = ["id", "fromCurrency", "toCurrency", "rate"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ExchangeRateData:
+        """Create an instance of ExchangeRateData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> ExchangeRateData:
+        """Create an instance of ExchangeRateData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return ExchangeRateData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = ExchangeRateData.parse_obj({
+            "id": obj.get("id"),
+            "from_currency": obj.get("fromCurrency"),
+            "to_currency": obj.get("toCurrency"),
+            "rate": obj.get("rate")
         })
         return _obj
 
