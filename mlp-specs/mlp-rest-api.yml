@@ -11570,6 +11570,8 @@ components:
           - BATCH_REQUESTS
           - MODERATION_REQUESTS
           - VIRTUAL_CURRENCY
+          - ONE_HOUR_CACHE_WRITES_INPUT_TOKENS
+          - FIVE_MINUTES_CACHE_WRITES_INPUT_TOKENS
           - UNKNOWN
         basePrice:
           type: number
