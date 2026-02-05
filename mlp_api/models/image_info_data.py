@@ -35,7 +35,8 @@ class ImageInfoData(BaseModel):
     git_ref: Optional[StrictStr] = Field(default=None, alias="gitRef")
     build_cmd: Optional[StrictStr] = Field(default=None, alias="buildCmd")
     run_cmd: Optional[StrictStr] = Field(default=None, alias="runCmd")
-    __properties = ["id", "name", "imageAccountName", "image", "accessMode", "imageType", "gitRef", "buildCmd", "runCmd"]
+    source_path: Optional[StrictStr] = Field(default=None, alias="sourcePath")
+    __properties = ["id", "name", "imageAccountName", "image", "accessMode", "imageType", "gitRef", "buildCmd", "runCmd", "sourcePath"]
 
     @validator('access_mode')
     def access_mode_validate_enum(cls, value):
@@ -104,7 +105,8 @@ class ImageInfoData(BaseModel):
             "image_type": obj.get("imageType"),
             "git_ref": obj.get("gitRef"),
             "build_cmd": obj.get("buildCmd"),
-            "run_cmd": obj.get("runCmd")
+            "run_cmd": obj.get("runCmd"),
+            "source_path": obj.get("sourcePath")
         })
         return _obj
 
