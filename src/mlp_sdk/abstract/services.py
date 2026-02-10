@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Generator, Optional, Type, TypeVar
+from typing import Generator, Generic, Optional, Type, TypeVar
 
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ApiErrorProto, SimpleStatusProto
 
@@ -64,7 +64,7 @@ class EmptyData:
     pass
 
 
-class MlpPredictServiceBase[T, C, R]:
+class MlpPredictServiceBase(Generic[T, C, R]):
     def __init__(self, clazz_t: Type[T], clazz_c: Type[C], clazz_r: Type[R]):
         self.clazz_t = clazz_t
         self.clazz_c = clazz_c
