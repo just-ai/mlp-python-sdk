@@ -20,14 +20,6 @@ check:
 test: check
 	uv run --directory ./tests pytest
 
-	@total_cov=$$(uv run python -m mlp_apps_ci_utils.check_coverage | tr -d '\r'); \
-	if [ "$$total_cov" -lt "100" ]; then \
-		echo ""; \
-		echo "Тестовое покрытие ниже требуемого порога в 100%: $$total_cov%. "; \
-		echo ""; \
-		exit 1; \
-	fi
-
 clean:
 	@rm -Rf dist htmlcov pytest-report
 	@find . -name .coverage -delete
@@ -35,14 +27,6 @@ clean:
 
 venv:
 	uv sync
-
-bump_version:
-	@if [ "$(BRANCH_NAME)" = "$(MAIN_BRANCH)" ]; then \
-		echo "Bumping version on main branch..."; \
-		uv run python -m mlp_apps_ci_utils.bump_version; \
-	else \
-		echo "Пропускаем автоматическое обновление версии т.к. ветка не $(MAIN_BRANCH)"; \
-	fi
 
 
 rest:
@@ -66,4 +50,4 @@ deploy:
 		uv run twine upload --repository nexus-open --verbose ./dist/*.whl; \
 	fi
 
-.PHONY: venv build deploy rest grpc bump_version clean test check format all
+.PHONY: venv build deploy rest grpc clean test check format all

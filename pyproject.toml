@@ -33,7 +33,6 @@ dev = [
     "tomli>=2.2.1",
     "tomli-w>=1.2.0",
     "pre-commit>=4.2.0",
-    "mlp-apps-ci-utils>=0.0.1.dev8",
 ]
 
 [tool.uv]
