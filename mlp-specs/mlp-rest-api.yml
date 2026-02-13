@@ -11559,6 +11559,7 @@ components:
           - OUTPUT_VIDEO_SECONDS
           - OUTPUT_VIDEO_ONLY_SECONDS
           - OUTPUT_VIDEO_WITH_AUDIO_SECONDS
+          - VIRTUAL_CURRENCY
           - EMBEDDING_TOKENS
           - EMBEDDING_REQUESTS
           - TRAINING_TOKENS
@@ -11569,9 +11570,7 @@ components:
           - INPUT_CONTEXT_TOKENS
           - BATCH_REQUESTS
           - MODERATION_REQUESTS
-          - VIRTUAL_CURRENCY
-          - ONE_HOUR_CACHE_WRITES_INPUT_TOKENS
-          - FIVE_MINUTES_CACHE_WRITES_INPUT_TOKENS
+          - COMPUTE_SECONDS
           - UNKNOWN
         basePrice:
           type: number
