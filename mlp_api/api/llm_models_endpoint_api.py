@@ -49,13 +49,13 @@ class LlmModelsEndpointApi:
         self.api_client = api_client
 
     @validate_arguments
-    def create_model(self, provider_name : StrictStr, create_llm_models_data : CreateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
-        """create_model  # noqa: E501
+    def create_llm_model(self, provider_name : StrictStr, create_llm_models_data : CreateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
+        """create_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_model(provider_name, create_llm_models_data, mlp_api_key, async_req=True)
+        >>> thread = api.create_llm_model(provider_name, create_llm_models_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -77,18 +77,18 @@ class LlmModelsEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the create_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the create_llm_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_model_with_http_info(provider_name, create_llm_models_data, mlp_api_key, **kwargs)  # noqa: E501
+        return self.create_llm_model_with_http_info(provider_name, create_llm_models_data, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_model_with_http_info(self, provider_name : StrictStr, create_llm_models_data : CreateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """create_model  # noqa: E501
+    def create_llm_model_with_http_info(self, provider_name : StrictStr, create_llm_models_data : CreateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """create_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_model_with_http_info(provider_name, create_llm_models_data, mlp_api_key, async_req=True)
+        >>> thread = api.create_llm_model_with_http_info(provider_name, create_llm_models_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -146,7 +146,7 @@ class LlmModelsEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_model" % _key
+                    " to method create_llm_model" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -210,13 +210,13 @@ class LlmModelsEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_model(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
-        """delete_model  # noqa: E501
+    def delete_llm_model(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+        """delete_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_model(provider_name, model_name, mlp_api_key, async_req=True)
+        >>> thread = api.delete_llm_model(provider_name, model_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -238,18 +238,18 @@ class LlmModelsEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the delete_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the delete_llm_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.delete_model_with_http_info(provider_name, model_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.delete_llm_model_with_http_info(provider_name, model_name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """delete_model  # noqa: E501
+    def delete_llm_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """delete_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_model_with_http_info(provider_name, model_name, mlp_api_key, async_req=True)
+        >>> thread = api.delete_llm_model_with_http_info(provider_name, model_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -307,7 +307,7 @@ class LlmModelsEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_model" % _key
+                    " to method delete_llm_model" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -358,13 +358,13 @@ class LlmModelsEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_model(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
-        """get_model  # noqa: E501
+    def get_llm_model(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
+        """get_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_model(provider_name, model_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_llm_model(provider_name, model_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -386,18 +386,18 @@ class LlmModelsEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the get_llm_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_model_with_http_info(provider_name, model_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_llm_model_with_http_info(provider_name, model_name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """get_model  # noqa: E501
+    def get_llm_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_model_with_http_info(provider_name, model_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_llm_model_with_http_info(provider_name, model_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -455,7 +455,7 @@ class LlmModelsEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_model" % _key
+                    " to method get_llm_model" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -512,13 +512,13 @@ class LlmModelsEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_models_by_provider(self, provider_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsListResponse:  # noqa: E501
-        """get_models_by_provider  # noqa: E501
+    def get_llm_models_by_provider(self, provider_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsListResponse:  # noqa: E501
+        """get_llm_models_by_provider  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_models_by_provider(provider_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_llm_models_by_provider(provider_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -538,18 +538,18 @@ class LlmModelsEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_models_by_provider_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the get_llm_models_by_provider_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_models_by_provider_with_http_info(provider_name, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_llm_models_by_provider_with_http_info(provider_name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_models_by_provider_with_http_info(self, provider_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """get_models_by_provider  # noqa: E501
+    def get_llm_models_by_provider_with_http_info(self, provider_name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_llm_models_by_provider  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_models_by_provider_with_http_info(provider_name, mlp_api_key, async_req=True)
+        >>> thread = api.get_llm_models_by_provider_with_http_info(provider_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -604,7 +604,7 @@ class LlmModelsEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_models_by_provider" % _key
+                    " to method get_llm_models_by_provider" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -658,13 +658,13 @@ class LlmModelsEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def update_model(self, provider_name : StrictStr, model_name : StrictStr, update_llm_models_data : UpdateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
-        """update_model  # noqa: E501
+    def update_llm_model(self, provider_name : StrictStr, model_name : StrictStr, update_llm_models_data : UpdateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmModelsData:  # noqa: E501
+        """update_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_model(provider_name, model_name, update_llm_models_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_llm_model(provider_name, model_name, update_llm_models_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -688,18 +688,18 @@ class LlmModelsEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the update_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the update_llm_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.update_model_with_http_info(provider_name, model_name, update_llm_models_data, mlp_api_key, **kwargs)  # noqa: E501
+        return self.update_llm_model_with_http_info(provider_name, model_name, update_llm_models_data, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, update_llm_models_data : UpdateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """update_model  # noqa: E501
+    def update_llm_model_with_http_info(self, provider_name : StrictStr, model_name : StrictStr, update_llm_models_data : UpdateLlmModelsData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """update_llm_model  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_model_with_http_info(provider_name, model_name, update_llm_models_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_llm_model_with_http_info(provider_name, model_name, update_llm_models_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider_name: (required)
@@ -760,7 +760,7 @@ class LlmModelsEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_model" % _key
+                    " to method update_llm_model" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
