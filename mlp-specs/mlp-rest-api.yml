@@ -6,6 +6,93 @@ servers:
 - url: https://app.caila.io
   description: Generated server url
 paths:
+  /api/mlpcore/providers/{providerName}/models/{modelName}:
+    get:
+      tags:
+      - llm-models-endpoint
+      operationId: getModel
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmModelsData'
+    put:
+      tags:
+      - llm-models-endpoint
+      operationId: updateModel
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLlmModelsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmModelsData'
+    delete:
+      tags:
+      - llm-models-endpoint
+      operationId: deleteModel
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: modelName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
   /api/mlpcore/account/{account}/token/{token}:
     get:
       tags:
@@ -689,6 +776,102 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/providers:
+    get:
+      tags:
+      - llm-providers-endpoint
+      operationId: getAllProviders
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmProvidersListResponse'
+    post:
+      tags:
+      - llm-providers-endpoint
+      operationId: createProvider
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmProviderData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmProviderData'
+  /api/mlpcore/providers/{providerName}/models:
+    get:
+      tags:
+      - llm-models-endpoint
+      operationId: getModelsByProvider
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmModelsListResponse'
+    post:
+      tags:
+      - llm-models-endpoint
+      operationId: createModel
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLlmModelsData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmModelsData'
   /api/mlpcore/notifications/capacity/send:
     post:
       tags:
@@ -2081,7 +2264,7 @@ paths:
     post:
       tags:
       - model-endpoint
-      operationId: createModel
+      operationId: createModel_1
       parameters:
       - name: account
         in: path
@@ -2142,7 +2325,7 @@ paths:
     post:
       tags:
       - model-endpoint
-      operationId: updateModel
+      operationId: updateModel_1
       parameters:
       - name: account
         in: path
@@ -2178,7 +2361,7 @@ paths:
     delete:
       tags:
       - model-endpoint
-      operationId: deleteModel
+      operationId: deleteModel_1
       parameters:
       - name: account
         in: path
@@ -9314,6 +9497,26 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/mlpcore/providers/{providerName}:
+    delete:
+      tags:
+      - llm-providers-endpoint
+      operationId: deleteProvider
+      parameters:
+      - name: providerName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
   /api/mlpcore/account/{account}/model/{model}/model-group:
     delete:
       tags:
@@ -9766,6 +9969,254 @@ paths:
                 type: object
 components:
   schemas:
+    BooleanConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelConstant'
+      - type: object
+        properties:
+          value:
+            type: boolean
+    BooleanVariable:
+      required:
+      - name
+      - required
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelVariable'
+      - type: object
+        properties:
+          default:
+            type: boolean
+    EnumConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelConstant'
+      - type: object
+        properties:
+          value:
+            type: array
+            items:
+              type: string
+    EnumVariable:
+      required:
+      - name
+      - required
+      - type
+      - values
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelVariable'
+      - type: object
+        properties:
+          values:
+            type: array
+            items:
+              type: string
+          default:
+            type: string
+    IntegerConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelConstant'
+      - type: object
+        properties:
+          value:
+            type: integer
+            format: int64
+    IntegerVariable:
+      required:
+      - name
+      - required
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelVariable'
+      - type: object
+        properties:
+          default:
+            type: integer
+            format: int64
+          min:
+            type: integer
+            format: int64
+          max:
+            type: integer
+            format: int64
+    ModelConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: object
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    ModelParametersDto:
+      required:
+      - constants
+      - variables
+      type: object
+      properties:
+        constants:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/BooleanConstant'
+            - $ref: '#/components/schemas/EnumConstant'
+            - $ref: '#/components/schemas/IntegerConstant'
+            - $ref: '#/components/schemas/NumberConstant'
+            - $ref: '#/components/schemas/StringConstant'
+        variables:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/BooleanVariable'
+            - $ref: '#/components/schemas/EnumVariable'
+            - $ref: '#/components/schemas/IntegerVariable'
+            - $ref: '#/components/schemas/NumberVariable'
+            - $ref: '#/components/schemas/StringVariable'
+    ModelVariable:
+      required:
+      - name
+      - required
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        default:
+          type: object
+        type:
+          type: string
+        required:
+          type: boolean
+      discriminator:
+        propertyName: type
+    NumberConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelConstant'
+      - type: object
+        properties:
+          value:
+            type: number
+            format: double
+    NumberVariable:
+      required:
+      - name
+      - required
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelVariable'
+      - type: object
+        properties:
+          default:
+            type: number
+            format: double
+          min:
+            type: number
+            format: double
+          max:
+            type: number
+            format: double
+    StringConstant:
+      required:
+      - name
+      - type
+      - value
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelConstant'
+      - type: object
+        properties:
+          value:
+            type: string
+    StringVariable:
+      required:
+      - name
+      - required
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ModelVariable'
+      - type: object
+        properties:
+          default:
+            type: string
+          minLength:
+            type: integer
+            format: int32
+          maxLength:
+            type: integer
+            format: int32
+    UpdateLlmModelsData:
+      type: object
+      properties:
+        displayName:
+          maxLength: 100
+          minLength: 0
+          type: string
+        parameters:
+          $ref: '#/components/schemas/ModelParametersDto'
+    LlmModelsData:
+      required:
+      - createdAt
+      - displayName
+      - name
+      - parameters
+      - provider
+      - updatedAt
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        provider:
+          $ref: '#/components/schemas/ProviderRefData'
+        parameters:
+          $ref: '#/components/schemas/ModelParametersDto'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ProviderRefData:
+      required:
+      - displayName
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
     ServiceFilter:
       required:
       - accountName
@@ -10865,6 +11316,40 @@ components:
           type: string
         comment:
           type: string
+    LlmProviderData:
+      required:
+      - displayName
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        displayName:
+          maxLength: 100
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CreateLlmModelsData:
+      required:
+      - displayName
+      - name
+      - parameters
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        displayName:
+          maxLength: 100
+          minLength: 0
+          type: string
+        parameters:
+          $ref: '#/components/schemas/ModelParametersDto'
     BroadcastUINotificationRequest:
       required:
       - accountIds
@@ -13046,6 +13531,24 @@ components:
           type: boolean
         siteKey:
           type: string
+    LlmProvidersListResponse:
+      required:
+      - providers
+      type: object
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmProviderData'
+    LlmModelsListResponse:
+      required:
+      - models
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmModelsData'
     PagedModelInfoData:
       required:
       - paging
