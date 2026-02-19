@@ -19,16 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import StrictInt
+from mlp_api.models.model_variable import ModelVariable
 
-class SortObject(BaseModel):
+class IntegerVariable(ModelVariable):
     """
-    SortObject
+    IntegerVariable
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    default: Optional[StrictInt] = None
+    min: Optional[StrictInt] = None
+    max: Optional[StrictInt] = None
+    __properties = ["name", "default", "type", "required", "min", "max"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> IntegerVariable:
+        """Create an instance of IntegerVariable from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,21 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> IntegerVariable:
+        """Create an instance of IntegerVariable from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return IntegerVariable.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = IntegerVariable.parse_obj({
+            "name": obj.get("name"),
+            "default": obj.get("default"),
+            "type": obj.get("type"),
+            "required": obj.get("required"),
+            "min": obj.get("min"),
+            "max": obj.get("max")
         })
         return _obj
 

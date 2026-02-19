@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, constr
 
-class SortObject(BaseModel):
+class LlmProviderData(BaseModel):
     """
-    SortObject
+    LlmProviderData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    name: constr(strict=True, max_length=100, min_length=0) = Field(...)
+    display_name: constr(strict=True, max_length=100, min_length=0) = Field(default=..., alias="displayName")
+    created_at: Optional[datetime] = Field(default=None, alias="createdAt")
+    __properties = ["name", "displayName", "createdAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmProviderData:
+        """Create an instance of LlmProviderData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> LlmProviderData:
+        """Create an instance of LlmProviderData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return LlmProviderData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = LlmProviderData.parse_obj({
+            "name": obj.get("name"),
+            "display_name": obj.get("displayName"),
+            "created_at": obj.get("createdAt")
         })
         return _obj
 

@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import Field, StrictStr
+from mlp_api.models.model_constant import ModelConstant
+
+class StringConstant(ModelConstant):
     """
-    SortObject
+    StringConstant
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    value: StrictStr = Field(...)
+    __properties = ["name", "value", "type"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> StringConstant:
+        """Create an instance of StringConstant from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> StringConstant:
+        """Create an instance of StringConstant from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return StringConstant.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = StringConstant.parse_obj({
+            "name": obj.get("name"),
+            "value": obj.get("value"),
+            "type": obj.get("type")
         })
         return _obj
 

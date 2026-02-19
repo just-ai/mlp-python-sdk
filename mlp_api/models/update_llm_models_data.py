@@ -19,16 +19,16 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, constr
+from mlp_api.models.model_parameters_dto import ModelParametersDto
 
-class SortObject(BaseModel):
+class UpdateLlmModelsData(BaseModel):
     """
-    SortObject
+    UpdateLlmModelsData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    display_name: Optional[constr(strict=True, max_length=100, min_length=0)] = Field(default=None, alias="displayName")
+    parameters: Optional[ModelParametersDto] = None
+    __properties = ["displayName", "parameters"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> UpdateLlmModelsData:
+        """Create an instance of UpdateLlmModelsData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +54,23 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of parameters
+        if self.parameters:
+            _dict['parameters'] = self.parameters.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> UpdateLlmModelsData:
+        """Create an instance of UpdateLlmModelsData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return UpdateLlmModelsData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = UpdateLlmModelsData.parse_obj({
+            "display_name": obj.get("displayName"),
+            "parameters": ModelParametersDto.from_dict(obj.get("parameters")) if obj.get("parameters") is not None else None
         })
         return _obj
 

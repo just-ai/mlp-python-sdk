@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List
+from pydantic import BaseModel, Field, conlist
+from mlp_api.models.llm_models_data import LlmModelsData
 
-class SortObject(BaseModel):
+class LlmModelsListResponse(BaseModel):
     """
-    SortObject
+    LlmModelsListResponse
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    models: conlist(LlmModelsData) = Field(...)
+    __properties = ["models"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmModelsListResponse:
+        """Create an instance of LlmModelsListResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +53,26 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in models (list)
+        _items = []
+        if self.models:
+            for _item in self.models:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['models'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> LlmModelsListResponse:
+        """Create an instance of LlmModelsListResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return LlmModelsListResponse.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = LlmModelsListResponse.parse_obj({
+            "models": [LlmModelsData.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None
         })
         return _obj
 

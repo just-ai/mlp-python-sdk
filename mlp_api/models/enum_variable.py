@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List, Optional
+from pydantic import Field, StrictStr, conlist
+from mlp_api.models.model_variable import ModelVariable
 
-class SortObject(BaseModel):
+class EnumVariable(ModelVariable):
     """
-    SortObject
+    EnumVariable
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    values: conlist(StrictStr) = Field(...)
+    default: Optional[StrictStr] = None
+    __properties = ["name", "default", "type", "required", "values"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> EnumVariable:
+        """Create an instance of EnumVariable from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,20 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> EnumVariable:
+        """Create an instance of EnumVariable from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return EnumVariable.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = EnumVariable.parse_obj({
+            "name": obj.get("name"),
+            "default": obj.get("default"),
+            "type": obj.get("type"),
+            "required": obj.get("required"),
+            "values": obj.get("values")
         })
         return _obj
 

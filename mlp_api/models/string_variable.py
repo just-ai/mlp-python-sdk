@@ -19,16 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import Field, StrictInt, StrictStr
+from mlp_api.models.model_variable import ModelVariable
 
-class SortObject(BaseModel):
+class StringVariable(ModelVariable):
     """
-    SortObject
+    StringVariable
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    default: Optional[StrictStr] = None
+    min_length: Optional[StrictInt] = Field(default=None, alias="minLength")
+    max_length: Optional[StrictInt] = Field(default=None, alias="maxLength")
+    __properties = ["name", "default", "type", "required", "minLength", "maxLength"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> StringVariable:
+        """Create an instance of StringVariable from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,21 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> StringVariable:
+        """Create an instance of StringVariable from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return StringVariable.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = StringVariable.parse_obj({
+            "name": obj.get("name"),
+            "default": obj.get("default"),
+            "type": obj.get("type"),
+            "required": obj.get("required"),
+            "min_length": obj.get("minLength"),
+            "max_length": obj.get("maxLength")
         })
         return _obj
 
