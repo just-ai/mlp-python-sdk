@@ -10,7 +10,7 @@ paths:
     get:
       tags:
       - llm-models-endpoint
-      operationId: getModel
+      operationId: getLlmModel
       parameters:
       - name: providerName
         in: path
@@ -38,7 +38,7 @@ paths:
     put:
       tags:
       - llm-models-endpoint
-      operationId: updateModel
+      operationId: updateLlmModel
       parameters:
       - name: providerName
         in: path
@@ -72,7 +72,7 @@ paths:
     delete:
       tags:
       - llm-models-endpoint
-      operationId: deleteModel
+      operationId: deleteLlmModel
       parameters:
       - name: providerName
         in: path
@@ -823,7 +823,7 @@ paths:
     get:
       tags:
       - llm-models-endpoint
-      operationId: getModelsByProvider
+      operationId: getLlmModelsByProvider
       parameters:
       - name: providerName
         in: path
@@ -846,7 +846,7 @@ paths:
     post:
       tags:
       - llm-models-endpoint
-      operationId: createModel
+      operationId: createLlmModel
       parameters:
       - name: providerName
         in: path
@@ -2264,7 +2264,7 @@ paths:
     post:
       tags:
       - model-endpoint
-      operationId: createModel_1
+      operationId: createModel
       parameters:
       - name: account
         in: path
@@ -2325,7 +2325,7 @@ paths:
     post:
       tags:
       - model-endpoint
-      operationId: updateModel_1
+      operationId: updateModel
       parameters:
       - name: account
         in: path
@@ -2361,7 +2361,7 @@ paths:
     delete:
       tags:
       - model-endpoint
-      operationId: deleteModel_1
+      operationId: deleteModel
       parameters:
       - name: account
         in: path
