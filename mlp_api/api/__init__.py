@@ -15,6 +15,8 @@ from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
 from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
+from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
+from mlp_api.api.llm_providers_endpoint_api import LlmProvidersEndpointApi
 from mlp_api.api.manual_management_endpoint_api import ManualManagementEndpointApi
 from mlp_api.api.metric_endpoint_api import MetricEndpointApi
 from mlp_api.api.model_alias_endpoint_api import ModelAliasEndpointApi

@@ -1074,13 +1074,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def create_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
-        """create_model  # noqa: E501
+    def create_model1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
+        """create_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_model(account, model_create_update_data, mlp_api_key, async_req=True)
+        >>> thread = api.create_model1(account, model_create_update_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -1102,18 +1102,18 @@ class ModelEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the create_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the create_model1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_model_with_http_info(account, model_create_update_data, mlp_api_key, **kwargs)  # noqa: E501
+        return self.create_model1_with_http_info(account, model_create_update_data, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """create_model  # noqa: E501
+    def create_model1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """create_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_model_with_http_info(account, model_create_update_data, mlp_api_key, async_req=True)
+        >>> thread = api.create_model1_with_http_info(account, model_create_update_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -1171,7 +1171,7 @@ class ModelEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_model" % _key
+                    " to method create_model1" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -1397,13 +1397,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
-        """delete_model  # noqa: E501
+    def delete_model1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
+        """delete_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_model(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.delete_model1(account, model, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -1425,18 +1425,18 @@ class ModelEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the delete_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the delete_model1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.delete_model_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
+        return self.delete_model1_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """delete_model  # noqa: E501
+    def delete_model1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """delete_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_model_with_http_info(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.delete_model1_with_http_info(account, model, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -1494,7 +1494,7 @@ class ModelEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_model" % _key
+                    " to method delete_model1" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -5596,13 +5596,13 @@ class ModelEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def update_model(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
-        """update_model  # noqa: E501
+    def update_model1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelInfoData:  # noqa: E501
+        """update_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_model(account, model, model_create_update_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_model1(account, model, model_create_update_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -5626,18 +5626,18 @@ class ModelEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the update_model_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the update_model1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.update_model_with_http_info(account, model, model_create_update_data, mlp_api_key, **kwargs)  # noqa: E501
+        return self.update_model1_with_http_info(account, model, model_create_update_data, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_model_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """update_model  # noqa: E501
+    def update_model1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], model_create_update_data : ModelCreateUpdateData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """update_model1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_model_with_http_info(account, model, model_create_update_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_model1_with_http_info(account, model, model_create_update_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -5698,7 +5698,7 @@ class ModelEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_model" % _key
+                    " to method update_model1" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
