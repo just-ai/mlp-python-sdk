@@ -56,7 +56,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
         try:
             self.__process_message_from_gate(context, message)
         except BaseException as e:
-            log.error(f"Error when processing request {context.requestId}: {str(e)}", extra={"requestId": context.requestId})
+            log.exception(f"Error when processing request {context.requestId}: {str(e)}", extra={"requestId": context.requestId})
 
             processing_time = round((time.perf_counter() - start_time) * 1000)  # to ms and round mathematically
             error_response = mlp_grpc_pb2.ServiceToGateProto(error=MlpException.exception_to_proto(e))
@@ -129,23 +129,18 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                 self.request_streams[context.requestId] = ContextAndStream(context, None)
             try:
                 first = True
-                previous = None
-                next_item = None
+                current_chunk = None
                 while True:
-                    previous = next_item
-                    next_item = next(res, None)
-
-                    if previous is None:
-                        continue
-
+                    current_chunk = next(res, None)
                     msg = ServiceToGateProto(
-                        partialPredict=PartialPredictResponseProto(start=first, finish=next_item is None, data=previous),
+                        partialPredict=PartialPredictResponseProto(
+                            start=first, finish=current_chunk is None, data=current_chunk
+                        ),
                         headers=context.response_headers,
                     )
                     self.response_receiver.message_from_service(context, msg)
                     first = False
-
-                    if next_item is None:
+                    if current_chunk is None:
                         break
             finally:
                 if context.requestId in self.request_streams:
