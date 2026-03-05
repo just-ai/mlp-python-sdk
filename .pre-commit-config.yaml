@@ -14,12 +14,3 @@ repos:
         pass_filenames: false
         always_run: true
         entry: make check
-
-  - repo: local
-    hooks:
-      - id: bump-version
-        name: Update version
-        language: system
-        pass_filenames: false
-        always_run: true
-        entry: make bump_version

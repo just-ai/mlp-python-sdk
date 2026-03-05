@@ -144,7 +144,7 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         self.init(ImplOutputStream())
         self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
-        assert len(self.response) == 3
+        assert len(self.response) == 4
         assert self.response[0].partialPredict.data.json == "1"
         assert self.response[0].partialPredict.start
         assert not self.response[0].partialPredict.finish
@@ -155,7 +155,11 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
 
         assert self.response[2].partialPredict.data.json == "3"
         assert not self.response[2].partialPredict.start
-        assert self.response[2].partialPredict.finish
+        assert not self.response[2].partialPredict.finish
+
+        assert not self.response[3].partialPredict.data.json
+        assert not self.response[3].partialPredict.start
+        assert self.response[3].partialPredict.finish
 
     def test_input_stream(self):
         self.init(ImplInputStream())
