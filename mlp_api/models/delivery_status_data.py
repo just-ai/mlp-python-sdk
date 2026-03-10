@@ -17,22 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
-from mlp_api.models.sort_object import SortObject
+from pydantic import BaseModel, Field, StrictStr
 
-class PageableObject(BaseModel):
+class DeliveryStatusData(BaseModel):
     """
-    PageableObject
+    DeliveryStatusData
     """
-    page_number: Optional[StrictInt] = Field(default=None, alias="pageNumber")
-    page_size: Optional[StrictInt] = Field(default=None, alias="pageSize")
-    offset: Optional[StrictInt] = None
-    sort: Optional[SortObject] = None
-    paged: Optional[StrictBool] = None
-    unpaged: Optional[StrictBool] = None
-    __properties = ["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged"]
+    channel: StrictStr = Field(...)
+    status: StrictStr = Field(...)
+    sent_at: Optional[datetime] = Field(default=None, alias="sentAt")
+    read_at: Optional[datetime] = Field(default=None, alias="readAt")
+    error_message: Optional[StrictStr] = Field(default=None, alias="errorMessage")
+    __properties = ["channel", "status", "sentAt", "readAt", "errorMessage"]
 
     class Config:
         """Pydantic configuration"""
@@ -48,8 +46,8 @@ class PageableObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PageableObject:
-        """Create an instance of PageableObject from a JSON string"""
+    def from_json(cls, json_str: str) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,27 +56,23 @@ class PageableObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of sort
-        if self.sort:
-            _dict['sort'] = self.sort.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PageableObject:
-        """Create an instance of PageableObject from a dict"""
+    def from_dict(cls, obj: dict) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PageableObject.parse_obj(obj)
+            return DeliveryStatusData.parse_obj(obj)
 
-        _obj = PageableObject.parse_obj({
-            "page_number": obj.get("pageNumber"),
-            "page_size": obj.get("pageSize"),
-            "offset": obj.get("offset"),
-            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
-            "paged": obj.get("paged"),
-            "unpaged": obj.get("unpaged")
+        _obj = DeliveryStatusData.parse_obj({
+            "channel": obj.get("channel"),
+            "status": obj.get("status"),
+            "sent_at": obj.get("sentAt"),
+            "read_at": obj.get("readAt"),
+            "error_message": obj.get("errorMessage")
         })
         return _obj
 

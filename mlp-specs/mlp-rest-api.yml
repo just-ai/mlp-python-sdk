@@ -186,7 +186,7 @@ paths:
   /api/mlpcore/account/{account}/notification:
     get:
       tags:
-      - ui-notification-endpoint
+      - legacy-ui-notification-endpoint
       operationId: getNotifications
       parameters:
       - name: account
@@ -218,7 +218,7 @@ paths:
                   $ref: '#/components/schemas/UINotificationData'
     put:
       tags:
-      - ui-notification-endpoint
+      - legacy-ui-notification-endpoint
       operationId: readNotifications
       parameters:
       - name: account
@@ -890,7 +890,7 @@ paths:
   /api/mlpcore/notification/broadcast:
     post:
       tags:
-      - ui-notification-endpoint
+      - legacy-ui-notification-endpoint
       operationId: broadcastNotification
       parameters:
       - name: MLP-API-KEY
@@ -1467,6 +1467,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
+  /api/mlpcore/admin/account/{account}/limit-notification:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: sendLimitNotification
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LimitNotificationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/admin/account/{account}/features:
     get:
       tags:
@@ -4787,6 +4814,64 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore-internal/test-notification/{type}:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: sendTestNotification
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOKEN_EXPIRING
+          - TOKEN_SPENDING_LIMIT_WARNING
+          - TOKEN_SPENDING_LIMIT_EXHAUSTED
+          - SERVER_UNAVAILABLE
+          - SERVER_AVAILABLE
+          - SERVER_CREATED
+          - ORPHAN_SERVER
+          - ORPHAN_CONTAINER
+          - SERVER_PRICES_REPORT
+          - SERVER_PRICES_SYNCED
+          - CAPACITIES_SYNCHRONIZED
+          - SERVER_TEMPLATE_CAPACITY_CHANGED
+          - PIPELINE_OPERATION
+          - AUTO_SCALING
+          - NO_VAST_AI_OFFER
+          - VAST_AI_CANNOT_START_INSTANCE
+          - LICENSE_EXPIRES_SOON
+          - LICENSE_NOT_VALID
+          - LICENSE_LIMITS_EXCEEDED
+          - JOB_FAILED
+          - INSTANCE_RELOAD
+          - CATALOG_MODEL_UPDATED
+          - BROADCAST
+          - MODEL_ERROR_INDICATOR
+          - SERVER_ERROR_INDICATOR
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
   /api/mlpcore-internal/test-mm:
     post:
       tags:
@@ -6167,6 +6252,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelMetricsData'
+  /api/mlpcore/admin/notifications/stats:
+    get:
+      tags:
+      - notification-statistics-endpoint
+      operationId: getStatistics
+      parameters:
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationStatistics'
+  /api/mlpcore/admin/notifications/history:
+    get:
+      tags:
+      - notification-history-endpoint
+      operationId: getNotificationHistory
+      parameters:
+      - name: account
+        in: query
+        description: Account id or account name
+        required: false
+        schema:
+          type: string
+      - name: eventType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 50
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationHistoryResponse'
   /api/mlpcore/admin/features/v2:
     get:
       tags:
@@ -9220,6 +9392,27 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/mlpcore-internal/test-notification/types:
+    get:
+      tags:
+      - internal-endpoint
+      operationId: getNotificationTypes
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationTypeInfo'
   /api/mlpcore-internal/tasks/mock:
     get:
       tags:
@@ -11979,6 +12172,7 @@ components:
       - currency
       - model
       - pricing
+      - status
       - vendor
       type: object
       properties:
@@ -11996,6 +12190,13 @@ components:
         clientId:
           type: integer
           format: int64
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_PRICE
+          - UNAVAILABLE
+          - DEPRECATED
     ModelPricingData:
       required:
       - basePricing
@@ -12153,6 +12354,37 @@ components:
           type: integer
           format: int64
         jayGuardMaskingKey:
+          type: string
+        notificationEmails:
+          type: array
+          items:
+            type: string
+    LimitNotificationRequest:
+      required:
+      - available
+      - availablePercent
+      - interval
+      - limit
+      - limitType
+      type: object
+      properties:
+        limitType:
+          type: string
+        tokenId:
+          type: integer
+          format: int64
+        tokenName:
+          type: string
+        available:
+          type: number
+          format: double
+        limit:
+          type: number
+          format: double
+        availablePercent:
+          type: number
+          format: double
+        interval:
           type: string
     AccountFeatureData:
       required:
@@ -13752,6 +13984,121 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ModelMetricsData'
+    ChannelStatistics:
+      required:
+      - failed
+      - sent
+      type: object
+      properties:
+        sent:
+          type: integer
+          format: int64
+        failed:
+          type: integer
+          format: int64
+    NotificationStatistics:
+      required:
+      - byChannel
+      - byEventType
+      - totalFailed
+      - totalPending
+      - totalSent
+      type: object
+      properties:
+        totalSent:
+          type: integer
+          format: int64
+        totalFailed:
+          type: integer
+          format: int64
+        totalPending:
+          type: integer
+          format: int64
+        byEventType:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+        byChannel:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ChannelStatistics'
+    DeliveryStatusData:
+      required:
+      - channel
+      - status
+      type: object
+      properties:
+        channel:
+          type: string
+        status:
+          type: string
+        sentAt:
+          type: string
+          format: date-time
+        readAt:
+          type: string
+          format: date-time
+        errorMessage:
+          type: string
+    NotificationHistoryData:
+      required:
+      - createdAt
+      - deliveryStatuses
+      - eventType
+      - id
+      - payload
+      - severity
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        eventType:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        severity:
+          type: string
+        payload:
+          type: object
+          additionalProperties:
+            type: object
+        createdAt:
+          type: string
+          format: date-time
+        processedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+        deliveryStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryStatusData'
+    NotificationHistoryResponse:
+      required:
+      - notifications
+      - page
+      - pageSize
+      - total
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationHistoryData'
+        total:
+          type: integer
+          format: int64
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
     IpAccessCheckResult:
       required:
       - allowed
@@ -13947,6 +14294,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -13959,10 +14310,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -13973,17 +14320,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -13991,9 +14338,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -14193,6 +14540,8 @@ components:
           - LICENSE_LIMITS_EXCEEDED
           - SERVER_UNAVAILABLE
           - SERVER_AVAILABLE
+          - TOKEN_SPENDING_LIMIT_WARNING
+          - TOKEN_SPENDING_LIMIT_EXHAUSTED
           - NONE
         createdAt:
           type: string
@@ -14227,6 +14576,10 @@ components:
           - SCALE_DOWN
           - NEED_SCALE_UP
           - SET_CORRECT_GROUP
+        payload:
+          type: object
+          additionalProperties:
+            type: object
     InstancesStatusData:
       required:
       - externalRequested
@@ -14542,6 +14895,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataImageInfoData'
+    NotificationTypeInfo:
+      required:
+      - channels
+      - description
+      - requestClass
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        channels:
+          type: array
+          items:
+            type: string
+        requestClass:
+          type: string
     ModelInstance:
       required:
       - connectionToken

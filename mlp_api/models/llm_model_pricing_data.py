@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from mlp_api.models.model_pricing_data import ModelPricingData
 
 class LlmModelPricingData(BaseModel):
@@ -32,7 +32,15 @@ class LlmModelPricingData(BaseModel):
     currency: StrictStr = Field(...)
     pricing: ModelPricingData = Field(...)
     client_id: Optional[StrictInt] = Field(default=None, alias="clientId")
-    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId"]
+    status: StrictStr = Field(...)
+    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId", "status"]
+
+    @validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('AVAILABLE', 'NO_PRICE', 'UNAVAILABLE', 'DEPRECATED'):
+            raise ValueError("must be one of enum values ('AVAILABLE', 'NO_PRICE', 'UNAVAILABLE', 'DEPRECATED')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -78,7 +86,8 @@ class LlmModelPricingData(BaseModel):
             "vendor": obj.get("vendor"),
             "currency": obj.get("currency"),
             "pricing": ModelPricingData.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
-            "client_id": obj.get("clientId")
+            "client_id": obj.get("clientId"),
+            "status": obj.get("status")
         })
         return _obj
 
