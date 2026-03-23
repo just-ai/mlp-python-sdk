@@ -8,6 +8,9 @@ from box import Box
 from dacite import from_dict
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.message import Message
+from pydantic import ValidationError
+
+from mlp_sdk.abstract.services import MlpErrorStatus, MlpException
 
 try:
     import numpy as np
@@ -74,7 +77,10 @@ class Json:
             return from_dict(clazz, json.loads(json_text), self.dacite_config)
         if BaseModel is not None:
             if issubclass(clazz, BaseModel):
-                return clazz.model_validate_json(json_text)
+                try:
+                    return clazz.model_validate_json(json_text)
+                except ValidationError as e:
+                    raise MlpException(message=str(e), status=MlpErrorStatus.BAD_REQUEST, code="mlp-action.common.bad-request") from e
         raise Exception("Unknown class type")
 
     def parse_(self, json_text: str) -> Any:
