@@ -10,6 +10,7 @@ import pytest
 from box import Box
 from pydantic import BaseModel
 
+from mlp_sdk.abstract.services import MlpException
 from mlp_sdk.utils.json_ import JSON, MyJsonEncoder
 
 
@@ -171,6 +172,13 @@ class TestJSON:
 
         with pytest.raises(Exception, match="Unknown class type"):
             JSON.parse(json_text, UnknownClass)
+
+    def test_parse_validation_error(self):
+        """Тест метода parse при неккоректном json для Pydantic модели"""
+        json_text = '{"foo": "boo"}'
+
+        with pytest.raises(MlpException, match="validation error"):
+            JSON.parse(json_text, _PydanticModel)
 
     def test_stringify_base_type(self):
         res = JSON.stringify("str", pretty=False)

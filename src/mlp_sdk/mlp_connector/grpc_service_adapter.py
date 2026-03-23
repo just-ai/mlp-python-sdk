@@ -117,10 +117,11 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
         self.__process_simple_request(context, input_stream_generator(), message.partialPredict.config)
 
     def __process_simple_request(
-            self, context: MlpRequestContext,
-            request: PayloadProto | Generator[PayloadProto, None, None],
-            config: Optional[PayloadProto],
-        ):
+        self,
+        context: MlpRequestContext,
+        request: PayloadProto | Generator[PayloadProto, None, None],
+        config: Optional[PayloadProto],
+    ):
         start_time = perf_counter()  # Z-Server-Time будем выставлять только для простых predict-методов
         res = self.impl.predict(context, request, config)  # тут должна быть поддержка и других методов
 
@@ -133,9 +134,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
                 while True:
                     current_chunk = next(res, None)
                     msg = ServiceToGateProto(
-                        partialPredict=PartialPredictResponseProto(
-                            start=first, finish=current_chunk is None, data=current_chunk
-                        ),
+                        partialPredict=PartialPredictResponseProto(start=first, finish=current_chunk is None, data=current_chunk),
                         headers=context.response_headers,
                     )
                     self.response_receiver.message_from_service(context, msg)
