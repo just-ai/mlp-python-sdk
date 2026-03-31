@@ -86,28 +86,28 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
 
     def test_predict_simple(self):
         self.init(ImplSimple())
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
-        assert len(self.response) == 1
+        wait_for(lambda: len(self.response) == 1)
         res: ServiceToGateProto = self.response[0]
         assert res.predict.data.json == '"test"'
 
     def test_ext(self):
         self.init(ImplExt())
-        self.adapter._process_message_from_gate_with_log(
+        self.adapter.message_from_gate(
             self.context, GateToServiceProto(ext=ExtendedRequestProto(methodName="test", params={"param": PayloadProto(json="{}")}))
         )
 
-        assert len(self.response) == 1
+        wait_for(lambda: len(self.response) == 1)
         res: ServiceToGateProto = self.response[0]
         assert res.ext.data.json == '"ext"'
 
     def test_batch(self):
         self.init(ImplSimple())
         batch_data = [BatchPayloadProto(requestId=1, data=PayloadProto(json="{}")), BatchPayloadProto(requestId=2, data=PayloadProto(json="{}"))]
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(batch=BatchRequestProto(data=batch_data)))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(batch=BatchRequestProto(data=batch_data)))
 
-        assert len(self.response) == 1
+        wait_for(lambda: len(self.response) == 1)
         res: ServiceToGateProto = self.response[0]
         assert len(res.batch.data) == 2
         assert res.batch.data[0].predict.data.json == '"test"'
@@ -120,9 +120,9 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
             BatchPayloadProto(requestId=2, data=PayloadProto(json='"error"')),
             BatchPayloadProto(requestId=3, data=PayloadProto(json='"error1"')),
         ]
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(batch=BatchRequestProto(data=batch_data)))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(batch=BatchRequestProto(data=batch_data)))
 
-        assert len(self.response) == 1
+        wait_for(lambda: len(self.response) == 1)
         res: ServiceToGateProto = self.response[0]
         assert len(res.batch.data) == 3
         assert res.batch.data[0].predict.data.json == '"test"'
@@ -133,18 +133,18 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
 
     def test_fit_not_supported(self):
         self.init(ImplSimple())
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(fit=FitRequestProto()))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(fit=FitRequestProto()))
 
-        assert len(self.response) == 1
+        wait_for(lambda: len(self.response) == 1)
         res: ServiceToGateProto = self.response[0]
         assert res.WhichOneof("body") == "error"
         assert res.error.code == "mlp-action.common.internal-error"
 
     def test_output_stream(self):
         self.init(ImplOutputStream())
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(predict=PredictRequestProto(data=PayloadProto(json="{}"))))
 
-        assert len(self.response) == 4
+        wait_for(lambda: len(self.response) == 4)
         assert self.response[0].partialPredict.data.json == "1"
         assert self.response[0].partialPredict.start
         assert not self.response[0].partialPredict.finish
@@ -246,8 +246,53 @@ class TestMlpGrpcServiceAdapter(MlpGrpcResponseReceiver):
         # Check that we received fewer than 10 responses (should be cancelled)
         assert len(self.response) < 10
 
+    def test_input_stream_ordering(self):
+        """Verify that streaming continuation messages preserve arrival order.
+
+        Regression test: ThreadPoolExecutor(max_workers=10) was dispatching continuation
+        messages to worker threads, causing queue.put() calls to race when messages
+        arrived in bursts (same millisecond). Adjacent tokens would swap positions.
+        """
+
+        class OrderedInputStream(MlpGrpcServiceBase):
+            def predict(
+                self, context: MlpRequestContext, req: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]
+            ) -> PayloadProto | Generator[PayloadProto, None, None]:
+                return PayloadProto(json=JSON.stringify([x.json for x in req]))
+
+        self.init(OrderedInputStream())
+
+        stream_context = MlpRequestContext(requestId=777, gatewayId="test", request_headers={}, response_headers={})
+        tokens = [f"token_{i}" for i in range(50)]
+
+        # Send start
+        self.adapter.message_from_gate(
+            stream_context,
+            GateToServiceProto(partialPredict=PartialPredictRequestProto(data=PayloadProto(json=f'"{tokens[0]}"'), start=True)),
+        )
+
+        # Send continuation messages as fast as possible to trigger the race
+        for token in tokens[1:-1]:
+            self.adapter.message_from_gate(
+                stream_context,
+                GateToServiceProto(partialPredict=PartialPredictRequestProto(data=PayloadProto(json=f'"{token}"'))),
+            )
+
+        # Send finish
+        self.adapter.message_from_gate(
+            stream_context,
+            GateToServiceProto(partialPredict=PartialPredictRequestProto(data=PayloadProto(json=f'"{tokens[-1]}"'), finish=True)),
+        )
+
+        wait_for(lambda: len(self.response) > 0, timeout=5)
+
+        assert len(self.response) == 1
+        result = JSON.parse_(self.response[0].predict.data.json)
+        expected = [f'"{t}"' for t in tokens]
+        assert result == expected, f"Token order mismatch: expected {expected}, got {result}"
+
     def test_cancellation_wrong_id(self):
         self.init(ImplSimple())
 
         # Create a context with a unique request ID for this test
-        self.adapter._process_message_from_gate_with_log(self.context, GateToServiceProto(cancel=CancelRequestProto(requestIdToCancel=99)))
+        self.adapter.message_from_gate(self.context, GateToServiceProto(cancel=CancelRequestProto(requestIdToCancel=99)))
