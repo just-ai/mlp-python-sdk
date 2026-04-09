@@ -23,7 +23,7 @@ from pydantic import Field, StrictStr
 
 from typing import List, Optional
 
-from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
+from mlp_api.models.llm_model_pricing_public_data import LlmModelPricingPublicData
 
 from mlp_api.api_client import ApiClient
 from mlp_api.api_response import ApiResponse
@@ -46,7 +46,7 @@ class LlmModelPricingPublicEndpointApi:
         self.api_client = api_client
 
     @validate_arguments
-    def get_all_pricing(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[LlmModelPricingData]:  # noqa: E501
+    def get_all_pricing(self, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[LlmModelPricingPublicData]:  # noqa: E501
         """get_all_pricing  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -66,7 +66,7 @@ class LlmModelPricingPublicEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[LlmModelPricingData]
+        :rtype: List[LlmModelPricingPublicData]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -108,7 +108,7 @@ class LlmModelPricingPublicEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[LlmModelPricingData], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[LlmModelPricingPublicData], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -163,7 +163,7 @@ class LlmModelPricingPublicEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "List[LlmModelPricingData]",
+            '200': "List[LlmModelPricingPublicData]",
         }
 
         return self.api_client.call_api(

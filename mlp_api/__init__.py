@@ -45,6 +45,7 @@ from mlp_api.api.notification_history_endpoint_api import NotificationHistoryEnd
 from mlp_api.api.notification_statistics_endpoint_api import NotificationStatisticsEndpointApi
 from mlp_api.api.notifications_controller_api import NotificationsControllerApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
+from mlp_api.api.price_markup_admin_endpoint_api import PriceMarkupAdminEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
@@ -116,6 +117,7 @@ from mlp_api.models.enum_variable import EnumVariable
 from mlp_api.models.event_data import EventData
 from mlp_api.models.event_source import EventSource
 from mlp_api.models.exchange_rate_data import ExchangeRateData
+from mlp_api.models.exchange_rate_upsert_request import ExchangeRateUpsertRequest
 from mlp_api.models.existing_image_data import ExistingImageData
 from mlp_api.models.extended_request_data import ExtendedRequestData
 from mlp_api.models.external_connection_info_data import ExternalConnectionInfoData
@@ -156,6 +158,7 @@ from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
 from mlp_api.models.limit_notification_request import LimitNotificationRequest
 from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
+from mlp_api.models.llm_model_pricing_public_data import LlmModelPricingPublicData
 from mlp_api.models.llm_models_data import LlmModelsData
 from mlp_api.models.llm_models_list_response import LlmModelsListResponse
 from mlp_api.models.llm_provider_data import LlmProviderData
@@ -193,6 +196,7 @@ from mlp_api.models.model_parameters_dto import ModelParametersDto
 from mlp_api.models.model_parameters_dto_constants_inner import ModelParametersDtoConstantsInner
 from mlp_api.models.model_parameters_dto_variables_inner import ModelParametersDtoVariablesInner
 from mlp_api.models.model_pricing_data import ModelPricingData
+from mlp_api.models.model_pricing_public_data import ModelPricingPublicData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
@@ -227,6 +231,8 @@ from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
+from mlp_api.models.price_markup_data import PriceMarkupData
+from mlp_api.models.price_markup_update_request import PriceMarkupUpdateRequest
 from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
 from mlp_api.models.provider_ref_data import ProviderRefData
 from mlp_api.models.quota_access_policy import QuotaAccessPolicy
@@ -276,6 +282,7 @@ from mlp_api.models.token_spending_metric_range_data import TokenSpendingMetricR
 from mlp_api.models.tts_request_data import TtsRequestData
 from mlp_api.models.ui_notification_data import UINotificationData
 from mlp_api.models.unit_pricing_data import UnitPricingData
+from mlp_api.models.unit_pricing_public_data import UnitPricingPublicData
 from mlp_api.models.units_range_data import UnitsRangeData
 from mlp_api.models.update_access_token_data import UpdateAccessTokenData
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData

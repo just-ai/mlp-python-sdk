@@ -19,16 +19,14 @@ import json
 
 
 from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, Field, confloat, conint
 
-class ExchangeRateData(BaseModel):
+class PriceMarkupUpdateRequest(BaseModel):
     """
-    ExchangeRateData
+    PriceMarkupUpdateRequest
     """
-    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
-    to_currency: StrictStr = Field(default=..., alias="toCurrency")
-    rate: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["fromCurrency", "toCurrency", "rate"]
+    coefficient: Union[confloat(le=100.0, ge=1.0, strict=True), conint(le=100, ge=1, strict=True)] = Field(...)
+    __properties = ["coefficient"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +42,8 @@ class ExchangeRateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a JSON string"""
+    def from_json(cls, json_str: str) -> PriceMarkupUpdateRequest:
+        """Create an instance of PriceMarkupUpdateRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +55,16 @@ class ExchangeRateData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a dict"""
+    def from_dict(cls, obj: dict) -> PriceMarkupUpdateRequest:
+        """Create an instance of PriceMarkupUpdateRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ExchangeRateData.parse_obj(obj)
+            return PriceMarkupUpdateRequest.parse_obj(obj)
 
-        _obj = ExchangeRateData.parse_obj({
-            "from_currency": obj.get("fromCurrency"),
-            "to_currency": obj.get("toCurrency"),
-            "rate": obj.get("rate")
+        _obj = PriceMarkupUpdateRequest.parse_obj({
+            "coefficient": obj.get("coefficient")
         })
         return _obj
 

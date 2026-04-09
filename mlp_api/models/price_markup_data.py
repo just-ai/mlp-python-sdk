@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
+from typing import Optional, Union
+from pydantic import BaseModel, Field, StrictInt, confloat, conint
 
-from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
-
-class ExchangeRateData(BaseModel):
+class PriceMarkupData(BaseModel):
     """
-    ExchangeRateData
+    PriceMarkupData
     """
-    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
-    to_currency: StrictStr = Field(default=..., alias="toCurrency")
-    rate: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["fromCurrency", "toCurrency", "rate"]
+    id: Optional[StrictInt] = None
+    coefficient: Union[confloat(le=100.0, ge=1.0, strict=True), conint(le=100, ge=1, strict=True)] = Field(...)
+    client_id: Optional[StrictInt] = Field(default=None, alias="clientId")
+    created_at: Optional[datetime] = Field(default=None, alias="createdAt")
+    updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
+    __properties = ["id", "coefficient", "clientId", "createdAt", "updatedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +46,8 @@ class ExchangeRateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a JSON string"""
+    def from_json(cls, json_str: str) -> PriceMarkupData:
+        """Create an instance of PriceMarkupData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +59,20 @@ class ExchangeRateData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a dict"""
+    def from_dict(cls, obj: dict) -> PriceMarkupData:
+        """Create an instance of PriceMarkupData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ExchangeRateData.parse_obj(obj)
+            return PriceMarkupData.parse_obj(obj)
 
-        _obj = ExchangeRateData.parse_obj({
-            "from_currency": obj.get("fromCurrency"),
-            "to_currency": obj.get("toCurrency"),
-            "rate": obj.get("rate")
+        _obj = PriceMarkupData.parse_obj({
+            "id": obj.get("id"),
+            "coefficient": obj.get("coefficient"),
+            "client_id": obj.get("clientId"),
+            "created_at": obj.get("createdAt"),
+            "updated_at": obj.get("updatedAt")
         })
         return _obj
 
