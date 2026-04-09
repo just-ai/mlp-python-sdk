@@ -93,6 +93,225 @@ paths:
       responses:
         "204":
           description: No Content
+  /api/mlpcore/admin/price-markup:
+    get:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: getGlobalMarkup
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceMarkupData'
+    put:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: upsertGlobalMarkup
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceMarkupUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceMarkupData'
+    delete:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: deleteGlobalMarkup
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/admin/price-markup/clients/{clientId}:
+    get:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: getClientMarkup
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceMarkupData'
+    put:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: upsertClientMarkup
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceMarkupUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceMarkupData'
+    delete:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: deleteClientMarkup
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/admin/exchange-rates/pairs/{from}/{to}:
+    get:
+      tags:
+      - exchange-rate-admin-endpoint
+      operationId: getRate
+      parameters:
+      - name: from
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRateData'
+    put:
+      tags:
+      - exchange-rate-admin-endpoint
+      operationId: upsertRate
+      parameters:
+      - name: from
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExchangeRateUpsertRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRateData'
+    delete:
+      tags:
+      - exchange-rate-admin-endpoint
+      operationId: deleteRateByCurrencyPair
+      parameters:
+      - name: from
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/account/{account}/token/{token}:
     get:
       tags:
@@ -5336,57 +5555,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmModelPricingData'
-  /api/mlpcore/admin/exchange-rates/{id}:
-    delete:
-      tags:
-      - exchange-rate-admin-endpoint
-      operationId: deleteRate
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-    patch:
-      tags:
-      - exchange-rate-admin-endpoint
-      operationId: updateRate
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExchangeRateData'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExchangeRateData'
   /api/mlpcore/account/{account}/model/{model}/model-group/{groupId}:
     patch:
       tags:
@@ -5913,7 +6081,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LlmModelPricingData'
+                  $ref: '#/components/schemas/LlmModelPricingPublicData'
   /api/mlpcore/models:
     get:
       tags:
@@ -6252,6 +6420,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelMetricsData'
+  /api/mlpcore/admin/price-markup/effective:
+    get:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: getEffectiveMarkup
+      parameters:
+      - name: clientId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceMarkupData'
+  /api/mlpcore/admin/price-markup/clients:
+    get:
+      tags:
+      - price-markup-admin-endpoint
+      operationId: getAllClientMarkups
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceMarkupData'
   /api/mlpcore/admin/notifications/stats:
     get:
       tags:
@@ -10410,6 +10624,60 @@ components:
           type: string
         displayName:
           type: string
+    PriceMarkupUpdateRequest:
+      required:
+      - coefficient
+      type: object
+      properties:
+        coefficient:
+          maximum: 100.0
+          exclusiveMaximum: false
+          minimum: 1.0
+          exclusiveMinimum: false
+          type: number
+    PriceMarkupData:
+      required:
+      - coefficient
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        coefficient:
+          maximum: 100.0
+          exclusiveMaximum: false
+          minimum: 1.0
+          exclusiveMinimum: false
+          type: number
+        clientId:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ExchangeRateUpsertRequest:
+      required:
+      - rate
+      type: object
+      properties:
+        rate:
+          type: number
+    ExchangeRateData:
+      required:
+      - fromCurrency
+      - rate
+      - toCurrency
+      type: object
+      properties:
+        fromCurrency:
+          type: string
+        toCurrency:
+          type: string
+        rate:
+          type: number
     ServiceFilter:
       required:
       - accountName
@@ -12190,6 +12458,8 @@ components:
         clientId:
           type: integer
           format: int64
+        clientShortName:
+          type: string
         status:
           type: string
           enum:
@@ -12197,6 +12467,13 @@ components:
           - NO_PRICE
           - UNAVAILABLE
           - DEPRECATED
+        markup:
+          maximum: 100.0
+          exclusiveMaximum: false
+          minimum: 1.0
+          exclusiveMinimum: false
+          type: number
+          format: double
     ModelPricingData:
       required:
       - basePricing
@@ -12220,7 +12497,6 @@ components:
             $ref: '#/components/schemas/VideoResolutionPricingData'
     UnitPricingData:
       required:
-      - basePrice
       - perUnit
       - unitType
       type: object
@@ -12259,6 +12535,8 @@ components:
           - COMPUTE_SECONDS
           - UNKNOWN
         basePrice:
+          type: number
+        totalPrice:
           type: number
     UnitsRangeData:
       required:
@@ -12309,22 +12587,6 @@ components:
           type: array
           items:
             type: string
-    ExchangeRateData:
-      required:
-      - fromCurrency
-      - rate
-      - toCurrency
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        fromCurrency:
-          type: string
-        toCurrency:
-          type: string
-        rate:
-          type: number
     AccountInfoData:
       required:
       - accountId
@@ -13781,6 +14043,98 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LlmModelsData'
+    LlmModelPricingPublicData:
+      required:
+      - currency
+      - model
+      - pricing
+      - status
+      - vendor
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        model:
+          type: string
+        vendor:
+          type: string
+        currency:
+          type: string
+        pricing:
+          $ref: '#/components/schemas/ModelPricingPublicData'
+        clientId:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_PRICE
+          - UNAVAILABLE
+          - DEPRECATED
+    ModelPricingPublicData:
+      required:
+      - basePricing
+      type: object
+      properties:
+        basePricing:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnitPricingPublicData'
+        volumePricing:
+          type: array
+          items:
+            $ref: '#/components/schemas/VolumePricingData'
+        imageTierPricing:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTierPricingData'
+        videoResolutionPricing:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoResolutionPricingData'
+    UnitPricingPublicData:
+      required:
+      - perUnit
+      - unitType
+      type: object
+      properties:
+        perUnit:
+          type: integer
+          format: int64
+        unitType:
+          type: string
+          enum:
+          - INPUT_TEXT_TOKENS
+          - OUTPUT_TEXT_TOKENS
+          - CACHED_INPUT_TEXT_TOKENS
+          - INPUT_IMAGES
+          - OUTPUT_IMAGES
+          - INPUT_IMAGE_TOKENS
+          - OUTPUT_IMAGE_TOKENS
+          - INPUT_AUDIO_SECONDS
+          - OUTPUT_AUDIO_SECONDS
+          - AUDIO_CHARACTERS
+          - INPUT_VIDEO_SECONDS
+          - OUTPUT_VIDEO_SECONDS
+          - OUTPUT_VIDEO_ONLY_SECONDS
+          - OUTPUT_VIDEO_WITH_AUDIO_SECONDS
+          - VIRTUAL_CURRENCY
+          - EMBEDDING_TOKENS
+          - EMBEDDING_REQUESTS
+          - TRAINING_TOKENS
+          - TRAINING_EPOCHS
+          - HOSTED_MODEL_HOURS
+          - REQUESTS
+          - CHARACTERS
+          - INPUT_CONTEXT_TOKENS
+          - BATCH_REQUESTS
+          - MODERATION_REQUESTS
+          - COMPUTE_SECONDS
+          - UNKNOWN
+        totalPrice:
+          type: number
     PagedModelInfoData:
       required:
       - paging
