@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
 
-class ExchangeRateData(BaseModel):
+class NotificationTypeInfo(BaseModel):
     """
-    ExchangeRateData
+    NotificationTypeInfo
     """
-    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
-    to_currency: StrictStr = Field(default=..., alias="toCurrency")
-    rate: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["fromCurrency", "toCurrency", "rate"]
+    type: StrictStr = Field(...)
+    description: StrictStr = Field(...)
+    channels: conlist(StrictStr) = Field(...)
+    request_class: StrictStr = Field(default=..., alias="requestClass")
+    __properties = ["type", "description", "channels", "requestClass"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class ExchangeRateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a JSON string"""
+    def from_json(cls, json_str: str) -> NotificationTypeInfo:
+        """Create an instance of NotificationTypeInfo from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,19 @@ class ExchangeRateData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a dict"""
+    def from_dict(cls, obj: dict) -> NotificationTypeInfo:
+        """Create an instance of NotificationTypeInfo from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ExchangeRateData.parse_obj(obj)
+            return NotificationTypeInfo.parse_obj(obj)
 
-        _obj = ExchangeRateData.parse_obj({
-            "from_currency": obj.get("fromCurrency"),
-            "to_currency": obj.get("toCurrency"),
-            "rate": obj.get("rate")
+        _obj = NotificationTypeInfo.parse_obj({
+            "type": obj.get("type"),
+            "description": obj.get("description"),
+            "channels": obj.get("channels"),
+            "request_class": obj.get("requestClass")
         })
         return _obj
 

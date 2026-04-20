@@ -18,24 +18,22 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictInt, StrictStr, confloat, conint, validator
-from mlp_api.models.model_pricing_data import ModelPricingData
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from mlp_api.models.model_pricing_public_data import ModelPricingPublicData
 
-class LlmModelPricingData(BaseModel):
+class LlmModelPricingPublicData(BaseModel):
     """
-    LlmModelPricingData
+    LlmModelPricingPublicData
     """
     id: Optional[StrictInt] = None
     model: StrictStr = Field(...)
     vendor: StrictStr = Field(...)
     currency: StrictStr = Field(...)
-    pricing: ModelPricingData = Field(...)
+    pricing: ModelPricingPublicData = Field(...)
     client_id: Optional[StrictInt] = Field(default=None, alias="clientId")
-    client_short_name: Optional[StrictStr] = Field(default=None, alias="clientShortName")
     status: StrictStr = Field(...)
-    markup: Optional[Union[confloat(le=100.0, ge=1.0, strict=True), conint(le=100, ge=1, strict=True)]] = None
-    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId", "clientShortName", "status", "markup"]
+    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId", "status"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -58,8 +56,8 @@ class LlmModelPricingData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> LlmModelPricingData:
-        """Create an instance of LlmModelPricingData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmModelPricingPublicData:
+        """Create an instance of LlmModelPricingPublicData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -74,24 +72,22 @@ class LlmModelPricingData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> LlmModelPricingData:
-        """Create an instance of LlmModelPricingData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmModelPricingPublicData:
+        """Create an instance of LlmModelPricingPublicData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return LlmModelPricingData.parse_obj(obj)
+            return LlmModelPricingPublicData.parse_obj(obj)
 
-        _obj = LlmModelPricingData.parse_obj({
+        _obj = LlmModelPricingPublicData.parse_obj({
             "id": obj.get("id"),
             "model": obj.get("model"),
             "vendor": obj.get("vendor"),
             "currency": obj.get("currency"),
-            "pricing": ModelPricingData.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
+            "pricing": ModelPricingPublicData.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
             "client_id": obj.get("clientId"),
-            "client_short_name": obj.get("clientShortName"),
-            "status": obj.get("status"),
-            "markup": obj.get("markup")
+            "status": obj.get("status")
         })
         return _obj
 

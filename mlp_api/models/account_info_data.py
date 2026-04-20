@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from typing import Dict, List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.account_limits_data import AccountLimitsData
 
 class AccountInfoData(BaseModel):
@@ -34,7 +34,8 @@ class AccountInfoData(BaseModel):
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
-    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey"]
+    notification_emails: Optional[conlist(StrictStr)] = Field(default=None, alias="notificationEmails")
+    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey", "notificationEmails"]
 
     @validator('language')
     def language_validate_enum(cls, value):
@@ -92,7 +93,8 @@ class AccountInfoData(BaseModel):
             "tags": obj.get("tags"),
             "display_name": obj.get("displayName"),
             "last_activity": obj.get("lastActivity"),
-            "jay_guard_masking_key": obj.get("jayGuardMaskingKey")
+            "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
+            "notification_emails": obj.get("notificationEmails")
         })
         return _obj
 

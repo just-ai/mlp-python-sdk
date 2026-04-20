@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel, Field, StrictStr
 
-from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
-
-class ExchangeRateData(BaseModel):
+class DeliveryStatusData(BaseModel):
     """
-    ExchangeRateData
+    DeliveryStatusData
     """
-    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
-    to_currency: StrictStr = Field(default=..., alias="toCurrency")
-    rate: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["fromCurrency", "toCurrency", "rate"]
+    channel: StrictStr = Field(...)
+    status: StrictStr = Field(...)
+    sent_at: Optional[datetime] = Field(default=None, alias="sentAt")
+    read_at: Optional[datetime] = Field(default=None, alias="readAt")
+    error_message: Optional[StrictStr] = Field(default=None, alias="errorMessage")
+    __properties = ["channel", "status", "sentAt", "readAt", "errorMessage"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +46,8 @@ class ExchangeRateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a JSON string"""
+    def from_json(cls, json_str: str) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +59,20 @@ class ExchangeRateData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a dict"""
+    def from_dict(cls, obj: dict) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ExchangeRateData.parse_obj(obj)
+            return DeliveryStatusData.parse_obj(obj)
 
-        _obj = ExchangeRateData.parse_obj({
-            "from_currency": obj.get("fromCurrency"),
-            "to_currency": obj.get("toCurrency"),
-            "rate": obj.get("rate")
+        _obj = DeliveryStatusData.parse_obj({
+            "channel": obj.get("channel"),
+            "status": obj.get("status"),
+            "sent_at": obj.get("sentAt"),
+            "read_at": obj.get("readAt"),
+            "error_message": obj.get("errorMessage")
         })
         return _obj
 

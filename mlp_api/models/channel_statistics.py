@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
-class ExchangeRateData(BaseModel):
+from pydantic import BaseModel, Field, StrictInt
+
+class ChannelStatistics(BaseModel):
     """
-    ExchangeRateData
+    ChannelStatistics
     """
-    from_currency: StrictStr = Field(default=..., alias="fromCurrency")
-    to_currency: StrictStr = Field(default=..., alias="toCurrency")
-    rate: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["fromCurrency", "toCurrency", "rate"]
+    sent: StrictInt = Field(...)
+    failed: StrictInt = Field(...)
+    __properties = ["sent", "failed"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class ExchangeRateData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a JSON string"""
+    def from_json(cls, json_str: str) -> ChannelStatistics:
+        """Create an instance of ChannelStatistics from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class ExchangeRateData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ExchangeRateData:
-        """Create an instance of ExchangeRateData from a dict"""
+    def from_dict(cls, obj: dict) -> ChannelStatistics:
+        """Create an instance of ChannelStatistics from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ExchangeRateData.parse_obj(obj)
+            return ChannelStatistics.parse_obj(obj)
 
-        _obj = ExchangeRateData.parse_obj({
-            "from_currency": obj.get("fromCurrency"),
-            "to_currency": obj.get("toCurrency"),
-            "rate": obj.get("rate")
+        _obj = ChannelStatistics.parse_obj({
+            "sent": obj.get("sent"),
+            "failed": obj.get("failed")
         })
         return _obj
 

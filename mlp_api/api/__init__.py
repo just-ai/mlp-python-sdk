@@ -13,6 +13,7 @@ from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
+from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
 from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
@@ -24,8 +25,11 @@ from mlp_api.api.model_endpoint_api import ModelEndpointApi
 from mlp_api.api.model_group_endpoint_api import ModelGroupEndpointApi
 from mlp_api.api.model_instance_endpoint_api import ModelInstanceEndpointApi
 from mlp_api.api.model_wizard_endpoint_api import ModelWizardEndpointApi
+from mlp_api.api.notification_history_endpoint_api import NotificationHistoryEndpointApi
+from mlp_api.api.notification_statistics_endpoint_api import NotificationStatisticsEndpointApi
 from mlp_api.api.notifications_controller_api import NotificationsControllerApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
+from mlp_api.api.price_markup_admin_endpoint_api import PriceMarkupAdminEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
 from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
@@ -37,5 +41,4 @@ from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
-from mlp_api.api.ui_notification_endpoint_api import UiNotificationEndpointApi
 
