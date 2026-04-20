@@ -11526,6 +11526,7 @@ components:
           - calls
           - direct
           - custom
+          - cost
         billingUnitPriceInNanoToken:
           type: integer
           format: int64
@@ -12192,6 +12193,7 @@ components:
           - calls
           - direct
           - custom
+          - cost
         billingUnitPriceInNanoToken:
           type: integer
           format: int64
