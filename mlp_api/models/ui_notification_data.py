@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from mlp_api.models.pipeline_entity import PipelineEntity
 
@@ -36,7 +36,8 @@ class UINotificationData(BaseModel):
     entity: Optional[PipelineEntity] = None
     entity_display_name: Optional[StrictStr] = Field(default=None, alias="entityDisplayName")
     operation_type: Optional[StrictStr] = Field(default=None, alias="operationType")
-    __properties = ["id", "accountId", "severity", "type", "createdAt", "readAt", "textMessage", "entity", "entityDisplayName", "operationType"]
+    payload: Optional[Dict[str, Dict[str, Any]]] = None
+    __properties = ["id", "accountId", "severity", "type", "createdAt", "readAt", "textMessage", "entity", "entityDisplayName", "operationType", "payload"]
 
     @validator('severity')
     def severity_validate_enum(cls, value):
@@ -48,8 +49,8 @@ class UINotificationData(BaseModel):
     @validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('NO_ONE_VAST_AI_OFFER', 'VAST_AI_SERVER_CANNOT_START_INSTANCE', 'SERVER_EVENTS_ERROR_INDICATOR', 'MODEL_EVENTS_ERROR_INDICATOR', 'TOKEN_EXPIRATION_WARNING', 'PIPELINE_OPERATION', 'BROADCAST', 'LICENSE_EXPIRES_SOON', 'LICENSE_NOT_VALID', 'LICENSE_LIMITS_EXCEEDED', 'SERVER_UNAVAILABLE', 'SERVER_AVAILABLE', 'NONE'):
-            raise ValueError("must be one of enum values ('NO_ONE_VAST_AI_OFFER', 'VAST_AI_SERVER_CANNOT_START_INSTANCE', 'SERVER_EVENTS_ERROR_INDICATOR', 'MODEL_EVENTS_ERROR_INDICATOR', 'TOKEN_EXPIRATION_WARNING', 'PIPELINE_OPERATION', 'BROADCAST', 'LICENSE_EXPIRES_SOON', 'LICENSE_NOT_VALID', 'LICENSE_LIMITS_EXCEEDED', 'SERVER_UNAVAILABLE', 'SERVER_AVAILABLE', 'NONE')")
+        if value not in ('NO_ONE_VAST_AI_OFFER', 'VAST_AI_SERVER_CANNOT_START_INSTANCE', 'SERVER_EVENTS_ERROR_INDICATOR', 'MODEL_EVENTS_ERROR_INDICATOR', 'TOKEN_EXPIRATION_WARNING', 'PIPELINE_OPERATION', 'BROADCAST', 'LICENSE_EXPIRES_SOON', 'LICENSE_NOT_VALID', 'LICENSE_LIMITS_EXCEEDED', 'SERVER_UNAVAILABLE', 'SERVER_AVAILABLE', 'TOKEN_SPENDING_LIMIT_WARNING', 'TOKEN_SPENDING_LIMIT_EXHAUSTED', 'NONE'):
+            raise ValueError("must be one of enum values ('NO_ONE_VAST_AI_OFFER', 'VAST_AI_SERVER_CANNOT_START_INSTANCE', 'SERVER_EVENTS_ERROR_INDICATOR', 'MODEL_EVENTS_ERROR_INDICATOR', 'TOKEN_EXPIRATION_WARNING', 'PIPELINE_OPERATION', 'BROADCAST', 'LICENSE_EXPIRES_SOON', 'LICENSE_NOT_VALID', 'LICENSE_LIMITS_EXCEEDED', 'SERVER_UNAVAILABLE', 'SERVER_AVAILABLE', 'TOKEN_SPENDING_LIMIT_WARNING', 'TOKEN_SPENDING_LIMIT_EXHAUSTED', 'NONE')")
         return value
 
     @validator('operation_type')
@@ -110,7 +111,8 @@ class UINotificationData(BaseModel):
             "text_message": obj.get("textMessage"),
             "entity": PipelineEntity.from_dict(obj.get("entity")) if obj.get("entity") is not None else None,
             "entity_display_name": obj.get("entityDisplayName"),
-            "operation_type": obj.get("operationType")
+            "operation_type": obj.get("operationType"),
+            "payload": obj.get("payload")
         })
         return _obj
 

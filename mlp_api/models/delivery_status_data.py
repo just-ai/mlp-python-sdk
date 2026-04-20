@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictStr
 
-class SortObject(BaseModel):
+class DeliveryStatusData(BaseModel):
     """
-    SortObject
+    DeliveryStatusData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    channel: StrictStr = Field(...)
+    status: StrictStr = Field(...)
+    sent_at: Optional[datetime] = Field(default=None, alias="sentAt")
+    read_at: Optional[datetime] = Field(default=None, alias="readAt")
+    error_message: Optional[StrictStr] = Field(default=None, alias="errorMessage")
+    __properties = ["channel", "status", "sentAt", "readAt", "errorMessage"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +46,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +59,20 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> DeliveryStatusData:
+        """Create an instance of DeliveryStatusData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return DeliveryStatusData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = DeliveryStatusData.parse_obj({
+            "channel": obj.get("channel"),
+            "status": obj.get("status"),
+            "sent_at": obj.get("sentAt"),
+            "read_at": obj.get("readAt"),
+            "error_message": obj.get("errorMessage")
         })
         return _obj
 

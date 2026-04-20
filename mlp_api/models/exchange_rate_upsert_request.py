@@ -18,17 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt
 
-class SortObject(BaseModel):
+class ExchangeRateUpsertRequest(BaseModel):
     """
-    SortObject
+    ExchangeRateUpsertRequest
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    rate: Union[StrictFloat, StrictInt] = Field(...)
+    __properties = ["rate"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +42,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ExchangeRateUpsertRequest:
+        """Create an instance of ExchangeRateUpsertRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +55,16 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> ExchangeRateUpsertRequest:
+        """Create an instance of ExchangeRateUpsertRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return ExchangeRateUpsertRequest.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = ExchangeRateUpsertRequest.parse_obj({
+            "rate": obj.get("rate")
         })
         return _obj
 

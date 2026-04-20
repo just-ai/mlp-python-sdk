@@ -39,8 +39,8 @@ class ModelBillingSettingsData(BaseModel):
         if value is None:
             return value
 
-        if value not in ('calls', 'direct', 'custom'):
-            raise ValueError("must be one of enum values ('calls', 'direct', 'custom')")
+        if value not in ('calls', 'direct', 'custom', 'cost'):
+            raise ValueError("must be one of enum values ('calls', 'direct', 'custom', 'cost')")
         return value
 
     class Config:

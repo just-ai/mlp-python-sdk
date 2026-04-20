@@ -21,15 +21,14 @@ import json
 from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 
-class UnitPricingData(BaseModel):
+class UnitPricingPublicData(BaseModel):
     """
-    UnitPricingData
+    UnitPricingPublicData
     """
     per_unit: StrictInt = Field(default=..., alias="perUnit")
     unit_type: StrictStr = Field(default=..., alias="unitType")
-    base_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="basePrice")
     total_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalPrice")
-    __properties = ["perUnit", "unitType", "basePrice", "totalPrice"]
+    __properties = ["perUnit", "unitType", "totalPrice"]
 
     @validator('unit_type')
     def unit_type_validate_enum(cls, value):
@@ -52,8 +51,8 @@ class UnitPricingData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> UnitPricingData:
-        """Create an instance of UnitPricingData from a JSON string"""
+    def from_json(cls, json_str: str) -> UnitPricingPublicData:
+        """Create an instance of UnitPricingPublicData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -65,18 +64,17 @@ class UnitPricingData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> UnitPricingData:
-        """Create an instance of UnitPricingData from a dict"""
+    def from_dict(cls, obj: dict) -> UnitPricingPublicData:
+        """Create an instance of UnitPricingPublicData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return UnitPricingData.parse_obj(obj)
+            return UnitPricingPublicData.parse_obj(obj)
 
-        _obj = UnitPricingData.parse_obj({
+        _obj = UnitPricingPublicData.parse_obj({
             "per_unit": obj.get("perUnit"),
             "unit_type": obj.get("unitType"),
-            "base_price": obj.get("basePrice"),
             "total_price": obj.get("totalPrice")
         })
         return _obj
