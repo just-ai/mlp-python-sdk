@@ -12509,9 +12509,13 @@ components:
         unitType:
           type: string
           enum:
+          - INPUT_TOKENS
+          - OUTPUT_TOKENS
           - INPUT_TEXT_TOKENS
           - OUTPUT_TEXT_TOKENS
           - CACHED_INPUT_TEXT_TOKENS
+          - FIVE_MINUTES_CACHE_WRITES_INPUT_TOKENS
+          - ONE_HOUR_CACHE_WRITES_INPUT_TOKENS
           - INPUT_IMAGES
           - OUTPUT_IMAGES
           - INPUT_IMAGE_TOKENS
@@ -14108,9 +14112,13 @@ components:
         unitType:
           type: string
           enum:
+          - INPUT_TOKENS
+          - OUTPUT_TOKENS
           - INPUT_TEXT_TOKENS
           - OUTPUT_TEXT_TOKENS
           - CACHED_INPUT_TEXT_TOKENS
+          - FIVE_MINUTES_CACHE_WRITES_INPUT_TOKENS
+          - ONE_HOUR_CACHE_WRITES_INPUT_TOKENS
           - INPUT_IMAGES
           - OUTPUT_IMAGES
           - INPUT_IMAGE_TOKENS
