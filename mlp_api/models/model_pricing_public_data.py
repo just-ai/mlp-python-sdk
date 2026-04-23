@@ -20,19 +20,19 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, conlist
-from mlp_api.models.image_tier_pricing_data import ImageTierPricingData
+from mlp_api.models.image_tier_pricing_public_data import ImageTierPricingPublicData
 from mlp_api.models.unit_pricing_public_data import UnitPricingPublicData
-from mlp_api.models.video_resolution_pricing_data import VideoResolutionPricingData
-from mlp_api.models.volume_pricing_data import VolumePricingData
+from mlp_api.models.video_resolution_public_data import VideoResolutionPublicData
+from mlp_api.models.volume_pricing_public_data import VolumePricingPublicData
 
 class ModelPricingPublicData(BaseModel):
     """
     ModelPricingPublicData
     """
     base_pricing: conlist(UnitPricingPublicData) = Field(default=..., alias="basePricing")
-    volume_pricing: Optional[conlist(VolumePricingData)] = Field(default=None, alias="volumePricing")
-    image_tier_pricing: Optional[conlist(ImageTierPricingData)] = Field(default=None, alias="imageTierPricing")
-    video_resolution_pricing: Optional[conlist(VideoResolutionPricingData)] = Field(default=None, alias="videoResolutionPricing")
+    volume_pricing: Optional[conlist(VolumePricingPublicData)] = Field(default=None, alias="volumePricing")
+    image_tier_pricing: Optional[conlist(ImageTierPricingPublicData)] = Field(default=None, alias="imageTierPricing")
+    video_resolution_pricing: Optional[conlist(VideoResolutionPublicData)] = Field(default=None, alias="videoResolutionPricing")
     __properties = ["basePricing", "volumePricing", "imageTierPricing", "videoResolutionPricing"]
 
     class Config:
@@ -100,9 +100,9 @@ class ModelPricingPublicData(BaseModel):
 
         _obj = ModelPricingPublicData.parse_obj({
             "base_pricing": [UnitPricingPublicData.from_dict(_item) for _item in obj.get("basePricing")] if obj.get("basePricing") is not None else None,
-            "volume_pricing": [VolumePricingData.from_dict(_item) for _item in obj.get("volumePricing")] if obj.get("volumePricing") is not None else None,
-            "image_tier_pricing": [ImageTierPricingData.from_dict(_item) for _item in obj.get("imageTierPricing")] if obj.get("imageTierPricing") is not None else None,
-            "video_resolution_pricing": [VideoResolutionPricingData.from_dict(_item) for _item in obj.get("videoResolutionPricing")] if obj.get("videoResolutionPricing") is not None else None
+            "volume_pricing": [VolumePricingPublicData.from_dict(_item) for _item in obj.get("volumePricing")] if obj.get("volumePricing") is not None else None,
+            "image_tier_pricing": [ImageTierPricingPublicData.from_dict(_item) for _item in obj.get("imageTierPricing")] if obj.get("imageTierPricing") is not None else None,
+            "video_resolution_pricing": [VideoResolutionPublicData.from_dict(_item) for _item in obj.get("videoResolutionPricing")] if obj.get("videoResolutionPricing") is not None else None
         })
         return _obj
 

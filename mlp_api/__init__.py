@@ -139,6 +139,7 @@ from mlp_api.models.image_info_data import ImageInfoData
 from mlp_api.models.image_info_pk import ImageInfoPK
 from mlp_api.models.image_step_data import ImageStepData
 from mlp_api.models.image_tier_pricing_data import ImageTierPricingData
+from mlp_api.models.image_tier_pricing_public_data import ImageTierPricingPublicData
 from mlp_api.models.instance_environment_data import InstanceEnvironmentData
 from mlp_api.models.instance_event_data import InstanceEventData
 from mlp_api.models.instance_last_state import InstanceLastState
@@ -289,5 +290,7 @@ from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
 from mlp_api.models.video_resolution_pricing_data import VideoResolutionPricingData
+from mlp_api.models.video_resolution_public_data import VideoResolutionPublicData
 from mlp_api.models.volume_pricing_data import VolumePricingData
+from mlp_api.models.volume_pricing_public_data import VolumePricingPublicData
 from mlp_api.models.wizard_model_creation import WizardModelCreation
