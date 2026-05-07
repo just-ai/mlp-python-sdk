@@ -35,7 +35,7 @@ class ResourceGroupServerData(BaseModel):
     raw_configuration: StrictStr = Field(default=..., alias="rawConfiguration")
     template_capacity: Optional[ServerCapacityData] = Field(default=None, alias="templateCapacity")
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
-    cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
+    cost_price: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     lifetime_left_seconds: Optional[StrictInt] = Field(default=None, alias="lifetimeLeftSeconds")
     is_copyable: StrictBool = Field(default=..., alias="isCopyable")
