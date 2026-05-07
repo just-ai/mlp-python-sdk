@@ -12762,7 +12762,6 @@ components:
           format: int32
     ServerTemplateData:
       required:
-      - costPrice
       - description
       - id
       - name
@@ -12925,7 +12924,6 @@ components:
           format: int64
     ResourceGroupServerData:
       required:
-      - costPrice
       - id
       - isAutoCreated
       - isCopyable
