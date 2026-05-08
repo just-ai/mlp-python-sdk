@@ -663,4 +663,3 @@ class TestMlpSingleHostConnector:
             connector.stop_and_wait()
         finally:
             cfg.sdk.shutdown_event_timeout_seconds = original_timeout
-
