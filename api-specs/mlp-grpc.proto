@@ -119,6 +119,10 @@ message StartServingProto {
   optional int64 sdkVersion = 5; // отражает используемую версию sdk, сейчас используется только 2.
   optional string image = 6;
   optional string imageVersionJson = 7; // отражает информацию о версии сборки контейнера. Внутри содержит json
+
+  // Unique identifier of the current SDK process lifetime.
+  // Must change on each instance restart; stable within a single process.
+  optional string instanceBootUuid = 8;
 }
 
 message StopServingProto {

@@ -72,6 +72,9 @@ class MLpSdkConfig:
     request_retry_backoff_seconds: float = 0.3
     request_retry_error_codes: list[str] = field(default_factory=lambda: ["mlp.gate.pps_limit_exceeded", "mlp-action.common.channel-closed-error"])
 
+    reconnect_enabled: bool = field(default=True, metadata={"alias": ["MLP_SDK_RECONNECT_ENABLED"]})
+    action_to_gate_queue_max_size: int = field(default=10000, metadata={"alias": ["MLP_SDK_ACTION_TO_GATE_QUEUE_MAX_SIZE"]})
+
 
 @dataclass
 class BaseConfig:

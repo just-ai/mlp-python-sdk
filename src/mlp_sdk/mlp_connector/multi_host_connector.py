@@ -78,7 +78,7 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
             self.restart_single_connection(stopped_connector)
 
         with self.connectors_lock:
-            if any(c.state == MlpConnectorState.connected or c.state == MlpConnectorState.serving for c in self.connectors):
+            if any(c.state in (MlpConnectorState.connected, MlpConnectorState.serving, MlpConnectorState.reconnecting) for c in self.connectors):
                 self.last_active_time = time.time()
                 return
 
@@ -126,9 +126,9 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
                     threading.Thread(target=self.__stop_connector, args=(connector,)).start()
 
     def restart_single_connection(self, connector: MlpSingleHostConnector) -> None:
-        with self.connectors_lock:
-            self.__stop_connector(connector, MlpConnectorState.error)
+        self.__stop_connector(connector, MlpConnectorState.error)
 
+        with self.connectors_lock:
             if self.state == MlpConnectorState.serving:
                 log.info(f"Restart single connection {connector.host_port} ...")
                 self.__start_connector(connector.host_port)
@@ -147,12 +147,12 @@ class MlpMultiHostConnector(MlpSingleHostConnectorCallback, MlpGrpcResponseRecei
     def message_from_service(self, context: MlpRequestContext, response: ServiceToGateProto) -> None:
         response.requestId = context.requestId
         connector: Optional[MlpSingleHostConnector] = next(
-            (x for x in self.connectors if x.host_port == context.gatewayId and x.state == MlpConnectorState.serving), None
+            (x for x in self.connectors if x.host_port == context.gatewayId and x.state in (MlpConnectorState.serving, MlpConnectorState.reconnecting)), None
         )
         if not connector:
             raise ValueError(f"Gateway {context.gatewayId} went offline")
 
-        connector.action_to_gate_queue.put(response)
+        connector.enqueue_to_gate(response)
         log.debug(f"Response for a request: {context.requestId}", extra={"requestId": context.requestId})
 
     def request(self, request: GateToServiceProto, connector: MlpSingleHostConnector) -> None:
