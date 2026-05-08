@@ -14,10 +14,14 @@ from mlp_sdk.utils.utils import wait_for
 
 class TestMlpMultiHostConnector(MlpGrpcRequestReceiver):
     def create_single_connector(self, host_port: str):
-        self.connectors[host_port] = Mock()
-        self.connectors[host_port].host_port = host_port
-        self.connectors[host_port].action_to_gate_queue = Queue()
-        return self.connectors[host_port]
+        m = Mock()
+        m.host_port = host_port
+        m.action_to_gate_queue = Queue()
+        # Mock enqueue_to_gate как реальный продюсер в очередь — иначе ассерты по
+        # action_to_gate_queue не сработают.
+        m.enqueue_to_gate.side_effect = lambda msg: m.action_to_gate_queue.put_nowait(msg) or True
+        self.connectors[host_port] = m
+        return m
 
     def setup_config(self):
         self.config = BaseConfig()
@@ -118,3 +122,43 @@ class TestMlpMultiHostConnector(MlpGrpcRequestReceiver):
 
         with pytest.raises(ValueError):
             self.connector.message_from_service(MlpRequestContext(requestId=1, gatewayId="host1", request_headers={}), ServiceToGateProto())
+
+    def test_restart_does_not_hold_lock_during_stop(self):
+        # Bug 5: stop_and_wait может джойнить worker_thread / heartbeat_thread —
+        # это секунды (особенно при долгом reconnect-цикле). Раньше
+        # restart_single_connection держал connectors_lock всё это время,
+        # блокируя cluster_update / message_from_service / shutdown.
+        import threading
+
+        h1 = self.connectors["host1"]
+        h1.state = MlpConnectorState.error
+
+        stop_started = threading.Event()
+        stop_can_finish = threading.Event()
+
+        def slow_stop(*args, **kwargs):
+            stop_started.set()
+            stop_can_finish.wait(timeout=5.0)
+
+        h1.stop_and_wait.side_effect = slow_stop
+
+        restart_thread = threading.Thread(
+            target=lambda: self.connector.restart_single_connection(h1),
+            daemon=True,
+        )
+        restart_thread.start()
+
+        try:
+            assert stop_started.wait(timeout=2.0), "stop_and_wait должен быть вызван"
+
+            # Пока stop_and_wait висит — connectors_lock должен быть свободен
+            # для других операций (cluster_update, message_from_service, shutdown).
+            got_lock = self.connector.connectors_lock.acquire(timeout=1.0)
+            try:
+                assert got_lock, "connectors_lock не должен держаться во время stop_and_wait"
+            finally:
+                if got_lock:
+                    self.connector.connectors_lock.release()
+        finally:
+            stop_can_finish.set()
+            restart_thread.join(timeout=2.0)

@@ -1,6 +1,6 @@
 [project]
 name = "mlp-sdk"
-version = "2.1.5"
+version = "2.2.0"
 requires-python = ">=3.10"
 authors = []
 description = "Python library for creating services for mlp"
