@@ -8,9 +8,8 @@ from typing import Optional
 import numpy as np
 import pytest
 from box import Box
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
-from mlp_sdk.abstract.services import MlpException
 from mlp_sdk.utils.json_ import JSON, MyJsonEncoder
 
 
@@ -177,7 +176,7 @@ class TestJSON:
         """Тест метода parse при неккоректном json для Pydantic модели"""
         json_text = '{"foo": "boo"}'
 
-        with pytest.raises(MlpException, match="validation error"):
+        with pytest.raises(ValidationError, match="validation error"):
             JSON.parse(json_text, _PydanticModel)
 
     def test_stringify_base_type(self):

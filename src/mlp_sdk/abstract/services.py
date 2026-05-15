@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Generator, Generic, Optional, Type, TypeVar
 
+from pydantic import ValidationError
+
 from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import ApiErrorProto, SimpleStatusProto
 
 
@@ -51,6 +53,10 @@ class MlpException(Exception):
                 return ApiErrorProto(code=e.code, message=e.message, status=e.status.to_proto(), args=e.named_args)
             except:  # noqa: E722
                 pass
+
+        if isinstance(e, ValidationError):
+            return ApiErrorProto(code="mlp-action.common.bad-request", message=str(e), status=SimpleStatusProto.BAD_REQUEST, args={})
+
         return ApiErrorProto(code="mlp-action.common.internal-error", message=str(e), status=SimpleStatusProto.INTERNAL_SERVER_ERROR, args={})
 
 
