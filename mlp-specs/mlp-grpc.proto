@@ -73,6 +73,8 @@ message ServiceToGateProto {
 
     DeferredBillingChargeRequestProto deferredBillingCharge = 109;
 
+    DeferredBillingChargesProto deferredBillingCharges = 110;
+
     ApiErrorProto error = 201;
   }
 
@@ -172,6 +174,27 @@ message FitStatusProto {
 message DeferredBillingChargeRequestProto {
   string billingRequestId = 1;
   int64 amountInUnits = 2;
+}
+
+message DeferredBillingChargesProto {
+  repeated DeferredBillingChargeProto charges = 1;
+  DeferredBillingParamsProto params = 2;
+}
+
+message DeferredBillingParamsProto {
+  optional int64 callerAccountId = 1;
+  optional string apiKeyName = 2;
+  optional string billingKeyName = 3;
+  optional int64 billingAccountId = 4;
+  optional string billingUserId = 5;
+}
+
+message DeferredBillingChargeProto {
+  string idempotencyKey = 1;
+  int64 amount = 2;
+  optional string currency = 3;
+  optional string llmModelName = 4;
+  optional string billingDetails = 5;
 }
 
 message BatchResponseProto {
