@@ -14,6 +14,8 @@ docker build . -f Dockerfile-grpc-tools \
 
 rm -Rf ./mlp_sdk/grpc/mlp*
 
+echo "going to run docker. pwd is $(pwd). $(cat mlp-specs/mlp-grpc.proto)"
+
 docker run -v $(pwd):/app grpc-tools \
  python3 -m grpc_tools.protoc -I ./mlp-specs/ --python_out=./mlp_sdk/grpc --grpc_python_out=./mlp_sdk/grpc ./mlp-specs/mlp-grpc.proto
 
