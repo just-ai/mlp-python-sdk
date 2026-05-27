@@ -81,8 +81,14 @@ pipeline {
 
                 sh "echo `docker images --digests | grep openapitools/openapi-generator-cli`"
                 sh "git add mlp_api"
-                sh "git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc"
-                sh "git push"
+                sh """
+                    if git diff --cached --quiet && git diff --quiet -- mlp-specs mlp_sdk/grpc; then
+                        echo 'No spec/stub changes to commit'
+                    else
+                        git commit -m 'Automatic update API spec from CI' mlp-specs mlp_api mlp_sdk/grpc
+                        git push
+                    fi
+                """
             }
         }
         stage('Lint') {

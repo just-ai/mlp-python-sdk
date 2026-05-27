@@ -16,6 +16,8 @@ sdk:
   request_retry_error_codes:
     - mlp.gate.pps_limit_exceeded
     - mlp-action.common.channel-closed-error
+  reconnect_enabled: true
+  action_to_gate_queue_max_size: 10000
 
 grpc:
   keepalive_time_ms: 120000

@@ -15,6 +15,8 @@ __mlp_environment_override = {
     "MLP_SDK_REQUEST_RETRY_MAX_ATTEMPTS": "sdk.request_retry_max_attempts",
     "MLP_SDK_REQUEST_RETRY_BACKOFF_SECONDS": "sdk.request_retry_backoff_seconds",
     "MLP_SDK_REQUEST_RETRY_ERROR_CODES": "sdk.request_retry_error_codes",
+    "MLP_SDK_RECONNECT_ENABLED": "sdk.reconnect_enabled",
+    "MLP_SDK_ACTION_TO_GATE_QUEUE_MAX_SIZE": "sdk.action_to_gate_queue_max_size",
     "MLP_GRPC_KEEPALIVE_TIME_MS": "grpc.keepalive_time_ms",
     "MLP_GRPC_KEEPALIVE_TIMEOUT_MS": "grpc.keepalive_timeout_ms",
     "MLP_GRPC_KEEPALIVE_PERMIT_WITHOUT_CALLS": "grpc.keepalive_permit_without_calls",
