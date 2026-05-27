@@ -128,8 +128,8 @@ class ModelDump(BaseModel):
         if value is None:
             return value
 
-        if value not in ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER'):
-            raise ValueError("must be one of enum values ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER')")
+        if value not in ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER', 'DAEMON_SET'):
+            raise ValueError("must be one of enum values ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER', 'DAEMON_SET')")
         return value
 
     @validator('billing_unit')

@@ -20,6 +20,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
+from mlp_api.models.daemon_set_config_data import DaemonSetConfigData
 from mlp_api.models.data_image_mount_data import DataImageMountData
 from mlp_api.models.dataset_info_data import DatasetInfoData
 from mlp_api.models.fit_config_data import FitConfigData
@@ -87,6 +88,7 @@ class ModelInfoData(BaseModel):
     caching: ModelCachingData = Field(...)
     priority_queue: ModelPriorityQueueData = Field(default=..., alias="priorityQueue")
     auto_scaling_configuration: ModelAutoScalingConfiguration = Field(default=..., alias="autoScalingConfiguration")
+    daemon_set_configuration: Optional[DaemonSetConfigData] = Field(default=None, alias="daemonSetConfiguration")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
     languages: Optional[conlist(StrictStr, unique_items=True)] = None
     min_instances_count: Optional[StrictInt] = Field(default=None, alias="minInstancesCount")
@@ -99,7 +101,7 @@ class ModelInfoData(BaseModel):
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["id", "modelType", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+    __properties = ["id", "modelType", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -121,8 +123,8 @@ class ModelInfoData(BaseModel):
     @validator('hosting_type')
     def hosting_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER'):
-            raise ValueError("must be one of enum values ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER')")
+        if value not in ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER', 'DAEMON_SET'):
+            raise ValueError("must be one of enum values ('EXTERNAL', 'INTERNAL', 'AUTOMATIC', 'HOSTING_SERVER', 'DAEMON_SET')")
         return value
 
     @validator('protocols')
@@ -214,6 +216,9 @@ class ModelInfoData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of auto_scaling_configuration
         if self.auto_scaling_configuration:
             _dict['autoScalingConfiguration'] = self.auto_scaling_configuration.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of daemon_set_configuration
+        if self.daemon_set_configuration:
+            _dict['daemonSetConfiguration'] = self.daemon_set_configuration.to_dict()
         # override the default output from pydantic by calling `to_dict()` of public_settings
         if self.public_settings:
             _dict['publicSettings'] = self.public_settings.to_dict()
@@ -283,6 +288,7 @@ class ModelInfoData(BaseModel):
             "caching": ModelCachingData.from_dict(obj.get("caching")) if obj.get("caching") is not None else None,
             "priority_queue": ModelPriorityQueueData.from_dict(obj.get("priorityQueue")) if obj.get("priorityQueue") is not None else None,
             "auto_scaling_configuration": ModelAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
+            "daemon_set_configuration": DaemonSetConfigData.from_dict(obj.get("daemonSetConfiguration")) if obj.get("daemonSetConfiguration") is not None else None,
             "short_description": obj.get("shortDescription"),
             "languages": obj.get("languages"),
             "min_instances_count": obj.get("minInstancesCount"),
