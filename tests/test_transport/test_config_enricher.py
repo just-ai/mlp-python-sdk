@@ -37,6 +37,7 @@ def test_enrich_config_without_overriding():
         ("MLP_GRPC_KEEPALIVE_PERMIT_WITHOUT_CALLS", "grpc.keepalive_permit_without_calls", "0"),
         ("MLP_GRPC_MAX_SEND_MESSAGE_LENGTH", "grpc.max_send_message_length", "4194304"),
         ("MLP_GRPC_MAX_RECEIVE_MESSAGE_LENGTH", "grpc.max_receive_message_length", "4194304"),
+        ("MLP_SDK_ACTION_TO_GATE_QUEUE_MAX_SIZE", "sdk.action_to_gate_queue_max_size", "5000"),
     ],
 )
 def test_enrich_config_mlp_env(env_var, config_key, value):
