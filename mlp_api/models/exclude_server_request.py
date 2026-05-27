@@ -18,17 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, StrictInt
+
+class ExcludeServerRequest(BaseModel):
     """
-    SortObject
+    ExcludeServerRequest
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    server_id: StrictInt = Field(default=..., alias="serverId")
+    __properties = ["serverId"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +42,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ExcludeServerRequest:
+        """Create an instance of ExcludeServerRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +55,16 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> ExcludeServerRequest:
+        """Create an instance of ExcludeServerRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return ExcludeServerRequest.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = ExcludeServerRequest.parse_obj({
+            "server_id": obj.get("serverId")
         })
         return _obj
 

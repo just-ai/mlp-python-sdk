@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Union
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class VerticalScalingConfiguration(BaseModel):
     """
-    SortObject
+    VerticalScalingConfiguration
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    enabled: StrictBool = Field(...)
+    max_memory_limit: StrictStr = Field(default=..., alias="maxMemoryLimit")
+    memory_scale_up_factor: Union[StrictFloat, StrictInt] = Field(default=..., alias="memoryScaleUpFactor")
+    cooldown_minutes: StrictInt = Field(default=..., alias="cooldownMinutes")
+    __properties = ["enabled", "maxMemoryLimit", "memoryScaleUpFactor", "cooldownMinutes"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> VerticalScalingConfiguration:
+        """Create an instance of VerticalScalingConfiguration from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> VerticalScalingConfiguration:
+        """Create an instance of VerticalScalingConfiguration from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return VerticalScalingConfiguration.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = VerticalScalingConfiguration.parse_obj({
+            "enabled": obj.get("enabled"),
+            "max_memory_limit": obj.get("maxMemoryLimit"),
+            "memory_scale_up_factor": obj.get("memoryScaleUpFactor"),
+            "cooldown_minutes": obj.get("cooldownMinutes")
         })
         return _obj
 

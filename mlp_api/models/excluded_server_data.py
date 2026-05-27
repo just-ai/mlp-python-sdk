@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class ExcludedServerData(BaseModel):
     """
-    SortObject
+    ExcludedServerData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    server_id: StrictInt = Field(default=..., alias="serverId")
+    server_name: StrictStr = Field(default=..., alias="serverName")
+    excluded_at: datetime = Field(default=..., alias="excludedAt")
+    __properties = ["serverId", "serverName", "excludedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> ExcludedServerData:
+        """Create an instance of ExcludedServerData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> ExcludedServerData:
+        """Create an instance of ExcludedServerData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return ExcludedServerData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = ExcludedServerData.parse_obj({
+            "server_id": obj.get("serverId"),
+            "server_name": obj.get("serverName"),
+            "excluded_at": obj.get("excludedAt")
         })
         return _obj
 

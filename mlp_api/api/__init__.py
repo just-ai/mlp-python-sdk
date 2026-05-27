@@ -6,6 +6,7 @@ from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
+from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
