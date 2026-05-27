@@ -22,6 +22,7 @@ from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
+from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
@@ -96,6 +97,7 @@ from mlp_api.models.create_resource_group_quota import CreateResourceGroupQuota
 from mlp_api.models.create_resource_group_server import CreateResourceGroupServer
 from mlp_api.models.create_update_server_template_data import CreateUpdateServerTemplateData
 from mlp_api.models.cross_validation_request_data import CrossValidationRequestData
+from mlp_api.models.daemon_set_config_data import DaemonSetConfigData
 from mlp_api.models.data_image_dump import DataImageDump
 from mlp_api.models.data_image_info_data import DataImageInfoData
 from mlp_api.models.data_image_info_pk import DataImageInfoPK
@@ -118,6 +120,8 @@ from mlp_api.models.event_data import EventData
 from mlp_api.models.event_source import EventSource
 from mlp_api.models.exchange_rate_data import ExchangeRateData
 from mlp_api.models.exchange_rate_upsert_request import ExchangeRateUpsertRequest
+from mlp_api.models.exclude_server_request import ExcludeServerRequest
+from mlp_api.models.excluded_server_data import ExcludedServerData
 from mlp_api.models.existing_image_data import ExistingImageData
 from mlp_api.models.extended_request_data import ExtendedRequestData
 from mlp_api.models.external_connection_info_data import ExternalConnectionInfoData
@@ -289,6 +293,7 @@ from mlp_api.models.update_access_token_data import UpdateAccessTokenData
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
+from mlp_api.models.vertical_scaling_configuration import VerticalScalingConfiguration
 from mlp_api.models.video_resolution_pricing_data import VideoResolutionPricingData
 from mlp_api.models.video_resolution_public_data import VideoResolutionPublicData
 from mlp_api.models.volume_pricing_data import VolumePricingData

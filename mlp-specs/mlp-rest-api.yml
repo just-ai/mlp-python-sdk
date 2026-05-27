@@ -461,6 +461,73 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/model/{model}/daemon-set:
+    get:
+      tags:
+      - daemon-set-endpoint
+      operationId: getConfig
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaemonSetConfigData'
+    put:
+      tags:
+      - daemon-set-endpoint
+      operationId: updateConfig
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DaemonSetConfigData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DaemonSetConfigData'
   /p/{accountField}/{modelField}:
     get:
       tags:
@@ -3748,6 +3815,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelInfoData'
+  /api/mlpcore/account/{account}/model/{model}/daemon-set/excluded-servers:
+    get:
+      tags:
+      - daemon-set-endpoint
+      operationId: listExcludedServers
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExcludedServerData'
+    post:
+      tags:
+      - daemon-set-endpoint
+      operationId: addExcludedServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExcludeServerRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcludedServerData'
   /api/mlpcore/account/{account}/model/{model}/cross-validation:
     post:
       tags:
@@ -9990,6 +10126,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExternalConnectionInfoData'
+  /api/mlpcore/account/{account}/model/{model}/daemon-set/excluded-servers/{serverId}:
+    delete:
+      tags:
+      - daemon-set-endpoint
+      operationId: removeExcludedServer
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: serverId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
   /api/mlpcore/account/{account}/model/{model}/custom-data:
     delete:
       tags:
@@ -10795,6 +10964,23 @@ components:
           items:
             type: integer
             format: int64
+    DaemonSetConfigData:
+      required:
+      - excludedServerIds
+      - instancesPerServer
+      type: object
+      properties:
+        instancesPerServer:
+          type: integer
+          description: Number of instances per non-excluded docker server (>= 0)
+          format: int32
+        excludedServerIds:
+          type: array
+          description: Server ids excluded from daemon-set fan-out
+          items:
+            type: integer
+            description: Server ids excluded from daemon-set fan-out
+            format: int64
     AudioFormatOptions:
       type: object
       properties:
@@ -10986,7 +11172,7 @@ components:
           type: string
     ModelAutoScalingConfiguration:
       required:
-      - enabled
+      - horizontalScalingEnabled
       - minInstanceCount
       type: object
       properties:
@@ -11000,6 +11186,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScheduledInstanceCountSetting'
+        verticalScalingConfiguration:
+          $ref: '#/components/schemas/VerticalScalingConfiguration'
         cooldownDurationMinutes:
           type: integer
           format: int32
@@ -11027,7 +11215,7 @@ components:
         scaleDownActiveRequestsThreshold:
           type: integer
           format: int32
-        enabled:
+        horizontalScalingEnabled:
           type: boolean
     ModelBatchesData:
       required:
@@ -11319,6 +11507,7 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+          - DAEMON_SET
         persistentVolumes:
           type: array
           items:
@@ -11371,6 +11560,24 @@ components:
             type: string
         publicSettingsData:
           $ref: '#/components/schemas/ModelPublicSettingsData'
+    VerticalScalingConfiguration:
+      required:
+      - cooldownMinutes
+      - enabled
+      - maxMemoryLimit
+      - memoryScaleUpFactor
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        maxMemoryLimit:
+          type: string
+        memoryScaleUpFactor:
+          type: number
+          format: double
+        cooldownMinutes:
+          type: integer
+          format: int32
     DatasetInfoData:
       required:
       - name
@@ -11677,6 +11884,7 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+          - DAEMON_SET
         protocols:
           uniqueItems: true
           type: array
@@ -11710,6 +11918,8 @@ components:
           $ref: '#/components/schemas/ModelPriorityQueueData'
         autoScalingConfiguration:
           $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        daemonSetConfiguration:
+          $ref: '#/components/schemas/DaemonSetConfigData'
         shortDescription:
           type: string
         languages:
@@ -12133,6 +12343,7 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+          - DAEMON_SET
         dataImageMounts:
           type: array
           items:
@@ -13231,6 +13442,7 @@ components:
           - INTERNAL
           - AUTOMATIC
           - HOSTING_SERVER
+          - DAEMON_SET
         protocols:
           uniqueItems: true
           type: array
@@ -13264,6 +13476,8 @@ components:
           $ref: '#/components/schemas/ModelPriorityQueueData'
         autoScalingConfiguration:
           $ref: '#/components/schemas/ModelAutoScalingConfiguration'
+        daemonSetConfiguration:
+          $ref: '#/components/schemas/DaemonSetConfigData'
         shortDescription:
           type: string
         languages:
@@ -13492,6 +13706,29 @@ components:
         instanceId:
           type: integer
           format: int64
+    ExcludeServerRequest:
+      required:
+      - serverId
+      type: object
+      properties:
+        serverId:
+          type: integer
+          format: int64
+    ExcludedServerData:
+      required:
+      - excludedAt
+      - serverId
+      - serverName
+      type: object
+      properties:
+        serverId:
+          type: integer
+          format: int64
+        serverName:
+          type: string
+        excludedAt:
+          type: string
+          format: date-time
     CrossValidationRequestData:
       required:
       - datasetId
@@ -13871,6 +14108,8 @@ components:
           - SCALE_DOWN
           - NEED_SCALE_UP
           - SET_CORRECT_GROUP
+          - VERTICAL_SCALE_UP
+          - VERTICAL_NEED_SCALE_UP
         operatedEntity:
           $ref: '#/components/schemas/PipelineEntity'
         operatedEntityName:
@@ -14987,6 +15226,8 @@ components:
           - SCALE_DOWN
           - NEED_SCALE_UP
           - SET_CORRECT_GROUP
+          - VERTICAL_SCALE_UP
+          - VERTICAL_NEED_SCALE_UP
         payload:
           type: object
           additionalProperties:

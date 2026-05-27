@@ -55,8 +55,8 @@ class TaskShortData(BaseModel):
     @validator('operation')
     def operation_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP'):
-            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP')")
+        if value not in ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP', 'VERTICAL_SCALE_UP', 'VERTICAL_NEED_SCALE_UP'):
+            raise ValueError("must be one of enum values ('RUN', 'FIT', 'BLOCK', 'UNBLOCK', 'GRANT', 'CREATE', 'REMOVE', 'EVICT', 'REMOVE_BY_BILLING', 'WAKE_UP', 'RENAME', 'PREPARE', 'RELOAD', 'TRANSFER', 'SCALE_UP', 'SCALE_DOWN', 'NEED_SCALE_UP', 'SET_CORRECT_GROUP', 'VERTICAL_SCALE_UP', 'VERTICAL_NEED_SCALE_UP')")
         return value
 
     class Config:
