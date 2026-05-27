@@ -120,6 +120,12 @@ message StartServingProto {
   optional string hostname = 4;
   optional int64 version = 5;
   optional string image = 6;
+
+  // Unique identifier of the current SDK process lifetime.
+  // Stable within a single process run; regenerated on instance restart.
+  // Used by gateway to distinguish transient network disconnect from instance restart.
+  // Field 7 is reserved (used as `imageVersionJson` in legacy mlp-python-sdk proto copy).
+  optional string instanceBootUuid = 8;
 }
 
 message StopServingProto {
