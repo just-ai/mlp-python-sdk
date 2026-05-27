@@ -1,3 +1,9 @@
+import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
+
+def isTriggeredByWebhook() {
+    return currentBuild.getBuildCauses()[0]._class.equals("com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause")
+}
+
 pipeline {
     options {
         gitLabConnection("gitlab just-ai")
@@ -15,6 +21,27 @@ pipeline {
         booleanParam(name: 'RUN_TESTS', defaultValue: true, description: '')
     }
     stages {
+        stage('Get webhook data') {
+            steps {
+              script {
+                TARGET_BRANCH = ''
+                if (isTriggeredByWebhook()) {
+                    def webhookData = currentBuild.rawBuild.getCause(com.dabsquared.gitlabjenkins.cause.GitLabWebHookCause).getData()
+                    println("Webhook Data:\n" + webhookData)
+
+                    TARGET_BRANCH = webhookData.getTargetBranch()
+
+                    if (TARGET_BRANCH == 'v2') {
+                        echo "Branch is 'v2', exiting pipeline..."
+                        currentBuild.result = 'SUCCESS'
+                        error("Pipeline intentionally skipped for branch 'v2'")
+                    }
+                } else {
+                    Utils.markStageSkippedForConditional('Get webhook data')
+                }
+              }
+            }
+        }
         stage('Prepare') {
             steps {
                 script {
@@ -151,12 +178,16 @@ pipeline {
     }
     post {
         failure {
-            updateGitlabCommitStatus name: "Prepare", state: "failed"
-            updateGitlabCommitStatus name: "Update spec", state: "failed"
-            updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
-            updateGitlabCommitStatus name: "Lint", state: "failed"
-            updateGitlabCommitStatus name: "Tests", state: "failed"
-            updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
+            script {
+                if (TARGET_BRANCH != 'v2') {
+                    updateGitlabCommitStatus name: "Prepare", state: "failed"
+                    updateGitlabCommitStatus name: "Update spec", state: "failed"
+                    updateGitlabCommitStatus name: "Rebuild client stubs", state: "failed"
+                    updateGitlabCommitStatus name: "Lint", state: "failed"
+                    updateGitlabCommitStatus name: "Tests", state: "failed"
+                    updateGitlabCommitStatus name: "Rebuild MLP Services", state: "failed"
+                }
+            }
         }
         success {
             updateGitlabCommitStatus name: "Prepare", state: "success"
@@ -181,6 +212,9 @@ pipeline {
             updateGitlabCommitStatus name: "Lint", state: "canceled"
             updateGitlabCommitStatus name: "Tests", state: "canceled"
             updateGitlabCommitStatus name: "Rebuild MLP Services", state: "canceled"
+        }
+        cleanup {
+            cleanWs()
         }
     }
 }

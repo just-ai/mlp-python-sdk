@@ -5,6 +5,7 @@ import signal
 import threading
 import time
 import typing
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from enum import Enum
@@ -14,7 +15,7 @@ from typing import Optional
 import grpc
 import yaml
 from google.protobuf import json_format
-from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
+from grpc._channel import _MultiThreadedRendezvous
 from pydantic import ValidationError
 
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
@@ -29,6 +30,18 @@ SDK_VERSION = 2
 
 MlpResponseHeaders = threading.local()
 
+_PROCESS_INSTANCE_UUID = str(uuid.uuid4())
+
+_RECONNECTABLE_GRPC_CODES = frozenset({
+    grpc.StatusCode.CANCELLED,
+    grpc.StatusCode.UNAVAILABLE,
+    grpc.StatusCode.DEADLINE_EXCEEDED,
+    grpc.StatusCode.INTERNAL,
+    grpc.StatusCode.UNKNOWN,
+    grpc.StatusCode.ABORTED,
+    grpc.StatusCode.RESOURCE_EXHAUSTED,
+})
+
 
 class MlpServiceConnector:
     def __init__(self, url, sdk, grpc_secure=True, config=CONFIG):
@@ -41,14 +54,24 @@ class MlpServiceConnector:
         self.heartbeat_thread_interval = None
         self.last_heartbeat_from_gate = None
         self.heartbeat_thread = None
+        self.heartbeat_stop_event = threading.Event()
         self.service_info = None
-        self.action_to_gate_queue = queue.Queue()
+
+        max_queue_size = int(self.config["sdk"].get("action_to_gate_queue_max_size", 10000))
+        self.action_to_gate_queue = queue.Queue(maxsize=max_queue_size)
+        self._queue_full_warned = False
+
+        self.replay_queue = queue.Queue()
         self.stopping_event = None
         self.channel = None
         self.stub = None
         self.shutdown_event = threading.Event()
-        self.startup_thread = threading.Thread(target=self.__connect_to_gate)
+        self.startup_thread = threading.Thread(target=self.__worker_proc)
         self.gateway_permanently_unavailable = True
+
+    @property
+    def reconnect_enabled(self):
+        return bool(self.config["sdk"].get("reconnect_enabled", True))
 
     def start(self):
         self.log.info("Starting ...")
@@ -64,43 +87,86 @@ class MlpServiceConnector:
         with open("/tmp/liveness-probe", "w") as f:
             f.write(str(int(time.time())))
 
+    def __worker_proc(self):
+        try:
+            while not self.shutdown_event.is_set():
+                self.__connect_to_gate()
+
+                if self.shutdown_event.is_set():
+                    break
+
+                if self.state == State.connected:
+                    try:
+                        self.__start_streaming()
+                    except Exception as e:
+                        self.log.error("Exception in streaming procedure " + type(e).__name__)
+                        self.log.error(e, exc_info=True)
+
+                if self.shutdown_event.is_set():
+                    break
+                if self.state == State.reconnecting and self.reconnect_enabled:
+                    self.log.info("Reconnecting to gate ...")
+                    self.__close_channel()
+                    self.__reset_heartbeat_state()
+                    continue
+                break
+        except Exception as e:
+            self.log.error("Exception in __worker_proc " + type(e).__name__)
+            self.log.error(e, exc_info=True)
+
+    def _create_channel_and_stub(self):
+        if self.grpc_secure:
+            if os.environ.keys().__contains__("GRPC_SSL_CA_FILE_PATH"):
+                with open(os.environ["GRPC_SSL_CA_FILE_PATH"], "rb") as f:
+                    creds = grpc.ssl_channel_credentials(f.read())
+            else:
+                creds = grpc.ssl_channel_credentials()
+
+            channel = grpc.secure_channel(
+                self.url,
+                creds,
+                options=[
+                    ("grpc.max_send_message_length", self.config["grpc"]["max_send_message_length"]),
+                    ("grpc.max_receive_message_length", self.config["grpc"]["max_receive_message_length"]),
+                ],
+            )
+        else:
+            channel = grpc.insecure_channel(
+                self.url,
+                options=[
+                    ("grpc.max_send_message_length", self.config["grpc"]["max_send_message_length"]),
+                    ("grpc.max_receive_message_length", self.config["grpc"]["max_receive_message_length"]),
+                ],
+            )
+        stub = mlp_grpc_pb2_grpc.GateStub(channel)
+        return channel, stub
+
     def __connect_to_gate(self):
+        if self.shutdown_event.is_set():
+            return
         self.__startup_probe()
         self.state = State.connecting
         self.log.info(" ... connecting to gate")
-        while self.state == State.connecting:
+        while self.state == State.connecting and not self.shutdown_event.is_set():
             try:
-                if self.grpc_secure:
-                    if os.environ.keys().__contains__("GRPC_SSL_CA_FILE_PATH"):
-                        with open(os.environ["GRPC_SSL_CA_FILE_PATH"], "rb") as f:
-                            creds = grpc.ssl_channel_credentials(f.read())
-                    else:
-                        creds = grpc.ssl_channel_credentials()
-
-                    self.channel = grpc.secure_channel(
-                        self.url,
-                        creds,
-                        options=[
-                            ("grpc.max_send_message_length", self.config["grpc"]["max_send_message_length"]),
-                            ("grpc.max_receive_message_length", self.config["grpc"]["max_receive_message_length"]),
-                        ],
-                    )
-                else:
-                    self.channel = grpc.insecure_channel(
-                        self.url,
-                        options=[
-                            ("grpc.max_send_message_length", self.config["grpc"]["max_send_message_length"]),
-                            ("grpc.max_receive_message_length", self.config["grpc"]["max_receive_message_length"]),
-                        ],
-                    )
-                self.stub = mlp_grpc_pb2_grpc.GateStub(self.channel)
+                self.__close_channel()
+                self.channel, self.stub = self._create_channel_and_stub()
 
                 self.stub.healthCheck(mlp_grpc_pb2.HeartBeatProto())
 
                 self.state = State.connected
                 self.gateway_permanently_unavailable = False
                 break
-            except _InactiveRpcError:
+            except grpc.RpcError as e:
+                # _InactiveRpcError — подкласс grpc.RpcError, отдельный блок не нужен.
+                code_attr = getattr(e, "code", None)
+                code = code_attr() if callable(code_attr) else None
+                if code is not None and code not in _RECONNECTABLE_GRPC_CODES:
+                    self.log.error(
+                        f"Cannot connect to {self.url}: non-recoverable gRPC code {code}, giving up reconnect"
+                    )
+                    self.state = State.error
+                    return
                 seconds = self.config["sdk"]["shutdown_event_timeout_seconds"]
                 if not self.gateway_permanently_unavailable:
                     self.log.debug(f"Cannot connect to {self.url} retry in {seconds} sec")
@@ -112,70 +178,144 @@ class MlpServiceConnector:
 
             self.shutdown_event.wait(self.config["sdk"]["shutdown_event_timeout_seconds"])
 
-        if self.state == State.connected:
+    def enqueue_to_gate(self, msg):
+        try:
+            self.action_to_gate_queue.put_nowait(msg)
+            if self._queue_full_warned:
+                self._queue_full_warned = False
+            return True
+        except queue.Full:
+            body = msg.WhichOneof("body")
+            if not self._queue_full_warned:
+                self.log.warning(
+                    "action_to_gate_queue is full (maxsize=%d), dropping message of type=%s. "
+                    "Probably gate is unavailable for too long. "
+                    "Consider increasing MLP_SDK_ACTION_TO_GATE_QUEUE_MAX_SIZE.",
+                    self.action_to_gate_queue.maxsize,
+                    body,
+                )
+                self._queue_full_warned = True
+            else:
+                self.log.debug("action_to_gate_queue still full, dropping message of type=%s", body)
+            return False
+
+    def __close_channel(self):
+        if self.channel is not None:
             try:
-                self.__start_streaming()
-            except Exception as e:
-                self.log.error("Exception in streaming procedure " + type(e).__name__)
-                self.log.error(e, exc_info=True)
+                self.channel.close()
+            except BaseException:
+                pass
+            self.channel = None
+        self.stub = None
+
+    def __reset_heartbeat_state(self):
+        if self.heartbeat_thread is not None:
+            self.heartbeat_stop_event.set()
+            self.heartbeat_thread.join(timeout=self.config["sdk"]["heartbeat_thread_timeout_seconds"])
+            self.heartbeat_thread = None
+        self.heartbeat_stop_event = threading.Event()
+        self.last_heartbeat_from_gate = None
+        self.heartbeat_thread_interval = None
+
+    def __build_start_serving_message(self):
+        return mlp_grpc_pb2.ServiceToGateProto(
+            startServing=mlp_grpc_pb2.StartServingProto(
+                connectionToken=self.sdk.connection_token,
+                serviceDescriptor=self.sdk.descriptor,
+                hostname=os.environ.get("HOSTNAME", ""),
+                version=SDK_VERSION,
+                image=os.environ.get("IMAGE_NAME", ""),
+                instanceBootUuid=_PROCESS_INSTANCE_UUID,
+            )
+        )
 
     def __start_streaming(self):
         self.log.debug(" ... init streaming")
         self.stopping_event = threading.Event()
 
         def action_to_gate_generator():
+            # startServing — обязательно первое сообщение каждого нового стрима
+            yield self.__build_start_serving_message()
+
+            # На реконнекте — сначала сливаем replay_queue (failed yields с предыдущего стрима)
+            while True:
+                try:
+                    msg = self.replay_queue.get_nowait()
+                except queue.Empty:
+                    break
+                try:
+                    yield msg
+                except BaseException:
+                    self.replay_queue.put_nowait(msg)
+                    raise
+                if msg.WhichOneof("body") == "stopServing":
+                    return
+
+            # Основная очередь
             while True:
                 msg = self.action_to_gate_queue.get()
                 self.action_to_gate_queue.task_done()
-                yield msg
+                try:
+                    yield msg
+                except BaseException:
+                    self.replay_queue.put_nowait(msg)
+                    raise
                 if msg.WhichOneof("body") == "stopServing":
                     return
 
         gate_to_action_generator = self.stub.processAsync(action_to_gate_generator())
 
         self.log.debug(f" ... start serving. version={SDK_VERSION}")
-        self.action_to_gate_queue.put_nowait(
-            mlp_grpc_pb2.ServiceToGateProto(
-                startServing=mlp_grpc_pb2.StartServingProto(
-                    connectionToken=self.sdk.connection_token,
-                    serviceDescriptor=self.sdk.descriptor,
-                    hostname=os.environ.get("HOSTNAME", ""),
-                    version=SDK_VERSION,
-                    image=os.environ.get("IMAGE_NAME", ""),
-                )
-            )
-        )
-
         self.log.info("Service is ready to serve!")
 
         self.state = State.serving
         self.__start_processing_requests_from_queue(gate_to_action_generator)
 
         self.log.info("Streaming thread stopped")
-        if self.state != State.error:
+        if self.state not in (State.error, State.reconnecting):
             self.state = State.stopped
         self.stopping_event.set()
 
     def __start_processing_requests_from_queue(self, gate_to_action_generator):
         try:
             for request in gate_to_action_generator:
-                self.__process_request(request)
+                try:
+                    self.__process_request(request)
+                except BaseException:
+                    self.log.error("Exception in __process_request", exc_info=True)
+
+                if self.shutdown_event.is_set():
+                    break
 
         except _MultiThreadedRendezvous as e:
             # noinspection PyProtectedMember
-            if e._state.code == grpc.StatusCode.CANCELLED:
+            code = e._state.code
+            if code == grpc.StatusCode.CANCELLED:
                 self.log.error("Channel closed. (Got StatusCode.CANCELLED exception)")
-            elif e._state.code == grpc.StatusCode.UNAVAILABLE:
+            elif code == grpc.StatusCode.UNAVAILABLE:
                 self.log.error("... can't connect. (Got StatusCode.UNAVAILABLE exception)")
-                if self.state == State.serving:
-                    self.sdk.restart(self)
             else:
-                self.log.error("Unknown MultiThreadedRendezvous exception")
+                self.log.error(f"gRPC exception with code {code}")
                 self.log.error(e, exc_info=True)
+
+            if self.reconnect_enabled and (code is None or code in _RECONNECTABLE_GRPC_CODES):
+                self.state = State.reconnecting
+            else:
+                self.state = State.error
+
+        except grpc.RpcError as e:
+            code_attr = getattr(e, "code", None)
+            code = code_attr() if callable(code_attr) else None
+            self.log.error(f"gRPC exception with code {code}", exc_info=True)
+            if self.reconnect_enabled and (code is None or code in _RECONNECTABLE_GRPC_CODES):
+                self.state = State.reconnecting
+            else:
+                self.state = State.error
 
         except BaseException as e:
             self.log.error("Exception in action_to_gate_generator loop")
             self.log.error(e, exc_info=True)
+            self.state = State.error
 
     def __process_request(self, request):
         req_type = request.WhichOneof("body")
@@ -191,7 +331,10 @@ class MlpServiceConnector:
             if self.heartbeat_thread is None:
                 self.log.debug(" ... starting heartbeats", extra={"requestId": request.requestId})
                 self.heartbeat_thread_interval = request.heartBeat.interval
-                self.heartbeat_thread = threading.Thread(target=self.__heartbeat_proc)
+                self.heartbeat_thread = threading.Thread(
+                    target=self.__heartbeat_proc,
+                    args=(self.heartbeat_stop_event,),
+                )
                 self.heartbeat_thread.start()
         elif req_type == "cluster":
             if self.url != request.cluster.currentServer:
@@ -213,36 +356,80 @@ class MlpServiceConnector:
         else:
             self.log.debug("Request with large body. Id=" + str(request.requestId), extra={"requestId": requestId})
 
-    def __heartbeat_proc(self):
-        while self.state == State.connected or self.state == State.serving:
-            self.action_to_gate_queue.put_nowait(
+    def __heartbeat_proc(self, stop_event):
+        while not stop_event.is_set() and self.state in (State.connected, State.serving):
+            self.enqueue_to_gate(
                 mlp_grpc_pb2.ServiceToGateProto(heartBeat=mlp_grpc_pb2.HeartBeatProto())
             )
-            self.shutdown_event.wait(self.heartbeat_thread_interval / 1000)
 
-            if time.time() - self.last_heartbeat_from_gate > (self.heartbeat_thread_interval / 1000 * 3 + 1):
-                self.log.error("No heartbeats from gate")
+            if self.heartbeat_thread_interval is not None:
+                if stop_event.wait(self.heartbeat_thread_interval / 1000):
+                    break
+
+                if self.last_heartbeat_from_gate is not None and time.time() - self.last_heartbeat_from_gate > (
+                    self.heartbeat_thread_interval / 1000 * 3 + 1
+                ):
+                    self.log.error("No heartbeats from gate")
+                    if self.reconnect_enabled:
+                        self.state = State.reconnecting
+                        if self.channel is not None:
+                            try:
+                                self.channel.close()
+                            except BaseException:
+                                pass
+                    else:
+                        self.state = State.error
+            else:
+                if stop_event.wait(5.0):
+                    break
+
             self.__liveness_probe()
 
     def stop(self, state="stopping"):
-        self.state = state
+        if self.state == State.serving:
+            self.log.info(" ... stop serving")
 
-        self.log.info(" ... stop serving")
-        self.action_to_gate_queue.put_nowait(
-            mlp_grpc_pb2.ServiceToGateProto(stopServing=mlp_grpc_pb2.StopServingProto())
-        )
+        if self.state == State.stopping:
+            self.log.error(" ... stopping in another thread")
+            return
+
+        already_stopped = self.state in (State.stopped, State.error)
+
+        if not already_stopped:
+            self.state = state
+            if not self.enqueue_to_gate(
+                mlp_grpc_pb2.ServiceToGateProto(stopServing=mlp_grpc_pb2.StopServingProto())
+            ):
+                self.log.warning("Could not enqueue stopServing — channel close will terminate the stream.")
+        else:
+            self.log.info(" ... already stopped, completing shutdown")
 
         # waiting for close
         if self.stopping_event is not None:
             self.stopping_event.wait(self.config["sdk"]["stopping_event_timeout_seconds"])
 
         self.shutdown_event.set()
-        if self.channel is not None:
-            self.channel.close()
+        self.heartbeat_stop_event.set()
+
+        if already_stopped and self.channel is not None:
+            try:
+                self.channel.close()
+            except BaseException:
+                pass
+
         if self.startup_thread is not None and threading.current_thread() != self.startup_thread:
             self.startup_thread.join(self.config["sdk"]["startup_thread_timeout_seconds"])
         if self.heartbeat_thread is not None:
             self.heartbeat_thread.join(self.config["sdk"]["heartbeat_thread_timeout_seconds"])
+
+        self.state = State.stopped
+
+        if self.channel is not None:
+            try:
+                self.channel.close()
+            except BaseException:
+                pass
+            self.channel = None
 
 
 class MlpServiceSDK:
@@ -310,7 +497,9 @@ class MlpServiceSDK:
                 for stopped_connector in stopped_connectors:
                     self.restart(stopped_connector)
 
-                if any(c.state == State.connected or c.state == State.serving for c in self.connectors):
+                if any(
+                    c.state in (State.connected, State.serving, State.reconnecting) for c in self.connectors
+                ):
                     last_active_time = time.time()
                     continue
 
@@ -384,7 +573,7 @@ class MlpServiceSDK:
         )
         response.requestId = request.requestId
         self.__log_response(request, response)
-        connector.action_to_gate_queue.put_nowait(response)
+        connector.enqueue_to_gate(response)
 
     def process_request_async(self, req_type, request, connector: MlpServiceConnector):
         self.requests_executor.submit(self.__try_to_process_request, req_type, request, connector)
@@ -420,7 +609,7 @@ class MlpServiceSDK:
         response.headers["Z-Server-Time"] = f"{_elapsed}"
 
         self.__log_response(request, response)
-        connector.action_to_gate_queue.put_nowait(response)
+        connector.enqueue_to_gate(response)
 
     def __log_response(self, request, response):
         stringified_response = json_format.MessageToJson(response, ensure_ascii=False)
@@ -721,6 +910,7 @@ class State(Enum):
     connecting = "connecting"
     connected = "connected"
     serving = "serving"
+    reconnecting = "reconnecting"
     stopping = "stopping"
     stopped = "stopped"
     error = "error"

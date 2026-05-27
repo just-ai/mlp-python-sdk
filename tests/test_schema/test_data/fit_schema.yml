@@ -67,7 +67,6 @@ fit:
     - accountId
     - modelId
     - modelName
-    - authToken
     title: ServiceInfo
     type: object
   targets:
