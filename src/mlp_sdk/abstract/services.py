@@ -1,3 +1,4 @@
+from collections.abc import Generator as GeneratorABC
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Generator, Generic, Optional, Type, TypeVar
@@ -89,7 +90,7 @@ class MlpPredictServiceBase(Generic[T, C, R]):
         # Если метод переопределен в наследнике (не равен методу базового класса)
         if callable(child_predict_simple) and child_predict_simple is not base_predict_simple:
             # Проверяем, является ли req одиночным объектом или коллекцией
-            if isinstance(req, Generator):
+            if isinstance(req, GeneratorABC):
                 raise Exception("Streaming request is not allowed for predict_simple")  # pragma: no cover
             else:
                 # Если одиночный объект, просто вызываем predict_simple
@@ -100,3 +101,25 @@ class MlpPredictServiceBase(Generic[T, C, R]):
 
     def predict_simple(self, context: MlpRequestContext, req: T, config: Optional[C]) -> R:
         raise NotImplementedError()  # pragma: no cover
+
+    def predict_batch_simple(
+        self,
+        contexts: list[MlpRequestContext],
+        req: list[T | None],
+        config: Optional[C],
+    ) -> list[R | None]:
+        if len(contexts) != len(req):
+            raise ValueError("Batch contexts and requests length mismatch")  # pragma: no cover
+
+        result: list[R | None] = []
+        for context, item in zip(contexts, req, strict=True):
+            if item is None:
+                result.append(None)
+                continue
+
+            response = self.predict(context, item, config)
+            if isinstance(response, GeneratorABC):
+                raise Exception("Predict must not return streaming result to use in batch mode")
+            result.append(response)
+
+        return result

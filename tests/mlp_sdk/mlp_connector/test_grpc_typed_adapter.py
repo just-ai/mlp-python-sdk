@@ -5,7 +5,7 @@ import pytest
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.services import MlpException, MlpPredictServiceBase, MlpRequestContext
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import HeartBeatProto, PayloadProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import BatchPayloadProto, HeartBeatProto, PayloadProto
 from mlp_sdk.mlp_connector.grpc_typed_adapter import MlpGrpcTypedAdapter
 from mlp_sdk.utils.json_ import JSON
 
@@ -127,6 +127,52 @@ class ImplExt(MlpPredictServiceBase[InputModel, None, OutputModel]):
 
     def ext_wrong_first_param(self, wrong_param: str, param2: int) -> OutputModel:
         return OutputModel(result=wrong_param * param2)
+
+
+class ImplBatch(MlpPredictServiceBase[InputModel, ConfigModel, OutputModel]):
+    def __init__(self):
+        super().__init__(InputModel, ConfigModel, OutputModel)
+        self.received_contexts = []
+        self.received_requests = []
+        self.received_config = None
+
+    def predict_simple(self, context, request, config):
+        multiplier = config.multiplier if config else 1
+        return OutputModel(result=request.value * multiplier)
+
+    def predict_batch_simple(self, contexts, request, config):
+        self.received_contexts = contexts
+        self.received_requests = request
+        self.received_config = config
+
+        result = []
+        multiplier = config.multiplier if config else 1
+        for context, item in zip(contexts, request, strict=True):
+            if item is None:
+                result.append(None)
+                continue
+            context.response_headers["X-Item"] = item.value
+            result.append(OutputModel(result=item.value * multiplier))
+        return result
+
+
+class ImplWrongBatchLength(MlpPredictServiceBase[InputModel, None, OutputModel]):
+    def __init__(self):
+        super().__init__(InputModel, None, OutputModel)
+
+    def predict_batch_simple(self, contexts, request, config):
+        return []
+
+
+class ImplBatchStreamingItem(MlpPredictServiceBase[InputModel, None, OutputModel]):
+    def __init__(self):
+        super().__init__(InputModel, None, OutputModel)
+
+    def predict_batch_simple(self, contexts, request, config):
+        def stream():
+            yield OutputModel(result="stream")
+
+        return [stream()]
 
 
 class TestMlpGrpcTypedAdapter:
@@ -389,3 +435,79 @@ class TestMlpGrpcTypedAdapter:
         # Verify the exception details
         assert excinfo.value.code == "mlp-action.common.internal-error"
         assert "Parameter param1 not found in request" in excinfo.value.message
+
+    def test_batch_simple(self):
+        self.init(ImplBatch())
+        batch = [
+            BatchPayloadProto(requestId=1, data=payload(InputModel(value="a"))),
+            BatchPayloadProto(requestId=2, data=payload(InputModel(value="b"))),
+        ]
+
+        result = self.adapter.predict_batch(self.context, batch, payload(ConfigModel(multiplier=2)))
+
+        assert len(result) == 2
+        assert JSON.parse_(result[0].predict.data.json)["result"] == "aa"
+        assert JSON.parse_(result[1].predict.data.json)["result"] == "bb"
+        assert result[0].requestId == 1
+        assert result[1].requestId == 2
+        assert result[0].headers["X-Item"] == "a"
+        assert result[1].headers["X-Item"] == "b"
+        assert [context.requestId for context in self.impl.received_contexts] == [1, 2]
+        assert [request.value for request in self.impl.received_requests] == ["a", "b"]
+        assert self.impl.received_config == ConfigModel(multiplier=2)
+
+    def test_batch_partial_invalid_request(self):
+        self.init(ImplBatch())
+        batch = [
+            BatchPayloadProto(requestId=1, data=payload(InputModel(value="a"))),
+            BatchPayloadProto(requestId=2, data=PayloadProto(json="{}")),
+            BatchPayloadProto(requestId=3, data=payload(InputModel(value="c"))),
+        ]
+
+        result = self.adapter.predict_batch(self.context, batch, None)
+
+        assert len(result) == 3
+        assert JSON.parse_(result[0].predict.data.json)["result"] == "a"
+        assert result[1].predict.data.json == ""
+        assert result[1].error.code == "mlp-action.common.bad-request"
+        assert "validation error" in result[1].error.message
+        assert JSON.parse_(result[2].predict.data.json)["result"] == "c"
+        assert self.impl.received_requests[1] is None
+
+    def test_batch_fallback_to_predict_simple(self):
+        self.init(Impl1())
+        batch = [
+            BatchPayloadProto(requestId=1, data=payload(InputModel(value="x"))),
+            BatchPayloadProto(requestId=2, data=payload(InputModel(value="y"))),
+        ]
+
+        result = self.adapter.predict_batch(self.context, batch, payload(ConfigModel(multiplier=3)))
+
+        assert len(result) == 2
+        assert JSON.parse_(result[0].predict.data.json)["result"] == "xxx"
+        assert JSON.parse_(result[1].predict.data.json)["result"] == "yyy"
+
+    def test_batch_wrong_response_length(self):
+        self.init(ImplWrongBatchLength())
+        batch = [
+            BatchPayloadProto(requestId=1, data=payload(InputModel(value="x"))),
+            BatchPayloadProto(requestId=2, data=payload(InputModel(value="y"))),
+        ]
+
+        result = self.adapter.predict_batch(self.context, batch, None)
+
+        assert len(result) == 2
+        assert result[0].error.code == "mlp-action.common.internal-error"
+        assert "Batch response length mismatch" in result[0].error.message
+        assert result[1].error.code == "mlp-action.common.internal-error"
+
+    def test_batch_streaming_response_error(self):
+        self.init(ImplBatchStreamingItem())
+        batch = [BatchPayloadProto(requestId=1, data=payload(InputModel(value="x")))]
+
+        result = self.adapter.predict_batch(self.context, batch, None)
+
+        assert len(result) == 1
+        assert result[0].predict.data.json == ""
+        assert result[0].error.code == "mlp-action.common.internal-error"
+        assert "streaming result" in result[0].error.message
