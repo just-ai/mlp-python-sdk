@@ -1,5 +1,6 @@
 import functools
 import time
+from collections.abc import Generator as GeneratorABC
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -147,7 +148,7 @@ class MlpGrpcServiceAdapter(MlpGrpcRequestReceiver):
         start_time = perf_counter()  # Z-Server-Time будем выставлять только для простых predict-методов
         res = self.impl.predict(context, request, config)  # тут должна быть поддержка и других методов
 
-        if isinstance(res, Generator):
+        if isinstance(res, GeneratorABC):
             if context.requestId not in self.request_streams:
                 self.request_streams[context.requestId] = ContextAndStream(context, None)
             try:

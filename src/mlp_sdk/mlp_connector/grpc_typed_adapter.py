@@ -1,6 +1,7 @@
 import dataclasses
 import inspect
 import json
+from collections.abc import Generator as GeneratorABC
 from dataclasses import is_dataclass
 from typing import Any, Generator, Optional, Type, TypeVar, cast
 
@@ -9,7 +10,7 @@ from google.protobuf.message import Message
 from pydantic import BaseModel
 
 from mlp_sdk.abstract.services import MlpErrorStatus, MlpException, MlpPredictServiceBase, MlpRequestContext
-from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import PayloadProto
+from mlp_sdk.mlp_connector.grpc_.mlp_grpc_pb2 import BatchPayloadProto, BatchPayloadResponseProto, PayloadProto, PredictResponseProto
 from mlp_sdk.mlp_connector.grpc_service_base import MlpGrpcServiceBase
 from mlp_sdk.utils.json_ import JSON
 
@@ -25,7 +26,7 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
     def predict(
         self, context: MlpRequestContext, req: PayloadProto | Generator[PayloadProto, None, None], config: Optional[PayloadProto]
     ) -> PayloadProto | Generator[PayloadProto, None, None]:
-        if not isinstance(req, Generator):
+        if not isinstance(req, GeneratorABC):
             converted_req = self.convert_from_payload(req, self.impl.clazz_t)
         else:
 
@@ -41,7 +42,7 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
 
         typed_res = self.impl.predict(context, converted_req, converted_conf)
 
-        if not isinstance(typed_res, Generator):
+        if not isinstance(typed_res, GeneratorABC):
             converted_res = self.convert_to_payload(typed_res)
         else:
 
@@ -52,6 +53,73 @@ class MlpGrpcTypedAdapter(MlpGrpcServiceBase):
             converted_res = convert_res()
 
         return converted_res
+
+    def predict_batch(
+        self,
+        context: MlpRequestContext,
+        req: list[BatchPayloadProto],
+        config: Optional[PayloadProto],
+    ) -> list[BatchPayloadResponseProto]:
+        converted_conf = None
+        if config is not None:
+            converted_conf = self.convert_from_payload(config, self.impl.clazz_c)
+
+        contexts = [
+            MlpRequestContext(
+                requestId=item.requestId,
+                gatewayId=context.gatewayId,
+                request_headers=context.request_headers,
+                response_headers=dict(context.response_headers),
+                content_hidden=context.content_hidden,
+            )
+            for item in req
+        ]
+
+        converted_requests: list[Any | None] = []
+        item_errors = []
+        for item in req:
+            try:
+                converted_requests.append(self.convert_from_payload(item.data, self.impl.clazz_t))
+                item_errors.append(None)
+            except BaseException as e:
+                converted_requests.append(None)
+                item_errors.append(MlpException.exception_to_proto(e))
+
+        typed_responses = self.impl.predict_batch_simple(contexts, converted_requests, converted_conf)
+        if len(typed_responses) != len(req):
+            error = MlpException.exception_to_proto(
+                MlpException(
+                    code="mlp-action.common.internal-error",
+                    message=f"Batch response length mismatch: expected {len(req)}, got {len(typed_responses)}",
+                )
+            )
+            return [
+                BatchPayloadResponseProto(requestId=item.requestId, predict=PredictResponseProto(), error=error, headers=contexts[i].response_headers)
+                for i, item in enumerate(req)
+            ]
+
+        result: list[BatchPayloadResponseProto] = []
+        for item, item_context, typed_response, item_error in zip(req, contexts, typed_responses, item_errors, strict=True):
+            payload_response = None
+            error = item_error
+            if error is None and typed_response is not None:
+                try:
+                    if isinstance(typed_response, GeneratorABC):
+                        raise Exception("Predict must not return streaming result to use in batch mode")
+                    payload_response = self.convert_to_payload(typed_response)
+                except BaseException as e:
+                    error = MlpException.exception_to_proto(e)
+
+            result.append(
+                BatchPayloadResponseProto(
+                    requestId=item.requestId,
+                    predict=PredictResponseProto(data=payload_response) if payload_response is not None else PredictResponseProto(),
+                    error=error,
+                    headers=item_context.response_headers,
+                )
+            )
+
+        return result
 
     def ext(self, context: MlpRequestContext, method_name: str, params: dict[str, PayloadProto]) -> PayloadProto:
         # Find the method in the child class with the name ext_method_name
