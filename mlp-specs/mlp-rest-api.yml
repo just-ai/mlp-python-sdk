@@ -1062,6 +1062,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/sendAmoCrmLead:
+    post:
+      tags:
+      - amo-crm-endpoint
+      operationId: sendAmoCrmLead
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/providers:
     get:
       tags:
@@ -11988,6 +12009,43 @@ components:
           type: string
         comment:
           type: string
+    AttributionData:
+      type: object
+      properties:
+        utmSource:
+          type: string
+        utmMedium:
+          type: string
+        utmCampaign:
+          type: string
+        utmTerm:
+          type: string
+        utmContent:
+          type: string
+        gaId:
+          type: string
+    LeadRequestData:
+      required:
+      - attribution
+      - companyName
+      - email
+      - fullName
+      - inn
+      - phone
+      type: object
+      properties:
+        fullName:
+          type: string
+        companyName:
+          type: string
+        inn:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        attribution:
+          $ref: '#/components/schemas/AttributionData'
     LlmProviderData:
       required:
       - displayName
@@ -14960,11 +15018,11 @@ components:
           $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
