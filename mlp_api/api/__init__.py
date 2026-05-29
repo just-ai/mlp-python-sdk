@@ -4,6 +4,7 @@
 from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
+from mlp_api.api.amo_crm_endpoint_api import AmoCrmEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
 from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
