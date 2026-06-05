@@ -19,20 +19,30 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictInt
-from mlp_api.models.sort_object import SortObject
+from pydantic import BaseModel, Field, StrictStr, validator
 
-class PageableObject(BaseModel):
+class RateMetric(BaseModel):
     """
-    PageableObject
+    RateMetric
     """
-    page_number: Optional[StrictInt] = Field(default=None, alias="pageNumber")
-    page_size: Optional[StrictInt] = Field(default=None, alias="pageSize")
-    offset: Optional[StrictInt] = None
-    sort: Optional[SortObject] = None
-    paged: Optional[StrictBool] = None
-    unpaged: Optional[StrictBool] = None
-    __properties = ["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged"]
+    role: StrictStr = Field(...)
+    unit: StrictStr = Field(...)
+    qualifier: Optional[StrictStr] = None
+    __properties = ["role", "unit", "qualifier"]
+
+    @validator('role')
+    def role_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('input', 'cacheRead', 'cacheWrite', 'output', 'request'):
+            raise ValueError("must be one of enum values ('input', 'cacheRead', 'cacheWrite', 'output', 'request')")
+        return value
+
+    @validator('unit')
+    def unit_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('tokens', 'seconds', 'calls', 'units'):
+            raise ValueError("must be one of enum values ('tokens', 'seconds', 'calls', 'units')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -48,8 +58,8 @@ class PageableObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PageableObject:
-        """Create an instance of PageableObject from a JSON string"""
+    def from_json(cls, json_str: str) -> RateMetric:
+        """Create an instance of RateMetric from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,27 +68,21 @@ class PageableObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of sort
-        if self.sort:
-            _dict['sort'] = self.sort.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PageableObject:
-        """Create an instance of PageableObject from a dict"""
+    def from_dict(cls, obj: dict) -> RateMetric:
+        """Create an instance of RateMetric from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PageableObject.parse_obj(obj)
+            return RateMetric.parse_obj(obj)
 
-        _obj = PageableObject.parse_obj({
-            "page_number": obj.get("pageNumber"),
-            "page_size": obj.get("pageSize"),
-            "offset": obj.get("offset"),
-            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
-            "paged": obj.get("paged"),
-            "unpaged": obj.get("unpaged")
+        _obj = RateMetric.parse_obj({
+            "role": obj.get("role"),
+            "unit": obj.get("unit"),
+            "qualifier": obj.get("qualifier")
         })
         return _obj
 

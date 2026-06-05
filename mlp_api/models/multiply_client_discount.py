@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Union
+from pydantic import Field, StrictFloat, StrictInt
+from mlp_api.models.applies_to import AppliesTo
+from mlp_api.models.client_discount import ClientDiscount
 
-class SortObject(BaseModel):
+class MultiplyClientDiscount(ClientDiscount):
     """
-    SortObject
+    MultiplyClientDiscount
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    multiplier: Union[StrictFloat, StrictInt] = Field(...)
+    applies_to: AppliesTo = Field(default=..., alias="appliesTo")
+    __properties = ["clientIds", "type", "multiplier", "appliesTo"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> MultiplyClientDiscount:
+        """Create an instance of MultiplyClientDiscount from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,25 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of applies_to
+        if self.applies_to:
+            _dict['appliesTo'] = self.applies_to.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> MultiplyClientDiscount:
+        """Create an instance of MultiplyClientDiscount from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return MultiplyClientDiscount.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = MultiplyClientDiscount.parse_obj({
+            "client_ids": obj.get("clientIds"),
+            "type": obj.get("type"),
+            "multiplier": obj.get("multiplier"),
+            "applies_to": AppliesTo.from_dict(obj.get("appliesTo")) if obj.get("appliesTo") is not None else None
         })
         return _obj
 

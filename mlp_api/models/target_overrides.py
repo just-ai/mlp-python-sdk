@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Dict, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt
 
-class SortObject(BaseModel):
+class TargetOverrides(BaseModel):
     """
-    SortObject
+    TargetOverrides
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    rates: Dict[str, Union[StrictFloat, StrictInt]] = Field(...)
+    extras: Dict[str, Union[StrictFloat, StrictInt]] = Field(...)
+    __properties = ["rates", "extras"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> TargetOverrides:
+        """Create an instance of TargetOverrides from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> TargetOverrides:
+        """Create an instance of TargetOverrides from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return TargetOverrides.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = TargetOverrides.parse_obj({
+            "rates": obj.get("rates"),
+            "extras": obj.get("extras")
         })
         return _obj
 

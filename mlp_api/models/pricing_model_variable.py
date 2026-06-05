@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
 
-class SortObject(BaseModel):
+class PricingModelVariable(BaseModel):
     """
-    SortObject
+    PricingModelVariable
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    name: StrictStr = Field(...)
+    default_option: StrictStr = Field(default=..., alias="defaultOption")
+    values: conlist(StrictStr) = Field(...)
+    __properties = ["name", "defaultOption", "values"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> PricingModelVariable:
+        """Create an instance of PricingModelVariable from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> PricingModelVariable:
+        """Create an instance of PricingModelVariable from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return PricingModelVariable.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = PricingModelVariable.parse_obj({
+            "name": obj.get("name"),
+            "default_option": obj.get("defaultOption"),
+            "values": obj.get("values")
         })
         return _obj
 

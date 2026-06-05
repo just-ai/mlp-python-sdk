@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List
+from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from mlp_api.models.rate_metric import RateMetric
 
-class SortObject(BaseModel):
+class AppliesTo(BaseModel):
     """
-    SortObject
+    AppliesTo
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    rates: conlist(RateMetric) = Field(...)
+    extras: conlist(StrictStr) = Field(...)
+    empty: StrictBool = Field(...)
+    __properties = ["rates", "extras", "empty"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AppliesTo:
+        """Create an instance of AppliesTo from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,28 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in rates (list)
+        _items = []
+        if self.rates:
+            for _item in self.rates:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['rates'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> AppliesTo:
+        """Create an instance of AppliesTo from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return AppliesTo.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = AppliesTo.parse_obj({
+            "rates": [RateMetric.from_dict(_item) for _item in obj.get("rates")] if obj.get("rates") is not None else None,
+            "extras": obj.get("extras"),
+            "empty": obj.get("empty")
         })
         return _obj
 

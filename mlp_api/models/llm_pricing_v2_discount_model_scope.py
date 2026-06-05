@@ -18,17 +18,23 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, StrictStr, validator
+
+class LlmPricingV2DiscountModelScope(BaseModel):
     """
-    SortObject
+    LlmPricingV2DiscountModelScope
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    provider: StrictStr = Field(...)
+    model: StrictStr = Field(...)
+    __properties = ["provider", "model"]
+
+    @validator('provider')
+    def provider_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'YANDEX', 'OTHER'):
+            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'YANDEX', 'OTHER')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +50,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmPricingV2DiscountModelScope:
+        """Create an instance of LlmPricingV2DiscountModelScope from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +63,17 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> LlmPricingV2DiscountModelScope:
+        """Create an instance of LlmPricingV2DiscountModelScope from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return LlmPricingV2DiscountModelScope.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = LlmPricingV2DiscountModelScope.parse_obj({
+            "provider": obj.get("provider"),
+            "model": obj.get("model")
         })
         return _obj
 
