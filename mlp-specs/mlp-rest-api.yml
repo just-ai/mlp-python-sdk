@@ -465,7 +465,7 @@ paths:
     get:
       tags:
       - daemon-set-endpoint
-      operationId: getConfig
+      operationId: getConfig_1
       parameters:
       - name: account
         in: path
@@ -1296,6 +1296,381 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/admin/v2/pricing:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getConfigs
+      parameters:
+      - name: provider
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderPricing'
+    post:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: createConfig
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderPricing'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderPricing'
+  /api/mlpcore/admin/v2/pricing/{provider}/models/{model}/account-discounts/{accountId}:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getModelAccountDiscount
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: model
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2ModelDiscountResponse'
+    post:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: createModelAccountDiscount
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: model
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmPricingV2ModelDiscountRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2ModelDiscountResponse'
+    delete:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: deleteModelAccountDiscount
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: model
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    patch:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: replaceModelAccountDiscount
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: model
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmPricingV2ModelDiscountRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2ModelDiscountResponse'
+  /api/mlpcore/admin/v2/pricing/account-discounts/{accountId}:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getAccountDiscount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2DiscountResponse'
+    post:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: createAccountDiscount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmPricingV2DiscountRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2DiscountResponse'
+    delete:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: deleteAccountDiscount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    patch:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: replaceAccountDiscount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmPricingV2DiscountRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2DiscountResponse'
   /api/mlpcore/admin/update-activities:
     post:
       tags:
@@ -5618,6 +5993,123 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/admin/v2/pricing/{provider}:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getConfig
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderPricing'
+    delete:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: deleteConfig
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    patch:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: replaceConfig
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderPricing'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderPricing'
   /api/mlpcore/admin/resource-groups:
     get:
       tags:
@@ -5833,6 +6325,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/v2/pricing:
+    get:
+      tags:
+      - llm-pricing-v-2-public-endpoint
+      operationId: getCurrentAccountPricing
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2PublicView'
   /api/mlpcore/task:
     get:
       tags:
@@ -6487,6 +6998,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CatalogCategoryData'
+  /api/mlpcore/admin/v2/pricing/preview:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: previewPublicSpec
+      parameters:
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2PublicView'
+  /api/mlpcore/admin/v2/pricing/account-discounts:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: listAllAccountDiscounts
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2AllAccountDiscountsResponse'
   /api/mlpcore/admin/request-metrics:
     get:
       tags:
@@ -12132,6 +12687,483 @@ components:
           type: string
         elementId:
           type: string
+    AppliesTo:
+      required:
+      - empty
+      - extras
+      - rates
+      type: object
+      properties:
+        rates:
+          type: array
+          items:
+            $ref: '#/components/schemas/RateMetric'
+        extras:
+          type: array
+          items:
+            type: string
+        empty:
+          type: boolean
+    BillingRate:
+      required:
+      - displayInPreview
+      - per
+      - rate
+      type: object
+      properties:
+        rate:
+          type: number
+        per:
+          type: integer
+          format: int64
+        displayInPreview:
+          type: boolean
+    ClientDiscount:
+      required:
+      - clientIds
+      - type
+      type: object
+      properties:
+        clientIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    Condition:
+      required:
+      - type
+      - variable
+      type: object
+      properties:
+        variable:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    ExtraBilling:
+      required:
+      - per
+      - rate
+      type: object
+      properties:
+        rate:
+          type: number
+        per:
+          type: integer
+          format: int64
+    InCondition:
+      required:
+      - values
+      - variable
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Condition'
+      - type: object
+        properties:
+          values:
+            type: array
+            items:
+              type: string
+    ModelGroupPricing:
+      required:
+      - models
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelPricing'
+    ModelPricing:
+      required:
+      - aliases
+      - canonicalName
+      - discounts
+      - extras
+      - modalities
+      - modifiers
+      - name
+      - rates
+      - variables
+      - vendor
+      type: object
+      properties:
+        name:
+          type: string
+        aliases:
+          type: array
+          items:
+            type: string
+        canonicalName:
+          type: string
+        vendor:
+          type: string
+          enum:
+          - AI21
+          - ALIBABA
+          - AMAZON
+          - ANTHROPIC
+          - BAIDU
+          - BYTEDANCE
+          - COHERE
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - INFLECTION
+          - KLING
+          - MANUS
+          - META
+          - MICROSOFT
+          - MINIMAX
+          - MISTRAL
+          - MOONSHOT
+          - NVIDIA
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - PIXVERSE
+          - SBER
+          - XAI
+          - YANDEX
+          - ZHIPU
+          - OTHER
+        modalities:
+          type: array
+          items:
+            type: string
+            enum:
+            - TEXT
+            - IMAGES
+            - VIDEOS
+            - TTS
+            - STT
+            - OTHER
+        deprecatedAt:
+          type: string
+          format: date
+        rates:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BillingRate'
+        extras:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExtraBilling'
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelVariable'
+        modifiers:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MultiplyModifier'
+            - $ref: '#/components/schemas/OverrideModifier'
+            - $ref: '#/components/schemas/SumModifier'
+        discounts:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/MultiplyClientDiscount'
+        markup:
+          type: number
+    Modifier:
+      required:
+      - type
+      - when
+      type: object
+      properties:
+        when:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/InCondition'
+            - $ref: '#/components/schemas/NotInCondition'
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    MultiplyClientDiscount:
+      required:
+      - appliesTo
+      - clientIds
+      - multiplier
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ClientDiscount'
+      - type: object
+        properties:
+          multiplier:
+            type: number
+          appliesTo:
+            $ref: '#/components/schemas/AppliesTo'
+    MultiplyModifier:
+      required:
+      - appliesTo
+      - multiplier
+      - when
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Modifier'
+      - type: object
+        properties:
+          multiplier:
+            type: number
+          appliesTo:
+            $ref: '#/components/schemas/AppliesTo'
+    NotInCondition:
+      required:
+      - values
+      - variable
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Condition'
+      - type: object
+        properties:
+          values:
+            type: array
+            items:
+              type: string
+    OverrideModifier:
+      required:
+      - overrides
+      - when
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Modifier'
+      - type: object
+        properties:
+          overrides:
+            $ref: '#/components/schemas/TargetOverrides'
+    ProviderPricing:
+      required:
+      - currency
+      - markup
+      - modelGroups
+      - models
+      - provider
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+        currency:
+          type: string
+          enum:
+          - USD
+          - RUB
+        modelGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelGroupPricing'
+        markup:
+          type: number
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelPricing'
+    RateMetric:
+      required:
+      - role
+      - unit
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - input
+          - cacheRead
+          - cacheWrite
+          - output
+          - request
+        unit:
+          type: string
+          enum:
+          - tokens
+          - seconds
+          - calls
+          - units
+        qualifier:
+          type: string
+    SumModifier:
+      required:
+      - appliesTo
+      - sum
+      - when
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Modifier'
+      - type: object
+        properties:
+          sum:
+            type: number
+          appliesTo:
+            $ref: '#/components/schemas/AppliesTo'
+    TargetOverrides:
+      required:
+      - extras
+      - rates
+      type: object
+      properties:
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+        extras:
+          type: object
+          additionalProperties:
+            type: number
+    LlmPricingV2ModelDiscountRequest:
+      required:
+      - discount
+      type: object
+      properties:
+        discount:
+          type: number
+    LlmPricingV2ModelDiscountResponse:
+      required:
+      - accountId
+      - discount
+      - model
+      - provider
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        provider:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+        model:
+          type: string
+        discount:
+          type: number
+    LlmPricingV2DiscountRequest:
+      required:
+      - discount
+      - providers
+      type: object
+      properties:
+        discount:
+          type: number
+        providers:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANTHROPIC
+            - DEEPSEEK
+            - FAL
+            - GAMMA
+            - GOOGLE
+            - HEYGEN
+            - MANUS
+            - OPENAI
+            - OPENROUTER
+            - PARALLEL
+            - PERPLEXITY
+            - SBER
+            - YANDEX
+            - OTHER
+    LlmPricingV2DiscountModelScope:
+      required:
+      - model
+      - provider
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+        model:
+          type: string
+    LlmPricingV2DiscountResponse:
+      required:
+      - accountId
+      - discount
+      - models
+      - providers
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        discount:
+          type: number
+        providers:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANTHROPIC
+            - DEEPSEEK
+            - FAL
+            - GAMMA
+            - GOOGLE
+            - HEYGEN
+            - MANUS
+            - OPENAI
+            - OPENROUTER
+            - PARALLEL
+            - PERPLEXITY
+            - SBER
+            - YANDEX
+            - OTHER
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2DiscountModelScope'
     LastActivityPk:
       required:
       - accountId
@@ -13994,6 +15026,224 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceGroupData'
+    LlmPricingV2GroupView:
+      required:
+      - models
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2ModelView'
+    LlmPricingV2ModelView:
+      required:
+      - canonicalName
+      - providers
+      type: object
+      properties:
+        canonicalName:
+          type: string
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2ProviderView'
+    LlmPricingV2ProviderView:
+      required:
+      - aliases
+      - extras
+      - modalities
+      - modifiers
+      - name
+      - rates
+      - serviceName
+      - variables
+      type: object
+      properties:
+        serviceName:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - YANDEX
+          - OTHER
+        name:
+          type: string
+        aliases:
+          type: array
+          items:
+            type: string
+        modalities:
+          type: array
+          items:
+            type: string
+            enum:
+            - TEXT
+            - IMAGES
+            - VIDEOS
+            - TTS
+            - STT
+            - OTHER
+        deprecatedAt:
+          type: string
+          format: date
+        rates:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PublicRate'
+        extras:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PublicExtra'
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/PricingModelVariable'
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicModifier'
+    LlmPricingV2PublicView:
+      required:
+      - currency
+      - vendors
+      type: object
+      properties:
+        currency:
+          type: string
+          enum:
+          - USD
+          - RUB
+        vendors:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2VendorView'
+    LlmPricingV2VendorView:
+      required:
+      - groups
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - AI21
+          - ALIBABA
+          - AMAZON
+          - ANTHROPIC
+          - BAIDU
+          - BYTEDANCE
+          - COHERE
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - INFLECTION
+          - KLING
+          - MANUS
+          - META
+          - MICROSOFT
+          - MINIMAX
+          - MISTRAL
+          - MOONSHOT
+          - NVIDIA
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - PIXVERSE
+          - SBER
+          - XAI
+          - YANDEX
+          - ZHIPU
+          - OTHER
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2GroupView'
+    PricingModelVariable:
+      required:
+      - defaultOption
+      - name
+      - values
+      type: object
+      properties:
+        name:
+          type: string
+        defaultOption:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    PublicExtra:
+      required:
+      - per
+      - rate
+      type: object
+      properties:
+        rate:
+          type: number
+        per:
+          type: integer
+          format: int64
+    PublicModifier:
+      required:
+      - appliesTo
+      - multiplier
+      - overrides
+      - sum
+      - type
+      - when
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - OVERRIDE
+          - MULTIPLY
+          - SUM
+        when:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/InCondition'
+            - $ref: '#/components/schemas/NotInCondition'
+        overrides:
+          $ref: '#/components/schemas/TargetOverrides'
+        multiplier:
+          type: number
+        sum:
+          type: number
+        appliesTo:
+          $ref: '#/components/schemas/AppliesTo'
+    PublicRate:
+      required:
+      - displayInPreview
+      - per
+      - rate
+      type: object
+      properties:
+        rate:
+          type: number
+        per:
+          type: integer
+          format: int64
+        displayInPreview:
+          type: boolean
     JobStatusDataV2:
       required:
       - jobId
@@ -14653,6 +15903,20 @@ components:
         modelsCount:
           type: integer
           format: int32
+    LlmPricingV2AllAccountDiscountsResponse:
+      required:
+      - modelDiscounts
+      - providerDiscounts
+      type: object
+      properties:
+        providerDiscounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2DiscountResponse'
+        modelDiscounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmPricingV2ModelDiscountResponse'
     ModelMetricsData:
       required:
       - failPercentage
@@ -15004,10 +16268,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -15020,6 +16280,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -15030,17 +16294,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -15048,9 +16312,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
