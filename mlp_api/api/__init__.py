@@ -3,9 +3,11 @@
 # import apis into api package
 from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
+from mlp_api.api.account_keys_endpoint_api import AccountKeysEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.amo_crm_endpoint_api import AmoCrmEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
+from mlp_api.api.catalog_news_endpoint_api import CatalogNewsEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
 from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
@@ -31,8 +33,10 @@ from mlp_api.api.model_group_endpoint_api import ModelGroupEndpointApi
 from mlp_api.api.model_instance_endpoint_api import ModelInstanceEndpointApi
 from mlp_api.api.model_wizard_endpoint_api import ModelWizardEndpointApi
 from mlp_api.api.notification_history_endpoint_api import NotificationHistoryEndpointApi
+from mlp_api.api.notification_settings_endpoint_api import NotificationSettingsEndpointApi
 from mlp_api.api.notification_statistics_endpoint_api import NotificationStatisticsEndpointApi
 from mlp_api.api.notifications_controller_api import NotificationsControllerApi
+from mlp_api.api.organization_endpoint_api import OrganizationEndpointApi
 from mlp_api.api.predict_config_endpoint_api import PredictConfigEndpointApi
 from mlp_api.api.price_markup_admin_endpoint_api import PriceMarkupAdminEndpointApi
 from mlp_api.api.process_endpoint_api import ProcessEndpointApi
@@ -46,4 +50,5 @@ from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
+from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 

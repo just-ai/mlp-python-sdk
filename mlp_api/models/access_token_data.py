@@ -36,7 +36,12 @@ class AccessTokenData(BaseModel):
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     emails_for_notifications: Optional[conlist(StrictStr)] = Field(default=None, alias="emailsForNotifications")
     keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
-    __properties = ["id", "token", "name", "creationDate", "ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange"]
+    tags: Optional[conlist(StrictStr)] = None
+    description: Optional[StrictStr] = None
+    blocked: StrictBool = Field(...)
+    owner_user_id: Optional[StrictInt] = Field(default=None, alias="ownerUserId")
+    group_id: Optional[StrictInt] = Field(default=None, alias="groupId")
+    __properties = ["id", "token", "name", "creationDate", "ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange", "tags", "description", "blocked", "ownerUserId", "groupId"]
 
     class Config:
         """Pydantic configuration"""
@@ -86,7 +91,12 @@ class AccessTokenData(BaseModel):
             "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
             "emails_for_notifications": obj.get("emailsForNotifications"),
-            "keep_available_on_limit_change": obj.get("keepAvailableOnLimitChange")
+            "keep_available_on_limit_change": obj.get("keepAvailableOnLimitChange"),
+            "tags": obj.get("tags"),
+            "description": obj.get("description"),
+            "blocked": obj.get("blocked"),
+            "owner_user_id": obj.get("ownerUserId"),
+            "group_id": obj.get("groupId")
         })
         return _obj
 
