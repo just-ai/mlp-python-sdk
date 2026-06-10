@@ -6344,6 +6344,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2PublicView'
+  /api/mlpcore/v2/catalog:
+    get:
+      tags:
+      - llm-catalog-public-endpoint
+      operationId: getCurrentAccountCatalog
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResult'
   /api/mlpcore/task:
     get:
       tags:
@@ -11145,6 +11164,36 @@ components:
         properties:
           default:
             type: boolean
+    CatalogMetadata:
+      required:
+      - disabled
+      - features
+      - strengths
+      - watch
+      type: object
+      properties:
+        description:
+          type: string
+        about:
+          type: string
+        strengths:
+          type: array
+          items:
+            type: string
+        watch:
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: string
+        knowledgeCutoff:
+          type: string
+        releaseDate:
+          type: string
+        disabled:
+          type: boolean
     EnumConstant:
       required:
       - name
@@ -11335,6 +11384,8 @@ components:
           type: string
         parameters:
           $ref: '#/components/schemas/ModelParametersDto'
+        catalogMetadata:
+          $ref: '#/components/schemas/CatalogMetadata'
     LlmModelsData:
       required:
       - createdAt
@@ -11353,6 +11404,11 @@ components:
           $ref: '#/components/schemas/ProviderRefData'
         parameters:
           $ref: '#/components/schemas/ModelParametersDto'
+        catalogMetadata:
+          $ref: '#/components/schemas/CatalogMetadata'
+        popularity:
+          type: integer
+          format: int32
         createdAt:
           type: string
           format: date-time
@@ -15244,6 +15300,181 @@ components:
           format: int64
         displayInPreview:
           type: boolean
+    CatalogApiKeyOption:
+      required:
+      - id
+      - mask
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mask:
+          type: string
+    CatalogLlmModel:
+      required:
+      - features
+      - hostClass
+      - id
+      - modalities
+      - name
+      - popularity
+      - providerOptions
+      - status
+      - strengths
+      - vendor
+      - watch
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        vendor:
+          type: string
+        hostClass:
+          type: string
+          enum:
+          - PROXY
+        modalities:
+          type: array
+          items:
+            type: string
+            enum:
+            - text
+            - vision
+            - image
+            - audio
+            - embeddings
+        features:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum:
+          - ONLINE
+          - DISABLED
+          - DEPRECATED
+        contextK:
+          type: integer
+          format: int32
+        maxOutK:
+          type: integer
+          format: int32
+        cutoff:
+          type: string
+        popularity:
+          type: integer
+          format: int32
+        added:
+          type: string
+        desc:
+          type: string
+        about:
+          type: string
+        strengths:
+          type: array
+          items:
+            type: string
+        watch:
+          type: array
+          items:
+            type: string
+        providerOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProviderOption'
+    CatalogPrice:
+      required:
+      - displayInPreview
+      - metric
+      - per
+      - value
+      type: object
+      properties:
+        metric:
+          type: string
+        per:
+          type: integer
+          format: int64
+        value:
+          type: number
+        displayInPreview:
+          type: boolean
+    CatalogProviderOption:
+      required:
+      - cheapest
+      - endpoint
+      - features
+      - id
+      - label
+      - lost
+      - modelId
+      - prices
+      - recommended
+      - route
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        modelId:
+          type: string
+        route:
+          type: string
+        endpoint:
+          type: string
+        recommended:
+          type: boolean
+        cheapest:
+          type: boolean
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogPrice'
+        features:
+          type: array
+          items:
+            type: string
+        lost:
+          type: array
+          items:
+            type: string
+        note:
+          type: string
+    CatalogResult:
+      required:
+      - keys
+      - models
+      - vendors
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogLlmModel'
+        vendors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogVendor'
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogApiKeyOption'
+    CatalogVendor:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     JobStatusDataV2:
       required:
       - jobId
@@ -16268,6 +16499,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -16280,10 +16515,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -16294,17 +16525,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -16312,9 +16543,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
