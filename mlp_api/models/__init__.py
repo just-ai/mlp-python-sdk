@@ -126,6 +126,8 @@ from mlp_api.models.lead_request_data import LeadRequestData
 from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
 from mlp_api.models.limit_notification_request import LimitNotificationRequest
+from mlp_api.models.llm_model_card_data import LlmModelCardData
+from mlp_api.models.llm_model_card_request import LlmModelCardRequest
 from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
 from mlp_api.models.llm_model_pricing_public_data import LlmModelPricingPublicData
 from mlp_api.models.llm_models_data import LlmModelsData

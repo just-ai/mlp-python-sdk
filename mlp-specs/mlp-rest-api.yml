@@ -225,6 +225,51 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/admin/model-cards:
+    get:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: listCards
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LlmModelCardData'
+    put:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: upsertCard
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmModelCardRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmModelCardData'
   /api/mlpcore/admin/exchange-rates/pairs/{from}/{to}:
     get:
       tags:
@@ -7725,6 +7770,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotificationHistoryResponse'
+  /api/mlpcore/admin/model-cards/orphans:
+    get:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: listOrphanCards
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LlmModelCardData'
   /api/mlpcore/admin/features/v2:
     get:
       tags:
@@ -11928,6 +11994,40 @@ components:
           type: integer
           format: int64
         createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    LlmModelCardRequest:
+      required:
+      - canonicalName
+      - vendor
+      type: object
+      properties:
+        vendor:
+          type: string
+        canonicalName:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CatalogMetadata'
+    LlmModelCardData:
+      required:
+      - canonicalName
+      - updatedAt
+      - vendor
+      type: object
+      properties:
+        vendor:
+          type: string
+        canonicalName:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CatalogMetadata'
+        popularity:
+          type: integer
+          format: int32
+        popularityUpdatedAt:
           type: string
           format: date-time
         updatedAt:
@@ -17248,10 +17348,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -17264,6 +17360,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -17274,17 +17374,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -17292,9 +17392,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean

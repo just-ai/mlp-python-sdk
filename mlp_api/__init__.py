@@ -35,6 +35,7 @@ from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
 from mlp_api.api.llm_catalog_public_endpoint_api import LlmCatalogPublicEndpointApi
+from mlp_api.api.llm_model_card_admin_endpoint_api import LlmModelCardAdminEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
 from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
@@ -192,6 +193,8 @@ from mlp_api.models.lead_request_data import LeadRequestData
 from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
 from mlp_api.models.limit_notification_request import LimitNotificationRequest
+from mlp_api.models.llm_model_card_data import LlmModelCardData
+from mlp_api.models.llm_model_card_request import LlmModelCardRequest
 from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
 from mlp_api.models.llm_model_pricing_public_data import LlmModelPricingPublicData
 from mlp_api.models.llm_models_data import LlmModelsData

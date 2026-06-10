@@ -19,16 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictStr
+from mlp_api.models.catalog_metadata import CatalogMetadata
 
-class SortObject(BaseModel):
+class LlmModelCardRequest(BaseModel):
     """
-    SortObject
+    LlmModelCardRequest
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    vendor: StrictStr = Field(...)
+    canonical_name: StrictStr = Field(default=..., alias="canonicalName")
+    metadata: Optional[CatalogMetadata] = None
+    __properties = ["vendor", "canonicalName", "metadata"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmModelCardRequest:
+        """Create an instance of LlmModelCardRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,24 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of metadata
+        if self.metadata:
+            _dict['metadata'] = self.metadata.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> LlmModelCardRequest:
+        """Create an instance of LlmModelCardRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return LlmModelCardRequest.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = LlmModelCardRequest.parse_obj({
+            "vendor": obj.get("vendor"),
+            "canonical_name": obj.get("canonicalName"),
+            "metadata": CatalogMetadata.from_dict(obj.get("metadata")) if obj.get("metadata") is not None else None
         })
         return _obj
 
