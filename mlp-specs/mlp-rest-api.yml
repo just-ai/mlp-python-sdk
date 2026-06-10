@@ -402,6 +402,148 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/token/{tokenId}/blocked:
+    put:
+      tags:
+      - access-token-endpoint
+      operationId: setAccessTokenBlocked
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBlockedData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+  /api/mlpcore/account/{account}/organization:
+    get:
+      tags:
+      - organization-endpoint
+      operationId: getOrganization
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationData'
+    put:
+      tags:
+      - organization-endpoint
+      operationId: updateOrganization
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveOrganizationData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationData'
+    post:
+      tags:
+      - organization-endpoint
+      operationId: createOrganization
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveOrganizationData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationData'
+    delete:
+      tags:
+      - organization-endpoint
+      operationId: deleteOrganization
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/account/{account}/notification:
     get:
       tags:
@@ -461,6 +603,67 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/notification-settings:
+    get:
+      tags:
+      - notification-settings-endpoint
+      operationId: getSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/NotificationSettingData'
+    put:
+      tags:
+      - notification-settings-endpoint
+      operationId: updateSettings
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/NotificationSettingData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/NotificationSettingData'
   /api/mlpcore/account/{account}/model/{model}/daemon-set:
     get:
       tags:
@@ -528,6 +731,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DaemonSetConfigData'
+  /api/mlpcore/account/{account}/groups/{groupId}:
+    put:
+      tags:
+      - user-group-endpoint
+      operationId: updateGroup
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveUserGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupData'
+    delete:
+      tags:
+      - user-group-endpoint
+      operationId: deleteGroup_1
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /p/{accountField}/{modelField}:
     get:
       tags:
@@ -2088,6 +2354,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExchangeRateData'
+  /api/mlpcore/admin/catalog-news:
+    post:
+      tags:
+      - catalog-news-endpoint
+      operationId: announceCatalogNews
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogNewsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogNewsResult'
   /api/mlpcore/admin/account/{account}/whiteList:
     post:
       tags:
@@ -2325,6 +2616,37 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateAccessTokenData'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
+  /api/mlpcore/account/{account}/token/{tokenId}/rotate:
+    post:
+      tags:
+      - access-token-endpoint
+      operationId: rotateAccessToken
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -4669,7 +4991,7 @@ paths:
     patch:
       tags:
       - model-group-endpoint
-      operationId: updateGroup
+      operationId: updateGroup_1
       parameters:
       - name: account
         in: path
@@ -4931,6 +5253,100 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/groups:
+    get:
+      tags:
+      - user-group-endpoint
+      operationId: listGroups
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserGroupData'
+    post:
+      tags:
+      - user-group-endpoint
+      operationId: createGroup_1
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveUserGroupData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupData'
+  /api/mlpcore/account/{account}/groups/{groupId}/members:
+    post:
+      tags:
+      - user-group-endpoint
+      operationId: addGroupMember
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupMemberRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupData'
   /api/mlpcore/account/{account}/dump:
     get:
       tags:
@@ -6363,6 +6779,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CatalogResult'
+  /api/mlpcore/v2/account/{account}/keys:
+    get:
+      tags:
+      - account-keys-endpoint
+      operationId: getAccountKeys
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountKeysResult'
   /api/mlpcore/task:
     get:
       tags:
@@ -10845,6 +11286,39 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/groups/{groupId}/members/{userId}:
+    delete:
+      tags:
+      - user-group-endpoint
+      operationId: removeGroupMember
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore-internal/instances/deleteByTimestamp:
     delete:
       tags:
@@ -11550,8 +12024,21 @@ components:
             type: string
         keepAvailableOnLimitChange:
           type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        ownerUserId:
+          type: integer
+          format: int64
+        groupId:
+          type: integer
+          format: int64
     AccessTokenData:
       required:
+      - blocked
       - creationDate
       - id
       - keepAvailableOnLimitChange
@@ -11586,6 +12073,52 @@ components:
             type: string
         keepAvailableOnLimitChange:
           type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        blocked:
+          type: boolean
+        ownerUserId:
+          type: integer
+          format: int64
+        groupId:
+          type: integer
+          format: int64
+    TokenBlockedData:
+      required:
+      - blocked
+      type: object
+      properties:
+        blocked:
+          type: boolean
+    SaveOrganizationData:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    OrganizationData:
+      required:
+      - accountId
+      - created
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accountId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        created:
+          type: string
     ReadUINotificationRequest:
       required:
       - ids
@@ -11596,6 +12129,17 @@ components:
           items:
             type: integer
             format: int64
+    NotificationSettingData:
+      required:
+      - enabled
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        params:
+          type: object
+          additionalProperties:
+            type: object
     DaemonSetConfigData:
       required:
       - excludedServerIds
@@ -11613,6 +12157,63 @@ components:
             type: integer
             description: Server ids excluded from daemon-set fan-out
             format: int64
+    SaveUserGroupData:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        teamleadUserId:
+          type: integer
+          format: int64
+        spendingLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpendingLimit'
+    GroupMemberData:
+      required:
+      - addedAt
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        initials:
+          type: string
+        addedAt:
+          type: string
+    UserGroupData:
+      required:
+      - created
+      - id
+      - members
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        teamleadUserId:
+          type: integer
+          format: int64
+        teamleadName:
+          type: string
+        spendingLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpendingLimit'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupMemberData'
+        created:
+          type: string
     AudioFormatOptions:
       type: object
       properties:
@@ -13955,6 +14556,26 @@ components:
           type: array
           items:
             type: string
+    CatalogNewsRequest:
+      required:
+      - modelIds
+      type: object
+      properties:
+        modelIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        note:
+          type: string
+    CatalogNewsResult:
+      required:
+      - notifiedAccounts
+      type: object
+      properties:
+        notifiedAccounts:
+          type: integer
+          format: int32
     AccountInfoData:
       required:
       - accountId
@@ -14056,6 +14677,18 @@ components:
             type: string
         keepAvailableOnLimitChange:
           type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        ownerUserId:
+          type: integer
+          format: int64
+        groupId:
+          type: integer
+          format: int64
     CreateUpdateServerTemplateData:
       required:
       - costPrice
@@ -14964,6 +15597,14 @@ components:
         groupId:
           type: integer
           format: int64
+    GroupMemberRequestData:
+      required:
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
     DeprecatedDatasetInfoWithContentData:
       required:
       - name
@@ -15466,6 +16107,114 @@ components:
           items:
             $ref: '#/components/schemas/CatalogApiKeyOption'
     CatalogVendor:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AccountKeysResult:
+      required:
+      - keys
+      - role
+      - selectableModels
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedKeyData'
+        selectableModels:
+          type: array
+          items:
+            $ref: '#/components/schemas/SelectableModelData'
+        role:
+          type: string
+    KeyBindingData:
+      required:
+      - level
+      type: object
+      properties:
+        level:
+          type: string
+        label:
+          type: string
+    ManagedKeyData:
+      required:
+      - allowedModels
+      - binding
+      - created
+      - id
+      - mask
+      - name
+      - rights
+      - status
+      - tags
+      - value
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        value:
+          type: string
+        mask:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - FROZEN
+          - EXPIRED
+        rights:
+          type: array
+          items:
+            type: string
+        binding:
+          $ref: '#/components/schemas/KeyBindingData'
+        ownerUserId:
+          type: integer
+          format: int64
+        ownerName:
+          type: string
+        ownerInitials:
+          type: string
+        groupId:
+          type: integer
+          format: int64
+        tags:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+        ttlMinutes:
+          type: integer
+          format: int64
+        spendingLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpendingLimit'
+        rpm:
+          type: integer
+          format: int64
+        maxRequestSizeBytes:
+          type: integer
+          format: int64
+        allowedModels:
+          type: array
+          items:
+            type: string
+        jayGuardMaskingKey:
+          type: string
+    SelectableModelData:
       required:
       - id
       - name
