@@ -29,7 +29,14 @@ from mlp_api.models.boolean_constant import BooleanConstant
 from mlp_api.models.boolean_variable import BooleanVariable
 from mlp_api.models.broadcast_ui_notification_request import BroadcastUINotificationRequest
 from mlp_api.models.captcha_data import CaptchaData
+from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
+from mlp_api.models.catalog_llm_model import CatalogLlmModel
+from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.catalog_price import CatalogPrice
+from mlp_api.models.catalog_provider_option import CatalogProviderOption
+from mlp_api.models.catalog_result import CatalogResult
+from mlp_api.models.catalog_vendor import CatalogVendor
 from mlp_api.models.channel_statistics import ChannelStatistics
 from mlp_api.models.check_result import CheckResult
 from mlp_api.models.click_history_data import ClickHistoryData

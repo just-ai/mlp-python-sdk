@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Union
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class CatalogPrice(BaseModel):
     """
-    SortObject
+    CatalogPrice
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    metric: StrictStr = Field(...)
+    per: StrictInt = Field(...)
+    value: Union[StrictFloat, StrictInt] = Field(...)
+    display_in_preview: StrictBool = Field(default=..., alias="displayInPreview")
+    __properties = ["metric", "per", "value", "displayInPreview"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> CatalogPrice:
+        """Create an instance of CatalogPrice from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> CatalogPrice:
+        """Create an instance of CatalogPrice from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return CatalogPrice.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = CatalogPrice.parse_obj({
+            "metric": obj.get("metric"),
+            "per": obj.get("per"),
+            "value": obj.get("value"),
+            "display_in_preview": obj.get("displayInPreview")
         })
         return _obj
 

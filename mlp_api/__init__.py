@@ -32,6 +32,7 @@ from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
+from mlp_api.api.llm_catalog_public_endpoint_api import LlmCatalogPublicEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
 from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
@@ -89,7 +90,14 @@ from mlp_api.models.boolean_constant import BooleanConstant
 from mlp_api.models.boolean_variable import BooleanVariable
 from mlp_api.models.broadcast_ui_notification_request import BroadcastUINotificationRequest
 from mlp_api.models.captcha_data import CaptchaData
+from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
+from mlp_api.models.catalog_llm_model import CatalogLlmModel
+from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.catalog_price import CatalogPrice
+from mlp_api.models.catalog_provider_option import CatalogProviderOption
+from mlp_api.models.catalog_result import CatalogResult
+from mlp_api.models.catalog_vendor import CatalogVendor
 from mlp_api.models.channel_statistics import ChannelStatistics
 from mlp_api.models.check_result import CheckResult
 from mlp_api.models.click_history_data import ClickHistoryData

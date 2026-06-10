@@ -16,6 +16,7 @@ from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
+from mlp_api.api.llm_catalog_public_endpoint_api import LlmCatalogPublicEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
 from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPublicEndpointApi
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi

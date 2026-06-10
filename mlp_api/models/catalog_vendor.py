@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, StrictStr
+
+class CatalogVendor(BaseModel):
     """
-    SortObject
+    CatalogVendor
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    id: StrictStr = Field(...)
+    name: StrictStr = Field(...)
+    __properties = ["id", "name"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> CatalogVendor:
+        """Create an instance of CatalogVendor from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> CatalogVendor:
+        """Create an instance of CatalogVendor from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return CatalogVendor.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = CatalogVendor.parse_obj({
+            "id": obj.get("id"),
+            "name": obj.get("name")
         })
         return _obj
 
