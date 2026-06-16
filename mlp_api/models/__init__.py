@@ -22,6 +22,7 @@ from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_keys_result import AccountKeysResult
 from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.alias_data import AliasData
+from mlp_api.models.append_chat_turn_data import AppendChatTurnData
 from mlp_api.models.applies_to import AppliesTo
 from mlp_api.models.attribution_data import AttributionData
 from mlp_api.models.audio_format_options import AudioFormatOptions
@@ -41,6 +42,12 @@ from mlp_api.models.catalog_provider_option import CatalogProviderOption
 from mlp_api.models.catalog_result import CatalogResult
 from mlp_api.models.catalog_vendor import CatalogVendor
 from mlp_api.models.channel_statistics import ChannelStatistics
+from mlp_api.models.chat_answer_data import ChatAnswerData
+from mlp_api.models.chat_answer_request_data import ChatAnswerRequestData
+from mlp_api.models.chat_answer_route_data import ChatAnswerRouteData
+from mlp_api.models.chat_conversation_data import ChatConversationData
+from mlp_api.models.chat_conversation_summary_data import ChatConversationSummaryData
+from mlp_api.models.chat_turn_data import ChatTurnData
 from mlp_api.models.check_result import CheckResult
 from mlp_api.models.click_history_data import ClickHistoryData
 from mlp_api.models.client_discount import ClientDiscount
@@ -48,6 +55,7 @@ from mlp_api.models.condition import Condition
 from mlp_api.models.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.models.create_access_token_data import CreateAccessTokenData
+from mlp_api.models.create_chat_conversation_data import CreateChatConversationData
 from mlp_api.models.create_llm_models_data import CreateLlmModelsData
 from mlp_api.models.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.models.create_resource_group_data import CreateResourceGroupData
@@ -210,6 +218,7 @@ from mlp_api.models.number_variable import NumberVariable
 from mlp_api.models.organization_data import OrganizationData
 from mlp_api.models.overall_metrics_data import OverallMetricsData
 from mlp_api.models.override_modifier import OverrideModifier
+from mlp_api.models.page_chat_conversation_summary_data import PageChatConversationSummaryData
 from mlp_api.models.page_stat_log_data import PageStatLogData
 from mlp_api.models.pageable_object import PageableObject
 from mlp_api.models.paged_data_image_info_data import PagedDataImageInfoData
@@ -293,6 +302,7 @@ from mlp_api.models.unit_pricing_data import UnitPricingData
 from mlp_api.models.unit_pricing_public_data import UnitPricingPublicData
 from mlp_api.models.units_range_data import UnitsRangeData
 from mlp_api.models.update_access_token_data import UpdateAccessTokenData
+from mlp_api.models.update_chat_conversation_data import UpdateChatConversationData
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
