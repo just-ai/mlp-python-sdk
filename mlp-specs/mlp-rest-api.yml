@@ -2268,6 +2268,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/mlpcore/admin/model-cards/recalculate-popularity:
+    post:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: recalculatePopularity
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PopularityRecalcResult'
   /api/mlpcore/admin/minio/delete-empty-users:
     post:
       tags:
@@ -14642,6 +14661,30 @@ components:
             type: number
         unitsRange:
           $ref: '#/components/schemas/UnitsRangeData'
+    PopularityRecalcResult:
+      required:
+      - canonicalModels
+      - rawModels
+      - rowsWritten
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - OK
+          - DISABLED
+          - NO_USAGE_DATA
+          - NO_CANONICAL_MAPPING
+        rawModels:
+          type: integer
+          format: int32
+        canonicalModels:
+          type: integer
+          format: int32
+        rowsWritten:
+          type: integer
+          format: int32
     EmptyUsersResponse:
       required:
       - empty
