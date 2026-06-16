@@ -221,6 +221,7 @@ from mlp_api.models.paraphrasing_status import ParaphrasingStatus
 from mlp_api.models.persistent_volume_data import PersistentVolumeData
 from mlp_api.models.persistent_volume_dump import PersistentVolumeDump
 from mlp_api.models.pipeline_entity import PipelineEntity
+from mlp_api.models.popularity_recalc_result import PopularityRecalcResult
 from mlp_api.models.predict2_request_data import Predict2RequestData
 from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
