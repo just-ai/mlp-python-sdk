@@ -1578,6 +1578,103 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/chats:
+    get:
+      tags:
+      - chat-history-endpoint
+      operationId: listChats
+      parameters:
+      - name: archived
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageChatConversationSummaryData'
+    post:
+      tags:
+      - chat-history-endpoint
+      operationId: createChat
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChatConversationData'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatConversationData'
+  /api/mlpcore/chats/{chatId}/turns:
+    post:
+      tags:
+      - chat-history-endpoint
+      operationId: appendTurn
+      parameters:
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppendChatTurnData'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatTurnData'
   /api/mlpcore/admin/whiteList/v2:
     post:
       tags:
@@ -6473,6 +6570,81 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/chats/{chatId}:
+    get:
+      tags:
+      - chat-history-endpoint
+      operationId: getChat
+      parameters:
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatConversationData'
+    delete:
+      tags:
+      - chat-history-endpoint
+      operationId: deleteChat
+      parameters:
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    patch:
+      tags:
+      - chat-history-endpoint
+      operationId: updateChat
+      parameters:
+      - name: chatId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChatConversationData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatConversationData'
   /api/mlpcore/admin/v2/pricing/{provider}:
     get:
       tags:
@@ -13463,6 +13635,144 @@ components:
           type: string
         elementId:
           type: string
+    CreateChatConversationData:
+      type: object
+      properties:
+        title:
+          type: string
+        settings:
+          $ref: '#/components/schemas/JsonNode'
+    JsonNode:
+      type: object
+    ChatAnswerData:
+      required:
+      - createdAt
+      - id
+      - modelId
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        modelId:
+          type: string
+        service:
+          type: string
+        route:
+          type: string
+        params:
+          $ref: '#/components/schemas/JsonNode'
+        assistantMessage:
+          $ref: '#/components/schemas/JsonNode'
+        usage:
+          $ref: '#/components/schemas/JsonNode'
+        costRub:
+          type: number
+        latencyMs:
+          type: integer
+          format: int64
+        status:
+          type: string
+        error:
+          $ref: '#/components/schemas/JsonNode'
+        createdAt:
+          type: string
+          format: date-time
+    ChatConversationData:
+      required:
+      - archived
+      - createdAt
+      - id
+      - title
+      - turns
+      - updatedAt
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        settings:
+          $ref: '#/components/schemas/JsonNode'
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        turns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatTurnData'
+    ChatTurnData:
+      required:
+      - answers
+      - createdAt
+      - id
+      - orderIndex
+      - userMessage
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        orderIndex:
+          type: integer
+          format: int32
+        userMessage:
+          $ref: '#/components/schemas/JsonNode'
+        createdAt:
+          type: string
+          format: date-time
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatAnswerData'
+    AppendChatTurnData:
+      required:
+      - answers
+      - userMessage
+      type: object
+      properties:
+        userMessage:
+          $ref: '#/components/schemas/JsonNode'
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatAnswerRequestData'
+        settings:
+          $ref: '#/components/schemas/JsonNode'
+    ChatAnswerRequestData:
+      required:
+      - modelId
+      - status
+      type: object
+      properties:
+        modelId:
+          type: string
+        service:
+          type: string
+        route:
+          type: string
+        params:
+          $ref: '#/components/schemas/JsonNode'
+        assistantMessage:
+          $ref: '#/components/schemas/JsonNode'
+        usage:
+          $ref: '#/components/schemas/JsonNode'
+        costRub:
+          type: number
+        latencyMs:
+          type: integer
+          format: int64
+        status:
+          type: string
+        error:
+          $ref: '#/components/schemas/JsonNode'
     AppliesTo:
       required:
       - empty
@@ -15547,8 +15857,6 @@ components:
           format: int64
         billingToken:
           type: string
-    JsonNode:
-      type: object
     JobStatusData:
       required:
       - accountId
@@ -15815,6 +16123,15 @@ components:
         imageId:
           type: integer
           format: int64
+    UpdateChatConversationData:
+      type: object
+      properties:
+        title:
+          type: string
+        settings:
+          $ref: '#/components/schemas/JsonNode'
+        archived:
+          type: boolean
     ResourceGroupData:
       required:
       - name
@@ -17006,6 +17323,110 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CheckResult'
+    ChatAnswerRouteData:
+      required:
+      - modelId
+      - status
+      type: object
+      properties:
+        modelId:
+          type: string
+        service:
+          type: string
+        route:
+          type: string
+        status:
+          type: string
+    ChatConversationSummaryData:
+      required:
+      - archived
+      - createdAt
+      - id
+      - lastAnswers
+      - title
+      - updatedAt
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        settings:
+          $ref: '#/components/schemas/JsonNode'
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        lastUserPreview:
+          type: string
+        lastAnswers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatAnswerRouteData'
+    PageChatConversationSummaryData:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatConversationSummaryData'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
     CatalogCategoryData:
       required:
       - categories
@@ -17413,33 +17834,6 @@ components:
         last:
           type: boolean
         empty:
-          type: boolean
-    PageableObject:
-      type: object
-      properties:
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
-    SortObject:
-      type: object
-      properties:
-        sorted:
-          type: boolean
-        empty:
-          type: boolean
-        unsorted:
           type: boolean
     ResourceGroupCapacity:
       required:
