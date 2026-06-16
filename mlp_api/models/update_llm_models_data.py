@@ -20,6 +20,7 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, Field, constr
+from mlp_api.models.catalog_metadata import CatalogMetadata
 from mlp_api.models.model_parameters_dto import ModelParametersDto
 
 class UpdateLlmModelsData(BaseModel):
@@ -28,7 +29,8 @@ class UpdateLlmModelsData(BaseModel):
     """
     display_name: Optional[constr(strict=True, max_length=100, min_length=0)] = Field(default=None, alias="displayName")
     parameters: Optional[ModelParametersDto] = None
-    __properties = ["displayName", "parameters"]
+    catalog_metadata: Optional[CatalogMetadata] = Field(default=None, alias="catalogMetadata")
+    __properties = ["displayName", "parameters", "catalogMetadata"]
 
     class Config:
         """Pydantic configuration"""
@@ -57,6 +59,9 @@ class UpdateLlmModelsData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of parameters
         if self.parameters:
             _dict['parameters'] = self.parameters.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of catalog_metadata
+        if self.catalog_metadata:
+            _dict['catalogMetadata'] = self.catalog_metadata.to_dict()
         return _dict
 
     @classmethod
@@ -70,7 +75,8 @@ class UpdateLlmModelsData(BaseModel):
 
         _obj = UpdateLlmModelsData.parse_obj({
             "display_name": obj.get("displayName"),
-            "parameters": ModelParametersDto.from_dict(obj.get("parameters")) if obj.get("parameters") is not None else None
+            "parameters": ModelParametersDto.from_dict(obj.get("parameters")) if obj.get("parameters") is not None else None,
+            "catalog_metadata": CatalogMetadata.from_dict(obj.get("catalogMetadata")) if obj.get("catalogMetadata") is not None else None
         })
         return _obj
 

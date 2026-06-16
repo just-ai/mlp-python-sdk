@@ -217,13 +217,13 @@ class DaemonSetEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_config(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DaemonSetConfigData:  # noqa: E501
-        """get_config  # noqa: E501
+    def get_config1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DaemonSetConfigData:  # noqa: E501
+        """get_config1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_config(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.get_config1(account, model, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -245,18 +245,18 @@ class DaemonSetEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_config_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the get_config1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_config_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_config1_with_http_info(account, model, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_config_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """get_config  # noqa: E501
+    def get_config1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model : Annotated[StrictStr, Field(..., description="Model id or model name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_config1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_config_with_http_info(account, model, mlp_api_key, async_req=True)
+        >>> thread = api.get_config1_with_http_info(account, model, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -314,7 +314,7 @@ class DaemonSetEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_config" % _key
+                    " to method get_config1" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

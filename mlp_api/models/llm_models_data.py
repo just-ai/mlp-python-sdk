@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-
-from pydantic import BaseModel, Field, StrictStr
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+from mlp_api.models.catalog_metadata import CatalogMetadata
 from mlp_api.models.model_parameters_dto import ModelParametersDto
 from mlp_api.models.provider_ref_data import ProviderRefData
 
@@ -31,9 +32,11 @@ class LlmModelsData(BaseModel):
     display_name: StrictStr = Field(default=..., alias="displayName")
     provider: ProviderRefData = Field(...)
     parameters: ModelParametersDto = Field(...)
+    catalog_metadata: Optional[CatalogMetadata] = Field(default=None, alias="catalogMetadata")
+    popularity: Optional[StrictInt] = None
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    __properties = ["name", "displayName", "provider", "parameters", "createdAt", "updatedAt"]
+    __properties = ["name", "displayName", "provider", "parameters", "catalogMetadata", "popularity", "createdAt", "updatedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -65,6 +68,9 @@ class LlmModelsData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of parameters
         if self.parameters:
             _dict['parameters'] = self.parameters.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of catalog_metadata
+        if self.catalog_metadata:
+            _dict['catalogMetadata'] = self.catalog_metadata.to_dict()
         return _dict
 
     @classmethod
@@ -81,6 +87,8 @@ class LlmModelsData(BaseModel):
             "display_name": obj.get("displayName"),
             "provider": ProviderRefData.from_dict(obj.get("provider")) if obj.get("provider") is not None else None,
             "parameters": ModelParametersDto.from_dict(obj.get("parameters")) if obj.get("parameters") is not None else None,
+            "catalog_metadata": CatalogMetadata.from_dict(obj.get("catalogMetadata")) if obj.get("catalogMetadata") is not None else None,
+            "popularity": obj.get("popularity"),
             "created_at": obj.get("createdAt"),
             "updated_at": obj.get("updatedAt")
         })

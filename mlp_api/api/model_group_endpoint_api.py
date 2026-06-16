@@ -805,13 +805,13 @@ class ModelGroupEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def update_group(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_group_data : ModelGroupData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelGroupData:  # noqa: E501
-        """update_group  # noqa: E501
+    def update_group1(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_group_data : ModelGroupData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ModelGroupData:  # noqa: E501
+        """update_group1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_group(account, model_group_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_group1(account, model_group_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -833,18 +833,18 @@ class ModelGroupEndpointApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the update_group_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the update_group1_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.update_group_with_http_info(account, model_group_data, mlp_api_key, **kwargs)  # noqa: E501
+        return self.update_group1_with_http_info(account, model_group_data, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def update_group_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_group_data : ModelGroupData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """update_group  # noqa: E501
+    def update_group1_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], model_group_data : ModelGroupData, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """update_group1  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_group_with_http_info(account, model_group_data, mlp_api_key, async_req=True)
+        >>> thread = api.update_group1_with_http_info(account, model_group_data, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
@@ -902,7 +902,7 @@ class ModelGroupEndpointApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_group" % _key
+                    " to method update_group1" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
