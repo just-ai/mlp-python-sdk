@@ -23,7 +23,11 @@ class MlpErrorStatus(Enum):
     BAD_REQUEST = 400
     ACCESS_DENIED = 403
     NOT_FOUND = 404
+    TOO_MANY_REQUESTS = 429
     INTERNAL_SERVER_ERROR = 500
+    BAD_GATEWAY = 502
+    SERVICE_UNAVAILABLE = 503
+    GATEWAY_TIMEOUT = 504
 
     def to_proto(self) -> SimpleStatusProto:
         return getattr(SimpleStatusProto, self.name)
