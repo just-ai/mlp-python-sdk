@@ -20,8 +20,9 @@ pipeline {
         stage('Prepare') {
             steps {
                 script {
-                    manager.addShortText("${params.RELEASE_BRANCH}")
-                    manager.addShortText("${params.NEW_VERSION}")
+                    // currentBuild.description вместо manager.addShortText: `manager` (Groovy
+                    // Postbuild) недоступен в Pipeline-скоупе (см. Jenkinsfile, CAILA-5717).
+                    currentBuild.description = "${params.RELEASE_BRANCH} ${params.NEW_VERSION}"
                 }
 
                 git url: env.GITLAB_REPO,

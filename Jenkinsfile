@@ -46,7 +46,10 @@ pipeline {
             steps {
                 script {
                     RESULT_BRANCH = env.gitlabBranch != null ? env.gitlabBranch : params.BRANCH
-                    manager.addShortText("${RESULT_BRANCH}")
+                    // currentBuild.description вместо manager.addShortText: `manager` (Groovy
+                    // Postbuild) недоступен в Pipeline-скоупе — с ~2026-06-19 стадия Prepare
+                    // падала с "No such property: manager", блокируя весь job (CAILA-5717).
+                    currentBuild.description = "${RESULT_BRANCH}"
                     echo "${env.gitlabBranch}"
                 }
 
