@@ -10,7 +10,7 @@ from mlp_api import ApiClient, Configuration
 from mlp_sdk.grpc import mlp_grpc_pb2, mlp_grpc_pb2_grpc
 from mlp_sdk.log.setup_logging import get_logger
 from mlp_sdk.transport.config_enricher import enrich_config
-from mlp_sdk.transport.MlpServiceSDK import MlpResponseHeaders
+from mlp_sdk.transport.MlpServiceSDK import MlpException, MlpResponseHeaders, is_client_error_status
 
 __default_config = Path(__file__).parent / "config.yml"
 
@@ -77,8 +77,11 @@ class MlpClientSDK:
         if res == "predict":
             return response
         elif res == "error":
-            self.log.error(f"Error from gate. Error \n{response.error}")
-            raise MlpClientException(response.error.code, response.error.message, response.error.args)
+            log_fn = self.log.warning if is_client_error_status(response.error.status) else self.log.error
+            log_fn(f"Error from gate. Error \n{response.error}")
+            raise MlpClientException(
+                response.error.code, response.error.message, response.error.args, response.error.status
+            )
         else:
             raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
@@ -103,8 +106,11 @@ class MlpClientSDK:
         if res == "ext":
             return response.ext
         elif res == "error":
-            self.log.error(f"Error from gate. Error \n{response.error}")
-            raise MlpClientException(response.error.code, response.error.message, response.error.args)
+            log_fn = self.log.warning if is_client_error_status(response.error.status) else self.log.error
+            log_fn(f"Error from gate. Error \n{response.error}")
+            raise MlpClientException(
+                response.error.code, response.error.message, response.error.args, response.error.status
+            )
         else:
             raise MlpClientException("wrong-response", "Wrong response type: $response", {})
 
@@ -199,12 +205,28 @@ class MlpRestClient(ApiClient):
         super().__init__(configuration, "MLP-API-KEY", self.client_token)
 
 
-class MlpClientException(Exception):
-    def __init__(self, error_code: str, error_message: str, args: Dict[str, str]):
+class MlpClientException(MlpException):
+    def __init__(
+        self,
+        error_code: str,
+        error_message: str,
+        args: Dict[str, str],
+        status: int = mlp_grpc_pb2.INTERNAL_SERVER_ERROR,
+    ):
         self.error_code: str = error_code
         self.error_message: str = error_message
         self.error_args: Dict[str, str] = args
-        super().__init__()
+        # Наследуемся от MlpException, чтобы обработчик запроса в MlpServiceSDK
+        # (except MlpException) сохранял исходные code/status вложенной ошибки, а не
+        # схлопывал её в mlp-action.common.processing-exception / 500. Это важно для
+        # терминальных rate-limit ошибок гейтвея (напр. mlp.gateway.pps_limit_exceeded,
+        # status=429), которые иначе отдавались клиенту как 500 и шумели в error-monitor.
+        super().__init__(
+            message=error_message,
+            code=error_code,
+            status=status,
+            source_error_data=args,
+        )
 
     def __str__(self):
         return f"MlpClientException({self.error_code}, {self.error_message}, {self.error_args})"
