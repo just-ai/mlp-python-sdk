@@ -1352,6 +1352,27 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/sendSupportRequest:
+    post:
+      tags:
+      - support-endpoint
+      operationId: sendSupportRequest
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupportRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/sendContactRequest:
     post:
       tags:
@@ -1550,6 +1571,100 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelNameAvailability'
+  /api/mlpcore/llm-catalog-notifications/unsubscribe/{token}:
+    get:
+      tags:
+      - llm-catalog-notification-token-endpoint
+      operationId: unsubscribePage
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      tags:
+      - llm-catalog-notification-token-endpoint
+      operationId: unsubscribe
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/mlpcore/llm-catalog-notifications/confirm/{token}:
+    get:
+      tags:
+      - llm-catalog-notification-token-endpoint
+      operationId: confirmPage
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      tags:
+      - llm-catalog-notification-token-endpoint
+      operationId: confirm
+      parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
   /api/mlpcore/clicks:
     post:
       tags:
@@ -1728,6 +1843,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: MLP-API-KEY
@@ -1793,6 +1909,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: model
@@ -1842,6 +1959,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: model
@@ -1897,6 +2015,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: model
@@ -1942,6 +2061,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: model
@@ -2384,6 +2504,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PopularityRecalcResult'
+  /api/mlpcore/admin/model-cards/promote-popularity:
+    post:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: promotePopularity
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromoteLlmModelCardsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromoteLlmModelCardsResponse'
   /api/mlpcore/admin/minio/delete-empty-users:
     post:
       tags:
@@ -2414,6 +2559,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyUsersResponse'
+  /api/mlpcore/admin/llm-catalog-notifications/send:
+    post:
+      tags:
+      - llm-catalog-notification-digest-admin-endpoint
+      operationId: sendDigest
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmCatalogNotificationDigestRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmCatalogNotificationDigestSendResponse'
+  /api/mlpcore/admin/llm-catalog-notifications/ignore:
+    post:
+      tags:
+      - llm-catalog-notification-digest-admin-endpoint
+      operationId: ignore
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmCatalogNotificationIgnoreRequest'
+        required: true
+      responses:
+        "204":
+          description: No Content
   /api/mlpcore/admin/instances/rolling-update:
     post:
       tags:
@@ -5211,6 +5402,94 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/llm-catalog-notification-subscriptions:
+    get:
+      tags:
+      - llm-catalog-notification-subscription-endpoint
+      operationId: listSubscriptions
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionData'
+    post:
+      tags:
+      - llm-catalog-notification-subscription-endpoint
+      operationId: saveSubscription
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionData'
+  /api/mlpcore/account/{account}/llm-catalog-notification-subscriptions/{subscriptionId}/resend-confirmation:
+    post:
+      tags:
+      - llm-catalog-notification-subscription-endpoint
+      operationId: resendConfirmation
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionData'
   /api/mlpcore/account/{account}/image:
     get:
       tags:
@@ -6669,6 +6948,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: MLP-API-KEY
@@ -6707,6 +6987,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: MLP-API-KEY
@@ -6741,6 +7022,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
       - name: MLP-API-KEY
@@ -6889,6 +7171,69 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/llm-catalog-notification-subscriptions/{subscriptionId}:
+    delete:
+      tags:
+      - llm-catalog-notification-subscription-endpoint
+      operationId: deleteSubscription
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+    patch:
+      tags:
+      - llm-catalog-notification-subscription-endpoint
+      operationId: updateSubscription
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionData'
   /api/mlpcore-internal/resource-groups:
     get:
       tags:
@@ -6996,6 +7341,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2PublicView'
+  /api/mlpcore/v2/pricing/export:
+    get:
+      tags:
+      - llm-pricing-v-2-public-endpoint
+      operationId: exportPricing
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
   /api/mlpcore/v2/catalog:
     get:
       tags:
@@ -7719,6 +8084,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2PublicView'
+  /api/mlpcore/admin/v2/pricing/history:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getHistoryRange
+      parameters:
+      - name: provider
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - VEAI
+          - YANDEX
+          - OTHER
+      - name: model
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LlmPricingV2HistoryStateData'
+  /api/mlpcore/admin/v2/pricing/history/effective:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: getEffectiveHistoryState
+      parameters:
+      - name: provider
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - VEAI
+          - YANDEX
+          - OTHER
+      - name: model
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: at
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2HistoryStateData'
   /api/mlpcore/admin/v2/pricing/account-discounts:
     get:
       tags:
@@ -7982,6 +8457,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LlmModelCardData'
+  /api/mlpcore/admin/llm-catalog-notifications/pending:
+    get:
+      tags:
+      - llm-catalog-notification-digest-admin-endpoint
+      operationId: pendingDigest
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmCatalogNotificationPendingDigestResponse'
   /api/mlpcore/admin/features/v2:
     get:
       tags:
@@ -12221,6 +12715,9 @@ components:
         popularityUpdatedAt:
           type: string
           format: date-time
+        popularityPromotionUntil:
+          type: string
+          format: date
         updatedAt:
           type: string
           format: date-time
@@ -12292,12 +12789,20 @@ components:
           type: array
           items:
             type: string
+        forbiddenAdapterModelsFilter:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     UpdateAccessTokenData:
       required:
       - permissions
       type: object
       properties:
         ttlMinutes:
+          type: integer
+          format: int64
+        expiresAt:
           type: integer
           format: int64
         permissions:
@@ -12348,6 +12853,9 @@ components:
         creationDate:
           type: string
         ttlMinutes:
+          type: integer
+          format: int64
+        expiresAt:
           type: integer
           format: int64
         permissions:
@@ -13503,6 +14011,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IntegrationSnippetData'
+    SupportRequestData:
+      required:
+      - replyEmail
+      - subject
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        replyEmail:
+          type: string
     ManagementRequestData:
       required:
       - contacts
@@ -13535,6 +14055,7 @@ components:
       - fullName
       - inn
       - phone
+      - source
       type: object
       properties:
         fullName:
@@ -13549,6 +14070,12 @@ components:
           type: string
         attribution:
           $ref: '#/components/schemas/AttributionData'
+        source:
+          type: string
+          enum:
+          - LANDING
+          - BALANCE
+          - JAY_GUARD
     LlmProviderData:
       required:
       - displayName
@@ -13919,7 +14446,9 @@ components:
           - PERPLEXITY
           - PIXVERSE
           - SBER
+          - TENCENT
           - XAI
+          - XIAOMI
           - YANDEX
           - ZHIPU
           - OTHER
@@ -14036,7 +14565,6 @@ components:
       - currency
       - markup
       - modelGroups
-      - models
       - provider
       type: object
       properties:
@@ -14055,6 +14583,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
         currency:
@@ -14068,10 +14597,6 @@ components:
             $ref: '#/components/schemas/ModelGroupPricing'
         markup:
           type: number
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelPricing'
     RateMetric:
       required:
       - role
@@ -14156,6 +14681,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
         model:
@@ -14187,6 +14713,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - VEAI
             - YANDEX
             - OTHER
     LlmPricingV2DiscountModelScope:
@@ -14210,6 +14737,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
         model:
@@ -14244,6 +14772,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - VEAI
             - YANDEX
             - OTHER
         models:
@@ -14995,6 +15524,38 @@ components:
         rowsWritten:
           type: integer
           format: int32
+    LlmModelCardRefRequest:
+      required:
+      - canonicalName
+      - vendor
+      type: object
+      properties:
+        vendor:
+          type: string
+        canonicalName:
+          type: string
+    PromoteLlmModelCardsRequest:
+      required:
+      - models
+      - promotionUntil
+      type: object
+      properties:
+        promotionUntil:
+          type: string
+          format: date
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmModelCardRefRequest'
+    PromoteLlmModelCardsResponse:
+      required:
+      - cards
+      type: object
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmModelCardData'
     EmptyUsersResponse:
       required:
       - empty
@@ -15009,6 +15570,46 @@ components:
           type: array
           items:
             type: string
+    LlmCatalogNotificationDigestRequest:
+      required:
+      - changeIds
+      type: object
+      properties:
+        changeIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        subject:
+          type: string
+        intro:
+          type: string
+    LlmCatalogNotificationDigestSendResponse:
+      required:
+      - digestId
+      - eventCount
+      - recipientCount
+      type: object
+      properties:
+        digestId:
+          type: integer
+          format: int64
+        recipientCount:
+          type: integer
+          format: int32
+        eventCount:
+          type: integer
+          format: int32
+    LlmCatalogNotificationIgnoreRequest:
+      required:
+      - changeIds
+      type: object
+      properties:
+        changeIds:
+          type: array
+          items:
+            type: integer
+            format: int64
     CatalogNewsRequest:
       required:
       - modelIds
@@ -15113,6 +15714,9 @@ components:
       type: object
       properties:
         ttlMinutes:
+          type: integer
+          format: int64
+        expiresAt:
           type: integer
           format: int64
         permissions:
@@ -16048,6 +16652,74 @@ components:
         groupId:
           type: integer
           format: int64
+    LlmCatalogNotificationSubscriptionRequest:
+      required:
+      - email
+      - eventTypes
+      type: object
+      properties:
+        email:
+          type: string
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - NEW_MODEL
+            - PRICE_CHANGED
+            - MODEL_UNAVAILABLE
+    LlmCatalogNotificationSubscriptionData:
+      required:
+      - accountId
+      - canDelete
+      - canResendConfirmation
+      - confirmed
+      - createdAt
+      - email
+      - eventTypes
+      - id
+      - masked
+      - ownedByViewer
+      - updatedAt
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accountId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        masked:
+          type: boolean
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - NEW_MODEL
+            - PRICE_CHANGED
+            - MODEL_UNAVAILABLE
+        confirmed:
+          type: boolean
+        createdByLogin:
+          type: string
+        ownedByViewer:
+          type: boolean
+        canDelete:
+          type: boolean
+        canResendConfirmation:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        confirmedAt:
+          type: string
+          format: date-time
     GroupMemberRequestData:
       required:
       - userId
@@ -16183,6 +16855,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceGroupData'
+    LlmCatalogNotificationSubscriptionUpdateRequest:
+      required:
+      - eventTypes
+      type: object
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - NEW_MODEL
+            - PRICE_CHANGED
+            - MODEL_UNAVAILABLE
     LlmPricingV2GroupView:
       required:
       - models
@@ -16234,6 +16919,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - VEAI
           - YANDEX
           - OTHER
         name:
@@ -16323,7 +17009,9 @@ components:
           - PERPLEXITY
           - PIXVERSE
           - SBER
+          - TENCENT
           - XAI
+          - XIAOMI
           - YANDEX
           - ZHIPU
           - OTHER
@@ -16400,6 +17088,19 @@ components:
           type: integer
           format: int64
         displayInPreview:
+          type: boolean
+    CatalogApi:
+      required:
+      - endpoint
+      - format
+      - native
+      type: object
+      properties:
+        format:
+          type: string
+        endpoint:
+          type: string
+        native:
           type: boolean
     CatalogApiKeyOption:
       required:
@@ -16507,6 +17208,7 @@ components:
           type: boolean
     CatalogProviderOption:
       required:
+      - apis
       - cheapest
       - endpoint
       - features
@@ -16517,6 +17219,8 @@ components:
       - prices
       - recommended
       - route
+      - supportedParams
+      - variables
       type: object
       properties:
         id:
@@ -16529,6 +17233,10 @@ components:
           type: string
         endpoint:
           type: string
+        apis:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogApi'
         recommended:
           type: boolean
         cheapest:
@@ -16547,6 +17255,19 @@ components:
             type: string
         note:
           type: string
+        variables:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/BooleanVariable'
+            - $ref: '#/components/schemas/EnumVariable'
+            - $ref: '#/components/schemas/IntegerVariable'
+            - $ref: '#/components/schemas/NumberVariable'
+            - $ref: '#/components/schemas/StringVariable'
+        supportedParams:
+          type: array
+          items:
+            type: string
     CatalogResult:
       required:
       - keys
@@ -16607,6 +17328,7 @@ components:
       - allowedModels
       - binding
       - created
+      - forbiddenModels
       - id
       - mask
       - name
@@ -16658,6 +17380,9 @@ components:
         ttlMinutes:
           type: integer
           format: int64
+        expiresAt:
+          type: integer
+          format: int64
         spendingLimits:
           type: array
           items:
@@ -16672,17 +17397,24 @@ components:
           type: array
           items:
             type: string
+        forbiddenModels:
+          type: array
+          items:
+            type: string
         jayGuardMaskingKey:
           type: string
     SelectableModelData:
       required:
       - id
       - name
+      - provider
       type: object
       properties:
         id:
           type: string
         name:
+          type: string
+        provider:
           type: string
     JobStatusDataV2:
       required:
@@ -17377,6 +18109,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -17389,10 +18125,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -17403,17 +18135,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -17421,9 +18153,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -17447,6 +18179,64 @@ components:
         modelsCount:
           type: integer
           format: int32
+    LlmPricingV2HistoryStateData:
+      required:
+      - id
+      - model
+      - provider
+      - source
+      - status
+      - validFrom
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        provider:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - VEAI
+          - YANDEX
+          - OTHER
+        model:
+          type: string
+        canonicalName:
+          type: string
+        vendor:
+          type: string
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_PRICE
+          - UNAVAILABLE
+          - DEPRECATED
+        currency:
+          type: string
+        providerMarkup:
+          type: number
+        pricing:
+          $ref: '#/components/schemas/ModelPricing'
+        validFrom:
+          type: string
+          format: date-time
+        source:
+          type: string
+        changedBy:
+          type: integer
+          format: int64
     LlmPricingV2AllAccountDiscountsResponse:
       required:
       - modelDiscounts
@@ -17617,6 +18407,79 @@ components:
         pageSize:
           type: integer
           format: int32
+    LlmCatalogNotificationPendingChangeData:
+      required:
+      - changeIds
+      - eventType
+      - firstChangedAt
+      - lastChangedAt
+      - model
+      - provider
+      - rawChangeCount
+      - rawEventTypes
+      - status
+      type: object
+      properties:
+        changeIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        eventType:
+          type: string
+          enum:
+          - NEW_MODEL
+          - PRICE_CHANGED
+          - MODEL_UNAVAILABLE
+        provider:
+          type: string
+        model:
+          type: string
+        displayName:
+          type: string
+        vendor:
+          type: string
+        status:
+          type: string
+          enum:
+          - AVAILABLE
+          - NO_PRICE
+          - UNAVAILABLE
+          - DEPRECATED
+        priceSummary:
+          type: string
+        firstChangedAt:
+          type: string
+          format: date-time
+        lastChangedAt:
+          type: string
+          format: date-time
+        rawEventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - NEW_MODEL
+            - PRICE_CHANGED
+            - MODEL_UNAVAILABLE
+        rawChangeCount:
+          type: integer
+          format: int32
+    LlmCatalogNotificationPendingDigestResponse:
+      required:
+      - defaultIntro
+      - defaultSubject
+      - pendingChanges
+      type: object
+      properties:
+        defaultSubject:
+          type: string
+        defaultIntro:
+          type: string
+        pendingChanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmCatalogNotificationPendingChangeData'
     IpAccessCheckResult:
       required:
       - allowed
@@ -17812,6 +18675,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -17824,10 +18691,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32

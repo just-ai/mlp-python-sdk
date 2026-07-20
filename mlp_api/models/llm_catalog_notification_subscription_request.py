@@ -18,17 +18,24 @@ import re  # noqa: F401
 import json
 
 
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist, validator
 
-from pydantic import BaseModel, Field, StrictStr
+class LlmCatalogNotificationSubscriptionRequest(BaseModel):
+    """
+    LlmCatalogNotificationSubscriptionRequest
+    """
+    email: StrictStr = Field(...)
+    event_types: conlist(StrictStr) = Field(default=..., alias="eventTypes")
+    __properties = ["email", "eventTypes"]
 
-class SelectableModelData(BaseModel):
-    """
-    SelectableModelData
-    """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    @validator('event_types')
+    def event_types_validate_enum(cls, value):
+        """Validates the enum"""
+        for i in value:
+            if i not in ('NEW_MODEL', 'PRICE_CHANGED', 'MODEL_UNAVAILABLE'):
+                raise ValueError("each list item must be one of ('NEW_MODEL', 'PRICE_CHANGED', 'MODEL_UNAVAILABLE')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +51,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmCatalogNotificationSubscriptionRequest:
+        """Create an instance of LlmCatalogNotificationSubscriptionRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +64,17 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmCatalogNotificationSubscriptionRequest:
+        """Create an instance of LlmCatalogNotificationSubscriptionRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return LlmCatalogNotificationSubscriptionRequest.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = LlmCatalogNotificationSubscriptionRequest.parse_obj({
+            "email": obj.get("email"),
+            "event_types": obj.get("eventTypes")
         })
         return _obj
 
