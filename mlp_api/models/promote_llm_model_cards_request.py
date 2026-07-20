@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import date
+from typing import List
+from pydantic import BaseModel, Field, conlist
+from mlp_api.models.llm_model_card_ref_request import LlmModelCardRefRequest
 
-
-from pydantic import BaseModel, Field, StrictStr
-
-class SelectableModelData(BaseModel):
+class PromoteLlmModelCardsRequest(BaseModel):
     """
-    SelectableModelData
+    PromoteLlmModelCardsRequest
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    promotion_until: date = Field(default=..., alias="promotionUntil")
+    models: conlist(LlmModelCardRefRequest) = Field(...)
+    __properties = ["promotionUntil", "models"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> PromoteLlmModelCardsRequest:
+        """Create an instance of PromoteLlmModelCardsRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +54,27 @@ class SelectableModelData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in models (list)
+        _items = []
+        if self.models:
+            for _item in self.models:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['models'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> PromoteLlmModelCardsRequest:
+        """Create an instance of PromoteLlmModelCardsRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return PromoteLlmModelCardsRequest.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = PromoteLlmModelCardsRequest.parse_obj({
+            "promotion_until": obj.get("promotionUntil"),
+            "models": [LlmModelCardRefRequest.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None
         })
         return _obj
 

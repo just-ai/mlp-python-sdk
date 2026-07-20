@@ -22,6 +22,7 @@ from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_keys_result import AccountKeysResult
 from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.alias_data import AliasData
+from mlp_api.models.append_chat_turn_data import AppendChatTurnData
 from mlp_api.models.applies_to import AppliesTo
 from mlp_api.models.attribution_data import AttributionData
 from mlp_api.models.audio_format_options import AudioFormatOptions
@@ -30,6 +31,7 @@ from mlp_api.models.boolean_constant import BooleanConstant
 from mlp_api.models.boolean_variable import BooleanVariable
 from mlp_api.models.broadcast_ui_notification_request import BroadcastUINotificationRequest
 from mlp_api.models.captcha_data import CaptchaData
+from mlp_api.models.catalog_api import CatalogApi
 from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.catalog_llm_model import CatalogLlmModel
@@ -41,6 +43,12 @@ from mlp_api.models.catalog_provider_option import CatalogProviderOption
 from mlp_api.models.catalog_result import CatalogResult
 from mlp_api.models.catalog_vendor import CatalogVendor
 from mlp_api.models.channel_statistics import ChannelStatistics
+from mlp_api.models.chat_answer_data import ChatAnswerData
+from mlp_api.models.chat_answer_request_data import ChatAnswerRequestData
+from mlp_api.models.chat_answer_route_data import ChatAnswerRouteData
+from mlp_api.models.chat_conversation_data import ChatConversationData
+from mlp_api.models.chat_conversation_summary_data import ChatConversationSummaryData
+from mlp_api.models.chat_turn_data import ChatTurnData
 from mlp_api.models.check_result import CheckResult
 from mlp_api.models.click_history_data import ClickHistoryData
 from mlp_api.models.client_discount import ClientDiscount
@@ -48,6 +56,7 @@ from mlp_api.models.condition import Condition
 from mlp_api.models.config_create_update_data import ConfigCreateUpdateData
 from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.models.create_access_token_data import CreateAccessTokenData
+from mlp_api.models.create_chat_conversation_data import CreateChatConversationData
 from mlp_api.models.create_llm_models_data import CreateLlmModelsData
 from mlp_api.models.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.models.create_resource_group_data import CreateResourceGroupData
@@ -126,7 +135,16 @@ from mlp_api.models.lead_request_data import LeadRequestData
 from mlp_api.models.leader_info import LeaderInfo
 from mlp_api.models.license_settings import LicenseSettings
 from mlp_api.models.limit_notification_request import LimitNotificationRequest
+from mlp_api.models.llm_catalog_notification_digest_request import LlmCatalogNotificationDigestRequest
+from mlp_api.models.llm_catalog_notification_digest_send_response import LlmCatalogNotificationDigestSendResponse
+from mlp_api.models.llm_catalog_notification_ignore_request import LlmCatalogNotificationIgnoreRequest
+from mlp_api.models.llm_catalog_notification_pending_change_data import LlmCatalogNotificationPendingChangeData
+from mlp_api.models.llm_catalog_notification_pending_digest_response import LlmCatalogNotificationPendingDigestResponse
+from mlp_api.models.llm_catalog_notification_subscription_data import LlmCatalogNotificationSubscriptionData
+from mlp_api.models.llm_catalog_notification_subscription_request import LlmCatalogNotificationSubscriptionRequest
+from mlp_api.models.llm_catalog_notification_subscription_update_request import LlmCatalogNotificationSubscriptionUpdateRequest
 from mlp_api.models.llm_model_card_data import LlmModelCardData
+from mlp_api.models.llm_model_card_ref_request import LlmModelCardRefRequest
 from mlp_api.models.llm_model_card_request import LlmModelCardRequest
 from mlp_api.models.llm_model_pricing_data import LlmModelPricingData
 from mlp_api.models.llm_model_pricing_public_data import LlmModelPricingPublicData
@@ -137,6 +155,7 @@ from mlp_api.models.llm_pricing_v2_discount_model_scope import LlmPricingV2Disco
 from mlp_api.models.llm_pricing_v2_discount_request import LlmPricingV2DiscountRequest
 from mlp_api.models.llm_pricing_v2_discount_response import LlmPricingV2DiscountResponse
 from mlp_api.models.llm_pricing_v2_group_view import LlmPricingV2GroupView
+from mlp_api.models.llm_pricing_v2_history_state_data import LlmPricingV2HistoryStateData
 from mlp_api.models.llm_pricing_v2_model_discount_request import LlmPricingV2ModelDiscountRequest
 from mlp_api.models.llm_pricing_v2_model_discount_response import LlmPricingV2ModelDiscountResponse
 from mlp_api.models.llm_pricing_v2_model_view import LlmPricingV2ModelView
@@ -210,6 +229,7 @@ from mlp_api.models.number_variable import NumberVariable
 from mlp_api.models.organization_data import OrganizationData
 from mlp_api.models.overall_metrics_data import OverallMetricsData
 from mlp_api.models.override_modifier import OverrideModifier
+from mlp_api.models.page_chat_conversation_summary_data import PageChatConversationSummaryData
 from mlp_api.models.page_stat_log_data import PageStatLogData
 from mlp_api.models.pageable_object import PageableObject
 from mlp_api.models.paged_data_image_info_data import PagedDataImageInfoData
@@ -221,6 +241,7 @@ from mlp_api.models.paraphrasing_status import ParaphrasingStatus
 from mlp_api.models.persistent_volume_data import PersistentVolumeData
 from mlp_api.models.persistent_volume_dump import PersistentVolumeDump
 from mlp_api.models.pipeline_entity import PipelineEntity
+from mlp_api.models.popularity_recalc_result import PopularityRecalcResult
 from mlp_api.models.predict2_request_data import Predict2RequestData
 from mlp_api.models.predict_config_data import PredictConfigData
 from mlp_api.models.predict_config_dump import PredictConfigDump
@@ -230,6 +251,8 @@ from mlp_api.models.price_markup_data import PriceMarkupData
 from mlp_api.models.price_markup_update_request import PriceMarkupUpdateRequest
 from mlp_api.models.pricing_model_variable import PricingModelVariable
 from mlp_api.models.prolong_resource_group_server_request import ProlongResourceGroupServerRequest
+from mlp_api.models.promote_llm_model_cards_request import PromoteLlmModelCardsRequest
+from mlp_api.models.promote_llm_model_cards_response import PromoteLlmModelCardsResponse
 from mlp_api.models.provider_pricing import ProviderPricing
 from mlp_api.models.provider_ref_data import ProviderRefData
 from mlp_api.models.public_extra import PublicExtra
@@ -277,6 +300,7 @@ from mlp_api.models.status_info import StatusInfo
 from mlp_api.models.string_constant import StringConstant
 from mlp_api.models.string_variable import StringVariable
 from mlp_api.models.sum_modifier import SumModifier
+from mlp_api.models.support_request_data import SupportRequestData
 from mlp_api.models.target_overrides import TargetOverrides
 from mlp_api.models.task_short_data import TaskShortData
 from mlp_api.models.task_suite_status import TaskSuiteStatus
@@ -292,6 +316,7 @@ from mlp_api.models.unit_pricing_data import UnitPricingData
 from mlp_api.models.unit_pricing_public_data import UnitPricingPublicData
 from mlp_api.models.units_range_data import UnitsRangeData
 from mlp_api.models.update_access_token_data import UpdateAccessTokenData
+from mlp_api.models.update_chat_conversation_data import UpdateChatConversationData
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota

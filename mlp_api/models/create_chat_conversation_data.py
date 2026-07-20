@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
+from typing import Any, Dict, Optional
+from pydantic import BaseModel, StrictStr
 
-from pydantic import BaseModel, Field, StrictStr
-
-class SelectableModelData(BaseModel):
+class CreateChatConversationData(BaseModel):
     """
-    SelectableModelData
+    CreateChatConversationData
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    title: Optional[StrictStr] = None
+    settings: Optional[Dict[str, Any]] = None
+    __properties = ["title", "settings"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> CreateChatConversationData:
+        """Create an instance of CreateChatConversationData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> CreateChatConversationData:
+        """Create an instance of CreateChatConversationData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return CreateChatConversationData.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = CreateChatConversationData.parse_obj({
+            "title": obj.get("title"),
+            "settings": obj.get("settings")
         })
         return _obj
 

@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictStr, validator
 from mlp_api.models.attribution_data import AttributionData
 
 class LeadRequestData(BaseModel):
@@ -32,7 +32,15 @@ class LeadRequestData(BaseModel):
     phone: StrictStr = Field(...)
     email: StrictStr = Field(...)
     attribution: AttributionData = Field(...)
-    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution"]
+    source: StrictStr = Field(...)
+    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution", "source"]
+
+    @validator('source')
+    def source_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('LANDING', 'BALANCE', 'JAY_GUARD'):
+            raise ValueError("must be one of enum values ('LANDING', 'BALANCE', 'JAY_GUARD')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -78,7 +86,8 @@ class LeadRequestData(BaseModel):
             "inn": obj.get("inn"),
             "phone": obj.get("phone"),
             "email": obj.get("email"),
-            "attribution": AttributionData.from_dict(obj.get("attribution")) if obj.get("attribution") is not None else None
+            "attribution": AttributionData.from_dict(obj.get("attribution")) if obj.get("attribution") is not None else None,
+            "source": obj.get("source")
         })
         return _obj
 

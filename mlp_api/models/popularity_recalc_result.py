@@ -18,23 +18,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
 
-class LlmPricingV2DiscountRequest(BaseModel):
-    """
-    LlmPricingV2DiscountRequest
-    """
-    discount: Union[StrictFloat, StrictInt] = Field(...)
-    providers: conlist(StrictStr) = Field(...)
-    __properties = ["discount", "providers"]
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
-    @validator('providers')
-    def providers_validate_enum(cls, value):
+class PopularityRecalcResult(BaseModel):
+    """
+    PopularityRecalcResult
+    """
+    status: StrictStr = Field(...)
+    raw_models: StrictInt = Field(default=..., alias="rawModels")
+    canonical_models: StrictInt = Field(default=..., alias="canonicalModels")
+    rows_written: StrictInt = Field(default=..., alias="rowsWritten")
+    __properties = ["status", "rawModels", "canonicalModels", "rowsWritten"]
+
+    @validator('status')
+    def status_validate_enum(cls, value):
         """Validates the enum"""
-        for i in value:
-            if i not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
-                raise ValueError("each list item must be one of ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
+        if value not in ('OK', 'DISABLED', 'NO_USAGE_DATA', 'NO_CANONICAL_MAPPING'):
+            raise ValueError("must be one of enum values ('OK', 'DISABLED', 'NO_USAGE_DATA', 'NO_CANONICAL_MAPPING')")
         return value
 
     class Config:
@@ -51,8 +52,8 @@ class LlmPricingV2DiscountRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> LlmPricingV2DiscountRequest:
-        """Create an instance of LlmPricingV2DiscountRequest from a JSON string"""
+    def from_json(cls, json_str: str) -> PopularityRecalcResult:
+        """Create an instance of PopularityRecalcResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -64,17 +65,19 @@ class LlmPricingV2DiscountRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> LlmPricingV2DiscountRequest:
-        """Create an instance of LlmPricingV2DiscountRequest from a dict"""
+    def from_dict(cls, obj: dict) -> PopularityRecalcResult:
+        """Create an instance of PopularityRecalcResult from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return LlmPricingV2DiscountRequest.parse_obj(obj)
+            return PopularityRecalcResult.parse_obj(obj)
 
-        _obj = LlmPricingV2DiscountRequest.parse_obj({
-            "discount": obj.get("discount"),
-            "providers": obj.get("providers")
+        _obj = PopularityRecalcResult.parse_obj({
+            "status": obj.get("status"),
+            "raw_models": obj.get("rawModels"),
+            "canonical_models": obj.get("canonicalModels"),
+            "rows_written": obj.get("rowsWritten")
         })
         return _obj
 

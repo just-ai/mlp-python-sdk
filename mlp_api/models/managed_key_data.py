@@ -42,12 +42,14 @@ class ManagedKeyData(BaseModel):
     tags: conlist(StrictStr) = Field(...)
     created: StrictStr = Field(...)
     ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
+    expires_at: Optional[StrictInt] = Field(default=None, alias="expiresAt")
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
     rpm: Optional[StrictInt] = None
     max_request_size_bytes: Optional[StrictInt] = Field(default=None, alias="maxRequestSizeBytes")
     allowed_models: conlist(StrictStr) = Field(default=..., alias="allowedModels")
+    forbidden_models: conlist(StrictStr) = Field(default=..., alias="forbiddenModels")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
-    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "jayGuardMaskingKey"]
+    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "jayGuardMaskingKey"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -117,10 +119,12 @@ class ManagedKeyData(BaseModel):
             "tags": obj.get("tags"),
             "created": obj.get("created"),
             "ttl_minutes": obj.get("ttlMinutes"),
+            "expires_at": obj.get("expiresAt"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
             "rpm": obj.get("rpm"),
             "max_request_size_bytes": obj.get("maxRequestSizeBytes"),
             "allowed_models": obj.get("allowedModels"),
+            "forbidden_models": obj.get("forbiddenModels"),
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey")
         })
         return _obj
