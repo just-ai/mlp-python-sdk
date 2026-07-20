@@ -20,7 +20,9 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from mlp_api.models.catalog_api import CatalogApi
 from mlp_api.models.catalog_price import CatalogPrice
+from mlp_api.models.model_parameters_dto_variables_inner import ModelParametersDtoVariablesInner
 
 class CatalogProviderOption(BaseModel):
     """
@@ -31,13 +33,16 @@ class CatalogProviderOption(BaseModel):
     model_id: StrictStr = Field(default=..., alias="modelId")
     route: StrictStr = Field(...)
     endpoint: StrictStr = Field(...)
+    apis: conlist(CatalogApi) = Field(...)
     recommended: StrictBool = Field(...)
     cheapest: StrictBool = Field(...)
     prices: conlist(CatalogPrice) = Field(...)
     features: conlist(StrictStr) = Field(...)
     lost: conlist(StrictStr) = Field(...)
     note: Optional[StrictStr] = None
-    __properties = ["id", "label", "modelId", "route", "endpoint", "recommended", "cheapest", "prices", "features", "lost", "note"]
+    variables: conlist(ModelParametersDtoVariablesInner) = Field(...)
+    supported_params: conlist(StrictStr) = Field(default=..., alias="supportedParams")
+    __properties = ["id", "label", "modelId", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams"]
 
     class Config:
         """Pydantic configuration"""
@@ -63,6 +68,13 @@ class CatalogProviderOption(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in apis (list)
+        _items = []
+        if self.apis:
+            for _item in self.apis:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['apis'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in prices (list)
         _items = []
         if self.prices:
@@ -70,6 +82,13 @@ class CatalogProviderOption(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['prices'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in variables (list)
+        _items = []
+        if self.variables:
+            for _item in self.variables:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['variables'] = _items
         return _dict
 
     @classmethod
@@ -87,12 +106,15 @@ class CatalogProviderOption(BaseModel):
             "model_id": obj.get("modelId"),
             "route": obj.get("route"),
             "endpoint": obj.get("endpoint"),
+            "apis": [CatalogApi.from_dict(_item) for _item in obj.get("apis")] if obj.get("apis") is not None else None,
             "recommended": obj.get("recommended"),
             "cheapest": obj.get("cheapest"),
             "prices": [CatalogPrice.from_dict(_item) for _item in obj.get("prices")] if obj.get("prices") is not None else None,
             "features": obj.get("features"),
             "lost": obj.get("lost"),
-            "note": obj.get("note")
+            "note": obj.get("note"),
+            "variables": [ModelParametersDtoVariablesInner.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
+            "supported_params": obj.get("supportedParams")
         })
         return _obj
 

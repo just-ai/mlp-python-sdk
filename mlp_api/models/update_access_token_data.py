@@ -27,6 +27,7 @@ class UpdateAccessTokenData(BaseModel):
     UpdateAccessTokenData
     """
     ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
+    expires_at: Optional[StrictInt] = Field(default=None, alias="expiresAt")
     permissions: conlist(StrictStr, unique_items=True) = Field(...)
     restrictions: Optional[TokenRestrictionsData] = None
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
@@ -36,7 +37,7 @@ class UpdateAccessTokenData(BaseModel):
     description: Optional[StrictStr] = None
     owner_user_id: Optional[StrictInt] = Field(default=None, alias="ownerUserId")
     group_id: Optional[StrictInt] = Field(default=None, alias="groupId")
-    __properties = ["ttlMinutes", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange", "tags", "description", "ownerUserId", "groupId"]
+    __properties = ["ttlMinutes", "expiresAt", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange", "tags", "description", "ownerUserId", "groupId"]
 
     class Config:
         """Pydantic configuration"""
@@ -78,6 +79,7 @@ class UpdateAccessTokenData(BaseModel):
 
         _obj = UpdateAccessTokenData.parse_obj({
             "ttl_minutes": obj.get("ttlMinutes"),
+            "expires_at": obj.get("expiresAt"),
             "permissions": obj.get("permissions"),
             "restrictions": TokenRestrictionsData.from_dict(obj.get("restrictions")) if obj.get("restrictions") is not None else None,
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),

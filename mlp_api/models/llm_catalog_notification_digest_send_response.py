@@ -19,16 +19,16 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictInt
 
-class SelectableModelData(BaseModel):
+class LlmCatalogNotificationDigestSendResponse(BaseModel):
     """
-    SelectableModelData
+    LlmCatalogNotificationDigestSendResponse
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    digest_id: StrictInt = Field(default=..., alias="digestId")
+    recipient_count: StrictInt = Field(default=..., alias="recipientCount")
+    event_count: StrictInt = Field(default=..., alias="eventCount")
+    __properties = ["digestId", "recipientCount", "eventCount"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmCatalogNotificationDigestSendResponse:
+        """Create an instance of LlmCatalogNotificationDigestSendResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmCatalogNotificationDigestSendResponse:
+        """Create an instance of LlmCatalogNotificationDigestSendResponse from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return LlmCatalogNotificationDigestSendResponse.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = LlmCatalogNotificationDigestSendResponse.parse_obj({
+            "digest_id": obj.get("digestId"),
+            "recipient_count": obj.get("recipientCount"),
+            "event_count": obj.get("eventCount")
         })
         return _obj
 

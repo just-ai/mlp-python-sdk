@@ -584,7 +584,15 @@ class MlpServiceSDK:
         try:
             response = self.__process_request(req_type, request)
         except MlpException as e:
-            self.log.exception(e, extra={"requestId": request.requestId})
+            # 4xx (напр. вложенный rate-limit mlp.gateway.pps_limit_exceeded, 429) — не
+            # серверная ошибка: WARN без стектрейса, чтобы не шуметь в error-monitor.
+            if is_client_error_status(e.status):
+                self.log.warning(
+                    f"Request rejected by gate: {e.code} (status={e.status})",
+                    extra={"requestId": request.requestId},
+                )
+            else:
+                self.log.exception(e, extra={"requestId": request.requestId})
             response = mlp_grpc_pb2.ServiceToGateProto(
                 error=mlp_grpc_pb2.ApiErrorProto(
                     code=e.code if e.code is not None else "mlp-action.common.internal-error",
@@ -843,6 +851,12 @@ class MlpServiceSDK:
         else:
             res.protobuf = bytes(data)
         return res
+
+
+def is_client_error_status(status) -> bool:
+    """4xx (клиентские ошибки, включая rate-limit) — не серверная вина.
+    Такие ошибки логируем на уровне WARN, а не ERROR (CAILA-5717)."""
+    return status is not None and 400 <= int(status) < 500
 
 
 @dataclass

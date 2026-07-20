@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
 
-class SelectableModelData(BaseModel):
+class SupportRequestData(BaseModel):
     """
-    SelectableModelData
+    SupportRequestData
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    subject: StrictStr = Field(...)
+    description: Optional[StrictStr] = None
+    reply_email: StrictStr = Field(default=..., alias="replyEmail")
+    __properties = ["subject", "description", "replyEmail"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> SupportRequestData:
+        """Create an instance of SupportRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> SupportRequestData:
+        """Create an instance of SupportRequestData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return SupportRequestData.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = SupportRequestData.parse_obj({
+            "subject": obj.get("subject"),
+            "description": obj.get("description"),
+            "reply_email": obj.get("replyEmail")
         })
         return _obj
 

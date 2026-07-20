@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 from mlp_api.models.catalog_metadata import CatalogMetadata
@@ -31,8 +31,9 @@ class LlmModelCardData(BaseModel):
     metadata: Optional[CatalogMetadata] = None
     popularity: Optional[StrictInt] = None
     popularity_updated_at: Optional[datetime] = Field(default=None, alias="popularityUpdatedAt")
+    popularity_promotion_until: Optional[date] = Field(default=None, alias="popularityPromotionUntil")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    __properties = ["vendor", "canonicalName", "metadata", "popularity", "popularityUpdatedAt", "updatedAt"]
+    __properties = ["vendor", "canonicalName", "metadata", "popularity", "popularityUpdatedAt", "popularityPromotionUntil", "updatedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -78,6 +79,7 @@ class LlmModelCardData(BaseModel):
             "metadata": CatalogMetadata.from_dict(obj.get("metadata")) if obj.get("metadata") is not None else None,
             "popularity": obj.get("popularity"),
             "popularity_updated_at": obj.get("popularityUpdatedAt"),
+            "popularity_promotion_until": obj.get("popularityPromotionUntil"),
             "updated_at": obj.get("updatedAt")
         })
         return _obj

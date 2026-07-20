@@ -21,14 +21,13 @@ import json
 
 from pydantic import BaseModel, Field, StrictStr
 
-class SelectableModelData(BaseModel):
+class LlmModelCardRefRequest(BaseModel):
     """
-    SelectableModelData
+    LlmModelCardRefRequest
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    vendor: StrictStr = Field(...)
+    canonical_name: StrictStr = Field(default=..., alias="canonicalName")
+    __properties = ["vendor", "canonicalName"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmModelCardRefRequest:
+        """Create an instance of LlmModelCardRefRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmModelCardRefRequest:
+        """Create an instance of LlmModelCardRefRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return LlmModelCardRefRequest.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = LlmModelCardRefRequest.parse_obj({
+            "vendor": obj.get("vendor"),
+            "canonical_name": obj.get("canonicalName")
         })
         return _obj
 
