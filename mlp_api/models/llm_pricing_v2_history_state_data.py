@@ -43,8 +43,8 @@ class LlmPricingV2HistoryStateData(BaseModel):
     @validator('provider')
     def provider_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
-            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
+        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
+            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
         return value
 
     @validator('status')

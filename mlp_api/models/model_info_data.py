@@ -45,6 +45,9 @@ class ModelInfoData(BaseModel):
     """
     id: ModelInfoPK = Field(...)
     model_type: StrictStr = Field(default=..., alias="modelType")
+    proxy_only: StrictBool = Field(default=..., alias="proxyOnly")
+    proxy_target_account_id: Optional[StrictInt] = Field(default=None, alias="proxyTargetAccountId")
+    proxy_target_model_id: Optional[StrictInt] = Field(default=None, alias="proxyTargetModelId")
     model_account_name: Optional[StrictStr] = Field(default=None, alias="modelAccountName")
     model_account_display_name: Optional[StrictStr] = Field(default=None, alias="modelAccountDisplayName")
     model_name: StrictStr = Field(default=..., alias="modelName")
@@ -101,7 +104,7 @@ class ModelInfoData(BaseModel):
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["id", "modelType", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+    __properties = ["id", "modelType", "proxyOnly", "proxyTargetAccountId", "proxyTargetModelId", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -245,6 +248,9 @@ class ModelInfoData(BaseModel):
         _obj = ModelInfoData.parse_obj({
             "id": ModelInfoPK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
             "model_type": obj.get("modelType"),
+            "proxy_only": obj.get("proxyOnly"),
+            "proxy_target_account_id": obj.get("proxyTargetAccountId"),
+            "proxy_target_model_id": obj.get("proxyTargetModelId"),
             "model_account_name": obj.get("modelAccountName"),
             "model_account_display_name": obj.get("modelAccountDisplayName"),
             "model_name": obj.get("modelName"),
