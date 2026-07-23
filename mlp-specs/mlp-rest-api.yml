@@ -1837,6 +1837,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -1903,6 +1904,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -1953,6 +1955,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -2009,6 +2012,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -2055,6 +2059,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -6942,6 +6947,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -6981,6 +6987,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -7016,6 +7023,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -8102,6 +8110,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -8161,6 +8170,7 @@ paths:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -13813,6 +13823,7 @@ components:
       - persistentVolumes
       - priorityQueue
       - protocols
+      - proxyOnly
       - publicSettings
       - resourceLimits
       - restrictedImageAccess
@@ -13828,6 +13839,14 @@ components:
           - MLP_SERVICE
           - WEB_APPLICATION
           - MCP_SERVER
+        proxyOnly:
+          type: boolean
+        proxyTargetAccountId:
+          type: integer
+          format: int64
+        proxyTargetModelId:
+          type: integer
+          format: int64
         modelAccountName:
           type: string
         modelAccountDisplayName:
@@ -14577,6 +14596,7 @@ components:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -14675,6 +14695,7 @@ components:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -14707,6 +14728,7 @@ components:
             - GAMMA
             - GOOGLE
             - HEYGEN
+            - LINKHARBOR
             - MANUS
             - OPENAI
             - OPENROUTER
@@ -14731,6 +14753,7 @@ components:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -14766,6 +14789,7 @@ components:
             - GAMMA
             - GOOGLE
             - HEYGEN
+            - LINKHARBOR
             - MANUS
             - OPENAI
             - OPENROUTER
@@ -15161,6 +15185,10 @@ components:
           type: boolean
         deploymentPatch:
           type: object
+        proxyTargetAccount:
+          type: string
+        proxyTargetModelName:
+          type: string
         asHttpSettingsData:
           $ref: '#/components/schemas/ModelHttpSettingsData'
         asPublicSettingsData:
@@ -16338,6 +16366,14 @@ components:
             type: string
         deploymentPatch:
           type: string
+        proxyTargetAccountId:
+          type: integer
+          format: int64
+        proxyTargetModelId:
+          type: integer
+          format: int64
+        proxyOnly:
+          type: boolean
     MethodDescriptorData:
       required:
       - fitted
@@ -16913,6 +16949,7 @@ components:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
@@ -18201,6 +18238,7 @@ components:
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - LINKHARBOR
           - MANUS
           - OPENAI
           - OPENROUTER
