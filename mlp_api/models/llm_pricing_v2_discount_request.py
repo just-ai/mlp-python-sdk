@@ -33,8 +33,8 @@ class LlmPricingV2DiscountRequest(BaseModel):
     def providers_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
-            if i not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
-                raise ValueError("each list item must be one of ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
+            if i not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
+                raise ValueError("each list item must be one of ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
         return value
 
     class Config:
