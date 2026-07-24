@@ -93,6 +93,54 @@ paths:
       responses:
         "204":
           description: No Content
+  /api/mlpcore/admin/v2/pricing/{provider}/rf-localized:
+    put:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: setRfLocalized
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - JUSTAI
+          - LINKHARBOR
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - VEAI
+          - YANDEX
+          - OTHER
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmPricingV2RfLocalizedRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LlmPricingV2RfLocalizedView'
   /api/mlpcore/admin/price-markup:
     get:
       tags:
@@ -8075,6 +8123,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CatalogCategoryData'
+  /api/mlpcore/admin/v2/pricing/rf-localized:
+    get:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: listRfLocalized
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LlmPricingV2RfLocalizedView'
   /api/mlpcore/admin/v2/pricing/preview:
     get:
       tags:
@@ -12670,6 +12739,41 @@ components:
           type: string
         displayName:
           type: string
+    LlmPricingV2RfLocalizedRequest:
+      required:
+      - rfLocalized
+      type: object
+      properties:
+        rfLocalized:
+          type: boolean
+    LlmPricingV2RfLocalizedView:
+      required:
+      - provider
+      - rfLocalized
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - ANTHROPIC
+          - DEEPSEEK
+          - FAL
+          - GAMMA
+          - GOOGLE
+          - HEYGEN
+          - JUSTAI
+          - LINKHARBOR
+          - MANUS
+          - OPENAI
+          - OPENROUTER
+          - PARALLEL
+          - PERPLEXITY
+          - SBER
+          - VEAI
+          - YANDEX
+          - OTHER
+        rfLocalized:
+          type: boolean
     PriceMarkupUpdateRequest:
       required:
       - coefficient
@@ -14889,6 +14993,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
         errors:
           type: array
           items:
@@ -14949,10 +15057,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
       - content
@@ -15280,6 +15384,10 @@ components:
       - errors
       type: object
       properties:
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
         errors:
           type: array
           items:
@@ -15340,10 +15448,6 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
       - callerAccountId
@@ -17177,6 +17281,7 @@ components:
       - name
       - popularity
       - providerOptions
+      - rfLocalized
       - status
       - strengths
       - vendor
@@ -17238,6 +17343,8 @@ components:
           type: array
           items:
             type: string
+        rfLocalized:
+          type: boolean
         providerOptions:
           type: array
           items:
@@ -17271,6 +17378,7 @@ components:
       - modelId
       - prices
       - recommended
+      - rfLocalized
       - route
       - supportedParams
       - variables
@@ -17321,6 +17429,8 @@ components:
           type: array
           items:
             type: string
+        rfLocalized:
+          type: boolean
     CatalogResult:
       required:
       - keys
