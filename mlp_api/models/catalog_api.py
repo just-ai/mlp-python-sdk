@@ -19,16 +19,16 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictStr
 
-class SelectableModelData(BaseModel):
+class CatalogApi(BaseModel):
     """
-    SelectableModelData
+    CatalogApi
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    format: StrictStr = Field(...)
+    endpoint: StrictStr = Field(...)
+    native: StrictBool = Field(...)
+    __properties = ["format", "endpoint", "native"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> CatalogApi:
+        """Create an instance of CatalogApi from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> CatalogApi:
+        """Create an instance of CatalogApi from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return CatalogApi.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = CatalogApi.parse_obj({
+            "format": obj.get("format"),
+            "endpoint": obj.get("endpoint"),
+            "native": obj.get("native")
         })
         return _obj
 

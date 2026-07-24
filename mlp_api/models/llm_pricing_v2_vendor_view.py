@@ -33,8 +33,8 @@ class LlmPricingV2VendorView(BaseModel):
     @validator('name')
     def name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('AI21', 'ALIBABA', 'AMAZON', 'ANTHROPIC', 'BAIDU', 'BYTEDANCE', 'COHERE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'INFLECTION', 'KLING', 'MANUS', 'META', 'MICROSOFT', 'MINIMAX', 'MISTRAL', 'MOONSHOT', 'NVIDIA', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'PIXVERSE', 'SBER', 'XAI', 'YANDEX', 'ZHIPU', 'OTHER'):
-            raise ValueError("must be one of enum values ('AI21', 'ALIBABA', 'AMAZON', 'ANTHROPIC', 'BAIDU', 'BYTEDANCE', 'COHERE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'INFLECTION', 'KLING', 'MANUS', 'META', 'MICROSOFT', 'MINIMAX', 'MISTRAL', 'MOONSHOT', 'NVIDIA', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'PIXVERSE', 'SBER', 'XAI', 'YANDEX', 'ZHIPU', 'OTHER')")
+        if value not in ('AI21', 'ALIBABA', 'AMAZON', 'ANTHROPIC', 'BAIDU', 'BYTEDANCE', 'COHERE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'INFLECTION', 'KLING', 'MANUS', 'META', 'MICROSOFT', 'MINIMAX', 'MISTRAL', 'MOONSHOT', 'NVIDIA', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'PIXVERSE', 'SBER', 'TENCENT', 'XAI', 'XIAOMI', 'YANDEX', 'ZHIPU', 'OTHER'):
+            raise ValueError("must be one of enum values ('AI21', 'ALIBABA', 'AMAZON', 'ANTHROPIC', 'BAIDU', 'BYTEDANCE', 'COHERE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'INFLECTION', 'KLING', 'MANUS', 'META', 'MICROSOFT', 'MINIMAX', 'MISTRAL', 'MOONSHOT', 'NVIDIA', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'PIXVERSE', 'SBER', 'TENCENT', 'XAI', 'XIAOMI', 'YANDEX', 'ZHIPU', 'OTHER')")
         return value
 
     class Config:

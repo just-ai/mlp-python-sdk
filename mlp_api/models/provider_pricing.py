@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, List, Union
+from typing import List, Union
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.model_group_pricing import ModelGroupPricing
-from mlp_api.models.model_pricing import ModelPricing
 
 class ProviderPricing(BaseModel):
     """
@@ -31,14 +30,13 @@ class ProviderPricing(BaseModel):
     currency: StrictStr = Field(...)
     model_groups: conlist(ModelGroupPricing) = Field(default=..., alias="modelGroups")
     markup: Union[StrictFloat, StrictInt] = Field(...)
-    models: Dict[str, ModelPricing] = Field(...)
-    __properties = ["provider", "currency", "modelGroups", "markup", "models"]
+    __properties = ["provider", "currency", "modelGroups", "markup"]
 
     @validator('provider')
     def provider_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'YANDEX', 'OTHER'):
-            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'YANDEX', 'OTHER')")
+        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
+            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
         return value
 
     @validator('currency')
@@ -79,13 +77,6 @@ class ProviderPricing(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['modelGroups'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each value in models (dict)
-        _field_dict = {}
-        if self.models:
-            for _key in self.models:
-                if self.models[_key]:
-                    _field_dict[_key] = self.models[_key].to_dict()
-            _dict['models'] = _field_dict
         return _dict
 
     @classmethod
@@ -101,13 +92,7 @@ class ProviderPricing(BaseModel):
             "provider": obj.get("provider"),
             "currency": obj.get("currency"),
             "model_groups": [ModelGroupPricing.from_dict(_item) for _item in obj.get("modelGroups")] if obj.get("modelGroups") is not None else None,
-            "markup": obj.get("markup"),
-            "models": dict(
-                (_k, ModelPricing.from_dict(_v))
-                for _k, _v in obj.get("models").items()
-            )
-            if obj.get("models") is not None
-            else None
+            "markup": obj.get("markup")
         })
         return _obj
 

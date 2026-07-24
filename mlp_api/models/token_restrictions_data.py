@@ -32,7 +32,8 @@ class TokenRestrictionsData(BaseModel):
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
     allowed_services_filter: Optional[conlist(ServiceFilter, unique_items=True)] = Field(default=None, alias="allowedServicesFilter")
     allowed_adapter_models_filter: Optional[conlist(StrictStr, unique_items=True)] = Field(default=None, alias="allowedAdapterModelsFilter")
-    __properties = ["maxRequestSizeBytes", "maxRequestsPerMinute", "spendingLimits", "allowedServicesFilter", "allowedAdapterModelsFilter"]
+    forbidden_adapter_models_filter: Optional[conlist(StrictStr, unique_items=True)] = Field(default=None, alias="forbiddenAdapterModelsFilter")
+    __properties = ["maxRequestSizeBytes", "maxRequestsPerMinute", "spendingLimits", "allowedServicesFilter", "allowedAdapterModelsFilter", "forbiddenAdapterModelsFilter"]
 
     class Config:
         """Pydantic configuration"""
@@ -88,7 +89,8 @@ class TokenRestrictionsData(BaseModel):
             "max_requests_per_minute": obj.get("maxRequestsPerMinute"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
             "allowed_services_filter": [ServiceFilter.from_dict(_item) for _item in obj.get("allowedServicesFilter")] if obj.get("allowedServicesFilter") is not None else None,
-            "allowed_adapter_models_filter": obj.get("allowedAdapterModelsFilter")
+            "allowed_adapter_models_filter": obj.get("allowedAdapterModelsFilter"),
+            "forbidden_adapter_models_filter": obj.get("forbiddenAdapterModelsFilter")
         })
         return _obj
 

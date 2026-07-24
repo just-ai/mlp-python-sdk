@@ -19,6 +19,9 @@ from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
+from mlp_api.api.llm_catalog_notification_digest_admin_endpoint_api import LlmCatalogNotificationDigestAdminEndpointApi
+from mlp_api.api.llm_catalog_notification_subscription_endpoint_api import LlmCatalogNotificationSubscriptionEndpointApi
+from mlp_api.api.llm_catalog_notification_token_endpoint_api import LlmCatalogNotificationTokenEndpointApi
 from mlp_api.api.llm_catalog_public_endpoint_api import LlmCatalogPublicEndpointApi
 from mlp_api.api.llm_model_card_admin_endpoint_api import LlmModelCardAdminEndpointApi
 from mlp_api.api.llm_model_pricing_admin_endpoint_api import LlmModelPricingAdminEndpointApi
@@ -49,6 +52,7 @@ from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
 from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
+from mlp_api.api.support_endpoint_api import SupportEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi

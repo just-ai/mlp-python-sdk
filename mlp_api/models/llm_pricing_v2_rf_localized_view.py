@@ -19,16 +19,22 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
 
-class SelectableModelData(BaseModel):
+class LlmPricingV2RfLocalizedView(BaseModel):
     """
-    SelectableModelData
+    LlmPricingV2RfLocalizedView
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
     provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
+    __properties = ["provider", "rfLocalized"]
+
+    @validator('provider')
+    def provider_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER'):
+            raise ValueError("must be one of enum values ('ANTHROPIC', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'VEAI', 'YANDEX', 'OTHER')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +50,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmPricingV2RfLocalizedView:
+        """Create an instance of LlmPricingV2RfLocalizedView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +63,17 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmPricingV2RfLocalizedView:
+        """Create an instance of LlmPricingV2RfLocalizedView from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return LlmPricingV2RfLocalizedView.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = LlmPricingV2RfLocalizedView.parse_obj({
+            "provider": obj.get("provider"),
+            "rf_localized": obj.get("rfLocalized")
         })
         return _obj
 

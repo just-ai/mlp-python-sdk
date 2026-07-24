@@ -19,16 +19,14 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictBool
 
-class SelectableModelData(BaseModel):
+class LlmPricingV2RfLocalizedRequest(BaseModel):
     """
-    SelectableModelData
+    LlmPricingV2RfLocalizedRequest
     """
-    id: StrictStr = Field(...)
-    name: StrictStr = Field(...)
-    provider: StrictStr = Field(...)
-    __properties = ["id", "name", "provider"]
+    rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
+    __properties = ["rfLocalized"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +42,8 @@ class SelectableModelData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmPricingV2RfLocalizedRequest:
+        """Create an instance of LlmPricingV2RfLocalizedRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +55,16 @@ class SelectableModelData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SelectableModelData:
-        """Create an instance of SelectableModelData from a dict"""
+    def from_dict(cls, obj: dict) -> LlmPricingV2RfLocalizedRequest:
+        """Create an instance of LlmPricingV2RfLocalizedRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SelectableModelData.parse_obj(obj)
+            return LlmPricingV2RfLocalizedRequest.parse_obj(obj)
 
-        _obj = SelectableModelData.parse_obj({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "provider": obj.get("provider")
+        _obj = LlmPricingV2RfLocalizedRequest.parse_obj({
+            "rf_localized": obj.get("rfLocalized")
         })
         return _obj
 
