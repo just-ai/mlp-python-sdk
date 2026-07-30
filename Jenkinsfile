@@ -224,6 +224,7 @@ pipeline {
             updateGitlabCommitStatus name: "Rebuild MLP Services", state: "canceled"
         }
         cleanup {
+            chownToJenkins()
             cleanWs()
         }
     }
