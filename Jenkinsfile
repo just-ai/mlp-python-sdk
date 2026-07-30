@@ -1,3 +1,4 @@
+@Library('justai-common') _
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 
 def isTriggeredByWebhook() {
