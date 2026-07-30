@@ -42,7 +42,8 @@ class CatalogProviderOption(BaseModel):
     note: Optional[StrictStr] = None
     variables: conlist(ModelParametersDtoVariablesInner) = Field(...)
     supported_params: conlist(StrictStr) = Field(default=..., alias="supportedParams")
-    __properties = ["id", "label", "modelId", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams"]
+    rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
+    __properties = ["id", "label", "modelId", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized"]
 
     class Config:
         """Pydantic configuration"""
@@ -114,7 +115,8 @@ class CatalogProviderOption(BaseModel):
             "lost": obj.get("lost"),
             "note": obj.get("note"),
             "variables": [ModelParametersDtoVariablesInner.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
-            "supported_params": obj.get("supportedParams")
+            "supported_params": obj.get("supportedParams"),
+            "rf_localized": obj.get("rfLocalized")
         })
         return _obj
 

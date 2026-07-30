@@ -18,18 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import Field, StrictInt, StrictStr
-from mlp_api.models.model_variable import ModelVariable
 
-class StringVariable(ModelVariable):
+from pydantic import BaseModel, Field, StrictBool
+
+class LlmPricingV2RfLocalizedRequest(BaseModel):
     """
-    StringVariable
+    LlmPricingV2RfLocalizedRequest
     """
-    default: Optional[StrictStr] = None
-    min_length: Optional[StrictInt] = Field(default=None, alias="minLength")
-    max_length: Optional[StrictInt] = Field(default=None, alias="maxLength")
-    __properties = ["name", "default", "type", "required", "exclusiveGroup", "minLength", "maxLength"]
+    rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
+    __properties = ["rfLocalized"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +42,8 @@ class StringVariable(ModelVariable):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> StringVariable:
-        """Create an instance of StringVariable from a JSON string"""
+    def from_json(cls, json_str: str) -> LlmPricingV2RfLocalizedRequest:
+        """Create an instance of LlmPricingV2RfLocalizedRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,22 +55,16 @@ class StringVariable(ModelVariable):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> StringVariable:
-        """Create an instance of StringVariable from a dict"""
+    def from_dict(cls, obj: dict) -> LlmPricingV2RfLocalizedRequest:
+        """Create an instance of LlmPricingV2RfLocalizedRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return StringVariable.parse_obj(obj)
+            return LlmPricingV2RfLocalizedRequest.parse_obj(obj)
 
-        _obj = StringVariable.parse_obj({
-            "name": obj.get("name"),
-            "default": obj.get("default"),
-            "type": obj.get("type"),
-            "required": obj.get("required"),
-            "exclusive_group": obj.get("exclusiveGroup"),
-            "min_length": obj.get("minLength"),
-            "max_length": obj.get("maxLength")
+        _obj = LlmPricingV2RfLocalizedRequest.parse_obj({
+            "rf_localized": obj.get("rfLocalized")
         })
         return _obj
 

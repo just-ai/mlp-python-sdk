@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.catalog_provider_option import CatalogProviderOption
 
 class CatalogLlmModel(BaseModel):
@@ -42,8 +42,9 @@ class CatalogLlmModel(BaseModel):
     about: Optional[StrictStr] = None
     strengths: conlist(StrictStr) = Field(...)
     watch: conlist(StrictStr) = Field(...)
+    rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
     provider_options: conlist(CatalogProviderOption) = Field(default=..., alias="providerOptions")
-    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "providerOptions"]
+    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "providerOptions"]
 
     @validator('host_class')
     def host_class_validate_enum(cls, value):
@@ -126,6 +127,7 @@ class CatalogLlmModel(BaseModel):
             "about": obj.get("about"),
             "strengths": obj.get("strengths"),
             "watch": obj.get("watch"),
+            "rf_localized": obj.get("rfLocalized"),
             "provider_options": [CatalogProviderOption.from_dict(_item) for _item in obj.get("providerOptions")] if obj.get("providerOptions") is not None else None
         })
         return _obj
