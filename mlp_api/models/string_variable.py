@@ -29,7 +29,7 @@ class StringVariable(ModelVariable):
     default: Optional[StrictStr] = None
     min_length: Optional[StrictInt] = Field(default=None, alias="minLength")
     max_length: Optional[StrictInt] = Field(default=None, alias="maxLength")
-    __properties = ["name", "default", "type", "required", "minLength", "maxLength"]
+    __properties = ["name", "default", "type", "required", "exclusiveGroup", "minLength", "maxLength"]
 
     class Config:
         """Pydantic configuration"""
@@ -71,6 +71,7 @@ class StringVariable(ModelVariable):
             "default": obj.get("default"),
             "type": obj.get("type"),
             "required": obj.get("required"),
+            "exclusive_group": obj.get("exclusiveGroup"),
             "min_length": obj.get("minLength"),
             "max_length": obj.get("maxLength")
         })
