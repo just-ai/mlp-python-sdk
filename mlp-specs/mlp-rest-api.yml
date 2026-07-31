@@ -8215,6 +8215,12 @@ paths:
         schema:
           type: string
           format: date-time
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -8270,6 +8276,12 @@ paths:
         schema:
           type: string
           format: date-time
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -8590,6 +8602,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountFeatureData'
+  /api/mlpcore/admin/exchange-rates/pairs/{from}/{to}/history:
+    get:
+      tags:
+      - exchange-rate-admin-endpoint
+      operationId: getRateHistory
+      parameters:
+      - name: from
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fromTime
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: toTime
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExchangeRateHistoryStateData'
+  /api/mlpcore/admin/exchange-rates/pairs/{from}/{to}/history/effective:
+    get:
+      tags:
+      - exchange-rate-admin-endpoint
+      operationId: getEffectiveRateHistoryState
+      parameters:
+      - name: from
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: at
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRateHistoryStateData'
   /api/mlpcore/admin/caller/info:
     get:
       tags:
@@ -18274,6 +18364,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18286,10 +18380,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -18300,17 +18390,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -18318,9 +18408,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -18344,6 +18434,32 @@ components:
         modelsCount:
           type: integer
           format: int32
+    ExchangeRateHistoryStateData:
+      required:
+      - fromCurrency
+      - id
+      - source
+      - toCurrency
+      - validFrom
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fromCurrency:
+          type: string
+        toCurrency:
+          type: string
+        rate:
+          type: number
+        validFrom:
+          type: string
+          format: date-time
+        source:
+          type: string
+        changedBy:
+          type: integer
+          format: int64
     LlmPricingV2HistoryStateData:
       required:
       - id
@@ -18404,6 +18520,10 @@ components:
         changedBy:
           type: integer
           format: int64
+        exchangeRate:
+          $ref: '#/components/schemas/ExchangeRateHistoryStateData'
+        clientDiscount:
+          type: number
     LlmPricingV2AllAccountDiscountsResponse:
       required:
       - modelDiscounts
@@ -18842,6 +18962,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18854,10 +18978,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
