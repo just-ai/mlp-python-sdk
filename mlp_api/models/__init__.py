@@ -86,6 +86,7 @@ from mlp_api.models.enum_variable import EnumVariable
 from mlp_api.models.event_data import EventData
 from mlp_api.models.event_source import EventSource
 from mlp_api.models.exchange_rate_data import ExchangeRateData
+from mlp_api.models.exchange_rate_history_state_data import ExchangeRateHistoryStateData
 from mlp_api.models.exchange_rate_upsert_request import ExchangeRateUpsertRequest
 from mlp_api.models.exclude_server_request import ExcludeServerRequest
 from mlp_api.models.excluded_server_data import ExcludedServerData
