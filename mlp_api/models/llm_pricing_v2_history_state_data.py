@@ -20,6 +20,7 @@ import json
 from datetime import datetime
 from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from mlp_api.models.exchange_rate_history_state_data import ExchangeRateHistoryStateData
 from mlp_api.models.model_pricing import ModelPricing
 
 class LlmPricingV2HistoryStateData(BaseModel):
@@ -38,7 +39,9 @@ class LlmPricingV2HistoryStateData(BaseModel):
     valid_from: datetime = Field(default=..., alias="validFrom")
     source: StrictStr = Field(...)
     changed_by: Optional[StrictInt] = Field(default=None, alias="changedBy")
-    __properties = ["id", "provider", "model", "canonicalName", "vendor", "status", "currency", "providerMarkup", "pricing", "validFrom", "source", "changedBy"]
+    exchange_rate: Optional[ExchangeRateHistoryStateData] = Field(default=None, alias="exchangeRate")
+    client_discount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="clientDiscount")
+    __properties = ["id", "provider", "model", "canonicalName", "vendor", "status", "currency", "providerMarkup", "pricing", "validFrom", "source", "changedBy", "exchangeRate", "clientDiscount"]
 
     @validator('provider')
     def provider_validate_enum(cls, value):
@@ -81,6 +84,9 @@ class LlmPricingV2HistoryStateData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pricing
         if self.pricing:
             _dict['pricing'] = self.pricing.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of exchange_rate
+        if self.exchange_rate:
+            _dict['exchangeRate'] = self.exchange_rate.to_dict()
         return _dict
 
     @classmethod
@@ -104,7 +110,9 @@ class LlmPricingV2HistoryStateData(BaseModel):
             "pricing": ModelPricing.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
             "valid_from": obj.get("validFrom"),
             "source": obj.get("source"),
-            "changed_by": obj.get("changedBy")
+            "changed_by": obj.get("changedBy"),
+            "exchange_rate": ExchangeRateHistoryStateData.from_dict(obj.get("exchangeRate")) if obj.get("exchangeRate") is not None else None,
+            "client_discount": obj.get("clientDiscount")
         })
         return _obj
 

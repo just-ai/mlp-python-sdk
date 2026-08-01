@@ -19,11 +19,14 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 
 from typing_extensions import Annotated
+from datetime import datetime
+
 from pydantic import Field, StrictStr
 
 from typing import List, Optional
 
 from mlp_api.models.exchange_rate_data import ExchangeRateData
+from mlp_api.models.exchange_rate_history_state_data import ExchangeRateHistoryStateData
 from mlp_api.models.exchange_rate_upsert_request import ExchangeRateUpsertRequest
 
 from mlp_api.api_client import ApiClient
@@ -486,6 +489,171 @@ class ExchangeRateAdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
+    def get_effective_rate_history_state(self, var_from : StrictStr, to : StrictStr, at : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ExchangeRateHistoryStateData:  # noqa: E501
+        """get_effective_rate_history_state  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_effective_rate_history_state(var_from, to, at, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param var_from: (required)
+        :type var_from: str
+        :param to: (required)
+        :type to: str
+        :param at: (required)
+        :type at: datetime
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ExchangeRateHistoryStateData
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_effective_rate_history_state_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_effective_rate_history_state_with_http_info(var_from, to, at, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_effective_rate_history_state_with_http_info(self, var_from : StrictStr, to : StrictStr, at : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_effective_rate_history_state  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_effective_rate_history_state_with_http_info(var_from, to, at, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param var_from: (required)
+        :type var_from: str
+        :param to: (required)
+        :type to: str
+        :param at: (required)
+        :type at: datetime
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(ExchangeRateHistoryStateData, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'var_from',
+            'to',
+            'at',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_effective_rate_history_state" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['var_from'] is not None:
+            _path_params['from'] = _params['var_from']
+
+        if _params['to'] is not None:
+            _path_params['to'] = _params['to']
+
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('at') is not None:  # noqa: E501
+            if isinstance(_params['at'], datetime):
+                _query_params.append(('at', _params['at'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('at', _params['at']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "ExchangeRateHistoryStateData",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/admin/exchange-rates/pairs/{from}/{to}/history/effective', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
     def get_rate(self, var_from : StrictStr, to : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ExchangeRateData:  # noqa: E501
         """get_rate  # noqa: E501
 
@@ -624,6 +792,182 @@ class ExchangeRateAdminEndpointApi:
 
         return self.api_client.call_api(
             '/api/mlpcore/admin/exchange-rates/pairs/{from}/{to}', 'GET',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def get_rate_history(self, var_from : StrictStr, to : StrictStr, from_time : datetime, to_time : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[ExchangeRateHistoryStateData]:  # noqa: E501
+        """get_rate_history  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_rate_history(var_from, to, from_time, to_time, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param var_from: (required)
+        :type var_from: str
+        :param to: (required)
+        :type to: str
+        :param from_time: (required)
+        :type from_time: datetime
+        :param to_time: (required)
+        :type to_time: datetime
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: List[ExchangeRateHistoryStateData]
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the get_rate_history_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.get_rate_history_with_http_info(var_from, to, from_time, to_time, mlp_api_key, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def get_rate_history_with_http_info(self, var_from : StrictStr, to : StrictStr, from_time : datetime, to_time : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """get_rate_history  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_rate_history_with_http_info(var_from, to, from_time, to_time, mlp_api_key, async_req=True)
+        >>> result = thread.get()
+
+        :param var_from: (required)
+        :type var_from: str
+        :param to: (required)
+        :type to: str
+        :param from_time: (required)
+        :type from_time: datetime
+        :param to_time: (required)
+        :type to_time: datetime
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(List[ExchangeRateHistoryStateData], status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'var_from',
+            'to',
+            'from_time',
+            'to_time',
+            'mlp_api_key'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_rate_history" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['var_from'] is not None:
+            _path_params['from'] = _params['var_from']
+
+        if _params['to'] is not None:
+            _path_params['to'] = _params['to']
+
+
+        # process the query parameters
+        _query_params = []
+        if _params.get('from_time') is not None:  # noqa: E501
+            if isinstance(_params['from_time'], datetime):
+                _query_params.append(('fromTime', _params['from_time'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('fromTime', _params['from_time']))
+
+        if _params.get('to_time') is not None:  # noqa: E501
+            if isinstance(_params['to_time'], datetime):
+                _query_params.append(('toTime', _params['to_time'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('toTime', _params['to_time']))
+
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        if _params['mlp_api_key'] is not None:
+            _header_params['MLP-API-KEY'] = _params['mlp_api_key']
+
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "List[ExchangeRateHistoryStateData]",
+        }
+
+        return self.api_client.call_api(
+            '/api/mlpcore/admin/exchange-rates/pairs/{from}/{to}/history', 'GET',
             _path_params,
             _query_params,
             _header_params,

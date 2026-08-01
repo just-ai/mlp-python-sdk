@@ -1422,13 +1422,13 @@ class LlmPricingV2AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_effective_history_state(self, provider : StrictStr, model : StrictStr, at : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmPricingV2HistoryStateData:  # noqa: E501
+    def get_effective_history_state(self, provider : StrictStr, model : StrictStr, at : datetime, account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> LlmPricingV2HistoryStateData:  # noqa: E501
         """get_effective_history_state  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_effective_history_state(provider, model, at, mlp_api_key, async_req=True)
+        >>> thread = api.get_effective_history_state(provider, model, at, account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider: (required)
@@ -1437,6 +1437,8 @@ class LlmPricingV2AdminEndpointApi:
         :type model: str
         :param at: (required)
         :type at: datetime
+        :param account_id:
+        :type account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1454,16 +1456,16 @@ class LlmPricingV2AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_effective_history_state_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_effective_history_state_with_http_info(provider, model, at, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_effective_history_state_with_http_info(provider, model, at, account_id, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_effective_history_state_with_http_info(self, provider : StrictStr, model : StrictStr, at : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_effective_history_state_with_http_info(self, provider : StrictStr, model : StrictStr, at : datetime, account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_effective_history_state  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_effective_history_state_with_http_info(provider, model, at, mlp_api_key, async_req=True)
+        >>> thread = api.get_effective_history_state_with_http_info(provider, model, at, account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider: (required)
@@ -1472,6 +1474,8 @@ class LlmPricingV2AdminEndpointApi:
         :type model: str
         :param at: (required)
         :type at: datetime
+        :param account_id:
+        :type account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1505,6 +1509,7 @@ class LlmPricingV2AdminEndpointApi:
             'provider',
             'model',
             'at',
+            'account_id',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1548,6 +1553,9 @@ class LlmPricingV2AdminEndpointApi:
             else:
                 _query_params.append(('at', _params['at']))
 
+        if _params.get('account_id') is not None:  # noqa: E501
+            _query_params.append(('accountId', _params['account_id']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
@@ -1587,13 +1595,13 @@ class LlmPricingV2AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_history_range(self, provider : StrictStr, model : StrictStr, var_from : datetime, to : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[LlmPricingV2HistoryStateData]:  # noqa: E501
+    def get_history_range(self, provider : StrictStr, model : StrictStr, var_from : datetime, to : datetime, account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> List[LlmPricingV2HistoryStateData]:  # noqa: E501
         """get_history_range  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_history_range(provider, model, var_from, to, mlp_api_key, async_req=True)
+        >>> thread = api.get_history_range(provider, model, var_from, to, account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider: (required)
@@ -1604,6 +1612,8 @@ class LlmPricingV2AdminEndpointApi:
         :type var_from: datetime
         :param to: (required)
         :type to: datetime
+        :param account_id:
+        :type account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1621,16 +1631,16 @@ class LlmPricingV2AdminEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_history_range_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_history_range_with_http_info(provider, model, var_from, to, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_history_range_with_http_info(provider, model, var_from, to, account_id, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_history_range_with_http_info(self, provider : StrictStr, model : StrictStr, var_from : datetime, to : datetime, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_history_range_with_http_info(self, provider : StrictStr, model : StrictStr, var_from : datetime, to : datetime, account_id : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_history_range  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_history_range_with_http_info(provider, model, var_from, to, mlp_api_key, async_req=True)
+        >>> thread = api.get_history_range_with_http_info(provider, model, var_from, to, account_id, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
         :param provider: (required)
@@ -1641,6 +1651,8 @@ class LlmPricingV2AdminEndpointApi:
         :type var_from: datetime
         :param to: (required)
         :type to: datetime
+        :param account_id:
+        :type account_id: int
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1675,6 +1687,7 @@ class LlmPricingV2AdminEndpointApi:
             'model',
             'var_from',
             'to',
+            'account_id',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -1723,6 +1736,9 @@ class LlmPricingV2AdminEndpointApi:
                 _query_params.append(('to', _params['to'].strftime(self.api_client.configuration.datetime_format)))
             else:
                 _query_params.append(('to', _params['to']))
+
+        if _params.get('account_id') is not None:  # noqa: E501
+            _query_params.append(('accountId', _params['account_id']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
