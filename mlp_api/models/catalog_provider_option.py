@@ -31,6 +31,7 @@ class CatalogProviderOption(BaseModel):
     id: StrictStr = Field(...)
     label: StrictStr = Field(...)
     model_id: StrictStr = Field(default=..., alias="modelId")
+    provider_key: StrictStr = Field(default=..., alias="providerKey")
     route: StrictStr = Field(...)
     endpoint: StrictStr = Field(...)
     apis: conlist(CatalogApi) = Field(...)
@@ -43,7 +44,7 @@ class CatalogProviderOption(BaseModel):
     variables: conlist(ModelParametersDtoVariablesInner) = Field(...)
     supported_params: conlist(StrictStr) = Field(default=..., alias="supportedParams")
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
-    __properties = ["id", "label", "modelId", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized"]
+    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized"]
 
     class Config:
         """Pydantic configuration"""
@@ -105,6 +106,7 @@ class CatalogProviderOption(BaseModel):
             "id": obj.get("id"),
             "label": obj.get("label"),
             "model_id": obj.get("modelId"),
+            "provider_key": obj.get("providerKey"),
             "route": obj.get("route"),
             "endpoint": obj.get("endpoint"),
             "apis": [CatalogApi.from_dict(_item) for _item in obj.get("apis")] if obj.get("apis") is not None else None,
