@@ -223,6 +223,7 @@ from mlp_api.models.multiply_modifier import MultiplyModifier
 from mlp_api.models.new_image_data import NewImageData
 from mlp_api.models.not_in_condition import NotInCondition
 from mlp_api.models.notification_history_data import NotificationHistoryData
+from mlp_api.models.notification_history_query import NotificationHistoryQuery
 from mlp_api.models.notification_history_response import NotificationHistoryResponse
 from mlp_api.models.notification_setting_data import NotificationSettingData
 from mlp_api.models.notification_statistics import NotificationStatistics
