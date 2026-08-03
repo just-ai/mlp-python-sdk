@@ -1137,7 +1137,7 @@ paths:
     post:
       tags:
       - process-endpoint
-      operationId: predictWithConfig_v2
+      operationId: predictWithConfigV2
       parameters:
       - name: account
         in: path
@@ -1174,7 +1174,7 @@ paths:
     post:
       tags:
       - process-endpoint
-      operationId: predictWithConfig_v2_stream
+      operationId: predictWithConfigV2Stream
       parameters:
       - name: account
         in: path
@@ -1374,12 +1374,12 @@ paths:
       - resource-group-servers-endpoint
       operationId: serverHeartbeat
       parameters:
-      - name: account
+      - name: ignored
         in: query
-        description: Account id or account name
         required: true
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: serverId
         in: query
         required: true
@@ -4541,7 +4541,7 @@ paths:
     post:
       tags:
       - process-endpoint
-      operationId: fit_v2
+      operationId: fitV2
       parameters:
       - name: account
         in: path
@@ -6206,30 +6206,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: description
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: dataType
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: accessMode
-        in: query
-        required: false
-        schema:
-          type: string
-          enum:
-          - private
-          - public
-          - restricted
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -6240,11 +6216,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
+              $ref: '#/components/schemas/CreateDatasetRawRequest'
       responses:
         "200":
           description: OK
@@ -8487,43 +8459,11 @@ paths:
       - notification-history-endpoint
       operationId: getNotificationHistory
       parameters:
-      - name: account
+      - name: query
         in: query
-        description: Account id or account name
-        required: false
+        required: true
         schema:
-          type: string
-      - name: eventType
-        in: query
-        required: false
-        schema:
-          type: string
-      - name: from
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date-time
-      - name: to
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date-time
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int32
-          default: 0
-      - name: size
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int32
-          default: 50
+          $ref: '#/components/schemas/NotificationHistoryQuery'
       - name: MLP-API-KEY
         in: header
         description: token to use instead of a session
@@ -11438,7 +11378,7 @@ paths:
     get:
       tags:
       - image-endpoint
-      operationId: getPagedImages_v2
+      operationId: getPagedImagesV2
       parameters:
       - name: account
         in: path
@@ -17007,6 +16947,26 @@ components:
           - private
           - public
           - restricted
+    CreateDatasetRawRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+        accessMode:
+          type: string
+          enum:
+          - private
+          - public
+          - restricted
+        file:
+          type: string
+          format: binary
     DataImageInfoData:
       required:
       - image
@@ -17396,6 +17356,7 @@ components:
             type: string
             enum:
             - text
+            - video
             - vision
             - image
             - audio
@@ -18367,10 +18328,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18383,6 +18340,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -18393,17 +18354,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -18411,9 +18372,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -18621,6 +18582,29 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ChannelStatistics'
+    NotificationHistoryQuery:
+      required:
+      - page
+      - size
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        eventType:
+          type: string
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
     DeliveryStatusData:
       required:
       - channel
@@ -18965,10 +18949,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18981,6 +18961,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32

@@ -49,27 +49,27 @@ class DatasetEndpointApi:
         self.api_client = api_client
 
     @validate_arguments
-    def create_dataset(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : StrictStr, description : Optional[StrictStr] = None, data_type : Optional[StrictStr] = None, access_mode : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> DatasetInfoData:  # noqa: E501
+    def create_dataset(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, description : Optional[StrictStr] = None, data_type : Optional[StrictStr] = None, access_mode : Optional[StrictStr] = None, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> DatasetInfoData:  # noqa: E501
         """create_dataset  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_dataset(account, name, description, data_type, access_mode, mlp_api_key, file, async_req=True)
+        >>> thread = api.create_dataset(account, name, mlp_api_key, description, data_type, access_mode, file, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
         :param name: (required)
         :type name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
         :param description:
         :type description: str
         :param data_type:
         :type data_type: str
         :param access_mode:
         :type access_mode: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
         :param file:
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
@@ -87,30 +87,30 @@ class DatasetEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the create_dataset_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.create_dataset_with_http_info(account, name, description, data_type, access_mode, mlp_api_key, file, **kwargs)  # noqa: E501
+        return self.create_dataset_with_http_info(account, name, mlp_api_key, description, data_type, access_mode, file, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def create_dataset_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : StrictStr, description : Optional[StrictStr] = None, data_type : Optional[StrictStr] = None, access_mode : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def create_dataset_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], name : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, description : Optional[StrictStr] = None, data_type : Optional[StrictStr] = None, access_mode : Optional[StrictStr] = None, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """create_dataset  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.create_dataset_with_http_info(account, name, description, data_type, access_mode, mlp_api_key, file, async_req=True)
+        >>> thread = api.create_dataset_with_http_info(account, name, mlp_api_key, description, data_type, access_mode, file, async_req=True)
         >>> result = thread.get()
 
         :param account: Account id or account name (required)
         :type account: str
         :param name: (required)
         :type name: str
+        :param mlp_api_key: token to use instead of a session
+        :type mlp_api_key: str
         :param description:
         :type description: str
         :param data_type:
         :type data_type: str
         :param access_mode:
         :type access_mode: str
-        :param mlp_api_key: token to use instead of a session
-        :type mlp_api_key: str
         :param file:
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
@@ -143,10 +143,10 @@ class DatasetEndpointApi:
         _all_params = [
             'account',
             'name',
+            'mlp_api_key',
             'description',
             'data_type',
             'access_mode',
-            'mlp_api_key',
             'file'
         ]
         _all_params.extend(
@@ -181,18 +181,6 @@ class DatasetEndpointApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('name') is not None:  # noqa: E501
-            _query_params.append(('name', _params['name']))
-
-        if _params.get('description') is not None:  # noqa: E501
-            _query_params.append(('description', _params['description']))
-
-        if _params.get('data_type') is not None:  # noqa: E501
-            _query_params.append(('dataType', _params['data_type']))
-
-        if _params.get('access_mode') is not None:  # noqa: E501
-            _query_params.append(('accessMode', _params['access_mode']))
-
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         if _params['mlp_api_key'] is not None:
@@ -201,6 +189,18 @@ class DatasetEndpointApi:
         # process the form parameters
         _form_params = []
         _files = {}
+        if _params['name'] is not None:
+            _form_params.append(('name', _params['name']))
+
+        if _params['description'] is not None:
+            _form_params.append(('description', _params['description']))
+
+        if _params['data_type'] is not None:
+            _form_params.append(('dataType', _params['data_type']))
+
+        if _params['access_mode'] is not None:
+            _form_params.append(('accessMode', _params['access_mode']))
+
         if _params['file'] is not None:
             _files['file'] = _params['file']
 

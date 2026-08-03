@@ -17,18 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class SortObject(BaseModel):
+class NotificationHistoryQuery(BaseModel):
     """
-    SortObject
+    NotificationHistoryQuery
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    account_id: Optional[StrictInt] = Field(default=None, alias="accountId")
+    event_type: Optional[StrictStr] = Field(default=None, alias="eventType")
+    var_from: Optional[datetime] = Field(default=None, alias="from")
+    to: Optional[datetime] = None
+    page: StrictInt = Field(...)
+    size: StrictInt = Field(...)
+    __properties = ["accountId", "eventType", "from", "to", "page", "size"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +47,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> NotificationHistoryQuery:
+        """Create an instance of NotificationHistoryQuery from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +60,21 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> NotificationHistoryQuery:
+        """Create an instance of NotificationHistoryQuery from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return NotificationHistoryQuery.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = NotificationHistoryQuery.parse_obj({
+            "account_id": obj.get("accountId"),
+            "event_type": obj.get("eventType"),
+            "var_from": obj.get("from"),
+            "to": obj.get("to"),
+            "page": obj.get("page"),
+            "size": obj.get("size")
         })
         return _obj
 

@@ -57,8 +57,8 @@ class CatalogLlmModel(BaseModel):
     def modalities_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
-            if i not in ('text', 'vision', 'image', 'audio', 'embeddings'):
-                raise ValueError("each list item must be one of ('text', 'vision', 'image', 'audio', 'embeddings')")
+            if i not in ('text', 'video', 'vision', 'image', 'audio', 'embeddings'):
+                raise ValueError("each list item must be one of ('text', 'video', 'vision', 'image', 'audio', 'embeddings')")
         return value
 
     @validator('status')
