@@ -2442,17 +2442,17 @@ class ResourceGroupServersEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def server_heartbeat(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    def server_heartbeat(self, ignored : StrictInt, server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
         """server_heartbeat  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.server_heartbeat(account, server_id, mlp_api_key, body, async_req=True)
+        >>> thread = api.server_heartbeat(ignored, server_id, mlp_api_key, body, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param ignored: (required)
+        :type ignored: int
         :param server_id: (required)
         :type server_id: int
         :param mlp_api_key: token to use instead of a session
@@ -2474,20 +2474,20 @@ class ResourceGroupServersEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the server_heartbeat_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.server_heartbeat_with_http_info(account, server_id, mlp_api_key, body, **kwargs)  # noqa: E501
+        return self.server_heartbeat_with_http_info(ignored, server_id, mlp_api_key, body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def server_heartbeat_with_http_info(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def server_heartbeat_with_http_info(self, ignored : StrictInt, server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """server_heartbeat  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.server_heartbeat_with_http_info(account, server_id, mlp_api_key, body, async_req=True)
+        >>> thread = api.server_heartbeat_with_http_info(ignored, server_id, mlp_api_key, body, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name (required)
-        :type account: str
+        :param ignored: (required)
+        :type ignored: int
         :param server_id: (required)
         :type server_id: int
         :param mlp_api_key: token to use instead of a session
@@ -2522,7 +2522,7 @@ class ResourceGroupServersEndpointApi:
         _params = locals()
 
         _all_params = [
-            'account',
+            'ignored',
             'server_id',
             'mlp_api_key',
             'body'
@@ -2556,8 +2556,8 @@ class ResourceGroupServersEndpointApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('account') is not None:  # noqa: E501
-            _query_params.append(('account', _params['account']))
+        if _params.get('ignored') is not None:  # noqa: E501
+            _query_params.append(('ignored', _params['ignored']))
 
         if _params.get('server_id') is not None:  # noqa: E501
             _query_params.append(('serverId', _params['server_id']))

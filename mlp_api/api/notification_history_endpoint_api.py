@@ -19,12 +19,11 @@ import warnings
 from pydantic import validate_arguments, ValidationError
 
 from typing_extensions import Annotated
-from datetime import datetime
-
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictStr
 
 from typing import Optional
 
+from mlp_api.models.notification_history_query import NotificationHistoryQuery
 from mlp_api.models.notification_history_response import NotificationHistoryResponse
 
 from mlp_api.api_client import ApiClient
@@ -48,27 +47,17 @@ class NotificationHistoryEndpointApi:
         self.api_client = api_client
 
     @validate_arguments
-    def get_notification_history(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, event_type : Optional[StrictStr] = None, var_from : Optional[datetime] = None, to : Optional[datetime] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> NotificationHistoryResponse:  # noqa: E501
+    def get_notification_history(self, query : NotificationHistoryQuery, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> NotificationHistoryResponse:  # noqa: E501
         """get_notification_history  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_notification_history(account, event_type, var_from, to, page, size, mlp_api_key, async_req=True)
+        >>> thread = api.get_notification_history(query, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
-        :param event_type:
-        :type event_type: str
-        :param var_from:
-        :type var_from: datetime
-        :param to:
-        :type to: datetime
-        :param page:
-        :type page: int
-        :param size:
-        :type size: int
+        :param query: (required)
+        :type query: NotificationHistoryQuery
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -86,30 +75,20 @@ class NotificationHistoryEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the get_notification_history_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_notification_history_with_http_info(account, event_type, var_from, to, page, size, mlp_api_key, **kwargs)  # noqa: E501
+        return self.get_notification_history_with_http_info(query, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_notification_history_with_http_info(self, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, event_type : Optional[StrictStr] = None, var_from : Optional[datetime] = None, to : Optional[datetime] = None, page : Optional[StrictInt] = None, size : Optional[StrictInt] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_notification_history_with_http_info(self, query : NotificationHistoryQuery, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """get_notification_history  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_notification_history_with_http_info(account, event_type, var_from, to, page, size, mlp_api_key, async_req=True)
+        >>> thread = api.get_notification_history_with_http_info(query, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param account: Account id or account name
-        :type account: str
-        :param event_type:
-        :type event_type: str
-        :param var_from:
-        :type var_from: datetime
-        :param to:
-        :type to: datetime
-        :param page:
-        :type page: int
-        :param size:
-        :type size: int
+        :param query: (required)
+        :type query: NotificationHistoryQuery
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
         :param async_req: Whether to execute the request asynchronously.
@@ -140,12 +119,7 @@ class NotificationHistoryEndpointApi:
         _params = locals()
 
         _all_params = [
-            'account',
-            'event_type',
-            'var_from',
-            'to',
-            'page',
-            'size',
+            'query',
             'mlp_api_key'
         ]
         _all_params.extend(
@@ -177,29 +151,8 @@ class NotificationHistoryEndpointApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('account') is not None:  # noqa: E501
-            _query_params.append(('account', _params['account']))
-
-        if _params.get('event_type') is not None:  # noqa: E501
-            _query_params.append(('eventType', _params['event_type']))
-
-        if _params.get('var_from') is not None:  # noqa: E501
-            if isinstance(_params['var_from'], datetime):
-                _query_params.append(('from', _params['var_from'].strftime(self.api_client.configuration.datetime_format)))
-            else:
-                _query_params.append(('from', _params['var_from']))
-
-        if _params.get('to') is not None:  # noqa: E501
-            if isinstance(_params['to'], datetime):
-                _query_params.append(('to', _params['to'].strftime(self.api_client.configuration.datetime_format)))
-            else:
-                _query_params.append(('to', _params['to']))
-
-        if _params.get('page') is not None:  # noqa: E501
-            _query_params.append(('page', _params['page']))
-
-        if _params.get('size') is not None:  # noqa: E501
-            _query_params.append(('size', _params['size']))
+        if _params.get('query') is not None:  # noqa: E501
+            _query_params.append(('query', _params['query']))
 
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
