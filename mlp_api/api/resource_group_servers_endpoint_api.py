@@ -2442,23 +2442,23 @@ class ResourceGroupServersEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def server_heartbeat(self, ignored : StrictInt, server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> None:  # noqa: E501
+    def server_heartbeat(self, server_id : StrictInt, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, group_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> None:  # noqa: E501
         """server_heartbeat  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.server_heartbeat(ignored, server_id, mlp_api_key, body, async_req=True)
+        >>> thread = api.server_heartbeat(server_id, account, group_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param ignored: (required)
-        :type ignored: int
         :param server_id: (required)
         :type server_id: int
+        :param account: Account id or account name
+        :type account: str
+        :param group_name:
+        :type group_name: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
-        :param body:
-        :type body: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -2474,26 +2474,26 @@ class ResourceGroupServersEndpointApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the server_heartbeat_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.server_heartbeat_with_http_info(ignored, server_id, mlp_api_key, body, **kwargs)  # noqa: E501
+        return self.server_heartbeat_with_http_info(server_id, account, group_name, mlp_api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def server_heartbeat_with_http_info(self, ignored : StrictInt, server_id : StrictInt, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, body : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def server_heartbeat_with_http_info(self, server_id : StrictInt, account : Annotated[Optional[StrictStr], Field(description="Account id or account name")] = None, group_name : Optional[StrictStr] = None, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """server_heartbeat  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.server_heartbeat_with_http_info(ignored, server_id, mlp_api_key, body, async_req=True)
+        >>> thread = api.server_heartbeat_with_http_info(server_id, account, group_name, mlp_api_key, async_req=True)
         >>> result = thread.get()
 
-        :param ignored: (required)
-        :type ignored: int
         :param server_id: (required)
         :type server_id: int
+        :param account: Account id or account name
+        :type account: str
+        :param group_name:
+        :type group_name: str
         :param mlp_api_key: token to use instead of a session
         :type mlp_api_key: str
-        :param body:
-        :type body: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -2522,10 +2522,10 @@ class ResourceGroupServersEndpointApi:
         _params = locals()
 
         _all_params = [
-            'ignored',
             'server_id',
-            'mlp_api_key',
-            'body'
+            'account',
+            'group_name',
+            'mlp_api_key'
         ]
         _all_params.extend(
             [
@@ -2556,8 +2556,11 @@ class ResourceGroupServersEndpointApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('ignored') is not None:  # noqa: E501
-            _query_params.append(('ignored', _params['ignored']))
+        if _params.get('account') is not None:  # noqa: E501
+            _query_params.append(('account', _params['account']))
+
+        if _params.get('group_name') is not None:  # noqa: E501
+            _query_params.append(('groupName', _params['group_name']))
 
         if _params.get('server_id') is not None:  # noqa: E501
             _query_params.append(('serverId', _params['server_id']))
@@ -2572,16 +2575,6 @@ class ResourceGroupServersEndpointApi:
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body'] is not None:
-            _body_params = _params['body']
-
-        # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['application/json']))
-        if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
-
         # authentication setting
         _auth_settings = []  # noqa: E501
 
