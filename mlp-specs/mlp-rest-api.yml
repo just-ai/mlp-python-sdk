@@ -1374,12 +1374,17 @@ paths:
       - resource-group-servers-endpoint
       operationId: serverHeartbeat
       parameters:
-      - name: ignored
+      - name: account
         in: query
-        required: true
+        description: Account id or account name
+        required: false
         schema:
-          type: integer
-          format: int64
+          type: string
+      - name: groupName
+        in: query
+        required: false
+        schema:
+          type: string
       - name: serverId
         in: query
         required: true
@@ -1392,11 +1397,6 @@ paths:
         required: false
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
       responses:
         "200":
           description: OK
