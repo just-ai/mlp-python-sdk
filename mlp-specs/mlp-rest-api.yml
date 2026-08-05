@@ -13119,6 +13119,10 @@ components:
       properties:
         name:
           type: string
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
         teamleadUserId:
           type: integer
           format: int64
@@ -13153,6 +13157,8 @@ components:
           type: integer
           format: int64
         name:
+          type: string
+        description:
           type: string
         teamleadUserId:
           type: integer
