@@ -2152,6 +2152,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2ModelDiscountResponse'
+  /api/mlpcore/admin/v2/pricing/sync/openrouter:
+    post:
+      tags:
+      - llm-pricing-v-2-admin-endpoint
+      operationId: syncOpenrouterPricing
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenrouterPricingSyncStats'
   /api/mlpcore/admin/v2/pricing/account-discounts/{accountId}:
     get:
       tags:
@@ -6430,6 +6449,63 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/analysts:
+    get:
+      tags:
+      - account-analyst-endpoint
+      operationId: listAnalysts
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnalystData'
+    post:
+      tags:
+      - account-analyst-endpoint
+      operationId: addAnalyst
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalystRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalystData'
   /api/mlpcore/account/{account}/activity:
     post:
       tags:
@@ -8793,6 +8869,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
+  /api/mlpcore/account/{account}/users:
+    get:
+      tags:
+      - account-users-endpoint
+      operationId: listUsers
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountUserData'
   /api/mlpcore/account/{account}/token/{token}/logs:
     get:
       tags:
@@ -11880,6 +11983,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountInfoData'
+  /api/mlpcore-internal/account/{account}/user/{userId}/gateway-access:
+    get:
+      tags:
+      - gateway-access-internal-endpoint
+      operationId: getGatewayAccess
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: hasMemberRole
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGatewayAccessData'
   /api/mlpcore-internal/account/{account}/model/{model}/instances:
     get:
       tags:
@@ -12174,6 +12313,33 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/mlpcore/account/{account}/analysts/{userId}:
+    delete:
+      tags:
+      - account-analyst-endpoint
+      operationId: removeAnalyst
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
       - name: userId
         in: path
         required: true
@@ -14863,6 +15029,36 @@ components:
           type: string
         discount:
           type: number
+    OpenrouterPricingSyncStats:
+      required:
+      - configPresent
+      - discountedModels
+      - modelsMatched
+      - modelsNotInSource
+      - modelsUnchanged
+      - ratesUpdatedModels
+      - sourceAvailable
+      type: object
+      properties:
+        configPresent:
+          type: boolean
+        sourceAvailable:
+          type: boolean
+        modelsMatched:
+          type: integer
+          format: int32
+        modelsNotInSource:
+          type: integer
+          format: int32
+        modelsUnchanged:
+          type: integer
+          format: int32
+        ratesUpdatedModels:
+          type: integer
+          format: int32
+        discountedModels:
+          type: integer
+          format: int32
     LlmPricingV2DiscountRequest:
       required:
       - discount
@@ -17008,6 +17204,29 @@ components:
         imageId:
           type: integer
           format: int64
+    AnalystRequestData:
+      required:
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+    AnalystData:
+      required:
+      - added
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        initials:
+          type: string
+        added:
+          type: string
     UpdateChatConversationData:
       type: object
       properties:
@@ -17173,6 +17392,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PublicModifier'
+        providerDiscount:
+          type: number
     LlmPricingV2PublicView:
       required:
       - currency
@@ -17309,6 +17530,7 @@ components:
       - endpoint
       - format
       - native
+      - operation
       type: object
       properties:
         format:
@@ -17317,6 +17539,8 @@ components:
           type: string
         native:
           type: boolean
+        operation:
+          type: string
     CatalogApiKeyOption:
       required:
       - id
@@ -17560,7 +17784,6 @@ components:
       - rights
       - status
       - tags
-      - value
       type: object
       properties:
         id:
@@ -18334,10 +18557,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18350,6 +18569,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -18360,17 +18583,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -18378,9 +18601,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -18767,6 +18990,18 @@ components:
       properties:
         allowed:
           type: boolean
+    AccountUserData:
+      required:
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        initials:
+          type: string
     StatLogData:
       required:
       - accountId
@@ -18955,10 +19190,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -18971,6 +19202,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -19624,5 +19859,24 @@ components:
           - REMOVING
           - DELETED
           - FAILED
+    UserGatewayAccessData:
+      required:
+      - leadsGroups
+      - memberOfGroups
+      - role
+      type: object
+      properties:
+        role:
+          type: string
+        leadsGroups:
+          type: array
+          items:
+            type: integer
+            format: int64
+        memberOfGroups:
+          type: array
+          items:
+            type: integer
+            format: int64
     Unit:
       type: object
