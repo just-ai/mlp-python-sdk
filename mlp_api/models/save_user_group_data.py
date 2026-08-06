@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, constr
 from mlp_api.models.spending_limit import SpendingLimit
 
 class SaveUserGroupData(BaseModel):
@@ -27,9 +27,10 @@ class SaveUserGroupData(BaseModel):
     SaveUserGroupData
     """
     name: StrictStr = Field(...)
+    description: Optional[constr(strict=True, max_length=1000, min_length=0)] = None
     teamlead_user_id: Optional[StrictInt] = Field(default=None, alias="teamleadUserId")
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
-    __properties = ["name", "teamleadUserId", "spendingLimits"]
+    __properties = ["name", "description", "teamleadUserId", "spendingLimits"]
 
     class Config:
         """Pydantic configuration"""
@@ -75,6 +76,7 @@ class SaveUserGroupData(BaseModel):
 
         _obj = SaveUserGroupData.parse_obj({
             "name": obj.get("name"),
+            "description": obj.get("description"),
             "teamlead_user_id": obj.get("teamleadUserId"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None
         })

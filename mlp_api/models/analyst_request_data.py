@@ -19,17 +19,14 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import BaseModel, Field, StrictInt
 
-class CatalogApi(BaseModel):
+class AnalystRequestData(BaseModel):
     """
-    CatalogApi
+    AnalystRequestData
     """
-    format: StrictStr = Field(...)
-    endpoint: StrictStr = Field(...)
-    native: StrictBool = Field(...)
-    operation: StrictStr = Field(...)
-    __properties = ["format", "endpoint", "native", "operation"]
+    user_id: StrictInt = Field(default=..., alias="userId")
+    __properties = ["userId"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +42,8 @@ class CatalogApi(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CatalogApi:
-        """Create an instance of CatalogApi from a JSON string"""
+    def from_json(cls, json_str: str) -> AnalystRequestData:
+        """Create an instance of AnalystRequestData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +55,16 @@ class CatalogApi(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CatalogApi:
-        """Create an instance of CatalogApi from a dict"""
+    def from_dict(cls, obj: dict) -> AnalystRequestData:
+        """Create an instance of AnalystRequestData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CatalogApi.parse_obj(obj)
+            return AnalystRequestData.parse_obj(obj)
 
-        _obj = CatalogApi.parse_obj({
-            "format": obj.get("format"),
-            "endpoint": obj.get("endpoint"),
-            "native": obj.get("native"),
-            "operation": obj.get("operation")
+        _obj = AnalystRequestData.parse_obj({
+            "user_id": obj.get("userId")
         })
         return _obj
 

@@ -18,18 +18,17 @@ import re  # noqa: F401
 import json
 
 
+from typing import List
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-
-class CatalogApi(BaseModel):
+class UserGatewayAccessData(BaseModel):
     """
-    CatalogApi
+    UserGatewayAccessData
     """
-    format: StrictStr = Field(...)
-    endpoint: StrictStr = Field(...)
-    native: StrictBool = Field(...)
-    operation: StrictStr = Field(...)
-    __properties = ["format", "endpoint", "native", "operation"]
+    role: StrictStr = Field(...)
+    leads_groups: conlist(StrictInt) = Field(default=..., alias="leadsGroups")
+    member_of_groups: conlist(StrictInt) = Field(default=..., alias="memberOfGroups")
+    __properties = ["role", "leadsGroups", "memberOfGroups"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +44,8 @@ class CatalogApi(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CatalogApi:
-        """Create an instance of CatalogApi from a JSON string"""
+    def from_json(cls, json_str: str) -> UserGatewayAccessData:
+        """Create an instance of UserGatewayAccessData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +57,18 @@ class CatalogApi(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CatalogApi:
-        """Create an instance of CatalogApi from a dict"""
+    def from_dict(cls, obj: dict) -> UserGatewayAccessData:
+        """Create an instance of UserGatewayAccessData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CatalogApi.parse_obj(obj)
+            return UserGatewayAccessData.parse_obj(obj)
 
-        _obj = CatalogApi.parse_obj({
-            "format": obj.get("format"),
-            "endpoint": obj.get("endpoint"),
-            "native": obj.get("native"),
-            "operation": obj.get("operation")
+        _obj = UserGatewayAccessData.parse_obj({
+            "role": obj.get("role"),
+            "leads_groups": obj.get("leadsGroups"),
+            "member_of_groups": obj.get("memberOfGroups")
         })
         return _obj
 

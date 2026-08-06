@@ -2,8 +2,10 @@
 
 # import apis into api package
 from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
+from mlp_api.api.account_analyst_endpoint_api import AccountAnalystEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.account_keys_endpoint_api import AccountKeysEndpointApi
+from mlp_api.api.account_users_endpoint_api import AccountUsersEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.amo_crm_endpoint_api import AmoCrmEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
@@ -15,6 +17,7 @@ from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
+from mlp_api.api.gateway_access_internal_endpoint_api import GatewayAccessInternalEndpointApi
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
