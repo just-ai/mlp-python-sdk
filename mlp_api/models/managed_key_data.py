@@ -29,7 +29,7 @@ class ManagedKeyData(BaseModel):
     """
     id: StrictInt = Field(...)
     name: StrictStr = Field(...)
-    value: StrictStr = Field(...)
+    value: Optional[StrictStr] = None
     mask: StrictStr = Field(...)
     description: Optional[StrictStr] = None
     status: StrictStr = Field(...)
