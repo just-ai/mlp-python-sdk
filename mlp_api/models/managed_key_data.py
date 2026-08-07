@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.key_binding_data import KeyBindingData
 from mlp_api.models.spending_limit import SpendingLimit
 
@@ -49,7 +49,8 @@ class ManagedKeyData(BaseModel):
     allowed_models: conlist(StrictStr) = Field(default=..., alias="allowedModels")
     forbidden_models: conlist(StrictStr) = Field(default=..., alias="forbiddenModels")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
-    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "jayGuardMaskingKey"]
+    keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
+    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -125,7 +126,8 @@ class ManagedKeyData(BaseModel):
             "max_request_size_bytes": obj.get("maxRequestSizeBytes"),
             "allowed_models": obj.get("allowedModels"),
             "forbidden_models": obj.get("forbiddenModels"),
-            "jay_guard_masking_key": obj.get("jayGuardMaskingKey")
+            "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
+            "keep_available_on_limit_change": obj.get("keepAvailableOnLimitChange")
         })
         return _obj
 
