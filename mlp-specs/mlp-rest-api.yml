@@ -17779,6 +17779,7 @@ components:
       - created
       - forbiddenModels
       - id
+      - keepAvailableOnLimitChange
       - mask
       - name
       - rights
@@ -17851,6 +17852,8 @@ components:
             type: string
         jayGuardMaskingKey:
           type: string
+        keepAvailableOnLimitChange:
+          type: boolean
     SelectableModelData:
       required:
       - id
