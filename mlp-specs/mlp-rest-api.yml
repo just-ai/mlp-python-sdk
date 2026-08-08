@@ -17775,8 +17775,10 @@ components:
     ManagedKeyData:
       required:
       - allowedModels
+      - allowedServicesFilter
       - binding
       - created
+      - emailsForNotifications
       - forbiddenModels
       - id
       - keepAvailableOnLimitChange
@@ -17850,6 +17852,14 @@ components:
           type: array
           items:
             type: string
+        emailsForNotifications:
+          type: array
+          items:
+            type: string
+        allowedServicesFilter:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceFilter'
         jayGuardMaskingKey:
           type: string
         keepAvailableOnLimitChange:
