@@ -21,6 +21,7 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.key_binding_data import KeyBindingData
+from mlp_api.models.service_filter import ServiceFilter
 from mlp_api.models.spending_limit import SpendingLimit
 
 class ManagedKeyData(BaseModel):
@@ -48,9 +49,11 @@ class ManagedKeyData(BaseModel):
     max_request_size_bytes: Optional[StrictInt] = Field(default=None, alias="maxRequestSizeBytes")
     allowed_models: conlist(StrictStr) = Field(default=..., alias="allowedModels")
     forbidden_models: conlist(StrictStr) = Field(default=..., alias="forbiddenModels")
+    emails_for_notifications: conlist(StrictStr) = Field(default=..., alias="emailsForNotifications")
+    allowed_services_filter: conlist(ServiceFilter) = Field(default=..., alias="allowedServicesFilter")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
-    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
+    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "emailsForNotifications", "allowedServicesFilter", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -93,6 +96,13 @@ class ManagedKeyData(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['spendingLimits'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in allowed_services_filter (list)
+        _items = []
+        if self.allowed_services_filter:
+            for _item in self.allowed_services_filter:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['allowedServicesFilter'] = _items
         return _dict
 
     @classmethod
@@ -126,6 +136,8 @@ class ManagedKeyData(BaseModel):
             "max_request_size_bytes": obj.get("maxRequestSizeBytes"),
             "allowed_models": obj.get("allowedModels"),
             "forbidden_models": obj.get("forbiddenModels"),
+            "emails_for_notifications": obj.get("emailsForNotifications"),
+            "allowed_services_filter": [ServiceFilter.from_dict(_item) for _item in obj.get("allowedServicesFilter")] if obj.get("allowedServicesFilter") is not None else None,
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
             "keep_available_on_limit_change": obj.get("keepAvailableOnLimitChange")
         })
