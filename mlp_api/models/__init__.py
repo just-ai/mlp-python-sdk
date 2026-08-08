@@ -104,6 +104,7 @@ from mlp_api.models.fit_config_dump import FitConfigDump
 from mlp_api.models.fit_config_pk import FitConfigPK
 from mlp_api.models.fit_request_data import FitRequestData
 from mlp_api.models.frontend_settings import FrontendSettings
+from mlp_api.models.group_access_policy_data import GroupAccessPolicyData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.group_member_request_data import GroupMemberRequestData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult

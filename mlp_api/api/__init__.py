@@ -59,5 +59,6 @@ from mlp_api.api.support_endpoint_api import SupportEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
+from mlp_api.api.user_group_access_policy_endpoint_api import UserGroupAccessPolicyEndpointApi
 from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 
