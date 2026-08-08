@@ -887,6 +887,73 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/groups/{groupId}/access-policy:
+    get:
+      tags:
+      - user-group-access-policy-endpoint
+      operationId: getPolicy
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupAccessPolicyData'
+    put:
+      tags:
+      - user-group-access-policy-endpoint
+      operationId: savePolicy
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupAccessPolicyData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupAccessPolicyData'
   /p/{accountField}/{modelField}:
     get:
       tags:
@@ -13341,6 +13408,30 @@ components:
             $ref: '#/components/schemas/GroupMemberData'
         created:
           type: string
+    GroupAccessPolicyData:
+      required:
+      - blockedRoutes
+      - mode
+      - models
+      - warnings
+      type: object
+      properties:
+        mode:
+          type: string
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/JsonNode'
+        blockedRoutes:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+    JsonNode:
+      type: object
     AudioFormatOptions:
       type: object
       properties:
@@ -14506,8 +14597,6 @@ components:
           type: string
         settings:
           $ref: '#/components/schemas/JsonNode'
-    JsonNode:
-      type: object
     ChatAnswerData:
       required:
       - createdAt
