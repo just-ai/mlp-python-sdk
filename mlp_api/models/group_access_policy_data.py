@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
+from typing import Any, Dict, List
+from pydantic import BaseModel, Field, StrictStr, conlist
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-
-class CatalogApi(BaseModel):
+class GroupAccessPolicyData(BaseModel):
     """
-    CatalogApi
+    GroupAccessPolicyData
     """
-    format: StrictStr = Field(...)
-    endpoint: StrictStr = Field(...)
-    native: StrictBool = Field(...)
-    operation: StrictStr = Field(...)
-    __properties = ["format", "endpoint", "native", "operation"]
+    mode: StrictStr = Field(...)
+    models: Dict[str, Dict[str, Any]] = Field(...)
+    blocked_routes: conlist(StrictStr) = Field(default=..., alias="blockedRoutes")
+    warnings: conlist(StrictStr) = Field(...)
+    __properties = ["mode", "models", "blockedRoutes", "warnings"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class CatalogApi(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CatalogApi:
-        """Create an instance of CatalogApi from a JSON string"""
+    def from_json(cls, json_str: str) -> GroupAccessPolicyData:
+        """Create an instance of GroupAccessPolicyData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +58,19 @@ class CatalogApi(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CatalogApi:
-        """Create an instance of CatalogApi from a dict"""
+    def from_dict(cls, obj: dict) -> GroupAccessPolicyData:
+        """Create an instance of GroupAccessPolicyData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CatalogApi.parse_obj(obj)
+            return GroupAccessPolicyData.parse_obj(obj)
 
-        _obj = CatalogApi.parse_obj({
-            "format": obj.get("format"),
-            "endpoint": obj.get("endpoint"),
-            "native": obj.get("native"),
-            "operation": obj.get("operation")
+        _obj = GroupAccessPolicyData.parse_obj({
+            "mode": obj.get("mode"),
+            "models": obj.get("models"),
+            "blocked_routes": obj.get("blockedRoutes"),
+            "warnings": obj.get("warnings")
         })
         return _obj
 

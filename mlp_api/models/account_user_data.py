@@ -18,18 +18,17 @@ import re  # noqa: F401
 import json
 
 
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-
-class CatalogApi(BaseModel):
+class AccountUserData(BaseModel):
     """
-    CatalogApi
+    AccountUserData
     """
-    format: StrictStr = Field(...)
-    endpoint: StrictStr = Field(...)
-    native: StrictBool = Field(...)
-    operation: StrictStr = Field(...)
-    __properties = ["format", "endpoint", "native", "operation"]
+    user_id: StrictInt = Field(default=..., alias="userId")
+    name: Optional[StrictStr] = None
+    initials: Optional[StrictStr] = None
+    __properties = ["userId", "name", "initials"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +44,8 @@ class CatalogApi(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> CatalogApi:
-        """Create an instance of CatalogApi from a JSON string"""
+    def from_json(cls, json_str: str) -> AccountUserData:
+        """Create an instance of AccountUserData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,19 +57,18 @@ class CatalogApi(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> CatalogApi:
-        """Create an instance of CatalogApi from a dict"""
+    def from_dict(cls, obj: dict) -> AccountUserData:
+        """Create an instance of AccountUserData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return CatalogApi.parse_obj(obj)
+            return AccountUserData.parse_obj(obj)
 
-        _obj = CatalogApi.parse_obj({
-            "format": obj.get("format"),
-            "endpoint": obj.get("endpoint"),
-            "native": obj.get("native"),
-            "operation": obj.get("operation")
+        _obj = AccountUserData.parse_obj({
+            "user_id": obj.get("userId"),
+            "name": obj.get("name"),
+            "initials": obj.get("initials")
         })
         return _obj
 

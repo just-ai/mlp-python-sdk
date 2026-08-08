@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from datetime import date
-from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, validator
+from typing import Dict, List, Optional, Union
+from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.pricing_model_variable import PricingModelVariable
 from mlp_api.models.public_extra import PublicExtra
 from mlp_api.models.public_modifier import PublicModifier
@@ -38,7 +38,8 @@ class LlmPricingV2ProviderView(BaseModel):
     extras: Dict[str, PublicExtra] = Field(...)
     variables: conlist(PricingModelVariable) = Field(...)
     modifiers: conlist(PublicModifier) = Field(...)
-    __properties = ["serviceName", "name", "aliases", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers"]
+    provider_discount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerDiscount")
+    __properties = ["serviceName", "name", "aliases", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "providerDiscount"]
 
     @validator('service_name')
     def service_name_validate_enum(cls, value):
@@ -137,7 +138,8 @@ class LlmPricingV2ProviderView(BaseModel):
             if obj.get("extras") is not None
             else None,
             "variables": [PricingModelVariable.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
-            "modifiers": [PublicModifier.from_dict(_item) for _item in obj.get("modifiers")] if obj.get("modifiers") is not None else None
+            "modifiers": [PublicModifier.from_dict(_item) for _item in obj.get("modifiers")] if obj.get("modifiers") is not None else None,
+            "provider_discount": obj.get("providerDiscount")
         })
         return _obj
 

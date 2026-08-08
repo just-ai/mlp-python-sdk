@@ -29,12 +29,13 @@ class UserGroupData(BaseModel):
     """
     id: StrictInt = Field(...)
     name: StrictStr = Field(...)
+    description: Optional[StrictStr] = None
     teamlead_user_id: Optional[StrictInt] = Field(default=None, alias="teamleadUserId")
     teamlead_name: Optional[StrictStr] = Field(default=None, alias="teamleadName")
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
     members: conlist(GroupMemberData) = Field(...)
     created: StrictStr = Field(...)
-    __properties = ["id", "name", "teamleadUserId", "teamleadName", "spendingLimits", "members", "created"]
+    __properties = ["id", "name", "description", "teamleadUserId", "teamleadName", "spendingLimits", "members", "created"]
 
     class Config:
         """Pydantic configuration"""
@@ -88,6 +89,7 @@ class UserGroupData(BaseModel):
         _obj = UserGroupData.parse_obj({
             "id": obj.get("id"),
             "name": obj.get("name"),
+            "description": obj.get("description"),
             "teamlead_user_id": obj.get("teamleadUserId"),
             "teamlead_name": obj.get("teamleadName"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
