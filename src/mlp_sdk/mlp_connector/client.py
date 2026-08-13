@@ -1,4 +1,5 @@
 import logging
+import threading
 import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, Generator, List, MutableMapping, Optional, Type, TypeVar, Union, cast
@@ -23,6 +24,15 @@ from mlp_sdk.utils.misc import get_one_of, parse_grpc_url
 
 RECONNECT_ERROR_CODES: List[str] = ["mlp.gate.gate_is_shut_down"]
 _PROCESSED_ERROR_CODES = [grpc.StatusCode.UNAVAILABLE, grpc.StatusCode.CANCELLED]
+# cygrpc бросает обычный ValueError (не grpc.RpcError), если канал закрыт локально
+_CHANNEL_CLOSED_ERROR_PREFIX = "Cannot invoke RPC"
+# healthCheck идёт под connect_lock: без дедлайна зависший gate блокирует переподключение всем потокам
+_HEALTH_CHECK_TIMEOUT_SECONDS = 10
+
+
+def _is_channel_closed_error(error: ValueError) -> bool:
+    return str(error).startswith(_CHANNEL_CLOSED_ERROR_PREFIX)
+
 
 log: logging.Logger = get_logger("MlpGrpcClient")
 config = get_config()
@@ -53,6 +63,8 @@ class MlpGrpcClient:
 
         self.channel: Optional[grpc.Channel] = None
         self.stub: Optional[GateStub] = None
+        # connect() зовут из разных потоков пула запросов, переподключение должно быть по одному
+        self.connect_lock = threading.Lock()
 
         self.connect()
 
@@ -81,29 +93,35 @@ class MlpGrpcClient:
 
     def connect(self) -> None:
         """Устанавливает соединение с gRPC сервером."""
-        is_reconnect = self.channel is not None
-        if is_reconnect:
-            log.info(f"Reconnecting to mlp gateway: {self.url}, secure: {self.grpc_secure}")
-        else:
-            log.warning(f"Starting mpl client for url: {self.url}, secure: {self.grpc_secure}")
-
-        new_channel: grpc.Channel = self.open_grpc_channel(self.url, self.grpc_secure)
-
-        self.stub = GateStub(new_channel)
-        try:
-            self.stub.healthCheck(HeartBeatProto())
+        # без блокировки два одновременных переподключения оставляют stub на канале, который закрыл сосед
+        with self.connect_lock:
+            is_reconnect = self.channel is not None
             if is_reconnect:
-                log.info(f"Successfully reconnected to mlp gateway: {self.url}")
-        except Exception:
-            log.error(f"healthCheck is failed for url: {self.url}, secure: {self.grpc_secure}", exc_info=True)
-            return
+                log.info(f"Reconnecting to mlp gateway: {self.url}, secure: {self.grpc_secure}")
+            else:
+                log.warning(f"Starting mpl client for url: {self.url}, secure: {self.grpc_secure}")
 
-        previous_channel: Optional[grpc.Channel] = self.channel
-        self.channel = new_channel
+            new_channel: grpc.Channel = self.open_grpc_channel(self.url, self.grpc_secure)
 
-        if previous_channel is not None:
-            previous_channel.close()
-            log.debug(f"Closed previous gRPC channel for url: {self.url}")
+            new_stub = GateStub(new_channel)
+            try:
+                new_stub.healthCheck(HeartBeatProto(), timeout=_HEALTH_CHECK_TIMEOUT_SECONDS)
+                if is_reconnect:
+                    log.info(f"Successfully reconnected to mlp gateway: {self.url}")
+            except Exception:
+                log.error(f"healthCheck is failed for url: {self.url}, secure: {self.grpc_secure}", exc_info=True)
+                # непроверенный канал закрываем, рабочее состояние клиента не трогаем
+                new_channel.close()
+                return
+
+            previous_channel: Optional[grpc.Channel] = self.channel
+            # stub и канал меняем вместе, иначе stub может остаться на чужом канале
+            self.channel = new_channel
+            self.stub = new_stub
+
+            if previous_channel is not None:
+                previous_channel.close()
+                log.debug(f"Closed previous gRPC channel for url: {self.url}")
 
     def shutdown(self) -> None:
         """Закрывает gRPC канал."""
@@ -137,7 +155,11 @@ class MlpGrpcClient:
         while time.time() < end_time:
             try:
                 if self.stub is None:
-                    raise MlpGrpcClientException("UNAVAILABLE", "gRPC stub is not initialized")
+                    # первое подключение могло не состояться (gate был недоступен на старте) — пробуем снова, пока есть дедлайн
+                    self.connect()
+                    if self.stub is None:
+                        time.sleep(request_retry_backoff_seconds)
+                    continue
 
                 response_generator: Generator[ClientResponseProto, None, None] = self.stub.processResponseStream(request)
 
@@ -178,6 +200,18 @@ class MlpGrpcClient:
                 else:
                     log.error(f"Unknown response {response_type}")
                     break
+
+            except ValueError as value_error:
+                # Закрытый канал приходит сюда обычным ValueError из cygrpc, а не grpc.RpcError
+                if not _is_channel_closed_error(value_error):
+                    raise
+
+                log.warning(f"gRPC channel is closed: {value_error}. Reconnecting...")
+                self.connect()
+                # закрытый канал падает мгновенно: без паузы цикл сожжёт дедлайн на реконнектах
+                time.sleep(request_retry_backoff_seconds)
+                # Продолжаем цикл retry для повторной попытки с новым каналом
+                continue
 
             except grpc.RpcError as rpc_error:
                 # Обрабатываем ошибки закрытого канала
@@ -223,6 +257,13 @@ class MlpGrpcClient:
         try:
             for r in response:
                 yield self.__process_single_response(r, response_clazz)
+        except ValueError as value_error:
+            # Повторить начатый стрим нельзя, но и голый ValueError наружу отдавать не надо
+            if not _is_channel_closed_error(value_error):
+                raise
+
+            log.error(f"gRPC channel is closed during streaming: {value_error}. Stream interrupted.")
+            raise MlpGrpcClientException("UNAVAILABLE", f"Stream interrupted: {value_error}") from value_error
         except grpc.RpcError as rpc_error:
             if rpc_error.code() in (grpc.StatusCode.UNAVAILABLE, grpc.StatusCode.CANCELLED):
                 log.error(f"gRPC channel error during streaming ({rpc_error.code()}): {rpc_error.details()}. Stream interrupted.")
