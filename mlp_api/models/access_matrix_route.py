@@ -19,16 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import BaseModel, Field, StrictStr
 
-class SortObject(BaseModel):
+class AccessMatrixRoute(BaseModel):
     """
-    SortObject
+    AccessMatrixRoute
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    route_id: StrictStr = Field(default=..., alias="routeId")
+    label: StrictStr = Field(...)
+    decision: StrictStr = Field(...)
+    reason: Optional[StrictStr] = None
+    __properties = ["routeId", "label", "decision", "reason"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AccessMatrixRoute:
+        """Create an instance of AccessMatrixRoute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +58,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> AccessMatrixRoute:
+        """Create an instance of AccessMatrixRoute from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return AccessMatrixRoute.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = AccessMatrixRoute.parse_obj({
+            "route_id": obj.get("routeId"),
+            "label": obj.get("label"),
+            "decision": obj.get("decision"),
+            "reason": obj.get("reason")
         })
         return _obj
 

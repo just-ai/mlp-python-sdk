@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Any, Dict, Optional
+from pydantic import BaseModel, Field, StrictStr
 
-class SortObject(BaseModel):
+class GroupModelRuleData(BaseModel):
     """
-    SortObject
+    GroupModelRuleData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    model_key: StrictStr = Field(default=..., alias="modelKey")
+    routes: Optional[Dict[str, Any]] = None
+    __properties = ["modelKey", "routes"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> GroupModelRuleData:
+        """Create an instance of GroupModelRuleData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> GroupModelRuleData:
+        """Create an instance of GroupModelRuleData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return GroupModelRuleData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = GroupModelRuleData.parse_obj({
+            "model_key": obj.get("modelKey"),
+            "routes": obj.get("routes")
         })
         return _obj
 

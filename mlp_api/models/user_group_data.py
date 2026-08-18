@@ -20,6 +20,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+from mlp_api.models.group_invitation_data import GroupInvitationData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.spending_limit import SpendingLimit
 
@@ -34,8 +35,9 @@ class UserGroupData(BaseModel):
     teamlead_name: Optional[StrictStr] = Field(default=None, alias="teamleadName")
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
     members: conlist(GroupMemberData) = Field(...)
+    invitations: conlist(GroupInvitationData) = Field(...)
     created: StrictStr = Field(...)
-    __properties = ["id", "name", "description", "teamleadUserId", "teamleadName", "spendingLimits", "members", "created"]
+    __properties = ["id", "name", "description", "teamleadUserId", "teamleadName", "spendingLimits", "members", "invitations", "created"]
 
     class Config:
         """Pydantic configuration"""
@@ -75,6 +77,13 @@ class UserGroupData(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['members'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in invitations (list)
+        _items = []
+        if self.invitations:
+            for _item in self.invitations:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['invitations'] = _items
         return _dict
 
     @classmethod
@@ -94,6 +103,7 @@ class UserGroupData(BaseModel):
             "teamlead_name": obj.get("teamleadName"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
             "members": [GroupMemberData.from_dict(_item) for _item in obj.get("members")] if obj.get("members") is not None else None,
+            "invitations": [GroupInvitationData.from_dict(_item) for _item in obj.get("invitations")] if obj.get("invitations") is not None else None,
             "created": obj.get("created")
         })
         return _obj

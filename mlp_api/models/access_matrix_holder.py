@@ -18,17 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
+from mlp_api.models.access_matrix_user import AccessMatrixUser
 
-class SortObject(BaseModel):
+class AccessMatrixHolder(BaseModel):
     """
-    SortObject
+    AccessMatrixHolder
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    kind: StrictStr = Field(...)
+    title: StrictStr = Field(...)
+    members: conlist(AccessMatrixUser) = Field(...)
+    __properties = ["kind", "title", "members"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AccessMatrixHolder:
+        """Create an instance of AccessMatrixHolder from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,28 @@ class SortObject(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in members (list)
+        _items = []
+        if self.members:
+            for _item in self.members:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['members'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> AccessMatrixHolder:
+        """Create an instance of AccessMatrixHolder from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return AccessMatrixHolder.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = AccessMatrixHolder.parse_obj({
+            "kind": obj.get("kind"),
+            "title": obj.get("title"),
+            "members": [AccessMatrixUser.from_dict(_item) for _item in obj.get("members")] if obj.get("members") is not None else None
         })
         return _obj
 
