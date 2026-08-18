@@ -5931,6 +5931,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserGroupData'
+  /api/mlpcore/account/{account}/groups/{groupId}/invitations:
+    post:
+      tags:
+      - user-group-endpoint
+      operationId: inviteMembers
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteMembersRequestData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteMembersResultData'
+  /api/mlpcore/account/{account}/groups/{groupId}/invitations/{invitationId}/resend:
+    post:
+      tags:
+      - user-group-endpoint
+      operationId: resendInvitation
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: invitationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInvitationData'
   /api/mlpcore/account/{account}/dump:
     get:
       tags:
@@ -12463,6 +12537,39 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/groups/{groupId}/invitations/{invitationId}:
+    delete:
+      tags:
+      - user-group-endpoint
+      operationId: revokeInvitation
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: invitationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
   /api/mlpcore/account/{account}/analysts/{userId}:
     delete:
       tags:
@@ -12954,10 +13061,10 @@ components:
           type: object
         type:
           type: string
-        exclusiveGroup:
-          type: string
         required:
           type: boolean
+        exclusiveGroup:
+          type: string
       discriminator:
         propertyName: type
     NumberConstant:
@@ -13431,6 +13538,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SpendingLimit'
+    GroupInvitationData:
+      required:
+      - email
+      - id
+      - invitedAt
+      - role
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+        role:
+          type: string
+        invitedAt:
+          type: string
     GroupMemberData:
       required:
       - addedAt
@@ -13450,6 +13574,7 @@ components:
       required:
       - created
       - id
+      - invitations
       - members
       - name
       type: object
@@ -13474,6 +13599,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GroupMemberData'
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupInvitationData'
         created:
           type: string
     GroupAccessPolicyData:
@@ -15444,9 +15573,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
         after:
+          $ref: '#/components/schemas/AccountDataDump'
+        before:
           $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
@@ -15835,9 +15964,9 @@ components:
                 type: string
               localizedMessage:
                 type: string
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
         after:
+          $ref: '#/components/schemas/AccountConfigDump'
+        before:
           $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
@@ -17274,6 +17403,81 @@ components:
         userId:
           type: integer
           format: int64
+    InvitationKeyTemplate:
+      required:
+      - permissions
+      - spendingLimits
+      type: object
+      properties:
+        permissions:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        spendingLimits:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SpendingLimit'
+        maxRequestsPerMinute:
+          type: integer
+          format: int64
+        ttlSeconds:
+          type: integer
+          format: int64
+    InviteMembersRequestData:
+      required:
+      - emails
+      - role
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+        role:
+          type: string
+          enum:
+          - MEMBER
+          - TEAMLEAD
+          - ANALYST
+        keyTemplate:
+          $ref: '#/components/schemas/InvitationKeyTemplate'
+    InviteMembersResultData:
+      required:
+      - activated
+      - group
+      - invited
+      - rejected
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/UserGroupData'
+        activated:
+          type: array
+          items:
+            type: integer
+            format: int64
+        invited:
+          type: array
+          items:
+            type: string
+        rejected:
+          $ref: '#/components/schemas/RejectedEmailsData'
+    RejectedEmailsData:
+      required:
+      - duplicate
+      - invalid
+      type: object
+      properties:
+        invalid:
+          type: array
+          items:
+            type: string
+        duplicate:
+          type: array
+          items:
+            type: string
     DeprecatedDatasetInfoWithContentData:
       required:
       - name
