@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import StrictFloat, StrictInt
-from mlp_api.models.model_variable import ModelVariable
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
+from mlp_api.models.access_matrix_user import AccessMatrixUser
 
-class NumberVariable(ModelVariable):
+class AccessMatrixHolder(BaseModel):
     """
-    NumberVariable
+    AccessMatrixHolder
     """
-    default: Optional[Union[StrictFloat, StrictInt]] = None
-    min: Optional[Union[StrictFloat, StrictInt]] = None
-    max: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties = ["name", "default", "type", "exclusiveGroup", "required", "min", "max"]
+    kind: StrictStr = Field(...)
+    title: StrictStr = Field(...)
+    members: conlist(AccessMatrixUser) = Field(...)
+    __properties = ["kind", "title", "members"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class NumberVariable(ModelVariable):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NumberVariable:
-        """Create an instance of NumberVariable from a JSON string"""
+    def from_json(cls, json_str: str) -> AccessMatrixHolder:
+        """Create an instance of AccessMatrixHolder from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -55,25 +55,28 @@ class NumberVariable(ModelVariable):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in members (list)
+        _items = []
+        if self.members:
+            for _item in self.members:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['members'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NumberVariable:
-        """Create an instance of NumberVariable from a dict"""
+    def from_dict(cls, obj: dict) -> AccessMatrixHolder:
+        """Create an instance of AccessMatrixHolder from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NumberVariable.parse_obj(obj)
+            return AccessMatrixHolder.parse_obj(obj)
 
-        _obj = NumberVariable.parse_obj({
-            "name": obj.get("name"),
-            "default": obj.get("default"),
-            "type": obj.get("type"),
-            "exclusive_group": obj.get("exclusiveGroup"),
-            "required": obj.get("required"),
-            "min": obj.get("min"),
-            "max": obj.get("max")
+        _obj = AccessMatrixHolder.parse_obj({
+            "kind": obj.get("kind"),
+            "title": obj.get("title"),
+            "members": [AccessMatrixUser.from_dict(_item) for _item in obj.get("members")] if obj.get("members") is not None else None
         })
         return _obj
 

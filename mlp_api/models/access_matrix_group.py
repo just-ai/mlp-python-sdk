@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import StrictFloat, StrictInt
-from mlp_api.models.model_variable import ModelVariable
 
-class NumberVariable(ModelVariable):
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
+
+class AccessMatrixGroup(BaseModel):
     """
-    NumberVariable
+    AccessMatrixGroup
     """
-    default: Optional[Union[StrictFloat, StrictInt]] = None
-    min: Optional[Union[StrictFloat, StrictInt]] = None
-    max: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties = ["name", "default", "type", "exclusiveGroup", "required", "min", "max"]
+    id: StrictInt = Field(...)
+    name: StrictStr = Field(...)
+    mode: StrictStr = Field(...)
+    has_policy: StrictBool = Field(default=..., alias="hasPolicy")
+    __properties = ["id", "name", "mode", "hasPolicy"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class NumberVariable(ModelVariable):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NumberVariable:
-        """Create an instance of NumberVariable from a JSON string"""
+    def from_json(cls, json_str: str) -> AccessMatrixGroup:
+        """Create an instance of AccessMatrixGroup from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,22 +58,19 @@ class NumberVariable(ModelVariable):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NumberVariable:
-        """Create an instance of NumberVariable from a dict"""
+    def from_dict(cls, obj: dict) -> AccessMatrixGroup:
+        """Create an instance of AccessMatrixGroup from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NumberVariable.parse_obj(obj)
+            return AccessMatrixGroup.parse_obj(obj)
 
-        _obj = NumberVariable.parse_obj({
+        _obj = AccessMatrixGroup.parse_obj({
+            "id": obj.get("id"),
             "name": obj.get("name"),
-            "default": obj.get("default"),
-            "type": obj.get("type"),
-            "exclusive_group": obj.get("exclusiveGroup"),
-            "required": obj.get("required"),
-            "min": obj.get("min"),
-            "max": obj.get("max")
+            "mode": obj.get("mode"),
+            "has_policy": obj.get("hasPolicy")
         })
         return _obj
 

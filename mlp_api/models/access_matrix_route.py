@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import StrictFloat, StrictInt
-from mlp_api.models.model_variable import ModelVariable
+from typing import Optional
+from pydantic import BaseModel, Field, StrictStr
 
-class NumberVariable(ModelVariable):
+class AccessMatrixRoute(BaseModel):
     """
-    NumberVariable
+    AccessMatrixRoute
     """
-    default: Optional[Union[StrictFloat, StrictInt]] = None
-    min: Optional[Union[StrictFloat, StrictInt]] = None
-    max: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties = ["name", "default", "type", "exclusiveGroup", "required", "min", "max"]
+    route_id: StrictStr = Field(default=..., alias="routeId")
+    label: StrictStr = Field(...)
+    decision: StrictStr = Field(...)
+    reason: Optional[StrictStr] = None
+    __properties = ["routeId", "label", "decision", "reason"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class NumberVariable(ModelVariable):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> NumberVariable:
-        """Create an instance of NumberVariable from a JSON string"""
+    def from_json(cls, json_str: str) -> AccessMatrixRoute:
+        """Create an instance of AccessMatrixRoute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,22 +58,19 @@ class NumberVariable(ModelVariable):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> NumberVariable:
-        """Create an instance of NumberVariable from a dict"""
+    def from_dict(cls, obj: dict) -> AccessMatrixRoute:
+        """Create an instance of AccessMatrixRoute from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return NumberVariable.parse_obj(obj)
+            return AccessMatrixRoute.parse_obj(obj)
 
-        _obj = NumberVariable.parse_obj({
-            "name": obj.get("name"),
-            "default": obj.get("default"),
-            "type": obj.get("type"),
-            "exclusive_group": obj.get("exclusiveGroup"),
-            "required": obj.get("required"),
-            "min": obj.get("min"),
-            "max": obj.get("max")
+        _obj = AccessMatrixRoute.parse_obj({
+            "route_id": obj.get("routeId"),
+            "label": obj.get("label"),
+            "decision": obj.get("decision"),
+            "reason": obj.get("reason")
         })
         return _obj
 

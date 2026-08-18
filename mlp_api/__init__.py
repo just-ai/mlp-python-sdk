@@ -37,6 +37,7 @@ from mlp_api.api.gateway_access_internal_endpoint_api import GatewayAccessIntern
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
+from mlp_api.api.key_access_matrix_endpoint_api import KeyAccessMatrixEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
 from mlp_api.api.llm_catalog_notification_digest_admin_endpoint_api import LlmCatalogNotificationDigestAdminEndpointApi
 from mlp_api.api.llm_catalog_notification_subscription_endpoint_api import LlmCatalogNotificationSubscriptionEndpointApi
@@ -90,6 +91,14 @@ from mlp_api.exceptions import ApiAttributeError
 from mlp_api.exceptions import ApiException
 
 # import models into sdk package
+from mlp_api.models.access_matrix_group import AccessMatrixGroup
+from mlp_api.models.access_matrix_holder import AccessMatrixHolder
+from mlp_api.models.access_matrix_level import AccessMatrixLevel
+from mlp_api.models.access_matrix_result import AccessMatrixResult
+from mlp_api.models.access_matrix_route import AccessMatrixRoute
+from mlp_api.models.access_matrix_row import AccessMatrixRow
+from mlp_api.models.access_matrix_summary import AccessMatrixSummary
+from mlp_api.models.access_matrix_user import AccessMatrixUser
 from mlp_api.models.access_token_data import AccessTokenData
 from mlp_api.models.account_config_dump import AccountConfigDump
 from mlp_api.models.account_data_dump import AccountDataDump
@@ -183,6 +192,7 @@ from mlp_api.models.frontend_settings import FrontendSettings
 from mlp_api.models.group_access_policy_data import GroupAccessPolicyData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.group_member_request_data import GroupMemberRequestData
+from mlp_api.models.group_model_rule_data import GroupModelRuleData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval

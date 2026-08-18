@@ -14,6 +14,14 @@
 
 
 # import models into model package
+from mlp_api.models.access_matrix_group import AccessMatrixGroup
+from mlp_api.models.access_matrix_holder import AccessMatrixHolder
+from mlp_api.models.access_matrix_level import AccessMatrixLevel
+from mlp_api.models.access_matrix_result import AccessMatrixResult
+from mlp_api.models.access_matrix_route import AccessMatrixRoute
+from mlp_api.models.access_matrix_row import AccessMatrixRow
+from mlp_api.models.access_matrix_summary import AccessMatrixSummary
+from mlp_api.models.access_matrix_user import AccessMatrixUser
 from mlp_api.models.access_token_data import AccessTokenData
 from mlp_api.models.account_config_dump import AccountConfigDump
 from mlp_api.models.account_data_dump import AccountDataDump
@@ -107,6 +115,7 @@ from mlp_api.models.frontend_settings import FrontendSettings
 from mlp_api.models.group_access_policy_data import GroupAccessPolicyData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.group_member_request_data import GroupMemberRequestData
+from mlp_api.models.group_model_rule_data import GroupModelRuleData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval

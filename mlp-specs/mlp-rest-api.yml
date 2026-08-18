@@ -7413,6 +7413,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmCatalogNotificationSubscriptionData'
+  /api/mlpcore/account/{account}/groups/{groupId}/access-policy/model:
+    patch:
+      tags:
+      - user-group-access-policy-endpoint
+      operationId: patchModelRule
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupModelRuleData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupAccessPolicyData'
   /api/mlpcore-internal/resource-groups:
     get:
       tags:
@@ -7584,6 +7621,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountKeysResult'
+  /api/mlpcore/v2/account/{account}/keys/{keyId}/access-matrix:
+    get:
+      tags:
+      - key-access-matrix-endpoint
+      operationId: getAccessMatrix
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessMatrixResult'
   /api/mlpcore/task:
     get:
       tags:
@@ -12886,10 +12954,10 @@ components:
           type: object
         type:
           type: string
-        required:
-          type: boolean
         exclusiveGroup:
           type: string
+        required:
+          type: boolean
       discriminator:
         propertyName: type
     NumberConstant:
@@ -17389,6 +17457,15 @@ components:
             - NEW_MODEL
             - PRICE_CHANGED
             - MODEL_UNAVAILABLE
+    GroupModelRuleData:
+      required:
+      - modelKey
+      type: object
+      properties:
+        modelKey:
+          type: string
+        routes:
+          type: object
     LlmPricingV2GroupView:
       required:
       - models
@@ -17965,6 +18042,172 @@ components:
         name:
           type: string
         provider:
+          type: string
+    AccessMatrixGroup:
+      required:
+      - hasPolicy
+      - id
+      - mode
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        mode:
+          type: string
+        hasPolicy:
+          type: boolean
+    AccessMatrixHolder:
+      required:
+      - kind
+      - members
+      - title
+      type: object
+      properties:
+        kind:
+          type: string
+        title:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessMatrixUser'
+    AccessMatrixLevel:
+      required:
+      - allowedCount
+      - blockedRoutes
+      - bound
+      - forbiddenCount
+      - kind
+      - modelRules
+      type: object
+      properties:
+        kind:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        mode:
+          type: string
+        modelRules:
+          type: integer
+          format: int32
+        blockedRoutes:
+          type: integer
+          format: int32
+        allowedCount:
+          type: integer
+          format: int32
+        forbiddenCount:
+          type: integer
+          format: int32
+        bound:
+          type: boolean
+    AccessMatrixResult:
+      required:
+      - groups
+      - holder
+      - levels
+      - rows
+      - summary
+      type: object
+      properties:
+        summary:
+          $ref: '#/components/schemas/AccessMatrixSummary'
+        holder:
+          $ref: '#/components/schemas/AccessMatrixHolder'
+        owner:
+          $ref: '#/components/schemas/AccessMatrixUser'
+        levels:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessMatrixLevel'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessMatrixGroup'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessMatrixRow'
+    AccessMatrixRoute:
+      required:
+      - decision
+      - label
+      - routeId
+      type: object
+      properties:
+        routeId:
+          type: string
+        label:
+          type: string
+        decision:
+          type: string
+        reason:
+          type: string
+    AccessMatrixRow:
+      required:
+      - allowedBy
+      - modelId
+      - modelName
+      - provider
+      - routes
+      - state
+      type: object
+      properties:
+        modelId:
+          type: string
+        modelName:
+          type: string
+        provider:
+          type: string
+        state:
+          type: string
+        allowedBy:
+          type: array
+          items:
+            type: integer
+            format: int64
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessMatrixRoute'
+    AccessMatrixSummary:
+      required:
+      - modelsAllowed
+      - modelsTotal
+      - routesAllowed
+      - routesTotal
+      type: object
+      properties:
+        modelsAllowed:
+          type: integer
+          format: int32
+        modelsTotal:
+          type: integer
+          format: int32
+        routesAllowed:
+          type: integer
+          format: int32
+        routesTotal:
+          type: integer
+          format: int32
+    AccessMatrixUser:
+      required:
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        initials:
           type: string
     JobStatusDataV2:
       required:
