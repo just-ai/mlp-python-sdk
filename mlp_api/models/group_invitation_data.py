@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import Field, StrictInt, StrictStr
-from mlp_api.models.model_variable import ModelVariable
 
-class StringVariable(ModelVariable):
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+
+class GroupInvitationData(BaseModel):
     """
-    StringVariable
+    GroupInvitationData
     """
-    default: Optional[StrictStr] = None
-    min_length: Optional[StrictInt] = Field(default=None, alias="minLength")
-    max_length: Optional[StrictInt] = Field(default=None, alias="maxLength")
-    __properties = ["name", "default", "type", "required", "exclusiveGroup", "minLength", "maxLength"]
+    id: StrictInt = Field(...)
+    email: StrictStr = Field(...)
+    role: StrictStr = Field(...)
+    invited_at: StrictStr = Field(default=..., alias="invitedAt")
+    __properties = ["id", "email", "role", "invitedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +45,8 @@ class StringVariable(ModelVariable):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> StringVariable:
-        """Create an instance of StringVariable from a JSON string"""
+    def from_json(cls, json_str: str) -> GroupInvitationData:
+        """Create an instance of GroupInvitationData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -58,22 +58,19 @@ class StringVariable(ModelVariable):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> StringVariable:
-        """Create an instance of StringVariable from a dict"""
+    def from_dict(cls, obj: dict) -> GroupInvitationData:
+        """Create an instance of GroupInvitationData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return StringVariable.parse_obj(obj)
+            return GroupInvitationData.parse_obj(obj)
 
-        _obj = StringVariable.parse_obj({
-            "name": obj.get("name"),
-            "default": obj.get("default"),
-            "type": obj.get("type"),
-            "required": obj.get("required"),
-            "exclusive_group": obj.get("exclusiveGroup"),
-            "min_length": obj.get("minLength"),
-            "max_length": obj.get("maxLength")
+        _obj = GroupInvitationData.parse_obj({
+            "id": obj.get("id"),
+            "email": obj.get("email"),
+            "role": obj.get("role"),
+            "invited_at": obj.get("invitedAt")
         })
         return _obj
 
