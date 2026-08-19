@@ -13358,6 +13358,11 @@ components:
           type: array
           items:
             type: string
+        allowedIpAddresses:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     UpdateAccessTokenData:
       required:
       - permissions
@@ -18146,6 +18151,7 @@ components:
           type: string
     ManagedKeyData:
       required:
+      - allowedIps
       - allowedModels
       - allowedServicesFilter
       - binding
@@ -18221,6 +18227,10 @@ components:
           items:
             type: string
         forbiddenModels:
+          type: array
+          items:
+            type: string
+        allowedIps:
           type: array
           items:
             type: string
