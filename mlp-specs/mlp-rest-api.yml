@@ -11745,6 +11745,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedImageInfoData'
+  /api/mlpcore/account/{account}/gateway-access:
+    get:
+      tags:
+      - gateway-access-endpoint
+      operationId: getMyGatewayAccess
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyGatewayAccessData'
   /api/mlpcore/account/{account}/deployable-resource-groups:
     get:
       tags:
@@ -20283,6 +20308,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageInfoData'
+    MyGatewayAccessData:
+      required:
+      - role
+      type: object
+      properties:
+        role:
+          type: string
     ParaphrasingStatus:
       required:
       - statuses
