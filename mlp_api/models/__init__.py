@@ -237,6 +237,7 @@ from mlp_api.models.modifier import Modifier
 from mlp_api.models.modifier_when_inner import ModifierWhenInner
 from mlp_api.models.multiply_client_discount import MultiplyClientDiscount
 from mlp_api.models.multiply_modifier import MultiplyModifier
+from mlp_api.models.my_gateway_access_data import MyGatewayAccessData
 from mlp_api.models.new_image_data import NewImageData
 from mlp_api.models.not_in_condition import NotInCondition
 from mlp_api.models.notification_history_data import NotificationHistoryData

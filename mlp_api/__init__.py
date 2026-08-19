@@ -33,6 +33,7 @@ from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
+from mlp_api.api.gateway_access_endpoint_api import GatewayAccessEndpointApi
 from mlp_api.api.gateway_access_internal_endpoint_api import GatewayAccessInternalEndpointApi
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
@@ -314,6 +315,7 @@ from mlp_api.models.modifier import Modifier
 from mlp_api.models.modifier_when_inner import ModifierWhenInner
 from mlp_api.models.multiply_client_discount import MultiplyClientDiscount
 from mlp_api.models.multiply_modifier import MultiplyModifier
+from mlp_api.models.my_gateway_access_data import MyGatewayAccessData
 from mlp_api.models.new_image_data import NewImageData
 from mlp_api.models.not_in_condition import NotInCondition
 from mlp_api.models.notification_history_data import NotificationHistoryData
