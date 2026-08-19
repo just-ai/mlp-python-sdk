@@ -31,7 +31,8 @@ class AttributionData(BaseModel):
     utm_term: Optional[StrictStr] = Field(default=None, alias="utmTerm")
     utm_content: Optional[StrictStr] = Field(default=None, alias="utmContent")
     ga_id: Optional[StrictStr] = Field(default=None, alias="gaId")
-    __properties = ["utmSource", "utmMedium", "utmCampaign", "utmTerm", "utmContent", "gaId"]
+    page_url: Optional[StrictStr] = Field(default=None, alias="pageUrl")
+    __properties = ["utmSource", "utmMedium", "utmCampaign", "utmTerm", "utmContent", "gaId", "pageUrl"]
 
     class Config:
         """Pydantic configuration"""
@@ -74,7 +75,8 @@ class AttributionData(BaseModel):
             "utm_campaign": obj.get("utmCampaign"),
             "utm_term": obj.get("utmTerm"),
             "utm_content": obj.get("utmContent"),
-            "ga_id": obj.get("gaId")
+            "ga_id": obj.get("gaId"),
+            "page_url": obj.get("pageUrl")
         })
         return _obj
 
