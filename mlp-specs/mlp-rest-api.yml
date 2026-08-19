@@ -14672,6 +14672,8 @@ components:
           type: string
         gaId:
           type: string
+        pageUrl:
+          type: string
     LeadRequestData:
       required:
       - attribution
