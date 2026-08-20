@@ -117,6 +117,9 @@ from mlp_api.models.group_invitation_data import GroupInvitationData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.group_member_request_data import GroupMemberRequestData
 from mlp_api.models.group_model_rule_data import GroupModelRuleData
+from mlp_api.models.group_policy_catalog_data import GroupPolicyCatalogData
+from mlp_api.models.group_policy_catalog_model_data import GroupPolicyCatalogModelData
+from mlp_api.models.group_policy_catalog_route_data import GroupPolicyCatalogRouteData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval
@@ -237,6 +240,7 @@ from mlp_api.models.modifier import Modifier
 from mlp_api.models.modifier_when_inner import ModifierWhenInner
 from mlp_api.models.multiply_client_discount import MultiplyClientDiscount
 from mlp_api.models.multiply_modifier import MultiplyModifier
+from mlp_api.models.my_gateway_access_data import MyGatewayAccessData
 from mlp_api.models.new_image_data import NewImageData
 from mlp_api.models.not_in_condition import NotInCondition
 from mlp_api.models.notification_history_data import NotificationHistoryData

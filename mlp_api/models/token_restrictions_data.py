@@ -33,7 +33,8 @@ class TokenRestrictionsData(BaseModel):
     allowed_services_filter: Optional[conlist(ServiceFilter, unique_items=True)] = Field(default=None, alias="allowedServicesFilter")
     allowed_adapter_models_filter: Optional[conlist(StrictStr, unique_items=True)] = Field(default=None, alias="allowedAdapterModelsFilter")
     forbidden_adapter_models_filter: Optional[conlist(StrictStr, unique_items=True)] = Field(default=None, alias="forbiddenAdapterModelsFilter")
-    __properties = ["maxRequestSizeBytes", "maxRequestsPerMinute", "spendingLimits", "allowedServicesFilter", "allowedAdapterModelsFilter", "forbiddenAdapterModelsFilter"]
+    allowed_ip_addresses: Optional[conlist(StrictStr, unique_items=True)] = Field(default=None, alias="allowedIpAddresses")
+    __properties = ["maxRequestSizeBytes", "maxRequestsPerMinute", "spendingLimits", "allowedServicesFilter", "allowedAdapterModelsFilter", "forbiddenAdapterModelsFilter", "allowedIpAddresses"]
 
     class Config:
         """Pydantic configuration"""
@@ -90,7 +91,8 @@ class TokenRestrictionsData(BaseModel):
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
             "allowed_services_filter": [ServiceFilter.from_dict(_item) for _item in obj.get("allowedServicesFilter")] if obj.get("allowedServicesFilter") is not None else None,
             "allowed_adapter_models_filter": obj.get("allowedAdapterModelsFilter"),
-            "forbidden_adapter_models_filter": obj.get("forbiddenAdapterModelsFilter")
+            "forbidden_adapter_models_filter": obj.get("forbiddenAdapterModelsFilter"),
+            "allowed_ip_addresses": obj.get("allowedIpAddresses")
         })
         return _obj
 
