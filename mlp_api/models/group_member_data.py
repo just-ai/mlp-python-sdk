@@ -28,8 +28,9 @@ class GroupMemberData(BaseModel):
     user_id: StrictInt = Field(default=..., alias="userId")
     name: Optional[StrictStr] = None
     initials: Optional[StrictStr] = None
+    email: Optional[StrictStr] = None
     added_at: StrictStr = Field(default=..., alias="addedAt")
-    __properties = ["userId", "name", "initials", "addedAt"]
+    __properties = ["userId", "name", "initials", "email", "addedAt"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,6 +71,7 @@ class GroupMemberData(BaseModel):
             "user_id": obj.get("userId"),
             "name": obj.get("name"),
             "initials": obj.get("initials"),
+            "email": obj.get("email"),
             "added_at": obj.get("addedAt")
         })
         return _obj
