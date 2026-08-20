@@ -11745,6 +11745,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedImageInfoData'
+  /api/mlpcore/account/{account}/groups/{groupId}/access-policy/catalog:
+    get:
+      tags:
+      - user-group-access-policy-endpoint
+      operationId: getPolicyCatalog
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPolicyCatalogData'
   /api/mlpcore/account/{account}/gateway-access:
     get:
       tags:
@@ -20308,6 +20339,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageInfoData'
+    GroupPolicyCatalogData:
+      required:
+      - models
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupPolicyCatalogModelData'
+    GroupPolicyCatalogModelData:
+      required:
+      - modelId
+      - modelName
+      - provider
+      - routes
+      type: object
+      properties:
+        modelId:
+          type: string
+        modelName:
+          type: string
+        provider:
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupPolicyCatalogRouteData'
+    GroupPolicyCatalogRouteData:
+      required:
+      - label
+      - routeId
+      type: object
+      properties:
+        routeId:
+          type: string
+        label:
+          type: string
     MyGatewayAccessData:
       required:
       - role
