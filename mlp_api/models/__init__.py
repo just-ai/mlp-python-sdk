@@ -47,6 +47,7 @@ from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.catalog_llm_model import CatalogLlmModel
 from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.catalog_model_variant import CatalogModelVariant
 from mlp_api.models.catalog_news_request import CatalogNewsRequest
 from mlp_api.models.catalog_news_result import CatalogNewsResult
 from mlp_api.models.catalog_price import CatalogPrice
