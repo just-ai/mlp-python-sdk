@@ -6726,6 +6726,31 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+  /api/mlpcore-internal/test-notification/JOB_FAILED/preview:
+    post:
+      tags:
+      - internal-endpoint
+      operationId: previewJobFailedNotification
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobFailedRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MmAttachment'
   /api/mlpcore-internal/test-mm:
     post:
       tags:
@@ -17653,6 +17678,66 @@ components:
           type: string
         added:
           type: string
+    JobFailedRequest:
+      required:
+      - exceptionMessage
+      - jobId
+      - jobName
+      - jobOwner
+      - jobOwnerId
+      type: object
+      properties:
+        jobId:
+          type: string
+        jobName:
+          type: string
+        jobOwner:
+          type: string
+        jobOwnerId:
+          type: string
+        exceptionMessage:
+          type: string
+        accountId:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        instanceId:
+          type: integer
+          format: int64
+        customDeduplicationKey:
+          type: string
+    MmAttachment:
+      required:
+      - fallback
+      type: object
+      properties:
+        fallback:
+          type: string
+        color:
+          type: string
+        pretext:
+          type: string
+        text:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MmField'
+    MmField:
+      required:
+      - short
+      - title
+      - value
+      type: object
+      properties:
+        title:
+          type: string
+        value:
+          type: string
+        short:
+          type: boolean
     UpdateChatConversationData:
       type: object
       properties:
@@ -19191,6 +19276,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19203,10 +19292,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -19217,17 +19302,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -19235,9 +19320,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -19824,6 +19909,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19836,10 +19925,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
