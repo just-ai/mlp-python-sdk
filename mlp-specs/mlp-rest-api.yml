@@ -18001,6 +18001,7 @@ components:
       - rfLocalized
       - status
       - strengths
+      - variants
       - vendor
       - watch
       type: object
@@ -18067,6 +18068,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CatalogProviderOption'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogModelVariant'
+    CatalogModelVariant:
+      required:
+      - label
+      - model
+      type: object
+      properties:
+        label:
+          type: string
+        model:
+          $ref: '#/components/schemas/CatalogLlmModel'
     CatalogPrice:
       required:
       - displayInPreview
