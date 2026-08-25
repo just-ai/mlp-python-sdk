@@ -18,19 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class GroupMemberData(BaseModel):
+from pydantic import BaseModel, Field, StrictStr
+
+class MyGatewayAccessData(BaseModel):
     """
-    GroupMemberData
+    MyGatewayAccessData
     """
-    user_id: StrictInt = Field(default=..., alias="userId")
-    name: Optional[StrictStr] = None
-    initials: Optional[StrictStr] = None
-    email: Optional[StrictStr] = None
-    added_at: StrictStr = Field(default=..., alias="addedAt")
-    __properties = ["userId", "name", "initials", "email", "addedAt"]
+    role: StrictStr = Field(...)
+    __properties = ["role"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +42,8 @@ class GroupMemberData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> GroupMemberData:
-        """Create an instance of GroupMemberData from a JSON string"""
+    def from_json(cls, json_str: str) -> MyGatewayAccessData:
+        """Create an instance of MyGatewayAccessData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -59,20 +55,16 @@ class GroupMemberData(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> GroupMemberData:
-        """Create an instance of GroupMemberData from a dict"""
+    def from_dict(cls, obj: dict) -> MyGatewayAccessData:
+        """Create an instance of MyGatewayAccessData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return GroupMemberData.parse_obj(obj)
+            return MyGatewayAccessData.parse_obj(obj)
 
-        _obj = GroupMemberData.parse_obj({
-            "user_id": obj.get("userId"),
-            "name": obj.get("name"),
-            "initials": obj.get("initials"),
-            "email": obj.get("email"),
-            "added_at": obj.get("addedAt")
+        _obj = MyGatewayAccessData.parse_obj({
+            "role": obj.get("role")
         })
         return _obj
 

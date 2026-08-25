@@ -44,7 +44,8 @@ class CatalogLlmModel(BaseModel):
     watch: conlist(StrictStr) = Field(...)
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
     provider_options: conlist(CatalogProviderOption) = Field(default=..., alias="providerOptions")
-    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "providerOptions"]
+    variants: conlist(CatalogModelVariant) = Field(...)
+    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "providerOptions", "variants"]
 
     @validator('host_class')
     def host_class_validate_enum(cls, value):
@@ -99,6 +100,13 @@ class CatalogLlmModel(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['providerOptions'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in variants (list)
+        _items = []
+        if self.variants:
+            for _item in self.variants:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['variants'] = _items
         return _dict
 
     @classmethod
@@ -128,8 +136,11 @@ class CatalogLlmModel(BaseModel):
             "strengths": obj.get("strengths"),
             "watch": obj.get("watch"),
             "rf_localized": obj.get("rfLocalized"),
-            "provider_options": [CatalogProviderOption.from_dict(_item) for _item in obj.get("providerOptions")] if obj.get("providerOptions") is not None else None
+            "provider_options": [CatalogProviderOption.from_dict(_item) for _item in obj.get("providerOptions")] if obj.get("providerOptions") is not None else None,
+            "variants": [CatalogModelVariant.from_dict(_item) for _item in obj.get("variants")] if obj.get("variants") is not None else None
         })
         return _obj
 
+from mlp_api.models.catalog_model_variant import CatalogModelVariant
+CatalogLlmModel.update_forward_refs()
 

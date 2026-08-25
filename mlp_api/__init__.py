@@ -33,6 +33,7 @@ from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
 from mlp_api.api.exchange_rate_admin_endpoint_api import ExchangeRateAdminEndpointApi
 from mlp_api.api.fit_config_endpoint_api import FitConfigEndpointApi
+from mlp_api.api.gateway_access_endpoint_api import GatewayAccessEndpointApi
 from mlp_api.api.gateway_access_internal_endpoint_api import GatewayAccessInternalEndpointApi
 from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
@@ -124,6 +125,7 @@ from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.catalog_llm_model import CatalogLlmModel
 from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.catalog_model_variant import CatalogModelVariant
 from mlp_api.models.catalog_news_request import CatalogNewsRequest
 from mlp_api.models.catalog_news_result import CatalogNewsResult
 from mlp_api.models.catalog_price import CatalogPrice
@@ -194,6 +196,9 @@ from mlp_api.models.group_invitation_data import GroupInvitationData
 from mlp_api.models.group_member_data import GroupMemberData
 from mlp_api.models.group_member_request_data import GroupMemberRequestData
 from mlp_api.models.group_model_rule_data import GroupModelRuleData
+from mlp_api.models.group_policy_catalog_data import GroupPolicyCatalogData
+from mlp_api.models.group_policy_catalog_model_data import GroupPolicyCatalogModelData
+from mlp_api.models.group_policy_catalog_route_data import GroupPolicyCatalogRouteData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval
@@ -222,6 +227,7 @@ from mlp_api.models.invitation_key_template import InvitationKeyTemplate
 from mlp_api.models.invite_members_request_data import InviteMembersRequestData
 from mlp_api.models.invite_members_result_data import InviteMembersResultData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
+from mlp_api.models.job_failed_request import JobFailedRequest
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.key_binding_data import KeyBindingData
@@ -267,6 +273,8 @@ from mlp_api.models.management_request_data import ManagementRequestData
 from mlp_api.models.measurement import Measurement
 from mlp_api.models.method_descriptor_data import MethodDescriptorData
 from mlp_api.models.mlp_limits import MlpLimits
+from mlp_api.models.mm_attachment import MmAttachment
+from mlp_api.models.mm_field import MmField
 from mlp_api.models.model_alias_data import ModelAliasData
 from mlp_api.models.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.models.model_auto_scaling_configuration import ModelAutoScalingConfiguration
@@ -314,6 +322,7 @@ from mlp_api.models.modifier import Modifier
 from mlp_api.models.modifier_when_inner import ModifierWhenInner
 from mlp_api.models.multiply_client_discount import MultiplyClientDiscount
 from mlp_api.models.multiply_modifier import MultiplyModifier
+from mlp_api.models.my_gateway_access_data import MyGatewayAccessData
 from mlp_api.models.new_image_data import NewImageData
 from mlp_api.models.not_in_condition import NotInCondition
 from mlp_api.models.notification_history_data import NotificationHistoryData

@@ -18,19 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-class GroupMemberData(BaseModel):
+from pydantic import BaseModel, Field, StrictStr
+
+class CatalogModelVariant(BaseModel):
     """
-    GroupMemberData
+    CatalogModelVariant
     """
-    user_id: StrictInt = Field(default=..., alias="userId")
-    name: Optional[StrictStr] = None
-    initials: Optional[StrictStr] = None
-    email: Optional[StrictStr] = None
-    added_at: StrictStr = Field(default=..., alias="addedAt")
-    __properties = ["userId", "name", "initials", "email", "addedAt"]
+    label: StrictStr = Field(...)
+    model: CatalogLlmModel = Field(...)
+    __properties = ["label", "model"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +43,8 @@ class GroupMemberData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> GroupMemberData:
-        """Create an instance of GroupMemberData from a JSON string"""
+    def from_json(cls, json_str: str) -> CatalogModelVariant:
+        """Create an instance of CatalogModelVariant from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,24 +53,26 @@ class GroupMemberData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of model
+        if self.model:
+            _dict['model'] = self.model.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> GroupMemberData:
-        """Create an instance of GroupMemberData from a dict"""
+    def from_dict(cls, obj: dict) -> CatalogModelVariant:
+        """Create an instance of CatalogModelVariant from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return GroupMemberData.parse_obj(obj)
+            return CatalogModelVariant.parse_obj(obj)
 
-        _obj = GroupMemberData.parse_obj({
-            "user_id": obj.get("userId"),
-            "name": obj.get("name"),
-            "initials": obj.get("initials"),
-            "email": obj.get("email"),
-            "added_at": obj.get("addedAt")
+        _obj = CatalogModelVariant.parse_obj({
+            "label": obj.get("label"),
+            "model": CatalogLlmModel.from_dict(obj.get("model")) if obj.get("model") is not None else None
         })
         return _obj
 
+from mlp_api.models.catalog_llm_model import CatalogLlmModel
+CatalogModelVariant.update_forward_refs()
 

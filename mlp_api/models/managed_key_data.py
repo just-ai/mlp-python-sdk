@@ -49,11 +49,12 @@ class ManagedKeyData(BaseModel):
     max_request_size_bytes: Optional[StrictInt] = Field(default=None, alias="maxRequestSizeBytes")
     allowed_models: conlist(StrictStr) = Field(default=..., alias="allowedModels")
     forbidden_models: conlist(StrictStr) = Field(default=..., alias="forbiddenModels")
+    allowed_ips: conlist(StrictStr) = Field(default=..., alias="allowedIps")
     emails_for_notifications: conlist(StrictStr) = Field(default=..., alias="emailsForNotifications")
     allowed_services_filter: conlist(ServiceFilter) = Field(default=..., alias="allowedServicesFilter")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
-    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "emailsForNotifications", "allowedServicesFilter", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
+    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "allowedIps", "emailsForNotifications", "allowedServicesFilter", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -136,6 +137,7 @@ class ManagedKeyData(BaseModel):
             "max_request_size_bytes": obj.get("maxRequestSizeBytes"),
             "allowed_models": obj.get("allowedModels"),
             "forbidden_models": obj.get("forbiddenModels"),
+            "allowed_ips": obj.get("allowedIps"),
             "emails_for_notifications": obj.get("emailsForNotifications"),
             "allowed_services_filter": [ServiceFilter.from_dict(_item) for _item in obj.get("allowedServicesFilter")] if obj.get("allowedServicesFilter") is not None else None,
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
