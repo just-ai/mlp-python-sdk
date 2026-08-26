@@ -15603,10 +15603,6 @@ components:
       - errors
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountDataDump'
-        after:
-          $ref: '#/components/schemas/AccountDataDump'
         errors:
           type: array
           items:
@@ -15667,6 +15663,10 @@ components:
                 type: string
               localizedMessage:
                 type: string
+        before:
+          $ref: '#/components/schemas/AccountDataDump'
+        after:
+          $ref: '#/components/schemas/AccountDataDump'
     DocumentDump:
       required:
       - content
@@ -15994,10 +15994,6 @@ components:
       - errors
       type: object
       properties:
-        before:
-          $ref: '#/components/schemas/AccountConfigDump'
-        after:
-          $ref: '#/components/schemas/AccountConfigDump'
         errors:
           type: array
           items:
@@ -16058,6 +16054,10 @@ components:
                 type: string
               localizedMessage:
                 type: string
+        before:
+          $ref: '#/components/schemas/AccountConfigDump'
+        after:
+          $ref: '#/components/schemas/AccountConfigDump'
     RequestDetailsData:
       required:
       - callerAccountId
@@ -18374,6 +18374,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SpendingLimit'
+        spendingMetrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenSpendingMetricData'
         rpm:
           type: integer
           format: int64
@@ -18417,6 +18421,26 @@ components:
           type: string
         provider:
           type: string
+    TokenSpendingMetricData:
+      required:
+      - available
+      - interval
+      - limit
+      type: object
+      properties:
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+        available:
+          type: number
+          format: double
+        limit:
+          type: number
+          format: double
     AccessMatrixGroup:
       required:
       - hasPolicy
@@ -19276,10 +19300,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19292,6 +19312,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -19302,17 +19326,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -19320,9 +19344,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -19767,26 +19791,6 @@ components:
           type: object
         message:
           type: string
-    TokenSpendingMetricData:
-      required:
-      - available
-      - interval
-      - limit
-      type: object
-      properties:
-        interval:
-          type: string
-          enum:
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-        available:
-          type: number
-          format: double
-        limit:
-          type: number
-          format: double
     Measurement:
       required:
       - ts
@@ -19909,10 +19913,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19925,6 +19925,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32

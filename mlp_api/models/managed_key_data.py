@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
 from mlp_api.models.key_binding_data import KeyBindingData
 from mlp_api.models.service_filter import ServiceFilter
 from mlp_api.models.spending_limit import SpendingLimit
+from mlp_api.models.token_spending_metric_data import TokenSpendingMetricData
 
 class ManagedKeyData(BaseModel):
     """
@@ -45,6 +46,7 @@ class ManagedKeyData(BaseModel):
     ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
     expires_at: Optional[StrictInt] = Field(default=None, alias="expiresAt")
     spending_limits: Optional[conlist(SpendingLimit)] = Field(default=None, alias="spendingLimits")
+    spending_metrics: Optional[conlist(TokenSpendingMetricData)] = Field(default=None, alias="spendingMetrics")
     rpm: Optional[StrictInt] = None
     max_request_size_bytes: Optional[StrictInt] = Field(default=None, alias="maxRequestSizeBytes")
     allowed_models: conlist(StrictStr) = Field(default=..., alias="allowedModels")
@@ -54,7 +56,7 @@ class ManagedKeyData(BaseModel):
     allowed_services_filter: conlist(ServiceFilter) = Field(default=..., alias="allowedServicesFilter")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     keep_available_on_limit_change: StrictBool = Field(default=..., alias="keepAvailableOnLimitChange")
-    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "allowedIps", "emailsForNotifications", "allowedServicesFilter", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
+    __properties = ["id", "name", "value", "mask", "description", "status", "rights", "binding", "ownerUserId", "ownerName", "ownerInitials", "groupId", "tags", "created", "ttlMinutes", "expiresAt", "spendingLimits", "spendingMetrics", "rpm", "maxRequestSizeBytes", "allowedModels", "forbiddenModels", "allowedIps", "emailsForNotifications", "allowedServicesFilter", "jayGuardMaskingKey", "keepAvailableOnLimitChange"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -97,6 +99,13 @@ class ManagedKeyData(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['spendingLimits'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in spending_metrics (list)
+        _items = []
+        if self.spending_metrics:
+            for _item in self.spending_metrics:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['spendingMetrics'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in allowed_services_filter (list)
         _items = []
         if self.allowed_services_filter:
@@ -133,6 +142,7 @@ class ManagedKeyData(BaseModel):
             "ttl_minutes": obj.get("ttlMinutes"),
             "expires_at": obj.get("expiresAt"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
+            "spending_metrics": [TokenSpendingMetricData.from_dict(_item) for _item in obj.get("spendingMetrics")] if obj.get("spendingMetrics") is not None else None,
             "rpm": obj.get("rpm"),
             "max_request_size_bytes": obj.get("maxRequestSizeBytes"),
             "allowed_models": obj.get("allowedModels"),
