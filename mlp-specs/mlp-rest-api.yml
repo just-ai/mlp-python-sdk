@@ -13142,10 +13142,10 @@ components:
           type: object
         type:
           type: string
-        exclusiveGroup:
-          type: string
         required:
           type: boolean
+        exclusiveGroup:
+          type: string
       discriminator:
         propertyName: type
     NumberConstant:
