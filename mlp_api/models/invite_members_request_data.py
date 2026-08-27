@@ -20,7 +20,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, conlist, validator
-from mlp_api.models.invitation_key_template import InvitationKeyTemplate
+from mlp_api.models.invitation_key_template_data import InvitationKeyTemplateData
 
 class InviteMembersRequestData(BaseModel):
     """
@@ -28,7 +28,7 @@ class InviteMembersRequestData(BaseModel):
     """
     emails: conlist(StrictStr) = Field(...)
     role: StrictStr = Field(...)
-    key_template: Optional[InvitationKeyTemplate] = Field(default=None, alias="keyTemplate")
+    key_template: Optional[InvitationKeyTemplateData] = Field(default=None, alias="keyTemplate")
     __properties = ["emails", "role", "keyTemplate"]
 
     @validator('role')
@@ -79,7 +79,7 @@ class InviteMembersRequestData(BaseModel):
         _obj = InviteMembersRequestData.parse_obj({
             "emails": obj.get("emails"),
             "role": obj.get("role"),
-            "key_template": InvitationKeyTemplate.from_dict(obj.get("keyTemplate")) if obj.get("keyTemplate") is not None else None
+            "key_template": InvitationKeyTemplateData.from_dict(obj.get("keyTemplate")) if obj.get("keyTemplate") is not None else None
         })
         return _obj
 

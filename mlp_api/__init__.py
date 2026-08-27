@@ -223,7 +223,7 @@ from mlp_api.models.instances_status_data import InstancesStatusData
 from mlp_api.models.integer_constant import IntegerConstant
 from mlp_api.models.integer_variable import IntegerVariable
 from mlp_api.models.integration_snippet_data import IntegrationSnippetData
-from mlp_api.models.invitation_key_template import InvitationKeyTemplate
+from mlp_api.models.invitation_key_template_data import InvitationKeyTemplateData
 from mlp_api.models.invite_members_request_data import InviteMembersRequestData
 from mlp_api.models.invite_members_result_data import InviteMembersResultData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
