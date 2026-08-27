@@ -22,9 +22,9 @@ from typing import List, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
 from mlp_api.models.spending_limit import SpendingLimit
 
-class InvitationKeyTemplate(BaseModel):
+class InvitationKeyTemplateData(BaseModel):
     """
-    InvitationKeyTemplate
+    InvitationKeyTemplateData
     """
     permissions: conlist(StrictStr, unique_items=True) = Field(...)
     spending_limits: conlist(SpendingLimit, unique_items=True) = Field(default=..., alias="spendingLimits")
@@ -46,8 +46,8 @@ class InvitationKeyTemplate(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> InvitationKeyTemplate:
-        """Create an instance of InvitationKeyTemplate from a JSON string"""
+    def from_json(cls, json_str: str) -> InvitationKeyTemplateData:
+        """Create an instance of InvitationKeyTemplateData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -66,15 +66,15 @@ class InvitationKeyTemplate(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> InvitationKeyTemplate:
-        """Create an instance of InvitationKeyTemplate from a dict"""
+    def from_dict(cls, obj: dict) -> InvitationKeyTemplateData:
+        """Create an instance of InvitationKeyTemplateData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return InvitationKeyTemplate.parse_obj(obj)
+            return InvitationKeyTemplateData.parse_obj(obj)
 
-        _obj = InvitationKeyTemplate.parse_obj({
+        _obj = InvitationKeyTemplateData.parse_obj({
             "permissions": obj.get("permissions"),
             "spending_limits": [SpendingLimit.from_dict(_item) for _item in obj.get("spendingLimits")] if obj.get("spendingLimits") is not None else None,
             "max_requests_per_minute": obj.get("maxRequestsPerMinute"),

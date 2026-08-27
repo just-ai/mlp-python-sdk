@@ -125,6 +125,7 @@ from mlp_api.models.catalog_api_key_option import CatalogApiKeyOption
 from mlp_api.models.catalog_category_data import CatalogCategoryData
 from mlp_api.models.catalog_llm_model import CatalogLlmModel
 from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.catalog_model_variant import CatalogModelVariant
 from mlp_api.models.catalog_news_request import CatalogNewsRequest
 from mlp_api.models.catalog_news_result import CatalogNewsResult
 from mlp_api.models.catalog_price import CatalogPrice
@@ -222,10 +223,11 @@ from mlp_api.models.instances_status_data import InstancesStatusData
 from mlp_api.models.integer_constant import IntegerConstant
 from mlp_api.models.integer_variable import IntegerVariable
 from mlp_api.models.integration_snippet_data import IntegrationSnippetData
-from mlp_api.models.invitation_key_template import InvitationKeyTemplate
+from mlp_api.models.invitation_key_template_data import InvitationKeyTemplateData
 from mlp_api.models.invite_members_request_data import InviteMembersRequestData
 from mlp_api.models.invite_members_result_data import InviteMembersResultData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
+from mlp_api.models.job_failed_request import JobFailedRequest
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.key_binding_data import KeyBindingData
@@ -271,6 +273,8 @@ from mlp_api.models.management_request_data import ManagementRequestData
 from mlp_api.models.measurement import Measurement
 from mlp_api.models.method_descriptor_data import MethodDescriptorData
 from mlp_api.models.mlp_limits import MlpLimits
+from mlp_api.models.mm_attachment import MmAttachment
+from mlp_api.models.mm_field import MmField
 from mlp_api.models.model_alias_data import ModelAliasData
 from mlp_api.models.model_archive_settings_data import ModelArchiveSettingsData
 from mlp_api.models.model_auto_scaling_configuration import ModelAutoScalingConfiguration
