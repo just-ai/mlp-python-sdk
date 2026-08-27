@@ -17493,7 +17493,7 @@ components:
         userId:
           type: integer
           format: int64
-    InvitationKeyTemplate:
+    InvitationKeyTemplateData:
       required:
       - permissions
       - spendingLimits
@@ -17532,7 +17532,7 @@ components:
           - TEAMLEAD
           - ANALYST
         keyTemplate:
-          $ref: '#/components/schemas/InvitationKeyTemplate'
+          $ref: '#/components/schemas/InvitationKeyTemplateData'
     InviteMembersResultData:
       required:
       - activated
