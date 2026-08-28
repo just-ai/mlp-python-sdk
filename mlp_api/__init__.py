@@ -77,6 +77,7 @@ from mlp_api.api.support_endpoint_api import SupportEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
+from mlp_api.api.upstream_key_admin_endpoint_api import UpstreamKeyAdminEndpointApi
 from mlp_api.api.user_group_access_policy_endpoint_api import UserGroupAccessPolicyEndpointApi
 from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 
@@ -429,6 +430,9 @@ from mlp_api.models.update_chat_conversation_data import UpdateChatConversationD
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
+from mlp_api.models.upstream_key_data import UpstreamKeyData
+from mlp_api.models.upstream_key_write_data import UpstreamKeyWriteData
+from mlp_api.models.upstream_routing_rule_data import UpstreamRoutingRuleData
 from mlp_api.models.user_gateway_access_data import UserGatewayAccessData
 from mlp_api.models.user_group_data import UserGroupData
 from mlp_api.models.vertical_scaling_configuration import VerticalScalingConfiguration

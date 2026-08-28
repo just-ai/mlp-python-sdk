@@ -351,6 +351,9 @@ from mlp_api.models.update_chat_conversation_data import UpdateChatConversationD
 from mlp_api.models.update_llm_models_data import UpdateLlmModelsData
 from mlp_api.models.update_resource_group_data import UpdateResourceGroupData
 from mlp_api.models.update_resource_group_quota import UpdateResourceGroupQuota
+from mlp_api.models.upstream_key_data import UpstreamKeyData
+from mlp_api.models.upstream_key_write_data import UpstreamKeyWriteData
+from mlp_api.models.upstream_routing_rule_data import UpstreamRoutingRuleData
 from mlp_api.models.user_gateway_access_data import UserGatewayAccessData
 from mlp_api.models.user_group_data import UserGroupData
 from mlp_api.models.vertical_scaling_configuration import VerticalScalingConfiguration
