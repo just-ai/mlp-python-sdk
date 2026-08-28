@@ -141,6 +141,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2RfLocalizedView'
+  /api/mlpcore/admin/upstream-keys/{id}:
+    get:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamKeyData'
+    put:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpstreamKeyWriteData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamKeyData'
+    delete:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
   /api/mlpcore/admin/price-markup:
     get:
       tags:
@@ -2343,6 +2418,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LlmPricingV2DiscountResponse'
+  /api/mlpcore/admin/upstream-keys:
+    get:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: list
+      parameters:
+      - name: provider
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UpstreamKeyData'
+    post:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: create
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpstreamKeyWriteData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamKeyData'
+  /api/mlpcore/admin/upstream-keys/{id}/enable:
+    post:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: enable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamKeyData'
+  /api/mlpcore/admin/upstream-keys/{id}/disable:
+    post:
+      tags:
+      - upstream-key-admin-endpoint
+      operationId: disable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamKeyData'
   /api/mlpcore/admin/update-activities:
     post:
       tags:
@@ -13142,10 +13317,10 @@ components:
           type: object
         type:
           type: string
-        exclusiveGroup:
-          type: string
         required:
           type: boolean
+        exclusiveGroup:
+          type: string
       discriminator:
         propertyName: type
     NumberConstant:
@@ -13295,6 +13470,138 @@ components:
           - OTHER
         rfLocalized:
           type: boolean
+    JsonNode:
+      type: object
+    UpstreamKeyWriteData:
+      required:
+      - allow
+      - allowedAccountIds
+      - deny
+      - enabled
+      - name
+      - priority
+      - provider
+      - reserve
+      - weight
+      type: object
+      properties:
+        provider:
+          maxLength: 100
+          minLength: 0
+          type: string
+        name:
+          maxLength: 100
+          minLength: 0
+          type: string
+        credentials:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+        weight:
+          minimum: 1
+          type: integer
+          format: int32
+        priority:
+          type: integer
+          format: int32
+        reserve:
+          type: boolean
+        enabled:
+          type: boolean
+        allowedAccountIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+        allow:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpstreamRoutingRuleData'
+        deny:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpstreamRoutingRuleData'
+    UpstreamRoutingRuleData:
+      required:
+      - modelPattern
+      - requestTypes
+      type: object
+      properties:
+        modelPattern:
+          maxLength: 500
+          minLength: 0
+          type: string
+        streaming:
+          type: boolean
+        requestTypes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    UpstreamKeyData:
+      required:
+      - allow
+      - allowedAccountIds
+      - createdAt
+      - credentials
+      - deny
+      - enabled
+      - id
+      - metadata
+      - name
+      - priority
+      - provider
+      - reserve
+      - updatedAt
+      - weight
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        provider:
+          type: string
+        name:
+          type: string
+        credentials:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+        weight:
+          type: integer
+          format: int32
+        priority:
+          type: integer
+          format: int32
+        reserve:
+          type: boolean
+        enabled:
+          type: boolean
+        allowedAccountIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+        allow:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpstreamRoutingRuleData'
+        deny:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpstreamRoutingRuleData'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     PriceMarkupUpdateRequest:
       required:
       - coefficient
@@ -13715,8 +14022,6 @@ components:
           type: array
           items:
             type: string
-    JsonNode:
-      type: object
     AudioFormatOptions:
       type: object
       properties:
