@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
 class GroupMemberData(BaseModel):
     """
@@ -30,7 +30,15 @@ class GroupMemberData(BaseModel):
     initials: Optional[StrictStr] = None
     email: Optional[StrictStr] = None
     added_at: StrictStr = Field(default=..., alias="addedAt")
-    __properties = ["userId", "name", "initials", "email", "addedAt"]
+    role: StrictStr = Field(...)
+    __properties = ["userId", "name", "initials", "email", "addedAt", "role"]
+
+    @validator('role')
+    def role_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('MEMBER', 'TEAMLEAD', 'ANALYST'):
+            raise ValueError("must be one of enum values ('MEMBER', 'TEAMLEAD', 'ANALYST')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -72,7 +80,8 @@ class GroupMemberData(BaseModel):
             "name": obj.get("name"),
             "initials": obj.get("initials"),
             "email": obj.get("email"),
-            "added_at": obj.get("addedAt")
+            "added_at": obj.get("addedAt"),
+            "role": obj.get("role")
         })
         return _obj
 

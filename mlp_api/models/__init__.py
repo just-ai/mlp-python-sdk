@@ -85,6 +85,7 @@ from mlp_api.models.data_image_mount_dump import DataImageMountDump
 from mlp_api.models.dataset_info_data import DatasetInfoData
 from mlp_api.models.dataset_pk import DatasetPK
 from mlp_api.models.delivery_status_data import DeliveryStatusData
+from mlp_api.models.demote_llm_model_cards_request import DemoteLlmModelCardsRequest
 from mlp_api.models.deprecated_dataset_info_with_content_data import DeprecatedDatasetInfoWithContentData
 from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountConfigDump
 from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump
@@ -320,6 +321,8 @@ from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_filter import ServiceFilter
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
 from mlp_api.models.service_short_data import ServiceShortData
+from mlp_api.models.service_suspension_data import ServiceSuspensionData
+from mlp_api.models.service_suspension_request import ServiceSuspensionRequest
 from mlp_api.models.shared_pool_quota import SharedPoolQuota
 from mlp_api.models.short_job_view import ShortJobView
 from mlp_api.models.simple_doc_info_data import SimpleDocInfoData
