@@ -320,6 +320,8 @@ from mlp_api.models.service_descriptor_data import ServiceDescriptorData
 from mlp_api.models.service_filter import ServiceFilter
 from mlp_api.models.service_info_at_time import ServiceInfoAtTime
 from mlp_api.models.service_short_data import ServiceShortData
+from mlp_api.models.service_suspension_data import ServiceSuspensionData
+from mlp_api.models.service_suspension_request import ServiceSuspensionRequest
 from mlp_api.models.shared_pool_quota import SharedPoolQuota
 from mlp_api.models.short_job_view import ShortJobView
 from mlp_api.models.simple_doc_info_data import SimpleDocInfoData
