@@ -85,6 +85,7 @@ from mlp_api.models.data_image_mount_dump import DataImageMountDump
 from mlp_api.models.dataset_info_data import DatasetInfoData
 from mlp_api.models.dataset_pk import DatasetPK
 from mlp_api.models.delivery_status_data import DeliveryStatusData
+from mlp_api.models.demote_llm_model_cards_request import DemoteLlmModelCardsRequest
 from mlp_api.models.deprecated_dataset_info_with_content_data import DeprecatedDatasetInfoWithContentData
 from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountConfigDump
 from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump

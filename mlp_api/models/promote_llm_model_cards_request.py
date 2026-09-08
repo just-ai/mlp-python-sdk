@@ -19,7 +19,7 @@ import json
 
 from datetime import date
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel, Field, conint, conlist
 from mlp_api.models.llm_model_card_ref_request import LlmModelCardRefRequest
 
 class PromoteLlmModelCardsRequest(BaseModel):
@@ -28,7 +28,8 @@ class PromoteLlmModelCardsRequest(BaseModel):
     """
     promotion_until: date = Field(default=..., alias="promotionUntil")
     models: conlist(LlmModelCardRefRequest) = Field(...)
-    __properties = ["promotionUntil", "models"]
+    popularity: conint(strict=True, le=100, ge=0) = Field(...)
+    __properties = ["promotionUntil", "models", "popularity"]
 
     class Config:
         """Pydantic configuration"""
@@ -74,7 +75,8 @@ class PromoteLlmModelCardsRequest(BaseModel):
 
         _obj = PromoteLlmModelCardsRequest.parse_obj({
             "promotion_until": obj.get("promotionUntil"),
-            "models": [LlmModelCardRefRequest.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None
+            "models": [LlmModelCardRefRequest.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None,
+            "popularity": obj.get("popularity")
         })
         return _obj
 
