@@ -2915,6 +2915,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromoteLlmModelCardsResponse'
+  /api/mlpcore/admin/model-cards/demote-popularity:
+    post:
+      tags:
+      - llm-model-card-admin-endpoint
+      operationId: demotePopularity
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoteLlmModelCardsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromoteLlmModelCardsResponse'
   /api/mlpcore/admin/minio/delete-empty-users:
     post:
       tags:
@@ -16711,6 +16736,7 @@ components:
     PromoteLlmModelCardsRequest:
       required:
       - models
+      - popularity
       - promotionUntil
       type: object
       properties:
@@ -16721,6 +16747,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LlmModelCardRefRequest'
+        popularity:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
     PromoteLlmModelCardsResponse:
       required:
       - cards
@@ -16730,6 +16761,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LlmModelCardData'
+    DemoteLlmModelCardsRequest:
+      required:
+      - models
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmModelCardRefRequest'
     EmptyUsersResponse:
       required:
       - empty
