@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist, constr
 
-class SortObject(BaseModel):
+class UpstreamRoutingRuleData(BaseModel):
     """
-    SortObject
+    UpstreamRoutingRuleData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    model_pattern: constr(strict=True, max_length=500, min_length=0) = Field(default=..., alias="modelPattern")
+    streaming: Optional[StrictBool] = None
+    request_types: conlist(StrictStr, unique_items=True) = Field(default=..., alias="requestTypes")
+    __properties = ["modelPattern", "streaming", "requestTypes"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +44,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> UpstreamRoutingRuleData:
+        """Create an instance of UpstreamRoutingRuleData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +57,18 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> UpstreamRoutingRuleData:
+        """Create an instance of UpstreamRoutingRuleData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return UpstreamRoutingRuleData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = UpstreamRoutingRuleData.parse_obj({
+            "model_pattern": obj.get("modelPattern"),
+            "streaming": obj.get("streaming"),
+            "request_types": obj.get("requestTypes")
         })
         return _obj
 

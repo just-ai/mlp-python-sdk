@@ -54,6 +54,7 @@ from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
 from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
+from mlp_api.api.service_suspension_endpoint_api import ServiceSuspensionEndpointApi
 from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
 from mlp_api.api.stat_log_endpoint_api import StatLogEndpointApi
@@ -61,6 +62,7 @@ from mlp_api.api.support_endpoint_api import SupportEndpointApi
 from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
+from mlp_api.api.upstream_key_admin_endpoint_api import UpstreamKeyAdminEndpointApi
 from mlp_api.api.user_group_access_policy_endpoint_api import UserGroupAccessPolicyEndpointApi
 from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 
