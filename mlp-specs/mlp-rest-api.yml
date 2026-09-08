@@ -13409,10 +13409,10 @@ components:
           type: object
         type:
           type: string
-        required:
-          type: boolean
         exclusiveGroup:
           type: string
+        required:
+          type: boolean
       discriminator:
         propertyName: type
     NumberConstant:
