@@ -832,6 +832,73 @@ paths:
                 type: object
                 additionalProperties:
                   $ref: '#/components/schemas/NotificationSettingData'
+  /api/mlpcore/account/{account}/model/{model}/suspension:
+    get:
+      tags:
+      - service-suspension-endpoint
+      operationId: getSuspension
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSuspensionData'
+    put:
+      tags:
+      - service-suspension-endpoint
+      operationId: setSuspension
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceSuspensionRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSuspensionData'
   /api/mlpcore/account/{account}/model/{model}/daemon-set:
     get:
       tags:
@@ -13896,6 +13963,51 @@ components:
           type: object
           additionalProperties:
             type: object
+    ServiceSuspensionRequest:
+      required:
+      - suspended
+      type: object
+      properties:
+        suspended:
+          type: boolean
+    ServiceSuspensionData:
+      required:
+      - canToggle
+      - suspended
+      - suspensionScope
+      type: object
+      properties:
+        suspended:
+          type: boolean
+        suspensionScope:
+          type: string
+          enum:
+          - SERVICE_ONLY
+          - SERVICE_AND_GROUP_SERVERS
+        canToggle:
+          type: boolean
+        suspensionUnavailableReason:
+          type: string
+          enum:
+          - HOSTING_TYPE_NOT_SUPPORTED
+          - PROXY_SERVICE
+          - PROTOTYPE_SERVICE
+          - NOTHING_TO_SUSPEND
+        savedMinInstanceCount:
+          type: integer
+          format: int32
+        savedMaxInstanceCount:
+          type: integer
+          format: int32
+        savedInstanceCount:
+          type: integer
+          format: int32
+        savedGroupMinServersCount:
+          type: integer
+          format: int32
+        savedGroupMaxServersCount:
+          type: integer
+          format: int32
     DaemonSetConfigData:
       required:
       - excludedServerIds
