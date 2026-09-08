@@ -14088,6 +14088,7 @@ components:
     GroupMemberData:
       required:
       - addedAt
+      - role
       - userId
       type: object
       properties:
@@ -14102,6 +14103,12 @@ components:
           type: string
         addedAt:
           type: string
+        role:
+          type: string
+          enum:
+          - MEMBER
+          - TEAMLEAD
+          - ANALYST
     UserGroupData:
       required:
       - created
