@@ -17,19 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import date
+
 from typing import List
-from pydantic import BaseModel, Field, conint, conlist
+from pydantic import BaseModel, Field, conlist
 from mlp_api.models.llm_model_card_ref_request import LlmModelCardRefRequest
 
-class PromoteLlmModelCardsRequest(BaseModel):
+class DemoteLlmModelCardsRequest(BaseModel):
     """
-    PromoteLlmModelCardsRequest
+    DemoteLlmModelCardsRequest
     """
-    promotion_until: date = Field(default=..., alias="promotionUntil")
     models: conlist(LlmModelCardRefRequest) = Field(...)
-    popularity: conint(strict=True, le=100, ge=0) = Field(...)
-    __properties = ["promotionUntil", "models", "popularity"]
+    __properties = ["models"]
 
     class Config:
         """Pydantic configuration"""
@@ -45,8 +43,8 @@ class PromoteLlmModelCardsRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PromoteLlmModelCardsRequest:
-        """Create an instance of PromoteLlmModelCardsRequest from a JSON string"""
+    def from_json(cls, json_str: str) -> DemoteLlmModelCardsRequest:
+        """Create an instance of DemoteLlmModelCardsRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -65,18 +63,16 @@ class PromoteLlmModelCardsRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PromoteLlmModelCardsRequest:
-        """Create an instance of PromoteLlmModelCardsRequest from a dict"""
+    def from_dict(cls, obj: dict) -> DemoteLlmModelCardsRequest:
+        """Create an instance of DemoteLlmModelCardsRequest from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PromoteLlmModelCardsRequest.parse_obj(obj)
+            return DemoteLlmModelCardsRequest.parse_obj(obj)
 
-        _obj = PromoteLlmModelCardsRequest.parse_obj({
-            "promotion_until": obj.get("promotionUntil"),
-            "models": [LlmModelCardRefRequest.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None,
-            "popularity": obj.get("popularity")
+        _obj = DemoteLlmModelCardsRequest.parse_obj({
+            "models": [LlmModelCardRefRequest.from_dict(_item) for _item in obj.get("models")] if obj.get("models") is not None else None
         })
         return _obj
 
