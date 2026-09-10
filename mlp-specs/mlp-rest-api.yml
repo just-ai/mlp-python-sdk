@@ -15654,6 +15654,10 @@ components:
             - $ref: '#/components/schemas/MultiplyClientDiscount'
         markup:
           type: number
+        providerDiscount:
+          type: number
+        providerCommission:
+          type: number
     Modifier:
       required:
       - type
@@ -15728,6 +15732,8 @@ components:
       - markup
       - modelGroups
       - provider
+      - providerCommission
+      - providerDiscount
       type: object
       properties:
         provider:
@@ -15760,6 +15766,10 @@ components:
           items:
             $ref: '#/components/schemas/ModelGroupPricing'
         markup:
+          type: number
+        providerDiscount:
+          type: number
+        providerCommission:
           type: number
     RateMetric:
       required:
@@ -17951,12 +17961,21 @@ components:
           format: date-time
     GroupMemberRequestData:
       required:
+      - role
       - userId
       type: object
       properties:
         userId:
           type: integer
           format: int64
+        role:
+          type: string
+          enum:
+          - MEMBER
+          - TEAMLEAD
+          - ANALYST
+        keyTemplate:
+          $ref: '#/components/schemas/InvitationKeyTemplateData'
     InvitationKeyTemplateData:
       required:
       - permissions
@@ -19764,10 +19783,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -20377,10 +20396,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
