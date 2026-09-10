@@ -42,7 +42,9 @@ class ModelPricing(BaseModel):
     modifiers: conlist(ModelPricingModifiersInner) = Field(...)
     discounts: conlist(ModelPricingDiscountsInner) = Field(...)
     markup: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties = ["name", "aliases", "canonicalName", "vendor", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "discounts", "markup"]
+    provider_discount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerDiscount")
+    provider_commission: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerCommission")
+    __properties = ["name", "aliases", "canonicalName", "vendor", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "discounts", "markup", "providerDiscount", "providerCommission"]
 
     @validator('vendor')
     def vendor_validate_enum(cls, value):
@@ -151,7 +153,9 @@ class ModelPricing(BaseModel):
             "variables": [ModelVariable.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
             "modifiers": [ModelPricingModifiersInner.from_dict(_item) for _item in obj.get("modifiers")] if obj.get("modifiers") is not None else None,
             "discounts": [ModelPricingDiscountsInner.from_dict(_item) for _item in obj.get("discounts")] if obj.get("discounts") is not None else None,
-            "markup": obj.get("markup")
+            "markup": obj.get("markup"),
+            "provider_discount": obj.get("providerDiscount"),
+            "provider_commission": obj.get("providerCommission")
         })
         return _obj
 
