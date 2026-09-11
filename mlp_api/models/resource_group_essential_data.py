@@ -37,7 +37,8 @@ class ResourceGroupEssentialData(BaseModel):
     tariffication_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="tarifficationPrice")
     cost_price: Union[StrictFloat, StrictInt] = Field(default=..., alias="costPrice")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
-    __properties = ["name", "ownerId", "isDefault", "access", "enabledEviction", "resourceGroupType", "enabledAutoScaling", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod"]
+    status: StrictStr = Field(...)
+    __properties = ["name", "ownerId", "isDefault", "access", "enabledEviction", "resourceGroupType", "enabledAutoScaling", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "tarifficationPeriod", "status"]
 
     @validator('access')
     def access_validate_enum(cls, value):
@@ -61,6 +62,13 @@ class ResourceGroupEssentialData(BaseModel):
 
         if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
             raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
+        return value
+
+    @validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('ACTIVE', 'REMOVING'):
+            raise ValueError("must be one of enum values ('ACTIVE', 'REMOVING')")
         return value
 
     class Config:
@@ -112,7 +120,8 @@ class ResourceGroupEssentialData(BaseModel):
             "auto_scaling_configuration": ResourceGroupAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
             "tariffication_price": obj.get("tarifficationPrice"),
             "cost_price": obj.get("costPrice"),
-            "tariffication_period": obj.get("tarifficationPeriod")
+            "tariffication_period": obj.get("tarifficationPeriod"),
+            "status": obj.get("status")
         })
         return _obj
 
