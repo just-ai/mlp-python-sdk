@@ -14963,6 +14963,7 @@ components:
       - imageAccountId
       - modelName
       - modelType
+      - perAccountConcurrency
       - persistentVolumes
       - priorityQueue
       - protocols
@@ -15110,6 +15111,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        perAccountConcurrency:
+          $ref: '#/components/schemas/ModelPerAccountConcurrencyData'
         autoScalingConfiguration:
           $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         daemonSetConfiguration:
@@ -15161,6 +15164,17 @@ components:
         modelId:
           type: integer
           format: int64
+    ModelPerAccountConcurrencyData:
+      required:
+      - enabled
+      - limit
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        limit:
+          type: integer
+          format: int32
     WizardModelCreation:
       required:
       - modelInfo
@@ -16277,6 +16291,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        perAccountConcurrency:
+          $ref: '#/components/schemas/ModelPerAccountConcurrencyData'
         autoScalingConfiguration:
           $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         docs:
@@ -17548,6 +17564,8 @@ components:
           $ref: '#/components/schemas/ModelCachingData'
         priorityQueue:
           $ref: '#/components/schemas/ModelPriorityQueueData'
+        perAccountConcurrency:
+          $ref: '#/components/schemas/ModelPerAccountConcurrencyData'
         autoScalingConfiguration:
           $ref: '#/components/schemas/ModelAutoScalingConfiguration'
         daemonSetConfiguration:
@@ -18638,6 +18656,9 @@ components:
             type: string
         rfLocalized:
           type: boolean
+        maxConcurrentPerAccount:
+          type: integer
+          format: int32
         providerOptions:
           type: array
           items:
@@ -18741,6 +18762,9 @@ components:
             type: string
         rfLocalized:
           type: boolean
+        maxConcurrentPerAccount:
+          type: integer
+          format: int32
     CatalogResult:
       required:
       - keys
