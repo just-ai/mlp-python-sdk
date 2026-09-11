@@ -30,7 +30,9 @@ class ProviderPricing(BaseModel):
     currency: StrictStr = Field(...)
     model_groups: conlist(ModelGroupPricing) = Field(default=..., alias="modelGroups")
     markup: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["provider", "currency", "modelGroups", "markup"]
+    provider_discount: Union[StrictFloat, StrictInt] = Field(default=..., alias="providerDiscount")
+    provider_commission: Union[StrictFloat, StrictInt] = Field(default=..., alias="providerCommission")
+    __properties = ["provider", "currency", "modelGroups", "markup", "providerDiscount", "providerCommission"]
 
     @validator('provider')
     def provider_validate_enum(cls, value):
@@ -92,7 +94,9 @@ class ProviderPricing(BaseModel):
             "provider": obj.get("provider"),
             "currency": obj.get("currency"),
             "model_groups": [ModelGroupPricing.from_dict(_item) for _item in obj.get("modelGroups")] if obj.get("modelGroups") is not None else None,
-            "markup": obj.get("markup")
+            "markup": obj.get("markup"),
+            "provider_discount": obj.get("providerDiscount"),
+            "provider_commission": obj.get("providerCommission")
         })
         return _obj
 

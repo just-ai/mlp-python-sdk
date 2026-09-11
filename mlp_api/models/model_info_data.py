@@ -33,6 +33,7 @@ from mlp_api.models.model_caching_data import ModelCachingData
 from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.models.model_info_pk import ModelInfoPK
 from mlp_api.models.model_limits_data import ModelLimitsData
+from mlp_api.models.model_per_account_concurrency_data import ModelPerAccountConcurrencyData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
@@ -90,6 +91,7 @@ class ModelInfoData(BaseModel):
     batches_config: ModelBatchesData = Field(default=..., alias="batchesConfig")
     caching: ModelCachingData = Field(...)
     priority_queue: ModelPriorityQueueData = Field(default=..., alias="priorityQueue")
+    per_account_concurrency: ModelPerAccountConcurrencyData = Field(default=..., alias="perAccountConcurrency")
     auto_scaling_configuration: ModelAutoScalingConfiguration = Field(default=..., alias="autoScalingConfiguration")
     daemon_set_configuration: Optional[DaemonSetConfigData] = Field(default=None, alias="daemonSetConfiguration")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
@@ -104,7 +106,7 @@ class ModelInfoData(BaseModel):
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["id", "modelType", "proxyOnly", "proxyTargetAccountId", "proxyTargetModelId", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+    __properties = ["id", "modelType", "proxyOnly", "proxyTargetAccountId", "proxyTargetModelId", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -216,6 +218,9 @@ class ModelInfoData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of priority_queue
         if self.priority_queue:
             _dict['priorityQueue'] = self.priority_queue.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of per_account_concurrency
+        if self.per_account_concurrency:
+            _dict['perAccountConcurrency'] = self.per_account_concurrency.to_dict()
         # override the default output from pydantic by calling `to_dict()` of auto_scaling_configuration
         if self.auto_scaling_configuration:
             _dict['autoScalingConfiguration'] = self.auto_scaling_configuration.to_dict()
@@ -293,6 +298,7 @@ class ModelInfoData(BaseModel):
             "batches_config": ModelBatchesData.from_dict(obj.get("batchesConfig")) if obj.get("batchesConfig") is not None else None,
             "caching": ModelCachingData.from_dict(obj.get("caching")) if obj.get("caching") is not None else None,
             "priority_queue": ModelPriorityQueueData.from_dict(obj.get("priorityQueue")) if obj.get("priorityQueue") is not None else None,
+            "per_account_concurrency": ModelPerAccountConcurrencyData.from_dict(obj.get("perAccountConcurrency")) if obj.get("perAccountConcurrency") is not None else None,
             "auto_scaling_configuration": ModelAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
             "daemon_set_configuration": DaemonSetConfigData.from_dict(obj.get("daemonSetConfiguration")) if obj.get("daemonSetConfiguration") is not None else None,
             "short_description": obj.get("shortDescription"),
