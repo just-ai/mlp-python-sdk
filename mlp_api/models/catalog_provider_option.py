@@ -19,7 +19,7 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
 from mlp_api.models.catalog_api import CatalogApi
 from mlp_api.models.catalog_price import CatalogPrice
 from mlp_api.models.model_parameters_dto_variables_inner import ModelParametersDtoVariablesInner
@@ -44,7 +44,8 @@ class CatalogProviderOption(BaseModel):
     variables: conlist(ModelParametersDtoVariablesInner) = Field(...)
     supported_params: conlist(StrictStr) = Field(default=..., alias="supportedParams")
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
-    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized"]
+    max_concurrent_per_account: Optional[StrictInt] = Field(default=None, alias="maxConcurrentPerAccount")
+    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized", "maxConcurrentPerAccount"]
 
     class Config:
         """Pydantic configuration"""
@@ -118,7 +119,8 @@ class CatalogProviderOption(BaseModel):
             "note": obj.get("note"),
             "variables": [ModelParametersDtoVariablesInner.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
             "supported_params": obj.get("supportedParams"),
-            "rf_localized": obj.get("rfLocalized")
+            "rf_localized": obj.get("rfLocalized"),
+            "max_concurrent_per_account": obj.get("maxConcurrentPerAccount")
         })
         return _obj
 
