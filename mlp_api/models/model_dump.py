@@ -30,6 +30,7 @@ from mlp_api.models.model_billing_settings_data import ModelBillingSettingsData
 from mlp_api.models.model_caching_data import ModelCachingData
 from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.models.model_limits_data import ModelLimitsData
+from mlp_api.models.model_per_account_concurrency_data import ModelPerAccountConcurrencyData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_public_settings_data import ModelPublicSettingsData
 from mlp_api.models.model_retries_data import ModelRetriesData
@@ -75,6 +76,7 @@ class ModelDump(BaseModel):
     batches: Optional[ModelBatchesData] = None
     caching: Optional[ModelCachingData] = None
     priority_queue: Optional[ModelPriorityQueueData] = Field(default=None, alias="priorityQueue")
+    per_account_concurrency: Optional[ModelPerAccountConcurrencyData] = Field(default=None, alias="perAccountConcurrency")
     auto_scaling_configuration: Optional[ModelAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
     docs: conlist(DocumentDump) = Field(...)
     predict_configs: conlist(PredictConfigDump) = Field(default=..., alias="predictConfigs")
@@ -112,7 +114,7 @@ class ModelDump(BaseModel):
     as_public_settings_data: ModelPublicSettingsData = Field(default=..., alias="asPublicSettingsData")
     as_billing_settings_data: ModelBillingSettingsData = Field(default=..., alias="asBillingSettingsData")
     as_archive_settings_data: ModelArchiveSettingsData = Field(default=..., alias="asArchiveSettingsData")
-    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "allowDeferredBilling", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "protocols", "modelType", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "proxyTargetAccount", "proxyTargetModelName", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
+    __properties = ["name", "displayName", "displayAuthor", "imageAccount", "image", "modelGroup", "isPublic", "allowedAccounts", "config", "env", "additionalFlags", "containerArgs", "trainingModelAccount", "trainingModelName", "trainingDatasetAccount", "trainingDatasetName", "trainingFitConfigName", "taskType", "trainingDatasetType", "fitTemplateModelName", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "fittable", "trainingType", "hostingType", "dataImageMounts", "timeouts", "limits", "retries", "batches", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "docs", "predictConfigs", "fitConfigs", "persistentVolumes", "resourceGroup", "shortDescription", "languages", "featured", "featuredListOrder", "hidden", "publicTestingAllowed", "isBillingEnabled", "billingUnit", "billingUnitPriceInNanoToken", "freeUnitQuota", "allowDeferredBilling", "aliases", "isHttpEnabled", "httpPort", "healthCheckEndpoint", "httpInterfaceOnly", "requireMlpAuth", "protocols", "modelType", "archiveEnabled", "numberOfArchivedRequests", "archiveEncryptionEnabled", "archiveEncryptionPublicKey", "showPersonalDataDisclaimer", "deploymentPatch", "proxyTargetAccount", "proxyTargetModelName", "asHttpSettingsData", "asPublicSettingsData", "asBillingSettingsData", "asArchiveSettingsData"]
 
     @validator('training_type')
     def training_type_validate_enum(cls, value):
@@ -214,6 +216,9 @@ class ModelDump(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of priority_queue
         if self.priority_queue:
             _dict['priorityQueue'] = self.priority_queue.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of per_account_concurrency
+        if self.per_account_concurrency:
+            _dict['perAccountConcurrency'] = self.per_account_concurrency.to_dict()
         # override the default output from pydantic by calling `to_dict()` of auto_scaling_configuration
         if self.auto_scaling_configuration:
             _dict['autoScalingConfiguration'] = self.auto_scaling_configuration.to_dict()
@@ -303,6 +308,7 @@ class ModelDump(BaseModel):
             "batches": ModelBatchesData.from_dict(obj.get("batches")) if obj.get("batches") is not None else None,
             "caching": ModelCachingData.from_dict(obj.get("caching")) if obj.get("caching") is not None else None,
             "priority_queue": ModelPriorityQueueData.from_dict(obj.get("priorityQueue")) if obj.get("priorityQueue") is not None else None,
+            "per_account_concurrency": ModelPerAccountConcurrencyData.from_dict(obj.get("perAccountConcurrency")) if obj.get("perAccountConcurrency") is not None else None,
             "auto_scaling_configuration": ModelAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
             "docs": [DocumentDump.from_dict(_item) for _item in obj.get("docs")] if obj.get("docs") is not None else None,
             "predict_configs": [PredictConfigDump.from_dict(_item) for _item in obj.get("predictConfigs")] if obj.get("predictConfigs") is not None else None,

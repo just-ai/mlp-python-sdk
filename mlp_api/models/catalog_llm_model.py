@@ -43,9 +43,10 @@ class CatalogLlmModel(BaseModel):
     strengths: conlist(StrictStr) = Field(...)
     watch: conlist(StrictStr) = Field(...)
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
+    max_concurrent_per_account: Optional[StrictInt] = Field(default=None, alias="maxConcurrentPerAccount")
     provider_options: conlist(CatalogProviderOption) = Field(default=..., alias="providerOptions")
     variants: conlist(CatalogModelVariant) = Field(...)
-    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "providerOptions", "variants"]
+    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "maxConcurrentPerAccount", "providerOptions", "variants"]
 
     @validator('host_class')
     def host_class_validate_enum(cls, value):
@@ -136,6 +137,7 @@ class CatalogLlmModel(BaseModel):
             "strengths": obj.get("strengths"),
             "watch": obj.get("watch"),
             "rf_localized": obj.get("rfLocalized"),
+            "max_concurrent_per_account": obj.get("maxConcurrentPerAccount"),
             "provider_options": [CatalogProviderOption.from_dict(_item) for _item in obj.get("providerOptions")] if obj.get("providerOptions") is not None else None,
             "variants": [CatalogModelVariant.from_dict(_item) for _item in obj.get("variants")] if obj.get("variants") is not None else None
         })

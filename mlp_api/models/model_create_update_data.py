@@ -28,6 +28,7 @@ from mlp_api.models.model_batches_data import ModelBatchesData
 from mlp_api.models.model_caching_data import ModelCachingData
 from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
 from mlp_api.models.model_limits_data import ModelLimitsData
+from mlp_api.models.model_per_account_concurrency_data import ModelPerAccountConcurrencyData
 from mlp_api.models.model_priority_queue_data import ModelPriorityQueueData
 from mlp_api.models.model_retries_data import ModelRetriesData
 from mlp_api.models.model_timeouts_data import ModelTimeoutsData
@@ -72,6 +73,7 @@ class ModelCreateUpdateData(BaseModel):
     batches_config: Optional[ModelBatchesData] = Field(default=None, alias="batchesConfig")
     caching: Optional[ModelCachingData] = None
     priority_queue: Optional[ModelPriorityQueueData] = Field(default=None, alias="priorityQueue")
+    per_account_concurrency: Optional[ModelPerAccountConcurrencyData] = Field(default=None, alias="perAccountConcurrency")
     auto_scaling_configuration: Optional[ModelAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
     daemon_set_configuration: Optional[DaemonSetConfigData] = Field(default=None, alias="daemonSetConfiguration")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
@@ -85,7 +87,7 @@ class ModelCreateUpdateData(BaseModel):
     proxy_target_account_id: Optional[StrictInt] = Field(default=None, alias="proxyTargetAccountId")
     proxy_target_model_id: Optional[StrictInt] = Field(default=None, alias="proxyTargetModelId")
     proxy_only: Optional[StrictBool] = Field(default=None, alias="proxyOnly")
-    __properties = ["modelType", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch", "proxyTargetAccountId", "proxyTargetModelId", "proxyOnly"]
+    __properties = ["modelType", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch", "proxyTargetAccountId", "proxyTargetModelId", "proxyOnly"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -184,6 +186,9 @@ class ModelCreateUpdateData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of priority_queue
         if self.priority_queue:
             _dict['priorityQueue'] = self.priority_queue.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of per_account_concurrency
+        if self.per_account_concurrency:
+            _dict['perAccountConcurrency'] = self.per_account_concurrency.to_dict()
         # override the default output from pydantic by calling `to_dict()` of auto_scaling_configuration
         if self.auto_scaling_configuration:
             _dict['autoScalingConfiguration'] = self.auto_scaling_configuration.to_dict()
@@ -243,6 +248,7 @@ class ModelCreateUpdateData(BaseModel):
             "batches_config": ModelBatchesData.from_dict(obj.get("batchesConfig")) if obj.get("batchesConfig") is not None else None,
             "caching": ModelCachingData.from_dict(obj.get("caching")) if obj.get("caching") is not None else None,
             "priority_queue": ModelPriorityQueueData.from_dict(obj.get("priorityQueue")) if obj.get("priorityQueue") is not None else None,
+            "per_account_concurrency": ModelPerAccountConcurrencyData.from_dict(obj.get("perAccountConcurrency")) if obj.get("perAccountConcurrency") is not None else None,
             "auto_scaling_configuration": ModelAutoScalingConfiguration.from_dict(obj.get("autoScalingConfiguration")) if obj.get("autoScalingConfiguration") is not None else None,
             "daemon_set_configuration": DaemonSetConfigData.from_dict(obj.get("daemonSetConfiguration")) if obj.get("daemonSetConfiguration") is not None else None,
             "short_description": obj.get("shortDescription"),

@@ -226,6 +226,7 @@ from mlp_api.models.model_name_availability import ModelNameAvailability
 from mlp_api.models.model_parameters_dto import ModelParametersDto
 from mlp_api.models.model_parameters_dto_constants_inner import ModelParametersDtoConstantsInner
 from mlp_api.models.model_parameters_dto_variables_inner import ModelParametersDtoVariablesInner
+from mlp_api.models.model_per_account_concurrency_data import ModelPerAccountConcurrencyData
 from mlp_api.models.model_pricing import ModelPricing
 from mlp_api.models.model_pricing_data import ModelPricingData
 from mlp_api.models.model_pricing_discounts_inner import ModelPricingDiscountsInner
