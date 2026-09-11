@@ -41,7 +41,8 @@ class ResourceGroupShortStatusData(BaseModel):
     paid_off: Union[StrictFloat, StrictInt] = Field(default=..., alias="paidOff")
     tariffication_period: Optional[StrictStr] = Field(default=None, alias="tarifficationPeriod")
     blocked: StrictBool = Field(...)
-    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "paidOff", "tarifficationPeriod", "blocked"]
+    status: StrictStr = Field(...)
+    __properties = ["name", "ownerId", "isDefault", "enabledEviction", "enabledAutoScaling", "resourceGroupType", "access", "serversCount", "servicesCount", "autoScalingConfiguration", "tarifficationPrice", "costPrice", "paidOff", "tarifficationPeriod", "blocked", "status"]
 
     @validator('resource_group_type')
     def resource_group_type_validate_enum(cls, value):
@@ -65,6 +66,13 @@ class ResourceGroupShortStatusData(BaseModel):
 
         if value not in ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR'):
             raise ValueError("must be one of enum values ('SECOND', 'MINUTE', 'HOUR', 'DAY', 'MONTH', 'YEAR')")
+        return value
+
+    @validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('ACTIVE', 'REMOVING'):
+            raise ValueError("must be one of enum values ('ACTIVE', 'REMOVING')")
         return value
 
     class Config:
@@ -120,7 +128,8 @@ class ResourceGroupShortStatusData(BaseModel):
             "cost_price": obj.get("costPrice"),
             "paid_off": obj.get("paidOff"),
             "tariffication_period": obj.get("tarifficationPeriod"),
-            "blocked": obj.get("blocked")
+            "blocked": obj.get("blocked"),
+            "status": obj.get("status")
         })
         return _obj
 
