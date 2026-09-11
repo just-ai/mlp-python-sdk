@@ -18,15 +18,25 @@ import re  # noqa: F401
 import json
 
 
-
-from pydantic import BaseModel, Field, StrictInt
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from mlp_api.models.invitation_key_template_data import InvitationKeyTemplateData
 
 class GroupMemberRequestData(BaseModel):
     """
     GroupMemberRequestData
     """
     user_id: StrictInt = Field(default=..., alias="userId")
-    __properties = ["userId"]
+    role: StrictStr = Field(...)
+    key_template: Optional[InvitationKeyTemplateData] = Field(default=None, alias="keyTemplate")
+    __properties = ["userId", "role", "keyTemplate"]
+
+    @validator('role')
+    def role_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('MEMBER', 'TEAMLEAD', 'ANALYST'):
+            raise ValueError("must be one of enum values ('MEMBER', 'TEAMLEAD', 'ANALYST')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -52,6 +62,9 @@ class GroupMemberRequestData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of key_template
+        if self.key_template:
+            _dict['keyTemplate'] = self.key_template.to_dict()
         return _dict
 
     @classmethod
@@ -64,7 +77,9 @@ class GroupMemberRequestData(BaseModel):
             return GroupMemberRequestData.parse_obj(obj)
 
         _obj = GroupMemberRequestData.parse_obj({
-            "user_id": obj.get("userId")
+            "user_id": obj.get("userId"),
+            "role": obj.get("role"),
+            "key_template": InvitationKeyTemplateData.from_dict(obj.get("keyTemplate")) if obj.get("keyTemplate") is not None else None
         })
         return _obj
 
