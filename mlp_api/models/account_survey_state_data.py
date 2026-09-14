@@ -18,17 +18,25 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
+
+class AccountSurveyStateData(BaseModel):
     """
-    SortObject
+    AccountSurveyStateData
     """
-    empty: Optional[StrictBool] = None
-    sorted: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["empty", "sorted", "unsorted"]
+    status: StrictStr = Field(...)
+    show_survey: StrictBool = Field(default=..., alias="showSurvey")
+    version: StrictInt = Field(...)
+    retryable: StrictBool = Field(...)
+    __properties = ["status", "showSurvey", "version", "retryable"]
+
+    @validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('NOT_APPLICABLE', 'CHECK_PENDING', 'EXCLUDED', 'PENDING', 'COMPLETED', 'SKIPPED'):
+            raise ValueError("must be one of enum values ('NOT_APPLICABLE', 'CHECK_PENDING', 'EXCLUDED', 'PENDING', 'COMPLETED', 'SKIPPED')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +52,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AccountSurveyStateData:
+        """Create an instance of AccountSurveyStateData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +65,19 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> AccountSurveyStateData:
+        """Create an instance of AccountSurveyStateData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return AccountSurveyStateData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "empty": obj.get("empty"),
-            "sorted": obj.get("sorted"),
-            "unsorted": obj.get("unsorted")
+        _obj = AccountSurveyStateData.parse_obj({
+            "status": obj.get("status"),
+            "show_survey": obj.get("showSurvey"),
+            "version": obj.get("version"),
+            "retryable": obj.get("retryable")
         })
         return _obj
 
