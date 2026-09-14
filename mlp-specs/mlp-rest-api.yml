@@ -6935,6 +6935,56 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account-survey/skip:
+    post:
+      tags:
+      - account-survey-endpoint
+      operationId: skip
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSurveySkipData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSurveyStateData'
+  /api/mlpcore/account-survey/answers:
+    post:
+      tags:
+      - account-survey-endpoint
+      operationId: complete
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSurveyAnswersData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSurveyStateData'
   /api/mlpcore-internal/test-notification/{type}:
     post:
       tags:
@@ -12308,6 +12358,25 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/mlpcore/account-survey:
+    get:
+      tags:
+      - account-survey-endpoint
+      operationId: state
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSurveyStateData'
   /api/mlpcore-internal/test-notification/types:
     get:
       tags:
@@ -18185,6 +18254,69 @@ components:
           type: string
         added:
           type: string
+    AccountSurveySkipData:
+      type: object
+    AccountSurveyStateData:
+      required:
+      - retryable
+      - showSurvey
+      - status
+      - version
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - NOT_APPLICABLE
+          - CHECK_PENDING
+          - EXCLUDED
+          - PENDING
+          - COMPLETED
+          - SKIPPED
+        showSurvey:
+          type: boolean
+        version:
+          type: integer
+          format: int32
+        retryable:
+          type: boolean
+    AccountSurveyAnswersData:
+      required:
+      - context
+      - currentSolution
+      - role
+      - useCase
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - backend_dev
+          - ml_engineer
+          - tech_lead
+          - product_manager
+          - learner
+        useCase:
+          type: string
+          enum:
+          - llm_in_product
+          - coding_agent
+          - agent_automation
+          - exploring
+        context:
+          type: string
+          enum:
+          - work
+          - own_product
+          - hobby
+          - study
+        currentSolution:
+          type: string
+          enum:
+          - none
+          - vpn_foreign_card
+          - ru_proxy
+          - self_hosted
     JobFailedRequest:
       required:
       - exceptionMessage
@@ -19813,10 +19945,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19829,6 +19957,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -19839,17 +19971,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -19857,9 +19989,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -20426,10 +20558,6 @@ components:
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -20442,6 +20570,10 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
