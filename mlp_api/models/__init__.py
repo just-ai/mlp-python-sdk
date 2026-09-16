@@ -31,6 +31,7 @@ from mlp_api.models.account_keys_result import AccountKeysResult
 from mlp_api.models.account_limits_data import AccountLimitsData
 from mlp_api.models.account_survey_answers_data import AccountSurveyAnswersData
 from mlp_api.models.account_survey_state_data import AccountSurveyStateData
+from mlp_api.models.account_survey_viewed_data import AccountSurveyViewedData
 from mlp_api.models.account_user_data import AccountUserData
 from mlp_api.models.alias_data import AliasData
 from mlp_api.models.analyst_data import AnalystData
