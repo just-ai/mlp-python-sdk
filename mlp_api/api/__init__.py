@@ -5,6 +5,7 @@ from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_analyst_endpoint_api import AccountAnalystEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.account_keys_endpoint_api import AccountKeysEndpointApi
+from mlp_api.api.account_survey_endpoint_api import AccountSurveyEndpointApi
 from mlp_api.api.account_users_endpoint_api import AccountUsersEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
 from mlp_api.api.amo_crm_endpoint_api import AmoCrmEndpointApi
