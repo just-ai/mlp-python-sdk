@@ -6935,6 +6935,31 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account-survey/viewed:
+    post:
+      tags:
+      - account-survey-endpoint
+      operationId: viewed
+      parameters:
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSurveyViewedData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSurveyStateData'
   /api/mlpcore/account-survey/skip:
     post:
       tags:
@@ -18254,8 +18279,15 @@ components:
           type: string
         added:
           type: string
-    AccountSurveySkipData:
+    AccountSurveyViewedData:
+      required:
+      - expectedAccountId
       type: object
+      properties:
+        expectedAccountId:
+          minimum: 1
+          type: integer
+          format: int64
     AccountSurveyStateData:
       required:
       - retryable
@@ -18280,6 +18312,12 @@ components:
           format: int32
         retryable:
           type: boolean
+        firstViewedAt:
+          type: string
+          format: date-time
+          nullable: true
+    AccountSurveySkipData:
+      type: object
     AccountSurveyAnswersData:
       required:
       - context
@@ -19945,6 +19983,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -19957,10 +19999,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -19971,17 +20009,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -19989,9 +20027,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -20558,6 +20596,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -20570,10 +20612,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
