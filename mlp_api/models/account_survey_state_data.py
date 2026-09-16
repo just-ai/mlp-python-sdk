@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-
+from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
 
 class AccountSurveyStateData(BaseModel):
@@ -29,7 +29,8 @@ class AccountSurveyStateData(BaseModel):
     show_survey: StrictBool = Field(default=..., alias="showSurvey")
     version: StrictInt = Field(...)
     retryable: StrictBool = Field(...)
-    __properties = ["status", "showSurvey", "version", "retryable"]
+    first_viewed_at: Optional[datetime] = Field(default=None, alias="firstViewedAt")
+    __properties = ["status", "showSurvey", "version", "retryable", "firstViewedAt"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -62,6 +63,11 @@ class AccountSurveyStateData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # set to None if first_viewed_at (nullable) is None
+        # and __fields_set__ contains the field
+        if self.first_viewed_at is None and "first_viewed_at" in self.__fields_set__:
+            _dict['firstViewedAt'] = None
+
         return _dict
 
     @classmethod
@@ -77,7 +83,8 @@ class AccountSurveyStateData(BaseModel):
             "status": obj.get("status"),
             "show_survey": obj.get("showSurvey"),
             "version": obj.get("version"),
-            "retryable": obj.get("retryable")
+            "retryable": obj.get("retryable"),
+            "first_viewed_at": obj.get("firstViewedAt")
         })
         return _obj
 

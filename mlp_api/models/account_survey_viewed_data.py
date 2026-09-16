@@ -18,17 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
 
-class SortObject(BaseModel):
+from pydantic import BaseModel, Field, conint
+
+class AccountSurveyViewedData(BaseModel):
     """
-    SortObject
+    AccountSurveyViewedData
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    expected_account_id: conint(strict=True, ge=1) = Field(default=..., alias="expectedAccountId")
+    __properties = ["expectedAccountId"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +42,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AccountSurveyViewedData:
+        """Create an instance of AccountSurveyViewedData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +55,16 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> AccountSurveyViewedData:
+        """Create an instance of AccountSurveyViewedData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return AccountSurveyViewedData.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = AccountSurveyViewedData.parse_obj({
+            "expected_account_id": obj.get("expectedAccountId")
         })
         return _obj
 
