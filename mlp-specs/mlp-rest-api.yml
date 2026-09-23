@@ -119,6 +119,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2102,6 +2103,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2170,6 +2172,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2222,6 +2225,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2280,6 +2284,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2328,6 +2333,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7564,6 +7570,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7605,6 +7612,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7642,6 +7650,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -8819,6 +8828,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -8886,6 +8896,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -13651,6 +13662,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -15861,6 +15873,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -15965,6 +15978,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -16029,6 +16043,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - SWOO
             - VEAI
             - YANDEX
             - OTHER
@@ -16055,6 +16070,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -16092,6 +16108,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - SWOO
             - VEAI
             - YANDEX
             - OTHER
@@ -18550,6 +18567,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -19997,11 +20015,11 @@ components:
           $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -20109,6 +20127,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -20610,11 +20629,11 @@ components:
           $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
