@@ -119,6 +119,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2102,6 +2103,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2170,6 +2172,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2222,6 +2225,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2280,6 +2284,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -2328,6 +2333,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7564,6 +7570,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7605,6 +7612,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -7642,6 +7650,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -8819,6 +8828,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -8886,6 +8896,7 @@ paths:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -13651,6 +13662,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -15693,6 +15705,7 @@ components:
           - ALIBABA
           - AMAZON
           - ANTHROPIC
+          - BAAI
           - BAIDU
           - BYTEDANCE
           - COHERE
@@ -15861,6 +15874,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -15965,6 +15979,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -16029,6 +16044,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - SWOO
             - VEAI
             - YANDEX
             - OTHER
@@ -16055,6 +16071,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -16092,6 +16109,7 @@ components:
             - PARALLEL
             - PERPLEXITY
             - SBER
+            - SWOO
             - VEAI
             - YANDEX
             - OTHER
@@ -18550,6 +18568,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
@@ -18619,6 +18638,7 @@ components:
           - ALIBABA
           - AMAZON
           - ANTHROPIC
+          - BAAI
           - BAIDU
           - BYTEDANCE
           - COHERE
@@ -20109,6 +20129,7 @@ components:
           - PARALLEL
           - PERPLEXITY
           - SBER
+          - SWOO
           - VEAI
           - YANDEX
           - OTHER
