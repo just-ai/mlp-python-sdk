@@ -15705,6 +15705,7 @@ components:
           - ALIBABA
           - AMAZON
           - ANTHROPIC
+          - BAAI
           - BAIDU
           - BYTEDANCE
           - COHERE
@@ -18637,6 +18638,7 @@ components:
           - ALIBABA
           - AMAZON
           - ANTHROPIC
+          - BAAI
           - BAIDU
           - BYTEDANCE
           - COHERE
@@ -20015,11 +20017,11 @@ components:
           $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
@@ -20629,11 +20631,11 @@ components:
           $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         last:
           type: boolean
         empty:
