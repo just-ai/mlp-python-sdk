@@ -55,6 +55,7 @@ from mlp_api.models.catalog_news_request import CatalogNewsRequest
 from mlp_api.models.catalog_news_result import CatalogNewsResult
 from mlp_api.models.catalog_price import CatalogPrice
 from mlp_api.models.catalog_provider_option import CatalogProviderOption
+from mlp_api.models.catalog_request_example import CatalogRequestExample
 from mlp_api.models.catalog_result import CatalogResult
 from mlp_api.models.catalog_vendor import CatalogVendor
 from mlp_api.models.channel_statistics import ChannelStatistics

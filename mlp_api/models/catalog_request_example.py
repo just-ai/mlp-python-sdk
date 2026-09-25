@@ -18,17 +18,19 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Any, Dict, Optional
+from pydantic import BaseModel, Field, StrictStr
 
-class SortObject(BaseModel):
+class CatalogRequestExample(BaseModel):
     """
-    SortObject
+    CatalogRequestExample
     """
-    sorted: Optional[StrictBool] = None
-    empty: Optional[StrictBool] = None
-    unsorted: Optional[StrictBool] = None
-    __properties = ["sorted", "empty", "unsorted"]
+    mode: StrictStr = Field(...)
+    title: StrictStr = Field(...)
+    endpoint: StrictStr = Field(...)
+    body: Dict[str, Any] = Field(...)
+    note: Optional[StrictStr] = None
+    __properties = ["mode", "title", "endpoint", "body", "note"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +46,8 @@ class SortObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> SortObject:
-        """Create an instance of SortObject from a JSON string"""
+    def from_json(cls, json_str: str) -> CatalogRequestExample:
+        """Create an instance of CatalogRequestExample from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +59,20 @@ class SortObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> SortObject:
-        """Create an instance of SortObject from a dict"""
+    def from_dict(cls, obj: dict) -> CatalogRequestExample:
+        """Create an instance of CatalogRequestExample from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return SortObject.parse_obj(obj)
+            return CatalogRequestExample.parse_obj(obj)
 
-        _obj = SortObject.parse_obj({
-            "sorted": obj.get("sorted"),
-            "empty": obj.get("empty"),
-            "unsorted": obj.get("unsorted")
+        _obj = CatalogRequestExample.parse_obj({
+            "mode": obj.get("mode"),
+            "title": obj.get("title"),
+            "endpoint": obj.get("endpoint"),
+            "body": obj.get("body"),
+            "note": obj.get("note")
         })
         return _obj
 
