@@ -20,6 +20,7 @@ import json
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from mlp_api.models.catalog_request_example import CatalogRequestExample
 
 class CatalogMetadata(BaseModel):
     """
@@ -33,7 +34,8 @@ class CatalogMetadata(BaseModel):
     knowledge_cutoff: Optional[StrictStr] = Field(default=None, alias="knowledgeCutoff")
     release_date: Optional[StrictStr] = Field(default=None, alias="releaseDate")
     disabled: StrictBool = Field(...)
-    __properties = ["description", "about", "strengths", "watch", "features", "knowledgeCutoff", "releaseDate", "disabled"]
+    examples: conlist(CatalogRequestExample) = Field(...)
+    __properties = ["description", "about", "strengths", "watch", "features", "knowledgeCutoff", "releaseDate", "disabled", "examples"]
 
     class Config:
         """Pydantic configuration"""
@@ -59,6 +61,13 @@ class CatalogMetadata(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in examples (list)
+        _items = []
+        if self.examples:
+            for _item in self.examples:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['examples'] = _items
         return _dict
 
     @classmethod
@@ -78,7 +87,8 @@ class CatalogMetadata(BaseModel):
             "features": obj.get("features"),
             "knowledge_cutoff": obj.get("knowledgeCutoff"),
             "release_date": obj.get("releaseDate"),
-            "disabled": obj.get("disabled")
+            "disabled": obj.get("disabled"),
+            "examples": [CatalogRequestExample.from_dict(_item) for _item in obj.get("examples")] if obj.get("examples") is not None else None
         })
         return _obj
 

@@ -21,6 +21,7 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.catalog_provider_option import CatalogProviderOption
+from mlp_api.models.catalog_request_example import CatalogRequestExample
 
 class CatalogLlmModel(BaseModel):
     """
@@ -42,11 +43,12 @@ class CatalogLlmModel(BaseModel):
     about: Optional[StrictStr] = None
     strengths: conlist(StrictStr) = Field(...)
     watch: conlist(StrictStr) = Field(...)
+    examples: conlist(CatalogRequestExample) = Field(...)
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
     max_concurrent_per_account: Optional[StrictInt] = Field(default=None, alias="maxConcurrentPerAccount")
     provider_options: conlist(CatalogProviderOption) = Field(default=..., alias="providerOptions")
     variants: conlist(CatalogModelVariant) = Field(...)
-    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "rfLocalized", "maxConcurrentPerAccount", "providerOptions", "variants"]
+    __properties = ["id", "name", "vendor", "hostClass", "modalities", "features", "status", "contextK", "maxOutK", "cutoff", "popularity", "added", "desc", "about", "strengths", "watch", "examples", "rfLocalized", "maxConcurrentPerAccount", "providerOptions", "variants"]
 
     @validator('host_class')
     def host_class_validate_enum(cls, value):
@@ -94,6 +96,13 @@ class CatalogLlmModel(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in examples (list)
+        _items = []
+        if self.examples:
+            for _item in self.examples:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['examples'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in provider_options (list)
         _items = []
         if self.provider_options:
@@ -136,6 +145,7 @@ class CatalogLlmModel(BaseModel):
             "about": obj.get("about"),
             "strengths": obj.get("strengths"),
             "watch": obj.get("watch"),
+            "examples": [CatalogRequestExample.from_dict(_item) for _item in obj.get("examples")] if obj.get("examples") is not None else None,
             "rf_localized": obj.get("rfLocalized"),
             "max_concurrent_per_account": obj.get("maxConcurrentPerAccount"),
             "provider_options": [CatalogProviderOption.from_dict(_item) for _item in obj.get("providerOptions")] if obj.get("providerOptions") is not None else None,
