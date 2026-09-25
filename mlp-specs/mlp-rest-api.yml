@@ -13372,6 +13372,7 @@ components:
     CatalogMetadata:
       required:
       - disabled
+      - examples
       - features
       - strengths
       - watch
@@ -13399,6 +13400,28 @@ components:
           type: string
         disabled:
           type: boolean
+        examples:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogRequestExample'
+    CatalogRequestExample:
+      required:
+      - body
+      - endpoint
+      - mode
+      - title
+      type: object
+      properties:
+        mode:
+          type: string
+        title:
+          type: string
+        endpoint:
+          type: string
+        body:
+          $ref: '#/components/schemas/JsonNode'
+        note:
+          type: string
     EnumConstant:
       required:
       - name
@@ -13462,6 +13485,8 @@ components:
           max:
             type: integer
             format: int64
+    JsonNode:
+      type: object
     ModelConstant:
       required:
       - name
@@ -13668,8 +13693,6 @@ components:
           - OTHER
         rfLocalized:
           type: boolean
-    JsonNode:
-      type: object
     UpstreamKeyWriteData:
       required:
       - allow
@@ -15707,15 +15730,21 @@ components:
           - ANTHROPIC
           - BAAI
           - BAIDU
+          - BLACK_FOREST_LABS
           - BYTEDANCE
           - COHERE
           - DEEPSEEK
+          - ELEVENLABS
           - FAL
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - IDEOGRAM
           - INFLECTION
+          - INWORLD
           - KLING
+          - KREA
+          - LIGHTRICKS
           - MANUS
           - META
           - MICROSOFT
@@ -15728,7 +15757,9 @@ components:
           - PARALLEL
           - PERPLEXITY
           - PIXVERSE
+          - RECRAFT
           - SBER
+          - STABILITY_AI
           - TENCENT
           - XAI
           - XIAOMI
@@ -18640,15 +18671,21 @@ components:
           - ANTHROPIC
           - BAAI
           - BAIDU
+          - BLACK_FOREST_LABS
           - BYTEDANCE
           - COHERE
           - DEEPSEEK
+          - ELEVENLABS
           - FAL
           - GAMMA
           - GOOGLE
           - HEYGEN
+          - IDEOGRAM
           - INFLECTION
+          - INWORLD
           - KLING
+          - KREA
+          - LIGHTRICKS
           - MANUS
           - META
           - MICROSOFT
@@ -18661,7 +18698,9 @@ components:
           - PARALLEL
           - PERPLEXITY
           - PIXVERSE
+          - RECRAFT
           - SBER
+          - STABILITY_AI
           - TENCENT
           - XAI
           - XIAOMI
@@ -18773,6 +18812,7 @@ components:
           type: string
     CatalogLlmModel:
       required:
+      - examples
       - features
       - hostClass
       - id
@@ -18844,6 +18884,10 @@ components:
           type: array
           items:
             type: string
+        examples:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogRequestExample'
         rfLocalized:
           type: boolean
         maxConcurrentPerAccount:
@@ -20003,6 +20047,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -20015,10 +20063,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
@@ -20029,17 +20073,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         unpaged:
@@ -20047,9 +20091,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -20617,6 +20661,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
         size:
           type: integer
           format: int32
@@ -20629,10 +20677,6 @@ components:
           format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
         numberOfElements:
           type: integer
           format: int32
