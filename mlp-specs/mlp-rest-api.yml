@@ -19173,6 +19173,7 @@ components:
       - available
       - interval
       - limit
+      - reserved
       type: object
       properties:
         interval:
@@ -19186,6 +19187,9 @@ components:
           type: number
           format: double
         limit:
+          type: number
+          format: double
+        reserved:
           type: number
           format: double
     AccessMatrixGroup:
