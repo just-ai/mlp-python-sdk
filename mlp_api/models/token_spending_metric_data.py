@@ -28,7 +28,8 @@ class TokenSpendingMetricData(BaseModel):
     interval: StrictStr = Field(...)
     available: Union[StrictFloat, StrictInt] = Field(...)
     limit: Union[StrictFloat, StrictInt] = Field(...)
-    __properties = ["interval", "available", "limit"]
+    reserved: Union[StrictFloat, StrictInt] = Field(...)
+    __properties = ["interval", "available", "limit", "reserved"]
 
     @validator('interval')
     def interval_validate_enum(cls, value):
@@ -75,7 +76,8 @@ class TokenSpendingMetricData(BaseModel):
         _obj = TokenSpendingMetricData.parse_obj({
             "interval": obj.get("interval"),
             "available": obj.get("available"),
-            "limit": obj.get("limit")
+            "limit": obj.get("limit"),
+            "reserved": obj.get("reserved")
         })
         return _obj
 
