@@ -571,6 +571,43 @@ paths:
       responses:
         "200":
           description: OK
+  /api/mlpcore/account/{account}/token/{tokenId}/settings:
+    put:
+      tags:
+      - access-token-endpoint
+      operationId: updateAccessTokenById
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: tokenId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccessTokenData'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenData'
   /api/mlpcore/account/{account}/token/{tokenId}/blocked:
     put:
       tags:
