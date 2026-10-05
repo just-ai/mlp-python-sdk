@@ -28,7 +28,7 @@ class EnumVariable(ModelVariable):
     """
     values: conlist(StrictStr) = Field(...)
     default: Optional[StrictStr] = None
-    __properties = ["name", "default", "type", "exclusiveGroup", "required", "values"]
+    __properties = ["name", "default", "type", "required", "exclusiveGroup", "values"]
 
     class Config:
         """Pydantic configuration"""
@@ -69,8 +69,8 @@ class EnumVariable(ModelVariable):
             "name": obj.get("name"),
             "default": obj.get("default"),
             "type": obj.get("type"),
-            "exclusive_group": obj.get("exclusiveGroup"),
             "required": obj.get("required"),
+            "exclusive_group": obj.get("exclusiveGroup"),
             "values": obj.get("values")
         })
         return _obj

@@ -37,9 +37,9 @@ class ModelVariable(BaseModel):
     name: StrictStr = Field(...)
     default: Optional[Dict[str, Any]] = None
     type: StrictStr = Field(...)
-    exclusive_group: Optional[StrictStr] = Field(default=None, alias="exclusiveGroup")
     required: StrictBool = Field(...)
-    __properties = ["name", "default", "type", "exclusiveGroup", "required"]
+    exclusive_group: Optional[StrictStr] = Field(default=None, alias="exclusiveGroup")
+    __properties = ["name", "default", "type", "required", "exclusiveGroup"]
 
     class Config:
         """Pydantic configuration"""
