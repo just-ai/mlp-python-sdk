@@ -57,10 +57,21 @@ pipeline {
                 git url: "git@gitlab.just-ai.com:mpl-public/mpl-python-sdk.git",
                         branch: "${RESULT_BRANCH}",
                         credentialsId: 'bitbucket_key'
+
+                script {
+                    // v2 layout (no mlp-specs/) is built by .gitlab-ci.yml, nothing to do here
+                    env.V2_LAYOUT = fileExists('mlp-specs/update.sh') ? 'false' : 'true'
+                    if (env.V2_LAYOUT == 'true') {
+                        currentBuild.description = "${RESULT_BRANCH} (v2: built in GitLab CI)"
+                    }
+                }
             }
         }
 
         stage('Update spec') {
+            when {
+                expression { env.V2_LAYOUT != 'true' }
+            }
             steps {
                 script {
                     updateGitlabCommitStatus name: STAGE_NAME, state: "running"
@@ -76,7 +87,7 @@ pipeline {
 
         stage('Rebuild client stubs') {
             when {
-                expression { env.NEED_REBUILD == 'true' || params.NEED_REBUILD }
+                expression { env.V2_LAYOUT != 'true' && (env.NEED_REBUILD == 'true' || params.NEED_REBUILD) }
             }
             steps {
                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
@@ -96,6 +107,9 @@ pipeline {
             }
         }
         stage('Lint') {
+            when {
+                expression { env.V2_LAYOUT != 'true' }
+            }
             steps {
                 updateGitlabCommitStatus name: STAGE_NAME, state: "running"
                 withPythonEnv('/opt/ansible-venv-python3/bin/python') {
@@ -106,7 +120,7 @@ pipeline {
         }
         stage('Tests') {
             when {
-                expression { params.RUN_TESTS ?: false || env.NEED_REBUILD == 'true' }
+                expression { env.V2_LAYOUT != 'true' && (params.RUN_TESTS ?: false || env.NEED_REBUILD == 'true') }
             }
 
             environment {
