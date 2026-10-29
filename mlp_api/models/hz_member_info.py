@@ -26,7 +26,7 @@ class HzMemberInfo(BaseModel):
     HzMemberInfo
     """
     name: Optional[StrictStr] = None
-    address: StrictStr = Field(...)
+    address: Optional[StrictStr] = None
     version: StrictStr = Field(...)
     is_local: StrictBool = Field(default=..., alias="isLocal")
     __properties = ["name", "address", "version", "isLocal"]

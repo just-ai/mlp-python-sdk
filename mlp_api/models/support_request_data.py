@@ -19,16 +19,40 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, constr, validator
 
 class SupportRequestData(BaseModel):
     """
     SupportRequestData
     """
-    subject: StrictStr = Field(...)
-    description: Optional[StrictStr] = None
-    reply_email: StrictStr = Field(default=..., alias="replyEmail")
+    subject: constr(strict=True, max_length=200, min_length=0) = Field(...)
+    description: Optional[constr(strict=True, max_length=10000, min_length=0)] = None
+    reply_email: constr(strict=True) = Field(default=..., alias="replyEmail")
     __properties = ["subject", "description", "replyEmail"]
+
+    @validator('subject')
+    def subject_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('description')
+    def description_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0B-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0B-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('reply_email')
+    def reply_email_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
 
     class Config:
         """Pydantic configuration"""

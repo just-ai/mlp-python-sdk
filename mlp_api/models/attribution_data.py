@@ -19,20 +19,90 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, constr, validator
 
 class AttributionData(BaseModel):
     """
     AttributionData
     """
-    utm_source: Optional[StrictStr] = Field(default=None, alias="utmSource")
-    utm_medium: Optional[StrictStr] = Field(default=None, alias="utmMedium")
-    utm_campaign: Optional[StrictStr] = Field(default=None, alias="utmCampaign")
-    utm_term: Optional[StrictStr] = Field(default=None, alias="utmTerm")
-    utm_content: Optional[StrictStr] = Field(default=None, alias="utmContent")
-    ga_id: Optional[StrictStr] = Field(default=None, alias="gaId")
-    page_url: Optional[StrictStr] = Field(default=None, alias="pageUrl")
+    utm_source: Optional[constr(strict=True)] = Field(default=None, alias="utmSource")
+    utm_medium: Optional[constr(strict=True)] = Field(default=None, alias="utmMedium")
+    utm_campaign: Optional[constr(strict=True)] = Field(default=None, alias="utmCampaign")
+    utm_term: Optional[constr(strict=True)] = Field(default=None, alias="utmTerm")
+    utm_content: Optional[constr(strict=True)] = Field(default=None, alias="utmContent")
+    ga_id: Optional[constr(strict=True)] = Field(default=None, alias="gaId")
+    page_url: Optional[constr(strict=True)] = Field(default=None, alias="pageUrl")
     __properties = ["utmSource", "utmMedium", "utmCampaign", "utmTerm", "utmContent", "gaId", "pageUrl"]
+
+    @validator('utm_source')
+    def utm_source_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('utm_medium')
+    def utm_medium_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('utm_campaign')
+    def utm_campaign_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('utm_term')
+    def utm_term_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('utm_content')
+    def utm_content_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('ga_id')
+    def ga_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('page_url')
+    def page_url_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
 
     class Config:
         """Pydantic configuration"""

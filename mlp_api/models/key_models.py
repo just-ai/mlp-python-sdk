@@ -18,17 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from typing import List
+from pydantic import BaseModel, Field, StrictStr, conlist
 
-class DataImageMountDump(BaseModel):
+class KeyModels(BaseModel):
     """
-    DataImageMountDump
+    KeyModels
     """
-    image_account: Optional[StrictStr] = Field(default=None, alias="imageAccount")
-    image: StrictStr = Field(...)
-    target_path: StrictStr = Field(default=..., alias="targetPath")
-    __properties = ["imageAccount", "image", "targetPath"]
+    llm_models: conlist(StrictStr) = Field(default=..., alias="llmModels")
+    services: conlist(StrictStr) = Field(...)
+    __properties = ["llmModels", "services"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +43,8 @@ class DataImageMountDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DataImageMountDump:
-        """Create an instance of DataImageMountDump from a JSON string"""
+    def from_json(cls, json_str: str) -> KeyModels:
+        """Create an instance of KeyModels from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +56,17 @@ class DataImageMountDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DataImageMountDump:
-        """Create an instance of DataImageMountDump from a dict"""
+    def from_dict(cls, obj: dict) -> KeyModels:
+        """Create an instance of KeyModels from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DataImageMountDump.parse_obj(obj)
+            return KeyModels.parse_obj(obj)
 
-        _obj = DataImageMountDump.parse_obj({
-            "image_account": obj.get("imageAccount"),
-            "image": obj.get("image"),
-            "target_path": obj.get("targetPath")
+        _obj = KeyModels.parse_obj({
+            "llm_models": obj.get("llmModels"),
+            "services": obj.get("services")
         })
         return _obj
 

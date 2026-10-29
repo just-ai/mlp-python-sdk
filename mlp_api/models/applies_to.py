@@ -28,8 +28,8 @@ class AppliesTo(BaseModel):
     """
     rates: conlist(RateMetric) = Field(...)
     extras: conlist(StrictStr) = Field(...)
-    empty: StrictBool = Field(...)
-    __properties = ["rates", "extras", "empty"]
+    is_empty: StrictBool = Field(default=..., alias="isEmpty")
+    __properties = ["rates", "extras", "isEmpty"]
 
     class Config:
         """Pydantic configuration"""
@@ -76,7 +76,7 @@ class AppliesTo(BaseModel):
         _obj = AppliesTo.parse_obj({
             "rates": [RateMetric.from_dict(_item) for _item in obj.get("rates")] if obj.get("rates") is not None else None,
             "extras": obj.get("extras"),
-            "empty": obj.get("empty")
+            "is_empty": obj.get("isEmpty")
         })
         return _obj
 

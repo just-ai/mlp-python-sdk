@@ -18,37 +18,24 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+
 from pydantic import BaseModel, Field, StrictStr, validator
+from mlp_api.models.access_token_data import AccessTokenData
 
-class ImageDump(BaseModel):
+class OperatorToken(BaseModel):
     """
-    ImageDump
+    OperatorToken
     """
-    name: StrictStr = Field(...)
-    image: StrictStr = Field(...)
-    access_mode: Optional[StrictStr] = Field(default=None, alias="accessMode")
-    image_type: Optional[StrictStr] = Field(default=None, alias="imageType")
-    __properties = ["name", "image", "accessMode", "imageType"]
+    type: StrictStr = Field(...)
+    fingerprint: StrictStr = Field(...)
+    settings: AccessTokenData = Field(...)
+    __properties = ["type", "fingerprint", "settings"]
 
-    @validator('access_mode')
-    def access_mode_validate_enum(cls, value):
+    @validator('type')
+    def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('private', 'public', 'restricted'):
-            raise ValueError("must be one of enum values ('private', 'public', 'restricted')")
-        return value
-
-    @validator('image_type')
-    def image_type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('DOCKER', 'NPM', 'GIT'):
-            raise ValueError("must be one of enum values ('DOCKER', 'NPM', 'GIT')")
+        if value not in ('GENERAL', 'INTERNAL', 'APPLICATION'):
+            raise ValueError("must be one of enum values ('GENERAL', 'INTERNAL', 'APPLICATION')")
         return value
 
     class Config:
@@ -65,8 +52,8 @@ class ImageDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ImageDump:
-        """Create an instance of ImageDump from a JSON string"""
+    def from_json(cls, json_str: str) -> OperatorToken:
+        """Create an instance of OperatorToken from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -75,22 +62,24 @@ class ImageDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of settings
+        if self.settings:
+            _dict['settings'] = self.settings.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ImageDump:
-        """Create an instance of ImageDump from a dict"""
+    def from_dict(cls, obj: dict) -> OperatorToken:
+        """Create an instance of OperatorToken from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ImageDump.parse_obj(obj)
+            return OperatorToken.parse_obj(obj)
 
-        _obj = ImageDump.parse_obj({
-            "name": obj.get("name"),
-            "image": obj.get("image"),
-            "access_mode": obj.get("accessMode"),
-            "image_type": obj.get("imageType")
+        _obj = OperatorToken.parse_obj({
+            "type": obj.get("type"),
+            "fingerprint": obj.get("fingerprint"),
+            "settings": AccessTokenData.from_dict(obj.get("settings")) if obj.get("settings") is not None else None
         })
         return _obj
 

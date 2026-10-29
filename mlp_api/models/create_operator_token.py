@@ -18,16 +18,23 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
 
-class PersistentVolumeDump(BaseModel):
+from pydantic import BaseModel, Field, StrictStr, validator
+
+class CreateOperatorToken(BaseModel):
     """
-    PersistentVolumeDump
+    CreateOperatorToken
     """
-    mount_path: StrictStr = Field(default=..., alias="mountPath")
-    claim_name: Optional[StrictStr] = Field(default=None, alias="claimName")
-    __properties = ["mountPath", "claimName"]
+    name: StrictStr = Field(...)
+    type: StrictStr = Field(...)
+    __properties = ["name", "type"]
+
+    @validator('type')
+    def type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('GENERAL', 'INTERNAL', 'APPLICATION'):
+            raise ValueError("must be one of enum values ('GENERAL', 'INTERNAL', 'APPLICATION')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +50,8 @@ class PersistentVolumeDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PersistentVolumeDump:
-        """Create an instance of PersistentVolumeDump from a JSON string"""
+    def from_json(cls, json_str: str) -> CreateOperatorToken:
+        """Create an instance of CreateOperatorToken from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +63,17 @@ class PersistentVolumeDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PersistentVolumeDump:
-        """Create an instance of PersistentVolumeDump from a dict"""
+    def from_dict(cls, obj: dict) -> CreateOperatorToken:
+        """Create an instance of CreateOperatorToken from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PersistentVolumeDump.parse_obj(obj)
+            return CreateOperatorToken.parse_obj(obj)
 
-        _obj = PersistentVolumeDump.parse_obj({
-            "mount_path": obj.get("mountPath"),
-            "claim_name": obj.get("claimName")
+        _obj = CreateOperatorToken.parse_obj({
+            "name": obj.get("name"),
+            "type": obj.get("type")
         })
         return _obj
 

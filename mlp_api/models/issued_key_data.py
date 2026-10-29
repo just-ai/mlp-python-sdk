@@ -18,16 +18,26 @@ import re  # noqa: F401
 import json
 
 
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
-from pydantic import BaseModel, Field, StrictStr
+class IssuedKeyData(BaseModel):
+    """
+    IssuedKeyData
+    """
+    token_id: StrictInt = Field(default=..., alias="tokenId")
+    name: StrictStr = Field(...)
+    type: StrictStr = Field(...)
+    mask: StrictStr = Field(...)
+    value: Optional[StrictStr] = None
+    __properties = ["tokenId", "name", "type", "mask", "value"]
 
-class DocumentDump(BaseModel):
-    """
-    DocumentDump
-    """
-    filename: StrictStr = Field(...)
-    content: StrictStr = Field(...)
-    __properties = ["filename", "content"]
+    @validator('type')
+    def type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('GENERAL', 'INTERNAL', 'APPLICATION'):
+            raise ValueError("must be one of enum values ('GENERAL', 'INTERNAL', 'APPLICATION')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +53,8 @@ class DocumentDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DocumentDump:
-        """Create an instance of DocumentDump from a JSON string"""
+    def from_json(cls, json_str: str) -> IssuedKeyData:
+        """Create an instance of IssuedKeyData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -56,17 +66,20 @@ class DocumentDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DocumentDump:
-        """Create an instance of DocumentDump from a dict"""
+    def from_dict(cls, obj: dict) -> IssuedKeyData:
+        """Create an instance of IssuedKeyData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DocumentDump.parse_obj(obj)
+            return IssuedKeyData.parse_obj(obj)
 
-        _obj = DocumentDump.parse_obj({
-            "filename": obj.get("filename"),
-            "content": obj.get("content")
+        _obj = IssuedKeyData.parse_obj({
+            "token_id": obj.get("tokenId"),
+            "name": obj.get("name"),
+            "type": obj.get("type"),
+            "mask": obj.get("mask"),
+            "value": obj.get("value")
         })
         return _obj
 

@@ -19,16 +19,21 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import BaseModel, Field, StrictInt
 
-class FitConfigDump(BaseModel):
+class VeaiCounters(BaseModel):
     """
-    FitConfigDump
+    VeaiCounters
     """
-    name: StrictStr = Field(...)
-    config: StrictStr = Field(...)
-    is_default: StrictBool = Field(default=..., alias="isDefault")
-    __properties = ["name", "config", "isDefault"]
+    noop: StrictInt = Field(...)
+    update: StrictInt = Field(...)
+    disable: StrictInt = Field(...)
+    candidate: StrictInt = Field(...)
+    info: StrictInt = Field(...)
+    skip: StrictInt = Field(...)
+    missing: StrictInt = Field(...)
+    no_reference: StrictInt = Field(default=..., alias="noReference")
+    __properties = ["noop", "update", "disable", "candidate", "info", "skip", "missing", "noReference"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +49,8 @@ class FitConfigDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FitConfigDump:
-        """Create an instance of FitConfigDump from a JSON string"""
+    def from_json(cls, json_str: str) -> VeaiCounters:
+        """Create an instance of VeaiCounters from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +62,23 @@ class FitConfigDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FitConfigDump:
-        """Create an instance of FitConfigDump from a dict"""
+    def from_dict(cls, obj: dict) -> VeaiCounters:
+        """Create an instance of VeaiCounters from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FitConfigDump.parse_obj(obj)
+            return VeaiCounters.parse_obj(obj)
 
-        _obj = FitConfigDump.parse_obj({
-            "name": obj.get("name"),
-            "config": obj.get("config"),
-            "is_default": obj.get("isDefault")
+        _obj = VeaiCounters.parse_obj({
+            "noop": obj.get("noop"),
+            "update": obj.get("update"),
+            "disable": obj.get("disable"),
+            "candidate": obj.get("candidate"),
+            "info": obj.get("info"),
+            "skip": obj.get("skip"),
+            "missing": obj.get("missing"),
+            "no_reference": obj.get("noReference")
         })
         return _obj
 

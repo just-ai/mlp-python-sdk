@@ -18,15 +18,16 @@ import re  # noqa: F401
 import json
 
 
+from typing import Optional
+from pydantic import BaseModel, StrictStr
 
-from pydantic import BaseModel, Field, StrictStr
-
-class ModelGroupDump(BaseModel):
+class AccountSecretCreateData(BaseModel):
     """
-    ModelGroupDump
+    AccountSecretCreateData
     """
-    name: StrictStr = Field(...)
-    __properties = ["name"]
+    name: Optional[StrictStr] = None
+    value: Optional[StrictStr] = None
+    __properties = ["name", "value"]
 
     class Config:
         """Pydantic configuration"""
@@ -42,8 +43,8 @@ class ModelGroupDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ModelGroupDump:
-        """Create an instance of ModelGroupDump from a JSON string"""
+    def from_json(cls, json_str: str) -> AccountSecretCreateData:
+        """Create an instance of AccountSecretCreateData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -55,16 +56,17 @@ class ModelGroupDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ModelGroupDump:
-        """Create an instance of ModelGroupDump from a dict"""
+    def from_dict(cls, obj: dict) -> AccountSecretCreateData:
+        """Create an instance of AccountSecretCreateData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ModelGroupDump.parse_obj(obj)
+            return AccountSecretCreateData.parse_obj(obj)
 
-        _obj = ModelGroupDump.parse_obj({
-            "name": obj.get("name")
+        _obj = AccountSecretCreateData.parse_obj({
+            "name": obj.get("name"),
+            "value": obj.get("value")
         })
         return _obj
 

@@ -26,12 +26,9 @@ from pydantic import Field, StrictBool, StrictInt, StrictStr, conlist
 from typing import Any, Dict, List, Optional
 
 from mlp_api.models.account_config_dump import AccountConfigDump
-from mlp_api.models.account_data_dump import AccountDataDump
 from mlp_api.models.account_feature_data import AccountFeatureData
 from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_limits_data import AccountLimitsData
-from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountConfigDump
-from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump
 from mlp_api.models.empty_users_response import EmptyUsersResponse
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
 from mlp_api.models.last_activity_pk import LastActivityPk
@@ -508,7 +505,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_account_data_dump(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> AccountDataDump:  # noqa: E501
+    def get_account_data_dump(self, account : Annotated[StrictStr, Field(..., description="Account id or account name")], mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> object:  # noqa: E501
         """get_account_data_dump  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -530,7 +527,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: AccountDataDump
+        :rtype: object
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -574,7 +571,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(AccountDataDump, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -633,7 +630,7 @@ class AdminEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "AccountDataDump",
+            '200': "object",
         }
 
         return self.api_client.call_api(
@@ -2391,7 +2388,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def restore_account_config_dump(self, dry_run : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], account_config_dump : AccountConfigDump, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DifferenceIAccountConfigDump:  # noqa: E501
+    def restore_account_config_dump(self, dry_run : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], account_config_dump : AccountConfigDump, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> object:  # noqa: E501
         """restore_account_config_dump  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -2417,7 +2414,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: DifferenceIAccountConfigDump
+        :rtype: object
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -2465,7 +2462,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(DifferenceIAccountConfigDump, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -2539,7 +2536,7 @@ class AdminEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "DifferenceIAccountConfigDump",
+            '200': "object",
         }
 
         return self.api_client.call_api(
@@ -2560,7 +2557,7 @@ class AdminEndpointApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def restore_account_data_dump(self, dry_run : StrictBool, no_errors : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> DifferenceIAccountDataDump:  # noqa: E501
+    def restore_account_data_dump(self, dry_run : StrictBool, no_errors : StrictBool, account : Annotated[StrictStr, Field(..., description="Account id or account name")], body : StrictStr, mlp_api_key : Annotated[Optional[StrictStr], Field(description="token to use instead of a session")] = None, **kwargs) -> object:  # noqa: E501
         """restore_account_data_dump  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -2588,7 +2585,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: DifferenceIAccountDataDump
+        :rtype: object
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -2638,7 +2635,7 @@ class AdminEndpointApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(DifferenceIAccountDataDump, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -2716,7 +2713,7 @@ class AdminEndpointApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "DifferenceIAccountDataDump",
+            '200': "object",
         }
 
         return self.api_client.call_api(
