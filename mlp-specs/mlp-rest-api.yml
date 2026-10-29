@@ -3135,6 +3135,88 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LlmModelPricingData"
+  /api/mlpcore/admin/platform-classifiers/align-to-template:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: alignPlatformClassifiersToTemplate
+      parameters:
+      - name: dryRun
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: maxRollingUpdates
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 5
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlignmentReport"
+  /api/mlpcore/admin/platform-classifiers/account/{account}/model/{model}/align-to-template:
+    post:
+      tags:
+      - admin-endpoint
+      operationId: alignPlatformClassifierToTemplate
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: model
+        in: path
+        description: Model id or model name
+        required: true
+        schema:
+          type: string
+      - name: dryRun
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: maxRollingUpdates
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 5
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlignmentReport"
   /api/mlpcore/admin/models/resource-group/migrate:
     post:
       tags:
@@ -17608,6 +17690,53 @@ components:
             type: number
         unitsRange:
           $ref: "#/components/schemas/UnitsRangeData"
+    AlignmentReport:
+      required:
+      - counts
+      - dryRun
+      - results
+      type: object
+      properties:
+        dryRun:
+          type: boolean
+        counts:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlignmentResult"
+    AlignmentResult:
+      required:
+      - changedFields
+      - modelId
+      - outcome
+      type: object
+      properties:
+        modelId:
+          $ref: "#/components/schemas/ModelInfoPK"
+        outcome:
+          type: string
+          enum:
+          - ALIGNED
+          - PLANNED
+          - UNCHANGED
+          - SKIPPED
+          - DEFERRED
+        templateId:
+          $ref: "#/components/schemas/ModelInfoPK"
+        reason:
+          type: string
+        changedFields:
+          type: array
+          items:
+            type: string
+        jobId:
+          type: string
+        previousImage:
+          type: string
     PopularityRecalcResult:
       required:
       - canonicalModels
@@ -20954,8 +21083,6 @@ components:
           format: int32
         first:
           type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -20971,6 +21098,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:
@@ -20978,17 +21107,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: "#/components/schemas/SortObject"
         paged:
           type: boolean
         unpaged:
@@ -20996,9 +21125,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -21569,8 +21698,6 @@ components:
           format: int32
         first:
           type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -21586,6 +21713,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:
