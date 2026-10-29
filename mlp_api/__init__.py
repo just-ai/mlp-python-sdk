@@ -125,6 +125,8 @@ from mlp_api.models.account_survey_state_data import AccountSurveyStateData
 from mlp_api.models.account_survey_viewed_data import AccountSurveyViewedData
 from mlp_api.models.account_user_data import AccountUserData
 from mlp_api.models.alias_data import AliasData
+from mlp_api.models.alignment_report import AlignmentReport
+from mlp_api.models.alignment_result import AlignmentResult
 from mlp_api.models.analyst_data import AnalystData
 from mlp_api.models.analyst_request_data import AnalystRequestData
 from mlp_api.models.append_chat_turn_data import AppendChatTurnData
