@@ -26,13 +26,13 @@ class PageableObject(BaseModel):
     """
     PageableObject
     """
-    offset: Optional[StrictInt] = None
-    sort: Optional[SortObject] = None
     page_number: Optional[StrictInt] = Field(default=None, alias="pageNumber")
     page_size: Optional[StrictInt] = Field(default=None, alias="pageSize")
+    offset: Optional[StrictInt] = None
+    sort: Optional[SortObject] = None
     paged: Optional[StrictBool] = None
     unpaged: Optional[StrictBool] = None
-    __properties = ["offset", "sort", "pageNumber", "pageSize", "paged", "unpaged"]
+    __properties = ["pageNumber", "pageSize", "offset", "sort", "paged", "unpaged"]
 
     class Config:
         """Pydantic configuration"""
@@ -73,10 +73,10 @@ class PageableObject(BaseModel):
             return PageableObject.parse_obj(obj)
 
         _obj = PageableObject.parse_obj({
-            "offset": obj.get("offset"),
-            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
             "page_number": obj.get("pageNumber"),
             "page_size": obj.get("pageSize"),
+            "offset": obj.get("offset"),
+            "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
             "paged": obj.get("paged"),
             "unpaged": obj.get("unpaged")
         })
