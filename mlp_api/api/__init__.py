@@ -3,8 +3,10 @@
 # import apis into api package
 from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_analyst_endpoint_api import AccountAnalystEndpointApi
+from mlp_api.api.account_credential_rotation_endpoint_api import AccountCredentialRotationEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.account_keys_endpoint_api import AccountKeysEndpointApi
+from mlp_api.api.account_secret_endpoint_api import AccountSecretEndpointApi
 from mlp_api.api.account_survey_endpoint_api import AccountSurveyEndpointApi
 from mlp_api.api.account_users_endpoint_api import AccountUsersEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
@@ -24,6 +26,7 @@ from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.key_access_matrix_endpoint_api import KeyAccessMatrixEndpointApi
+from mlp_api.api.key_policy_operator_endpoint_api import KeyPolicyOperatorEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
 from mlp_api.api.llm_catalog_notification_digest_admin_endpoint_api import LlmCatalogNotificationDigestAdminEndpointApi
 from mlp_api.api.llm_catalog_notification_subscription_endpoint_api import LlmCatalogNotificationSubscriptionEndpointApi
@@ -35,6 +38,7 @@ from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPub
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
 from mlp_api.api.llm_pricing_v2_admin_endpoint_api import LlmPricingV2AdminEndpointApi
 from mlp_api.api.llm_pricing_v2_public_endpoint_api import LlmPricingV2PublicEndpointApi
+from mlp_api.api.llm_pricing_v2_veai_sync_endpoint_api import LlmPricingV2VeaiSyncEndpointApi
 from mlp_api.api.llm_providers_endpoint_api import LlmProvidersEndpointApi
 from mlp_api.api.manual_management_endpoint_api import ManualManagementEndpointApi
 from mlp_api.api.metric_endpoint_api import MetricEndpointApi
@@ -55,6 +59,7 @@ from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
 from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
+from mlp_api.api.security_operator_endpoint_api import SecurityOperatorEndpointApi
 from mlp_api.api.service_suspension_endpoint_api import ServiceSuspensionEndpointApi
 from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
@@ -64,6 +69,7 @@ from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
 from mlp_api.api.upstream_key_admin_endpoint_api import UpstreamKeyAdminEndpointApi
+from mlp_api.api.upstream_key_operator_endpoint_api import UpstreamKeyOperatorEndpointApi
 from mlp_api.api.user_group_access_policy_endpoint_api import UserGroupAccessPolicyEndpointApi
 from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 

@@ -54,7 +54,7 @@ class ModelInfoData(BaseModel):
     model_name: StrictStr = Field(default=..., alias="modelName")
     display_name: StrictStr = Field(default=..., alias="displayName")
     display_author: StrictStr = Field(default=..., alias="displayAuthor")
-    image_account_id: StrictInt = Field(default=..., alias="imageAccountId")
+    image_account_id: Optional[StrictInt] = Field(default=None, alias="imageAccountId")
     image_id: Optional[StrictInt] = Field(default=None, alias="imageId")
     image: Optional[ImageInfoData] = None
     model_group_id: Optional[StrictInt] = Field(default=None, alias="modelGroupId")
@@ -81,26 +81,26 @@ class ModelInfoData(BaseModel):
     container_args: Optional[conlist(StrictStr)] = Field(default=None, alias="containerArgs")
     fittable: StrictBool = Field(...)
     hosting_type: StrictStr = Field(default=..., alias="hostingType")
-    protocols: conlist(StrictStr, unique_items=True) = Field(...)
-    persistent_volumes: conlist(PersistentVolumeData) = Field(default=..., alias="persistentVolumes")
-    data_image_mounts: conlist(DataImageMountData) = Field(default=..., alias="dataImageMounts")
+    protocols: Optional[conlist(StrictStr, unique_items=True)] = None
+    persistent_volumes: Optional[conlist(PersistentVolumeData)] = Field(default=None, alias="persistentVolumes")
+    data_image_mounts: Optional[conlist(DataImageMountData)] = Field(default=None, alias="dataImageMounts")
     resource_group: Optional[StrictStr] = Field(default=None, alias="resourceGroup")
     timeouts: ModelTimeoutsData = Field(...)
-    resource_limits: ModelLimitsData = Field(default=..., alias="resourceLimits")
-    retries_config: ModelRetriesData = Field(default=..., alias="retriesConfig")
-    batches_config: ModelBatchesData = Field(default=..., alias="batchesConfig")
-    caching: ModelCachingData = Field(...)
-    priority_queue: ModelPriorityQueueData = Field(default=..., alias="priorityQueue")
+    resource_limits: Optional[ModelLimitsData] = Field(default=None, alias="resourceLimits")
+    retries_config: Optional[ModelRetriesData] = Field(default=None, alias="retriesConfig")
+    batches_config: Optional[ModelBatchesData] = Field(default=None, alias="batchesConfig")
+    caching: Optional[ModelCachingData] = None
+    priority_queue: Optional[ModelPriorityQueueData] = Field(default=None, alias="priorityQueue")
     per_account_concurrency: ModelPerAccountConcurrencyData = Field(default=..., alias="perAccountConcurrency")
-    auto_scaling_configuration: ModelAutoScalingConfiguration = Field(default=..., alias="autoScalingConfiguration")
+    auto_scaling_configuration: Optional[ModelAutoScalingConfiguration] = Field(default=None, alias="autoScalingConfiguration")
     daemon_set_configuration: Optional[DaemonSetConfigData] = Field(default=None, alias="daemonSetConfiguration")
     short_description: Optional[StrictStr] = Field(default=None, alias="shortDescription")
     languages: Optional[conlist(StrictStr, unique_items=True)] = None
     min_instances_count: Optional[StrictInt] = Field(default=None, alias="minInstancesCount")
     public_settings: ModelPublicSettingsData = Field(default=..., alias="publicSettings")
-    billing_settings: ModelBillingSettingsData = Field(default=..., alias="billingSettings")
+    billing_settings: Optional[ModelBillingSettingsData] = Field(default=None, alias="billingSettings")
     http_settings: ModelHttpSettingsData = Field(default=..., alias="httpSettings")
-    archive_settings: ModelArchiveSettingsData = Field(default=..., alias="archiveSettings")
+    archive_settings: Optional[ModelArchiveSettingsData] = Field(default=None, alias="archiveSettings")
     restricted_image_access: StrictBool = Field(default=..., alias="restrictedImageAccess")
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
     favorite: StrictBool = Field(...)
@@ -135,6 +135,9 @@ class ModelInfoData(BaseModel):
     @validator('protocols')
     def protocols_validate_enum(cls, value):
         """Validates the enum"""
+        if value is None:
+            return value
+
         for i in value:
             if i not in ('TCP', 'MLP_GRPC', 'MCP_STDIO'):
                 raise ValueError("each list item must be one of ('TCP', 'MLP_GRPC', 'MCP_STDIO')")

@@ -18,22 +18,59 @@ import re  # noqa: F401
 import json
 
 
-
-from pydantic import BaseModel, Field, StrictStr, validator
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, constr, validator
 from mlp_api.models.attribution_data import AttributionData
 
 class LeadRequestData(BaseModel):
     """
     LeadRequestData
     """
-    full_name: StrictStr = Field(default=..., alias="fullName")
-    company_name: StrictStr = Field(default=..., alias="companyName")
-    inn: StrictStr = Field(...)
-    phone: StrictStr = Field(...)
-    email: StrictStr = Field(...)
+    full_name: constr(strict=True) = Field(default=..., alias="fullName")
+    company_name: constr(strict=True) = Field(default=..., alias="companyName")
+    inn: constr(strict=True) = Field(...)
+    phone: constr(strict=True) = Field(...)
+    email: constr(strict=True) = Field(...)
     attribution: AttributionData = Field(...)
     source: StrictStr = Field(...)
-    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution", "source"]
+    website: Optional[StrictStr] = None
+    form_fill_time_ms: Optional[StrictInt] = Field(default=None, alias="formFillTimeMs")
+    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution", "source", "website", "formFillTimeMs"]
+
+    @validator('full_name')
+    def full_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('company_name')
+    def company_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('inn')
+    def inn_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('phone')
+    def phone_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
+
+    @validator('email')
+    def email_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
+        return value
 
     @validator('source')
     def source_validate_enum(cls, value):
@@ -87,7 +124,9 @@ class LeadRequestData(BaseModel):
             "phone": obj.get("phone"),
             "email": obj.get("email"),
             "attribution": AttributionData.from_dict(obj.get("attribution")) if obj.get("attribution") is not None else None,
-            "source": obj.get("source")
+            "source": obj.get("source"),
+            "website": obj.get("website"),
+            "form_fill_time_ms": obj.get("formFillTimeMs")
         })
         return _obj
 

@@ -18,17 +18,26 @@ import re  # noqa: F401
 import json
 
 
+from typing import Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-
-class PredictConfigDump(BaseModel):
+class IssuedKeyData(BaseModel):
     """
-    PredictConfigDump
+    IssuedKeyData
     """
+    token_id: StrictInt = Field(default=..., alias="tokenId")
     name: StrictStr = Field(...)
-    config: StrictStr = Field(...)
-    is_default: StrictBool = Field(default=..., alias="isDefault")
-    __properties = ["name", "config", "isDefault"]
+    type: StrictStr = Field(...)
+    mask: StrictStr = Field(...)
+    value: Optional[StrictStr] = None
+    __properties = ["tokenId", "name", "type", "mask", "value"]
+
+    @validator('type')
+    def type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('GENERAL', 'INTERNAL', 'APPLICATION'):
+            raise ValueError("must be one of enum values ('GENERAL', 'INTERNAL', 'APPLICATION')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +53,8 @@ class PredictConfigDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> PredictConfigDump:
-        """Create an instance of PredictConfigDump from a JSON string"""
+    def from_json(cls, json_str: str) -> IssuedKeyData:
+        """Create an instance of IssuedKeyData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,18 +66,20 @@ class PredictConfigDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> PredictConfigDump:
-        """Create an instance of PredictConfigDump from a dict"""
+    def from_dict(cls, obj: dict) -> IssuedKeyData:
+        """Create an instance of IssuedKeyData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return PredictConfigDump.parse_obj(obj)
+            return IssuedKeyData.parse_obj(obj)
 
-        _obj = PredictConfigDump.parse_obj({
+        _obj = IssuedKeyData.parse_obj({
+            "token_id": obj.get("tokenId"),
             "name": obj.get("name"),
-            "config": obj.get("config"),
-            "is_default": obj.get("isDefault")
+            "type": obj.get("type"),
+            "mask": obj.get("mask"),
+            "value": obj.get("value")
         })
         return _obj
 

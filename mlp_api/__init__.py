@@ -19,8 +19,10 @@ __version__ = "1.0.0"
 # import apis into sdk package
 from mlp_api.api.access_token_endpoint_api import AccessTokenEndpointApi
 from mlp_api.api.account_analyst_endpoint_api import AccountAnalystEndpointApi
+from mlp_api.api.account_credential_rotation_endpoint_api import AccountCredentialRotationEndpointApi
 from mlp_api.api.account_endpoint_api import AccountEndpointApi
 from mlp_api.api.account_keys_endpoint_api import AccountKeysEndpointApi
+from mlp_api.api.account_secret_endpoint_api import AccountSecretEndpointApi
 from mlp_api.api.account_survey_endpoint_api import AccountSurveyEndpointApi
 from mlp_api.api.account_users_endpoint_api import AccountUsersEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
@@ -40,6 +42,7 @@ from mlp_api.api.image_endpoint_api import ImageEndpointApi
 from mlp_api.api.internal_endpoint_api import InternalEndpointApi
 from mlp_api.api.job_endpoint_api import JobEndpointApi
 from mlp_api.api.key_access_matrix_endpoint_api import KeyAccessMatrixEndpointApi
+from mlp_api.api.key_policy_operator_endpoint_api import KeyPolicyOperatorEndpointApi
 from mlp_api.api.legacy_ui_notification_endpoint_api import LegacyUiNotificationEndpointApi
 from mlp_api.api.llm_catalog_notification_digest_admin_endpoint_api import LlmCatalogNotificationDigestAdminEndpointApi
 from mlp_api.api.llm_catalog_notification_subscription_endpoint_api import LlmCatalogNotificationSubscriptionEndpointApi
@@ -51,6 +54,7 @@ from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPub
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
 from mlp_api.api.llm_pricing_v2_admin_endpoint_api import LlmPricingV2AdminEndpointApi
 from mlp_api.api.llm_pricing_v2_public_endpoint_api import LlmPricingV2PublicEndpointApi
+from mlp_api.api.llm_pricing_v2_veai_sync_endpoint_api import LlmPricingV2VeaiSyncEndpointApi
 from mlp_api.api.llm_providers_endpoint_api import LlmProvidersEndpointApi
 from mlp_api.api.manual_management_endpoint_api import ManualManagementEndpointApi
 from mlp_api.api.metric_endpoint_api import MetricEndpointApi
@@ -71,6 +75,7 @@ from mlp_api.api.resource_group_endpoint_api import ResourceGroupEndpointApi
 from mlp_api.api.resource_group_quota_endpoint_api import ResourceGroupQuotaEndpointApi
 from mlp_api.api.resource_group_servers_endpoint_api import ResourceGroupServersEndpointApi
 from mlp_api.api.runtime_provider_endpoint_api import RuntimeProviderEndpointApi
+from mlp_api.api.security_operator_endpoint_api import SecurityOperatorEndpointApi
 from mlp_api.api.service_suspension_endpoint_api import ServiceSuspensionEndpointApi
 from mlp_api.api.snippet_endpoint_api import SnippetEndpointApi
 from mlp_api.api.specs_endpoint_api import SpecsEndpointApi
@@ -80,6 +85,7 @@ from mlp_api.api.system_config_endpoint_api import SystemConfigEndpointApi
 from mlp_api.api.system_endpoint_api import SystemEndpointApi
 from mlp_api.api.task_endpoint_api import TaskEndpointApi
 from mlp_api.api.upstream_key_admin_endpoint_api import UpstreamKeyAdminEndpointApi
+from mlp_api.api.upstream_key_operator_endpoint_api import UpstreamKeyOperatorEndpointApi
 from mlp_api.api.user_group_access_policy_endpoint_api import UserGroupAccessPolicyEndpointApi
 from mlp_api.api.user_group_endpoint_api import UserGroupEndpointApi
 
@@ -105,16 +111,22 @@ from mlp_api.models.access_matrix_summary import AccessMatrixSummary
 from mlp_api.models.access_matrix_user import AccessMatrixUser
 from mlp_api.models.access_token_data import AccessTokenData
 from mlp_api.models.account_config_dump import AccountConfigDump
-from mlp_api.models.account_data_dump import AccountDataDump
+from mlp_api.models.account_credential_rotation_data import AccountCredentialRotationData
+from mlp_api.models.account_credential_rotation_issued_data import AccountCredentialRotationIssuedData
 from mlp_api.models.account_feature_data import AccountFeatureData
 from mlp_api.models.account_info_data import AccountInfoData
 from mlp_api.models.account_keys_result import AccountKeysResult
 from mlp_api.models.account_limits_data import AccountLimitsData
+from mlp_api.models.account_secret_create_data import AccountSecretCreateData
+from mlp_api.models.account_secret_data import AccountSecretData
+from mlp_api.models.account_secret_value_data import AccountSecretValueData
 from mlp_api.models.account_survey_answers_data import AccountSurveyAnswersData
 from mlp_api.models.account_survey_state_data import AccountSurveyStateData
 from mlp_api.models.account_survey_viewed_data import AccountSurveyViewedData
 from mlp_api.models.account_user_data import AccountUserData
 from mlp_api.models.alias_data import AliasData
+from mlp_api.models.alignment_report import AlignmentReport
+from mlp_api.models.alignment_result import AlignmentResult
 from mlp_api.models.analyst_data import AnalystData
 from mlp_api.models.analyst_request_data import AnalystRequestData
 from mlp_api.models.append_chat_turn_data import AppendChatTurnData
@@ -155,6 +167,7 @@ from mlp_api.models.copy_resource_group_server import CopyResourceGroupServer
 from mlp_api.models.create_access_token_data import CreateAccessTokenData
 from mlp_api.models.create_chat_conversation_data import CreateChatConversationData
 from mlp_api.models.create_llm_models_data import CreateLlmModelsData
+from mlp_api.models.create_operator_token import CreateOperatorToken
 from mlp_api.models.create_or_update_dataset_info_data import CreateOrUpdateDatasetInfoData
 from mlp_api.models.create_resource_group_data import CreateResourceGroupData
 from mlp_api.models.create_resource_group_quota import CreateResourceGroupQuota
@@ -162,22 +175,14 @@ from mlp_api.models.create_resource_group_server import CreateResourceGroupServe
 from mlp_api.models.create_update_server_template_data import CreateUpdateServerTemplateData
 from mlp_api.models.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.models.daemon_set_config_data import DaemonSetConfigData
-from mlp_api.models.data_image_dump import DataImageDump
 from mlp_api.models.data_image_info_data import DataImageInfoData
 from mlp_api.models.data_image_info_pk import DataImageInfoPK
 from mlp_api.models.data_image_mount_data import DataImageMountData
-from mlp_api.models.data_image_mount_dump import DataImageMountDump
 from mlp_api.models.dataset_info_data import DatasetInfoData
 from mlp_api.models.dataset_pk import DatasetPK
 from mlp_api.models.delivery_status_data import DeliveryStatusData
 from mlp_api.models.demote_llm_model_cards_request import DemoteLlmModelCardsRequest
 from mlp_api.models.deprecated_dataset_info_with_content_data import DeprecatedDatasetInfoWithContentData
-from mlp_api.models.difference_i_account_config_dump import DifferenceIAccountConfigDump
-from mlp_api.models.difference_i_account_data_dump import DifferenceIAccountDataDump
-from mlp_api.models.difference_i_account_data_dump_errors_inner import DifferenceIAccountDataDumpErrorsInner
-from mlp_api.models.difference_i_account_data_dump_errors_inner_cause import DifferenceIAccountDataDumpErrorsInnerCause
-from mlp_api.models.difference_i_account_data_dump_errors_inner_cause_stack_trace_inner import DifferenceIAccountDataDumpErrorsInnerCauseStackTraceInner
-from mlp_api.models.document_dump import DocumentDump
 from mlp_api.models.empty_users_response import EmptyUsersResponse
 from mlp_api.models.enum_constant import EnumConstant
 from mlp_api.models.enum_variable import EnumVariable
@@ -195,7 +200,6 @@ from mlp_api.models.extra_billing import ExtraBilling
 from mlp_api.models.feature_data import FeatureData
 from mlp_api.models.fit2_request_data import Fit2RequestData
 from mlp_api.models.fit_config_data import FitConfigData
-from mlp_api.models.fit_config_dump import FitConfigDump
 from mlp_api.models.fit_config_pk import FitConfigPK
 from mlp_api.models.fit_request_data import FitRequestData
 from mlp_api.models.frontend_settings import FrontendSettings
@@ -213,7 +217,6 @@ from mlp_api.models.health_interval import HealthInterval
 from mlp_api.models.hosting_step_data import HostingStepData
 from mlp_api.models.hz_cluster_info import HzClusterInfo
 from mlp_api.models.hz_member_info import HzMemberInfo
-from mlp_api.models.image_dump import ImageDump
 from mlp_api.models.image_info_data import ImageInfoData
 from mlp_api.models.image_info_pk import ImageInfoPK
 from mlp_api.models.image_step_data import ImageStepData
@@ -235,10 +238,14 @@ from mlp_api.models.invitation_key_template_data import InvitationKeyTemplateDat
 from mlp_api.models.invite_members_request_data import InviteMembersRequestData
 from mlp_api.models.invite_members_result_data import InviteMembersResultData
 from mlp_api.models.ip_access_check_result import IpAccessCheckResult
+from mlp_api.models.issued_key_data import IssuedKeyData
 from mlp_api.models.job_failed_request import JobFailedRequest
 from mlp_api.models.job_status_data import JobStatusData
 from mlp_api.models.job_status_data_v2 import JobStatusDataV2
 from mlp_api.models.key_binding_data import KeyBindingData
+from mlp_api.models.key_models import KeyModels
+from mlp_api.models.key_policy_data import KeyPolicyData
+from mlp_api.models.key_policy_update_data import KeyPolicyUpdateData
 from mlp_api.models.last_activity_pk import LastActivityPk
 from mlp_api.models.lead_request_data import LeadRequestData
 from mlp_api.models.leader_info import LeaderInfo
@@ -292,9 +299,7 @@ from mlp_api.models.model_caching_data import ModelCachingData
 from mlp_api.models.model_constant import ModelConstant
 from mlp_api.models.model_create_update_data import ModelCreateUpdateData
 from mlp_api.models.model_defaults import ModelDefaults
-from mlp_api.models.model_dump import ModelDump
 from mlp_api.models.model_group_data import ModelGroupData
-from mlp_api.models.model_group_dump import ModelGroupDump
 from mlp_api.models.model_group_pk import ModelGroupPK
 from mlp_api.models.model_group_pricing import ModelGroupPricing
 from mlp_api.models.model_http_settings_data import ModelHttpSettingsData
@@ -343,6 +348,8 @@ from mlp_api.models.notification_type_info import NotificationTypeInfo
 from mlp_api.models.number_constant import NumberConstant
 from mlp_api.models.number_variable import NumberVariable
 from mlp_api.models.openrouter_pricing_sync_stats import OpenrouterPricingSyncStats
+from mlp_api.models.operator_external_connection import OperatorExternalConnection
+from mlp_api.models.operator_token import OperatorToken
 from mlp_api.models.organization_data import OrganizationData
 from mlp_api.models.overall_metrics_data import OverallMetricsData
 from mlp_api.models.override_modifier import OverrideModifier
@@ -356,12 +363,10 @@ from mlp_api.models.pagination import Pagination
 from mlp_api.models.param_type_data import ParamTypeData
 from mlp_api.models.paraphrasing_status import ParaphrasingStatus
 from mlp_api.models.persistent_volume_data import PersistentVolumeData
-from mlp_api.models.persistent_volume_dump import PersistentVolumeDump
 from mlp_api.models.pipeline_entity import PipelineEntity
 from mlp_api.models.popularity_recalc_result import PopularityRecalcResult
 from mlp_api.models.predict2_request_data import Predict2RequestData
 from mlp_api.models.predict_config_data import PredictConfigData
-from mlp_api.models.predict_config_dump import PredictConfigDump
 from mlp_api.models.predict_config_pk import PredictConfigPK
 from mlp_api.models.predict_request_data import PredictRequestData
 from mlp_api.models.price_markup_data import PriceMarkupData
@@ -392,11 +397,13 @@ from mlp_api.models.resource_group_services_short_data import ResourceGroupServi
 from mlp_api.models.resource_group_short_status_data import ResourceGroupShortStatusData
 from mlp_api.models.resource_groups_data import ResourceGroupsData
 from mlp_api.models.response_body_emitter import ResponseBodyEmitter
+from mlp_api.models.rotation_instance_data import RotationInstanceData
 from mlp_api.models.s3_credentials_data import S3CredentialsData
 from mlp_api.models.save_organization_data import SaveOrganizationData
 from mlp_api.models.save_user_group_data import SaveUserGroupData
 from mlp_api.models.scheduled_instance_count_setting import ScheduledInstanceCountSetting
 from mlp_api.models.schema_file_data import SchemaFileData
+from mlp_api.models.secret_usage_data import SecretUsageData
 from mlp_api.models.selectable_model_data import SelectableModelData
 from mlp_api.models.server_capacity_data import ServerCapacityData
 from mlp_api.models.server_template_data import ServerTemplateData
@@ -445,6 +452,10 @@ from mlp_api.models.upstream_key_write_data import UpstreamKeyWriteData
 from mlp_api.models.upstream_routing_rule_data import UpstreamRoutingRuleData
 from mlp_api.models.user_gateway_access_data import UserGatewayAccessData
 from mlp_api.models.user_group_data import UserGroupData
+from mlp_api.models.veai_counters import VeaiCounters
+from mlp_api.models.veai_decision import VeaiDecision
+from mlp_api.models.veai_pricing_sync_report import VeaiPricingSyncReport
+from mlp_api.models.veai_rate_change import VeaiRateChange
 from mlp_api.models.vertical_scaling_configuration import VerticalScalingConfiguration
 from mlp_api.models.video_resolution_pricing_data import VideoResolutionPricingData
 from mlp_api.models.video_resolution_public_data import VideoResolutionPublicData

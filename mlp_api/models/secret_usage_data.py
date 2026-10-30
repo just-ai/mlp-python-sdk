@@ -18,28 +18,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, validator
 
-class DataImageDump(BaseModel):
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+
+class SecretUsageData(BaseModel):
     """
-    DataImageDump
+    SecretUsageData
     """
-    name: StrictStr = Field(...)
-    image: StrictStr = Field(...)
-    data_path: StrictStr = Field(default=..., alias="dataPath")
-    access_mode: Optional[StrictStr] = Field(default=None, alias="accessMode")
-    __properties = ["name", "image", "dataPath", "accessMode"]
-
-    @validator('access_mode')
-    def access_mode_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('private', 'public', 'restricted'):
-            raise ValueError("must be one of enum values ('private', 'public', 'restricted')")
-        return value
+    model_id: StrictInt = Field(default=..., alias="modelId")
+    model_name: StrictStr = Field(default=..., alias="modelName")
+    __properties = ["modelId", "modelName"]
 
     class Config:
         """Pydantic configuration"""
@@ -55,8 +43,8 @@ class DataImageDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DataImageDump:
-        """Create an instance of DataImageDump from a JSON string"""
+    def from_json(cls, json_str: str) -> SecretUsageData:
+        """Create an instance of SecretUsageData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -68,19 +56,17 @@ class DataImageDump(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DataImageDump:
-        """Create an instance of DataImageDump from a dict"""
+    def from_dict(cls, obj: dict) -> SecretUsageData:
+        """Create an instance of SecretUsageData from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DataImageDump.parse_obj(obj)
+            return SecretUsageData.parse_obj(obj)
 
-        _obj = DataImageDump.parse_obj({
-            "name": obj.get("name"),
-            "image": obj.get("image"),
-            "data_path": obj.get("dataPath"),
-            "access_mode": obj.get("accessMode")
+        _obj = SecretUsageData.parse_obj({
+            "model_id": obj.get("modelId"),
+            "model_name": obj.get("modelName")
         })
         return _obj
 

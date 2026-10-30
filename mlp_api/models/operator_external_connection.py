@@ -20,15 +20,16 @@ import json
 
 
 from pydantic import BaseModel, Field, StrictBool, StrictStr
+from mlp_api.models.model_instance_pk import ModelInstancePK
 
-class FitConfigDump(BaseModel):
+class OperatorExternalConnection(BaseModel):
     """
-    FitConfigDump
+    OperatorExternalConnection
     """
-    name: StrictStr = Field(...)
-    config: StrictStr = Field(...)
-    is_default: StrictBool = Field(default=..., alias="isDefault")
-    __properties = ["name", "config", "isDefault"]
+    id: ModelInstancePK = Field(...)
+    connected: StrictBool = Field(...)
+    token_mask: StrictStr = Field(default=..., alias="tokenMask")
+    __properties = ["id", "connected", "tokenMask"]
 
     class Config:
         """Pydantic configuration"""
@@ -44,8 +45,8 @@ class FitConfigDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> FitConfigDump:
-        """Create an instance of FitConfigDump from a JSON string"""
+    def from_json(cls, json_str: str) -> OperatorExternalConnection:
+        """Create an instance of OperatorExternalConnection from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -54,21 +55,24 @@ class FitConfigDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict['id'] = self.id.to_dict()
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> FitConfigDump:
-        """Create an instance of FitConfigDump from a dict"""
+    def from_dict(cls, obj: dict) -> OperatorExternalConnection:
+        """Create an instance of OperatorExternalConnection from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return FitConfigDump.parse_obj(obj)
+            return OperatorExternalConnection.parse_obj(obj)
 
-        _obj = FitConfigDump.parse_obj({
-            "name": obj.get("name"),
-            "config": obj.get("config"),
-            "is_default": obj.get("isDefault")
+        _obj = OperatorExternalConnection.parse_obj({
+            "id": ModelInstancePK.from_dict(obj.get("id")) if obj.get("id") is not None else None,
+            "connected": obj.get("connected"),
+            "token_mask": obj.get("tokenMask")
         })
         return _obj
 

@@ -27,7 +27,8 @@ class AccessTokenData(BaseModel):
     AccessTokenData
     """
     id: StrictInt = Field(...)
-    token: StrictStr = Field(...)
+    token: Optional[StrictStr] = None
+    mask: Optional[StrictStr] = None
     name: StrictStr = Field(...)
     creation_date: StrictStr = Field(default=..., alias="creationDate")
     ttl_minutes: Optional[StrictInt] = Field(default=None, alias="ttlMinutes")
@@ -42,7 +43,7 @@ class AccessTokenData(BaseModel):
     blocked: StrictBool = Field(...)
     owner_user_id: Optional[StrictInt] = Field(default=None, alias="ownerUserId")
     group_id: Optional[StrictInt] = Field(default=None, alias="groupId")
-    __properties = ["id", "token", "name", "creationDate", "ttlMinutes", "expiresAt", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange", "tags", "description", "blocked", "ownerUserId", "groupId"]
+    __properties = ["id", "token", "mask", "name", "creationDate", "ttlMinutes", "expiresAt", "permissions", "restrictions", "jayGuardMaskingKey", "emailsForNotifications", "keepAvailableOnLimitChange", "tags", "description", "blocked", "ownerUserId", "groupId"]
 
     class Config:
         """Pydantic configuration"""
@@ -85,6 +86,7 @@ class AccessTokenData(BaseModel):
         _obj = AccessTokenData.parse_obj({
             "id": obj.get("id"),
             "token": obj.get("token"),
+            "mask": obj.get("mask"),
             "name": obj.get("name"),
             "creation_date": obj.get("creationDate"),
             "ttl_minutes": obj.get("ttlMinutes"),

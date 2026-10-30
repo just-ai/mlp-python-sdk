@@ -18,16 +18,18 @@ import re  # noqa: F401
 import json
 
 
+from typing import Dict, List
+from pydantic import BaseModel, Field, StrictBool, StrictInt, conlist
+from mlp_api.models.alignment_result import AlignmentResult
 
-from pydantic import BaseModel, Field, StrictStr
-
-class DocumentDump(BaseModel):
+class AlignmentReport(BaseModel):
     """
-    DocumentDump
+    AlignmentReport
     """
-    filename: StrictStr = Field(...)
-    content: StrictStr = Field(...)
-    __properties = ["filename", "content"]
+    dry_run: StrictBool = Field(default=..., alias="dryRun")
+    counts: Dict[str, StrictInt] = Field(...)
+    results: conlist(AlignmentResult) = Field(...)
+    __properties = ["dryRun", "counts", "results"]
 
     class Config:
         """Pydantic configuration"""
@@ -43,8 +45,8 @@ class DocumentDump(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> DocumentDump:
-        """Create an instance of DocumentDump from a JSON string"""
+    def from_json(cls, json_str: str) -> AlignmentReport:
+        """Create an instance of AlignmentReport from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -53,20 +55,28 @@ class DocumentDump(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in results (list)
+        _items = []
+        if self.results:
+            for _item in self.results:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['results'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> DocumentDump:
-        """Create an instance of DocumentDump from a dict"""
+    def from_dict(cls, obj: dict) -> AlignmentReport:
+        """Create an instance of AlignmentReport from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return DocumentDump.parse_obj(obj)
+            return AlignmentReport.parse_obj(obj)
 
-        _obj = DocumentDump.parse_obj({
-            "filename": obj.get("filename"),
-            "content": obj.get("content")
+        _obj = AlignmentReport.parse_obj({
+            "dry_run": obj.get("dryRun"),
+            "counts": obj.get("counts"),
+            "results": [AlignmentResult.from_dict(_item) for _item in obj.get("results")] if obj.get("results") is not None else None
         })
         return _obj
 
