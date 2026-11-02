@@ -1,0 +1,20 @@
+# Собственный контур проверок компонента для подключения к mlp-foundation.
+version: 2
+
+phases:
+  pre-commit:
+    - checks/check-secrets.sh
+    - checks/check-build.sh
+
+checks:
+  checks/check-secrets.sh:
+    purpose: В staged-изменениях нет секретов (gitleaks protect --staged).
+    provides: [secrets]
+
+  checks/check-build.sh:
+    purpose: >-
+      Линт SDK до коммита той же версией ruff, которую ведёт uv.lock, плюс юнит-тесты,
+      если окружение собрано и gRPC-код сгенерирован. Pyright и генерация REST-клиента
+      (нужен docker) остаются за CI; без окружения проверка громко сообщает, что тесты
+      остались за CI. Пропускается целиком, если в коммите нет python-кода и файлов сборки.
+    provides: [build]
