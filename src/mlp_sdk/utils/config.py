@@ -124,7 +124,7 @@ class ConfigLoader:
                 return None
         return value
 
-    def __convert_to_type(self, value: Any, required_type: Type) -> Any:
+    def __convert_to_type(self, value: Any, required_type: Type, source: str) -> Any:
         """Convert a value to the required type."""
         # If the value is already of the required type, return it
         if isinstance(required_type, types.GenericAlias) or isinstance(value, required_type):
@@ -137,24 +137,26 @@ class ConfigLoader:
                 return bool(value)
             elif required_type is int:
                 return int(value)
+            elif required_type is float:
+                return float(value)
             elif required_type is str:
                 return str(value)
             else:
                 return value
         except (ValueError, TypeError) as e:
-            # If conversion fails, return the original value
-            raise ConfigException(f"Cannot convert value {value} to a required type {required_type}") from e
+            raise ConfigException(f"Cannot convert {source}={value!r} to a required type {required_type}") from e
 
     def __get_value(self, vname: str, required_type: Type) -> Any:
         env_name = vname.upper().replace(".", "_")
-        if os.getenv(env_name) is not None:
-            res = os.getenv(env_name)
-            return self.__convert_to_type(res, required_type)
+        env_value = os.getenv(env_name)
+        # An empty number in env (e.g. a cleared field in the service settings) means "not set".
+        if env_value is not None and not (required_type in (int, float) and not env_value.strip()):
+            return self.__convert_to_type(env_value, required_type, env_name)
 
         for c in self.configs:
             v = self.__get_value_from_yaml(c, vname)
             if v is not None:
-                return self.__convert_to_type(v, required_type)
+                return self.__convert_to_type(v, required_type, vname)
 
         return None
 

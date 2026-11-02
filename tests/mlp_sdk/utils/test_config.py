@@ -123,6 +123,49 @@ class TestConfigLoader:
         config = ConfigLoader().load_config(Config3)
         assert config.field1 == 4
 
+    def test_float_from_env_string(self, monkeypatch):
+        monkeypatch.setenv("FIELD1", "10")
+
+        config = ConfigLoader().load_config(Config3, required=False)
+
+        assert config.field1 == 10.0
+        assert isinstance(config.field1, float)
+
+    def test_float_from_yaml_int(self):
+        self.config_yml("""
+        field1: 4
+        """)
+
+        config = ConfigLoader().load_config(Config3)
+
+        assert config.field1 == 4.0
+        assert isinstance(config.field1, float)
+
+    @pytest.mark.parametrize("value", ["", "  "])
+    def test_blank_env_number_falls_back_to_yaml(self, monkeypatch, value):
+        monkeypatch.setenv("FIELD1", value)
+        self.config_yml("""
+        field1: 2.5
+        """)
+
+        config = ConfigLoader().load_config(Config3)
+
+        assert config.field1 == 2.5
+
+    @pytest.mark.parametrize("value", ["", "  "])
+    def test_blank_env_number_falls_back_to_default(self, monkeypatch, value):
+        monkeypatch.setenv("FIELD1", value)
+
+        config = ConfigLoader().load_config(Config3, required=False)
+
+        assert config.field1 == 3.5
+
+    def test_invalid_env_float_names_variable(self, monkeypatch):
+        monkeypatch.setenv("FIELD1", "ten")
+
+        with pytest.raises(ConfigException, match="FIELD1"):
+            ConfigLoader().load_config(Config3, required=False)
+
     def test_default(self):
         self.config_yml("""
         test: 1
