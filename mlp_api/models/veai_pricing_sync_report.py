@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import List, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist, validator
+from typing import List
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.veai_counters import VeaiCounters
 from mlp_api.models.veai_decision import VeaiDecision
 
@@ -36,8 +36,7 @@ class VeaiPricingSyncReport(BaseModel):
     decisions: conlist(VeaiDecision) = Field(...)
     run_anomalies: conlist(StrictStr) = Field(default=..., alias="runAnomalies")
     alerts: conlist(StrictStr) = Field(...)
-    purchase_commission: Union[StrictFloat, StrictInt] = Field(default=..., alias="purchaseCommission")
-    __properties = ["mode", "dryRun", "status", "startedAt", "catalogModels", "counters", "decisions", "runAnomalies", "alerts", "purchaseCommission"]
+    __properties = ["mode", "dryRun", "status", "startedAt", "catalogModels", "counters", "decisions", "runAnomalies", "alerts"]
 
     @validator('mode')
     def mode_validate_enum(cls, value):
@@ -107,8 +106,7 @@ class VeaiPricingSyncReport(BaseModel):
             "counters": VeaiCounters.from_dict(obj.get("counters")) if obj.get("counters") is not None else None,
             "decisions": [VeaiDecision.from_dict(_item) for _item in obj.get("decisions")] if obj.get("decisions") is not None else None,
             "run_anomalies": obj.get("runAnomalies"),
-            "alerts": obj.get("alerts"),
-            "purchase_commission": obj.get("purchaseCommission")
+            "alerts": obj.get("alerts")
         })
         return _obj
 
