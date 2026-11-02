@@ -17254,7 +17254,6 @@ components:
       - decisions
       - dryRun
       - mode
-      - purchaseCommission
       - runAnomalies
       - startedAt
       - status
@@ -17296,8 +17295,6 @@ components:
           type: array
           items:
             type: string
-        purchaseCommission:
-          type: number
     VeaiRateChange:
       required:
       - after
