@@ -21093,11 +21093,11 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -21708,11 +21708,11 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        last:
+          type: boolean
         numberOfElements:
           type: integer
           format: int32
-        last:
-          type: boolean
         empty:
           type: boolean
     ResourceGroupCapacity:
