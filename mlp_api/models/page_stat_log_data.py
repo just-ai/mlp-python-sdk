@@ -36,10 +36,10 @@ class PageStatLogData(BaseModel):
     content: Optional[conlist(StatLogData)] = None
     number: Optional[StrictInt] = None
     sort: Optional[SortObject] = None
-    last: Optional[StrictBool] = None
     number_of_elements: Optional[StrictInt] = Field(default=None, alias="numberOfElements")
+    last: Optional[StrictBool] = None
     empty: Optional[StrictBool] = None
-    __properties = ["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "last", "numberOfElements", "empty"]
+    __properties = ["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "numberOfElements", "last", "empty"]
 
     class Config:
         """Pydantic configuration"""
@@ -98,8 +98,8 @@ class PageStatLogData(BaseModel):
             "content": [StatLogData.from_dict(_item) for _item in obj.get("content")] if obj.get("content") is not None else None,
             "number": obj.get("number"),
             "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
-            "last": obj.get("last"),
             "number_of_elements": obj.get("numberOfElements"),
+            "last": obj.get("last"),
             "empty": obj.get("empty")
         })
         return _obj
