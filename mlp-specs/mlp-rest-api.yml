@@ -123,6 +123,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: MLP-API-KEY
         in: header
@@ -2377,6 +2378,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: MLP-API-KEY
         in: header
@@ -2447,6 +2449,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: path
@@ -2501,6 +2504,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: path
@@ -2561,6 +2565,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: path
@@ -2611,6 +2616,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: path
@@ -8351,6 +8357,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: MLP-API-KEY
         in: header
@@ -8394,6 +8401,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: MLP-API-KEY
         in: header
@@ -8433,6 +8441,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: MLP-API-KEY
         in: header
@@ -9631,6 +9640,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: query
@@ -9700,6 +9710,7 @@ paths:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
       - name: model
         in: query
@@ -14615,6 +14626,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         rfLocalized:
           type: boolean
@@ -17006,6 +17018,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         currency:
           type: string
@@ -17112,6 +17125,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         model:
           type: string
@@ -17198,6 +17212,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         referenceModel:
           type: string
@@ -17369,6 +17384,7 @@ components:
             - SWOO
             - VEAI
             - YANDEX
+            - ZAI
             - OTHER
     LlmPricingV2DiscountModelScope:
       required:
@@ -17397,6 +17413,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         model:
           type: string
@@ -17436,6 +17453,7 @@ components:
             - SWOO
             - VEAI
             - YANDEX
+            - ZAI
             - OTHER
         models:
           type: array
@@ -19629,6 +19647,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         name:
           type: string
@@ -21207,6 +21226,7 @@ components:
           - SWOO
           - VEAI
           - YANDEX
+          - ZAI
           - OTHER
         model:
           type: string
