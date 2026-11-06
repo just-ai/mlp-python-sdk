@@ -21,6 +21,7 @@ from datetime import date
 from typing import Dict, List, Optional, Union
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.pricing_model_variable import PricingModelVariable
+from mlp_api.models.pricing_schedule import PricingSchedule
 from mlp_api.models.public_extra import PublicExtra
 from mlp_api.models.public_modifier import PublicModifier
 from mlp_api.models.public_rate import PublicRate
@@ -39,7 +40,8 @@ class LlmPricingV2ProviderView(BaseModel):
     variables: conlist(PricingModelVariable) = Field(...)
     modifiers: conlist(PublicModifier) = Field(...)
     provider_discount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerDiscount")
-    __properties = ["serviceName", "name", "aliases", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "providerDiscount"]
+    schedule: Optional[PricingSchedule] = None
+    __properties = ["serviceName", "name", "aliases", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "providerDiscount", "schedule"]
 
     @validator('service_name')
     def service_name_validate_enum(cls, value):
@@ -108,6 +110,9 @@ class LlmPricingV2ProviderView(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['modifiers'] = _items
+        # override the default output from pydantic by calling `to_dict()` of schedule
+        if self.schedule:
+            _dict['schedule'] = self.schedule.to_dict()
         return _dict
 
     @classmethod
@@ -139,7 +144,8 @@ class LlmPricingV2ProviderView(BaseModel):
             else None,
             "variables": [PricingModelVariable.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
             "modifiers": [PublicModifier.from_dict(_item) for _item in obj.get("modifiers")] if obj.get("modifiers") is not None else None,
-            "provider_discount": obj.get("providerDiscount")
+            "provider_discount": obj.get("providerDiscount"),
+            "schedule": PricingSchedule.from_dict(obj.get("schedule")) if obj.get("schedule") is not None else None
         })
         return _obj
 

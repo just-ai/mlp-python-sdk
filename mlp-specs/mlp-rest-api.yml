@@ -16919,6 +16919,8 @@ components:
           type: number
         providerCommission:
           type: number
+        schedule:
+          $ref: "#/components/schemas/PricingSchedule"
     Modifier:
       required:
       - type
@@ -16987,6 +16989,58 @@ components:
         properties:
           overrides:
             $ref: "#/components/schemas/TargetOverrides"
+    PricingPeriod:
+      required:
+      - name
+      - rates
+      - windows
+      type: object
+      properties:
+        name:
+          type: string
+        windows:
+          type: array
+          items:
+            $ref: "#/components/schemas/PricingWindow"
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+    PricingSchedule:
+      required:
+      - periods
+      - timeZone
+      type: object
+      properties:
+        timeZone:
+          type: string
+        periods:
+          type: array
+          items:
+            $ref: "#/components/schemas/PricingPeriod"
+    PricingWindow:
+      required:
+      - daysOfWeek
+      - end
+      - start
+      type: object
+      properties:
+        daysOfWeek:
+          type: array
+          items:
+            type: string
+            enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        start:
+          type: string
+        end:
+          type: string
     ProviderPricing:
       required:
       - currency
@@ -19687,6 +19741,8 @@ components:
             $ref: "#/components/schemas/PublicModifier"
         providerDiscount:
           type: number
+        schedule:
+          $ref: "#/components/schemas/PricingSchedule"
     LlmPricingV2PublicView:
       required:
       - currency
@@ -20781,6 +20837,7 @@ components:
       - currency
       - model
       - pricing
+      - pricingLimitations
       - status
       - vendor
       type: object
@@ -20806,6 +20863,10 @@ components:
           - NO_PRICE
           - UNAVAILABLE
           - DEPRECATED
+        pricingLimitations:
+          type: array
+          items:
+            type: string
     ModelPricingPublicData:
       required:
       - basePricing
@@ -21098,6 +21159,8 @@ components:
           format: int32
         first:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -21113,8 +21176,6 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:
@@ -21122,17 +21183,17 @@ components:
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: "#/components/schemas/SortObject"
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
         paged:
           type: boolean
         unpaged:
@@ -21140,9 +21201,9 @@ components:
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
+          type: boolean
+        empty:
           type: boolean
         unsorted:
           type: boolean
@@ -21714,6 +21775,8 @@ components:
           format: int32
         first:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -21729,8 +21792,6 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:

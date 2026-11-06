@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
+from typing import List, Optional
+from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.model_pricing_public_data import ModelPricingPublicData
 
 class LlmModelPricingPublicData(BaseModel):
@@ -33,7 +33,8 @@ class LlmModelPricingPublicData(BaseModel):
     pricing: ModelPricingPublicData = Field(...)
     client_id: Optional[StrictInt] = Field(default=None, alias="clientId")
     status: StrictStr = Field(...)
-    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId", "status"]
+    pricing_limitations: conlist(StrictStr) = Field(default=..., alias="pricingLimitations")
+    __properties = ["id", "model", "vendor", "currency", "pricing", "clientId", "status", "pricingLimitations"]
 
     @validator('status')
     def status_validate_enum(cls, value):
@@ -87,7 +88,8 @@ class LlmModelPricingPublicData(BaseModel):
             "currency": obj.get("currency"),
             "pricing": ModelPricingPublicData.from_dict(obj.get("pricing")) if obj.get("pricing") is not None else None,
             "client_id": obj.get("clientId"),
-            "status": obj.get("status")
+            "status": obj.get("status"),
+            "pricing_limitations": obj.get("pricingLimitations")
         })
         return _obj
 
