@@ -20156,6 +20156,7 @@ components:
     AccountKeysResult:
       required:
       - keys
+      - primaryKeysComplete
       - role
       - selectableModels
       type: object
@@ -20170,6 +20171,31 @@ components:
             $ref: "#/components/schemas/SelectableModelData"
         role:
           type: string
+        primaryKeysComplete:
+          type: boolean
+    GroupSpendingShareData:
+      required:
+      - groupId
+      - groupLimit
+      - groupName
+      - memberCount
+      - share
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        memberCount:
+          type: integer
+          format: int32
+        groupLimit:
+          type: number
+          format: double
+        share:
+          type: number
+          format: double
     KeyBindingData:
       required:
       - level
@@ -20192,6 +20218,7 @@ components:
       - keepAvailableOnLimitChange
       - mask
       - name
+      - primaryKey
       - rights
       - status
       - tags
@@ -20280,6 +20307,12 @@ components:
           type: string
         keepAvailableOnLimitChange:
           type: boolean
+        primaryKey:
+          type: boolean
+        spendingComposition:
+          type: array
+          items:
+            $ref: "#/components/schemas/SpendingCompositionData"
     SelectableModelData:
       required:
       - id
@@ -20293,6 +20326,31 @@ components:
           type: string
         provider:
           type: string
+    SpendingCompositionData:
+      required:
+      - groups
+      - interval
+      - personal
+      - total
+      type: object
+      properties:
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+        personal:
+          type: number
+          format: double
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/GroupSpendingShareData"
+        total:
+          type: number
+          format: double
     TokenSpendingMetricData:
       required:
       - available
@@ -21182,8 +21240,6 @@ components:
           format: int32
         first:
           type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -21199,6 +21255,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:
@@ -21206,17 +21264,17 @@ components:
     PageableObject:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
         pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: "#/components/schemas/SortObject"
         paged:
           type: boolean
         unpaged:
@@ -21224,9 +21282,9 @@ components:
     SortObject:
       type: object
       properties:
-        sorted:
-          type: boolean
         empty:
+          type: boolean
+        sorted:
           type: boolean
         unsorted:
           type: boolean
@@ -21799,8 +21857,6 @@ components:
           format: int32
         first:
           type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         size:
           type: integer
           format: int32
@@ -21816,6 +21872,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
         empty:

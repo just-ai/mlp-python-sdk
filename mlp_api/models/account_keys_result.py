@@ -19,7 +19,7 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
 from mlp_api.models.managed_key_data import ManagedKeyData
 from mlp_api.models.selectable_model_data import SelectableModelData
 
@@ -30,7 +30,8 @@ class AccountKeysResult(BaseModel):
     keys: conlist(ManagedKeyData) = Field(...)
     selectable_models: conlist(SelectableModelData) = Field(default=..., alias="selectableModels")
     role: StrictStr = Field(...)
-    __properties = ["keys", "selectableModels", "role"]
+    primary_keys_complete: StrictBool = Field(default=..., alias="primaryKeysComplete")
+    __properties = ["keys", "selectableModels", "role", "primaryKeysComplete"]
 
     class Config:
         """Pydantic configuration"""
@@ -84,7 +85,8 @@ class AccountKeysResult(BaseModel):
         _obj = AccountKeysResult.parse_obj({
             "keys": [ManagedKeyData.from_dict(_item) for _item in obj.get("keys")] if obj.get("keys") is not None else None,
             "selectable_models": [SelectableModelData.from_dict(_item) for _item in obj.get("selectableModels")] if obj.get("selectableModels") is not None else None,
-            "role": obj.get("role")
+            "role": obj.get("role"),
+            "primary_keys_complete": obj.get("primaryKeysComplete")
         })
         return _obj
 

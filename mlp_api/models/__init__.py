@@ -124,6 +124,7 @@ from mlp_api.models.group_model_rule_data import GroupModelRuleData
 from mlp_api.models.group_policy_catalog_data import GroupPolicyCatalogData
 from mlp_api.models.group_policy_catalog_model_data import GroupPolicyCatalogModelData
 from mlp_api.models.group_policy_catalog_route_data import GroupPolicyCatalogRouteData
+from mlp_api.models.group_spending_share_data import GroupSpendingShareData
 from mlp_api.models.health_check_history_result import HealthCheckHistoryResult
 from mlp_api.models.health_check_result import HealthCheckResult
 from mlp_api.models.health_interval import HealthInterval
@@ -336,6 +337,7 @@ from mlp_api.models.shared_pool_quota import SharedPoolQuota
 from mlp_api.models.short_job_view import ShortJobView
 from mlp_api.models.simple_doc_info_data import SimpleDocInfoData
 from mlp_api.models.sort_object import SortObject
+from mlp_api.models.spending_composition_data import SpendingCompositionData
 from mlp_api.models.spending_limit import SpendingLimit
 from mlp_api.models.stat_log_data import StatLogData
 from mlp_api.models.status import Status
