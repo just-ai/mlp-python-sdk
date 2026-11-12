@@ -19,7 +19,7 @@ import json
 
 
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.account_limits_data import AccountLimitsData
 
 class AccountInfoData(BaseModel):
@@ -35,7 +35,8 @@ class AccountInfoData(BaseModel):
     last_activity: Optional[StrictInt] = Field(default=None, alias="lastActivity")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     notification_emails: Optional[conlist(StrictStr)] = Field(default=None, alias="notificationEmails")
-    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey", "notificationEmails"]
+    instance_credential: Optional[StrictBool] = Field(default=None, alias="instanceCredential")
+    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey", "notificationEmails", "instanceCredential"]
 
     @validator('language')
     def language_validate_enum(cls, value):
@@ -94,7 +95,8 @@ class AccountInfoData(BaseModel):
             "display_name": obj.get("displayName"),
             "last_activity": obj.get("lastActivity"),
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
-            "notification_emails": obj.get("notificationEmails")
+            "notification_emails": obj.get("notificationEmails"),
+            "instance_credential": obj.get("instanceCredential")
         })
         return _obj
 

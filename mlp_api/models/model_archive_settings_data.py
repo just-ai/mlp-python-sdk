@@ -29,7 +29,8 @@ class ModelArchiveSettingsData(BaseModel):
     number_of_archived_requests: StrictInt = Field(default=..., alias="numberOfArchivedRequests")
     encryption_enabled: StrictBool = Field(default=..., alias="encryptionEnabled")
     rsa_pem_public_key: Optional[StrictStr] = Field(default=None, alias="rsaPemPublicKey")
-    __properties = ["enabled", "numberOfArchivedRequests", "encryptionEnabled", "rsaPemPublicKey"]
+    bodies_enabled: Optional[StrictBool] = Field(default=None, alias="bodiesEnabled")
+    __properties = ["enabled", "numberOfArchivedRequests", "encryptionEnabled", "rsaPemPublicKey", "bodiesEnabled"]
 
     class Config:
         """Pydantic configuration"""
@@ -70,7 +71,8 @@ class ModelArchiveSettingsData(BaseModel):
             "enabled": obj.get("enabled"),
             "number_of_archived_requests": obj.get("numberOfArchivedRequests"),
             "encryption_enabled": obj.get("encryptionEnabled"),
-            "rsa_pem_public_key": obj.get("rsaPemPublicKey")
+            "rsa_pem_public_key": obj.get("rsaPemPublicKey"),
+            "bodies_enabled": obj.get("bodiesEnabled")
         })
         return _obj
 
