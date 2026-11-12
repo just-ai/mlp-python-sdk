@@ -36,8 +36,8 @@ class LlmPricingV2DiscountResponse(BaseModel):
     def providers_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
-            if i not in ('ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER'):
-                raise ValueError("each list item must be one of ('ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER')")
+            if i not in ('ALIBABA', 'ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER'):
+                raise ValueError("each list item must be one of ('ALIBABA', 'ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER')")
         return value
 
     class Config:

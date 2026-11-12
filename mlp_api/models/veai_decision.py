@@ -58,8 +58,8 @@ class VeaiDecision(BaseModel):
         if value is None:
             return value
 
-        if value not in ('ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER'):
-            raise ValueError("must be one of enum values ('ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER')")
+        if value not in ('ALIBABA', 'ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER'):
+            raise ValueError("must be one of enum values ('ALIBABA', 'ANTHROPIC', 'BYTEDANCE', 'DEEPSEEK', 'FAL', 'GAMMA', 'GOOGLE', 'HEYGEN', 'JUSTAI', 'LINKHARBOR', 'MANUS', 'OPENAI', 'OPENROUTER', 'PARALLEL', 'PERPLEXITY', 'SBER', 'SWOO', 'VEAI', 'YANDEX', 'ZAI', 'OTHER')")
         return value
 
     @validator('anomalies')
