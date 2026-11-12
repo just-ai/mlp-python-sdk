@@ -105,6 +105,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -2360,6 +2361,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -2431,6 +2433,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -2486,6 +2489,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -2547,6 +2551,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -2598,6 +2603,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -8339,6 +8345,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -8383,6 +8390,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -8423,6 +8431,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -9622,6 +9631,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -9692,6 +9702,7 @@ paths:
         schema:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -14608,6 +14619,7 @@ components:
         provider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -17056,6 +17068,7 @@ components:
         provider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -17163,6 +17176,7 @@ components:
         provider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -17250,6 +17264,7 @@ components:
         referenceProvider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -17422,6 +17437,7 @@ components:
           items:
             type: string
             enum:
+            - ALIBABA
             - ANTHROPIC
             - BYTEDANCE
             - DEEPSEEK
@@ -17451,6 +17467,7 @@ components:
         provider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -17491,6 +17508,7 @@ components:
           items:
             type: string
             enum:
+            - ALIBABA
             - ANTHROPIC
             - BYTEDANCE
             - DEEPSEEK
@@ -19687,6 +19705,7 @@ components:
         serviceName:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
@@ -20137,6 +20156,7 @@ components:
     AccountKeysResult:
       required:
       - keys
+      - primaryKeysComplete
       - role
       - selectableModels
       type: object
@@ -20151,6 +20171,31 @@ components:
             $ref: "#/components/schemas/SelectableModelData"
         role:
           type: string
+        primaryKeysComplete:
+          type: boolean
+    GroupSpendingShareData:
+      required:
+      - groupId
+      - groupLimit
+      - groupName
+      - memberCount
+      - share
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        memberCount:
+          type: integer
+          format: int32
+        groupLimit:
+          type: number
+          format: double
+        share:
+          type: number
+          format: double
     KeyBindingData:
       required:
       - level
@@ -20173,6 +20218,7 @@ components:
       - keepAvailableOnLimitChange
       - mask
       - name
+      - primaryKey
       - rights
       - status
       - tags
@@ -20261,6 +20307,12 @@ components:
           type: string
         keepAvailableOnLimitChange:
           type: boolean
+        primaryKey:
+          type: boolean
+        spendingComposition:
+          type: array
+          items:
+            $ref: "#/components/schemas/SpendingCompositionData"
     SelectableModelData:
       required:
       - id
@@ -20274,6 +20326,31 @@ components:
           type: string
         provider:
           type: string
+    SpendingCompositionData:
+      required:
+      - groups
+      - interval
+      - personal
+      - total
+      type: object
+      properties:
+        interval:
+          type: string
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+        personal:
+          type: number
+          format: double
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/GroupSpendingShareData"
+        total:
+          type: number
+          format: double
     TokenSpendingMetricData:
       required:
       - available
@@ -21273,6 +21350,7 @@ components:
         provider:
           type: string
           enum:
+          - ALIBABA
           - ANTHROPIC
           - BYTEDANCE
           - DEEPSEEK
