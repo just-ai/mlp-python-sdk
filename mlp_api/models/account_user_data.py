@@ -28,7 +28,8 @@ class AccountUserData(BaseModel):
     user_id: StrictInt = Field(default=..., alias="userId")
     name: Optional[StrictStr] = None
     initials: Optional[StrictStr] = None
-    __properties = ["userId", "name", "initials"]
+    email: Optional[StrictStr] = None
+    __properties = ["userId", "name", "initials", "email"]
 
     class Config:
         """Pydantic configuration"""
@@ -68,7 +69,8 @@ class AccountUserData(BaseModel):
         _obj = AccountUserData.parse_obj({
             "user_id": obj.get("userId"),
             "name": obj.get("name"),
-            "initials": obj.get("initials")
+            "initials": obj.get("initials"),
+            "email": obj.get("email")
         })
         return _obj
 
