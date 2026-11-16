@@ -21255,10 +21255,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -21275,9 +21275,9 @@ components:
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
         unpaged:
+          type: boolean
+        paged:
           type: boolean
     SortObject:
       type: object
@@ -21874,10 +21874,10 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         last:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     ResourceGroupCapacity:
