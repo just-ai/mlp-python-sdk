@@ -54,6 +54,7 @@ from mlp_api.api.llm_model_pricing_public_endpoint_api import LlmModelPricingPub
 from mlp_api.api.llm_models_endpoint_api import LlmModelsEndpointApi
 from mlp_api.api.llm_pricing_v2_admin_endpoint_api import LlmPricingV2AdminEndpointApi
 from mlp_api.api.llm_pricing_v2_public_endpoint_api import LlmPricingV2PublicEndpointApi
+from mlp_api.api.llm_pricing_v2_routerai_sync_endpoint_api import LlmPricingV2RouteraiSyncEndpointApi
 from mlp_api.api.llm_pricing_v2_veai_sync_endpoint_api import LlmPricingV2VeaiSyncEndpointApi
 from mlp_api.api.llm_providers_endpoint_api import LlmProvidersEndpointApi
 from mlp_api.api.manual_management_endpoint_api import ManualManagementEndpointApi
@@ -402,6 +403,8 @@ from mlp_api.models.resource_group_short_status_data import ResourceGroupShortSt
 from mlp_api.models.resource_groups_data import ResourceGroupsData
 from mlp_api.models.response_body_emitter import ResponseBodyEmitter
 from mlp_api.models.rotation_instance_data import RotationInstanceData
+from mlp_api.models.routerai_model_check import RouteraiModelCheck
+from mlp_api.models.routerai_price_monitor_report import RouteraiPriceMonitorReport
 from mlp_api.models.s3_credentials_data import S3CredentialsData
 from mlp_api.models.save_organization_data import SaveOrganizationData
 from mlp_api.models.save_user_group_data import SaveUserGroupData
