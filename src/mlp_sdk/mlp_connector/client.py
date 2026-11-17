@@ -23,6 +23,8 @@ from mlp_sdk.utils.logger import get_logger
 from mlp_sdk.utils.misc import get_one_of, parse_grpc_url
 
 RECONNECT_ERROR_CODES: List[str] = ["mlp.gate.gate_is_shut_down"]
+# gateway checks the key from metadata before receiving the body; authToken in the body stays for old gateways
+API_KEY_METADATA = "mlp-api-key"
 _PROCESSED_ERROR_CODES = [grpc.StatusCode.UNAVAILABLE, grpc.StatusCode.CANCELLED]
 # cygrpc бросает обычный ValueError (не grpc.RpcError), если канал закрыт локально
 _CHANNEL_CLOSED_ERROR_PREFIX = "Cannot invoke RPC"
@@ -161,7 +163,9 @@ class MlpGrpcClient:
                         time.sleep(request_retry_backoff_seconds)
                     continue
 
-                response_generator: Generator[ClientResponseProto, None, None] = self.stub.processResponseStream(request)
+                response_generator: Generator[ClientResponseProto, None, None] = self.stub.processResponseStream(
+                    request, metadata=((API_KEY_METADATA, self.client_token),)
+                )
 
                 single_response = next(response_generator)
                 # Проверяем тип ответа и обрабатываем ошибки
