@@ -16171,6 +16171,24 @@ components:
         formFillTimeMs:
           type: integer
           format: int64
+        task:
+          type: string
+          enum:
+          - TEAM_API
+          - INVOICE_PAYMENT
+          - PRODUCT_INTEGRATION
+          - DATA_PROTECTION
+          - EMPLOYEE_SUBSCRIPTION
+          - OTHER
+        contactChannel:
+          type: string
+          enum:
+          - PHONE
+          - EMAIL
+          - TELEGRAM
+        telegram:
+          pattern: "[^\\x00-\\x08\\x0A-\\x1F\\x7F-\\x9F]*"
+          type: string
     LlmProviderData:
       required:
       - displayName
