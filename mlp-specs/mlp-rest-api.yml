@@ -7388,6 +7388,161 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AnalystData"
+  /api/mlpcore/account/{account}/agent-stand/openai-proxy/verify:
+    post:
+      tags:
+      - agent-stand-override-endpoint
+      operationId: verifyStandOverride
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentStandOverrideHandle"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentStandOverrideReceipt"
+  /api/mlpcore/account/{account}/agent-stand/openai-proxy/rollback:
+    post:
+      tags:
+      - agent-stand-override-endpoint
+      operationId: rollbackStandOverride
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentStandOverrideHandle"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentStandOverrideReceipt"
+  /api/mlpcore/account/{account}/agent-stand/openai-proxy/reconcile:
+    post:
+      tags:
+      - agent-stand-override-endpoint
+      operationId: reconcileStandOverride
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentStandOverrideLegacyRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentStandOverrideReceipt"
+  /api/mlpcore/account/{account}/agent-stand/openai-proxy/cancel:
+    post:
+      tags:
+      - agent-stand-override-endpoint
+      operationId: cancelStandOverride
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentStandOverrideRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentStandOverrideReceipt"
+  /api/mlpcore/account/{account}/agent-stand/openai-proxy/apply:
+    post:
+      tags:
+      - agent-stand-override-endpoint
+      operationId: applyStandOverride
+      parameters:
+      - name: account
+        in: path
+        description: Account id or account name
+        required: true
+        schema:
+          type: string
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentStandOverrideRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentStandOverrideReceipt"
   /api/mlpcore/account/{account}/activity:
     post:
       tags:
@@ -19171,6 +19326,96 @@ components:
         initials:
           type: string
         added:
+          type: string
+    AgentStandOverrideHandle:
+      required:
+      - handle
+      - reservationId
+      - stand
+      - taskKey
+      type: object
+      properties:
+        stand:
+          type: string
+        taskKey:
+          type: string
+        reservationId:
+          type: string
+        handle:
+          type: string
+    AgentStandOverrideReceipt:
+      required:
+      - fingerprint
+      - handle
+      - image
+      - imageId
+      - modelId
+      - payerAccountId
+      - state
+      type: object
+      properties:
+        handle:
+          type: string
+        modelId:
+          type: integer
+          format: int64
+        imageId:
+          type: integer
+          format: int64
+        image:
+          type: string
+        fingerprint:
+          type: string
+        state:
+          type: string
+        payerAccountId:
+          type: integer
+          format: int64
+    AgentStandOverrideLegacyRequest:
+      required:
+      - legacy
+      - payer
+      - reservationId
+      - stand
+      - taskKey
+      type: object
+      properties:
+        stand:
+          type: string
+        taskKey:
+          type: string
+        reservationId:
+          type: string
+        legacy:
+          type: object
+        payer:
+          type: object
+    AgentStandOverrideRequest:
+      required:
+      - expiresAt
+      - image
+      - modelId
+      - operationId
+      - reservationId
+      - stand
+      - taskKey
+      type: object
+      properties:
+        stand:
+          type: string
+        taskKey:
+          type: string
+        reservationId:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        modelId:
+          type: integer
+          format: int64
+        image:
+          type: string
+        operationId:
           type: string
     AccountSurveyViewedData:
       required:
