@@ -35,7 +35,10 @@ class LeadRequestData(BaseModel):
     source: StrictStr = Field(...)
     website: Optional[StrictStr] = None
     form_fill_time_ms: Optional[StrictInt] = Field(default=None, alias="formFillTimeMs")
-    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution", "source", "website", "formFillTimeMs"]
+    task: Optional[StrictStr] = None
+    contact_channel: Optional[StrictStr] = Field(default=None, alias="contactChannel")
+    telegram: Optional[constr(strict=True)] = None
+    __properties = ["fullName", "companyName", "inn", "phone", "email", "attribution", "source", "website", "formFillTimeMs", "task", "contactChannel", "telegram"]
 
     @validator('full_name')
     def full_name_validate_regular_expression(cls, value):
@@ -77,6 +80,36 @@ class LeadRequestData(BaseModel):
         """Validates the enum"""
         if value not in ('LANDING', 'BALANCE', 'JAY_GUARD'):
             raise ValueError("must be one of enum values ('LANDING', 'BALANCE', 'JAY_GUARD')")
+        return value
+
+    @validator('task')
+    def task_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('TEAM_API', 'INVOICE_PAYMENT', 'PRODUCT_INTEGRATION', 'DATA_PROTECTION', 'EMPLOYEE_SUBSCRIPTION', 'OTHER'):
+            raise ValueError("must be one of enum values ('TEAM_API', 'INVOICE_PAYMENT', 'PRODUCT_INTEGRATION', 'DATA_PROTECTION', 'EMPLOYEE_SUBSCRIPTION', 'OTHER')")
+        return value
+
+    @validator('contact_channel')
+    def contact_channel_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('PHONE', 'EMAIL', 'TELEGRAM'):
+            raise ValueError("must be one of enum values ('PHONE', 'EMAIL', 'TELEGRAM')")
+        return value
+
+    @validator('telegram')
+    def telegram_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[^\x00-\x08\x0A-\x1F\x7F-\x9F]*", value):
+            raise ValueError(r"must validate the regular expression /[^\x00-\x08\x0A-\x1F\x7F-\x9F]*/")
         return value
 
     class Config:
@@ -126,7 +159,10 @@ class LeadRequestData(BaseModel):
             "attribution": AttributionData.from_dict(obj.get("attribution")) if obj.get("attribution") is not None else None,
             "source": obj.get("source"),
             "website": obj.get("website"),
-            "form_fill_time_ms": obj.get("formFillTimeMs")
+            "form_fill_time_ms": obj.get("formFillTimeMs"),
+            "task": obj.get("task"),
+            "contact_channel": obj.get("contactChannel"),
+            "telegram": obj.get("telegram")
         })
         return _obj
 
