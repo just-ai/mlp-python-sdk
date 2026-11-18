@@ -16,6 +16,7 @@ from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.catalog_news_endpoint_api import CatalogNewsEndpointApi
 from mlp_api.api.chat_history_endpoint_api import ChatHistoryEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
+from mlp_api.api.credential_migration_operator_endpoint_api import CredentialMigrationOperatorEndpointApi
 from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictStr
+from pydantic import BaseModel, Field, StrictStr, validator
 
 class AccountSecretCreateData(BaseModel):
     """
@@ -27,7 +27,15 @@ class AccountSecretCreateData(BaseModel):
     """
     name: Optional[StrictStr] = None
     value: Optional[StrictStr] = None
-    __properties = ["name", "value"]
+    source: StrictStr = Field(...)
+    __properties = ["name", "value", "source"]
+
+    @validator('source')
+    def source_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('STORED', 'VAULT'):
+            raise ValueError("must be one of enum values ('STORED', 'VAULT')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -66,7 +74,8 @@ class AccountSecretCreateData(BaseModel):
 
         _obj = AccountSecretCreateData.parse_obj({
             "name": obj.get("name"),
-            "value": obj.get("value")
+            "value": obj.get("value"),
+            "source": obj.get("source")
         })
         return _obj
 

@@ -32,6 +32,7 @@ from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.catalog_news_endpoint_api import CatalogNewsEndpointApi
 from mlp_api.api.chat_history_endpoint_api import ChatHistoryEndpointApi
 from mlp_api.api.click_history_endpoint_api import ClickHistoryEndpointApi
+from mlp_api.api.credential_migration_operator_endpoint_api import CredentialMigrationOperatorEndpointApi
 from mlp_api.api.daemon_set_endpoint_api import DaemonSetEndpointApi
 from mlp_api.api.data_image_endpoint_api import DataImageEndpointApi
 from mlp_api.api.dataset_endpoint_api import DatasetEndpointApi
@@ -179,6 +180,8 @@ from mlp_api.models.create_resource_group_data import CreateResourceGroupData
 from mlp_api.models.create_resource_group_quota import CreateResourceGroupQuota
 from mlp_api.models.create_resource_group_server import CreateResourceGroupServer
 from mlp_api.models.create_update_server_template_data import CreateUpdateServerTemplateData
+from mlp_api.models.credential_migration_report import CredentialMigrationReport
+from mlp_api.models.credential_migration_target_report import CredentialMigrationTargetReport
 from mlp_api.models.cross_validation_request_data import CrossValidationRequestData
 from mlp_api.models.daemon_set_config_data import DaemonSetConfigData
 from mlp_api.models.data_image_info_data import DataImageInfoData

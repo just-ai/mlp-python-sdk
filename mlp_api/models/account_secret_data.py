@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictStr, conlist, validator
 from mlp_api.models.secret_usage_data import SecretUsageData
 
 class AccountSecretData(BaseModel):
@@ -29,10 +29,18 @@ class AccountSecretData(BaseModel):
     name: StrictStr = Field(...)
     reference: StrictStr = Field(...)
     mask: StrictStr = Field(...)
+    source: StrictStr = Field(...)
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
     used_by: conlist(SecretUsageData) = Field(default=..., alias="usedBy")
-    __properties = ["name", "reference", "mask", "createdAt", "updatedAt", "usedBy"]
+    __properties = ["name", "reference", "mask", "source", "createdAt", "updatedAt", "usedBy"]
+
+    @validator('source')
+    def source_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('STORED', 'VAULT'):
+            raise ValueError("must be one of enum values ('STORED', 'VAULT')")
+        return value
 
     class Config:
         """Pydantic configuration"""
@@ -80,6 +88,7 @@ class AccountSecretData(BaseModel):
             "name": obj.get("name"),
             "reference": obj.get("reference"),
             "mask": obj.get("mask"),
+            "source": obj.get("source"),
             "created_at": obj.get("createdAt"),
             "updated_at": obj.get("updatedAt"),
             "used_by": [SecretUsageData.from_dict(_item) for _item in obj.get("usedBy")] if obj.get("usedBy") is not None else None

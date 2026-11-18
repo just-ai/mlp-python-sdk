@@ -123,6 +123,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -2350,6 +2351,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -2422,6 +2424,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -2478,6 +2481,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -2540,6 +2544,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -2592,6 +2597,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -7739,6 +7745,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UpstreamKeyData"
+  /api/mlpcore-internal/security/credentials/migrate:
+    post:
+      tags:
+      - credential-migration-operator-endpoint
+      operationId: migrate
+      parameters:
+      - name: dryRun
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: batchSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 500
+      - name: allowWithoutKey
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: MLP-API-KEY
+        in: header
+        description: token to use instead of a session
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CredentialMigrationReport"
   /api/mlpcore-internal/security/account/{account}/tokens:
     get:
       tags:
@@ -8351,6 +8395,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -8396,6 +8441,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -8437,6 +8483,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -9656,6 +9703,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -9727,6 +9775,7 @@ paths:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -14457,6 +14506,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -14852,6 +14902,7 @@ components:
       - mask
       - name
       - reference
+      - source
       - updatedAt
       - usedBy
       type: object
@@ -14862,6 +14913,11 @@ components:
           type: string
         mask:
           type: string
+        source:
+          type: string
+          enum:
+          - STORED
+          - VAULT
         createdAt:
           type: string
           format: date-time
@@ -16924,6 +16980,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -17032,6 +17089,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -17120,6 +17178,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -17365,6 +17424,7 @@ components:
             - SBER
             - SWOO
             - VEAI
+            - VELORA
             - YANDEX
             - ZAI
             - OTHER
@@ -17395,6 +17455,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -17436,6 +17497,7 @@ components:
             - SBER
             - SWOO
             - VEAI
+            - VELORA
             - YANDEX
             - ZAI
             - OTHER
@@ -18118,12 +18180,19 @@ components:
         priceSynchronizationEnabled:
           type: boolean
     AccountSecretCreateData:
+      required:
+      - source
       type: object
       properties:
         name:
           type: string
         value:
           type: string
+        source:
+          type: string
+          enum:
+          - STORED
+          - VAULT
     ResourceGroupEssentialData:
       required:
       - access
@@ -19493,6 +19562,56 @@ components:
           - vpn_foreign_card
           - ru_proxy
           - self_hosted
+    CredentialMigrationReport:
+      required:
+      - dryRun
+      - encryptionEnabled
+      - plaintextDropped
+      - targets
+      type: object
+      properties:
+        dryRun:
+          type: boolean
+        encryptionEnabled:
+          type: boolean
+        plaintextDropped:
+          type: boolean
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/CredentialMigrationTargetReport"
+    CredentialMigrationTargetReport:
+      required:
+      - conflicts
+      - converted
+      - legacy
+      - remaining
+      - skipped
+      - target
+      type: object
+      properties:
+        target:
+          type: string
+        legacy:
+          type: integer
+          format: int64
+        converted:
+          type: integer
+          format: int64
+        hashed:
+          type: integer
+          format: int64
+        skipped:
+          type: integer
+          format: int64
+        conflicts:
+          type: integer
+          format: int64
+        remaining:
+          type: integer
+          format: int64
+        skipReason:
+          type: string
     CreateOperatorToken:
       required:
       - name
@@ -19663,6 +19782,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -21308,6 +21428,7 @@ components:
           - SBER
           - SWOO
           - VEAI
+          - VELORA
           - YANDEX
           - ZAI
           - OTHER
@@ -22498,6 +22619,10 @@ components:
           - REMOVING
           - DELETED
           - FAILED
+        connectionTokenHash:
+          type: string
+        connectionTokenEncrypted:
+          type: string
     OperatorExternalConnection:
       required:
       - connected
