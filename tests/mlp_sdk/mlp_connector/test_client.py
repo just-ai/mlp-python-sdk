@@ -33,8 +33,9 @@ class FakeStub:
     def healthCheck(self, request, timeout=None):  # noqa: N802 - имя метода задано grpc-контрактом
         self.__check_channel()
 
-    def processResponseStream(self, request):  # noqa: N802 - имя метода задано grpc-контрактом
+    def processResponseStream(self, request, metadata=None):  # noqa: N802 - имя метода задано grpc-контрактом
         self.__check_channel()
+        self.last_call = (request, metadata)
         return iter([predict_response()])
 
     def __check_channel(self) -> None:
@@ -139,6 +140,17 @@ class TestMlpGrpcClientConnect:
         assert all(isinstance(timeout, (int, float)) and timeout > 0 for timeout in timeouts), f"healthCheck вызван без таймаута: {timeouts}"
 
 
+class TestMlpGrpcClientApiKey:
+    def test_client_token_goes_to_metadata_and_body(self, channels):
+        client = make_client()
+
+        client.predict("account/model", {})
+
+        request, metadata = client.stub.last_call
+        assert metadata == (("mlp-api-key", "test-token"),)
+        assert request.authToken == "test-token"
+
+
 class TestMlpGrpcClientRequestRetry:
     def test_closed_channel_value_error_triggers_reconnect(self, channels, monkeypatch):
         """ValueError закрытого канала лечится переподключением и повтором запроса, а не падает наружу."""
@@ -157,7 +169,7 @@ class TestMlpGrpcClientRequestRetry:
         """Посторонний ValueError не должен превращаться в бесконечный retry."""
         client = make_client()
 
-        def broken_stream(self, request):
+        def broken_stream(self, request, metadata=None):
             raise ValueError("something else")
 
         monkeypatch.setattr(FakeStub, "processResponseStream", broken_stream)
@@ -169,7 +181,7 @@ class TestMlpGrpcClientRequestRetry:
         """Если переподключение не помогает, клиент отдаёт свою ошибку, а не голый ValueError."""
         client = make_client()
 
-        def always_closed_stream(self, request):
+        def always_closed_stream(self, request, metadata=None):
             raise ValueError(CHANNEL_CLOSED_MESSAGE)
 
         monkeypatch.setattr(FakeStub, "processResponseStream", always_closed_stream)
