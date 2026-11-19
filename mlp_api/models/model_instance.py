@@ -45,7 +45,9 @@ class ModelInstance(BaseModel):
     external_docker_http_port: Optional[StrictInt] = Field(default=None, alias="externalDockerHttpPort")
     external_docker_http_host: Optional[StrictStr] = Field(default=None, alias="externalDockerHttpHost")
     status: StrictStr = Field(...)
-    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "builtInImageName", "externalDockerHttpPort", "externalDockerHttpHost", "status"]
+    connection_token_hash: Optional[StrictStr] = Field(default=None, alias="connectionTokenHash")
+    connection_token_encrypted: Optional[StrictStr] = Field(default=None, alias="connectionTokenEncrypted")
+    __properties = ["id", "connectionToken", "created", "lastHeartBeat", "type", "kubeType", "resourceName", "alias", "customData", "deleteTimestamp", "isEvictable", "hostingServerId", "serverId", "hostname", "serviceVersion", "builtInImageName", "externalDockerHttpPort", "externalDockerHttpHost", "status", "connectionTokenHash", "connectionTokenEncrypted"]
 
     @validator('type')
     def type_validate_enum(cls, value):
@@ -128,7 +130,9 @@ class ModelInstance(BaseModel):
             "built_in_image_name": obj.get("builtInImageName"),
             "external_docker_http_port": obj.get("externalDockerHttpPort"),
             "external_docker_http_host": obj.get("externalDockerHttpHost"),
-            "status": obj.get("status")
+            "status": obj.get("status"),
+            "connection_token_hash": obj.get("connectionTokenHash"),
+            "connection_token_encrypted": obj.get("connectionTokenEncrypted")
         })
         return _obj
 
