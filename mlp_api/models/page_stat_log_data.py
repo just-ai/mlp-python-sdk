@@ -31,15 +31,15 @@ class PageStatLogData(BaseModel):
     total_elements: Optional[StrictInt] = Field(default=None, alias="totalElements")
     total_pages: Optional[StrictInt] = Field(default=None, alias="totalPages")
     first: Optional[StrictBool] = None
+    pageable: Optional[PageableObject] = None
     size: Optional[StrictInt] = None
     content: Optional[conlist(StatLogData)] = None
     number: Optional[StrictInt] = None
     sort: Optional[SortObject] = None
     number_of_elements: Optional[StrictInt] = Field(default=None, alias="numberOfElements")
-    pageable: Optional[PageableObject] = None
     last: Optional[StrictBool] = None
     empty: Optional[StrictBool] = None
-    __properties = ["totalElements", "totalPages", "first", "size", "content", "number", "sort", "numberOfElements", "pageable", "last", "empty"]
+    __properties = ["totalElements", "totalPages", "first", "pageable", "size", "content", "number", "sort", "numberOfElements", "last", "empty"]
 
     class Config:
         """Pydantic configuration"""
@@ -65,6 +65,9 @@ class PageStatLogData(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of pageable
+        if self.pageable:
+            _dict['pageable'] = self.pageable.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in content (list)
         _items = []
         if self.content:
@@ -75,9 +78,6 @@ class PageStatLogData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of sort
         if self.sort:
             _dict['sort'] = self.sort.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of pageable
-        if self.pageable:
-            _dict['pageable'] = self.pageable.to_dict()
         return _dict
 
     @classmethod
@@ -93,12 +93,12 @@ class PageStatLogData(BaseModel):
             "total_elements": obj.get("totalElements"),
             "total_pages": obj.get("totalPages"),
             "first": obj.get("first"),
+            "pageable": PageableObject.from_dict(obj.get("pageable")) if obj.get("pageable") is not None else None,
             "size": obj.get("size"),
             "content": [StatLogData.from_dict(_item) for _item in obj.get("content")] if obj.get("content") is not None else None,
             "number": obj.get("number"),
             "sort": SortObject.from_dict(obj.get("sort")) if obj.get("sort") is not None else None,
             "number_of_elements": obj.get("numberOfElements"),
-            "pageable": PageableObject.from_dict(obj.get("pageable")) if obj.get("pageable") is not None else None,
             "last": obj.get("last"),
             "empty": obj.get("empty")
         })
