@@ -20184,6 +20184,8 @@ components:
         maxConcurrentPerAccount:
           type: integer
           format: int32
+        schedule:
+          $ref: "#/components/schemas/PricingSchedule"
     CatalogResult:
       required:
       - keys

@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
 from mlp_api.models.catalog_api import CatalogApi
 from mlp_api.models.catalog_price import CatalogPrice
 from mlp_api.models.model_parameters_dto_variables_inner import ModelParametersDtoVariablesInner
+from mlp_api.models.pricing_schedule import PricingSchedule
 
 class CatalogProviderOption(BaseModel):
     """
@@ -45,7 +46,8 @@ class CatalogProviderOption(BaseModel):
     supported_params: conlist(StrictStr) = Field(default=..., alias="supportedParams")
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
     max_concurrent_per_account: Optional[StrictInt] = Field(default=None, alias="maxConcurrentPerAccount")
-    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized", "maxConcurrentPerAccount"]
+    schedule: Optional[PricingSchedule] = None
+    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized", "maxConcurrentPerAccount", "schedule"]
 
     class Config:
         """Pydantic configuration"""
@@ -92,6 +94,9 @@ class CatalogProviderOption(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict['variables'] = _items
+        # override the default output from pydantic by calling `to_dict()` of schedule
+        if self.schedule:
+            _dict['schedule'] = self.schedule.to_dict()
         return _dict
 
     @classmethod
@@ -120,7 +125,8 @@ class CatalogProviderOption(BaseModel):
             "variables": [ModelParametersDtoVariablesInner.from_dict(_item) for _item in obj.get("variables")] if obj.get("variables") is not None else None,
             "supported_params": obj.get("supportedParams"),
             "rf_localized": obj.get("rfLocalized"),
-            "max_concurrent_per_account": obj.get("maxConcurrentPerAccount")
+            "max_concurrent_per_account": obj.get("maxConcurrentPerAccount"),
+            "schedule": PricingSchedule.from_dict(obj.get("schedule")) if obj.get("schedule") is not None else None
         })
         return _obj
 
