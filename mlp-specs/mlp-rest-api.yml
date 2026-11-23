@@ -14688,6 +14688,34 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/CatalogMetadata"
+        fallback:
+          $ref: "#/components/schemas/ModelFallback"
+    ModelFallback:
+      required:
+      - accounts
+      - default
+      type: object
+      properties:
+        default:
+          type: array
+          items:
+            $ref: "#/components/schemas/ModelFallbackTarget"
+        accounts:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/ModelFallbackTarget"
+    ModelFallbackTarget:
+      required:
+      - canonicalName
+      - vendor
+      type: object
+      properties:
+        vendor:
+          type: string
+        canonicalName:
+          type: string
     LlmModelCardData:
       required:
       - canonicalName
@@ -14713,6 +14741,8 @@ components:
         updatedAt:
           type: string
           format: date-time
+        fallback:
+          $ref: "#/components/schemas/ModelFallback"
     ExchangeRateUpsertRequest:
       required:
       - rate
