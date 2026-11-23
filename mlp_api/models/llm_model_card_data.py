@@ -21,6 +21,7 @@ from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.model_fallback import ModelFallback
 
 class LlmModelCardData(BaseModel):
     """
@@ -33,7 +34,8 @@ class LlmModelCardData(BaseModel):
     popularity_updated_at: Optional[datetime] = Field(default=None, alias="popularityUpdatedAt")
     popularity_promotion_until: Optional[date] = Field(default=None, alias="popularityPromotionUntil")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    __properties = ["vendor", "canonicalName", "metadata", "popularity", "popularityUpdatedAt", "popularityPromotionUntil", "updatedAt"]
+    fallback: Optional[ModelFallback] = None
+    __properties = ["vendor", "canonicalName", "metadata", "popularity", "popularityUpdatedAt", "popularityPromotionUntil", "updatedAt", "fallback"]
 
     class Config:
         """Pydantic configuration"""
@@ -62,6 +64,9 @@ class LlmModelCardData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of metadata
         if self.metadata:
             _dict['metadata'] = self.metadata.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of fallback
+        if self.fallback:
+            _dict['fallback'] = self.fallback.to_dict()
         return _dict
 
     @classmethod
@@ -80,7 +85,8 @@ class LlmModelCardData(BaseModel):
             "popularity": obj.get("popularity"),
             "popularity_updated_at": obj.get("popularityUpdatedAt"),
             "popularity_promotion_until": obj.get("popularityPromotionUntil"),
-            "updated_at": obj.get("updatedAt")
+            "updated_at": obj.get("updatedAt"),
+            "fallback": ModelFallback.from_dict(obj.get("fallback")) if obj.get("fallback") is not None else None
         })
         return _obj
 

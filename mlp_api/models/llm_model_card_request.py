@@ -21,6 +21,7 @@ import json
 from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
 from mlp_api.models.catalog_metadata import CatalogMetadata
+from mlp_api.models.model_fallback import ModelFallback
 
 class LlmModelCardRequest(BaseModel):
     """
@@ -29,7 +30,8 @@ class LlmModelCardRequest(BaseModel):
     vendor: StrictStr = Field(...)
     canonical_name: StrictStr = Field(default=..., alias="canonicalName")
     metadata: Optional[CatalogMetadata] = None
-    __properties = ["vendor", "canonicalName", "metadata"]
+    fallback: Optional[ModelFallback] = None
+    __properties = ["vendor", "canonicalName", "metadata", "fallback"]
 
     class Config:
         """Pydantic configuration"""
@@ -58,6 +60,9 @@ class LlmModelCardRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of metadata
         if self.metadata:
             _dict['metadata'] = self.metadata.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of fallback
+        if self.fallback:
+            _dict['fallback'] = self.fallback.to_dict()
         return _dict
 
     @classmethod
@@ -72,7 +77,8 @@ class LlmModelCardRequest(BaseModel):
         _obj = LlmModelCardRequest.parse_obj({
             "vendor": obj.get("vendor"),
             "canonical_name": obj.get("canonicalName"),
-            "metadata": CatalogMetadata.from_dict(obj.get("metadata")) if obj.get("metadata") is not None else None
+            "metadata": CatalogMetadata.from_dict(obj.get("metadata")) if obj.get("metadata") is not None else None,
+            "fallback": ModelFallback.from_dict(obj.get("fallback")) if obj.get("fallback") is not None else None
         })
         return _obj
 
