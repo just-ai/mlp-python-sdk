@@ -216,6 +216,8 @@ from mlp_api.models.model_caching_data import ModelCachingData
 from mlp_api.models.model_constant import ModelConstant
 from mlp_api.models.model_create_update_data import ModelCreateUpdateData
 from mlp_api.models.model_defaults import ModelDefaults
+from mlp_api.models.model_fallback import ModelFallback
+from mlp_api.models.model_fallback_target import ModelFallbackTarget
 from mlp_api.models.model_group_data import ModelGroupData
 from mlp_api.models.model_group_pk import ModelGroupPK
 from mlp_api.models.model_group_pricing import ModelGroupPricing
