@@ -26,7 +26,6 @@ from mlp_api.api.account_secret_endpoint_api import AccountSecretEndpointApi
 from mlp_api.api.account_survey_endpoint_api import AccountSurveyEndpointApi
 from mlp_api.api.account_users_endpoint_api import AccountUsersEndpointApi
 from mlp_api.api.admin_endpoint_api import AdminEndpointApi
-from mlp_api.api.agent_stand_override_endpoint_api import AgentStandOverrideEndpointApi
 from mlp_api.api.amo_crm_endpoint_api import AmoCrmEndpointApi
 from mlp_api.api.application_endpoint_api import ApplicationEndpointApi
 from mlp_api.api.catalog_news_endpoint_api import CatalogNewsEndpointApi
@@ -127,10 +126,6 @@ from mlp_api.models.account_survey_answers_data import AccountSurveyAnswersData
 from mlp_api.models.account_survey_state_data import AccountSurveyStateData
 from mlp_api.models.account_survey_viewed_data import AccountSurveyViewedData
 from mlp_api.models.account_user_data import AccountUserData
-from mlp_api.models.agent_stand_override_handle import AgentStandOverrideHandle
-from mlp_api.models.agent_stand_override_legacy_request import AgentStandOverrideLegacyRequest
-from mlp_api.models.agent_stand_override_receipt import AgentStandOverrideReceipt
-from mlp_api.models.agent_stand_override_request import AgentStandOverrideRequest
 from mlp_api.models.alias_data import AliasData
 from mlp_api.models.alignment_report import AlignmentReport
 from mlp_api.models.alignment_result import AlignmentResult

@@ -36,6 +36,8 @@ class CatalogProviderOption(BaseModel):
     route: StrictStr = Field(...)
     endpoint: StrictStr = Field(...)
     apis: conlist(CatalogApi) = Field(...)
+    service_active: Optional[StrictBool] = Field(default=None, alias="serviceActive")
+    auto_fallback_allowed: StrictBool = Field(default=..., alias="autoFallbackAllowed")
     recommended: StrictBool = Field(...)
     cheapest: StrictBool = Field(...)
     prices: conlist(CatalogPrice) = Field(...)
@@ -47,7 +49,7 @@ class CatalogProviderOption(BaseModel):
     rf_localized: StrictBool = Field(default=..., alias="rfLocalized")
     max_concurrent_per_account: Optional[StrictInt] = Field(default=None, alias="maxConcurrentPerAccount")
     schedule: Optional[PricingSchedule] = None
-    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized", "maxConcurrentPerAccount", "schedule"]
+    __properties = ["id", "label", "modelId", "providerKey", "route", "endpoint", "apis", "serviceActive", "autoFallbackAllowed", "recommended", "cheapest", "prices", "features", "lost", "note", "variables", "supportedParams", "rfLocalized", "maxConcurrentPerAccount", "schedule"]
 
     class Config:
         """Pydantic configuration"""
@@ -116,6 +118,8 @@ class CatalogProviderOption(BaseModel):
             "route": obj.get("route"),
             "endpoint": obj.get("endpoint"),
             "apis": [CatalogApi.from_dict(_item) for _item in obj.get("apis")] if obj.get("apis") is not None else None,
+            "service_active": obj.get("serviceActive"),
+            "auto_fallback_allowed": obj.get("autoFallbackAllowed"),
             "recommended": obj.get("recommended"),
             "cheapest": obj.get("cheapest"),
             "prices": [CatalogPrice.from_dict(_item) for _item in obj.get("prices")] if obj.get("prices") is not None else None,
