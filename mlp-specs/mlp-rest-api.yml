@@ -18008,6 +18008,8 @@ components:
             type: string
         instanceCredential:
           type: boolean
+        keyBlockReason:
+          type: string
     LimitNotificationRequest:
       required:
       - available
