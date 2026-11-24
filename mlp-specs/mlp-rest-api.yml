@@ -20148,6 +20148,7 @@ components:
     CatalogProviderOption:
       required:
       - apis
+      - autoFallbackAllowed
       - cheapest
       - endpoint
       - features
@@ -20180,6 +20181,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CatalogApi"
+        serviceActive:
+          type: boolean
+        autoFallbackAllowed:
+          type: boolean
         recommended:
           type: boolean
         cheapest:
