@@ -36,7 +36,8 @@ class AccountInfoData(BaseModel):
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
     notification_emails: Optional[conlist(StrictStr)] = Field(default=None, alias="notificationEmails")
     instance_credential: Optional[StrictBool] = Field(default=None, alias="instanceCredential")
-    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey", "notificationEmails", "instanceCredential"]
+    key_block_reason: Optional[StrictStr] = Field(default=None, alias="keyBlockReason")
+    __properties = ["accountId", "shortName", "limits", "language", "tags", "displayName", "lastActivity", "jayGuardMaskingKey", "notificationEmails", "instanceCredential", "keyBlockReason"]
 
     @validator('language')
     def language_validate_enum(cls, value):
@@ -96,7 +97,8 @@ class AccountInfoData(BaseModel):
             "last_activity": obj.get("lastActivity"),
             "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
             "notification_emails": obj.get("notificationEmails"),
-            "instance_credential": obj.get("instanceCredential")
+            "instance_credential": obj.get("instanceCredential"),
+            "key_block_reason": obj.get("keyBlockReason")
         })
         return _obj
 
