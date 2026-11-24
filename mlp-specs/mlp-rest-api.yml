@@ -2656,31 +2656,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VeaiPricingSyncReport"
-  /api/mlpcore/admin/v2/pricing/sync/routerai:
-    post:
-      tags:
-      - llm-pricing-v-2-routerai-sync-endpoint
-      operationId: syncRouteraiPricing
-      parameters:
-      - name: dryRun
-        in: query
-        required: false
-        schema:
-          type: boolean
-          default: true
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RouteraiPriceMonitorReport"
   /api/mlpcore/admin/v2/pricing/sync/openrouter:
     post:
       tags:
@@ -9453,25 +9428,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VeaiPricingSyncReport"
-  /api/mlpcore/admin/v2/pricing/sync/routerai/status:
-    get:
-      tags:
-      - llm-pricing-v-2-routerai-sync-endpoint
-      operationId: getRouteraiSyncStatus
-      parameters:
-      - name: MLP-API-KEY
-        in: header
-        description: token to use instead of a session
-        required: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RouteraiPriceMonitorReport"
   /api/mlpcore/admin/v2/pricing/rf-localized:
     get:
       tags:
@@ -17166,78 +17122,6 @@ components:
           type: number
         after:
           type: number
-    RouteraiModelCheck:
-      required:
-      - model
-      - status
-      type: object
-      properties:
-        model:
-          type: string
-        status:
-          type: string
-          enum:
-          - MATCH
-          - MISMATCH
-          - NOT_IN_CATALOG
-          - NO_CATALOG_PRICE
-          - NO_PRICING_ROW
-          - NO_EXCHANGE_RATE
-        routeraiRubPerMillion:
-          type: number
-        ourRubPerMillion:
-          type: number
-        pricingRow:
-          type: string
-        ourRatePerMillion:
-          type: number
-        ourCurrency:
-          type: string
-          enum:
-          - USD
-          - RUB
-        exchangeRate:
-          type: number
-    RouteraiPriceMonitorReport:
-      required:
-      - catalogModels
-      - checks
-      - dryRun
-      - mode
-      - reported
-      - startedAt
-      - status
-      type: object
-      properties:
-        mode:
-          type: string
-          enum:
-          - "OFF"
-          - MONITOR
-        dryRun:
-          type: boolean
-        status:
-          type: string
-          enum:
-          - OK
-          - CATALOG_ERROR
-          - READ_ERROR
-        startedAt:
-          type: string
-          format: date-time
-        catalogModels:
-          type: integer
-          format: int32
-        checks:
-          type: array
-          items:
-            $ref: "#/components/schemas/RouteraiModelCheck"
-        reported:
-          type: array
-          items:
-            type: string
-        error:
-          type: string
     OpenrouterPricingSyncStats:
       required:
       - configPresent
