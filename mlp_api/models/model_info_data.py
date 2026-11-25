@@ -106,7 +106,10 @@ class ModelInfoData(BaseModel):
     favorite: StrictBool = Field(...)
     state: Optional[StrictStr] = None
     deployment_patch: Optional[StrictStr] = Field(default=None, alias="deploymentPatch")
-    __properties = ["id", "modelType", "proxyOnly", "proxyTargetAccountId", "proxyTargetModelId", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch"]
+    jay_guard_masking_key_set: Optional[StrictBool] = Field(default=None, alias="jayGuardMaskingKeySet")
+    jay_guard_masking_included_account_ids: Optional[conlist(StrictInt)] = Field(default=None, alias="jayGuardMaskingIncludedAccountIds")
+    jay_guard_masking_excluded_account_ids: Optional[conlist(StrictInt)] = Field(default=None, alias="jayGuardMaskingExcludedAccountIds")
+    __properties = ["id", "modelType", "proxyOnly", "proxyTargetAccountId", "proxyTargetModelId", "modelAccountName", "modelAccountDisplayName", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "image", "modelGroupId", "modelGroupName", "trainingDatasetAccountId", "trainingDatasetId", "trainingDataset", "trainingDatasetType", "trainingFitConfigId", "trainingFitConfig", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "taskType", "trainingModelAccountId", "trainingModelId", "trainingModelName", "trainingType", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "publicSettings", "billingSettings", "httpSettings", "archiveSettings", "restrictedImageAccess", "lastActivity", "favorite", "state", "deploymentPatch", "jayGuardMaskingKeySet", "jayGuardMaskingIncludedAccountIds", "jayGuardMaskingExcludedAccountIds"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -315,7 +318,10 @@ class ModelInfoData(BaseModel):
             "last_activity": obj.get("lastActivity"),
             "favorite": obj.get("favorite"),
             "state": obj.get("state"),
-            "deployment_patch": obj.get("deploymentPatch")
+            "deployment_patch": obj.get("deploymentPatch"),
+            "jay_guard_masking_key_set": obj.get("jayGuardMaskingKeySet"),
+            "jay_guard_masking_included_account_ids": obj.get("jayGuardMaskingIncludedAccountIds"),
+            "jay_guard_masking_excluded_account_ids": obj.get("jayGuardMaskingExcludedAccountIds")
         })
         return _obj
 

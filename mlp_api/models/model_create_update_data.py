@@ -88,7 +88,9 @@ class ModelCreateUpdateData(BaseModel):
     proxy_target_model_id: Optional[StrictInt] = Field(default=None, alias="proxyTargetModelId")
     proxy_only: Optional[StrictBool] = Field(default=None, alias="proxyOnly")
     jay_guard_masking_key: Optional[StrictStr] = Field(default=None, alias="jayGuardMaskingKey")
-    __properties = ["modelType", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch", "proxyTargetAccountId", "proxyTargetModelId", "proxyOnly", "jayGuardMaskingKey"]
+    jay_guard_masking_included_account_ids: Optional[conlist(StrictInt)] = Field(default=None, alias="jayGuardMaskingIncludedAccountIds")
+    jay_guard_masking_excluded_account_ids: Optional[conlist(StrictInt)] = Field(default=None, alias="jayGuardMaskingExcludedAccountIds")
+    __properties = ["modelType", "modelName", "displayName", "displayAuthor", "imageAccountId", "imageId", "trainingModelAccountId", "trainingModelId", "trainingType", "trainingDatasetAccountId", "trainingDatasetId", "trainingFitConfigId", "taskType", "trainingDatasetType", "fitTemplateModelId", "composite", "prototype", "supportedTemplates", "rejectRequestsIfInactive", "config", "env", "additionalFlags", "containerArgs", "fittable", "hostingType", "protocols", "persistentVolumes", "dataImageMounts", "resourceGroup", "timeouts", "resourceLimits", "retriesConfig", "batchesConfig", "caching", "priorityQueue", "perAccountConcurrency", "autoScalingConfiguration", "daemonSetConfiguration", "shortDescription", "languages", "minInstancesCount", "startTimeSec", "httpSettings", "archiveSettings", "aliases", "deploymentPatch", "proxyTargetAccountId", "proxyTargetModelId", "proxyOnly", "jayGuardMaskingKey", "jayGuardMaskingIncludedAccountIds", "jayGuardMaskingExcludedAccountIds"]
 
     @validator('model_type')
     def model_type_validate_enum(cls, value):
@@ -263,7 +265,9 @@ class ModelCreateUpdateData(BaseModel):
             "proxy_target_account_id": obj.get("proxyTargetAccountId"),
             "proxy_target_model_id": obj.get("proxyTargetModelId"),
             "proxy_only": obj.get("proxyOnly"),
-            "jay_guard_masking_key": obj.get("jayGuardMaskingKey")
+            "jay_guard_masking_key": obj.get("jayGuardMaskingKey"),
+            "jay_guard_masking_included_account_ids": obj.get("jayGuardMaskingIncludedAccountIds"),
+            "jay_guard_masking_excluded_account_ids": obj.get("jayGuardMaskingExcludedAccountIds")
         })
         return _obj
 
