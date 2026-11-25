@@ -16660,6 +16660,9 @@ components:
           type: number
         schedule:
           $ref: "#/components/schemas/PricingSchedule"
+        priority:
+          type: integer
+          format: int32
     Modifier:
       required:
       - type
@@ -16830,6 +16833,9 @@ components:
           type: number
         providerCommission:
           type: number
+        priority:
+          type: integer
+          format: int32
     RateMetric:
       required:
       - role
