@@ -46,7 +46,8 @@ class ModelPricing(BaseModel):
     provider_discount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerDiscount")
     provider_commission: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="providerCommission")
     schedule: Optional[PricingSchedule] = None
-    __properties = ["name", "aliases", "canonicalName", "vendor", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "discounts", "markup", "providerDiscount", "providerCommission", "schedule"]
+    priority: Optional[StrictInt] = None
+    __properties = ["name", "aliases", "canonicalName", "vendor", "modalities", "deprecatedAt", "rates", "extras", "variables", "modifiers", "discounts", "markup", "providerDiscount", "providerCommission", "schedule", "priority"]
 
     @validator('vendor')
     def vendor_validate_enum(cls, value):
@@ -161,7 +162,8 @@ class ModelPricing(BaseModel):
             "markup": obj.get("markup"),
             "provider_discount": obj.get("providerDiscount"),
             "provider_commission": obj.get("providerCommission"),
-            "schedule": PricingSchedule.from_dict(obj.get("schedule")) if obj.get("schedule") is not None else None
+            "schedule": PricingSchedule.from_dict(obj.get("schedule")) if obj.get("schedule") is not None else None,
+            "priority": obj.get("priority")
         })
         return _obj
 
