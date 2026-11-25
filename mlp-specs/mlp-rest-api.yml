@@ -18443,6 +18443,8 @@ components:
           format: int64
         proxyOnly:
           type: boolean
+        jayGuardMaskingKey:
+          type: string
     MethodDescriptorData:
       required:
       - fitted
