@@ -27,7 +27,7 @@ class BooleanVariable(ModelVariable):
     BooleanVariable
     """
     default: Optional[StrictBool] = None
-    __properties = ["name", "default", "type", "required", "exclusiveGroup"]
+    __properties = ["exclusiveGroup", "name", "default", "type", "required"]
 
     class Config:
         """Pydantic configuration"""
@@ -65,11 +65,11 @@ class BooleanVariable(ModelVariable):
             return BooleanVariable.parse_obj(obj)
 
         _obj = BooleanVariable.parse_obj({
+            "exclusive_group": obj.get("exclusiveGroup"),
             "name": obj.get("name"),
             "default": obj.get("default"),
             "type": obj.get("type"),
-            "required": obj.get("required"),
-            "exclusive_group": obj.get("exclusiveGroup")
+            "required": obj.get("required")
         })
         return _obj
 

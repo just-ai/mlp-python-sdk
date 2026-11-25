@@ -29,7 +29,7 @@ class NumberVariable(ModelVariable):
     default: Optional[Union[StrictFloat, StrictInt]] = None
     min: Optional[Union[StrictFloat, StrictInt]] = None
     max: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties = ["name", "default", "type", "required", "exclusiveGroup", "min", "max"]
+    __properties = ["exclusiveGroup", "name", "default", "type", "required", "min", "max"]
 
     class Config:
         """Pydantic configuration"""
@@ -67,11 +67,11 @@ class NumberVariable(ModelVariable):
             return NumberVariable.parse_obj(obj)
 
         _obj = NumberVariable.parse_obj({
+            "exclusive_group": obj.get("exclusiveGroup"),
             "name": obj.get("name"),
             "default": obj.get("default"),
             "type": obj.get("type"),
             "required": obj.get("required"),
-            "exclusive_group": obj.get("exclusiveGroup"),
             "min": obj.get("min"),
             "max": obj.get("max")
         })
