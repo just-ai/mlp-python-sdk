@@ -16087,6 +16087,18 @@ components:
           - REMOVING
         deploymentPatch:
           type: string
+        jayGuardMaskingKeySet:
+          type: boolean
+        jayGuardMaskingIncludedAccountIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        jayGuardMaskingExcludedAccountIds:
+          type: array
+          items:
+            type: integer
+            format: int64
     ModelInfoPK:
       required:
       - accountId
@@ -18451,6 +18463,16 @@ components:
           type: boolean
         jayGuardMaskingKey:
           type: string
+        jayGuardMaskingIncludedAccountIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        jayGuardMaskingExcludedAccountIds:
+          type: array
+          items:
+            type: integer
+            format: int64
     MethodDescriptorData:
       required:
       - fitted
