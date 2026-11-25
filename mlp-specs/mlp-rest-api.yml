@@ -14149,8 +14149,6 @@ components:
       - type
       type: object
       properties:
-        exclusiveGroup:
-          type: string
         name:
           type: string
         default:
@@ -14159,6 +14157,8 @@ components:
           type: string
         required:
           type: boolean
+        exclusiveGroup:
+          type: string
       discriminator:
         propertyName: type
     NumberConstant:

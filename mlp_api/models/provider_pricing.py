@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Union
+from typing import List, Optional, Union
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
 from mlp_api.models.model_group_pricing import ModelGroupPricing
 
@@ -32,7 +32,8 @@ class ProviderPricing(BaseModel):
     markup: Union[StrictFloat, StrictInt] = Field(...)
     provider_discount: Union[StrictFloat, StrictInt] = Field(default=..., alias="providerDiscount")
     provider_commission: Union[StrictFloat, StrictInt] = Field(default=..., alias="providerCommission")
-    __properties = ["provider", "currency", "modelGroups", "markup", "providerDiscount", "providerCommission"]
+    priority: Optional[StrictInt] = None
+    __properties = ["provider", "currency", "modelGroups", "markup", "providerDiscount", "providerCommission", "priority"]
 
     @validator('provider')
     def provider_validate_enum(cls, value):
@@ -96,7 +97,8 @@ class ProviderPricing(BaseModel):
             "model_groups": [ModelGroupPricing.from_dict(_item) for _item in obj.get("modelGroups")] if obj.get("modelGroups") is not None else None,
             "markup": obj.get("markup"),
             "provider_discount": obj.get("providerDiscount"),
-            "provider_commission": obj.get("providerCommission")
+            "provider_commission": obj.get("providerCommission"),
+            "priority": obj.get("priority")
         })
         return _obj
 
